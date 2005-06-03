@@ -42,6 +42,10 @@ static int run(void* session, CFArrayRef argv) {
 	}
 	CFArrayRef source_sites = DBCopyPropArray(session, build, project, CFSTR("source_sites"));
 	count = CFArrayGetCount(source_sites);
+	if (count == 0) {
+		source_sites = DBCopyPropArray(session, build, NULL, CFSTR("source_sites"));
+		count = CFArrayGetCount(source_sites);
+	}
 	for (i = 0; i < count; ++i) {
 		cfprintf(stdout, "%@\n", CFArrayGetValueAtIndex(source_sites, i));
 	}
