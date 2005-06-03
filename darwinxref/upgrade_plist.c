@@ -120,6 +120,7 @@ int main(int argc, char* argv[]) {
 	
 	CFDictionarySetValue((CFMutableDictionaryRef)plist, CFSTR("projects"), newprojs);
 
-	CFDataRef data = CFPropertyListCreateXMLData(NULL, plist);
-	fprintf(stdout, "%.*s", CFDataGetLength(data), CFDataGetBytePtr(data));
+//	CFDataRef data = CFPropertyListCreateXMLData(NULL, plist);
+//	fprintf(stdout, "%.*s", CFDataGetLength(data), CFDataGetBytePtr(data));
+	writePlist(stdout, plist, 0);
 }
