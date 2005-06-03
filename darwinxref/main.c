@@ -31,6 +31,7 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 
 extern int load_plugins(const char* plugin_path);
 extern int run_plugin(void* session, int argc, char* argv[]);
@@ -51,7 +52,7 @@ extern char** environ;
 int main(int argc, char* argv[]) {
 	char* progname = argv[0];
 	char* dbfile = "/var/tmp/darwinxref.db";
-	char* build = NULL;
+	char* build = getenv("DARWINBUILD_BUILD");
 
 	int ch;
 	while ((ch = getopt(argc, argv, "f:b:")) != -1) {
