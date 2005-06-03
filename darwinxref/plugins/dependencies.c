@@ -83,13 +83,20 @@ DBPropertyPlugin* initialize(int version) {
 
 void printDependencies(void* session, CFStringRef* types, CFStringRef* recursiveTypes, CFMutableSetRef visited, CFStringRef build, CFStringRef project) {
 	if (!visited) visited = CFSetCreateMutable(NULL, 0, &kCFTypeSetCallBacks);
-
+	
 	CFDictionaryRef dependencies = DBCopyPropDictionary(session, build, project, CFSTR("dependencies"));
 	if (dependencies) {
 		CFStringRef* type = types;
 		while (*type != NULL) {
 			CFArrayRef array = CFDictionaryGetValue(dependencies, *type);
 			if (array) {
+				// if it's a single string, make it an array
+				if (CFGetTypeID(array) == CFStringGetTypeID()) {
+					array = CFArrayCreate(NULL, (const void**)&array, 1, &kCFTypeArrayCallBacks);
+				} else {
+					CFRetain(array);
+				}
+
 				CFIndex i, count = CFArrayGetCount(array);
 				for (i = 0; i < count; ++i) {
 					CFStringRef newproject = CFArrayGetValueAtIndex(array, i);
@@ -99,6 +106,8 @@ void printDependencies(void* session, CFStringRef* types, CFStringRef* recursive
 						printDependencies(session, recursiveTypes, recursiveTypes, visited, build, newproject);
 					}
 				}
+				
+				CFRelease(array);
 			}
 			++type;
 		}
