@@ -137,6 +137,7 @@ static int sqlAddValueToDictionary(void* pArg, int argc, char **argv, char** col
 			CFArrayAppendValue(array, cf);
 			CFArrayAppendValue(array, value);
 			CFDictionarySetValue(dict, name, array);
+			CFRelease(array);
 		} else if (CFGetTypeID(cf) == CFArrayGetTypeID()) {
 			CFArrayAppendValue((CFMutableArrayRef)cf, value);
 		}
