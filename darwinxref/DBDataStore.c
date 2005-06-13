@@ -223,7 +223,7 @@ CFTypeRef DBCopyProp(void* session, CFStringRef build, CFStringRef project, CFSt
 	return res;
 }
 
-CFStringRef DBCopyPropString(void* session, CFStringRef build, CFStringRef project, CFStringRef property) {
+CFStringRef _DBCopyPropString(void* session, CFStringRef build, CFStringRef project, CFStringRef property) {
 	char* cbuild = strdup_cfstr(build);
 	char* cproj = strdup_cfstr(project);
 	char* cprop = strdup_cfstr(property);
@@ -239,7 +239,7 @@ CFStringRef DBCopyPropString(void* session, CFStringRef build, CFStringRef proje
 	return res;
 }
 
-CFArrayRef DBCopyPropArray(void* session, CFStringRef build, CFStringRef project, CFStringRef property) {
+CFArrayRef _DBCopyPropArray(void* session, CFStringRef build, CFStringRef project, CFStringRef property) {
 	char* cbuild = strdup_cfstr(build);
 	char* cproj = strdup_cfstr(project);
 	char* cprop = strdup_cfstr(property);
@@ -255,9 +255,7 @@ CFArrayRef DBCopyPropArray(void* session, CFStringRef build, CFStringRef project
 	return res;
 }
 
-
-
-CFDictionaryRef DBCopyPropDictionary(void* session, CFStringRef build, CFStringRef project, CFStringRef property) {
+CFDictionaryRef _DBCopyPropDictionary(void* session, CFStringRef build, CFStringRef project, CFStringRef property) {
 	char* cbuild = strdup_cfstr(build);
 	char* cproj = strdup_cfstr(project);
 	char* cprop = strdup_cfstr(property);
@@ -272,6 +270,61 @@ CFDictionaryRef DBCopyPropDictionary(void* session, CFStringRef build, CFStringR
 	free(cprop);
 	return res;
 }
+
+//
+// Kluge to globally support build aliases ("original") and inheritance ("inherits") properties.
+//
+CFTypeRef _DBCopyPropWithInheritance(void* session, CFStringRef build, CFStringRef project, CFStringRef property,
+	CFTypeRef (*func)(void*, CFStringRef, CFStringRef, CFStringRef)) {
+
+	CFTypeRef res = NULL;
+
+	CFMutableArrayRef builds = CFArrayCreateMutable(NULL, 0, &kCFTypeArrayCallBacks);
+	CFArrayAppendValue(builds, build);
+
+	CFStringRef original = NULL;
+
+	// Look for the property in the current build and all inheritied builds
+	// if a build alias ("original") is found, break out of the search path
+	// and restart using the original name instead.
+	do {
+		res = func(session, build, project, property);
+		if (res) break;
+		
+		original = _DBCopyPropString(session, build, project, CFSTR("original"));
+		if (original) break;
+
+		CFStringRef inherits = _DBCopyPropString(session, build, NULL, CFSTR("inherits"));
+		if (inherits) CFArrayAppendValue(builds, inherits);
+		build = inherits;
+	} while (build != NULL);
+
+	if (res == NULL && original != NULL) {
+		CFIndex i, count = CFArrayGetCount(builds);
+		for (i = 0; i < count; ++i) {
+			build = CFArrayGetValueAtIndex(builds, i);
+			res = func(session, build, original, property);
+			if (res) break;
+		}
+	}
+	if (builds) CFRelease(builds);
+	if (original) CFRelease(original);
+	return res;
+}
+
+
+CFStringRef DBCopyPropString(void* session, CFStringRef build, CFStringRef project, CFStringRef property) {
+	return (CFStringRef)_DBCopyPropWithInheritance(session, build, project, property, (void*)_DBCopyPropString);
+}
+
+CFArrayRef DBCopyPropArray(void* session, CFStringRef build, CFStringRef project, CFStringRef property) {
+	return (CFArrayRef)_DBCopyPropWithInheritance(session, build, project, property, (void*)_DBCopyPropArray);
+}
+
+CFDictionaryRef DBCopyPropDictionary(void* session, CFStringRef build, CFStringRef project, CFStringRef property) {
+	return (CFDictionaryRef)_DBCopyPropWithInheritance(session, build, project, property, (void*)_DBCopyPropDictionary);
+}
+
 
 int DBSetProp(void* session, CFStringRef build, CFStringRef project, CFStringRef property, CFTypeRef value) {
 	int res = 0;
