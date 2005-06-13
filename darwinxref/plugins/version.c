@@ -35,10 +35,6 @@
 void printProjectVersion(void* session, CFStringRef project) {
 	CFStringRef build = DBGetCurrentBuild(session);
 	CFStringRef version = DBCopyPropString(session, build, project, CFSTR("version"));
-	if (version == NULL) {
-		CFStringRef original = DBCopyPropString(session, build, project, CFSTR("original"));
-		version = DBCopyPropString(session, build, original, CFSTR("version"));
-	}
 	cfprintf(stdout, "%@-%@\n", project, version);
 }
 
