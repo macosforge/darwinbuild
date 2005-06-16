@@ -73,7 +73,7 @@ DBPlugin* initialize(int version) {
 }
 
 int printFiles(void* pArg, int argc, char **argv, char** columnNames) {
-	char* project = ((char**)pArg)[0];
+	char* project = (char*)pArg;
 	if (strcmp(project, argv[0]) != 0) {
 		strncpy(project, argv[0], BUFSIZ);
 		fprintf(stdout, "%s:\n", project);

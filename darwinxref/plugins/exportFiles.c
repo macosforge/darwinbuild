@@ -75,12 +75,7 @@ DBPlugin* initialize(int version) {
 }
 
 int printFiles(void* pArg, int argc, char **argv, char** columnNames) {
-	char* project = ((char**)pArg)[0];
-	if (strcmp(project, argv[0]) != 0) {
-		strncpy(project, argv[0], BUFSIZ);
-		fprintf(stdout, "%s:\n", project);
-	}
-	fprintf(stdout, "\t%s\n", argv[3]);
+	fprintf(stdout, "\t%s\n", argv[0]);
 	return 0;
 }
 
@@ -94,17 +89,26 @@ static int exportFiles(void* session, char* build, char* project) {
 
 	fprintf(stdout, "# BUILD %s\n", build);
 
-	CFArrayRef projects = DBCopyProjectNames(session, DBGetCurrentBuild(session));
-	if (projects) {
-		CFIndex i, count = CFArrayGetCount(projects);
-		for (i = 0; i < count; ++i) {
-			CFStringRef name = CFArrayGetValueAtIndex(projects, i);
-			char projbuf[BUFSIZ];
-			res = SQL_CALLBACK(session, &printFiles, projbuf,
-				"SELECT project,path FROM files WHERE build=%Q AND project=%Q",
-				build, project);
+	if (project) {
+		fprintf(stdout, "%s:\n", project);
+		res = SQL_CALLBACK(session, &printFiles, NULL,
+			"SELECT path FROM files WHERE build=%Q AND project=%Q",
+			build, project);
+	} else {
+		CFArrayRef projects = DBCopyProjectNames(session, DBGetCurrentBuild(session));
+		if (projects) {
+			CFIndex i, count = CFArrayGetCount(projects);
+			for (i = 0; i < count; ++i) {
+				CFStringRef name = CFArrayGetValueAtIndex(projects, i);
+				char* project = strdup_cfstr(name);
+				fprintf(stdout, "%s:\n", project);
+				res = SQL_CALLBACK(session, &printFiles, NULL,
+					"SELECT path FROM files WHERE build=%Q AND project=%Q",
+					build, project);
+				free(project);
+			}
+			CFRelease(projects);
 		}
-		CFRelease(projects);
 	}
 	
 	return 0;
