@@ -49,8 +49,10 @@ CFDictionaryValueCallBacks cfDictionaryPluginValueCallBacks = {
 static CFMutableDictionaryRef plugins;
 
 int load_plugins(const char* plugin_path) {
-	plugins = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &cfDictionaryPluginValueCallBacks);
-	if (!plugins) return -1;
+	if (plugins == NULL) {
+		plugins = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &cfDictionaryPluginValueCallBacks);
+	}
+	if (plugins == NULL) return -1;
 	
 	char fullpath[PATH_MAX];
 	realpath(plugin_path, fullpath);
