@@ -42,10 +42,9 @@ typedef struct DBPlugin DBPlugin;
 	Initialization function present in every plugin.
 	@param version The latest plugin version that darwinxref is aware of
 	(kDBPluginCurrentVersion).
-	@result A pointer to an initialized DBPlugin structure describing this
-	plugin.  The structure should be allocated with malloc(3).
+	@result 0 for success, -1 for error.
 */
-typedef DBPlugin* (*DBPluginInitializeFunc)(int version);
+typedef int (*DBPluginInitializeFunc)(int version);
 
 /*!
 	@typedef DBPluginRunFunc
@@ -55,7 +54,7 @@ typedef DBPlugin* (*DBPluginInitializeFunc)(int version);
 	@param argv The command line arguments.
 	@result Returns an exit status for darwinxref.
 */
-typedef int (*DBPluginRunFunc)(void* session, CFArrayRef argv);
+typedef int (*DBPluginRunFunc)(CFArrayRef argv);
 
 /*!
 	@typedef DBPluginUsageFunc
@@ -64,7 +63,7 @@ typedef int (*DBPluginRunFunc)(void* session, CFArrayRef argv);
 	any callbacks from the plugin.
 	@result The command line usage string.
 */
-typedef CFStringRef (*DBPluginUsageFunc)(void* session);
+typedef CFStringRef (*DBPluginUsageFunc)();
 
 
 /*!
@@ -83,65 +82,71 @@ enum {
 	Plugin which adds a build or project property to the plist file.
 */
 enum {
-	kDBPluginType = FOUR_CHAR_CODE('plug'),
-	kDBPluginPropertyType = FOUR_CHAR_CODE('prop'),
+	kDBPluginNullType = 0,
+	kDBPluginBasicType = 1,
+	kDBPluginPropertyType = 2,
+#if HAVE_TCL_PLUGINS
+	kDBPluginTclType = 0x8000000,
+#endif
 };
 
+/*!
+	@typedef DBPropPluginGetFunc
+	Accessor for returning the property implemented by this plugin.
+	This gives the plugin the opportunity to perform integrity checks
+	on the data other than the basic type checking performed by darwinxref.
+	@param session An opaque session pointer that should be passed to
+	any callbacks from the plugin.
+	@param project The project whose property should be returned, or NULL to get
+	a build property.
+	@result The value of the property.
+*/
+//typedef CFPropertyListRef (*DBPluginGetPropFunc)(void* session, CFStringRef project);
 
 /*!
-	@typedef DBPlugin
-	Basic plugin data structure returned by plugin's initialize function.
-	@field version kDBPluginCurrentVersion (this structure is version 0).
-	@field type kDBPluginType, or kDBPluginPropertyType.
-	@field name The name of the plugin (visible from the command line).
-	@field run The function to call when the plugin is invoked from the
-	command line.
-	@field usage The function that returns the command line usage string
-	for this plugin.
+	@typedef DBPropPluginSetFunc
+	Accessor for setting the property implemented by this plugin.
+	This gives the plugin the opportunity to perform integrity checks
+	on the data other than the basic type checking performed by darwinxref.
+	@param session An opaque session pointer that should be passed to
+	any callbacks from the plugin.
+	@param project The project whose property should be set, or NULL to set
+	a build property.
+	@param value The new value of the property.
+	@result The status, 0 for success.
 */
-struct DBPlugin {
-	UInt32		version;
-	UInt32		type;
-	CFStringRef	name;
-	DBPluginRunFunc		run;
-	DBPluginUsageFunc	usage;
-};
-
-
-/*!
-	@typedef DBPropertyPlugin
-	Extended plugin data structure for the kDBPluginPropertyType.
-	@field base The basic plugin structure
-	@field datatype The datatype of this property
-	(i.e. one of CFStringGetTypeID(), CFArrayGetTypeID(), CFDictionaryGetTypeID())
-*/
-typedef struct {
-	DBPlugin	base;
-	CFTypeID	datatype;
-} DBPropertyPlugin;
+//typedef int (*DBPluginSetPropFunc)(void* session, CFStringRef project, CFPropertyListRef value);
 
 // plugin API
 
-CFStringRef DBGetCurrentBuild(void* session);
+// initialization routines, only call during initialize.
+void DBPluginSetType(UInt32 type);
+void DBPluginSetName(CFStringRef name);
+void DBPluginSetRunFunc(DBPluginRunFunc func);
+void DBPluginSetUsageFunc(DBPluginUsageFunc func);
+void DBPluginSetDataType(CFTypeID type);
 
-CFArrayRef DBCopyPropNames(void* session, CFStringRef build, CFStringRef project);
-CFArrayRef DBCopyProjectNames(void* session, CFStringRef build);
+// generally available routines
 
-CFTypeRef DBCopyProp(void* session, CFStringRef build, CFStringRef project, CFStringRef property);
-CFStringRef DBCopyPropString(void* session, CFStringRef build, CFStringRef project, CFStringRef property);
-CFArrayRef DBCopyPropArray(void* session, CFStringRef build, CFStringRef project, CFStringRef property);
-CFDictionaryRef DBCopyPropDictionary(void* session, CFStringRef build, CFStringRef project, CFStringRef property);
+CFStringRef DBGetCurrentBuild();
 
-int DBSetProp(void* session, CFStringRef build, CFStringRef project, CFStringRef property, CFTypeRef value);
-int DBSetPropString(void* session, CFStringRef build, CFStringRef project, CFStringRef property, CFStringRef value);
-int DBSetPropArray(void* session, CFStringRef build, CFStringRef project, CFStringRef property, CFArrayRef value);
-int DBSetPropDictionary(void* session, CFStringRef build, CFStringRef project, CFStringRef property, CFDictionaryRef value);
+CFArrayRef DBCopyPropNames(CFStringRef build, CFStringRef project);
+CFArrayRef DBCopyProjectNames(CFStringRef build);
 
-CFDictionaryRef DBCopyProjectPlist(void* session, CFStringRef build, CFStringRef project);
-CFDictionaryRef DBCopyBuildPlist(void* session, CFStringRef build);
+CFTypeRef DBCopyProp(CFStringRef build, CFStringRef project, CFStringRef property);
+CFStringRef DBCopyPropString(CFStringRef build, CFStringRef project, CFStringRef property);
+CFArrayRef DBCopyPropArray(CFStringRef build, CFStringRef project, CFStringRef property);
+CFDictionaryRef DBCopyPropDictionary(CFStringRef build, CFStringRef project, CFStringRef property);
 
-int DBSetPlist(void* session, CFStringRef build, CFPropertyListRef plist);
+int DBSetProp(CFStringRef build, CFStringRef project, CFStringRef property, CFTypeRef value);
+int DBSetPropString(CFStringRef build, CFStringRef project, CFStringRef property, CFStringRef value);
+int DBSetPropArray(CFStringRef build, CFStringRef project, CFStringRef property, CFArrayRef value);
+int DBSetPropDictionary(CFStringRef build, CFStringRef project, CFStringRef property, CFDictionaryRef value);
 
+CFDictionaryRef DBCopyProjectPlist(CFStringRef build, CFStringRef project);
+CFDictionaryRef DBCopyBuildPlist(CFStringRef build);
+
+int DBSetPlist(CFStringRef build, CFPropertyListRef plist);
 
 #include "cfutils.h"
 

@@ -39,14 +39,77 @@
 
 #include "cfutils.h"
 #include "DBPlugin.h"
+#include "DBPluginPriv.h"
 
-const void* DBGetPluginWithName(CFStringRef name);
+//////
+// Public interfaces for plugins
+// For more implementation, also see DBDataStore.c
+//////
+void DBPluginSetType(UInt32 type) {
+	DBPlugin* plugin = _DBPluginGetCurrentPlugin();
+	switch (type) {
+		case kDBPluginBasicType:
+		case kDBPluginPropertyType:
+			plugin->type = type;
+			break;
+		default:
+			// XXX: error
+			break;
+	}
+}
+
+void DBPluginSetName(CFStringRef name) {
+	DBPlugin* plugin = _DBPluginGetCurrentPlugin();
+	plugin->name = CFStringCreateCopy(NULL, name);
+}
+
+void DBPluginSetRunFunc(DBPluginRunFunc func) {
+	DBPlugin* plugin = _DBPluginGetCurrentPlugin();
+	plugin->run = func;
+}
+
+void DBPluginSetUsageFunc(DBPluginUsageFunc func) {
+	DBPlugin* plugin = _DBPluginGetCurrentPlugin();
+	plugin->usage = func;
+}
+
+void DBPluginSetDataType(CFTypeID type) {
+	DBPlugin* plugin = _DBPluginGetCurrentPlugin();
+	plugin->datatype = type;
+}
+
+
+
+//////
+// Private interfaces to DBPlugin for use by darwinxref internals
+//////
+
+//////
+// NOT THREAD SAFE
+// We currently operate under the assumption that there is only
+// one thread, with no plugin re-entrancy.
+//////
+const DBPlugin* __DBPluginCurrentPlugin;
+void _DBPluginSetCurrentPlugin(const DBPlugin* plugin) {
+	__DBPluginCurrentPlugin = plugin;
+}
+DBPlugin* _DBPluginGetCurrentPlugin() {
+	return (DBPlugin*)__DBPluginCurrentPlugin;
+}
 
 CFDictionaryValueCallBacks cfDictionaryPluginValueCallBacks = {
 	0, NULL, NULL, NULL, NULL
 };
 
 static CFMutableDictionaryRef plugins;
+
+DBPlugin* _DBPluginInitialize() {
+	DBPlugin* plugin = malloc(sizeof(DBPlugin));
+	assert(plugin != NULL);
+	memset(plugin, 0, sizeof(DBPlugin));
+	plugin->type = kDBPluginNullType;
+	return plugin;
+}
 
 int load_plugins(const char* plugin_path) {
 	if (plugins == NULL) {
@@ -62,6 +125,7 @@ int load_plugins(const char* plugin_path) {
 	(void)fts_read(dir);
 	FTSENT* ent = fts_children (dir, FTS_NAMEONLY);
 	while (ent != NULL) {
+		DBPlugin* plugin = NULL;
 		if (strstr(ent->fts_name, ".so")) {
 			char* filename;
 			asprintf(&filename, "%s/%s", fullpath, ent->fts_name);
@@ -69,20 +133,29 @@ int load_plugins(const char* plugin_path) {
 			void* handle = dlopen(filename, RTLD_LAZY | RTLD_LOCAL);
 			if (handle) {
 				DBPluginInitializeFunc func = dlsym(handle, "initialize");
-				DBPlugin* plugin = (*func)(kDBPluginCurrentVersion);
-				if (plugin) {
-					if (plugin->version == kDBPluginCurrentVersion &&
-						(plugin->type == kDBPluginPropertyType || plugin->type == kDBPluginType)) {
-						CFDictionarySetValue(plugins, plugin->name, plugin);
-					} else {
-						fprintf(stderr, "Unrecognized plugin version and type: %x, %x: %s\n", plugin->version, plugin->type, ent->fts_name);
-					}
-				} else {
-						fprintf(stderr, "Plugin initialize returned null: %s\n", ent->fts_name);
-				}
-				//dlclose(handle);
+				plugin = _DBPluginInitialize();
+				_DBPluginSetCurrentPlugin(plugin);
+				(*func)(kDBPluginCurrentVersion);	// Call out to C plugin
+				// XXX: check for error?
 			} else {
 				fprintf(stderr, "Could not dlopen plugin: %s\n", ent->fts_name);
+			}
+#if HAVE_TCL_PLUGINS
+		} else if (strstr(ent->fts_name, ".tcl")) {
+			char* filename;
+			asprintf(&filename, "%s/%s", fullpath, ent->fts_name);
+			plugin = _DBPluginInitialize();
+			_DBPluginSetCurrentPlugin(plugin);
+			load_tcl_plugin(plugin, filename);	// Calls out to Tcl plugin
+#endif
+		}
+		if (plugin) {
+			if (plugin->name == NULL) {
+				fprintf(stderr, "warning: plugin has no name (skipping): %s\n", ent->fts_name);
+			} else if (plugin->type == kDBPluginNullType) {
+				fprintf(stderr, "warning: plugin has no type (skipping): %s\n", ent->fts_name);
+			} else {
+				CFDictionarySetValue(plugins, plugin->name, plugin);
 			}
 		}
 		ent = ent->fts_link;
@@ -98,7 +171,17 @@ void print_usage(char* progname, int argc, char* argv[]) {
 		CFStringRef name = cfstr(argv[0]);
 		const DBPlugin* plugin = DBGetPluginWithName(name);
 		if (plugin) {
-			CFStringRef usage = plugin->usage(NULL);
+			_DBPluginSetCurrentPlugin(plugin);
+#if HAVE_TCL_PLUGINS
+			CFStringRef usage = NULL;
+			if ((plugin->type & kDBPluginTclType) != 0) {
+				usage = call_tcl_usage((DBPlugin*)plugin);
+			} else {
+				usage = plugin->usage();
+			}
+#else
+			CFStringRef usage = plugin->usage();
+#endif
 			cfprintf(stderr, "usage: %s [-f db] [-b build] %@ %@\n", progname, name, usage);
 			CFRelease(usage);
 			return;
@@ -110,15 +193,25 @@ void print_usage(char* progname, int argc, char* argv[]) {
 	for (i = 0; i < count; ++i) {
 		CFStringRef name = CFArrayGetValueAtIndex(pluginNames, i);
 		const DBPlugin* plugin = DBGetPluginWithName(name);
-		CFStringRef usage = plugin->usage(NULL);
+		_DBPluginSetCurrentPlugin(plugin);
+#if HAVE_TCL_PLUGINS
+		CFStringRef usage = NULL;
+		if ((plugin->type & kDBPluginTclType) != 0) {
+			usage = call_tcl_usage((DBPlugin*)plugin);
+		} else {
+			usage = plugin->usage();
+		}
+#else
+		CFStringRef usage = plugin->usage();
+#endif
 		cfprintf(stderr, "usage: %s [-f db] [-b build] %@ %@\n", progname, name, usage);
 		CFRelease(usage);
 	}
 }
 
-const void* DBGetPluginWithName(CFStringRef name) {
+const DBPlugin* DBGetPluginWithName(CFStringRef name) {
 	const void* plugin = CFDictionaryGetValue(plugins, name);
-	return plugin;
+	return (DBPlugin*)plugin;
 }
 
 int run_plugin(void* session, int argc, char* argv[]) {
@@ -131,7 +224,16 @@ int run_plugin(void* session, int argc, char* argv[]) {
 	}
 	const DBPlugin* plugin = DBGetPluginWithName(name);
 	if (plugin) {
-		res = plugin->run(session, args);
+		_DBPluginSetCurrentPlugin(plugin);
+#if HAVE_TCL_PLUGINS
+		if ((plugin->type & kDBPluginTclType) != 0) {
+			res = call_tcl_run((DBPlugin*)plugin, args);
+		} else {
+			res = plugin->run(args);
+		}
+#else
+		res = plugin->run(args);
+#endif
 	} else {
 		print_usage("darwinxref", argc, argv);
 	}
@@ -142,12 +244,12 @@ int run_plugin(void* session, int argc, char* argv[]) {
 extern CFDictionaryRef _CFCopySystemVersionDictionary();
 static CFStringRef currentBuild = NULL;
 
-void DBSetCurrentBuild(void* session, char* build) {
+void DBSetCurrentBuild(char* build) {
 	if (currentBuild) CFRelease(currentBuild);
 	currentBuild = cfstr(build);
 }
 
-CFStringRef DBGetCurrentBuild(void* session) {
+CFStringRef DBGetCurrentBuild() {
 	if (currentBuild) return currentBuild;
 
 	// The following is Private API.

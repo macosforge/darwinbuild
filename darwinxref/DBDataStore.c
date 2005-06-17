@@ -31,14 +31,19 @@
  */
 
 #include "DBPlugin.h"
+#include "DBPluginPriv.h"
 #include "cfutils.h"
 #include "sqlite3.h"
 
-extern const void*  DBGetPluginWithName(CFStringRef);
-
-int DBBeginTransaction(void* session);
-int DBRollbackTransaction(void* session);
-int DBCommitTransaction(void* session);
+//////
+// NOT THREAD SAFE
+// We currently operate under the assumption that there is only
+// one thread, with no plugin re-entrancy.
+//////
+void* __DBDataStore;
+void* _DBPluginGetDataStorePtr() {
+	return __DBDataStore;
+}
 
 
 //////
@@ -47,10 +52,11 @@ int DBCommitTransaction(void* session);
 //
 //////
 
-#define __SQL(db, callback, context, fmt) \
+#define __SQL(callback, context, fmt) \
 	va_list args; \
 	char* errmsg; \
 	va_start(args, fmt); \
+	sqlite3* db = _DBPluginGetDataStorePtr(); \
 	char *query = sqlite3_vmprintf(fmt, args); \
 	res = sqlite3_exec(db, query, callback, context, &errmsg); \
 	if (res != SQLITE_OK) { \
@@ -58,15 +64,15 @@ int DBCommitTransaction(void* session);
 	} \
 	sqlite3_free(query);
 
-int SQL(sqlite3* db, const char* fmt, ...) {
+int SQL(const char* fmt, ...) {
 	int res;
-	__SQL(db, NULL, NULL, fmt);
+	__SQL(NULL, NULL, fmt);
 	return res;
 }
 
-int SQL_CALLBACK(sqlite3* db, sqlite3_callback callback, void* context, const char* fmt, ...) {
+int SQL_CALLBACK(sqlite3_callback callback, void* context, const char* fmt, ...) {
 	int res;
-	__SQL(db, callback, context, fmt);
+	__SQL(callback, context, fmt);
 	return res;
 }
 
@@ -75,10 +81,10 @@ static int isTrue(void* pArg, int argc, char **argv, char** columnNames) {
 	return 0;
 }
 
-int SQL_BOOLEAN(sqlite3* db, const char* fmt, ...) {
+int SQL_BOOLEAN(const char* fmt, ...) {
 	int res;
 	int val = 0;
-	__SQL(db, isTrue, &val, fmt);
+	__SQL(isTrue, &val, fmt);
 	return val;
 }
 
@@ -89,18 +95,18 @@ static int getString(void* pArg, int argc, char **argv, char** columnNames) {
 	return 0;
 }
 
-char* SQL_STRING(sqlite3* db, const char* fmt, ...) {
+char* SQL_STRING(const char* fmt, ...) {
 	int res;
 	char* str = 0;
-	__SQL(db, getString, &str, fmt);
+	__SQL(getString, &str, fmt);
 	return str;
 }
 
-CFStringRef SQL_CFSTRING(sqlite3* db, const char* fmt, ...) {
+CFStringRef SQL_CFSTRING(const char* fmt, ...) {
 	int res;
 	CFStringRef str = NULL;
 	char* cstr = NULL;
-	__SQL(db, getString, &cstr, fmt);
+	__SQL(getString, &cstr, fmt);
 	str = cfstr(cstr);
 	if (cstr) free(cstr);
 	return str;
@@ -116,10 +122,10 @@ static int sqlAddStringToArray(void* pArg, int argc, char **argv, char** columnN
 	return 0;
 }
 
-CFArrayRef SQL_CFARRAY(sqlite3* db, const char* fmt, ...) {
+CFArrayRef SQL_CFARRAY(const char* fmt, ...) {
 	int res;
 	CFMutableArrayRef array = CFArrayCreateMutable(NULL, 0, &kCFTypeArrayCallBacks);
-	__SQL(db, sqlAddStringToArray, array, fmt);
+	__SQL(sqlAddStringToArray, array, fmt);
 	return array;
 }
 
@@ -147,15 +153,16 @@ static int sqlAddValueToDictionary(void* pArg, int argc, char **argv, char** col
 	return 0;
 }
 
-CFDictionaryRef SQL_CFDICTIONARY(sqlite3* db, const char* fmt, ...) {
+CFDictionaryRef SQL_CFDICTIONARY(const char* fmt, ...) {
 	int res;
 	CFMutableDictionaryRef dict = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-	__SQL(db, sqlAddValueToDictionary, dict, fmt);
+	__SQL(sqlAddValueToDictionary, dict, fmt);
 	return dict;
 }
 
-void SQL_NOERR(sqlite3* db, char* sql) {
+void SQL_NOERR(char* sql) {
 	char* errmsg;
+	sqlite3* db = _DBPluginGetDataStorePtr();
 	int res = sqlite3_exec(db, sql, NULL, NULL, &errmsg);
 	if (res != SQLITE_OK && res != SQLITE_ERROR) {
 		fprintf(stderr, "Error: %s (%d)\n", errmsg, res);
@@ -164,20 +171,19 @@ void SQL_NOERR(sqlite3* db, char* sql) {
 	}
 }
 
-void* DBDataStoreInitialize(const char* datafile) {
-	sqlite3* db;
-	sqlite3_open(datafile, &db);
-	if (db == NULL) return NULL;
+int DBDataStoreInitialize(const char* datafile) {
+	sqlite3_open(datafile, (sqlite3**)&__DBDataStore);
+	if (__DBDataStore == NULL) return -1;
 
 	char* table = "CREATE TABLE properties (build TEXT, project TEXT, property TEXT, key TEXT, value TEXT)";
 	char* index = "CREATE INDEX properties_index ON properties (build, project, property, key, value)";
-	SQL_NOERR(db, table);
-	SQL_NOERR(db, index);
-
-	return db; 
+	SQL_NOERR(table);
+	SQL_NOERR(index);
+	
+	return 0;
 }
 
-CFArrayRef DBCopyPropNames(void* session, CFStringRef build, CFStringRef project) {
+CFArrayRef DBCopyPropNames(CFStringRef build, CFStringRef project) {
 	char* cbuild = strdup_cfstr(build);
 	char* cproj = strdup_cfstr(project);
 	char* sql;
@@ -186,44 +192,44 @@ CFArrayRef DBCopyPropNames(void* session, CFStringRef build, CFStringRef project
 	} else {
 		sql = "SELECT DISTINCT property FROM properties WHERE build=%Q AND project IS NULL ORDER BY property";
 	}
-	CFArrayRef res = SQL_CFARRAY(session, sql, cbuild, cproj);
+	CFArrayRef res = SQL_CFARRAY(sql, cbuild, cproj);
 	free(cbuild);
 	free(cproj);
 	return res;
 }
 
-CFArrayRef DBCopyProjectNames(void* session, CFStringRef build) {
+CFArrayRef DBCopyProjectNames(CFStringRef build) {
 	char* cbuild = strdup_cfstr(build);
-	CFArrayRef res = SQL_CFARRAY(session, "SELECT DISTINCT project FROM properties WHERE build=%Q ORDER BY project", cbuild);
+	CFArrayRef res = SQL_CFARRAY("SELECT DISTINCT project FROM properties WHERE build=%Q ORDER BY project", cbuild);
 	free(cbuild);
 	return res;
 }
 
-CFTypeID  DBCopyPropType(void* session, CFStringRef property) {
+CFTypeID  DBCopyPropType(CFStringRef property) {
 	CFTypeID type = -1;
-	const DBPropertyPlugin* plugin = DBGetPluginWithName(property);
-	if (plugin && plugin->base.type == kDBPluginPropertyType) {
+	const DBPlugin* plugin = DBGetPluginWithName(property);
+	if (plugin && plugin->type == kDBPluginPropertyType) {
 		type = plugin->datatype;
 	}
 	return type;
 }
 
-CFTypeRef DBCopyProp(void* session, CFStringRef build, CFStringRef project, CFStringRef property) {
+CFTypeRef DBCopyProp(CFStringRef build, CFStringRef project, CFStringRef property) {
 	CFTypeRef res = NULL;
-	CFTypeID type = DBCopyPropType(session, property);
+	CFTypeID type = DBCopyPropType(property);
 	if (type == -1) return NULL;
 
 	if (type == CFStringGetTypeID()) {
-		res = DBCopyPropString(session, build, project, property);
+		res = DBCopyPropString(build, project, property);
 	} else if (type == CFArrayGetTypeID()) {
-		res = DBCopyPropArray(session, build, project, property);
+		res = DBCopyPropArray(build, project, property);
 	} else if (type == CFDictionaryGetTypeID()) {
-		res = DBCopyPropDictionary(session, build, project, property);
+		res = DBCopyPropDictionary(build, project, property);
 	}
 	return res;
 }
 
-CFStringRef _DBCopyPropString(void* session, CFStringRef build, CFStringRef project, CFStringRef property) {
+CFStringRef _DBCopyPropString(CFStringRef build, CFStringRef project, CFStringRef property) {
 	char* cbuild = strdup_cfstr(build);
 	char* cproj = strdup_cfstr(project);
 	char* cprop = strdup_cfstr(property);
@@ -232,14 +238,14 @@ CFStringRef _DBCopyPropString(void* session, CFStringRef build, CFStringRef proj
 		sql = "SELECT value FROM properties WHERE property=%Q AND build=%Q AND project=%Q";
 	else
 		sql = "SELECT value FROM properties WHERE property=%Q AND build=%Q AND project IS NULL";
-	CFStringRef res = SQL_CFSTRING(session, sql, cprop, cbuild, cproj);
+	CFStringRef res = SQL_CFSTRING(sql, cprop, cbuild, cproj);
 	free(cproj);
 	free(cprop);
 	free(cbuild);
 	return res;
 }
 
-CFArrayRef _DBCopyPropArray(void* session, CFStringRef build, CFStringRef project, CFStringRef property) {
+CFArrayRef _DBCopyPropArray(CFStringRef build, CFStringRef project, CFStringRef property) {
 	char* cbuild = strdup_cfstr(build);
 	char* cproj = strdup_cfstr(project);
 	char* cprop = strdup_cfstr(property);
@@ -248,14 +254,14 @@ CFArrayRef _DBCopyPropArray(void* session, CFStringRef build, CFStringRef projec
 		sql = "SELECT value FROM properties WHERE property=%Q AND build=%Q AND project=%Q ORDER BY key";
 	else
 		sql = "SELECT value FROM properties WHERE property=%Q AND build=%Q AND project IS NULL ORDER BY key";
-	CFArrayRef res = SQL_CFARRAY(session, sql, cprop, cbuild, cproj);
+	CFArrayRef res = SQL_CFARRAY(sql, cprop, cbuild, cproj);
 	free(cproj);
 	free(cprop);
 	free(cbuild);
 	return res;
 }
 
-CFDictionaryRef _DBCopyPropDictionary(void* session, CFStringRef build, CFStringRef project, CFStringRef property) {
+CFDictionaryRef _DBCopyPropDictionary(CFStringRef build, CFStringRef project, CFStringRef property) {
 	char* cbuild = strdup_cfstr(build);
 	char* cproj = strdup_cfstr(project);
 	char* cprop = strdup_cfstr(property);
@@ -264,7 +270,7 @@ CFDictionaryRef _DBCopyPropDictionary(void* session, CFStringRef build, CFString
 		sql = "SELECT DISTINCT key,value FROM properties WHERE property=%Q AND build=%Q AND project=%Q ORDER BY key";
 	else
 		sql = "SELECT DISTINCT key,value FROM properties WHERE property=%Q AND build=%Q AND project IS NULL ORDER BY key";
-	CFDictionaryRef res = SQL_CFDICTIONARY(session, sql, cprop, cbuild, cproj);
+	CFDictionaryRef res = SQL_CFDICTIONARY(sql, cprop, cbuild, cproj);
 	free(cbuild);
 	free(cproj);
 	free(cprop);
@@ -274,8 +280,8 @@ CFDictionaryRef _DBCopyPropDictionary(void* session, CFStringRef build, CFString
 //
 // Kluge to globally support build aliases ("original") and inheritance ("inherits") properties.
 //
-CFTypeRef _DBCopyPropWithInheritance(void* session, CFStringRef build, CFStringRef project, CFStringRef property,
-	CFTypeRef (*func)(void*, CFStringRef, CFStringRef, CFStringRef)) {
+CFTypeRef _DBCopyPropWithInheritance(CFStringRef build, CFStringRef project, CFStringRef property,
+	CFTypeRef (*func)(CFStringRef, CFStringRef, CFStringRef)) {
 
 	CFTypeRef res = NULL;
 
@@ -288,13 +294,13 @@ CFTypeRef _DBCopyPropWithInheritance(void* session, CFStringRef build, CFStringR
 	// if a build alias ("original") is found, break out of the search path
 	// and restart using the original name instead.
 	do {
-		res = func(session, build, project, property);
+		res = func(build, project, property);
 		if (res) break;
 		
-		original = _DBCopyPropString(session, build, project, CFSTR("original"));
+		original = _DBCopyPropString(build, project, CFSTR("original"));
 		if (original) break;
 
-		CFStringRef inherits = _DBCopyPropString(session, build, NULL, CFSTR("inherits"));
+		CFStringRef inherits = _DBCopyPropString(build, NULL, CFSTR("inherits"));
 		if (inherits) CFArrayAppendValue(builds, inherits);
 		build = inherits;
 	} while (build != NULL);
@@ -303,7 +309,7 @@ CFTypeRef _DBCopyPropWithInheritance(void* session, CFStringRef build, CFStringR
 		CFIndex i, count = CFArrayGetCount(builds);
 		for (i = 0; i < count; ++i) {
 			build = CFArrayGetValueAtIndex(builds, i);
-			res = func(session, build, original, property);
+			res = func(build, original, property);
 			if (res) break;
 		}
 	}
@@ -313,22 +319,22 @@ CFTypeRef _DBCopyPropWithInheritance(void* session, CFStringRef build, CFStringR
 }
 
 
-CFStringRef DBCopyPropString(void* session, CFStringRef build, CFStringRef project, CFStringRef property) {
-	return (CFStringRef)_DBCopyPropWithInheritance(session, build, project, property, (void*)_DBCopyPropString);
+CFStringRef DBCopyPropString(CFStringRef build, CFStringRef project, CFStringRef property) {
+	return (CFStringRef)_DBCopyPropWithInheritance(build, project, property, (void*)_DBCopyPropString);
 }
 
-CFArrayRef DBCopyPropArray(void* session, CFStringRef build, CFStringRef project, CFStringRef property) {
-	return (CFArrayRef)_DBCopyPropWithInheritance(session, build, project, property, (void*)_DBCopyPropArray);
+CFArrayRef DBCopyPropArray(CFStringRef build, CFStringRef project, CFStringRef property) {
+	return (CFArrayRef)_DBCopyPropWithInheritance(build, project, property, (void*)_DBCopyPropArray);
 }
 
-CFDictionaryRef DBCopyPropDictionary(void* session, CFStringRef build, CFStringRef project, CFStringRef property) {
-	return (CFDictionaryRef)_DBCopyPropWithInheritance(session, build, project, property, (void*)_DBCopyPropDictionary);
+CFDictionaryRef DBCopyPropDictionary(CFStringRef build, CFStringRef project, CFStringRef property) {
+	return (CFDictionaryRef)_DBCopyPropWithInheritance(build, project, property, (void*)_DBCopyPropDictionary);
 }
 
 
-int DBSetProp(void* session, CFStringRef build, CFStringRef project, CFStringRef property, CFTypeRef value) {
+int DBSetProp(CFStringRef build, CFStringRef project, CFStringRef property, CFTypeRef value) {
 	int res = 0;
-	CFTypeID type = DBCopyPropType(session, property);
+	CFTypeID type = DBCopyPropType(property);
 	if (type == -1) {
 		cfprintf(stderr, "Error: unknown property in project \"%@\": %@\n", project, property);
 		return -1;
@@ -343,26 +349,26 @@ int DBSetProp(void* session, CFStringRef build, CFStringRef project, CFStringRef
 	}
 
 	if (type == CFStringGetTypeID()) {
-		res = DBSetPropString(session, build, project, property, value);
+		res = DBSetPropString(build, project, property, value);
 	} else if (type == CFArrayGetTypeID()) {
-		res = DBSetPropArray(session, build, project, property, value);
+		res = DBSetPropArray(build, project, property, value);
 	} else if (type == CFDictionaryGetTypeID()) {
-		res = DBSetPropDictionary(session, build, project, property, value);
+		res = DBSetPropDictionary(build, project, property, value);
 	}
 	return res;
 }
 
-int DBSetPropString(void* session, CFStringRef build, CFStringRef project, CFStringRef property, CFStringRef value) {
+int DBSetPropString(CFStringRef build, CFStringRef project, CFStringRef property, CFStringRef value) {
         char* cbuild = strdup_cfstr(build);
         char* cproj = strdup_cfstr(project);
         char* cprop = strdup_cfstr(property);
         char* cvalu = strdup_cfstr(value);
 	if (project) {
-		SQL(session, "DELETE FROM properties WHERE build=%Q AND project=%Q AND property=%Q", cbuild, cproj, cprop);
-		SQL(session, "INSERT INTO properties (build,project,property,value) VALUES (%Q, %Q, %Q, %Q)", cbuild, cproj, cprop, cvalu);
+		SQL("DELETE FROM properties WHERE build=%Q AND project=%Q AND property=%Q", cbuild, cproj, cprop);
+		SQL("INSERT INTO properties (build,project,property,value) VALUES (%Q, %Q, %Q, %Q)", cbuild, cproj, cprop, cvalu);
 	} else {
-		SQL(session, "DELETE FROM properties WHERE build=%Q AND project IS NULL AND property=%Q", cbuild, cprop);
-		SQL(session, "INSERT INTO properties (build,property,value) VALUES (%Q, %Q, %Q)", cbuild, cprop, cvalu);
+		SQL("DELETE FROM properties WHERE build=%Q AND project IS NULL AND property=%Q", cbuild, cprop);
+		SQL("INSERT INTO properties (build,property,value) VALUES (%Q, %Q, %Q)", cbuild, cprop, cvalu);
 	}
 	free(cbuild);
         free(cproj);
@@ -371,22 +377,22 @@ int DBSetPropString(void* session, CFStringRef build, CFStringRef project, CFStr
 	return 0;
 }
 
-int DBSetPropArray(void* session, CFStringRef build, CFStringRef project, CFStringRef property, CFArrayRef value) {
+int DBSetPropArray(CFStringRef build, CFStringRef project, CFStringRef property, CFArrayRef value) {
 	char* cbuild = strdup_cfstr(build);
 	char* cproj = strdup_cfstr(project);
 	char* cprop = strdup_cfstr(property);
 	if (project) {
-		SQL(session, "DELETE FROM properties WHERE build=%Q AND project=%Q AND property=%Q", cbuild, cproj, cprop);
+		SQL("DELETE FROM properties WHERE build=%Q AND project=%Q AND property=%Q", cbuild, cproj, cprop);
 	} else {
-		SQL(session, "DELETE FROM properties WHERE build=%Q AND project IS NULL AND property=%Q", cbuild, cprop);
+		SQL("DELETE FROM properties WHERE build=%Q AND project IS NULL AND property=%Q", cbuild, cprop);
 	}
 	CFIndex i, count = CFArrayGetCount(value);
 	for (i = 0; i < count; ++i) {
 		char* cvalu = strdup_cfstr(CFArrayGetValueAtIndex(value, i));
 		if (project) {
-			SQL(session, "INSERT INTO properties (build,project,property,value) VALUES (%Q, %Q, %Q, %Q)", cbuild, cproj, cprop, cvalu);
+			SQL("INSERT INTO properties (build,project,property,value) VALUES (%Q, %Q, %Q, %Q)", cbuild, cproj, cprop, cvalu);
 		} else {
-			SQL(session, "INSERT INTO properties (build,property,value) VALUES (%Q, %Q, %Q)", cbuild, cprop, cvalu);
+			SQL("INSERT INTO properties (build,property,value) VALUES (%Q, %Q, %Q)", cbuild, cprop, cvalu);
 		}
 		free(cvalu);
 	}
@@ -396,7 +402,7 @@ int DBSetPropArray(void* session, CFStringRef build, CFStringRef project, CFStri
 	return 0;
 }
 
-int DBSetPropDictionary(void* session, CFStringRef build, CFStringRef project, CFStringRef property, CFDictionaryRef value) {
+int DBSetPropDictionary(CFStringRef build, CFStringRef project, CFStringRef property, CFDictionaryRef value) {
 	char* cbuild = strdup_cfstr(build);
 	char* cproj = strdup_cfstr(project);
 	char* cprop = strdup_cfstr(property);
@@ -410,9 +416,9 @@ int DBSetPropDictionary(void* session, CFStringRef build, CFStringRef project, C
 		if (CFGetTypeID(cf) == CFStringGetTypeID()) {
 			char* cvalu = strdup_cfstr(cf);
 			if (project) {
-				SQL(session, "INSERT INTO properties (build,project,property,key,value) VALUES (%Q, %Q, %Q, %Q, %Q)", cbuild, cproj, cprop, ckey, cvalu);
+				SQL("INSERT INTO properties (build,project,property,key,value) VALUES (%Q, %Q, %Q, %Q, %Q)", cbuild, cproj, cprop, ckey, cvalu);
 			} else {
-				SQL(session, "INSERT INTO properties (build,property,key,value) VALUES (%Q, %Q, %Q, %Q)", cbuild, cprop, ckey, cvalu);
+				SQL("INSERT INTO properties (build,property,key,value) VALUES (%Q, %Q, %Q, %Q)", cbuild, cprop, ckey, cvalu);
 			}
 			free(cvalu);
 		} else if (CFGetTypeID(cf) == CFArrayGetTypeID()) {
@@ -420,9 +426,9 @@ int DBSetPropDictionary(void* session, CFStringRef build, CFStringRef project, C
 			for (j = 0; j < count; ++j) {
 				char* cvalu = strdup_cfstr(CFArrayGetValueAtIndex(cf, j));
 				if (project) {
-					SQL(session, "INSERT INTO properties (build,project,property,key,value) VALUES (%Q, %Q, %Q, %Q, %Q)", cbuild, cproj, cprop, ckey, cvalu);
+					SQL("INSERT INTO properties (build,project,property,key,value) VALUES (%Q, %Q, %Q, %Q, %Q)", cbuild, cproj, cprop, ckey, cvalu);
 				} else {
-					SQL(session, "INSERT INTO properties (build,property,key,value) VALUES (%Q, %Q, %Q, %Q)", cbuild, cprop, ckey, cvalu);
+					SQL("INSERT INTO properties (build,property,key,value) VALUES (%Q, %Q, %Q, %Q)", cbuild, cprop, ckey, cvalu);
 				}
 				free(cvalu);
 			}
@@ -437,13 +443,13 @@ int DBSetPropDictionary(void* session, CFStringRef build, CFStringRef project, C
 }
 
 
-CFDictionaryRef DBCopyProjectPlist(void* session, CFStringRef build, CFStringRef project) {
+CFDictionaryRef DBCopyProjectPlist(CFStringRef build, CFStringRef project) {
 	CFMutableDictionaryRef res = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-	CFArrayRef props = DBCopyPropNames(session, build, project);
+	CFArrayRef props = DBCopyPropNames(build, project);
 	CFIndex i, count = CFArrayGetCount(props);
 	for (i = 0; i < count; ++i) {
 		CFStringRef prop = CFArrayGetValueAtIndex(props, i);
-		CFTypeRef value = DBCopyProp(session, build, project, prop);
+		CFTypeRef value = DBCopyProp(build, project, prop);
 		if (value) {
 			CFDictionaryAddValue(res, prop, value);
 			CFRelease(value);
@@ -453,14 +459,14 @@ CFDictionaryRef DBCopyProjectPlist(void* session, CFStringRef build, CFStringRef
 }
 
 
-CFDictionaryRef DBCopyBuildPlist(void* session, CFStringRef build) {
-	CFMutableDictionaryRef plist = (CFMutableDictionaryRef)DBCopyProjectPlist(session, build, NULL);
+CFDictionaryRef DBCopyBuildPlist(CFStringRef build) {
+	CFMutableDictionaryRef plist = (CFMutableDictionaryRef)DBCopyProjectPlist(build, NULL);
 	CFMutableDictionaryRef projects = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-	CFArrayRef names = DBCopyProjectNames(session, build);
+	CFArrayRef names = DBCopyProjectNames(build);
 	CFIndex i, count = CFArrayGetCount(names);
 	for (i = 0; i < count; ++i) {
 		CFStringRef name = CFArrayGetValueAtIndex(names, i);
-		CFDictionaryRef proj = DBCopyProjectPlist(session, build, name);
+		CFDictionaryRef proj = DBCopyProjectPlist(build, name);
 		CFDictionaryAddValue(projects, name, proj);
 		CFRelease(proj);
 	}
@@ -470,7 +476,7 @@ CFDictionaryRef DBCopyBuildPlist(void* session, CFStringRef build) {
 }
 
 
-int _DBSetPlist(void* session, CFStringRef buildParam, CFStringRef projectParam, CFPropertyListRef plist) {
+int _DBSetPlist(CFStringRef buildParam, CFStringRef projectParam, CFPropertyListRef plist) {
 	int res = 0;
 	CFIndex i, count;
 	
@@ -493,7 +499,7 @@ int _DBSetPlist(void* session, CFStringRef buildParam, CFStringRef projectParam,
 	//
 	// Delete any properties which may have been removed
 	//
-	CFArrayRef existingProps = DBCopyPropNames(session, build, project);
+	CFArrayRef existingProps = DBCopyPropNames(build, project);
 	count = CFArrayGetCount(props);
 	CFRange range = CFRangeMake(0, count);
 	CFIndex existingCount = CFArrayGetCount(existingProps);
@@ -505,10 +511,10 @@ int _DBSetPlist(void* session, CFStringRef buildParam, CFStringRef projectParam,
 			char* cprop = strdup_cfstr(prop);
 			if (project) {
 				char* cproj = strdup_cfstr(project);
-				SQL(session, "DELETE FROM properties WHERE build=%Q AND project=%Q AND property=%Q", cbuild, cproj, cprop);
+				SQL("DELETE FROM properties WHERE build=%Q AND project=%Q AND property=%Q", cbuild, cproj, cprop);
 				free(cproj);
 			} else {
-				SQL(session, "DELETE FROM properties WHERE build=%Q AND project IS NULL AND property=%Q", cbuild, cprop);
+				SQL("DELETE FROM properties WHERE build=%Q AND project IS NULL AND property=%Q", cbuild, cprop);
 			}
 			free(cbuild);
 			free(cprop);
@@ -524,7 +530,7 @@ int _DBSetPlist(void* session, CFStringRef buildParam, CFStringRef projectParam,
 		if (CFEqual(prop, CFSTR("build")) || CFEqual(prop, CFSTR("projects"))) continue;
 		
 		CFTypeRef value = CFDictionaryGetValue(plist, prop);
-		res = DBSetProp(session, build, project, prop, value);
+		res = DBSetProp(build, project, prop, value);
 		if (res != 0) break;
 	}
 	
@@ -534,7 +540,7 @@ int _DBSetPlist(void* session, CFStringRef buildParam, CFStringRef projectParam,
 		for (i = 0; i < count; ++i ) {
 			CFStringRef project = CFArrayGetValueAtIndex(projectNames, i);
 			CFDictionaryRef subplist = CFDictionaryGetValue(projects, project);
-			res = _DBSetPlist(session, build, project, subplist);
+			res = _DBSetPlist(build, project, subplist);
 			if (res != 0) break;
 		}
 		CFRelease(projectNames);
@@ -543,28 +549,28 @@ int _DBSetPlist(void* session, CFStringRef buildParam, CFStringRef projectParam,
 	return res;
 }
 
-int DBSetPlist(void* session, CFStringRef buildParam, CFPropertyListRef plist) {
+int DBSetPlist(CFStringRef buildParam, CFPropertyListRef plist) {
 	int res;
-	res = DBBeginTransaction(session);
+	res = DBBeginTransaction();
 	if (res != 0) return res;
-	res = _DBSetPlist(session, buildParam, NULL, plist);
+	res = _DBSetPlist(buildParam, NULL, plist);
 	if (res != 0) {
-		DBRollbackTransaction(session);
+		DBRollbackTransaction();
 		return res;
 	}
-	DBCommitTransaction(session);
+	DBCommitTransaction();
 	return res;
 }
 
 
-int DBBeginTransaction(void* session) {
-	return SQL(session, "BEGIN");
+int DBBeginTransaction() {
+	return SQL("BEGIN");
 }
-int DBRollbackTransaction(void* session) {
-	return SQL(session, "ROLLBACK");
+int DBRollbackTransaction() {
+	return SQL("ROLLBACK");
 }
-int DBCommitTransaction(void* session) {
-	return SQL(session, "COMMIT");
+int DBCommitTransaction() {
+	return SQL("COMMIT");
 }
 
 
