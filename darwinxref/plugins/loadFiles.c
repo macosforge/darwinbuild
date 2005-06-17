@@ -35,39 +35,32 @@
 #include <stdio.h>
 #include <regex.h>
 
-static int loadFiles(void* db, const char* buildparam, const char* path);
+static int loadFiles(const char* buildparam, const char* path);
 
-static int run(void* session, CFArrayRef argv) {
+static int run(CFArrayRef argv) {
 	int res = 0;
 	CFStringRef project = NULL;
 	CFIndex count = CFArrayGetCount(argv);
 	if (count != 1)  return -1;
 	char* filename = strdup_cfstr(CFArrayGetValueAtIndex(argv, 0));
-	char* build = strdup_cfstr(DBGetCurrentBuild(session));
-	loadFiles(session, build, filename);
+	char* build = strdup_cfstr(DBGetCurrentBuild());
+	loadFiles(build, filename);
 	free(filename);
 	return res;
 }
 
-static CFStringRef usage(void* session) {
+static CFStringRef usage() {
 	return CFRetain(CFSTR("<logfile>"));
 }
 
-DBPlugin* initialize(int version) {
-	DBPlugin* plugin = NULL;
-
-	if (version != kDBPluginCurrentVersion) return NULL;
+int initialize(int version) {
+	//if ( version < kDBPluginCurrentVersion ) return -1;
 	
-	plugin = malloc(sizeof(DBPlugin));
-	if (plugin == NULL) return NULL;
-	
-	plugin->version = kDBPluginCurrentVersion;
-	plugin->type = kDBPluginType;
-	plugin->name = CFSTR("loadFiles");
-	plugin->run = &run;
-	plugin->usage = &usage;
-
-	return plugin;
+	DBPluginSetType(kDBPluginBasicType);
+	DBPluginSetName(CFSTR("loadFiles"));
+	DBPluginSetRunFunc(&run);
+	DBPluginSetUsageFunc(&usage);
+	return 0;
 }
 
 static inline int min(int a, int b) {
@@ -79,7 +72,7 @@ static inline int min(int a, int b) {
 // This way we can do intelligent sql queries on the index
 // data.
 //
-int loadFiles(void* db, const char* buildparam, const char* path) {
+int loadFiles(const char* buildparam, const char* path) {
 	FILE* fp = fopen(path, "r");
 	int loaded = 0, total = 0;
 	if (fp) {
@@ -89,7 +82,7 @@ int loadFiles(void* db, const char* buildparam, const char* path) {
 		// Create the projects table if it does not already exist
 		//
 				
-		if (SQL(db, "BEGIN")) { return -1; }
+		if (SQL("BEGIN")) { return -1; }
 
 		char project[PATH_MAX];
 		char build[PATH_MAX];
@@ -142,8 +135,7 @@ int loadFiles(void* db, const char* buildparam, const char* path) {
 				int len = min(matches[1].rm_eo - matches[1].rm_so, PATH_MAX);
 				strncpy(path, line + matches[1].rm_so, len);
 				path[len] = 0;
-				int res = SQL(db,
-					"INSERT INTO files (build,project,path) VALUES (%Q, %Q, %Q)",
+				int res = SQL("INSERT INTO files (build,project,path) VALUES (%Q, %Q, %Q)",
 					build, project, path);
 				if (res != 0) { return res; }
 				++loaded;
@@ -159,8 +151,7 @@ int loadFiles(void* db, const char* buildparam, const char* path) {
 				int len = matches[1].rm_eo - matches[1].rm_so;
 				strncpy(project, line + matches[1].rm_so, len);
 				project[len] = 0;
-				int res = SQL(db,
-					"DELETE FROM files WHERE build=%Q AND project=%Q",
+				int res = SQL("DELETE FROM files WHERE build=%Q AND project=%Q",
 					build, project);
 				if (res != 0) { return res; }
 				++total;
@@ -174,7 +165,7 @@ int loadFiles(void* db, const char* buildparam, const char* path) {
 		}
 		fclose(fp);
 
-		if (SQL(db, "COMMIT")) { return -1; }
+		if (SQL("COMMIT")) { return -1; }
 
 	} else {
 		perror(path);

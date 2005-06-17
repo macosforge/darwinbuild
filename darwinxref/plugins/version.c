@@ -32,47 +32,40 @@
 
 #include "DBPlugin.h"
 
-void printProjectVersion(void* session, CFStringRef project) {
-	CFStringRef build = DBGetCurrentBuild(session);
-	CFStringRef version = DBCopyPropString(session, build, project, CFSTR("version"));
+void printProjectVersion(CFStringRef project) {
+	CFStringRef build = DBGetCurrentBuild();
+	CFStringRef version = DBCopyPropString(build, project, CFSTR("version"));
 	cfprintf(stdout, "%@-%@\n", project, version);
 }
 
-static int run(void* session, CFArrayRef argv) {
+static int run(CFArrayRef argv) {
 	if (CFArrayGetCount(argv) != 1)  return -1;
 	CFStringRef project = CFArrayGetValueAtIndex(argv, 0);
 	
 	if (CFEqual(project, CFSTR("*"))) {
-		CFArrayRef projects = DBCopyProjectNames(session, NULL);
+		CFArrayRef projects = DBCopyProjectNames(NULL);
 		CFIndex i, count = CFArrayGetCount(projects);
 		for (i = 0; i < count; ++i) {
-			printProjectVersion(session, CFArrayGetValueAtIndex(projects, i));
+			printProjectVersion(CFArrayGetValueAtIndex(projects, i));
 		}
 	} else {
-		printProjectVersion(session, project);
+		printProjectVersion(project);
 	}
 	
 	return 0;
 }
 
-static CFStringRef usage(void* session) {
+static CFStringRef usage() {
 	return CFRetain(CFSTR("<project>"));
 }
 
-DBPropertyPlugin* initialize(int version) {
-	DBPropertyPlugin* plugin = NULL;
-
-	if (version != kDBPluginCurrentVersion) return NULL;
+int initialize(int version) {
+	//if ( version < kDBPluginCurrentVersion ) return -1;
 	
-	plugin = malloc(sizeof(DBPropertyPlugin));
-	if (plugin == NULL) return NULL;
-	
-	plugin->base.version = kDBPluginCurrentVersion;
-	plugin->base.type = kDBPluginPropertyType;
-	plugin->base.name = CFSTR("version");
-	plugin->base.run = &run;
-	plugin->base.usage = &usage;
-	plugin->datatype = CFStringGetTypeID();
-
-	return plugin;
+	DBPluginSetType(kDBPluginPropertyType);
+	DBPluginSetName(CFSTR("version"));
+	DBPluginSetRunFunc(&run);
+	DBPluginSetUsageFunc(&usage);
+	DBPluginSetDataType(CFStringGetTypeID());
+	return 0;
 }

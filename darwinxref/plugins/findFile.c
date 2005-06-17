@@ -35,41 +35,34 @@
 #include <stdio.h>
 #include <regex.h>
 
-static int findFile(void* db, char* file, char* build);
+static int findFile(char* file, char* build);
 
-static int run(void* session, CFArrayRef argv) {
+static int run(CFArrayRef argv) {
 	int res = 0;
 	CFIndex count = CFArrayGetCount(argv);
 	if (count != 1)  return -1;
 
 	char* file = strdup_cfstr(CFArrayGetValueAtIndex(argv, 0));	
-	char* build = strdup_cfstr(DBGetCurrentBuild(session));
+	char* build = strdup_cfstr(DBGetCurrentBuild());
 	
-	findFile(session, file, build);
+	findFile(file, build);
 
 	if (file) free(file);
 	return res;
 }
 
-static CFStringRef usage(void* session) {
+static CFStringRef usage() {
 	return CFRetain(CFSTR("<file>"));
 }
 
-DBPlugin* initialize(int version) {
-	DBPlugin* plugin = NULL;
-
-	if (version != kDBPluginCurrentVersion) return NULL;
+int initialize(int version) {
+	//if ( version < kDBPluginCurrentVersion ) return -1;
 	
-	plugin = malloc(sizeof(DBPlugin));
-	if (plugin == NULL) return NULL;
-	
-	plugin->version = kDBPluginCurrentVersion;
-	plugin->type = kDBPluginType;
-	plugin->name = CFSTR("findFile");
-	plugin->run = &run;
-	plugin->usage = &usage;
-
-	return plugin;
+	DBPluginSetType(kDBPluginBasicType);
+	DBPluginSetName(CFSTR("findFile"));
+	DBPluginSetRunFunc(&run);
+	DBPluginSetUsageFunc(&usage);
+	return 0;
 }
 
 int printFiles(void* pArg, int argc, char **argv, char** columnNames) {
@@ -82,12 +75,12 @@ int printFiles(void* pArg, int argc, char **argv, char** columnNames) {
 	return 0;
 }
 
-static int findFile(void* db, char* file, char* build) {
+static int findFile(char* file, char* build) {
 	char* errmsg;
 	char project[BUFSIZ];
 	project[0] = 0;
 	asprintf(&file, "%%%s", file);
-	int res = SQL_CALLBACK(db, &printFiles, project,
+	int res = SQL_CALLBACK(&printFiles, project,
 		"SELECT project,path FROM files WHERE build=%Q AND path LIKE %Q ORDER BY project, path",
 		build, file);
 	return 0;

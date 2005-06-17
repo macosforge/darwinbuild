@@ -32,10 +32,10 @@
 
 #include "DBPlugin.h"
 
-void printDependencies(void* session, CFStringRef* types, CFStringRef* recursiveTypes, CFMutableSetRef visited, CFStringRef build, CFStringRef project);
+void printDependencies(CFStringRef* types, CFStringRef* recursiveTypes, CFMutableSetRef visited, CFStringRef build, CFStringRef project);
 
 
-static int run(void* session, CFArrayRef argv) {
+static int run(CFArrayRef argv) {
 	CFIndex count = CFArrayGetCount(argv);
 	if (count != 2) return -1;
 
@@ -44,47 +44,40 @@ static int run(void* session, CFArrayRef argv) {
 	CFStringRef type = CFArrayGetValueAtIndex(argv, 0);
 	if (CFEqual(type, CFSTR("-run"))) {
 		CFStringRef types[] = { CFSTR("lib"), CFSTR("run"), NULL };
-		printDependencies(session, types, types, NULL, DBGetCurrentBuild(session), project);
+		printDependencies(types, types, NULL, DBGetCurrentBuild(), project);
 	} else if (CFEqual(type, CFSTR("-build"))) {
 		CFStringRef types[] = { CFSTR("lib"), CFSTR("run"), CFSTR("build"), NULL };
 		CFStringRef recursive[] = { CFSTR("lib"), CFSTR("run"), NULL };
-		printDependencies(session, types, recursive, NULL, DBGetCurrentBuild(session), project);
+		printDependencies(types, recursive, NULL, DBGetCurrentBuild(), project);
 	} else if (CFEqual(type, CFSTR("-header"))) {
 		CFStringRef types[] = { CFSTR("header"), NULL };
-		printDependencies(session, types, types, NULL, DBGetCurrentBuild(session), project);
+		printDependencies(types, types, NULL, DBGetCurrentBuild(), project);
 	} else {
 		return -1;
 	}
 	return 0;
 }
 
-static CFStringRef usage(void* session) {
+static CFStringRef usage() {
 	return CFRetain(CFSTR("-run | -build | -header <project>"));
 }
 
-DBPropertyPlugin* initialize(int version) {
-	DBPropertyPlugin* plugin = NULL;
-
-	if (version != kDBPluginCurrentVersion) return NULL;
+int initialize(int version) {
+	//if ( version < kDBPluginCurrentVersion ) return -1;
 	
-	plugin = malloc(sizeof(DBPropertyPlugin));
-	if (plugin == NULL) return NULL;
-	
-	plugin->base.version = kDBPluginCurrentVersion;
-	plugin->base.type = kDBPluginPropertyType;
-	plugin->base.name = CFSTR("dependencies");
-	plugin->base.run = &run;
-	plugin->base.usage = &usage;
-	plugin->datatype = CFDictionaryGetTypeID();
-
-	return plugin;
+	DBPluginSetType(kDBPluginPropertyType);
+	DBPluginSetName(CFSTR("dependencies"));
+	DBPluginSetRunFunc(&run);
+	DBPluginSetUsageFunc(&usage);
+	DBPluginSetDataType(CFDictionaryGetTypeID());
+	return 0;
 }
 
 
-void printDependencies(void* session, CFStringRef* types, CFStringRef* recursiveTypes, CFMutableSetRef visited, CFStringRef build, CFStringRef project) {
+void printDependencies(CFStringRef* types, CFStringRef* recursiveTypes, CFMutableSetRef visited, CFStringRef build, CFStringRef project) {
 	if (!visited) visited = CFSetCreateMutable(NULL, 0, &kCFTypeSetCallBacks);
 	
-	CFDictionaryRef dependencies = DBCopyPropDictionary(session, build, project, CFSTR("dependencies"));
+	CFDictionaryRef dependencies = DBCopyPropDictionary(build, project, CFSTR("dependencies"));
 	if (dependencies) {
 		CFStringRef* type = types;
 		while (*type != NULL) {
@@ -103,7 +96,7 @@ void printDependencies(void* session, CFStringRef* types, CFStringRef* recursive
 					if (!CFSetContainsValue(visited, newproject)) {
 						cfprintf(stdout, "%@\n", newproject);
 						CFSetAddValue(visited, newproject);
-						printDependencies(session, recursiveTypes, recursiveTypes, visited, build, newproject);
+						printDependencies(recursiveTypes, recursiveTypes, visited, build, newproject);
 					}
 				}
 				

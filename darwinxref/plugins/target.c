@@ -32,33 +32,26 @@
 
 #include "DBPlugin.h"
 
-static int run(void* session, CFArrayRef argv) {
+static int run(CFArrayRef argv) {
 	if (CFArrayGetCount(argv) != 1)  return -1;
-	CFStringRef build = DBGetCurrentBuild(session);
+	CFStringRef build = DBGetCurrentBuild();
 	CFStringRef project = CFArrayGetValueAtIndex(argv, 0);
-	CFStringRef target = DBCopyPropString(session, build, project, CFSTR("target"));
+	CFStringRef target = DBCopyPropString(build, project, CFSTR("target"));
 	cfprintf(stdout, "%@\n", target);
 	return 0;
 }
 
-static CFStringRef usage(void* session) {
+static CFStringRef usage() {
 	return CFRetain(CFSTR("<project>"));
 }
 
-DBPropertyPlugin* initialize(int version) {
-	DBPropertyPlugin* plugin = NULL;
-
-	if (version != kDBPluginCurrentVersion) return NULL;
+int initialize(int version) {
+	//if ( version < kDBPluginCurrentVersion ) return -1;
 	
-	plugin = malloc(sizeof(DBPropertyPlugin));
-	if (plugin == NULL) return NULL;
-	
-	plugin->base.version = kDBPluginCurrentVersion;
-	plugin->base.type = kDBPluginPropertyType;
-	plugin->base.name = CFSTR("target");
-	plugin->base.run = &run;
-	plugin->base.usage = &usage;
-	plugin->datatype = CFStringGetTypeID();
-
-	return plugin;
+	DBPluginSetType(kDBPluginPropertyType);
+	DBPluginSetName(CFSTR("target"));
+	DBPluginSetRunFunc(&run);
+	DBPluginSetUsageFunc(&usage);
+	DBPluginSetDataType(CFStringGetTypeID());
+	return 0;
 }

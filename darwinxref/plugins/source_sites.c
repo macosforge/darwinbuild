@@ -32,18 +32,18 @@
 
 #include "DBPlugin.h"
 
-static int run(void* session, CFArrayRef argv) {
+static int run(CFArrayRef argv) {
 	CFIndex i, count = CFArrayGetCount(argv);
-	CFStringRef build = DBGetCurrentBuild(session);
+	CFStringRef build = DBGetCurrentBuild();
 	CFStringRef project = NULL;
 	if (count > 1)  return -1;
 	if (count == 1) {
 		project = CFArrayGetValueAtIndex(argv, 0);
 	}
-	CFArrayRef source_sites = DBCopyPropArray(session, build, project, CFSTR("source_sites"));
+	CFArrayRef source_sites = DBCopyPropArray(build, project, CFSTR("source_sites"));
 	count = CFArrayGetCount(source_sites);
 	if (count == 0) {
-		source_sites = DBCopyPropArray(session, build, NULL, CFSTR("source_sites"));
+		source_sites = DBCopyPropArray(build, NULL, CFSTR("source_sites"));
 		count = CFArrayGetCount(source_sites);
 	}
 	for (i = 0; i < count; ++i) {
@@ -52,24 +52,17 @@ static int run(void* session, CFArrayRef argv) {
 	return 0;
 }
 
-static CFStringRef usage(void* session) {
+static CFStringRef usage() {
 	return CFRetain(CFSTR("[<project>]"));
 }
 
-DBPropertyPlugin* initialize(int version) {
-	DBPropertyPlugin* plugin = NULL;
-
-	if (version != kDBPluginCurrentVersion) return NULL;
+int initialize(int version) {
+	//if ( version < kDBPluginCurrentVersion ) return -1;
 	
-	plugin = malloc(sizeof(DBPropertyPlugin));
-	if (plugin == NULL) return NULL;
-	
-	plugin->base.version = kDBPluginCurrentVersion;
-	plugin->base.type = kDBPluginPropertyType;
-	plugin->base.name = CFSTR("source_sites");
-	plugin->base.run = &run;
-	plugin->base.usage = &usage;
-	plugin->datatype = CFArrayGetTypeID();
-
-	return plugin;
+	DBPluginSetType(kDBPluginPropertyType);
+	DBPluginSetName(CFSTR("source_sites"));
+	DBPluginSetRunFunc(&run);
+	DBPluginSetUsageFunc(&usage);
+	DBPluginSetDataType(CFArrayGetTypeID());
+	return 0;
 }

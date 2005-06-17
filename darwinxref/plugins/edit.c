@@ -33,39 +33,32 @@
 #include "DBPlugin.h"
 #include <sys/stat.h>
 
-int editPlist(void* session, CFStringRef project);
+int editPlist(CFStringRef project);
 static int execEditor(const char* tmpfile);
 
-static int run(void* session, CFArrayRef argv) {
+static int run(CFArrayRef argv) {
 	CFStringRef project = NULL;
 	CFIndex count = CFArrayGetCount(argv);
 	if (count > 1)  return -1;
 	if (count == 1) {
 		project = CFArrayGetValueAtIndex(argv, 0);
 	}
-	int res = editPlist(session, project);
+	int res = editPlist(project);
 	return res;
 }
 
-static CFStringRef usage(void* session) {
+static CFStringRef usage() {
 	return CFRetain(CFSTR("[<project>]"));
 }
 
-DBPlugin* initialize(int version) {
-	DBPlugin* plugin = NULL;
-
-	if (version != kDBPluginCurrentVersion) return NULL;
+int initialize(int version) {
+	//if ( version < kDBPluginCurrentVersion ) return -1;
 	
-	plugin = malloc(sizeof(DBPlugin));
-	if (plugin == NULL) return NULL;
-	
-	plugin->version = kDBPluginCurrentVersion;
-	plugin->type = kDBPluginType;
-	plugin->name = CFSTR("edit");
-	plugin->run = &run;
-	plugin->usage = &usage;
-
-	return plugin;
+	DBPluginSetType(kDBPluginBasicType);
+	DBPluginSetName(CFSTR("edit"));
+	DBPluginSetRunFunc(&run);
+	DBPluginSetUsageFunc(&usage);
+	return 0;
 }
 
 static inline int min(int a, int b) {
@@ -73,14 +66,14 @@ static inline int min(int a, int b) {
 }
 
 
-int editPlist(void* session, CFStringRef project) {
-		CFStringRef build = DBGetCurrentBuild(session);
+int editPlist(CFStringRef project) {
+		CFStringRef build = DBGetCurrentBuild();
         struct stat before, after;
         CFDictionaryRef p = NULL;
         if (project) {
-                p = DBCopyProjectPlist(session, build, project);
+                p = DBCopyProjectPlist(build, project);
         } else {
-                p = DBCopyBuildPlist(session, build);
+                p = DBCopyBuildPlist(build);
         }
 
         ////
@@ -118,7 +111,7 @@ int editPlist(void* session, CFStringRef project) {
                         while (!done) {
                                 p = read_plist(tmpfile);
                                 // Check if plist parsed successfully, if so import it
-								if (DBSetPlist(session, build, p) == 0) {
+								if (DBSetPlist(build, p) == 0) {
 										done = 1;
                                         CFRelease(p);
                                 } else {

@@ -37,41 +37,34 @@
 #include <fts.h>
 #include <fcntl.h>
 
-int register_files(void* db, char* build, char* project, char* path);
+int register_files(char* build, char* project, char* path);
 
-static int run(void* session, CFArrayRef argv) {
+static int run(CFArrayRef argv) {
 	int res = 0;
 	CFIndex count = CFArrayGetCount(argv);
 	if (count != 2)  return -1;
-	char* build = strdup_cfstr(DBGetCurrentBuild(session));
+	char* build = strdup_cfstr(DBGetCurrentBuild());
 	char* project = strdup_cfstr(CFArrayGetValueAtIndex(argv, 0));
 	char* dstroot = strdup_cfstr(CFArrayGetValueAtIndex(argv, 1));
-	res = register_files(session, build, project, dstroot);
+	res = register_files(build, project, dstroot);
 	free(build);
 	free(project);
 	free(dstroot);
 	return res;
 }
 
-static CFStringRef usage(void* session) {
+static CFStringRef usage() {
 	return CFRetain(CFSTR("<project> <dstroot>"));
 }
 
-DBPlugin* initialize(int version) {
-	DBPlugin* plugin = NULL;
-
-	if (version != kDBPluginCurrentVersion) return NULL;
+int initialize(int version) {
+	//if ( version < kDBPluginCurrentVersion ) return -1;
 	
-	plugin = malloc(sizeof(DBPlugin));
-	if (plugin == NULL) return NULL;
-	
-	plugin->version = kDBPluginCurrentVersion;
-	plugin->type = kDBPluginType;
-	plugin->name = CFSTR("register");
-	plugin->run = &run;
-	plugin->usage = &usage;
-
-	return plugin;
+	DBPluginSetType(kDBPluginBasicType);
+	DBPluginSetName(CFSTR("register"));
+	DBPluginSetRunFunc(&run);
+	DBPluginSetUsageFunc(&usage);
+	return 0;
 }
 
 static int buildpath(char* path, size_t bufsiz, FTSENT* ent) {
@@ -96,7 +89,7 @@ static int buildpath(char* path, size_t bufsiz, FTSENT* ent) {
 #include <mach-o/fat.h>
 #include <mach-o/swap.h>
 
-static int register_mach_header(void* db, char* build, char* project, struct mach_header* mh, int fd) {
+static int register_mach_header(char* build, char* project, struct mach_header* mh, int fd) {
 	int swap = 0;
 	if (mh->magic != MH_MAGIC && mh->magic != MH_CIGAM) return 0;
 	if (mh->magic == MH_CIGAM) { 
@@ -139,8 +132,7 @@ static int register_mach_header(void* db, char* build, char* project, struct mac
 			if (res < sizeof(strsize)) { return 0; }
 			str[strsize] = 0; // NUL-terminate
 						
-			res = SQL(db,
-			"INSERT INTO unresolved_dependencies (build,project,type,dependency) VALUES (%Q,%Q,%Q,%Q)",
+			res = SQL("INSERT INTO unresolved_dependencies (build,project,type,dependency) VALUES (%Q,%Q,%Q,%Q)",
 			build, project, "lib", str);
 			
 			//fprintf(stdout, "\t%s\n", str);
@@ -155,7 +147,7 @@ static int register_mach_header(void* db, char* build, char* project, struct mac
 	return 0;
 }
 
-int register_libraries(void* db, char* project, char* version, char* path) {
+int register_libraries(char* project, char* version, char* path) {
 	int res;
 	int fd = open(path, O_RDONLY);
 	if (fd == -1) {
@@ -194,12 +186,12 @@ int register_libraries(void* db, char* project, char* version, char* path) {
 
 			res = read(fd, &mh, sizeof(mh));
 			if (res < sizeof(mh)) { goto error_out; }
-			register_mach_header(db, project, version, &mh, fd);
+			register_mach_header(project, version, &mh, fd);
 			
 			lseek(fd, save, SEEK_SET);
 		}
 	} else {
-		register_mach_header(db, project, version, &mh, fd);
+		register_mach_header(project, version, &mh, fd);
 	}
 error_out:
 	close(fd);
@@ -207,24 +199,24 @@ error_out:
 }
 
 
-int register_files(void* db, char* build, char* project, char* path) {
+int register_files(char* build, char* project, char* path) {
 	char* errmsg;
 	int res;
 	int loaded = 0;
 	
 	char* table = "CREATE TABLE files (build text, project text, path text)";
 	char* index = "CREATE INDEX files_index ON files (build, project, path)";
-	SQL_NOERR(db, table);
-	SQL_NOERR(db, index);
+	SQL_NOERR(table);
+	SQL_NOERR(index);
+	table = "CREATE TABLE unresolved_dependencies (build text, project text, type text, dependency)";
+	SQL_NOERR(table);
 	
-	if (SQL(db, "BEGIN")) { return -1; }
+	if (SQL("BEGIN")) { return -1; }
 	
-	res = SQL(db,
-		"DELETE FROM files WHERE build=%Q AND project=%Q",
+	res = SQL("DELETE FROM files WHERE build=%Q AND project=%Q",
 		build, project);
 
-	SQL(db,
-		"DELETE FROM unresolved_dependencies WHERE build=%Q AND project=%Q", 
+	SQL("DELETE FROM unresolved_dependencies WHERE build=%Q AND project=%Q", 
 		build, project);
 
 	//
@@ -236,7 +228,7 @@ int register_files(void* db, char* build, char* project, char* path) {
 	// Skip the first result, since that is . of the DSTROOT itself.
 	int skip = 1;
 	char* path_argv[] = { path, NULL };
-	FTS* fts = fts_open(path_argv, FTS_PHYSICAL | FTS_XDEV, NULL);
+	FTS* fts = fts_open(path_argv, FTS_PHYSICAL | FTS_COMFOLLOW | FTS_XDEV, NULL);
 	if (fts != NULL) {
 		FTSENT* ent;
 		while (ent = fts_read(fts)) {
@@ -249,8 +241,7 @@ int register_files(void* db, char* build, char* project, char* path) {
 				if (!skip) {
 					printf("%s\n", path);
 					++loaded;
-					res = SQL(db,
-	"INSERT INTO files (build, project, path) VALUES (%Q,%Q,%Q)",
+					res = SQL("INSERT INTO files (build, project, path) VALUES (%Q,%Q,%Q)",
 						build, project, path);
 				} else {
 					skip = 0;
@@ -259,16 +250,16 @@ int register_files(void* db, char* build, char* project, char* path) {
 				ent->fts_number = 1;
 
 				if (ent->fts_info == FTS_F) {
-					res = register_libraries(db, build, project, ent->fts_accpath);
+					res = register_libraries(build, project, ent->fts_accpath);
 				}
 			}
 		}
 		fts_close(fts);
 	}
 	
-	if (SQL(db, "COMMIT")) { return -1; }
+	if (SQL("COMMIT")) { return -1; }
 
-	fprintf(stdout, "%d files registered.\n", loaded);
+	fprintf(stdout, "%s - %d files registered.\n", project, loaded);
 	
 	return res;
 }

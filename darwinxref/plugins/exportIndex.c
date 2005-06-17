@@ -34,7 +34,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-static int run(void* session, CFArrayRef argv) {
+static int run(CFArrayRef argv) {
 	int res = 0;
 	CFIndex count = CFArrayGetCount(argv);
 	if (count > 1)  return -1;
@@ -46,8 +46,8 @@ static int run(void* session, CFArrayRef argv) {
 		if (!xml) return -1;
 	}
 	
-	CFStringRef build = DBGetCurrentBuild(session);
-	CFPropertyListRef plist = DBCopyBuildPlist(session, build);
+	CFStringRef build = DBGetCurrentBuild();
+	CFPropertyListRef plist = DBCopyBuildPlist(build);
 	if (xml) {
 		CFDataRef data = CFPropertyListCreateXMLData(NULL, plist);
 		res = write(STDOUT_FILENO, CFDataGetBytePtr(data), CFDataGetLength(data));
@@ -57,23 +57,17 @@ static int run(void* session, CFArrayRef argv) {
 	return res;
 }
 
-static CFStringRef usage(void* session) {
+static CFStringRef usage() {
 	return CFRetain(CFSTR("[-xml]"));
 }
 
-DBPlugin* initialize(int version) {
-	DBPlugin* plugin = NULL;
-
-	if (version != kDBPluginCurrentVersion) return NULL;
+int initialize(int version) {
+	//if ( version < kDBPluginCurrentVersion ) return -1;
 	
-	plugin = malloc(sizeof(DBPlugin));
-	if (plugin == NULL) return NULL;
-	
-	plugin->version = kDBPluginCurrentVersion;
-	plugin->type = kDBPluginType;
-	plugin->name = CFSTR("exportIndex");
-	plugin->run = &run;
-	plugin->usage = &usage;
-
-	return plugin;
+	DBPluginSetType(kDBPluginBasicType);
+	DBPluginSetName(CFSTR("exportIndex"));
+	DBPluginSetRunFunc(&run);
+	DBPluginSetUsageFunc(&usage);
+	return 0;
 }
+

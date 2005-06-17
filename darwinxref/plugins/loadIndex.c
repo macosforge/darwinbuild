@@ -33,7 +33,7 @@
 #include "DBPlugin.h"
 #include <sys/stat.h>
 
-static int run(void* session, CFArrayRef argv) {
+static int run(CFArrayRef argv) {
 	int res = 0;
 	CFStringRef project = NULL;
 	CFIndex count = CFArrayGetCount(argv);
@@ -41,29 +41,22 @@ static int run(void* session, CFArrayRef argv) {
 	char* filename = strdup_cfstr(CFArrayGetValueAtIndex(argv, 0));
 	CFPropertyListRef plist = read_plist(filename);
 	if (plist) {
-		res = DBSetPlist(session, NULL, plist);
+		res = DBSetPlist(NULL, plist);
 	}
 	free(filename);
 	return res;
 }
 
-static CFStringRef usage(void* session) {
+static CFStringRef usage() {
 	return CFRetain(CFSTR("<plist>"));
 }
 
-DBPlugin* initialize(int version) {
-	DBPlugin* plugin = NULL;
-
-	if (version != kDBPluginCurrentVersion) return NULL;
+int initialize(int version) {
+	//if ( version < kDBPluginCurrentVersion ) return -1;
 	
-	plugin = malloc(sizeof(DBPlugin));
-	if (plugin == NULL) return NULL;
-	
-	plugin->version = kDBPluginCurrentVersion;
-	plugin->type = kDBPluginType;
-	plugin->name = CFSTR("loadIndex");
-	plugin->run = &run;
-	plugin->usage = &usage;
-
-	return plugin;
+	DBPluginSetType(kDBPluginBasicType);
+	DBPluginSetName(CFSTR("loadIndex"));
+	DBPluginSetRunFunc(&run);
+	DBPluginSetUsageFunc(&usage);
+	return 0;
 }

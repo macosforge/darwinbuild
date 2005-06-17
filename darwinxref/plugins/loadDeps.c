@@ -34,38 +34,31 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-int loadDeps(void* session, const char* build, const char* project);
+int loadDeps(const char* build, const char* project);
 
-static int run(void* session, CFArrayRef argv) {
+static int run(CFArrayRef argv) {
 	int res = 0;
 	CFIndex count = CFArrayGetCount(argv);
 	if (count != 1)  return -1;
 	char* project = strdup_cfstr(CFArrayGetValueAtIndex(argv, 0));
-	char* build = strdup_cfstr(DBGetCurrentBuild(session));
-	loadDeps(session, build, project);
+	char* build = strdup_cfstr(DBGetCurrentBuild());
+	loadDeps(build, project);
 	free(project);
 	return res;
 }
 
-static CFStringRef usage(void* session) {
+static CFStringRef usage() {
 	return CFRetain(CFSTR("<project>"));
 }
 
-DBPlugin* initialize(int version) {
-	DBPlugin* plugin = NULL;
-
-	if (version != kDBPluginCurrentVersion) return NULL;
+int initialize(int version) {
+	//if ( version < kDBPluginCurrentVersion ) return -1;
 	
-	plugin = malloc(sizeof(DBPlugin));
-	if (plugin == NULL) return NULL;
-	
-	plugin->version = kDBPluginCurrentVersion;
-	plugin->type = kDBPluginType;
-	plugin->name = CFSTR("loadDeps");
-	plugin->run = &run;
-	plugin->usage = &usage;
-
-	return plugin;
+	DBPluginSetType(kDBPluginBasicType);
+	DBPluginSetName(CFSTR("loadDeps"));
+	DBPluginSetRunFunc(&run);
+	DBPluginSetUsageFunc(&usage);
+	return 0;
 }
 
 static int has_suffix(const char* big, const char* little) {
@@ -140,7 +133,7 @@ static char* canonicalize_path(const char* path) {
 #endif
 }
 
-int loadDeps(void* db, const char* build, const char* project) {
+int loadDeps(const char* build, const char* project) {
 	size_t size;
 	char* line;
 	int count = 0;
@@ -148,10 +141,10 @@ int loadDeps(void* db, const char* build, const char* project) {
 	char* table = "CREATE TABLE unresolved_dependencies (build TEXT, project TEXT, type TEXT, dependency TEXT)";
 	char* index = "CREATE INDEX unresolved_dependencies_index ON unresolved_dependencies (build, project, type, dependency)";
 
-	SQL_NOERR(db, table);
-	SQL_NOERR(db, index);
+	SQL_NOERR(table);
+	SQL_NOERR(index);
 
-	if (SQL(db, "BEGIN")) { return -1; }
+	if (SQL("BEGIN")) { return -1; }
 
 	while ((line = fgetln(stdin, &size)) != NULL) {
 		if (line[size-1] == '\n') line[size-1] = 0; // chomp newline
@@ -180,7 +173,7 @@ int loadDeps(void* db, const char* build, const char* project) {
 			int res = lstat(canonicalized, &sb);
 			// for now, skip if the path points to a directory
 			if (!(res == 0 && (sb.st_mode & S_IFDIR) == S_IFDIR)) {
-				SQL(db, "INSERT INTO unresolved_dependencies (build,project,type,dependency) VALUES (%Q,%Q,%Q,%Q)",
+				SQL("INSERT INTO unresolved_dependencies (build,project,type,dependency) VALUES (%Q,%Q,%Q,%Q)",
 					build, project, type, canonicalized);
 			}
 			free(canonicalized);
@@ -191,7 +184,7 @@ int loadDeps(void* db, const char* build, const char* project) {
 		++count;
 	}
 
-	if (SQL(db, "COMMIT")) { return -1; }
+	if (SQL("COMMIT")) { return -1; }
 
 	fprintf(stderr, "loaded %d unresolved dependencies.\n", count);
 }

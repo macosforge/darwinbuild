@@ -35,9 +35,9 @@
 #include <stdio.h>
 #include <regex.h>
 
-static int exportFiles(void* db, char* buildparam, char* project);
+static int exportFiles(char* buildparam, char* project);
 
-static int run(void* session, CFArrayRef argv) {
+static int run(CFArrayRef argv) {
 	int res = 0;
 	CFIndex count = CFArrayGetCount(argv);
 	if (count > 1)  return -1;
@@ -47,31 +47,24 @@ static int run(void* session, CFArrayRef argv) {
 		project = strdup_cfstr(CFArrayGetValueAtIndex(argv, 0));
 	}
 	
-	char* build = strdup_cfstr(DBGetCurrentBuild(session));
-	exportFiles(session, build, project);
+	char* build = strdup_cfstr(DBGetCurrentBuild());
+	exportFiles(build, project);
 	if (project) free(project);
 	return res;
 }
 
-static CFStringRef usage(void* session) {
+static CFStringRef usage() {
 	return CFRetain(CFSTR("[<project>]"));
 }
 
-DBPlugin* initialize(int version) {
-	DBPlugin* plugin = NULL;
-
-	if (version != kDBPluginCurrentVersion) return NULL;
+int initialize(int version) {
+	//if ( version < kDBPluginCurrentVersion ) return -1;
 	
-	plugin = malloc(sizeof(DBPlugin));
-	if (plugin == NULL) return NULL;
-	
-	plugin->version = kDBPluginCurrentVersion;
-	plugin->type = kDBPluginType;
-	plugin->name = CFSTR("exportFiles");
-	plugin->run = &run;
-	plugin->usage = &usage;
-
-	return plugin;
+	DBPluginSetType(kDBPluginBasicType);
+	DBPluginSetName(CFSTR("exportFiles"));
+	DBPluginSetRunFunc(&run);
+	DBPluginSetUsageFunc(&usage);
+	return 0;
 }
 
 int printFiles(void* pArg, int argc, char **argv, char** columnNames) {
@@ -79,30 +72,30 @@ int printFiles(void* pArg, int argc, char **argv, char** columnNames) {
 	return 0;
 }
 
-static int exportFiles(void* session, char* build, char* project) {
+static int exportFiles(char* build, char* project) {
 	int res;
 
 	char* table = "CREATE TABLE files (build text, project text, path text)";
 	char* index = "CREATE INDEX files_index ON files (build, project, path)";
-	SQL_NOERR(session, table);
-	SQL_NOERR(session, index);
+	SQL_NOERR(table);
+	SQL_NOERR(index);
 
 	fprintf(stdout, "# BUILD %s\n", build);
 
 	if (project) {
 		fprintf(stdout, "%s:\n", project);
-		res = SQL_CALLBACK(session, &printFiles, NULL,
+		res = SQL_CALLBACK(&printFiles, NULL,
 			"SELECT path FROM files WHERE build=%Q AND project=%Q",
 			build, project);
 	} else {
-		CFArrayRef projects = DBCopyProjectNames(session, DBGetCurrentBuild(session));
+		CFArrayRef projects = DBCopyProjectNames(DBGetCurrentBuild());
 		if (projects) {
 			CFIndex i, count = CFArrayGetCount(projects);
 			for (i = 0; i < count; ++i) {
 				CFStringRef name = CFArrayGetValueAtIndex(projects, i);
 				char* project = strdup_cfstr(name);
 				fprintf(stdout, "%s:\n", project);
-				res = SQL_CALLBACK(session, &printFiles, NULL,
+				res = SQL_CALLBACK(&printFiles, NULL,
 					"SELECT path FROM files WHERE build=%Q AND project=%Q",
 					build, project);
 				free(project);
