@@ -1,12 +1,18 @@
 SOURCES= \
 	DBDataStore.c \
 	DBPlugin.c \
+	DBTclPlugin.c \
 	cfutils.c \
 	main.c
 
 PLUGIN_SOURCES=$(wildcard plugins/*.c)
-CFLAGS= -ggdb 
-LDFLAGS=-framework CoreFoundation
+
+### todo: --with-tcl-plugins configuration
+TCL_CFLAGS=-DHAVE_TCL_PLUGINS=1
+TCL_LDFLAGS=-ltcl
+
+CFLAGS= -ggdb $(TCL_CFLAGS)
+LDFLAGS=-framework CoreFoundation $(TCL_LDFLAGS)
 PLUGIN_CFLAGS=$(CFLAGS) -I.
 PLUGIN_LDFLAGS=$(LDFLAGS) -bundle -bundle_loader darwinxref
 
