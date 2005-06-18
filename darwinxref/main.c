@@ -33,10 +33,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-extern int load_plugins(const char* plugin_path);
-extern int run_plugin(void* session, int argc, char* argv[]);
-extern void* DBDataStoreInitialize(const char* datafile);
-extern void DBSetCurrentBuild(void* session, char* build);
+#include "DBPluginPriv.h"
 
 // getopt globals
 char* optarg;
@@ -72,10 +69,10 @@ int main(int argc, char* argv[]) {
 	argc -= optind;
 	argv += optind;
 
-	void* session = DBDataStoreInitialize(dbfile);
-	DBSetCurrentBuild(session, build);
+	DBDataStoreInitialize(dbfile);
+	DBSetCurrentBuild(build);
 	load_plugins("plugins");
-	if (run_plugin(session, argc, argv) == -1) {
+	if (run_plugin(argc, argv) == -1) {
 		print_usage(progname, argc, argv);
 		exit(1);
 	}

@@ -214,8 +214,9 @@ const DBPlugin* DBGetPluginWithName(CFStringRef name) {
 	return (DBPlugin*)plugin;
 }
 
-int run_plugin(void* session, int argc, char* argv[]) {
-	int res, i;
+int run_plugin(int argc, char* argv[]) {
+	int res = -1;
+	int i;
 	if (argc < 1) return -1;
 	CFStringRef name = cfstr(argv[0]);
 	CFMutableArrayRef args = CFArrayCreateMutable(NULL, 0, &kCFTypeArrayCallBacks);
