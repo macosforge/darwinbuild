@@ -174,7 +174,7 @@ void print_usage(char* progname, int argc, char* argv[]) {
 			_DBPluginSetCurrentPlugin(plugin);
 #if HAVE_TCL_PLUGINS
 			CFStringRef usage = NULL;
-			if ((plugin->type & kDBPluginTclType) != 0) {
+			if ((plugin->interp) != 0) {
 				usage = call_tcl_usage((DBPlugin*)plugin);
 			} else {
 				usage = plugin->usage();
@@ -196,7 +196,7 @@ void print_usage(char* progname, int argc, char* argv[]) {
 		_DBPluginSetCurrentPlugin(plugin);
 #if HAVE_TCL_PLUGINS
 		CFStringRef usage = NULL;
-		if ((plugin->type & kDBPluginTclType) != 0) {
+		if ((plugin->interp) != 0) {
 			usage = call_tcl_usage((DBPlugin*)plugin);
 		} else {
 			usage = plugin->usage();
@@ -227,7 +227,7 @@ int run_plugin(int argc, char* argv[]) {
 	if (plugin) {
 		_DBPluginSetCurrentPlugin(plugin);
 #if HAVE_TCL_PLUGINS
-		if ((plugin->type & kDBPluginTclType) != 0) {
+		if ((plugin->interp) != 0) {
 			res = call_tcl_run((DBPlugin*)plugin, args);
 		} else {
 			res = plugin->run(args);

@@ -85,9 +85,6 @@ enum {
 	kDBPluginNullType = 0,
 	kDBPluginBasicType = 1,
 	kDBPluginPropertyType = 2,
-#if HAVE_TCL_PLUGINS
-	kDBPluginTclType = 0x8000000,
-#endif
 };
 
 /*!
