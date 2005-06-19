@@ -127,6 +127,7 @@ void DBPluginSetDataType(CFTypeID type);
 
 CFStringRef DBGetCurrentBuild();
 
+CFTypeID  DBCopyPropType(CFStringRef property);
 CFArrayRef DBCopyPropNames(CFStringRef build, CFStringRef project);
 CFArrayRef DBCopyProjectNames(CFStringRef build);
 
