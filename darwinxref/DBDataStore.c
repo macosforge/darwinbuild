@@ -40,6 +40,7 @@
 // We currently operate under the assumption that there is only
 // one thread, with no plugin re-entrancy.
 //////
+int __nestedTransactions = 0;
 void* __DBDataStore;
 void* _DBPluginGetDataStorePtr() {
 	return __DBDataStore;
@@ -563,14 +564,28 @@ int DBSetPlist(CFStringRef buildParam, CFPropertyListRef plist) {
 }
 
 
+// NOT THREAD SAFE
 int DBBeginTransaction() {
-	return SQL("BEGIN");
+	++__nestedTransactions;
+	if (__nestedTransactions == 1) {
+		return SQL("BEGIN");
+	} else {
+		return SQLITE_OK;
+	}
 }
+// NOT THREAD SAFE
 int DBRollbackTransaction() {
+	__nestedTransactions = 0;
 	return SQL("ROLLBACK");
 }
+// NOT THREAD SAFE
 int DBCommitTransaction() {
-	return SQL("COMMIT");
+	--__nestedTransactions;
+	if (__nestedTransactions == 0) {
+		return SQL("COMMIT");
+	} else {
+		return SQLITE_OK;
+	}
 }
 
 
