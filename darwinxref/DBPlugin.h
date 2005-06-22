@@ -146,6 +146,10 @@ CFDictionaryRef DBCopyBuildPlist(CFStringRef build);
 
 int DBSetPlist(CFStringRef build, CFPropertyListRef plist);
 
+int DBBeginTransaction();
+int DBCommitTransaction();
+int DBRollbackTransaction();
+
 #include "cfutils.h"
 
 #endif

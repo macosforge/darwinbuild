@@ -216,6 +216,33 @@ int DBCopyPropArrayCmd(ClientData data, Tcl_Interp* interp, int objc, Tcl_Obj* C
 	return TCL_OK;
 }
 
+int DBBeginTransactionCmd(ClientData data, Tcl_Interp* interp, int objc, Tcl_Obj* CONST objv[]) {
+	if (objc != 1) {
+		Tcl_WrongNumArgs(interp, 1, objv, "");
+		return TCL_ERROR;
+	}
+	DBBeginTransaction();
+	return TCL_OK;
+}
+
+int DBCommitTransactionCmd(ClientData data, Tcl_Interp* interp, int objc, Tcl_Obj* CONST objv[]) {
+	if (objc != 1) {
+		Tcl_WrongNumArgs(interp, 1, objv, "");
+		return TCL_ERROR;
+	}
+	DBCommitTransaction();
+	return TCL_OK;
+}
+
+int DBRollbackTransactionCmd(ClientData data, Tcl_Interp* interp, int objc, Tcl_Obj* CONST objv[]) {
+	if (objc != 1) {
+		Tcl_WrongNumArgs(interp, 1, objv, "");
+		return TCL_ERROR;
+	}
+	DBRollbackTransaction();
+	return TCL_OK;
+}
+
 
 int load_tcl_plugin(DBPlugin* plugin, const char* filename) {
 	Tcl_Interp* interp = Tcl_CreateInterp();
@@ -231,6 +258,10 @@ int load_tcl_plugin(DBPlugin* plugin, const char* filename) {
 	Tcl_CreateObjCommand(interp, "DBCopyPropString", DBCopyPropStringCmd, (ClientData)plugin, (Tcl_CmdDeleteProc *)NULL);
 	Tcl_CreateObjCommand(interp, "DBSetPropArray", DBSetPropArrayCmd, (ClientData)plugin, (Tcl_CmdDeleteProc *)NULL);
 	Tcl_CreateObjCommand(interp, "DBCopyPropArray", DBCopyPropArrayCmd, (ClientData)plugin, (Tcl_CmdDeleteProc *)NULL);
+
+	Tcl_CreateObjCommand(interp, "DBBeginTransaction", DBBeginTransactionCmd, (ClientData)plugin, (Tcl_CmdDeleteProc *)NULL);
+	Tcl_CreateObjCommand(interp, "DBCommitTransaction", DBCommitTransactionCmd, (ClientData)plugin, (Tcl_CmdDeleteProc *)NULL);
+	Tcl_CreateObjCommand(interp, "DBRollbackTransaction", DBRollbackTransactionCmd, (ClientData)plugin, (Tcl_CmdDeleteProc *)NULL);
 
 	// Source the plugin file
 	Tcl_EvalFile(interp, filename);
