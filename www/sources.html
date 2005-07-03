@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+<title>DarwinBuild</title>
+<link rel="stylesheet" href="darwinbuild.css">
+</head>
+<body>
+
+<!--begin sidebar -->
+<iframe id="sidebar" src="sidebar.html"></iframe>
+<!--end sidebar -->
+
+<div id="banner">
+Getting the Source Code
+</div>
+
+<div id="content">
+<div class="article">
+<h3>CVS</h3>
+<div class="articlebody">
+<p>
+The DarwinBuild sources are available via anonymous CVS access using CVS'
+pserver protocol.
+</p>
+<h4>For (t)csh:</h4>
+<p><tt><pre>
+# setenv CVSROOT :pserver:anonymous@anoncvs.opendarwin.org:/Volumes/src/cvs/od
+# cvs login
+Logging in to :pserver:anonymous@anoncvs.opendarwin.org:2401/Volumes/src/cvs/od
+CVS password: [return]
+# cvs co darwinbuild
+</pre></tt></p>
+
+<h4>For bash, zsh:</h4>
+<p><tt><pre>
+$ export CVSROOT=:pserver:anonymous@anoncvs.opendarwin.org:/Volumes/src/cvs/od
+$ cvs login
+Logging in to :pserver:anonymous@anoncvs.opendarwin.org:2401/Volumes/src/cvs/od
+CVS password: [return]
+$ cvs co darwinbuild 
+</pre></tt></p>
+
+</div>
+</div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,414 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+<title>DarwinBuild - Building Darwin Projects</title>
+<link rel="stylesheet" href="../../darwinbuild.css">
+</head>
+<body>
+
+<!--begin sidebar -->
+<iframe id="sidebar" src="../../sidebar.html"></iframe>
+<!--end sidebar -->
+
+<div id="banner">
+Building Darwin Projects
+</div>
+
+<div id="content">
+<div class="article">
+<h3>Overview</h3>
+<div class="articlebody">
+<p>
+Building Darwin projects is almost certainly different than any other open source
+projects you've built before.  
+</p>
+<p>
+Most projects originating from Apple are built with
+<a href="http://developer.apple.com/tools/xcode/">Xcode</a>.
+On the other hand, most open source projects from other systems are built with 
+<a href="http://www.gnu.org/software/make/">GNU make</a> or
+<a href="http://www.netbsd.org/Documentation/pkgsrc/makefile.html">BSD make</a>.
+Projects of common origin are often built in a similar style to one another, 
+and you may be used to the tight-knit build environment
+provided by these systems.  For example, FreeBSD's
+<a href="http://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/makeworld.html">make world</a>
+is widely revered by open source enthusiasts.
+</p>
+<p>
+Because Darwin draws from many different open source systems,
+Apple wraps each of these projects with its own high-level makefile to give them an
+interface consistent with Xcode.  Most of the behavior of these wrapper makefiles is defined by the
+<a href="http://darwinsource.opendarwin.org/Current/CoreOSMakefiles/">CoreOSMakefiles</a> project
+in Darwin.
+</p>
+</div>
+</div>
+
+
+<div class="article">
+<a name="command"></a><h3>Build Command</h3>
+<div class="articlebody">
+<p>
+This document will refer to command line invocation used to build a Darwin project as the build command.
+The tool that is invoked by the build command is the build tool.  Currently, all Darwin projects are built
+with one of two build tools:
+<a href="http://developer.apple.com/documentation/Darwin/Reference/ManPages/man1/xcodebuild.1.html">xcodebuild</a>
+and
+<a href="http://developer.apple.com/documentation/Darwin/Reference/ManPages/man1/make.1.html">make</a>.
+</p>
+<p><small><i>Note:</i> In Mac OS X 10.2 and later, make is GNU Make, and can also be invoked as gnumake.
+The BSD make command is known as bsdmake.</small>
+</p>
+<p>
+If the project contains an Xcode project (.xcodeproj, .xcode, .pbproj), then the xcodebuild 
+tool should be used.  Otherwise, the
+tool should be used.
+</p>
+<p>
+In general, the arguments passed to the xcodebuild or make command will not differ.  The first argument should
+be "install".  Unlike other projects which might require a "make all" before a "make install", Darwin projects
+skip ahead to the install phase right away.  Because each project will attempt to set the correct user and group
+ownership on the files it produces, it's always necessary to build Darwin projects as the root user.  After the
+"install" argument, many additional argument are passed.  Each of these arguments is described in the
+<a href="#roots">Roots</a> and
+<a href="#environment">Environment Variables</a> sections below.
+</p>
+<p>Here is the build command that was used for xnu (the Darwin kernel) when compiling
+Darwin 8.0.1, the release corresponding to Mac OS X 10.4 (Tiger):</p>
+<pre>
+root# make install  \
+	"SRCROOT=/SourceCache/xnu/xnu-792" \
+	"OBJROOT=/private/var/tmp/xnu/xnu-792.obj~1" \
+	"SYMROOT=/private/var/tmp/xnu/xnu-792.sym~1" \
+	"DSTROOT=/private/var/tmp/xnu/xnu-792.root~1" \
+	"RC_ProjectName=xnu" \
+	"RC_ProjectSourceVersion=792" \
+	"RC_ProjectNameAndSourceVersion=xnu-792" \
+	"RC_ProjectBuildVersion=1" \
+	"INSTALLED_PRODUCT_ASIDES=YES" \
+	"MACOSX_DEPLOYMENT_TARGET=10.4" \
+	"NEXT_ROOT=" \
+	"RC_ARCHS=ppc i386" \
+	"RC_CFLAGS=-pipe -no-cpp-precomp -arch ppc -arch i386" \
+	"RC_JASPER=YES" \
+	"RC_NONARCH_CFLAGS=-pipe -no-cpp-precomp" \
+	"RC_OS=macos" \
+	"RC_RELEASE=Tiger" \
+	"RC_XBS=YES" \
+	"RC_i386=YES" \
+	"RC_ppc=YES" \
+	"SEPARATE_STRIP=YES" \
+	"UNAME_RELEASE=8.0" \
+	"UNAME_SYSNAME=Darwin"
+</pre>
+
+</div>
+</div>
+
+
+<div class="article">
+<a name="roots"></a><h3>Roots</h3>
+<div class="articlebody">
+<p>
+In this document, Roots refer to several different filesystem directories that are
+used when building Darwin projects.  The Build Root is the directory that is the
+filesystem root for the current build environment.  This will either be the actual
+root directory (/) or another directory which contains a full build environment and
+has been set to the root directory using 
+<a href="http://developer.apple.com/documentation/Darwin/Reference/ManPages/man8/chroot.8.html">chroot</a>.
+</p>
+<p>
+The first four arguments following "install" in the example build command above
+specify the filesystem path of the four Roots: SRCROOT, OBJROOT, SYMROOT, and DSTROOT.
+These Roots represent absolute paths to four different directories that will be used
+while building the project.  SRCROOT gives the location of the sources to be built,
+OBJROOT gives the location for intermediate files created during the build (.o's),
+SYMROOT gives the location for debug symboled output files, and DSTROOT gives the
+location for the finished product.  With the exception of SRCROOT, all of these directories
+should be empty before the build begins, and should be owned by root:wheel.
+</p>
+<p>
+After the build is complete, the OBJROOT is no longer needed and may be deleted.
+In order to install the newly built project, the contents of the DSTROOT may be copied to 
+the root filesystem (/).  Many, but not all, Darwin projects are compatible with a full 
+Mac OS X system, so exercise caution and be prepared to undo your changes.
+</p>
+<p><small><b><i>Important note:</i></b> because Apple never uses paths with spaces during the build,
+some Darwin projects may not build correctly if spaces are used in one of these paths.
+This may lead to files being written to arbitrary locations on the disk, and could
+lead to loss of data.  <i>Never use spaces in the Roots' paths.</i></small>
+</p>
+<p>When Apple builds Mac OS X, paths of the following form are used for the Roots:</p>
+<pre>
+	SRCROOT=/SourceCache/<i>project</i>/<i>project</i>-<i>version</i>
+	OBJROOT=/private/var/tmp/<i>project</i>/<i>project</i>-<i>version</i>.obj~1
+	SYMROOT=/private/var/tmp/<i>project</i>/<i>project</i>-<i>version</i>.sym~1
+	DSTROOT=/private/var/tmp/<i>project</i>/<i>project</i>-<i>version</i>.root~1
+</pre>
+</div>
+</div>
+
+
+
+<div class="article">
+<a name="environment"></a><h3>Environment Variables</h3>
+<div class="articlebody">
+<p>
+Xcode and the CoreOSMakefiles determine much of their behavior based on the current
+environment variables.  Each of the variables passed in the
+<a href="#command">Build Command</a>
+should also be set in the environment.  When Apple builds Mac OS X, many additional
+environment variables are set.  Here are the variables which are set while building
+projects found in Mac OS X 10.4 (Tiger):
+</p>
+<dl class="environ">
+
+<dt>RC_ProjectName=<i>project</i></dt>
+<dd>The name of the project being built.  For example, when building the Darwin kernel, this
+should be "xnu".  This variable has special significance for projects that have
+<a href="#aliases">build aliases</a>.</dd>
+
+<dt>RC_ProjectSourceVersion=<i>version</i></dt>
+<dd>The source code version of the project being built.  For example, when building the Darwin
+kernel for Mac OS X 10.4 (Tiger), this should be "792".</dd>
+
+<dt>RC_ProjectNameAndSourceVersion=<i>project</i>-<i>version</i></dt>
+<dd>The combination of $RC_ProjectName and $RC_ProjectSourceVersion separated by a hyphen.</dd>
+
+<dt>RC_ProjectBuildVersion=<i>number</i></dt>
+<dd>A number that may be used to distinguish multiple attempts to build the same project.</dd>
+
+<dt>SRCROOT=/SourceCache/<i>project</i>/<i>project</i>-<i>version</i></dt>
+<dd>Absolute path to the sources being built.</dd>
+
+<dt>OBJROOT=/private/var/tmp/<i>project</i>/<i>project</i>-<i>version</i>.obj~<i>build_version</i></dt>
+<dd>Absolute path to directory for intermediate files.</dd>
+
+<dt>SYMROOT=/private/var/tmp/<i>project</i>/<i>project</i>-<i>version</i>.sym~<i>build_version</i></dt>
+<dd>Absolute path to directory for debug symboled files.</dd>
+
+<dt>DSTROOT=/private/var/tmp/<i>project</i>/<i>project</i>-<i>version</i>.root~<i>build_version</i></dt>
+<dd>Absolute path to directory for finished product.</dd>
+
+<dt>INSTALLED_PRODUCT_ASIDES=YES</dt>
+<dd>By default Xcode will place build products directly into $DSTROOT.
+Setting INSTALLED_PRODUCT_ASIDES to YES instructs Xcode to place build products
+in $SYMROOT first, then copy them to $DSTROOT.  This allows the debug symboled
+binary to be retained in $SYMROOT, while the binary $DSTROOT can be stripped
+of debug symbols using
+<a href="http://developer.apple.com/documentation/Darwin/Reference/ManPages/man1/strip.1.html">strip</a>.
+(INSTALLED_PRODUCT_ASIDES implies SEPARATE_STRIP to a certain degree.)</dd>
+
+<dt>SEPARATE_STRIP=YES</dt>
+<dd>Instructs Xcode to explicitly use the
+<a href="http://developer.apple.com/documentation/Darwin/Reference/ManPages/man1/strip.1.html">strip</a>
+command instead of the -s argument to the linker
+(<a href="http://developer.apple.com/documentation/Darwin/Reference/ManPages/man1/ld.1.html">ld</a>).
+This is necessary because the linker is unable to strip some projects of their debug symbols successfully.
+<!-- <a href="rdar://problem/3534709">3534709</a> -->
+<!-- <a href="rdar://problem/4104343">4104343</a> -->
+</dd>
+
+<dt>MACOSX_DEPLOYMENT_TARGET=10.4</dt>
+<dd>This Mac OS X version number is used by the
+<a href="http://developer.apple.com/documentation/DeveloperTools/Conceptual/cross_development/">Cross Development</a>
+feature of Xcode, and indicates which version of the Mac OS you intend to run your finished product on.  The
+AvailabilityMacros.h header file conditionally defines the Mac OS API based on what is available in that version of
+the Mac OS.  See <a href="http://developer.apple.com/technotes/tn2002/tn2064.html">Tech Note 2064</a> for more details.</dd>
+
+<dt>RC_RELEASE=Tiger</dt>
+<dd>This variable should match the MACOSX_DEPLOYMENT_TARGET:<br>
+<pre>
+	10.0 = Cheetah
+	10.1 = Puma
+	10.2 = Jaguar
+	10.3 = Panther
+	10.4 = Tiger
+</pre>
+</dd>
+
+<dt>UNAME_RELEASE=8.0</dt>
+<dd>This Darwin version number overrides the output of the
+<a href="http://developer.apple.com/documentation/Darwin/Reference/ManPages/man1/uname.1.html">uname</a> -r command
+to match RC_RELEASE:
+<pre>
+	Cheetah = 1.0 (old release number scheme)
+	Puma    = 5.0 (new release number scheme)
+	Jaguar  = 6.0
+	Panther = 7.0
+	Tiger   = 8.0
+</pre>
+</dd>
+
+<dt>NEXT_ROOT=</dt>
+<dd>The 
+<a href="http://developer.apple.com/documentation/LegacyTechnologies/WebObjects/WebObjects_5.1/PostInstall/AboutThisDoc/NEXT_ROOT.html">NEXT_ROOT</a>
+variable allows for the finished products to be rooted somewhere other than /.  For Mac OS X,
+all projects are installed into /, so this is an empty string.
+</dd>
+
+<dt>RC_ARCHS=ppc i386</dt>
+<dd>The list of architectures to build.  All Darwin projects are built as 
+<a href="http://developer.apple.com/documentation/MacOSX/Conceptual/universal_binary/">Universal Binaries.</a></dd>
+
+<dt>RC_i386=YES</dt>
+<dd>This should be set to YES if i386 is listed in $RC_ARCHS, or empty otherwise.</dd>
+
+<dt>RC_ppc=YES</dt>
+<dd>This should be set to YES if ppc is listed in $RC_ARCHS, or empty otherwise.</dd>
+
+<dt>RC_CFLAGS=-pipe -no-cpp-precomp -arch ppc -arch i386</dt>
+<dd>Arguments to be passed to the C compiler.  This is a combination of the $RC_NONARCH_CFLAGS variable,
+and a -arch flag for each architecture specified in RC_ARCHS.</dd>
+
+<dt>RC_NONARCH_CFLAGS=-pipe -no-cpp-precomp</dt>
+<dd>Arguments to be passed to the C compiler, excluding any -arch arguments.</dd>
+
+<dt>UNAME_SYSNAME=Darwin</dt>
+<dd>Overrides the output of the
+<a href="http://developer.apple.com/documentation/Darwin/Reference/ManPages/man1/uname.1.html">uname</a> command.
+This should always be set to Darwin.</dd>
+
+<dt>RC_OS=macos</dt>
+<dd>Indicates that the project is being built for the Mac OS.  This should always be set to macos.</dd>
+
+<dt>RC_XBS=YES</dt>
+<dd>Indicates that the Mac OS X build system is in use.  Apple-specific changes to open source projects
+may be conditionalized on this variable.  This should always be set to YES.</dd> 
+
+<dt>RC_JASPER=YES</dt>
+<dd>Indicates that the Mac OS X build system is in use.  Apple-specific changes to open source projects
+may be conditionalized on this variable.  This should always be set to YES.</dd> 
+
+<dt>RC_TRACE_ARCHIVES=YES</dt>
+<dd>Indicates that the linker
+(<a href="http://developer.apple.com/documentation/Darwin/Reference/ManPages/man1/ld.1.html">ld</a>)
+should print a message for each static archive that is
+linked into the final product:
+<pre>
+[Logging for Build &amp; Integration] Used static archive: <i>filename</i>
+</pre>
+</dd>
+
+<dt>RC_TRACE_DYLIBS=YES</dt>
+<dd>Indicates that the linker
+(<a href="http://developer.apple.com/documentation/Darwin/Reference/ManPages/man1/ld.1.html">ld</a>)
+should print a message for each dynamic library that is
+linked from the final product:
+<pre>
+[Logging for Build &amp; Integration] Used dynamic library: <i>filename</i>
+</pre>
+</dd>
+</dl>
+</div>
+</div>
+
+
+<div class="article">
+<a name="dependencies"></a><h3>Dependencies</h3>
+<div class="articlebody">
+<p>
+Many Darwin projects require headers, libraries, and binaries from other Darwin projects.
+These cross-dependencies are far too numerous to list here, suffice to say, it's something to
+be aware of.  Furthermore, not all of these dependencies are available on a Mac OS X system
+by default.  Apple omits many "private" headers files, static libraries, and build tools
+from the Mac OS X system.  These tools are availablein the Darwin sources, but those projects
+must be built and installed prior to any project that uses them.  For example, compiling 
+xnu requires the kextsymboltool binary from the kext_tools project, and the libkld.a static
+archive from cctools_ofiles, among others.
+</p>
+</div>
+</div>
+
+
+<div class="article">
+<a name="aliases"></a><h3>Build Aliases</h3>
+<div class="articlebody">
+<p>
+Some Darwin projects use the exact same set of sources as another project, but produce
+different results based on the arguments passed to the build command.  These projects are known
+as build aliases.  Build aliases are used in cases where a single set of source is beneficial
+for compatibility.  One example is a client and a server which share a common proprietary
+protocol that much be revised on both ends simultaneously.  Another use is to help avoid
+a circular dependency between two projects.
+</p>
+<p>
+When building a project that is a build alias, it is important that the RC_ProjectName
+environment variable is set to the name of the build alias, not the original sources.
+Additionally, many build aliases need an alternate argument than the standard
+"install" argument described in the build command.  Since "install" is commonly known as
+the target of the makefile, this alternate argument is known as the alternate target.
+</p>
+<p>When the build tool is a make, the alternate target entirely replaces the "install" argument.  For example:
+</p>
+<pre>
+root# make <b>ofiles_install</b> \
+	"SRCROOT=/SourceCache/cctools/cctools-576" \
+	"OBJROOT=/private/var/tmp/cctools_ofiles/cctools_ofiles-576.obj~1" \
+	"SYMROOT=/private/var/tmp/cctools_ofiles/cctools_ofiles-576.sym~1" \
+	"DSTROOT=/private/var/tmp/cctools_ofiles/cctools_ofiles-576.root~1" \
+	"RC_ProjectName=cctools_ofiles" \
+	"RC_ProjectSourceVersion=576" \
+	"RC_ProjectNameAndSourceVersion=cctools_ofiles-576" \
+	"RC_ProjectBuildVersion=1" \
+	...
+</pre>
+<p>When the build command is xcodebuild, the alternate target is passed after "install" as "-target <i>alternate</i>".
+For example:
+</p>
+<pre>
+root# xcodebuild install <b>-target libmx</b> \
+	"SRCROOT=/SourceCache/Libm/Libm-92" \
+	"OBJROOT=/private/var/tmp/Libmx/Libmx-92.obj~1" \
+	"SYMROOT=/private/var/tmp/Libmx/Libmx-92.sym~1" \
+	"DSTROOT=/private/var/tmp/Libmx/Libmx-92.root~1" \
+	"RC_ProjectName=Libmx" \
+	"RC_ProjectSourceVersion=92" \
+	"RC_ProjectNameAndSourceVersion=Libmx-92" \
+	"RC_ProjectBuildVersion=1" \
+	...
+</pre>
+<p>Mac OS X 10.4 (Darwin 8.0) contains the following build aliases:</p>
+<table>
+<tr><th>original project</th><th>build alias</th><th>alternate target</th></tr>
+<tr><td>DSNSLPlugins</td><td>DSNSLAppleTalkPlugin</td><td>AppleTalk</td>
+<tr><td>DSPasswordServerPlugin</td><td>DSPasswordServerFramework</td><td>PasswordServerFramework</td>
+<tr><td>DirectoryService</td><td>DirectoryServiceDaemon</td><td>DirectoryServiceDaemon</td>
+<tr><td>DirectoryService</td><td>DirectoryServiceMIG</td><td>DirectoryServiceMIG</td>
+<tr><td>Libc</td><td>Libc_debug</td><td><i>none</i></td>
+<tr><td>Libc</td><td>Libc_headers</td><td><i>none</i></td>
+<tr><td>Libc</td><td>Libc_man</td><td><i>none</i></td>
+<tr><td>Libc</td><td>Libc_profile</td><td><i>none</i></td>
+<tr><td>Libc</td><td>Libc_static</td><td><i>none</i></td>
+<tr><td>Libm</td><td>Libmx</td><td>libmx</td>
+<tr><td>cctools</td><td>cctools_ofiles</td><td>ofiles_install</td>
+<tr><td>configd</td><td>configd_executables</td><td>configd_executables</td>
+<tr><td>configd</td><td>configd_plugins</td><td>configd_plugins</td>
+<tr><td>cups</td><td>cups_ppc</td><td>installppc</td>
+<tr><td>launchd</td><td>launchd_libs</td><td>launchd_libs</td>
+<tr><td>dyld</td><td>libdyld</td><td>libdyld</td>
+<tr><td>passwordserver_sasl</td><td>passwordserver_saslkerberos</td><td>KerberosTarget</td>
+<tr><td>perl</td><td>perl_extras</td><td>installextras</td>
+</table>
+</div>
+</div>
+
+
+<div class="article">
+<a name="installhdrs"></a><h3>installhdrs</h3>
+<div class="articlebody">
+<p>
+Almost all Darwin projects support an alternate target called "installhdrs".  Building with
+this target instead of "install" causes only the header files produced by the project to be
+installed into $DSTROOT.  When Apple builds Mac OS X, and "installhdrs" build is performed
+on every project that supports it.  The resulting header files are all installed into the
+build root before the full build begins.  In this way, most circular dependency issues
+related to header files are avoided.
+</p>
+</div>
+</div>
+
+</div>
+
+</body>
+</html>
