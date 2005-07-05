@@ -28,8 +28,8 @@ Most projects originating from Apple are built with
 On the other hand, most open source projects from other systems are built with 
 <a href="http://www.gnu.org/software/make/">GNU make</a> or
 <a href="http://www.netbsd.org/Documentation/pkgsrc/makefile.html">BSD make</a>.
-Projects of common origin are often built in a similar style to one another, 
-and you may be used to the tight-knit build environment
+Projects from BSD or GNU/Linux are often built in a similar style to one
+another, and you may be used to the tight-knit build environment
 provided by these systems.  For example, FreeBSD's
 <a href="http://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/makeworld.html">make world</a>
 is widely revered by open source enthusiasts.
@@ -60,12 +60,13 @@ and
 The BSD make command is known as bsdmake.</small>
 </p>
 <p>
-If the project contains an Xcode project (.xcodeproj, .xcode, .pbproj), then the xcodebuild 
-tool should be used.  Otherwise, the
-tool should be used.
+If the project contains an Xcode project (.xcodeproj, .xcode, .pbproj), then the
+xcodebuild tool should be used.  Otherwise, the make tool should be used.
 </p>
 <p>
-In general, the arguments passed to the xcodebuild or make command will not differ.  The first argument should
+In general, the arguments passed to the build tool will not differ no matter
+which build tool is used.
+The first argument should
 be "install".  Unlike other projects which might require a "make all" before a "make install", Darwin projects
 skip ahead to the install phase right away.  Because each project will attempt to set the correct user and group
 ownership on the files it produces, it's always necessary to build Darwin projects as the root user.  After the
