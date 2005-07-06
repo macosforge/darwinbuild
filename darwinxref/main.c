@@ -50,6 +50,11 @@ int main(int argc, char* argv[]) {
 	char* progname = argv[0];
 	char* dbfile = "/var/tmp/darwinxref.db";
 	char* build = getenv("DARWINBUILD_BUILD");
+	const char* plugins = getenv("DARWINXREF_PLUGIN_PATH");
+	
+	if (plugins == NULL) {
+		plugins = DEFAULT_PLUGIN_PATH;
+	}
 
 	int ch;
 	while ((ch = getopt(argc, argv, "f:b:")) != -1) {
@@ -71,7 +76,7 @@ int main(int argc, char* argv[]) {
 
 	DBDataStoreInitialize(dbfile);
 	DBSetCurrentBuild(build);
-	load_plugins("plugins");
+	DBPluginLoadPlugins(plugins);
 	if (run_plugin(argc, argv) == -1) {
 		print_usage(progname, argc, argv);
 		exit(1);

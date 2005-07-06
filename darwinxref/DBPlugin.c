@@ -111,16 +111,33 @@ DBPlugin* _DBPluginInitialize() {
 	return plugin;
 }
 
-int load_plugins(const char* plugin_path) {
+int DBPluginLoadPlugins(const char* plugin_path) {
 	if (plugins == NULL) {
 		plugins = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &cfDictionaryPluginValueCallBacks);
 	}
 	if (plugins == NULL) return -1;
 	
-	char fullpath[PATH_MAX];
-	realpath(plugin_path, fullpath);
+	//
+	// If the path contains colons, split the path and
+	// search each path component.  If there are no
+	// colons, CFStringCreateArrayBySeparatingStrings()
+	// will return an array with one element being the
+	// entire path.
+	//
+	CFStringRef str = cfstr(plugin_path);
+	CFArrayRef array = CFStringCreateArrayBySeparatingStrings(NULL, str, CFSTR(":"));
+	CFRelease(str);
+	CFIndex i, path_argc = CFArrayGetCount(array);
+	char** path_argv = malloc(sizeof(char*)*(path_argc+1));
+	for (i = 0; i < path_argc; ++i) {
+		path_argv[i] = strdup_cfstr(CFArrayGetValueAtIndex(array, i));
+	}
+	path_argv[i] = NULL;
+	CFRelease(array);
 	
-	const char* path_argv[] = {plugin_path, NULL};
+	//
+	// Search the directories for plugins
+	//
 	FTS* dir = fts_open((char * const *)path_argv, FTS_LOGICAL, NULL);
 	(void)fts_read(dir);
 	FTSENT* ent = fts_children (dir, FTS_NAMEONLY);
@@ -128,9 +145,10 @@ int load_plugins(const char* plugin_path) {
 		DBPlugin* plugin = NULL;
 		if (strstr(ent->fts_name, ".so")) {
 			char* filename;
-			asprintf(&filename, "%s/%s", fullpath, ent->fts_name);
+			asprintf(&filename, "%s/%s", ent->fts_accpath, ent->fts_name);
 //			fprintf(stderr, "plugin: loading %s\n", ent->fts_name);
 			void* handle = dlopen(filename, RTLD_LAZY | RTLD_LOCAL);
+			free(filename);
 			if (handle) {
 				DBPluginInitializeFunc func = dlsym(handle, "initialize");
 				plugin = _DBPluginInitialize();
@@ -143,10 +161,11 @@ int load_plugins(const char* plugin_path) {
 #if HAVE_TCL_PLUGINS
 		} else if (strstr(ent->fts_name, ".tcl")) {
 			char* filename;
-			asprintf(&filename, "%s/%s", fullpath, ent->fts_name);
+			asprintf(&filename, "%s/%s", ent->fts_accpath, ent->fts_name);
 			plugin = _DBPluginInitialize();
 			_DBPluginSetCurrentPlugin(plugin);
 			load_tcl_plugin(plugin, filename);	// Calls out to Tcl plugin
+			free(filename);
 #endif
 		}
 		if (plugin) {
@@ -161,6 +180,14 @@ int load_plugins(const char* plugin_path) {
 		ent = ent->fts_link;
 	}
 	fts_close(dir);
+	
+	//
+	// Release the path array
+	//
+	for (i = 0; i < path_argc; ++i) {
+		free(path_argv[i]);
+	}
+	free(path_argv);
 }
 
 void print_usage(char* progname, int argc, char* argv[]) {

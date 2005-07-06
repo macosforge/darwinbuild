@@ -79,7 +79,7 @@ CFStringRef call_tcl_usage(DBPlugin* plugin);
 int call_tcl_run(DBPlugin* plugin, CFArrayRef args);
 #endif
 
-int load_plugins(const char* plugin_path);
+int DBPluginLoadPlugins(const char* path);
 int run_plugin(int argc, char* argv[]);
 int DBDataStoreInitialize(const char* datafile);
 void DBSetCurrentBuild(char* build);
