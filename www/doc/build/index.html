@@ -36,10 +36,12 @@ is widely revered by open source enthusiasts.
 </p>
 <p>
 Because Darwin draws from many different open source systems,
-Apple wraps each of these projects with its own high-level makefile to give them an
-interface consistent with Xcode.  Most of the behavior of these wrapper makefiles is defined by the
-<a href="http://darwinsource.opendarwin.org/Current/CoreOSMakefiles/">CoreOSMakefiles</a> project
-in Darwin.
+Apple wraps each of these projects with its own high-level makefile to give them
+a consistent interface that can be used to build all projects with very little
+variation.
+Most of the behavior of these wrapper makefiles is defined by the
+<a href="http://darwinsource.opendarwin.org/Current/CoreOSMakefiles/">CoreOSMakefiles</a>
+project in Darwin.  The xcodebuild tool also conforms to this interface.
 </p>
 </div>
 </div>
@@ -244,8 +246,9 @@ to match RC_RELEASE:
 <dt>NEXT_ROOT=</dt>
 <dd>The 
 <a href="http://developer.apple.com/documentation/LegacyTechnologies/WebObjects/WebObjects_5.1/PostInstall/AboutThisDoc/NEXT_ROOT.html">NEXT_ROOT</a>
-variable allows for the finished products to be rooted somewhere other than /.  For Mac OS X,
-all projects are installed into /, so this is an empty string.
+variable allows for the finished products to be rooted somewhere other than /.
+Its presence here is for legacy support only.  In Mac OS X, all projects are
+installed into /, so this is always an empty string.
 </dd>
 
 <dt>RC_ARCHS=ppc i386</dt>
@@ -330,8 +333,10 @@ Some Darwin projects use the exact same set of sources as another project, but p
 different results based on the arguments passed to the build command.  These projects are known
 as build aliases.  Build aliases are used in cases where a single set of source is beneficial
 for compatibility.  One example is a client and a server which share a common proprietary
-protocol that much be revised on both ends simultaneously.  Another use is to help avoid
-a circular dependency between two projects.
+protocol that much be revised on both ends simultaneously.
+Another use is to help avoid a circular dependency between two projects.
+Most dependencies are at a project-level granularity, and a build alias
+provides finer-grained project build results.
 </p>
 <p>
 When building a project that is a build alias, it is important that the RC_ProjectName
@@ -399,12 +404,31 @@ root# xcodebuild install <b>-target libmx</b> \
 <a name="installhdrs"></a><h3>installhdrs</h3>
 <div class="articlebody">
 <p>
-Almost all Darwin projects support an alternate target called "installhdrs".  Building with
-this target instead of "install" causes only the header files produced by the project to be
-installed into $DSTROOT.  When Apple builds Mac OS X, and "installhdrs" build is performed
-on every project that supports it.  The resulting header files are all installed into the
-build root before the full build begins.  In this way, most circular dependency issues
-related to header files are avoided.
+Almost all Darwin projects support an alternate target called "installhdrs".
+Building with this target instead of "install" causes only the header files
+produced by the project to be installed into $DSTROOT.  When Apple builds
+Mac OS X, and "installhdrs" build is performed on every project that supports
+it.  The resulting header files are all installed into the build root before
+the full build begins.
+</p>
+<p>
+Since dependencies are calculated at a project-level granularity, but two
+projects often need access to each others' header files, the installhdrs
+phase helps avoid most circular dependency issues.
+</p>
+</div>
+</div>
+
+<div class="article">
+<a name="installsrc"></a><h3>installsrc</h3>
+<div class="articlebody">
+<p>
+All Darwin projects support an alternate target called "installsrc".  When
+this target is used, the project should make an idempotent copy of itself into
+$SRCROOT.  Files that are in the current project directory but not part of the
+project itself (i.e. CVS, or .gdb_history) need not be copied during installsrc.
+This target is used internally by Apple and is usually unnecessary for
+building Darwin sources.
 </p>
 </div>
 </div>
