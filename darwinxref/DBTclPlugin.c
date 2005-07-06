@@ -43,7 +43,7 @@ CFStringRef cfstr_tcl(Tcl_Obj* obj) {
 	int length;
 	char* buf = Tcl_GetStringFromObj(obj, &length);
 	if (buf) {
-		result = CFStringCreateWithBytes(NULL, buf, length, kCFStringEncodingUTF8, 0);
+		result = CFStringCreateWithBytes(NULL, (UInt8*)buf, length, kCFStringEncodingUTF8, 0);
 	}
 	return result;
 }
