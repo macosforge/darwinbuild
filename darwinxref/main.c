@@ -32,6 +32,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "sqlite3.h"
 
 #include "DBPluginPriv.h"
 
@@ -73,6 +74,15 @@ int main(int argc, char* argv[]) {
 	}
 	argc -= optind;
 	argv += optind;
+
+	// special built-in command
+	if (argc == 1 && strcmp(argv[0], "info") == 0) {
+		printf("%s/%s\n", basename(progname), "" VERSION "");
+		printf("\tcurrent build: %s\n", build);
+		printf("\tsqlite/%s (%s)\n", sqlite3_version, "UTF-8");
+		printf("\tCoreFoundation/%g%s\n", kCFCoreFoundationVersionNumber, NSIsSymbolNameDefined("_CFNotificationCenterGetTypeID") ? "" : " (CF-Lite)");
+		exit(1);
+	}
 
 	DBDataStoreInitialize(dbfile);
 	DBSetCurrentBuild(build);
