@@ -64,10 +64,14 @@ plugins-darwinports/%.so: plugins-darwinports/%.c DBPlugin.h
 	cc -o $@ $(PLUGIN_CFLAGS) $(PLUGIN_LDFLAGS) $^
 
 apple_plugins:
-	[ -d plugins-apple ] && make -C plugins-apple
+	if [ -d plugins-apple ]; then			\
+		make -C plugins-apple;			\
+	fi
 
 install_apple_plugins:
-	[ -d plugins-apple ] && make -C plugins-apple install
+	if [ -d plugins-apple ]; then			\
+		make -C plugins-apple install;		\
+	fi
 
 upgrade_plist: upgrade_plist.c cfutils.c
 	cc -o $@ $(CFLAGS) $(LDFLAGS) $^
