@@ -32,6 +32,7 @@
 
 #include "DBPlugin.h"
 #include <sys/stat.h>
+#include <unistd.h>
 
 int editPlist(CFStringRef project);
 static int execEditor(const char* tmpfile);
