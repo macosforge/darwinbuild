@@ -243,6 +243,37 @@ int DBRollbackTransactionCmd(ClientData data, Tcl_Interp* interp, int objc, Tcl_
 	return TCL_OK;
 }
 
+int DBCopyProjectNamesCmd(ClientData data, Tcl_Interp* interp, int objc, Tcl_Obj* CONST objv[]) {
+	if (objc != 2) {
+		Tcl_WrongNumArgs(interp, 1, objv, "build");
+		return TCL_ERROR;
+	}
+
+	CFStringRef build = cfstr_tcl(objv[1]);
+	CFArrayRef array = DBCopyProjectNames(build);
+	if (array) {
+		Tcl_SetObjResult(interp, tcl_cfarray(array));
+		CFRelease(array);
+	}
+	return TCL_OK;
+}
+
+int DBCopyChangedProjectNamesCmd(ClientData data, Tcl_Interp* interp, int objc, Tcl_Obj* CONST objv[]) {
+	if (objc != 3) {
+		Tcl_WrongNumArgs(interp, 1, objv, "oldbuild newbuild");
+		return TCL_ERROR;
+	}
+
+	CFStringRef oldbuild = cfstr_tcl(objv[1]);
+	CFStringRef newbuild = cfstr_tcl(objv[2]);
+	CFArrayRef array = DBCopyChangedProjectNames(oldbuild, newbuild);
+	if (array) {
+		Tcl_SetObjResult(interp, tcl_cfarray(array));
+		CFRelease(array);
+	}
+	return TCL_OK;
+}
+
 
 int load_tcl_plugin(DBPlugin* plugin, const char* filename) {
 	Tcl_Interp* interp = Tcl_CreateInterp();
@@ -262,6 +293,9 @@ int load_tcl_plugin(DBPlugin* plugin, const char* filename) {
 	Tcl_CreateObjCommand(interp, "DBBeginTransaction", DBBeginTransactionCmd, (ClientData)plugin, (Tcl_CmdDeleteProc *)NULL);
 	Tcl_CreateObjCommand(interp, "DBCommitTransaction", DBCommitTransactionCmd, (ClientData)plugin, (Tcl_CmdDeleteProc *)NULL);
 	Tcl_CreateObjCommand(interp, "DBRollbackTransaction", DBRollbackTransactionCmd, (ClientData)plugin, (Tcl_CmdDeleteProc *)NULL);
+
+	Tcl_CreateObjCommand(interp, "DBCopyProjectNames", DBCopyProjectNamesCmd, (ClientData)plugin, (Tcl_CmdDeleteProc *)NULL);
+	Tcl_CreateObjCommand(interp, "DBCopyChangedProjectNames", DBCopyChangedProjectNamesCmd, (ClientData)plugin, (Tcl_CmdDeleteProc *)NULL);
 
 	// Source the plugin file
 	Tcl_EvalFile(interp, filename);

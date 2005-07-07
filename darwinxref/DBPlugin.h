@@ -126,10 +126,14 @@ void DBPluginSetDataType(CFTypeID type);
 // generally available routines
 
 CFStringRef DBGetCurrentBuild();
+int DBHasBuild(CFStringRef build);
+CFArrayRef DBCopyBuilds();
 
 CFTypeID  DBCopyPropType(CFStringRef property);
 CFArrayRef DBCopyPropNames(CFStringRef build, CFStringRef project);
 CFArrayRef DBCopyProjectNames(CFStringRef build);
+
+CFArrayRef DBCopyChangedProjectNames(CFStringRef oldbuild, CFStringRef newbuild);
 
 CFTypeRef DBCopyProp(CFStringRef build, CFStringRef project, CFStringRef property);
 CFStringRef DBCopyPropString(CFStringRef build, CFStringRef project, CFStringRef property);

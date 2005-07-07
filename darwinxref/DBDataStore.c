@@ -184,6 +184,18 @@ int DBDataStoreInitialize(const char* datafile) {
 	return 0;
 }
 
+int DBHasBuild(CFStringRef build) {
+	char* cbuild = strdup_cfstr(build);
+	const char* sql = "SELECT 1 FROM properties WHERE build=%Q LIMIT 1";
+	return SQL_BOOLEAN(sql, cbuild);
+}
+
+CFArrayRef DBCopyBuilds() {
+	const char* sql = "SELECT DISTINCT build FROM properties";
+	return SQL_CFARRAY(sql);
+}
+
+
 CFArrayRef DBCopyPropNames(CFStringRef build, CFStringRef project) {
 	char* cbuild = strdup_cfstr(build);
 	char* cproj = strdup_cfstr(project);
@@ -205,6 +217,25 @@ CFArrayRef DBCopyProjectNames(CFStringRef build) {
 	free(cbuild);
 	return res;
 }
+
+CFArrayRef DBCopyChangedProjectNames(CFStringRef oldbuild, CFStringRef newbuild) {
+	char* coldbuild = strdup_cfstr(oldbuild);
+	char* cnewbuild = strdup_cfstr(newbuild);
+	CFArrayRef res = SQL_CFARRAY(
+		"SELECT DISTINCT new.project AS project FROM properties AS new LEFT JOIN properties AS old "
+			"ON (new.project=old.project AND new.property=old.property AND new.property='version') "
+			"WHERE new.build=%Q AND old.build=%Q "
+			"AND new.value<>old.value "
+		"UNION "
+		"SELECT DISTINCT project FROM properties "
+			"WHERE build=%Q "
+			"AND project NOT IN (SELECT project FROM properties WHERE build=%Q) "
+		"ORDER BY project", cnewbuild, coldbuild, cnewbuild, coldbuild);
+	free(coldbuild);
+	free(cnewbuild);
+	return res;
+}
+
 
 CFTypeID  DBCopyPropType(CFStringRef property) {
 	CFTypeID type = -1;
