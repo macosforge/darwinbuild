@@ -41,9 +41,10 @@ void printProjectVersion(CFStringRef project) {
 static int run(CFArrayRef argv) {
 	if (CFArrayGetCount(argv) != 1)  return -1;
 	CFStringRef project = CFArrayGetValueAtIndex(argv, 0);
+	CFStringRef build = DBGetCurrentBuild();
 	
 	if (CFEqual(project, CFSTR("*"))) {
-		CFArrayRef projects = DBCopyProjectNames(NULL);
+		CFArrayRef projects = DBCopyProjectNames(build);
 		CFIndex i, count = CFArrayGetCount(projects);
 		for (i = 0; i < count; ++i) {
 			printProjectVersion(CFArrayGetValueAtIndex(projects, i));
