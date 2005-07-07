@@ -138,17 +138,13 @@ int DBPluginLoadPlugins(const char* plugin_path) {
 	//
 	// Search the directories for plugins
 	//
+	FTSENT* ent;
 	FTS* dir = fts_open((char * const *)path_argv, FTS_LOGICAL, NULL);
-	(void)fts_read(dir);
-	FTSENT* ent = fts_children (dir, FTS_NAMEONLY);
-	while (ent != NULL) {
+	while ((ent = fts_read(dir)) != NULL) {
 		DBPlugin* plugin = NULL;
 		if (strstr(ent->fts_name, ".so")) {
-			char* filename;
-			asprintf(&filename, "%s/%s", ent->fts_accpath, ent->fts_name);
-//			fprintf(stderr, "plugin: loading %s\n", ent->fts_name);
-			void* handle = dlopen(filename, RTLD_LAZY | RTLD_LOCAL);
-			free(filename);
+	//		fprintf(stderr, "plugin: loading %s\n", ent->fts_accpath);
+			void* handle = dlopen(ent->fts_accpath, RTLD_LAZY | RTLD_LOCAL);
 			if (handle) {
 				DBPluginInitializeFunc func = dlsym(handle, "initialize");
 				plugin = _DBPluginInitialize();
@@ -160,12 +156,9 @@ int DBPluginLoadPlugins(const char* plugin_path) {
 			}
 #if HAVE_TCL_PLUGINS
 		} else if (strstr(ent->fts_name, ".tcl")) {
-			char* filename;
-			asprintf(&filename, "%s/%s", ent->fts_accpath, ent->fts_name);
 			plugin = _DBPluginInitialize();
 			_DBPluginSetCurrentPlugin(plugin);
-			load_tcl_plugin(plugin, filename);	// Calls out to Tcl plugin
-			free(filename);
+			load_tcl_plugin(plugin, ent->fts_accpath);	// Calls out to Tcl plugin
 #endif
 		}
 		if (plugin) {
