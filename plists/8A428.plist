@@ -1,6 +1,7 @@
 // !$*UTF8*$!
 {
 	build = 8A428;
+	darwin = "Darwin 8.0";
 	environment = {
 		INSTALLED_PRODUCT_ASIDES = YES;
 		MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -15,6 +16,7 @@
 		UNAME_RELEASE = 8.0;
 		UNAME_SYSNAME = Darwin;
 	};
+	macosx = "Mac OS X 10.4";
 	projects = {
 		Apple16X50Serial = {
 			dependencies = {
@@ -262,57 +264,6 @@
 			};
 			version = 130.4.1;
 		};
-		AppleBlower = {
-			dependencies = {
-				build = (
-					CF,
-					ICU,
-					adv_cmds,
-					awk,
-					bash,
-					cctools,
-					cxxfilt,
-					file_cmds,
-					gcc,
-					gcc_os,
-					pbx_jamfiles,
-					shell_cmds,
-					system_cmds,
-					text_cmds,
-					xnu,
-				);
-				header = (
-					xnu,
-				);
-			};
-			version = 104.0.1;
-		};
-		AppleCPUThermo = {
-			dependencies = {
-				build = (
-					CF,
-					ICU,
-					adv_cmds,
-					awk,
-					bash,
-					cctools,
-					cxxfilt,
-					file_cmds,
-					gcc,
-					gcc_os,
-					pbx_jamfiles,
-					shell_cmds,
-					system_cmds,
-					text_cmds,
-					xnu,
-				);
-				header = (
-					AppleI2C,
-					xnu,
-				);
-			};
-			version = 200.0.0;
-		};
 		AppleCore99NVRAM = {
 			dependencies = {
 				build = (
@@ -445,31 +396,6 @@
 				);
 			};
 			version = 146.1.7;
-		};
-		AppleFPButton = {
-			dependencies = {
-				build = (
-					CF,
-					ICU,
-					adv_cmds,
-					awk,
-					bash,
-					cctools,
-					cxxfilt,
-					file_cmds,
-					gcc,
-					gcc_os,
-					pbx_jamfiles,
-					shell_cmds,
-					system_cmds,
-					text_cmds,
-					xnu,
-				);
-				header = (
-					xnu,
-				);
-			};
-			version = 105.0.1;
 		};
 		AppleFan = {
 			dependencies = {
@@ -1031,57 +957,6 @@
 				);
 			};
 			version = 102.3.1;
-		};
-		AppleLED = {
-			dependencies = {
-				build = (
-					CF,
-					ICU,
-					adv_cmds,
-					awk,
-					bash,
-					cctools,
-					cxxfilt,
-					file_cmds,
-					gcc,
-					gcc_os,
-					pbx_jamfiles,
-					shell_cmds,
-					system_cmds,
-					text_cmds,
-					xnu,
-				);
-				header = (
-					xnu,
-				);
-			};
-			version = 200.0.2;
-		};
-		AppleLM87 = {
-			dependencies = {
-				build = (
-					CF,
-					ICU,
-					adv_cmds,
-					awk,
-					bash,
-					cctools,
-					cxxfilt,
-					file_cmds,
-					gcc,
-					gcc_os,
-					pbx_jamfiles,
-					shell_cmds,
-					system_cmds,
-					text_cmds,
-					xnu,
-				);
-				header = (
-					AppleI2C,
-					xnu,
-				);
-			};
-			version = 105.0.1;
 		};
 		AppleMPIC = {
 			dependencies = {
@@ -2066,46 +1941,6 @@
 				);
 			};
 			version = 107.3.1;
-		};
-		CPAN = {
-			dependencies = {
-				build = (
-					BerkeleyDB,
-					CPAN,
-					Csu,
-					Libm,
-					Libsystem,
-					bash,
-					cctools,
-					cxxfilt,
-					file_cmds,
-					gcc_os,
-					gnudiff,
-					gnumake,
-					gnuzip,
-					grep,
-					patch_cmds,
-					perl,
-					shell_cmds,
-					system_cmds,
-					text_cmds,
-					zip,
-				);
-				header = (
-					BerkeleyDB,
-					Libc_headers,
-					Libinfo,
-					Libm,
-					architecture,
-					gcc_os,
-					perl,
-					xnu,
-				);
-				lib = (
-					Libsystem,
-				);
-			};
-			version = 11;
 		};
 		CarbonHeaders = {
 			version = 8A428;
@@ -3891,6 +3726,7 @@
 			version = 140.0.7;
 		};
 		JBoss = {
+			target = magnum;
 			version = 736;
 		};
 		JavaScriptCore = {
@@ -3985,27 +3821,32 @@
 				RC_ARCHS = "ppc ppc64 i386";
 			};
 			original = Libc;
+			target = install;
 		};
 		Libc_headers = {
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386";
 			};
 			original = Libc;
+			target = install;
 		};
 		Libc_man = {
 			original = Libc;
+			target = install;
 		};
 		Libc_profile = {
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386";
 			};
 			original = Libc;
+			target = install;
 		};
 		Libc_static = {
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386";
 			};
 			original = Libc;
+			target = install;
 		};
 		Libcpp_kext = {
 			dependencies = {
@@ -5013,38 +4854,6 @@
 				);
 			};
 			version = 18;
-		};
-		SystemStubs = {
-			dependencies = {
-				build = (
-					CF,
-					ICU,
-					adv_cmds,
-					awk,
-					bash,
-					cctools,
-					file_cmds,
-					gcc,
-					gcc_os,
-					gcc_os_35,
-					shell_cmds,
-					system_cmds,
-					text_cmds,
-				);
-				header = (
-					CarbonHeaders,
-					Libc_headers,
-					architecture,
-					cctools_ofiles,
-					dyld,
-					gcc_os_35,
-					xnu,
-				);
-			};
-			environment = {
-				RC_ARCHS = "ppc ppc64 i386";
-			};
-			version = 5;
 		};
 		Tokend = {
 			dependencies = {
@@ -7207,6 +7016,7 @@
 					text_cmds,
 				);
 			};
+			target = "";
 			version = 467;
 		};
 		flex = {
@@ -11065,6 +10875,9 @@
 				);
 			};
 			version = 229.1;
+		};
+		prebind = {
+			version = 107;
 		};
 		procmail = {
 			dependencies = {

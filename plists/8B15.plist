@@ -1,7 +1,7 @@
 // !$*UTF8*$!
 {
 	build = 8B15;
-	inherits = 8A428;
+	darwin = "Darwin 8.1";
 	environment = {
 		INSTALLED_PRODUCT_ASIDES = YES;
 		MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -16,6 +16,8 @@
 		UNAME_RELEASE = 8.0;
 		UNAME_SYSNAME = Darwin;
 	};
+	inherits = 8A428;
+	macosx = "Mac OS X 10.4.1";
 	projects = {
 		CF = {
 			dependencies = {
@@ -249,6 +251,9 @@
 		};
 		WebCore = {
 			version = 415.5;
+		};
+		blojsom = {
+			version = 48;
 		};
 		bootp = {
 			dependencies = {
