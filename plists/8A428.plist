@@ -1,5 +1,8 @@
 // !$*UTF8*$!
 {
+	binary_sites = (
+		"http://darwinsource.opendarwin.org/Roots/",
+	);
 	build = 8A428;
 	darwin = "Darwin 8.0";
 	environment = {
