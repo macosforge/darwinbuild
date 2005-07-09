@@ -9,7 +9,9 @@ PLUGIN_SOURCES=$(wildcard plugins/*.c) $(wildcard plugins-darwinports/*.c)
 PLUGIN_OBJECTS=$(wildcard plugins/*.so) $(wildcard plugins/*.tcl)
 
 ### todo: --with-plugin-path configuration
-CFLAGS+=-DDEFAULT_PLUGIN_PATH=\"$(DATDIR)/plugins\"
+CFLAGS+= \
+	-DDEFAULT_DB_FILE=\".xref.db\" \
+	-DDEFAULT_PLUGIN_PATH=\"$(DATDIR)/plugins\"
 
 ### todo: --with-tcl-plugins configuration
 TCL_CFLAGS=-DHAVE_TCL_PLUGINS=1

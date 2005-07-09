@@ -49,13 +49,12 @@ extern char** environ;
 
 int main(int argc, char* argv[]) {
 	char* progname = argv[0];
-	char* dbfile = "/var/tmp/darwinxref.db";
+	char* dbfile = getenv("DARWINXREF_DB_FILE");
 	char* build = getenv("DARWINBUILD_BUILD");
 	const char* plugins = getenv("DARWINXREF_PLUGIN_PATH");
 	
-	if (plugins == NULL) {
-		plugins = DEFAULT_PLUGIN_PATH;
-	}
+	if (dbfile == NULL) dbfile = DEFAULT_DB_FILE;
+	if (plugins == NULL) plugins = DEFAULT_PLUGIN_PATH;
 
 	int ch;
 	while ((ch = getopt(argc, argv, "f:b:")) != -1) {
