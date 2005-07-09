@@ -33,16 +33,15 @@
 #include "DBPlugin.h"
 
 static int run(CFArrayRef argv) {
-	if (CFArrayGetCount(argv) != 1)  return -1;
+	if (CFArrayGetCount(argv) != 0)  return -1;
 	CFStringRef build = DBGetCurrentBuild();
-	CFStringRef project = CFArrayGetValueAtIndex(argv, 0);
-	CFStringRef inherits = DBCopyPropString(build, project, CFSTR("inherits"));
-	cfprintf(stdout, "%@\n", inherits);
+	CFStringRef inherits = DBCopyPropString(build, NULL, CFSTR("inherits"));
+	if (inherits) cfprintf(stdout, "%@\n", inherits);
 	return 0;
 }
 
 static CFStringRef usage() {
-	return CFRetain(CFSTR("<project>"));
+	return CFRetain(CFSTR(""));
 }
 
 int initialize(int version) {
