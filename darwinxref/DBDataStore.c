@@ -266,7 +266,7 @@ CFStringRef _DBCopyPropString(CFStringRef build, CFStringRef project, CFStringRe
 	char* cproj = strdup_cfstr(project);
 	char* cprop = strdup_cfstr(property);
 	char* sql;
-	if (project)
+	if (cproj && *cproj != 0)
 		sql = "SELECT value FROM properties WHERE property=%Q AND build=%Q AND project=%Q";
 	else
 		sql = "SELECT value FROM properties WHERE property=%Q AND build=%Q AND project IS NULL";
@@ -282,11 +282,15 @@ CFArrayRef _DBCopyPropArray(CFStringRef build, CFStringRef project, CFStringRef 
 	char* cproj = strdup_cfstr(project);
 	char* cprop = strdup_cfstr(property);
 	char* sql;
-	if (project)
+	if (cproj && *cproj != 0)
 		sql = "SELECT value FROM properties WHERE property=%Q AND build=%Q AND project=%Q ORDER BY key";
 	else
 		sql = "SELECT value FROM properties WHERE property=%Q AND build=%Q AND project IS NULL ORDER BY key";
 	CFArrayRef res = SQL_CFARRAY(sql, cprop, cbuild, cproj);
+	if (res && CFArrayGetCount(res) == 0) {
+		CFRelease(res);
+		res = NULL;
+	}
 	free(cproj);
 	free(cprop);
 	free(cbuild);
@@ -298,11 +302,15 @@ CFDictionaryRef _DBCopyPropDictionary(CFStringRef build, CFStringRef project, CF
 	char* cproj = strdup_cfstr(project);
 	char* cprop = strdup_cfstr(property);
 	char* sql;
-	if (project)
+	if (cproj && *cproj != 0)
 		sql = "SELECT DISTINCT key,value FROM properties WHERE property=%Q AND build=%Q AND project=%Q ORDER BY key";
 	else
 		sql = "SELECT DISTINCT key,value FROM properties WHERE property=%Q AND build=%Q AND project IS NULL ORDER BY key";
 	CFDictionaryRef res = SQL_CFDICTIONARY(sql, cprop, cbuild, cproj);
+	if (res && CFDictionaryGetCount(res) == 0) {
+		CFRelease(res);
+		res = NULL;
+	}
 	free(cbuild);
 	free(cproj);
 	free(cprop);
@@ -337,11 +345,11 @@ CFTypeRef _DBCopyPropWithInheritance(CFStringRef build, CFStringRef project, CFS
 		build = inherits;
 	} while (build != NULL);
 
-	if (res == NULL && original != NULL) {
+	if (res == NULL) {
 		CFIndex i, count = CFArrayGetCount(builds);
 		for (i = 0; i < count; ++i) {
 			build = CFArrayGetValueAtIndex(builds, i);
-			res = func(build, original, property);
+			res = func(build, original ? original : project, property);
 			if (res) break;
 		}
 	}
