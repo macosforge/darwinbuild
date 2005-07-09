@@ -1,0 +1,72 @@
+Darwin Build Scripts Change History
+-----------------------------------
+
+Release 0.5 [12-May-2005]
+	- Added Tiger 8A428.plist and files-8A428.txt.gz
+	- Automatically resolve dependencies after logging them
+	- [Bug 2741] Added -target defaults to the plist
+	- [Bug 2747] Bug fix for -chroot and -logdeps combination
+	- Download sources from source_sites property in build plist
+	- darwinbuild: Copy sources into /SourceCache for consistency with XBS
+	- darwinbuild: unset TERMCAP to avoid warnings with screen(1)
+	- darwinbuild: default -build with DARWINBUILD_BUILD environment variable
+	- darwinbuild: automatically replace stale roots in buildroot
+	- darwinxref: default -b with DARWINBUILD_BUILD environment variable
+	- darwinxref: do not recurse for header dependencies
+	- darwinxref: set architecture-specific environment variables based on
+	  RC_ARCHS value
+	- darwinxref: dependencies and files now key on build-project instead
+	  of project-version
+	- darwinxref: added 'edit' command for interactive database editing
+	- Removed references to unused Objects directory 
+
+Release 0.4 [6-Apr-2005]
+	- [Bug 2838] darwinxref: resolveDeps can now resolve a single project
+	- [Bug 2833] deprecated darwinbuild.env, environment variables are now
+	  stored in the build plist file.
+	- [Bug 2824] darwinxref: fixed crasher on pure-Darwin systems
+	- [Bug 2811] darwinbuild: -target now works correctly for Xcode projects
+	- [Bug 2805] darwinbuild: exit status reflects build's exit status
+	- [Bug 2781] darwinbuild: don't use ditto(1) on pure-Darwin systems
+	- [Bug 2746] added indexes to SQL tables to improve performance
+	- darwinbuild: redirect build tool stdin to /dev/null
+	- darwinbuild: automatically resolve dependencies after logging them
+	- darwinxref: bigger transactions in resolveDeps for better performance
+	- darwinbuild: fixed some instances where build number was not passed
+	  to darwinxref.
+
+Release 0.3 [15-Mar-2005]
+	- darwinbuild -chroot now works with xcodebuild projects
+	- [Bug 2740] Added darwinbuild.common for common subroutines
+	- installXcodebuild honors the DARWIN_BUILDROOT environment variable
+	- installXcodebuild merges Mac OS X CoreFoundation with i386 CF-Lite
+	- added 7U16-files.txt.gz for darwinxref findFile database
+	- updated 7U16.plist to include build dependencies gathered via -logdeps
+	- darwinbuild.env: added RC_JASPER=YES for CoreOSMakefiles 
+	- [Bug 2752] darwinxref: resolve aliases when printing project versions
+	- [Bug 2763] darwinxref: deprecate "headers" depends type for "header"
+	- [Bug 2747] darwinbuild: -logdeps works in combination with -chroot
+	- [Bug 2745] darwinbuild: products of build aliases are now correctly
+	  copied into the Roots directory
+	- darwintrace: execve does not log when it would return ENOENT
+	- darwinxref: added exportFiles and improved loadFiles command
+	- darwinxref: print summaries after loadDeps, resolveDeps commands
+	- darwinbuild: extracting sources now works correctly when build
+	  aliases are used
+	- Added -build=value flag to darwinbuild
+	- Added darwintrace.dylib to log build-time dependencies with -logdeps
+	  flag to darwinbuild
+
+Release 0.2 [1-Mar-2005]
+	- Added project plist export command to darwinxref
+	- darwinxref prints all projects when '*' is requested
+	- Updated darwinxref to use SQLite 3.1.3
+	- Added support for build aliases
+	- Added file registration and search for projects' contents
+	- Inspects Mach-O files for dylib dependencies during registration
+	- Changed dependency format to be specific to project-version tuples
+	- Added resolve command which creates dependencies on the projects that
+	  provide files used during a build.
+
+Release 0.1 [30-Jun-2004]
+	- Initial release of Darwin Build Scripts
