@@ -1,0 +1,675 @@
+#!/bin/sh
+#
+# Copyright (c) 2004-2005, Apple Computer, Inc. All rights reserved.
+# 
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1.  Redistributions of source code must retain the above copyright
+#     notice, this list of conditions and the following disclaimer. 
+# 2.  Redistributions in binary form must reproduce the above copyright
+#     notice, this list of conditions and the following disclaimer in the
+#     documentation and/or other materials provided with the distribution. 
+# 3.  Neither the name of Apple Computer, Inc. ("Apple") nor the names of
+#     its contributors may be used to endorse or promote products derived
+#     from this software without specific prior written permission. 
+# 
+# THIS SOFTWARE IS PROVIDED BY APPLE AND ITS CONTRIBUTORS "AS IS" AND
+# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+# ARE DISCLAIMED. IN NO EVENT SHALL APPLE OR ITS CONTRIBUTORS BE LIABLE FOR
+# ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+# OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+# HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+# STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+# IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+#
+
+###
+### README
+###
+### This script sets up the proper environment to build Darwin projects
+###
+### Building takes place in the BuildRoot, this should be an HFSX (or UFS)
+### volume (Disk images work well).  The BuildRoot location can by specified by
+### the DARWIN_BUILDROOT environment variable.  If not set, it will default
+### to the current working directory.  However, if the current working directory
+### does not contain a Sources, Roots, Logs, and other necessary directories
+### the script will exit with an error.
+###
+### This script has the ability to build in a changed root.  This allows
+### slightly projects to be built for targets that differ from the host
+### system, and also helps prevent against pollution of the host system
+### with intermediate build tools and headers.  Unfortunately there are
+### limitations on just how much the changed root can vary from the host
+### system.  For example, items in the changed root still need to be
+### compatible with the system daemons that are running (i.e. lookupd)
+### and if devfs or volfs is mounted in the changed root, it will resemble
+### the host system, and not the target system.
+###
+### If the project's version is omitted then the darwinxref tool is consulted.
+### This tool should live in the same directory as this script.  darwinxref
+### allows cross-referencing of project versions and system build numbers.
+### If no build number is specified, the host system's build number is used,
+### otherwise the version of the project for the specified build will be built.
+###
+### The script checks its source cache (BuildRoot/Sources) for a .tar.gz archive
+### of the given project-version.  If one exists, it is used.  If it does not
+### exist, then this script will attempt to use curl(1) to fetch the sources
+### from the darwinsource.opendarwin.org and www.opensource.apple.com sites.
+###
+### If the -chroot option is specified, the script will use the darwinxref tool
+### to populate the build root with the "Roots" necessary to build the project
+### (Roots are pre-compiled projects ready for installation).  This script
+### will look for an existing root in the root cache (BuildRoot/Roots).  If a
+### root is missing, then this script will attempt to use curl(1) to fetch the 
+### roots from the darwinsource.opendarwin.org and www.opensource.apple.com sites.
+###
+### If the specified project requires Xcode to build (i.e. it does not use
+### a makefile, but instead has a .pbproj or .xcode project file), then it
+### must be built on a Mac OS X system, and cannot be built on a Darwin system.
+### Furthermore, because Xcode and many of the frameworks it uses are not open
+### source, it is not distributed on the www.opensource.apple.com or
+### darwinsource.opendarwin.org sites.  This script will look for a special
+### Xcode root in the local root cache, and if it doesn't exist, it will attempt
+### to create the root using the Xcode installation on the host system.
+###
+### 
+### TODO
+###     - Extract patch information from darwinxref
+###		- Generate Xcode root from host system
+###
+
+PREFIX=/usr/local
+build=""
+depsbuild=""
+CHROOTED="YES"
+logdeps=""
+noload=""
+projnam=""
+action="install"
+target=""
+version=""
+
+###
+### Include some common subroutines
+###
+
+. "$PREFIX/share/darwinbuild/darwinbuild.common"
+
+###
+### The "-init" command sets up the build environment
+### in the current working directory.
+### EXITs
+###
+if [ "$1" == "-init" ]; then
+	if [ "$2" == "" ]; then
+		echo "usage: $(basename $0) -init <build>" 1>&2
+		exit 1
+	fi
+	build="$2"
+	[ -d Roots ] || mkdir Roots
+	[ -d Sources ] || mkdir Sources
+	[ -d Symbols ] || mkdir Symbols
+	[ -d Headers ] || mkdir Headers
+	[ -d Logs ] || mkdir Logs
+	[ -d .build ] || mkdir .build
+	echo "$build" > .build/build
+	while [ "$build" != "" ]; do
+		Download .build "$build".plist http://darwinsource.opendarwin.org/plists/
+		$PREFIX/bin/darwinxref -f.xref.db "-b$build" loadIndex .build/"$build".plist
+		build=$($PREFIX/bin/darwinxref -f.xref.db "-b$build" inherits)
+	done
+	exit 0
+fi
+
+
+function PrintUsage() {
+	echo "usage: $(basename $0) [-headers] [-nochroot] <project> [<version>]" 1>&2
+	exit 1
+}
+
+###
+### Check that we are properly situated.  Either the
+### DARWIN_BUILDROOT environment variable must be set to an
+### absolute path, or the current working directory must be
+### at the root level of the build environment.
+###
+if [ "$DARWIN_BUILDROOT" != "" ]; then
+	if [ "${DARWIN_BUILDROOT:0:1}" != "/" ]; then
+		echo "Error:" 1>&2
+		echo "The DARWIN_BUILDROOT environment variable must contain" 1>&2
+		echo "an absolute path." 1>&2
+		echo "" 1>&2
+		exit 1
+	else
+		cd "$DARWIN_BUILDROOT"
+	fi
+fi
+if [ -d Roots -a \
+	 -d Sources -a \
+	 -d Symbols -a \
+	 -d Headers -a \
+	 -d Logs ]; then
+	export DARWIN_BUILDROOT="$(pwd)"
+else
+	echo "ERROR: Please change your working directory to the mount point" 1>&2
+	echo "of the disk image, partition, or directory containing the" 1>&2
+	echo "Souces, Symbols, Roots, and Logs directories." 1>&2
+	echo "Alternatively, you may set the DARWIN_BUILDROOT environment" 1>&2
+	echo "variable to the absolute path of that directory." 1>&2
+	echo "" 1>&2
+	exit 1
+fi
+
+
+BuildRoot="$DARWIN_BUILDROOT/BuildRoot"
+mkdir -p "$BuildRoot"
+export DARWINXREF_DB_FILE="$DARWIN_BUILDROOT/.xref.db"
+
+###
+### Check and see wether there is a sources directory set in the
+### environment ($DARWIN_SOURCES). If not we assign it the sources pass
+### in the $DARWIN_BUILDROOT
+###
+
+if [ "$DARWIN_SOURCES" != "" ]; then
+	if [ "${DARWIN_SOURCES:0:1}" != "/" ]; then
+		echo "The DARWIN_SOURCES environment variable must contain" 1>&2
+		echo "an absolute path." 1>&2
+		echo "" 1>&2
+        	exit 1
+	else
+		SourceCache="$DARWIN_SOURCES"
+	fi
+else
+	SourceCache="$DARWIN_BUILDROOT/Sources"
+fi
+
+if [ ! -e $SourceCache ]; then
+	mkdir -p "$SourceCache"
+fi
+
+###
+### Interpret our arguments:
+###   -headers  Do the installhdrs phase, instead of install
+###   -nochroot Do not chroot into the BuildRoot when building
+###   -noload   Don't load dependencies into the chroot.
+###				Has no effect if -nochroot is specified.
+###   -logdeps  Do magic to log the build-time dependencies
+###   <project> The name of the project to build
+###   <version> If specified, the version of the project to build
+###             this will default to the version associated with the
+###             currently running build.
+
+if [ "$DARWINBUILD_BUILD" != "" ]; then
+	build="$DARWINBUILD_BUILD"
+fi
+
+for ARG in "$@"; do
+	if [ "$projnam" == "" ]; then
+		if [ "$ARG" == "-headers" ]; then
+			action="installhdrs"
+		elif [ "$ARG" == "-fetch" ]; then
+			action="fetch"
+		elif [ "${ARG/=*/}" == "-target" ]; then
+			target="${ARG/*=/}"
+		elif [ "${ARG/=*/}" == "-build" ]; then
+			build="${ARG/*=/}"
+		elif [ "${ARG/=*/}" == "-depsbuild" ]; then
+			depsbuild="${ARG/*=/}"
+		elif [ "$ARG" == "-nochroot" ]; then
+			export CHROOTED="NO"
+		elif [ "$ARG" == "-noload" ]; then
+			noload="YES"
+		elif [ "$ARG" == "-logdeps" ]; then
+			logdeps="YES"
+		else
+			projnam="$ARG"
+		fi
+	elif [ "$version" == "" ]; then
+		version="$ARG"
+	else
+		PrintUsage "$0"
+	fi
+done
+
+if [ "$projnam" == "" ]; then
+	PrintUsage "$0"
+fi
+
+###
+### No build number specified.  Look in the DARWIN_BUILDROOT for
+### a cached value.
+###
+if [ "$build" == "" -a -f "$DARWIN_BUILDROOT/.build/build" ]; then
+	build="$(cat $DARWIN_BUILDROOT/.build/build)"
+fi
+
+###
+### Still no build number specified.  Error.
+###
+if [ "$build" == "" ]; then
+	echo "Error: no build number specified." 2>&1
+	exit 1
+fi
+export DARWINBUILD_BUILD="$build"
+
+###
+### By default, dependencies are taken from the same build,
+### but that can be overridden above.
+###
+if [ "$depsbuild" == "" ]; then
+	depsbuild="$build"
+fi
+
+
+#
+# Get the version of the project for this build.
+#
+if [ "$version" == "" ]; then
+	project=$($PREFIX/bin/darwinxref version "$projnam")
+	version=${project/$projnam-/}
+else
+	project="$projnam-$version"
+fi
+
+#
+# Check if the project is a build alias.
+#
+alias=$($PREFIX/bin/darwinxref original "$projnam")
+
+#
+# Look for an alternate target in the database
+#
+if [ "$target" == "" -a "$action" == "install" ]; then
+	target=$($PREFIX/bin/darwinxref target "$projnam")
+fi
+
+#
+# Sanity check to make sure we actually have a project to build.
+#
+if [ "$project" == "" ]; then
+	echo "ERROR: project not found: $projnam" 1>&2
+	exit 1
+fi
+
+
+
+
+
+###
+### Download the sources,
+### and any applicable patches.
+###
+echo "*** Fetching Sources ..."
+# project might be a build alias
+if [ "$alias" != "" ]; then
+	filename="$alias-$version.tar.gz"
+else
+	filename="$project.tar.gz"
+fi
+Download "$SourceCache" "$filename" "$($PREFIX/bin/darwinxref source_sites $projnam)"
+
+### If we are doing a -fetch, stop here.
+if [ "$action" == "fetch" ]; then
+	exit
+fi
+
+###
+### If we are CHROOTED, then
+### Install the roots into the BuildRoot
+### Make sure we have at least a minimally functioning root
+### by installing bash and its dependencies.
+###
+if [ "$CHROOTED" == "YES" -a "$noload" != "YES" ]; then
+	echo "*** Installing Roots ..."
+	receipts="$BuildRoot/.chroot.receipts"
+	mkdir -p "$receipts"
+	bash_deps=$($PREFIX/bin/darwinxref dependencies -run "bash")
+	deps=$($PREFIX/bin/darwinxref dependencies -build "$projnam")
+
+	### xcodebuild is a special case because it is not open source
+	### we try to install it from the host Mac OS X system if it is required
+	echo "$deps" | grep "\bxcodebuild-"
+	if [ "$?" == "0" -a ! -f "$receipts/xcodebuild-(null)" ]; then
+		$DARWIN_BUILDROOT/bin/installXcodebuild
+		touch "$receipts/xcodebuild-(null)"
+	fi
+
+	for X in files bash $bash_vers $deps ; do
+		InstallRoot "$BuildRoot" "$X"
+	done
+
+	echo "*** Installing Headers ..."
+	deps=$($PREFIX/bin/darwinxref dependencies -header "$projnam")
+	for X in $deps ; do
+		InstallHeaders "$BuildRoot" "$X"
+	done
+fi
+
+
+###
+### We do our building in private/var/tmp since it's
+### likely to be out of the way of our dependencies
+### and is supposed to be writable by everyone.
+###
+
+vartmp="private/var/tmp"
+mkdir -p "$BuildRoot/$vartmp"
+chmod 1777 "$BuildRoot/$vartmp"
+
+###
+### Define the SRCROOT, OBJROOT, SYMROOT, and DSTROOT.
+### This script refers to the absolute paths of the build
+### directory, and should use REAL_SRCROOT, etc.
+### If CHROOTED, then the environment variables will have
+### the BuildRoot prefix omitted because the chroot
+### will make all paths relative to that point.
+###
+REAL_SRCROOT="$BuildRoot/SourceCache/$projnam/$project"
+REAL_OBJROOT="$BuildRoot/$vartmp/$projnam/$project.obj"
+REAL_SYMROOT="$BuildRoot/$vartmp/$projnam/$project.sym"
+REAL_DSTROOT="$BuildRoot/$vartmp/$projnam/$project.root"
+if [ "$CHROOTED" == "YES" ]; then
+	prefix="$BuildRoot"
+else
+	prefix=""
+fi
+export SRCROOT="${REAL_SRCROOT/$prefix/}"
+export OBJROOT="${REAL_OBJROOT/$prefix/}"
+export SYMROOT="${REAL_SYMROOT/$prefix/}"
+export DSTROOT="${REAL_DSTROOT/$prefix/}"
+
+###
+### Remove any pre-existing directories that might be in the way
+### and create new directories in their place.  Make sure the
+### directories have root:wheel ownership, otherwise things may
+### not build correctly.
+###
+rm -Rf "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT"
+mkdir -p "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT"
+chown root:wheel "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT"
+
+###
+### Install the sources and patches into the BuildRoot
+###
+cd "$REAL_SRCROOT/.."
+echo "*** Copying Sources ..."
+if [ -d "$SourceCache/$project" ]; then
+	tar c -C "$SourceCache" "$project" | tar xf - 
+elif [ "$alias" != "" -a -d "$SourceCache/$alias-$version" ]; then
+	tar c -C "$SourceCache" "$alias-$version" | tar xf -
+	rmdir "$REAL_SRCROOT"
+	ln -fhs "$alias-$version" "$project"
+elif [ "$alias" != "" ]; then
+	tar xzf "$SourceCache/$alias-$version.tar.gz"
+	rmdir "$REAL_SRCROOT"
+	ln -fhs "$alias-$version" "$project"
+else
+	tar xzf "$SourceCache/$filename"
+fi
+if [ -r "$SourceCache/$project-patches.tar.gz" ]; then
+	tar xzf "$SourceCache/$project-patches.tar.gz"
+fi
+
+
+
+
+###
+### Apply the patches
+### Current working directory should be the SRCROOT
+###
+cd "$REAL_SRCROOT"
+if [ -d "$REAL_SRCROOT/../$project-patches" ]; then
+	echo "*** Applying Patches ..."
+	cat $REAL_SRCROOT/../$project-patches/* | patch -p0
+fi
+
+###
+### Look for the build tool: make, xcodebuild
+###
+
+numfiles=$(ls -d *.pbproj *.xcode 2> /dev/null | wc -l)
+if [ $numfiles != 0 ]; then
+	buildtool="xcodebuild"
+else
+	buildtool="make"
+fi
+
+###
+### Read in the environment
+###
+
+version="${project/$projnam-/}"
+build_version=$(($(GetBuildVersion $DARWIN_BUILDROOT/{Logs,Symbols,Headers,Roots}/$projnam/$project.*) + 1))
+
+LOG="$DARWIN_BUILDROOT/Logs/$projnam/$project.log~$build_version"
+TRACELOG="$BuildRoot/private/var/tmp/$projnam/$project.trace~$build_version"
+mkdir -p "$DARWIN_BUILDROOT/Logs/$projnam"
+
+# Hide this variable from the unset
+export -n SRCROOT OBJROOT SYMROOT DSTROOT
+export -n DARWIN_BUILDROOT DARWINBUILD_BUILD DARWINXREF_DB_FILE
+export -n CHROOTED
+
+# Screen sets this to a multi-line value which causes trouble
+unset TERMCAP
+OLDIFS="$IFS"
+IFS=$'\n'
+for X in $(printenv) ; do
+	X=${X/=*/}
+	eval "unset $X"
+done
+IFS="$OLDIFS"
+
+export SRCROOT OBJROOT SYMROOT DSTROOT
+export DARWIN_BUILDROOT DARWINBUILD_BUILD DARWINXREF_DB_FILE
+export CHROOTED
+
+export PATH=/bin:/sbin:/usr/bin:/usr/sbin/:/usr/local/bin:/usr/local/sbin
+export SHELL="/bin/sh"
+export HOME="/var/root"
+export LOGNAME="root"
+export USER="root"
+export GROUP="wheel"
+#export HOST=$(hostname)
+#export HOSTTYPE="powermac"
+#export MACHTYPE=$(uname -p)
+#export OSTYPE="darwin"
+#export UNAME_RELEASE
+#export UNAME_SYSNAME
+
+build_string=""
+if [ "$buildtool" == "xcodebuild" -a "$target" != "" ]; then
+	build_string="-target $target"
+elif [ "$target" != "" ]; then
+	action="$target"
+fi
+
+###
+### Write out the build script that will be used.
+### This may or may not be executed in a chroot.
+### We want things like the gcc version to be picked
+### up from the chroot.
+###
+
+SCRIPT="$BuildRoot/$vartmp/$projnam/build-$project~$build_version.sh"
+
+cat <<-EOF > $SCRIPT
+	#!/bin/sh
+	echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+	echo "BUILDING $project~$build_version on \$(date)"
+	echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+	echo 'Build configuration:'
+	echo "    Build host:      \$(hostname)"
+	echo '    Build tool:      $buildtool'
+	echo '    Build action:    $action'
+	echo "    Build number:    $build"
+	echo "    cc version:      \$(gcc -v 2>&1 | tail -n 1)"
+	echo "    cctools version: \$(echo | as -v 2>&1 | cut -c 22-)"
+	echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+	echo 'Build parameters:'
+	echo SRCROOT: '$SRCROOT'
+	echo OBJROOT: '$OBJROOT'
+	echo SYMROOT: '$SYMROOT'
+	echo DSTROOT: '$DSTROOT'
+EOF
+###
+### Add in the build environment variables from darwinxref
+###
+build_string="$build_string \"SRCROOT=$SRCROOT\" \"OBJROOT=$OBJROOT\" \"SYMROOT=$SYMROOT\" \"DSTROOT=$DSTROOT\""
+
+XREF_ENV=$($PREFIX/bin/darwinxref environment $projnam)
+OLDIFS="$IFS"
+IFS=$'\n'
+for X in \
+	"RC_ProjectName=$projnam" \
+	"RC_ProjectSourceVersion=$version" \
+	"RC_ProjectNameAndSourceVersion=$project" \
+	"RC_ProjectBuildVersion=$build_version" \
+	$XREF_ENV ; do
+	echo "echo '${X/=*/}: ${X/*=/}'" >> $SCRIPT
+	eval "export -- \"$X\""
+	build_string="$build_string \"$X\""
+done
+IFS="$OLDIFS"
+
+cat <<-EOF >> $SCRIPT
+	echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+	echo 'Environment variables:'
+EOF
+
+OLDIFS="$IFS"
+IFS=$'\n'
+for X in $(printenv | sort) ; do
+	echo "echo '$X'" >> $SCRIPT
+done
+IFS="$OLDIFS"
+
+cat <<-EOF >> $SCRIPT
+	echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+	echo $buildtool $action '$build_string' < /dev/null
+	echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+	echo ''
+	echo 'Build log begins here:'
+	echo ''
+	cd '$SRCROOT'
+EOF
+if [ "$logdeps" == "YES" ]; then
+	if [ "$CHROOTED" == "YES" ]; then
+		if [ ! -f "$BuildRoot/usr/lib/darwintrace.dylib" ]; then
+			mkdir -p "$BuildRoot/usr/lib"
+			cp "$PREFIX/share/darwinbuild/darwintrace.dylib" \
+		   	"$BuildRoot/usr/lib/darwintrace.dylib"
+		fi
+		echo "export DARWINTRACE_LOG=\"${TRACELOG/$BuildRoot/}\"" >> $SCRIPT
+		echo "export DYLD_INSERT_LIBRARIES=/usr/lib/darwintrace.dylib" >> $SCRIPT
+	else
+		echo "export DARWINTRACE_LOG=\"${TRACELOG}\"" >> $SCRIPT
+	fi
+	echo "export DYLD_FORCE_FLAT_NAMESPACE=1" >> $SCRIPT
+fi
+cat <<-EOF >> $SCRIPT
+	$buildtool $action $build_string < /dev/null 
+	EXIT_STATUS="\$?"
+	echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+	echo "EXIT STATUS: \$EXIT_STATUS"
+	exit \$EXIT_STATUS
+EOF
+
+chmod ugo+x $SCRIPT
+
+if [ "$CHROOTED" == "YES" ] ; then
+	###
+	### Mount devfs in the chroot
+	### We'll make /dev/null our de-facto test for the existence of devfs
+	###
+	### Warning:
+	### This must be done *BEFORE* the call to chroot, otherwise there is
+	### no way to unmount the filesystem except rebooting.
+	###
+	echo "*** Mounting special filesystems ..."
+	if [ ! -c "$BuildRoot/dev/null" ]; then
+		echo "Mounting devfs ..."
+		mkdir -p "$BuildRoot/dev"
+		mount -t devfs stdin "$BuildRoot/dev"
+		mount -t fdesc -o union stdin "$BuildRoot/dev"
+	else
+		echo "devfs appears to exist ..."
+	fi
+
+	#if [ "$buildtool" == "xcodebuild" ]; then
+	#	echo "Mounting volfs ..."
+	#	[ -d "$BuildRoot/sbin" ] || mkdir -p "$BuildRoot/sbin"
+	#	[ -f "$BuildRoot/sbin/mount_volfs" ] || cp /sbin/mount_volfs "$BuildRoot/sbin/"
+	#	[ -d "$BuildRoot/.vol" ] || mkdir -p "$BuildRoot/.vol"
+	#	## If the directory is empty, assume volfs is not mounted
+	#	[ "$(echo $BuildRoot/.vol/*)" == "$BuildRoot/.vol/*" ] && chroot /sbin/mount_volfs "/.vol"
+	#fi
+
+	###
+	### Actually invoke the build tool here
+	###
+	chroot -u root -g wheel $BuildRoot $vartmp/$projnam/build-$project~$build_version.sh 2>&1 | tee -a "$LOG"
+	EXIT_STATUS="${PIPESTATUS[0]}"
+
+else
+	###
+	### Not CHROOTED, but possibly logging dependencies
+	###
+	if [ "$logdeps" == "YES" ]; then
+		export DYLD_INSERT_LIBRARIES="$PREFIX/share/darwinbuild/darwintrace.dylib"
+		export DYLD_FORCE_FLAT_NAMESPACE=1
+		export DARWINTRACE_LOG="$TRACELOG"
+	fi
+	###
+	### Actually invoke the build tool here
+	###
+	$BuildRoot/$vartmp/$projnam/build-$project~$build_version.sh 2>&1 | tee -a "$LOG"
+	EXIT_STATUS="${PIPESTATUS[0]}"
+
+	###
+	### Clean up the logging
+	###
+	if [ "$logdeps" == "YES" ]; then
+		export -n DYLD_INSERT_LIBRARIES DYLD_FORCE_FLAT_NAMESPACE DARWINTRACE_LOG
+	fi
+fi
+
+if [ "$EXIT_STATUS" == "0" ]; then
+	###
+	### Building was successful, copy the results out of the
+	### build root and into the Root cache
+	###
+
+	if [ "$action" == "installhdrs" ]; then
+		mkdir -p "$DARWIN_BUILDROOT/Headers/$projnam/$project.hdrs~$build_version"
+		ditto "$REAL_DSTROOT" "$DARWIN_BUILDROOT/Headers/$projnam/$project.hdrs~$build_version"
+	else
+		mkdir -p "$DARWIN_BUILDROOT/Symbols/$projnam/$project.sym~$build_version"
+		mkdir -p "$DARWIN_BUILDROOT/Roots/$projnam/$project.root~$build_version"
+		ditto "$REAL_SYMROOT" "$DARWIN_BUILDROOT/Symbols/$projnam/$project.sym~$build_version"
+		ditto "$REAL_DSTROOT" "$DARWIN_BUILDROOT/Roots/$projnam/$project.root~$build_version"
+		"$PREFIX/bin/darwinxref" register "$projnam" "$REAL_DSTROOT"
+		if [ "$logdeps" == "YES" ]; then
+			### Log dependencies, but filter out duplicates, relative paths, and temporary files
+			TRACE_TYPES='\(execve\|open\)[[:space:]]\+'
+			cat "$TRACELOG" | sort | uniq | \
+			sed "s|$DARWIN_BUILDROOT/BuildRoot||" | \
+        		grep -i  "^$TRACE_TYPES/" | \
+			grep -v "^$TRACE_TYPES/SourceCache/" | \
+        		grep -vi "^$TRACE_TYPES\(/private\)\?\(/var\)\?/tmp/" | \
+        		grep -vi  "^$TRACE_TYPES/.vol/" | \
+        		grep -vi  "^$TRACE_TYPES/dev/" | \
+			"$PREFIX/bin/darwinxref" loadDeps "$projnam"
+			"$PREFIX/bin/darwinxref" resolveDeps "$projnam"
+		fi
+	fi
+fi
+
+#rm -Rf "${BuildRoot}"
+
+exit $EXIT_STATUS
