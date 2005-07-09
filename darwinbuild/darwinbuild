@@ -159,7 +159,7 @@ if [ -d Roots -a \
 else
 	echo "ERROR: Please change your working directory to the mount point" 1>&2
 	echo "of the disk image, partition, or directory containing the" 1>&2
-	echo "Souces, Symbols, Roots, and Logs directories." 1>&2
+	echo "Sources, Symbols, Roots, and Logs directories." 1>&2
 	echo "Alternatively, you may set the DARWIN_BUILDROOT environment" 1>&2
 	echo "variable to the absolute path of that directory." 1>&2
 	echo "" 1>&2
