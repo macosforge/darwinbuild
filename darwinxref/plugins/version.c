@@ -35,7 +35,7 @@
 void printProjectVersion(CFStringRef project) {
 	CFStringRef build = DBGetCurrentBuild();
 	CFStringRef version = DBCopyPropString(build, project, CFSTR("version"));
-	cfprintf(stdout, "%@-%@\n", project, version);
+	if (version) cfprintf(stdout, "%@-%@\n", project, version);
 }
 
 static int run(CFArrayRef argv) {

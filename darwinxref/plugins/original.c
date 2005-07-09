@@ -37,7 +37,7 @@ static int run(CFArrayRef argv) {
 	CFStringRef build = DBGetCurrentBuild();
 	CFStringRef project = CFArrayGetValueAtIndex(argv, 0);
 	CFStringRef original = DBCopyPropString(build, project, CFSTR("original"));
-	cfprintf(stdout, "%@\n", original);
+	if (original) cfprintf(stdout, "%@\n", original);
 	return 0;
 }
 

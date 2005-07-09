@@ -32,26 +32,59 @@
 
 #include "DBPlugin.h"
 
-static int run(CFArrayRef argv) {
-	if (CFArrayGetCount(argv) != 1)  return -1;
-	CFStringRef build = DBGetCurrentBuild();
-	CFStringRef project = CFArrayGetValueAtIndex(argv, 0);
-	CFStringRef target = DBCopyPropString(build, project, CFSTR("target"));
-	if (target) cfprintf(stdout, "%@\n", target);
-	return 0;
+static void addValues(const void* key, const void* value, void* context);
+
+int run(CFArrayRef argv) {
+	int res = 0;
+	CFIndex count = CFArrayGetCount(argv);
+	if (count != 2)  return -1;
+	
+	CFStringRef oldbuild = CFArrayGetValueAtIndex(argv, 0);
+	CFStringRef newbuild = CFArrayGetValueAtIndex(argv, 1);
+
+	if (!DBHasBuild(oldbuild)) cfprintf(stderr, "Error: no such build: %@\n", oldbuild);
+	if (!DBHasBuild(newbuild)) cfprintf(stderr, "Error: no such build: %@\n", newbuild);
+
+	CFPropertyListRef oldplist = DBCopyBuildPlist(oldbuild);
+	CFPropertyListRef newplist = DBCopyBuildPlist(newbuild);
+
+	CFDictionaryRef oldprojects = CFDictionaryGetValue(oldplist, CFSTR("projects"));
+	CFDictionaryRef newprojects = CFDictionaryGetValue(newplist, CFSTR("projects"));
+		
+	CFArrayRef names = dictionaryGetSortedKeys(newprojects);
+
+	CFIndex i;
+	count = CFArrayGetCount(names);
+	for (i = 0; i < count; ++i) {
+		CFStringRef name = CFArrayGetValueAtIndex(names, i);
+		CFDictionaryRef oldproj = CFDictionaryGetValue(oldprojects, name);
+		CFDictionaryRef newproj = CFDictionaryGetValue(newprojects, name);
+
+		if (oldproj && newproj) {
+			CFDictionaryApplyFunction(oldproj, addValues, (void*)newproj);
+		}
+	}
+	DBSetPlist(newbuild, newplist);
+	CFRelease(oldplist);
+	CFRelease(newplist);
+	
+	return res;
+}
+
+static void addValues(const void* key, const void* value, void* context) {
+	CFDictionaryAddValue((CFMutableDictionaryRef)context, (CFStringRef)key, (CFTypeRef)value);
 }
 
 static CFStringRef usage() {
-	return CFRetain(CFSTR("<project>"));
+	return CFRetain(CFSTR("<old build> <new build>"));
 }
 
 int initialize(int version) {
 	//if ( version < kDBPluginCurrentVersion ) return -1;
 	
-	DBPluginSetType(kDBPluginPropertyType);
-	DBPluginSetName(CFSTR("target"));
+	DBPluginSetType(kDBPluginBasicType);
+	DBPluginSetName(CFSTR("mergeBuild"));
 	DBPluginSetRunFunc(&run);
 	DBPluginSetUsageFunc(&usage);
-	DBPluginSetDataType(CFStringGetTypeID());
 	return 0;
 }

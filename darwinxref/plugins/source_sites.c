@@ -41,7 +41,7 @@ static int run(CFArrayRef argv) {
 		project = CFArrayGetValueAtIndex(argv, 0);
 	}
 	CFArrayRef source_sites = DBCopyPropArray(build, project, CFSTR("source_sites"));
-	count = CFArrayGetCount(source_sites);
+	count = source_sites ? CFArrayGetCount(source_sites) : 0;
 	if (count == 0) {
 		source_sites = DBCopyPropArray(build, NULL, CFSTR("source_sites"));
 		count = CFArrayGetCount(source_sites);

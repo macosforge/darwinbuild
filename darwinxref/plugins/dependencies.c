@@ -104,6 +104,6 @@ void printDependencies(CFStringRef* types, CFStringRef* recursiveTypes, CFMutabl
 			}
 			++type;
 		}
+		CFRelease(dependencies);
 	}
-	CFRelease(dependencies);
 }
