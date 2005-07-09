@@ -1,6 +1,11 @@
 Darwin Build Scripts Change History
 -----------------------------------
 
+	- updated darwinbuild usage statement (pogma)
+	- added darwinbuild -init to configure working directory as build env
+	- updated darwinbuild to use new darwinxref
+	- re-wrote darwinxref to support a plugin architecture
+
 Release 0.5 [12-May-2005]
 	- Added Tiger 8A428.plist and files-8A428.txt.gz
 	- Automatically resolve dependencies after logging them
@@ -37,7 +42,7 @@ Release 0.4 [6-Apr-2005]
 
 Release 0.3 [15-Mar-2005]
 	- darwinbuild -chroot now works with xcodebuild projects
-	- [Bug 2740] Added darwinbuild.common for common subroutines
+	- [Bug 2740] Added darwinbuild.common for common subroutines (kito)
 	- installXcodebuild honors the DARWIN_BUILDROOT environment variable
 	- installXcodebuild merges Mac OS X CoreFoundation with i386 CF-Lite
 	- added 7U16-files.txt.gz for darwinxref findFile database

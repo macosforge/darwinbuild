@@ -127,7 +127,9 @@ fi
 
 
 function PrintUsage() {
-	echo "usage: $(basename $0) [-headers] [-nochroot] <project> [<version>]" 1>&2
+	echo "usage: $(basename $0) [flags] <project> [<version>]" 1>&2
+	echo "usage: flags: [-headers] [-build=X] [-target=X]" 1>&2
+	echo "              [-logdeps] [-nochroot] [-noload] [-depsbuild=X]" 1>&2
 	exit 1
 }
 
@@ -199,6 +201,9 @@ fi
 ###   -noload   Don't load dependencies into the chroot.
 ###				Has no effect if -nochroot is specified.
 ###   -logdeps  Do magic to log the build-time dependencies
+###   -target=X The makefile or xcode target to build
+###   -build=X  X is the darwin build number to buld, e.g. 8B15
+###   -depsbuild=X X is the darwin build number to populate the BuildRoot 
 ###   <project> The name of the project to build
 ###   <version> If specified, the version of the project to build
 ###             this will default to the version associated with the
