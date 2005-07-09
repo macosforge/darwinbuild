@@ -1,0 +1,190 @@
+#!/bin/sh
+#
+# Copyright (c) 2005, Apple Computer, Inc. All rights reserved.
+# 
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1.  Redistributions of source code must retain the above copyright
+#     notice, this list of conditions and the following disclaimer. 
+# 2.  Redistributions in binary form must reproduce the above copyright
+#     notice, this list of conditions and the following disclaimer in the
+#     documentation and/or other materials provided with the distribution. 
+# 3.  Neither the name of Apple Computer, Inc. ("Apple") nor the names of
+#     its contributors may be used to endorse or promote products derived
+#     from this software without specific prior written permission. 
+# 
+# THIS SOFTWARE IS PROVIDED BY APPLE AND ITS CONTRIBUTORS "AS IS" AND
+# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+# ARE DISCLAIMED. IN NO EVENT SHALL APPLE OR ITS CONTRIBUTORS BE LIABLE FOR
+# ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+# OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+# HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+# STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+# IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+
+
+###
+### Calculate a non-conflicting build number.
+### Given a list of filenames, this function will
+### find the largest number after the '~' and return
+### its value + 1.
+###
+function GetBuildVersion() {
+	local maxbuild="0"
+	for X in $* ; do
+		# Grab the numeric portion after the '~'
+		build=$(echo $X | sed -e 's/^.*~\([0-9]*\)$/\1/')
+		# If the regex fails, it somtimes prints the same line
+		if [ "$build" != "$X" -a "$build" != "" ]; then
+			# [ seems to things on the left of the -a, 
+			# so do this in a different statement to avoid
+			# errors about non-numeric values of $build
+			if [ "$build" -gt "$maxbuild" ]; then
+				maxbuild="$build"
+			fi
+		fi
+	done
+	echo $maxbuild
+}
+
+###
+### Trap calls to ditto since it is only available on Mac OS X
+### Warning: only supports the directory-to-directory form
+function ditto() {
+	local srcdir="$1"
+	local dstdir="$2"
+	if [ -x /usr/bin/ditto ]; then
+		/usr/bin/ditto "$srcdir" "$dstdir"
+	else
+		tar c -C "$srcdir" . | tar xf - -C "$dstdir"
+	fi
+}
+
+###
+### Download a .tar.gz file
+###
+function Download() {
+	local destination="$1"
+	local filename="$2"
+	local master_sites="$3"
+
+	### Skip the .tar.gz download if an extracted version exists
+	extracted=$(basename "$filename" .tar.gz)
+	if [ -d "$destination/$extracted" ]; then
+		echo "Found $extracted in $destination"
+		return
+	fi
+	
+	###
+	### Download the sources,
+	### and any applicable patches.
+	###
+	for master_site in $master_sites ;
+	do
+		if [ ! -f "$destination/$filename" ]; then
+			mkdir -p "$destination"
+			echo "Attempting to download $master_site/$filename ..."
+			curl --fail \
+				--silent \
+				--output "$destination/$filename" \
+				--url "$master_site/$filename"
+			if [ -f "$destination/$filename" ]; then
+				echo "Download complete"
+				break
+			fi
+		else
+			echo "Found $filename in $destination"
+			break
+		fi
+	done
+}
+
+###
+### Installs a root into the BuildRoot.  Checks for a
+### receipt file to avoid duplicate installs.
+### Relies on the DARWIN_BUILDROOT environment variable.
+###
+function InstallRoot() {
+	local BuildRoot="$1"
+	local X="$2"
+	local receipts="$BuildRoot/.chroot.receipts"
+	mkdir -p "$receipts"
+
+	### Special case for core foundation because the Mac OS X
+	### version differs from the Darwin version.  If we are using
+	### Xcode, we do not want to install CF-Lite over the CF from
+	### the host Mac OS X system.  Save away a copy and restore
+	### it later.
+	CFPATH=/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation
+	if [ "${X/-*}" == "CF" -a -f "$receipts/xcodebuild-(null)" ]; then
+		cp "$BuildRoot/$CFPATH" "$BuildRoot/$CFPATH.bak"
+	fi
+
+	###
+	### There will be duplication between the bash dependencies and the
+	### project's dependencies.  Therefore don't install something that
+	### has already been installed.  (Test for the presense of a receipt).
+	###
+	bv=$(GetBuildVersion $DARWIN_BUILDROOT/Roots/${X/-*}/$X.root*)
+	local SRCDIR=$DARWIN_BUILDROOT/Roots/${X/-*}/$X.root~$bv
+	if [ "$SRCDIR" -nt "$receipts/$X" ]; then
+		echo "Copying $X ..."
+		ditto $SRCDIR $BuildRoot
+		touch "$receipts/$X"
+	elif [ ! -f "$receipts/$X" ]; then
+		Download "$DARWIN_BUILDROOT/Roots/opendarwin.org/$depsbuild" \
+			"$X.root.tar.gz" \
+			$($PREFIX/bin/darwinxref $dbfile binary_sites)/$depsbuild
+		if [ -f $DARWIN_BUILDROOT/Roots/opendarwin.org/$depsbuild/$X.root.tar.gz ]; then
+			cd "$BuildRoot"
+			tar xzf $DARWIN_BUILDROOT/Roots/opendarwin.org/$depsbuild/$X.root.tar.gz
+			if [ "$?" == "0" ]; then
+				touch "$receipts/$X"
+			fi
+		else
+			echo "ERROR: could not find root: $X" 1>&2
+			exit 1
+		fi
+	fi
+
+	### Restore CF if necessary
+	if [ -f "$BuildRoot/$CFPATH.bak" ]; then
+		mv "$BuildRoot/$CFPATH.bak" "$BuildRoot/$CFPATH"
+	fi
+}
+
+###
+### Installs a headers root into the BuildRoot.  Checks for a
+### receipt file to avoid duplicate installs.  Falls back on
+### InstallRoot if no headers root is available.
+### Relies on the DARWIN_BUILDROOT environment variable.
+###
+function InstallHeaders() {
+	local BuildRoot="$1"
+	local X="$2"
+	local receipts="$BuildRoot/.chroot.receipts"
+
+	if [ ! -f "$receipts/$X.hdrs" -a ! -f "$receipts/$X" ]; then
+	bv=$(GetBuildVersion $DARWIN_BUILDROOT/Headers/${X/-*}/$X.hdrs*)
+	if [ -d $DARWIN_BUILDROOT/Headers/${X/-*}/$X.hdrs~$bv ]; then
+		echo "Copying $X ..."
+		ditto $DARWIN_BUILDROOT/Headers/${X/-*}/$X.hdrs~$bv $BuildRoot
+	else
+		Download "$DARWIN_BUILDROOT/Headers/opendarwin.org/$depsbuild" "$X.hdrs.tar.gz" \
+			$($PREFIX/bin/darwinxref $dbfile binary_sites)/$depsbuild
+		if [ -f $DARWIN_BUILDROOT/Headers/opendarwin.org/$depsbuild/$X.hdrs.tar.gz ]; then
+			cd "$BuildRoot"
+			tar xzf $DARWIN_BUILDROOT/Headers/opendarwin.org/$depsbuild/$X.hdrs.tar.gz
+			if [ "$?" == "0" ]; then
+				touch "$receipts/$X.hdrs"
+			fi
+		else
+			InstallRoot "$BuildRoot" "$X"
+		fi
+	fi
+	fi
+}
