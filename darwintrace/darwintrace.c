@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/stat.h>
+#include <sys/param.h>
 
 int __darwintrace_fd = -2;
 #define BUFFER_SIZE	1024
@@ -36,7 +37,17 @@ int open(const char* path, int flags, ...) {
 		  }
 		}
 		if (__darwintrace_fd >= 0) {
-		  int size = snprintf(__darwintrace_buf, BUFFER_SIZE, "open\t%s\n", path );
+		  int size;
+		  if(strncmp(path, "/.vol/", 6) == 0) {
+		    char realpath[MAXPATHLEN];
+		    if(0 == fcntl(result, F_GETPATH, realpath)) {
+		      size = snprintf(__darwintrace_buf, BUFFER_SIZE, "open\t%s\n", realpath );
+		      // printf("resolved %s to %s\n", path, realpath);
+		    }
+		    // if we can't resolve it, ignore the volfs path
+		  } else {
+		    size = snprintf(__darwintrace_buf, BUFFER_SIZE, "open\t%s\n", path );
+		  }
 		  write(__darwintrace_fd, __darwintrace_buf, size);
 		  fsync(__darwintrace_fd);
 		}
