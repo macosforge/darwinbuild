@@ -437,7 +437,7 @@ fi
 ### Look for the build tool: make, xcodebuild
 ###
 
-numfiles=$(ls -d *.pbproj *.xcode 2> /dev/null | wc -l)
+numfiles=$(ls -d *.pbproj *.xcode *.xcodeproj 2> /dev/null | wc -l)
 if [ $numfiles != 0 ]; then
 	buildtool="xcodebuild"
 else
