@@ -43,7 +43,7 @@ for X in $(cat /tmp/installXcode.libs.$$ | sort | uniq); do
 	if [ "$FORCE" == "YES" -o ! -f $BUILDROOT$X ]; then
 		echo copying
 		### Back up to the .framework level (instead of /Versions/A/)
-		SRC=$(echo $(dirname $X) | sed 's/\.framework.*/\.framework/')
+		SRC=$(echo $(dirname $X) | sed 's/\(.*\.framework\).*/\1/')
 		DST=$BUILDROOT$SRC
 		case $SRC in 
 		*.framework)
