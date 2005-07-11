@@ -606,14 +606,15 @@ if [ "$CHROOTED" == "YES" ] ; then
 		echo "devfs appears to exist ..."
 	fi
 
-	#if [ "$buildtool" == "xcodebuild" ]; then
-	#	echo "Mounting volfs ..."
-	#	[ -d "$BuildRoot/sbin" ] || mkdir -p "$BuildRoot/sbin"
-	#	[ -f "$BuildRoot/sbin/mount_volfs" ] || cp /sbin/mount_volfs "$BuildRoot/sbin/"
-	#	[ -d "$BuildRoot/.vol" ] || mkdir -p "$BuildRoot/.vol"
-	#	## If the directory is empty, assume volfs is not mounted
-	#	[ "$(echo $BuildRoot/.vol/*)" == "$BuildRoot/.vol/*" ] && chroot /sbin/mount_volfs "/.vol"
-	#fi
+# 	if [ "$buildtool" == "xcodebuild" ]; then
+# 		echo "Mounting volfs ..."
+# 		[ -d "$BuildRoot/sbin" ] || mkdir -p "$BuildRoot/sbin"
+# 		[ -f "$BuildRoot/sbin/mount_volfs" ] || cp /sbin/mount_volfs "$BuildRoot/sbin/"
+# 		[ -f "$BuildRoot/sbin/umount" ] || cp /sbin/mount_volfs "$BuildRoot/sbin/"
+# 		[ -d "$BuildRoot/.vol" ] || mkdir -p "$BuildRoot/.vol"
+# 		## If the directory is empty, assume volfs is not mounted
+# 		[ "$(echo $BuildRoot/.vol/*)" == "$BuildRoot/.vol/*" ] && chroot "$BuildRoot" /sbin/mount_volfs "/.vol"
+# 	fi
 
 	###
 	### Actually invoke the build tool here
