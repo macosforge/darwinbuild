@@ -1,3 +1,10 @@
+include ../common.mk
+
+###
+### Variables for the 'install' phase
+###
+DATDIR:=$(DATDIR)/darwinxref
+
 SOURCES= \
 	DBDataStore.c \
 	DBPlugin.c \
@@ -21,17 +28,6 @@ CFLAGS+=-ggdb $(TCL_CFLAGS) -DVERSION=\"$(shell cat ../VERSION)\"
 LDFLAGS+=-framework CoreFoundation $(TCL_LDFLAGS)
 PLUGIN_CFLAGS=$(CFLAGS) -I.
 PLUGIN_LDFLAGS=$(LDFLAGS) -bundle -bundle_loader darwinxref
-
-###
-### Variables for the 'install' phase
-###
-PREFIX=/usr/local
-BINDIR=$(PREFIX)/bin
-DATDIR=$(PREFIX)/share/darwinxref
-INSTALL=install
-INSTALL_EXE_FLAGS=-m 0755 -o root -g wheel
-INSTALL_DIR_FLAGS=$(INSTALL_EXE_FLAGS)
-INSTALL_DOC_FLAGS=-m 0644 -o root -g wheel
 
 all: \
 	darwinxref \

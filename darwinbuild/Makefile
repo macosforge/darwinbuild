@@ -1,13 +1,9 @@
+include ../common.mk
+
 ###
 ### Variables for the 'install' phase
 ###
-PREFIX=/usr/local
-BINDIR=$(PREFIX)/bin
-DATDIR=$(PREFIX)/share/darwinbuild
-INSTALL=install
-INSTALL_EXE_FLAGS=-m 0755 -o root -g wheel
-INSTALL_DIR_FLAGS=$(INSTALL_EXE_FLAGS)
-INSTALL_DOC_FLAGS=-m 0644 -o root -g wheel
+DATDIR:=$(DATDIR)/darwinbuild
 
 all: 
 
