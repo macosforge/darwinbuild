@@ -1,0 +1,108 @@
+#!/bin/sh
+
+### TODO:
+### pbx_jamfiles
+
+FORCE="YES"
+
+XCODEBUILD=/usr/bin/xcodebuild
+BUILDROOT="$1"
+
+###
+### Recurse through frameworks and libraries looking for dependencies
+###
+RecurseLibs() {
+	echo $1 >> /tmp/installXcode.seen.$$
+	otool -L $1 | tail -n +2 | awk '{ print $1 }' > /tmp/installXcode.tmplibs.$$
+	cat /tmp/installXcode.tmplibs.$$ >> /tmp/installXcode.libs.$$
+	for X in $(cat /tmp/installXcode.tmplibs.$$); do
+		if ! grep -q "^$X\$" /tmp/installXcode.seen.$$ ; then
+			RecurseLibs $X
+		fi
+	done
+}
+
+RemoveTemps() {
+	rm -f /tmp/installXcode.libs.$$
+	rm -f /tmp/installXcode.seen.$$
+	rm -f /tmp/installXcode.tmplibs.$$
+}
+
+###
+### Find all the framework and library dependencies of Xcode build
+### For frameworks, copy over all supporting files.
+###
+
+RemoveTemps
+touch /tmp/installXcode.seen.$$
+echo Analyzing Xcode dependencies ...
+RecurseLibs $XCODEBUILD
+for X in $(cat /tmp/installXcode.libs.$$ | sort | uniq); do
+	echo -n $(basename $X) "... "
+	[ -d $BUILDROOT$(dirname $X) ] || mkdir -p $BUILDROOT$(dirname $X)
+	if [ "$FORCE" == "YES" -o ! -f $BUILDROOT$X ]; then
+		echo copying
+		### Back up to the .framework level (instead of /Versions/A/)
+		SRC=$(echo $(dirname $X) | sed 's/\.framework.*/\.framework/')
+		DST=$BUILDROOT$SRC
+		case $SRC in 
+		*.framework)
+			rsync -rl \
+				--exclude=Headers \
+				--exclude=PrivateHeaders \
+				$SRC/* $DST
+			;;
+		*)
+			cp $X $DST
+			;;
+		esac
+	else
+		echo skipping
+	fi
+done
+
+
+###
+### Copy some miscellaneous files that xcodebuild needs
+###
+
+for SRC in \
+	/usr/share/icu \
+	/System/Library/CoreServices/CharacterSets \
+	/Developer/Private/jam \
+	/Developer/Tools \
+	/usr/bin/xcodebuild \
+	; do
+	echo -n "$SRC ... "
+	DST="$BUILDROOT$(dirname $SRC)"
+	[ -d "$DST" ] || mkdir -p "$DST"
+	if [ ! -e "$BUILDROOT$SRC" ]; then
+		echo copying
+		rsync -rl "$SRC" "$DST"
+	else
+		echo skipped
+	fi
+done
+
+###
+### Copy the full CF over the CF-Lite that may be in the build root.
+### Retain the i386 CF-Lite that may be in the build root.
+###
+
+CF=/System/Library/Frameworks/CoreFoundation.framework/Versions/Current/CoreFoundation
+CF_PPC=$CF
+if file $CF | grep -q "Mach-O fat file" ; then
+	CF_PPC=/tmp/CF.tmp.ppc.$$
+	lipo $CF -thin ppc -output $CF_PPC
+fi
+if [ -f $BUILDROOT$CF ]; then
+	if file $BUILDROOT$CF | grep -q "Mach-O fat file" ; then
+		lipo $BUILDROOT$CF -replace ppc $CF_PPC -output $BUILDROOT$CF
+	else
+		lipo -create -arch ppc $CF_PPC -output $BUILDROOT$CF
+	fi
+else
+	lipo -create -arch ppc $CF_PPC -output $BUILDROOT$CF
+fi
+
+RemoveTemps
