@@ -668,7 +668,6 @@ if [ "$EXIT_STATUS" == "0" ]; then
         		grep -i  "^$TRACE_TYPES/" | \
 			grep -v "^$TRACE_TYPES/SourceCache/" | \
         		grep -vi "^$TRACE_TYPES\(/private\)\?\(/var\)\?/tmp/" | \
-        		grep -vi  "^$TRACE_TYPES/.vol/" | \
         		grep -vi  "^$TRACE_TYPES/dev/" | \
 			"$PREFIX/bin/darwinxref" loadDeps "$projnam"
 			"$PREFIX/bin/darwinxref" resolveDeps "$projnam"
