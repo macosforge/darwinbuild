@@ -320,6 +320,23 @@ CFDictionaryRef _DBCopyPropDictionary(CFStringRef build, CFStringRef project, CF
 //
 // Kluge to globally support build aliases ("original") and inheritance ("inherits") properties.
 //
+// ok, this is how this routine should work, even if it doesn't currently. -ssen
+/*
+  Let's say you have build 8A1, 8A2, and 8A3, and each inherits from the previous.
+  Let's say you have "foo" and "foo_prime", where "foo_prime" is a build alias
+  for "foo". If you're searching for "foo" in 8A3, look there first, and if you fail,
+  walk up the build inheritance tree.
+  
+  8A1   foo   
+  8A2   foo   foo_prime->foo
+  8A3   foo   
+
+  If you're looking for "foo_prime" in 8A3, we need to look up the entire
+  build inheritance for an overriding property. Along the way, if we find
+  that foo_prime was a build alias, and no property was found, restart the
+  search with "foo"
+
+*/
 CFTypeRef _DBCopyPropWithInheritance(CFStringRef build, CFStringRef project, CFStringRef property,
 	CFTypeRef (*func)(CFStringRef, CFStringRef, CFStringRef)) {
 
