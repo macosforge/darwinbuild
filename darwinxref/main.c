@@ -33,6 +33,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "sqlite3.h"
+#include <fcntl.h>
 
 #include "DBPluginPriv.h"
 
@@ -46,6 +47,7 @@ int optreset;
 // user environment global
 extern char** environ;
 
+char* readBuildFile();
 
 int main(int argc, char* argv[]) {
 	char* progname = argv[0];
@@ -74,6 +76,8 @@ int main(int argc, char* argv[]) {
 	argc -= optind;
 	argv += optind;
 
+	if (build == NULL) build = readBuildFile();
+
 	// special built-in command
 	if (argc == 1 && strcmp(argv[0], "info") == 0) {
 		printf("%s/%s\n", basename(progname), "" VERSION "");
@@ -93,3 +97,23 @@ int main(int argc, char* argv[]) {
 	return 0;
 }
 
+char* readBuildFile() {
+	char* build = NULL;
+	int fd = open(".build/build", O_RDONLY);
+	if (fd != -1) {
+		size_t size = 1000; // should be bigger than any likely build number
+		build = malloc(size);
+		if (build) {
+			ssize_t len = read(fd, build, size-1);
+			if (len == -1) {
+				free(build);
+				build = NULL;
+			} else {
+				build[len] = 0;
+				if (build[len-1] == '\n') build[len-1] = 0;
+			}
+		}
+	}
+	close(fd);
+	return build;
+}
