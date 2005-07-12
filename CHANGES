@@ -1,6 +1,7 @@
 Darwin Build Scripts Change History
 -----------------------------------
 
+	- darwintrace resolves volfs ("/.vol") paths now
 	- updated darwinbuild usage statement (pogma)
 	- added darwinbuild -init to configure working directory as build env
 	- updated darwinbuild to use new darwinxref
