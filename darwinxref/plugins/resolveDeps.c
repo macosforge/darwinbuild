@@ -39,7 +39,7 @@ int resolve_dependencies(const char* build, const char* project);
 static int run(CFArrayRef argv) {
 	int res = 0;
 	CFIndex count = CFArrayGetCount(argv);
-	if (count >= 1)  return -1;
+	if (count > 1)  return -1;
 	char* project = (count == 1) ? strdup_cfstr(CFArrayGetValueAtIndex(argv, 0)) : NULL;
 	char* build = strdup_cfstr(DBGetCurrentBuild());
 	resolve_dependencies(build, project);
