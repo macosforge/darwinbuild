@@ -24,10 +24,19 @@ CFLAGS+= \
 TCL_CFLAGS=-DHAVE_TCL_PLUGINS=1
 TCL_LDFLAGS=-ltcl
 
-CFLAGS+=-ggdb $(TCL_CFLAGS) -DVERSION=\"$(shell cat ../VERSION)\"
+CFLAGS+=-ggdb $(TCL_CFLAGS) -DVERSION=\"$(shell cat ../VERSION)\" $(SQLITEINC)
 LDFLAGS+=-framework CoreFoundation $(TCL_LDFLAGS)
 PLUGIN_CFLAGS=$(CFLAGS) -I.
 PLUGIN_LDFLAGS=$(LDFLAGS) -bundle -bundle_loader darwinxref
+
+VERSION=$(shell uname -r | cut -f1 -d. )
+ifeq ($(VERSION), 7)
+SQLITEINC = -I../sqlite
+SQLITELIB = ../sqlite/sqlite3.o
+else
+SQLITEINC =
+SQLITELIB = -lsqlite3
+endif
 
 all: \
 	darwinxref \
@@ -53,13 +62,11 @@ clean:
 	rm $(wildcard plugins/*.so)
 
 darwinxref: $(SOURCES)
-	ranlib ../sqlite/libsqlite3.a 2>/dev/null
 	cc -o $@ \
 		$(CFLAGS) \
 		$(LDFLAGS) \
-		-I../sqlite \
 		$(SOURCES) \
-		../sqlite/libsqlite3.a 
+		$(SQLITELIB)
 
 plugins/%.so: plugins/%.c DBPlugin.h
 	cc -o $@ $(PLUGIN_CFLAGS) $(PLUGIN_LDFLAGS) $^
