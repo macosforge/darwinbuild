@@ -565,7 +565,7 @@ cat <<-EOF >> $SCRIPT
 EOF
 if [ "$logdeps" == "YES" ]; then
 	if [ "$CHROOTED" == "YES" ]; then
-		if [ ! -f "$BuildRoot/usr/lib/darwintrace.dylib" ]; then
+		if [ "$PREFIX/share/darwinbuild/darwintrace.dylib" -nt "$BuildRoot/usr/lib/darwintrace.dylib" ]; then
 			mkdir -p "$BuildRoot/usr/lib"
 			cp "$PREFIX/share/darwinbuild/darwintrace.dylib" \
 		   	"$BuildRoot/usr/lib/darwintrace.dylib"
