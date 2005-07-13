@@ -32,7 +32,7 @@
 
 #include "DBPlugin.h"
 
-void printDependencies(CFStringRef* types, CFStringRef* recursiveTypes, CFMutableSetRef visited, CFStringRef build, CFStringRef project);
+void printDependencies(CFStringRef* types, CFStringRef* recursiveTypes, CFMutableSetRef visited, CFStringRef build, CFStringRef project, int indentLevel);
 
 
 static int run(CFArrayRef argv) {
@@ -44,15 +44,15 @@ static int run(CFArrayRef argv) {
 	CFStringRef type = CFArrayGetValueAtIndex(argv, 0);
 	if (CFEqual(type, CFSTR("-run"))) {
 		CFStringRef types[] = { CFSTR("lib"), CFSTR("run"), NULL };
-		printDependencies(types, types, NULL, DBGetCurrentBuild(), project);
+		printDependencies(types, types, NULL, DBGetCurrentBuild(), project, 0);
 	} else if (CFEqual(type, CFSTR("-build"))) {
 		CFStringRef types[] = { CFSTR("lib"), CFSTR("run"), CFSTR("build"), NULL };
 		CFStringRef recursive[] = { CFSTR("lib"), CFSTR("run"), NULL };
-		printDependencies(types, recursive, NULL, DBGetCurrentBuild(), project);
+		printDependencies(types, recursive, NULL, DBGetCurrentBuild(), project, 0);
 	} else if (CFEqual(type, CFSTR("-header"))) {
 		CFStringRef types[] = { CFSTR("header"), NULL };
 		CFStringRef recursive[] = { NULL };
-		printDependencies(types, recursive, NULL, DBGetCurrentBuild(), project);
+		printDependencies(types, recursive, NULL, DBGetCurrentBuild(), project, 0);
 	} else {
 		return -1;
 	}
@@ -75,7 +75,7 @@ int initialize(int version) {
 }
 
 
-void printDependencies(CFStringRef* types, CFStringRef* recursiveTypes, CFMutableSetRef visited, CFStringRef build, CFStringRef project) {
+void printDependencies(CFStringRef* types, CFStringRef* recursiveTypes, CFMutableSetRef visited, CFStringRef build, CFStringRef project, int indentLevel) {
 	if (!visited) visited = CFSetCreateMutable(NULL, 0, &kCFTypeSetCallBacks);
 	
 	CFDictionaryRef dependencies = DBCopyPropDictionary(build, project, CFSTR("dependencies"));
@@ -95,9 +95,13 @@ void printDependencies(CFStringRef* types, CFStringRef* recursiveTypes, CFMutabl
 				for (i = 0; i < count; ++i) {
 					CFStringRef newproject = CFArrayGetValueAtIndex(array, i);
 					if (!CFSetContainsValue(visited, newproject)) {
-						cfprintf(stdout, "%@\n", newproject);
+					  // use the indent level as a minimum
+					  // precision for the string ""
+						cfprintf(stdout, "%*s%@\n",
+							 indentLevel, "",
+							 newproject);
 						CFSetAddValue(visited, newproject);
-						printDependencies(recursiveTypes, recursiveTypes, visited, build, newproject);
+						printDependencies(recursiveTypes, recursiveTypes, visited, build, newproject, indentLevel+1);
 					}
 				}
 				
