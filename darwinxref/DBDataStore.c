@@ -58,12 +58,18 @@ void* _DBPluginGetDataStorePtr() {
 	char* errmsg; \
 	va_start(args, fmt); \
 	sqlite3* db = _DBPluginGetDataStorePtr(); \
-	char *query = sqlite3_vmprintf(fmt, args); \
-	res = sqlite3_exec(db, query, callback, context, &errmsg); \
-	if (res != SQLITE_OK) { \
-		fprintf(stderr, "Error: %s (%d)\n  SQL: %s\n", errmsg, res, query); \
+	if (db) { \
+		char *query = sqlite3_vmprintf(fmt, args); \
+		res = sqlite3_exec(db, query, callback, context, &errmsg); \
+		if (res != SQLITE_OK) { \
+			fprintf(stderr, "Error: %s (%d)\n  SQL: %s\n", errmsg, res, query); \
+		} \
+		sqlite3_free(query); \
+	} else { \
+		fprintf(stderr, "Error: database not open.\n"); \
+		res = SQLITE_ERROR; \
 	} \
-	sqlite3_free(query);
+	va_end(args);
 
 int SQL(const char* fmt, ...) {
 	int res;
@@ -164,17 +170,20 @@ CFDictionaryRef SQL_CFDICTIONARY(const char* fmt, ...) {
 void SQL_NOERR(char* sql) {
 	char* errmsg;
 	sqlite3* db = _DBPluginGetDataStorePtr();
-	int res = sqlite3_exec(db, sql, NULL, NULL, &errmsg);
-	if (res != SQLITE_OK && res != SQLITE_ERROR) {
-		fprintf(stderr, "Error: %s (%d)\n", errmsg, res);
-	} else {
-		res = 0;
+	if (db) {
+		int res = sqlite3_exec(db, sql, NULL, NULL, &errmsg);
+		if (res != SQLITE_OK && res != SQLITE_ERROR) {
+			fprintf(stderr, "Error: %s (%d)\n", errmsg, res);
+		}
 	}
 }
 
 int DBDataStoreInitialize(const char* datafile) {
-	sqlite3_open(datafile, (sqlite3**)&__DBDataStore);
-	if (__DBDataStore == NULL) return -1;
+	int res = sqlite3_open(datafile, (sqlite3**)&__DBDataStore);
+	if (res != SQLITE_OK) {
+		sqlite3_close(__DBDataStore);
+		__DBDataStore = NULL;
+	}
 
 	char* table = "CREATE TABLE properties (build TEXT, project TEXT, property TEXT, key TEXT, value TEXT)";
 	char* index = "CREATE INDEX properties_index ON properties (build, project, property, key, value)";

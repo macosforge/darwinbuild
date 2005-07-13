@@ -83,6 +83,7 @@
 ###
 
 PREFIX=/usr/local
+XREFDB=.build/xref.db
 build=""
 depsbuild=""
 CHROOTED="YES"
@@ -119,8 +120,8 @@ if [ "$1" == "-init" ]; then
 	echo "$build" > .build/build
 	while [ "$build" != "" ]; do
 		Download .build "$build".plist http://darwinsource.opendarwin.org/plists/
-		$PREFIX/bin/darwinxref -f.xref.db "-b$build" loadIndex .build/"$build".plist
-		build=$($PREFIX/bin/darwinxref -f.xref.db "-b$build" inherits)
+		$PREFIX/bin/darwinxref "-f$XREFDB" "-b$build" loadIndex .build/"$build".plist
+		build=$($PREFIX/bin/darwinxref "-f$XREFDB" "-b$build" inherits)
 	done
 	exit 0
 fi
@@ -169,7 +170,7 @@ fi
 
 BuildRoot="$DARWIN_BUILDROOT/BuildRoot"
 mkdir -p "$BuildRoot"
-export DARWINXREF_DB_FILE="$DARWIN_BUILDROOT/.xref.db"
+export DARWINXREF_DB_FILE="$DARWIN_BUILDROOT/$XREFDB"
 
 ###
 ### Check and see wether there is a sources directory set in the
