@@ -533,10 +533,10 @@ CFDictionaryRef DBCopyBuildPlist(CFStringRef build) {
 }
 
 
-int _DBSetPlist(CFStringRef buildParam, CFStringRef projectParam, CFPropertyListRef plist) {
+int DBSetPlist(CFStringRef buildParam, CFStringRef projectParam, CFPropertyListRef plist) {
 	int res = 0;
 	CFIndex i, count;
-	
+
 	if (!plist) return -1;
 	if (CFGetTypeID(plist) != CFDictionaryGetTypeID()) return -1;
 
@@ -552,6 +552,9 @@ int _DBSetPlist(CFStringRef buildParam, CFStringRef projectParam, CFPropertyList
 	}
 
 	CFArrayRef props = dictionaryGetSortedKeys(plist);
+
+	res = DBBeginTransaction();
+	if (res != 0) return res;
 
 	//
 	// Delete any properties which may have been removed
@@ -597,25 +600,15 @@ int _DBSetPlist(CFStringRef buildParam, CFStringRef projectParam, CFPropertyList
 		for (i = 0; i < count; ++i ) {
 			CFStringRef project = CFArrayGetValueAtIndex(projectNames, i);
 			CFDictionaryRef subplist = CFDictionaryGetValue(projects, project);
-			res = _DBSetPlist(build, project, subplist);
+			res = DBSetPlist(build, project, subplist);
 			if (res != 0) break;
 		}
 		CFRelease(projectNames);
 	}
 	if (props) CFRelease(props);
-	return res;
-}
 
-int DBSetPlist(CFStringRef buildParam, CFPropertyListRef plist) {
-	int res;
-	res = DBBeginTransaction();
-	if (res != 0) return res;
-	res = _DBSetPlist(buildParam, NULL, plist);
-	if (res != 0) {
-		DBRollbackTransaction();
-		return res;
-	}
 	DBCommitTransaction();
+
 	return res;
 }
 

@@ -64,7 +64,7 @@ int run(CFArrayRef argv) {
 			CFDictionaryApplyFunction(oldproj, addValues, (void*)newproj);
 		}
 	}
-	DBSetPlist(newbuild, newplist);
+	DBSetPlist(newbuild, NULL, newplist);
 	CFRelease(oldplist);
 	CFRelease(newplist);
 	

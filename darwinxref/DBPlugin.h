@@ -148,7 +148,15 @@ int DBSetPropDictionary(CFStringRef build, CFStringRef project, CFStringRef prop
 CFDictionaryRef DBCopyProjectPlist(CFStringRef build, CFStringRef project);
 CFDictionaryRef DBCopyBuildPlist(CFStringRef build);
 
-int DBSetPlist(CFStringRef build, CFPropertyListRef plist);
+/*!
+	@function DBSetPlist
+	Sets properties in the database according to the specified plist.
+	@param build The build number whose properties to set.
+	@param project The project whose properties to set, or if NULL, the entire build.
+	@param plist The plist containing the properties to set.
+	@result The status, 0 for success.
+*/
+int DBSetPlist(CFStringRef build, CFStringRef project, CFPropertyListRef plist);
 
 int DBBeginTransaction();
 int DBCommitTransaction();

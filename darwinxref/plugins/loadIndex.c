@@ -41,7 +41,7 @@ static int run(CFArrayRef argv) {
 	char* filename = strdup_cfstr(CFArrayGetValueAtIndex(argv, 0));
 	CFPropertyListRef plist = read_plist(filename);
 	if (plist) {
-		res = DBSetPlist(NULL, plist);
+		res = DBSetPlist(NULL, NULL, plist);
 	}
 	free(filename);
 	return res;

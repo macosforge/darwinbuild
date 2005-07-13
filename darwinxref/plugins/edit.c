@@ -112,7 +112,7 @@ int editPlist(CFStringRef project) {
                         while (!done) {
                                 p = read_plist(tmpfile);
                                 // Check if plist parsed successfully, if so import it
-								if (DBSetPlist(build, p) == 0) {
+								if (DBSetPlist(build, project, p) == 0) {
 										done = 1;
                                         CFRelease(p);
                                 } else {
