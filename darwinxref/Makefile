@@ -58,8 +58,9 @@ uninstall:
 	rm -rf $(DATDIR)/plugins
 
 clean:
-	rm darwinxref
-	rm $(wildcard plugins/*.so)
+	rm -f darwinxref
+	rm -f $(PLUGIN_SOURCES:c=so)
+	rm -f upgrade_plist
 
 darwinxref: $(SOURCES)
 	cc -o $@ \
