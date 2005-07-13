@@ -95,6 +95,44 @@ int execve(const char* path, char* const argv[], char* const envp[]) {
 #endif
 		write(__darwintrace_fd, __darwintrace_buf, size);
 		fsync(__darwintrace_fd);
+		
+		int fd = open(path, O_RDONLY, 0);
+		if (fd != -1) {
+			char buffer[MAXPATHLEN];
+			ssize_t bytes_read = read(fd, buffer, MAXPATHLEN);
+			if (buffer[0] == '#' && buffer[1] == '!') {
+				const char* interp = &buffer[2];
+				int i;
+				// skip past leading whitespace
+				for (i = 2; i < (MAXPATHLEN-1); ++i) {
+					if (buffer[i] != ' ' && buffer[i] != '\t') {
+						interp = &buffer[i];
+						break;
+					}
+				}
+				// found interpreter (or ran out of data)
+				// skip until next whitespace, then terminate the string
+				for (; i < (MAXPATHLEN-1); ++i) {
+					if (buffer[i] == ' ' || buffer[i] == '\t' || buffer[i] == '\n') {
+						buffer[i] = 0;
+					}
+				}
+fprintf(stderr, "interp = %s\n", interp);	
+				// we have liftoff
+				if (interp) {
+#if DARWINTRACE_SHOW_PROCESS
+					const char* procname = strrchr(argv[0], '/') + 1;
+					if (procname == NULL) procname = argv[0];
+					int size = snprintf(__darwintrace_buf, BUFFER_SIZE, "%s[%d]\texecve\t%s\n", procname, 0, interp );
+#else
+					int size = snprintf(__darwintrace_buf, BUFFER_SIZE, "execve\t%s\n", interp );
+#endif
+					write(__darwintrace_fd, __darwintrace_buf, size);
+					fsync(__darwintrace_fd);
+				}
+			}
+			close(fd);
+		}
 	  }
 	}
 	int result = execve(path, argv, envp);
