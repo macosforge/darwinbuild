@@ -336,6 +336,11 @@ CFDictionaryRef _DBCopyPropDictionary(CFStringRef build, CFStringRef project, CF
   that foo_prime was a build alias, and no property was found, restart the
   search with "foo"
 
+  Once an alias is detected (like "foo_prime" in 8A2), "foo_prime" in
+  8A1 must be an alias if it is present at all. A non-alias (without "original")
+  is semantically a different project, and must abort the inheritance search
+  for "foo_prime", although it can continue for "foo" in 8A3.
+
 */
 CFTypeRef _DBCopyPropWithInheritance(CFStringRef build, CFStringRef project, CFStringRef property,
 	CFTypeRef (*func)(CFStringRef, CFStringRef, CFStringRef)) {
