@@ -1,6 +1,7 @@
 Darwin Build Scripts Change History
 -----------------------------------
 
+	- added an exit handler to unmount devfs and volfs in the BuildRoot
 	- list header dependencies more conservatively (ssen)
 	- added common.mk for common makefile variables
 	- installXcodebuild correctly handles umbrella frameworks (ssen)

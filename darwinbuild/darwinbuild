@@ -588,6 +588,17 @@ EOF
 
 chmod ugo+x $SCRIPT
 
+
+ExitHandler() {
+	### Once for fdsec
+	[ "$(echo $BuildRoot/dev/*)" == "$BuildRoot/dev/*" ] || umount "$BuildRoot/dev"
+	### Twice for devfs
+	[ "$(echo $BuildRoot/dev/*)" == "$BuildRoot/dev/*" ] || umount "$BuildRoot/dev"
+	### Thrice for volfs
+	[ "$(echo $BuildRoot/.vol/*)" == "$BuildRoot/.vol/*" ] || umount "$BuildRoot/.vol"
+}
+
+
 if [ "$CHROOTED" == "YES" ] ; then
 	###
 	### Mount devfs in the chroot
@@ -598,6 +609,7 @@ if [ "$CHROOTED" == "YES" ] ; then
 	### no way to unmount the filesystem except rebooting.
 	###
 	echo "*** Mounting special filesystems ..."
+	trap ExitHandler EXIT
 	if [ ! -c "$BuildRoot/dev/null" ]; then
 		echo "Mounting devfs ..."
 		mkdir -p "$BuildRoot/dev"
@@ -672,6 +684,7 @@ if [ "$EXIT_STATUS" == "0" ]; then
         		grep -vi  "^$TRACE_TYPES/dev/" | \
 			"$PREFIX/bin/darwinxref" loadDeps "$projnam"
 			"$PREFIX/bin/darwinxref" resolveDeps "$projnam"
+			cp "$TRACELOG" $DARWIN_BUILDROOT/Logs/$projnam/$project.trace~$build_version
 		fi
 	fi
 fi
