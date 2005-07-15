@@ -5,7 +5,10 @@ include ../common.mk
 ###
 DATDIR:=$(DATDIR)/darwinbuild
 
-all: 
+all: manifest
+
+manifest: manifest.c
+	cc -o $@ -lcrypto $^
 
 install: all
 	[ -d $(BINDIR) ] || $(INSTALL) -d $(INSTALL_DIR_FLAGS) $(BINDIR)
@@ -14,6 +17,7 @@ install: all
 
 	[ -d $(DATDIR) ] || $(INSTALL) -d $(INSTALL_DIR_FLAGS) $(DATDIR)
 	$(INSTALL) $(INSTALL_DOC_FLAGS) darwinbuild.common $(DATDIR)
+	$(INSTALL) $(INSTALL_EXE_FLAGS) manifest $(DATDIR)
 
 uninstall:
 	rm -f $(BINDIR)/darwinbuild
