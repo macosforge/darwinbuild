@@ -1,12 +1,44 @@
+/*
+ * Copyright (c) 2005 Apple Computer, Inc. All rights reserved.
+ *
+ * @APPLE_BSD_LICENSE_HEADER_START@
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 
+ * 1.  Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer. 
+ * 2.  Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in the
+ *     documentation and/or other materials provided with the distribution. 
+ * 3.  Neither the name of Apple Computer, Inc. ("Apple") nor the names of
+ *     its contributors may be used to endorse or promote products derived
+ *     from this software without specific prior written permission. 
+ * 
+ * THIS SOFTWARE IS PROVIDED BY APPLE AND ITS CONTRIBUTORS "AS IS" AND ANY
+ * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL APPLE OR ITS CONTRIBUTORS BE LIABLE FOR ANY
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * 
+ * @APPLE_BSD_LICENSE_HEADER_END@
+ */
+
 #include <crt_externs.h>
 #include <fcntl.h>
 #include <stdarg.h>
-#include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <sys/stat.h>
 #include <sys/param.h>
+#include <sys/syscall.h>
 
 int __darwintrace_fd = -2;
 #define BUFFER_SIZE	1024
@@ -45,13 +77,15 @@ inline void __darwintrace_setup() {
 // to build the project.
 
 int open(const char* path, int flags, ...) {
-// SYS_open 5
-#define open(x,y,z) syscall(5, (x), (y), (z))
+#define open(x,y,z) syscall(SYS_open, (x), (y), (z))
+	mode_t mode;
+	int result;
 	va_list args;
+
 	va_start(args, flags);
-	mode_t mode = va_arg(args, int);
+	mode = va_arg(args, int);
 	va_end(args);
-	int result = open(path, flags, mode);
+	result = open(path, flags, mode);
 	if (result >= 0 && (flags & (O_CREAT | O_WRONLY /*O_RDWR*/)) == 0 ) {
 		__darwintrace_setup();
 		if (__darwintrace_fd >= 0) {
@@ -82,8 +116,9 @@ int open(const char* path, int flags, ...) {
 }
 
 int execve(const char* path, char* const argv[], char* const envp[]) {
-// SYS_execve 59
-#define execve(x,y,z) syscall(59, (x), (y), (z))
+#define execve(x,y,z) syscall(SYS_execve, (x), (y), (z))
+	int result;
+
 	__darwintrace_setup();
 	if (__darwintrace_fd >= 0) {
 	  struct stat sb;
@@ -117,7 +152,6 @@ int execve(const char* path, char* const argv[], char* const envp[]) {
 						buffer[i] = 0;
 					}
 				}
-fprintf(stderr, "interp = %s\n", interp);	
 				// we have liftoff
 				if (interp) {
 #if DARWINTRACE_SHOW_PROCESS
@@ -135,6 +169,6 @@ fprintf(stderr, "interp = %s\n", interp);
 		}
 	  }
 	}
-	int result = execve(path, argv, envp);
+	result = execve(path, argv, envp);
 	return result;
 }
