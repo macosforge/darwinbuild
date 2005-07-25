@@ -555,13 +555,25 @@ for X in $(printenv | sort) ; do
 done
 IFS="$OLDIFS"
 
-### 46 was derived from Tiger ls(1) output.
 cat <<-EOF >> $SCRIPT
 	echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
 	echo 'Installed Roots:'
-	ls -l "/usr/local/darwinbuild/receipts" | cut -c 46- | sort
 EOF
-
+# I didn't really want to use perl(1) here, but ls(1) doesn't support this.
+# For now, execute this outside the chroot so we don't require perl to be
+# installed in there.  This should probably be re-written as a C tool
+# that can be installed into the chroot.
+# Uses tail +3 to avoid getting . and ..
+RECEIPTS=$DARWIN_BUILDROOT/BuildRoot/usr/local/darwinbuild/receipts
+perl -e "opendir(DIR,\"$RECEIPTS\");
+	@files = sort(readdir(DIR));
+	foreach my \$x (@files) {
+		print \"echo \\\"\$x\";
+		if ( -l \"$RECEIPTS/\$x\" ) {
+			print ' -> ' . readlink(\"$RECEIPTS/\$x\");
+		} 
+		print \"\\\"\n\";
+	} closedir(DIR);" | tail +3 >> $SCRIPT
 cat <<-EOF >> $SCRIPT
 	echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
 	echo $buildtool $action '$build_string' < /dev/null
