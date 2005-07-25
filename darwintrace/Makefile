@@ -9,6 +9,7 @@ all: darwintrace.dylib
 
 darwintrace.dylib: darwintrace.c
 	cc -o $@ \
+		-W -Wall -pedantic \
 		-flat_namespace \
 		-fno-common \
 		-nostdlib \
