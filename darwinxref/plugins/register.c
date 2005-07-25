@@ -329,7 +329,7 @@ int register_files(char* build, char* project, char* path) {
 		// add all regular files, directories, and symlinks to the manifest
 		if (ent->fts_info == FTS_F || ent->fts_info == FTS_D ||
 			ent->fts_info == FTS_SL || ent->fts_info == FTS_SLNONE) {
-			fprintf(stdout, "%s %o %d %d %lld %s%s%s\n",
+			fprintf(stdout, "%s %o %d %d %lld .%s%s%s\n",
 				checksum,
 				ent->fts_statp->st_mode,
 				ent->fts_statp->st_uid,

@@ -61,10 +61,9 @@ static char* format_digest(const unsigned char* m) {
         return result;
 }
 
-static char* calculate_digest(FTSENT* ent) {
+static char* calculate_digest(int fd) {
 	unsigned char digstr[EVP_MAX_MD_SIZE];
 	memset(digstr, 0, sizeof(digstr));
-	if (ent->fts_info == FTS_D) return format_digest(digstr);
 	
 	EVP_MD_CTX ctx;
 	static const EVP_MD* md;
@@ -78,8 +77,6 @@ static char* calculate_digest(FTSENT* ent) {
 
 	EVP_DigestInit(&ctx, md);
 
-	int fd = open(ent->fts_accpath, O_RDONLY, 0);
-	if (fd == -1) return NULL;
 	unsigned int len;
 	const unsigned int blocklen = 8192;
 	static unsigned char* block = NULL;
@@ -102,6 +99,7 @@ static int compare(const FTSENT **a, const FTSENT **b) {
 	return strcmp((*a)->fts_name, (*b)->fts_name);
 }
 
+#if 0
 static void ent_filename(FTSENT* ent, char* filename) {
 	if (ent->fts_level > 1) {
 		ent_filename(ent->fts_parent, filename);
@@ -111,6 +109,22 @@ static void ent_filename(FTSENT* ent, char* filename) {
 	}
 	strcat(filename, ent->fts_name);
 }
+#endif
+
+static int ent_filename(FTSENT* ent, char* filename, size_t bufsiz) {
+	if (ent == NULL) return 0;
+	if (ent->fts_level > 1) {
+		bufsiz = ent_filename(ent->fts_parent, filename, bufsiz);
+	}
+	strncat(filename, "/", bufsiz);
+	bufsiz -= 1;
+	if (ent->fts_name) {
+		strncat(filename, ent->fts_name, bufsiz);
+		bufsiz -= strlen(ent->fts_name);
+	}
+	return bufsiz;
+}
+
 
 int main(int argc, char* argv[]) {
 	if (argc != 2) {
@@ -120,37 +134,52 @@ int main(int argc, char* argv[]) {
 	}
 	char* path[] = { argv[1], NULL };
 	FTS* fts = fts_open(path, FTS_PHYSICAL | FTS_COMFOLLOW, compare);
-	FTSENT* ent = fts_read(fts); // throw away the entry for the directory itself
+	FTSENT* ent = fts_read(fts); // throw away the entry for the DSTROOT itself
 	while ((ent = fts_read(fts)) != NULL) {
-		char filename[MAXPATHLEN];
+		char filename[MAXPATHLEN+1];
 		char symlink[MAXPATHLEN+1];
 		int len;
 		off_t size;
-		char* checksum = NULL;
+
+		// Filename
+		filename[0] = 0;
+		ent_filename(ent, filename, MAXPATHLEN);
+
+		// Symlinks
 		symlink[0] = 0;
-		switch (ent->fts_info) {
-			case FTS_SL:
-			case FTS_SLNONE:
-				len = readlink(ent->fts_accpath, symlink, MAXPATHLEN);
-				if (len >= 0) symlink[len] = 0;
-			case FTS_D:
-				checksum = strdup("                                        ");
-			case FTS_DEFAULT:
-			case FTS_F:
-				if (!checksum) checksum = calculate_digest(ent);
-				filename[0] = 0;
-				ent_filename(ent, filename);
-				fprintf(stdout, "%s %o %d %d %lld %s%s%s\n",
-					checksum,
-					ent->fts_statp->st_mode,
-					ent->fts_statp->st_uid,
-					ent->fts_statp->st_gid,
-					(ent->fts_info != FTS_D) ? ent->fts_statp->st_size : (off_t)0,
-					filename,
-					symlink[0] ? " -> " : "",
-					symlink[0] ? symlink : "");
-				break;
+		if (ent->fts_info == FTS_SL || ent->fts_info == FTS_SLNONE) {
+			len = readlink(ent->fts_accpath, symlink, MAXPATHLEN);
+			if (len >= 0) symlink[len] = 0;
 		}
+
+		// Default to empty SHA-1 checksum
+		char* checksum = strdup("                                        ");
+
+		// Checksum regular files
+		if (ent->fts_info == FTS_F) {
+			int fd = open(ent->fts_accpath, O_RDONLY);
+			if (fd == -1) {
+				perror(filename);
+				return -1;
+			}
+			checksum = calculate_digest(fd);
+			close(fd);
+		}
+
+		// add all regular files, directories, and symlinks to the manifest
+		if (ent->fts_info == FTS_F || ent->fts_info == FTS_D ||
+			ent->fts_info == FTS_SL || ent->fts_info == FTS_SLNONE) {
+			fprintf(stdout, "%s %o %d %d %lld .%s%s%s\n",
+				checksum,
+				ent->fts_statp->st_mode,
+				ent->fts_statp->st_uid,
+				ent->fts_statp->st_gid,
+				(ent->fts_info != FTS_D) ? ent->fts_statp->st_size : (off_t)0,
+				filename,
+				symlink[0] ? " -> " : "",
+				symlink[0] ? symlink : "");
+		}
+		free(checksum);
 	}
 	fts_close(fts);
 }
