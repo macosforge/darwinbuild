@@ -1,0 +1,311 @@
+Darwin Build Scripts
+Updated 25-Jul-2005
+
+Kevin Van Vechten <kevin@opendarwin.org>
+
+1. Overview
+  1.1 Availability, Bug Reports, Contributions, and Discussion
+2. Installation
+  2.1 Creating the Build Directory
+3. Building Darwin Projects (darwinbuild)
+  3.1 Install Headers
+  3.2 Chroot Builds
+4. Build Environment Variables
+  4.1 Build Aliases and Alternate Targets
+5. Tips and Techniques
+  5.1 Private Headers
+  5.2 Build Tools
+  5.3 Static Libraries
+Appendix
+A. darwinxref
+
+===========
+1. Overview
+===========
+
+The Darwin Build Scripts are a collection of tools that assist compilation of
+the many projects contained in Darwin[1], the open source base of Apple's
+Mac OS X operating system[2].  Apple publishes the sources of these projects
+in an archive format (.tar.gz).  An archive is published for each project
+version on Apple's site[3] and the archives are mirrored at OpenDarwin[4].
+These tools will provide the proper build environment as well as help to
+resolve any necessary dependencies prior to building.
+
+[1] <http://developer.apple.com/darwin/>
+[2] <http://www.apple.com/macosx/>
+[3] <http://www.opensource.apple.com/darwinsource/>
+[4] <http://darwinsource.opendarwin.org/>
+
+
+1.1 Availability, Bug Reports, Contributions, and Discussion
+
+The latest release of the Darwin Build Scripts is available on the web[1].
+Pre-release versions are available via CVS[2] in the 'darwinbuild' module.
+
+Bugs or enhancement requests should be filed in Bugzilla[3], under the
+"darwinbuild" product.
+
+Discussion about the Darwin Build Scripts, or building Darwin projects in
+general, should take place on the darwinbuild[4] mailing list.
+
+[1] <http://darwinsource.opendarwin.org/darwinbuild/>
+[2] <http://opendarwin.org/en/articles/cvs_howto/index.html#anoncvs-opendarwin>
+[3] <http://bugzilla.opendarwin.org/>
+[4] <http://opendarwin.org/mailman/listinfo/darwinbuild>
+
+===============
+2. Installation
+===============
+
+The included Makefile will compile the tools and install them into the
+location specified by the DESTDIR parameter.  If the DESTDIR parameter is
+not specified, the files will be installed into /usr/local.
+
+  % make
+  % sudo make install
+
+2.1 Creating the Build Directory
+
+After installation, you must initialize the build directory using darwinbuild.
+It is strongly recommended that builds be performed on a UFS or case-sensitive
+HFSX filesystem.  On Mac OS X, it is possible to use a disk image.  It is
+important that the volume's file ownership is honored:
+
+  % hdiutil create -size 4g -type UDIF -fs HFSX -volname Builds \
+        -uid 0 -gid 0 -attach Builds.dmg
+  % sudo vsdbutil -a /Volumes/Builds
+  % sudo -s
+  Password:
+  # cd /Volumes/Builds
+  # mkdir Build8C46
+  # cd Build8C46
+  # darwinbuild -init 8C46
+  Attempting to download http://darwinsource.opendarwin.org/plists//8C46.plist ...
+  Download complete
+  Attempting to download http://darwinsource.opendarwin.org/plists//8B15.plist ...
+  Download complete
+  Attempting to download http://darwinsource.opendarwin.org/plists//8A428.plist ...
+  Download complete
+  # ls
+  .build  Headers Logs    Roots   Sources Symbols
+
+
+After initialization, the build directory will contain the following:
+.build     contains private data for the DarwinBuild system
+Headers    contains the resulting header files from previous builds
+Logs       contains logs of previous build attempts 
+Roots      contains the finished products of previous successful builds
+Sources    contains sources downloaded from OpenDarwin
+Symbols    contains debug symbol versions of previous build products
+
+When using the darwinbuild script, it is necessary that the current
+working directory be this build directory, or alternatively,
+that the DARWIN_BUILDROOT environment variable be set to the absolute
+path of the destination directory.  The example usages in this document
+assume the current working directory is this build directory.
+
+
+=========================================
+3. Building Darwin Projects (darwinbuild)
+=========================================
+
+To build a Darwin project, for example xnu, the darwinbuild script can be
+used in the following manner:
+  # darwinbuild xnu
+
+The darwinxref tool is consulted to find the version that corresponds to the
+build specified when the build directory was initialized.  It is necessary
+to run the darwinbuild tool as root so that projects can set the proper
+ownership and permissions on the build results.
+
+darwinbuild first looks in the Sources directory for a directory containing
+the sources to be built (Sources/xnu-517.11.1), or a .tar.gz archive
+containing the sources (Sources/xnu-517.11.1.tar.gz).  If neither is found,
+darwinbuild will attempt to download the sources from OpenDarwin.
+
+If it does not already exist, a BuildRoot directory will be created.  This
+is where the build will actually take place.  During the build, DarwinBuild
+will change the root directory to BuildRoot (see the chroot(8) man page for
+details).  DarwinBuild is capable of copying the required tools, libraries
+and headers from the Roots directory into the BuildRoot prior to building.
+If a necessary dependency is not found in the Roots directory, it will be
+downloaded from the OpenDarwin site.
+
+The build output will be written to the console, and additionally logged
+into a file in the Logs directory.  The above example produces the
+following file:
+  Logs/xnu/xnu-517.11.1.log~1
+
+The ~1 indicates that this log file corresponds to the first attempt to
+build xnu version 517.11.1.  Each subsequent attempt will add one to this
+build number.
+
+If the build succeeds, the finished product will be copied out of the
+BuildRoot directory and into the Roots directory:
+  Roots/xnu/xnu-517.11.1.root~1
+After the copy, darwinbuild traverses the directory and records all files
+found in the darwinxref database.  This makes it possible to query which
+project a file is produced by.  When a Mach-O executable, library, or bundle
+is found during the traversal, the dynamic library load commands are recorded
+in the darwinxref database.  This makes it possible to query which additional
+projects are required to run an executable produced by the project.
+
+Additionally, any products containing debug symbols will be placed into
+the Symbols directory.
+
+
+3.1 Install Headers
+
+Passing the -headers flag to darwinbuild will start an alternative build
+style where only the project's headers are produced.  This is useful for
+working around various circular dependencies while compiling low level
+projects like xnu, cctools, Libc, etc.
+
+The results of a -headers build are placed in the Headers directory, in
+the same style as the Roots directory for a regular build.  For example:
+  % sudo bin/darwinbuild -headers IOKitUser 184
+  % ls Headers/IOKitUser/IOKitUser-184.hdrs~1
+
+
+3.3 Logging Dependencies
+
+Passing the -logdeps flag to darwinbuild will build the specified project
+while recording the paths of all files openened and all executables invoked.
+These paths are written into the Logs directory, and if the build is
+successful, will be imported into the darwinxref database.  
+
+
+==============================
+4. Build Environment Variables
+==============================
+
+At the minimum, the build environment consists of the creation of SRCROOT,
+OBJROOT, SYMROOT, and DSTROOT environment variables.  These variables contain
+an absolute path to a directory which must exist prior to invoking the Makefile.
+User configurable environment variables, such as the target architecture,
+can be set in the build plist file that is loaded via loadIndex.  The
+darwinbuild script creates the aforementioned directories, sets the environment
+variables, and issues the appropriate make command.
+
+Within the plist file, the RC_ARCHS variable indicates which target
+architectures should be included in the build.  Currently only ppc and i386
+are available.  For each architecture in RC_ARCHS, and equivalent RC_{arch}
+should be set to YES (i.e. RC_ARCHS="ppc" RC_ppc=YES).
+
+The RC_NONARCH_CFLAGS specify additional command line flags to be passed to the C
+compiler during the build.  On Darwin, the -no-cpp-precomp flag should be
+passed since cpp-precomp is not available.  During the build, the RC_ARCHS and
+RC_NONARCH_CFLAGS variables will be combined to create the RC_ARCHS environment
+variable; a -arch flag will be appended for each architecture listed in RC_ARCHS.
+
+The MACOSX_DEPLOYMENT_TARGET variable should match the major Mac OS X release
+that is being targeted, such as 10.2 or 10.3.
+
+
+4.1 Build Aliases and Alternate Targets
+
+Some projects may produce different results based on the contents of 
+the RC_ProjectName variable.  When the same source archive is used
+to create more than one component of Darwin, it's referred to as a build
+alias.  Because of this, it is important to always provide accurrate
+project name and version information in the environment.  By default,
+darwinbuild sets these variables appropriately.
+
+By default, "install" (for non-headers builds) is the first argument passed
+to the make tool (gnumake or xcodebuild).  However, some projects produce
+different results based on alternate targets.  If the project in the property
+list contains a "target" attribute, that string will be passed instead.
+
+
+======================
+5. Tips and Techniques
+======================
+
+
+5.1 Private Headers
+
+Many open source header files are not present in a standard Mac OS X install.
+These "private headers" are not needed by application developers, and are not
+part of any SDK officially supported by Apple.  However, Darwin projects are
+part of the operating system itself and these headers are required.  The
+darwinbuildheaders command uses the darwinxref tool and darwinbuild -headers
+commands to produce all header files for a given darwin release.
+  % bin/darwinbuildheaders
+
+The resulting header files from each project are placed into the Headers
+directory.  The headers can be subsequently installed into the BuildRoot
+directory using the installheaders command.
+  % bin/installheaders
+
+By modifying the build plist file, it is possible to include these headers
+instead of the default system headers, giving more accurate build results and
+avoiding failures.  Edit the RC_NONARCH_CFLAGS variable to provide the following
+include paths to gcc (substituting the actual installation directory).
+  -I/usr/local/darwinbuild/BuildRoot/usr/include
+  -I/usr/local/darwinbuild/BuildRoot/usr/local/include
+
+
+5.2 Build Tools
+
+In addition to private headers, there are numerous command line tools which
+are used exclusively to build Darwin projects.  These tools are placed in
+/usr/local/bin.  For example, building xnu requires kextsymboltool,
+relpath, and decomment.
+
+
+5.3 Static Libraries
+
+Several projects require static libraries from other projects.  These libraries
+are usually placed in /usr/local/lib/system.  The most notable examples are
+xnu's usage of libkld.a which is produced by cctools_ofiles, and Libsystem's
+use of many static libraries from Libc, Libinfo, and more.
+
+
+=============
+A. darwinxref
+=============
+
+The darwinxref tool allows you to query which source version of a Darwin
+project is present in a particular Mac OS X build.  It also stores information
+about what dependencies a particular project has, and what files the project
+produces.  As each Mac OS X release is made available, Apple publishes a
+property list file containing the project names and versions in that release.
+These property lists are read by the darwinxref tool to seed its internal
+database.  Property lists are available on Apple's open source site[1] and
+mirrored at OpenDarwin[2].
+
+The darwinxref tool uses SQLite[3] to maintain its database of projects,
+versions, files and dependencies.  This distribution includes a pre-built
+version of the sqlite library in the file libsqlite3.a, and its associated
+header file, sqlite3.h.
+
+[1] <http://www.opensource.apple.com/darwinsource/>
+[2] <http://darwinsource.opendarwin.org/>
+[3] <http://www.sqlite.org/>
+
+An example of downloading, installing, and querying a property list:
+  % curl http://darwinsource.opendarwin.org/10.3.8/projects-list.plist > \
+      plists/7U16.plist
+  % bin/darwinxref loadIndex plists/7U16.plist
+  268 of 268 projects loaded.
+  % bin/darwinxref -b 7U16 version xnu
+  xnu-517.11.1
+
+To list all projects in a build, use the special project name '*':
+  % bin/darwinxref -b 7U16 version '*'
+
+To register the results of a previous build with the database use the
+register command.  Note this is done automatically by darwinbuild:
+  % bin/darwinxref register adv_cmds 63 Roots/adv_cmds/adv_cmds-63.root~1
+  /bin
+  /bin/ps
+  /bin/stty
+  ...
+
+To find which project produces the 'whois' command by searching the
+list of previously registered files:
+  % bin/darwinxref findFile whois
+  adv_cmds-63:
+          /usr/bin/whois
+
+
