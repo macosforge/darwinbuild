@@ -69,6 +69,9 @@ darwinxref: $(SOURCES)
 		$(SOURCES) \
 		$(SQLITELIB)
 
+plugins/register.so: plugins/register.c DBPlugin.h
+	cc -o $@ $(PLUGIN_CFLAGS) $(PLUGIN_LDFLAGS) -lcrypto $^
+
 plugins/%.so: plugins/%.c DBPlugin.h
 	cc -o $@ $(PLUGIN_CFLAGS) $(PLUGIN_LDFLAGS) $^
 

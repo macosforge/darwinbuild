@@ -34,8 +34,15 @@
 #include <sys/syslimits.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <fts.h>
+#include <sys/param.h>
+#include <errno.h>
 #include <fcntl.h>
+#include <fts.h>
+#include <libgen.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <string.h>
+#include <openssl/evp.h>
 
 int register_files(char* build, char* project, char* path);
 
@@ -67,17 +74,74 @@ int initialize(int version) {
 	return 0;
 }
 
-static int buildpath(char* path, size_t bufsiz, FTSENT* ent) {
-	if (ent->fts_parent != NULL && ent->fts_level > 1) {
-		bufsiz = buildpath(path, bufsiz, ent->fts_parent);
+static char* format_digest(const unsigned char* m) {
+        char* result = NULL;
+		// SHA-1
+		asprintf(&result,
+                "%02x%02x%02x%02x"
+                "%02x%02x%02x%02x"
+                "%02x%02x%02x%02x"
+                "%02x%02x%02x%02x"
+                "%02x%02x%02x%02x",
+                m[0], m[1], m[2], m[3],
+                m[4], m[5], m[6], m[7],
+                m[8], m[9], m[10], m[11],
+                m[12], m[13], m[14], m[15],
+				m[16], m[17], m[18], m[19]
+				);
+        return result;
+}
+
+static int compare(const FTSENT **a, const FTSENT **b) {
+	return strcmp((*a)->fts_name, (*b)->fts_name);
+}
+
+static int ent_filename(FTSENT* ent, char* filename, size_t bufsiz) {
+	if (ent == NULL) return 0;
+	if (ent->fts_level > 1) {
+		bufsiz = ent_filename(ent->fts_parent, filename, bufsiz);
 	}
-	strncat(path, "/", bufsiz);
+	strncat(filename, "/", bufsiz);
 	bufsiz -= 1;
 	if (ent->fts_name) {
-		strncat(path, ent->fts_name, bufsiz);
+		strncat(filename, ent->fts_name, bufsiz);
 		bufsiz -= strlen(ent->fts_name);
 	}
 	return bufsiz;
+}
+
+static char* calculate_digest(int fd) {
+	unsigned char digstr[EVP_MAX_MD_SIZE];
+	memset(digstr, 0, sizeof(digstr));
+	
+	EVP_MD_CTX ctx;
+	static const EVP_MD* md;
+	
+	if (md == NULL) {
+		EVP_MD_CTX_init(&ctx);
+		OpenSSL_add_all_digests();
+		md = EVP_get_digestbyname("sha1");
+		if (md == NULL) return NULL;
+	}
+
+	EVP_DigestInit(&ctx, md);
+
+	unsigned int len;
+	const unsigned int blocklen = 8192;
+	static unsigned char* block = NULL;
+	if (block == NULL) {
+		block = malloc(blocklen);
+	}
+	while(1) {
+		len = read(fd, block, blocklen);
+		if (len == 0) { close(fd); break; }
+		if ((len < 0) && (errno == EINTR)) continue;
+		if (len < 0) { close(fd); return NULL; }
+		EVP_DigestUpdate(&ctx, block, len);
+	}
+
+	EVP_DigestFinal(&ctx, digstr, &len);
+	return format_digest(digstr);
 }
 
 // If the path points to a Mach-O file, records all dylib
@@ -135,7 +199,6 @@ static int register_mach_header(char* build, char* project, struct mach_header* 
 			res = SQL("INSERT INTO unresolved_dependencies (build,project,type,dependency) VALUES (%Q,%Q,%Q,%Q)",
 			build, project, "lib", str);
 			
-			//fprintf(stdout, "\t%s\n", str);
 			free(str);
 			
 			lseek(fd, save - sizeof(struct dylib_command) + lc.cmdsize, SEEK_SET);
@@ -147,13 +210,8 @@ static int register_mach_header(char* build, char* project, struct mach_header* 
 	return 0;
 }
 
-int register_libraries(char* project, char* version, char* path) {
+int register_libraries(int fd, char* build, char* project) {
 	int res;
-	int fd = open(path, O_RDONLY);
-	if (fd == -1) {
-		perror(path);
-		return -1;
-	}
 	
 	struct mach_header mh;
 	struct fat_header fh;
@@ -186,15 +244,14 @@ int register_libraries(char* project, char* version, char* path) {
 
 			res = read(fd, &mh, sizeof(mh));
 			if (res < sizeof(mh)) { goto error_out; }
-			register_mach_header(project, version, &mh, fd);
+			register_mach_header(build, project, &mh, fd);
 			
 			lseek(fd, save, SEEK_SET);
 		}
 	} else {
-		register_mach_header(project, version, &mh, fd);
+		register_mach_header(build, project, &mh, fd);
 	}
 error_out:
-	close(fd);
 	return 0;
 }
 
@@ -226,40 +283,69 @@ int register_files(char* build, char* project, char* path) {
 	// not seen before.
 	//
 	// Skip the first result, since that is . of the DSTROOT itself.
-	int skip = 1;
 	char* path_argv[] = { path, NULL };
-	FTS* fts = fts_open(path_argv, FTS_PHYSICAL | FTS_COMFOLLOW | FTS_XDEV, NULL);
-	if (fts != NULL) {
-		FTSENT* ent;
-		while (ent = fts_read(fts)) {
-			if (ent->fts_number == 0) {
-				char path[PATH_MAX];
-				path[0] = 0;
-				buildpath(path, PATH_MAX-1, ent);
+	FTS* fts = fts_open(path_argv, FTS_PHYSICAL | FTS_COMFOLLOW | FTS_XDEV, compare);
+	FTSENT* ent = fts_read(fts); // throw away the entry for the DSTROOT itself
+	while ((ent = fts_read(fts)) != NULL) {
+		char filename[MAXPATHLEN+1];
+		char symlink[MAXPATHLEN+1];
+		int len;
+		off_t size;
+		
+		// Filename
+		filename[0] = 0;
+		ent_filename(ent, filename, MAXPATHLEN);
 
-				// don't bother to store $DSTROOT
-				if (!skip) {
-					printf("%s\n", path);
-					++loaded;
-					res = SQL("INSERT INTO files (build, project, path) VALUES (%Q,%Q,%Q)",
-						build, project, path);
-				} else {
-					skip = 0;
-				}
-
-				ent->fts_number = 1;
-
-				if (ent->fts_info == FTS_F) {
-					res = register_libraries(build, project, ent->fts_accpath);
-				}
-			}
+		// Symlinks
+		symlink[0] = 0;
+		if (ent->fts_info == FTS_SL || ent->fts_info == FTS_SLNONE) {
+			len = readlink(ent->fts_accpath, symlink, MAXPATHLEN);
+			if (len >= 0) symlink[len] = 0;
 		}
-		fts_close(fts);
+		
+		// Default to empty SHA-1 checksum
+		char* checksum = strdup("                                        ");
+		
+		// Checksum regular files
+		if (ent->fts_info == FTS_F) {
+			int fd = open(ent->fts_accpath, O_RDONLY);
+			if (fd == -1) {
+				perror(filename);
+				return -1;
+			}
+			res = register_libraries(fd, build, project);
+			lseek(fd, (off_t)0, SEEK_SET);
+			checksum = calculate_digest(fd);
+			close(fd);
+		}
+
+		// register regular files and symlinks in the DB
+		if (ent->fts_info == FTS_F || ent->fts_info == FTS_SL || ent->fts_info == FTS_SLNONE) {
+			res = SQL("INSERT INTO files (build, project, path) VALUES (%Q,%Q,%Q)",
+				build, project, filename);
+			++loaded;
+		}
+		
+		// add all regular files, directories, and symlinks to the manifest
+		if (ent->fts_info == FTS_F || ent->fts_info == FTS_D ||
+			ent->fts_info == FTS_SL || ent->fts_info == FTS_SLNONE) {
+			fprintf(stdout, "%s %o %d %d %lld %s%s%s\n",
+				checksum,
+				ent->fts_statp->st_mode,
+				ent->fts_statp->st_uid,
+				ent->fts_statp->st_gid,
+				(ent->fts_info != FTS_D) ? ent->fts_statp->st_size : (off_t)0,
+				filename,
+				symlink[0] ? " -> " : "",
+				symlink[0] ? symlink : "");
+		}
+		free(checksum);
 	}
+	fts_close(fts);
 	
 	if (SQL("COMMIT")) { return -1; }
 
-	fprintf(stdout, "%s - %d files registered.\n", project, loaded);
+	fprintf(stderr, "%s - %d files registered.\n", project, loaded);
 	
 	return res;
 }
