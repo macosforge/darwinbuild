@@ -101,8 +101,10 @@ int open(const char* path, int flags, ...) {
 #else
 		      size = snprintf(__darwintrace_buf, BUFFER_SIZE, "open\t%s\n", realpath );
 #endif
-		    }
+		    } else {
 		    /* if we can't resolve it, ignore the volfs path */
+				size = 0;
+			}
 		  } else {
 #if DARWINTRACE_SHOW_PROCESS
 		    size = snprintf(__darwintrace_buf, BUFFER_SIZE, "%s[%d]\topen\t%s\n", __darwintrace_progname, __darwintrace_pid, path );
