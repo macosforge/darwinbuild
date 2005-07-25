@@ -141,11 +141,12 @@ int execve(const char* path, char* const argv[], char* const envp[]) {
 		if (fd != -1) {
 			char buffer[MAXPATHLEN];
 			ssize_t bytes_read = read(fd, buffer, MAXPATHLEN);
-			if (buffer[0] == '#' && buffer[1] == '!') {
+			if (bytes_read > 0 &&
+			    buffer[0] == '#' && buffer[1] == '!') {
 				const char* interp = &buffer[2];
 				int i;
 				/* skip past leading whitespace */
-				for (i = 2; i < (MAXPATHLEN-1); ++i) {
+				for (i = 2; i < bytes_read; ++i) {
 					if (buffer[i] != ' ' && buffer[i] != '\t') {
 						interp = &buffer[i];
 						break;
@@ -153,7 +154,7 @@ int execve(const char* path, char* const argv[], char* const envp[]) {
 				}
 				/* found interpreter (or ran out of data)
 				 skip until next whitespace, then terminate the string */
-				for (; i < (MAXPATHLEN-1); ++i) {
+				for (; i < bytes_read; ++i) {
 					if (buffer[i] == ' ' || buffer[i] == '\t' || buffer[i] == '\n') {
 						buffer[i] = 0;
 					}
