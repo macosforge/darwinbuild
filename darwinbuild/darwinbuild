@@ -332,7 +332,7 @@ fi
 ###
 if [ "$CHROOTED" == "YES" -a "$noload" != "YES" ]; then
 	echo "*** Installing Roots ..."
-	receipts="$BuildRoot/.chroot.receipts"
+	receipts="$BuildRoot/usr/local/darwinbuild/receipts"
 	mkdir -p "$receipts"
 	bash_deps=$($PREFIX/bin/darwinxref dependencies -run "bash")
 	deps=$($PREFIX/bin/darwinxref dependencies -build "$projnam")
@@ -340,9 +340,9 @@ if [ "$CHROOTED" == "YES" -a "$noload" != "YES" ]; then
 	### xcodebuild is a special case because it is not open source
 	### we try to install it from the host Mac OS X system if it is required
 	echo "$deps" | grep "\bxcodebuild-"
-	if [ "$?" == "0" -a ! -f "$receipts/xcodebuild-(null)" ]; then
+	if [ "$?" == "0" -a ! -f "$receipts/xcodebuild" ]; then
 		$DARWIN_BUILDROOT/bin/installXcodebuild
-		touch "$receipts/xcodebuild-(null)"
+		touch "$receipts/xcodebuild"
 	fi
 
 	for X in files bash $bash_vers $deps ; do
@@ -555,6 +555,13 @@ for X in $(printenv | sort) ; do
 done
 IFS="$OLDIFS"
 
+### 46 was derived from Tiger ls(1) output.
+cat <<-EOF >> $SCRIPT
+	echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+	echo 'Installed Roots:'
+	ls -l "/usr/local/darwinbuild/receipts" | cut -c 46- | sort
+EOF
+
 cat <<-EOF >> $SCRIPT
 	echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
 	echo $buildtool $action '$build_string' < /dev/null
@@ -619,15 +626,15 @@ if [ "$CHROOTED" == "YES" ] ; then
 		echo "devfs appears to exist ..."
 	fi
 
-# 	if [ "$buildtool" == "xcodebuild" ]; then
-# 		echo "Mounting volfs ..."
-# 		[ -d "$BuildRoot/sbin" ] || mkdir -p "$BuildRoot/sbin"
-# 		[ -f "$BuildRoot/sbin/mount_volfs" ] || cp /sbin/mount_volfs "$BuildRoot/sbin/"
-# 		[ -f "$BuildRoot/sbin/umount" ] || cp /sbin/umount "$BuildRoot/sbin/"
-# 		[ -d "$BuildRoot/.vol" ] || mkdir -p "$BuildRoot/.vol"
-# 		## If the directory is empty, assume volfs is not mounted
-# 		[ "$(echo $BuildRoot/.vol/*)" == "$BuildRoot/.vol/*" ] && chroot "$BuildRoot" /sbin/mount_volfs "/.vol"
-# 	fi
+ 	if [ "$buildtool" == "xcodebuild" ]; then
+ 		echo "Mounting volfs ..."
+ 		[ -d "$BuildRoot/sbin" ] || mkdir -p "$BuildRoot/sbin"
+ 		[ -f "$BuildRoot/sbin/mount_volfs" ] || cp /sbin/mount_volfs "$BuildRoot/sbin/"
+ 		[ -f "$BuildRoot/sbin/umount" ] || cp /sbin/umount "$BuildRoot/sbin/"
+ 		[ -d "$BuildRoot/.vol" ] || mkdir -p "$BuildRoot/.vol"
+ 		## If the directory is empty, assume volfs is not mounted
+ 		[ "$(echo $BuildRoot/.vol/*)" == "$BuildRoot/.vol/*" ] && chroot "$BuildRoot" /sbin/mount_volfs "/.vol"
+ 	fi
 
 	###
 	### Actually invoke the build tool here
@@ -668,11 +675,22 @@ if [ "$EXIT_STATUS" == "0" ]; then
 		mkdir -p "$DARWIN_BUILDROOT/Headers/$projnam/$project.hdrs~$build_version"
 		ditto "$REAL_DSTROOT" "$DARWIN_BUILDROOT/Headers/$projnam/$project.hdrs~$build_version"
 	else
+		### Register the root with the darwinxref database.  This will output a manifest
+		### which can be used to uniquely identify the root.  Store the unique identifier
+		### in the receipts directory after registration.
+		MANIFEST="/tmp/$projnam.$$"
+		"$PREFIX/bin/darwinxref" register "$projnam" "$REAL_DSTROOT" | tee "$MANIFEST"
+		SHA1=$(cat "$MANIFEST" | openssl dgst -sha1)
+		mkdir -p "$REAL_DSTROOT/usr/local/darwinbuild/receipts"
+		cp "$MANIFEST" "$REAL_DSTROOT/usr/local/darwinbuild/receipts/$SHA1"
+		ln -s "$SHA1" "$REAL_DSTROOT/usr/local/darwinbuild/receipts/$projnam"
+		rm -f "$MANIFEST"
+
 		mkdir -p "$DARWIN_BUILDROOT/Symbols/$projnam/$project.sym~$build_version"
 		mkdir -p "$DARWIN_BUILDROOT/Roots/$projnam/$project.root~$build_version"
 		ditto "$REAL_SYMROOT" "$DARWIN_BUILDROOT/Symbols/$projnam/$project.sym~$build_version"
 		ditto "$REAL_DSTROOT" "$DARWIN_BUILDROOT/Roots/$projnam/$project.root~$build_version"
-		"$PREFIX/bin/darwinxref" register "$projnam" "$REAL_DSTROOT"
+
 		if [ "$logdeps" == "YES" ]; then
 			### Log dependencies, but filter out duplicates, relative paths, and temporary files
 			TRACE_TYPES='\(execve\|open\)[[:space:]]\+'

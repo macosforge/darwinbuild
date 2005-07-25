@@ -111,7 +111,7 @@ function Download() {
 function InstallRoot() {
 	local BuildRoot="$1"
 	local X="$2"
-	local receipts="$BuildRoot/.chroot.receipts"
+	local receipts="$BuildRoot/usr/local/darwinbuild/receipts"
 	mkdir -p "$receipts"
 
 	### Special case for core foundation because the Mac OS X
@@ -120,7 +120,7 @@ function InstallRoot() {
 	### the host Mac OS X system.  Save away a copy and restore
 	### it later.
 	CFPATH=/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation
-	if [ "${X/-*}" == "CF" -a -f "$receipts/xcodebuild-(null)" ]; then
+	if [ "${X/-*}" == "CF" -a -f "$receipts/xcodebuild" ]; then
 		cp "$BuildRoot/$CFPATH" "$BuildRoot/$CFPATH.bak"
 	fi
 
@@ -129,8 +129,11 @@ function InstallRoot() {
 	### project's dependencies.  Therefore don't install something that
 	### has already been installed.  (Test for the presense of a receipt).
 	###
-	bv=$(GetBuildVersion $DARWIN_BUILDROOT/Roots/${X/-*}/$X.root*)
-	local SRCDIR=$DARWIN_BUILDROOT/Roots/${X/-*}/$X.root~$bv
+	if [ -d "$DARWIN_BUILDROOT/Roots/$X" ]; then
+		Y=$($PREFIX/bin/darwinxref $dbfile version $X)
+		bv=$(GetBuildVersion $DARWIN_BUILDROOT/Roots/$X/$Y.root*)
+		local SRCDIR=$DARWIN_BUILDROOT/Roots/$X/$Y.root~$bv
+	fi
 	if [ "$SRCDIR" -nt "$receipts/$X" ]; then
 		echo "Copying $X ..."
 		ditto $SRCDIR $BuildRoot
@@ -166,7 +169,7 @@ function InstallRoot() {
 function InstallHeaders() {
 	local BuildRoot="$1"
 	local X="$2"
-	local receipts="$BuildRoot/.chroot.receipts"
+	local receipts="$BuildRoot/usr/local/darwinbuild/receipts"
 
 	if [ ! -f "$receipts/$X.hdrs" -a ! -f "$receipts/$X" ]; then
 	bv=$(GetBuildVersion $DARWIN_BUILDROOT/Headers/${X/-*}/$X.hdrs*)
