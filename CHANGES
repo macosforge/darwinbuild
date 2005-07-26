@@ -2,6 +2,8 @@ Darwin Build Scripts Change History
 -----------------------------------
 
 Release 0.6 [25-Jul-2005]
+	- darwinbuild: enforce that darwinbuild is run as root
+	- darwinbuild: be slightly more graceful about bad parameters
 	- moved installXcodebuild from /usr/local/bin to /usr/local/share
 	- darwinbuild: moved build root receipts into /usr/local/darwinbuild
 	- darwintrace: fixed bug when volfs paths do not resolve (pguyot)

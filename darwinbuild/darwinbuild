@@ -101,6 +101,14 @@ version=""
 . "$PREFIX/share/darwinbuild/darwinbuild.common"
 
 ###
+### DarwinBuild must be run as root.  Enforce this.
+###
+if [ "$EUID" != "0" ]; then
+	echo "Error: DarwinBuild must be run as root." 1>&2
+	exit 1
+fi
+
+###
 ### The "-init" command sets up the build environment
 ### in the current working directory.
 ### EXITs
@@ -123,6 +131,7 @@ if [ "$1" == "-init" ]; then
 		$PREFIX/bin/darwinxref "-f$XREFDB" "-b$build" loadIndex .build/"$build".plist
 		build=$($PREFIX/bin/darwinxref "-f$XREFDB" "-b$build" inherits)
 	done
+	echo "Initialization Complete"
 	exit 0
 fi
 
@@ -242,7 +251,7 @@ for ARG in "$@"; do
 	fi
 done
 
-if [ "$projnam" == "" ]; then
+if [ "$projnam" == "" -o "${projnam:0:1}" == "-" ]; then
 	PrintUsage "$0"
 fi
 
