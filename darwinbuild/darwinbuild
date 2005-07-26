@@ -325,39 +325,6 @@ if [ "$action" == "fetch" ]; then
 fi
 
 ###
-### If we are CHROOTED, then
-### Install the roots into the BuildRoot
-### Make sure we have at least a minimally functioning root
-### by installing bash and its dependencies.
-###
-if [ "$CHROOTED" == "YES" -a "$noload" != "YES" ]; then
-	echo "*** Installing Roots ..."
-	receipts="$BuildRoot/usr/local/darwinbuild/receipts"
-	mkdir -p "$receipts"
-	bash_deps=$($PREFIX/bin/darwinxref dependencies -run "bash")
-	deps=$($PREFIX/bin/darwinxref dependencies -build "$projnam")
-
-	### xcodebuild is a special case because it is not open source
-	### we try to install it from the host Mac OS X system if it is required
-	echo "$deps" | grep "\bxcodebuild-"
-	if [ "$?" == "0" -a ! -f "$receipts/xcodebuild" ]; then
-		$DARWIN_BUILDROOT/bin/installXcodebuild
-		touch "$receipts/xcodebuild"
-	fi
-
-	for X in files bash $bash_vers $deps ; do
-		InstallRoot "$BuildRoot" "$X"
-	done
-
-	echo "*** Installing Headers ..."
-	deps=$($PREFIX/bin/darwinxref dependencies -header "$projnam")
-	for X in $deps ; do
-		InstallHeaders "$BuildRoot" "$X"
-	done
-fi
-
-
-###
 ### We do our building in private/var/tmp since it's
 ### likely to be out of the way of our dependencies
 ### and is supposed to be writable by everyone.
@@ -421,9 +388,6 @@ if [ -r "$SourceCache/$project-patches.tar.gz" ]; then
 	tar xzf "$SourceCache/$project-patches.tar.gz"
 fi
 
-
-
-
 ###
 ### Apply the patches
 ### Current working directory should be the SRCROOT
@@ -443,6 +407,38 @@ if [ $numfiles != 0 ]; then
 	buildtool="xcodebuild"
 else
 	buildtool="make"
+fi
+
+###
+### If we are CHROOTED, then
+### Install the roots into the BuildRoot
+### Make sure we have at least a minimally functioning root
+### by installing bash and its dependencies.
+###
+if [ "$CHROOTED" == "YES" -a "$noload" != "YES" ]; then
+	echo "*** Installing Roots ..."
+	receipts="$BuildRoot/usr/local/darwinbuild/receipts"
+	mkdir -p "$receipts"
+	bash_deps=$($PREFIX/bin/darwinxref dependencies -run "bash")
+	deps=$($PREFIX/bin/darwinxref dependencies -build "$projnam")
+
+	for X in files bash $bash_vers $deps ; do
+		InstallRoot "$BuildRoot" "$X"
+	done
+
+	echo "*** Installing Headers ..."
+	deps=$($PREFIX/bin/darwinxref dependencies -header "$projnam")
+	for X in $deps ; do
+		InstallHeaders "$BuildRoot" "$X"
+	done
+
+	### xcodebuild is a special case because it is not open source
+	### we try to install it from the host Mac OS X system if it is required
+	if [ "$buildtool" == "xcodebuild" ]; then
+		echo "*** Installing Xcode Tools ..."
+		"$PREFIX/share/darwinbuild/installXcodebuild" "$BuildRoot"
+		touch "$receipts/xcodebuild"
+	fi
 fi
 
 ###

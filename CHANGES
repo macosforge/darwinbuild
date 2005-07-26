@@ -1,6 +1,14 @@
 Darwin Build Scripts Change History
 -----------------------------------
 
+Release 0.6 [25-Jul-2005]
+	- moved installXcodebuild from /usr/local/bin to /usr/local/share
+	- darwinbuild: moved build root receipts into /usr/local/darwinbuild
+	- darwintrace: fixed bug when volfs paths do not resolve (pguyot)
+	- darwintrace: builds with -Wall (pguyot)
+	- darwinbuild: added uuids to roots based on manifests
+	- darwinxref: added manifest support to register plugin
+	- added manifest tool to generate manifests for roots
 	- added an exit handler to unmount devfs and volfs in the BuildRoot
 	- list header dependencies more conservatively (ssen)
 	- added common.mk for common makefile variables
