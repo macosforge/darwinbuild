@@ -1,40 +1,9 @@
+SUBDIRS= \
+	darwinbuild \
+	darwinxref \
+	darwintrace
 
-all: darwinbuild-all \
-	darwinxref-all \
-	darwintrace-all
+.PHONY: all clean install uninstall
 
-darwinbuild-all:
-	@make -C darwinbuild all
-
-darwinxref-all:
-	@make -C darwinxref all
-
-darwintrace-all:
-	@make -C darwintrace all
-
-install: darwinbuild-install \
-	darwinxref-install \
-	darwintrace-install
-
-darwinbuild-install:
-	@make -C darwinbuild install
-
-darwinxref-install:
-	@make -C darwinxref install
-
-darwintrace-install:
-	@make -C darwintrace install
-
-uninstall: darwinbuild-uninstall \
-	darwinxref-uninstall \
-	darwintrace-uninstall
-
-darwinbuild-uninstall:
-	@make -C darwinbuild uninstall
-
-darwinxref-uninstall:
-	@make -C darwinxref uninstall
-
-darwintrace-uninstall:
-	@make -C darwintrace uninstall
-
+all clean install uninstall:
+	@$(foreach DIR,$(SUBDIRS),make -C $(DIR) $@ ;)
