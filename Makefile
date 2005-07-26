@@ -24,3 +24,17 @@ darwinxref-install:
 
 darwintrace-install:
 	@make -C darwintrace install
+
+uninstall: darwinbuild-uninstall \
+	darwinxref-uninstall \
+	darwintrace-uninstall
+
+darwinbuild-uninstall:
+	@make -C darwinbuild uninstall
+
+darwinxref-uninstall:
+	@make -C darwinxref uninstall
+
+darwintrace-uninstall:
+	@make -C darwintrace uninstall
+

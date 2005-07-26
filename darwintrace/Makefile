@@ -26,4 +26,4 @@ install: all
 
 uninstall:
 	rm -f $(DATDIR)/darwintrace.dylib
-	rmdir $(DATDIR)
+	-rmdir $(DATDIR)

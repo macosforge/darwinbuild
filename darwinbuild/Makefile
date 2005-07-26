@@ -24,4 +24,4 @@ uninstall:
 	rm -f $(DATDIR)/darwinbuild.common
 	rm -f $(DATDIR)/installXcodebuild
 	rm -f $(DATDIR)/manifest
-	rmdir $(DATDIR)
+	-rmdir $(DATDIR)
