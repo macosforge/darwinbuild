@@ -18,6 +18,7 @@ install: all
 	$(INSTALL) $(INSTALL_DOC_FLAGS) darwinbuild.common $(DATDIR)
 	$(INSTALL) $(INSTALL_EXE_FLAGS) installXcodebuild $(DATDIR)
 	$(INSTALL) $(INSTALL_EXE_FLAGS) manifest $(DATDIR)
+	$(INSTALL) $(INSTALL_EXE_FLAGS) ditto.sh $(DATDIR)/ditto
 
 uninstall:
 	rm -f $(BINDIR)/darwinbuild
