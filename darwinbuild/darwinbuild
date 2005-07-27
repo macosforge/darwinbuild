@@ -84,6 +84,7 @@
 
 PREFIX=/usr/local
 XREFDB=.build/xref.db
+CACHEDIR=$PREFIX/share/darwinbuild/cache
 build=""
 depsbuild=""
 CHROOTED="YES"
@@ -435,6 +436,11 @@ if [ "$CHROOTED" == "YES" -a "$noload" != "YES" ]; then
 		InstallRoot "$BuildRoot" "$X"
 	done
 
+	### so many things require ditto, we have hacked around it
+	if [ ! -x "$BuildRoot/usr/bin/ditto" ]; then
+		cp "$PREFIX/share/darwinbuild/ditto" "$BuildRoot/usr/bin/ditto"
+	fi
+
 	echo "*** Installing Headers ..."
 	deps=$($PREFIX/bin/darwinxref dependencies -header "$projnam")
 	for X in $deps ; do
@@ -443,7 +449,7 @@ if [ "$CHROOTED" == "YES" -a "$noload" != "YES" ]; then
 
 	### xcodebuild is a special case because it is not open source
 	### we try to install it from the host Mac OS X system if it is required
-	if [ "$buildtool" == "xcodebuild" ]; then
+	if [ "$buildtool" == "xcodebuild" -a ! -f "$receipts/xcodebuild" ]; then
 		echo "*** Installing Xcode Tools ..."
 		"$PREFIX/share/darwinbuild/installXcodebuild" "$BuildRoot"
 		touch "$receipts/xcodebuild"

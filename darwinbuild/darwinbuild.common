@@ -139,12 +139,12 @@ function InstallRoot() {
 		ditto $SRCDIR $BuildRoot
 		touch "$receipts/$X"
 	elif [ ! -f "$receipts/$X" ]; then
-		Download "$DARWIN_BUILDROOT/Roots/opendarwin.org/$depsbuild" \
+		Download "$CACHEDIR/Roots/$depsbuild" \
 			"$X.root.tar.gz" \
 			$($PREFIX/bin/darwinxref $dbfile binary_sites)/$depsbuild
-		if [ -f $DARWIN_BUILDROOT/Roots/opendarwin.org/$depsbuild/$X.root.tar.gz ]; then
+		if [ -f $CACHEDIR/Roots/$depsbuild/$X.root.tar.gz ]; then
 			cd "$BuildRoot"
-			tar xzf $DARWIN_BUILDROOT/Roots/opendarwin.org/$depsbuild/$X.root.tar.gz
+			tar xzf $CACHEDIR/Roots/$depsbuild/$X.root.tar.gz
 			if [ "$?" == "0" ]; then
 				touch "$receipts/$X"
 			fi
@@ -177,11 +177,11 @@ function InstallHeaders() {
 		echo "Copying $X ..."
 		ditto $DARWIN_BUILDROOT/Headers/${X/-*}/$X.hdrs~$bv $BuildRoot
 	else
-		Download "$DARWIN_BUILDROOT/Headers/opendarwin.org/$depsbuild" "$X.hdrs.tar.gz" \
+		Download "$CACHEDIR/Headers/$depsbuild" "$X.hdrs.tar.gz" \
 			$($PREFIX/bin/darwinxref $dbfile binary_sites)/$depsbuild
-		if [ -f $DARWIN_BUILDROOT/Headers/opendarwin.org/$depsbuild/$X.hdrs.tar.gz ]; then
+		if [ -f $CACHEDIR/Headers/$depsbuild/$X.hdrs.tar.gz ]; then
 			cd "$BuildRoot"
-			tar xzf $DARWIN_BUILDROOT/Headers/opendarwin.org/$depsbuild/$X.hdrs.tar.gz
+			tar xzf $CACHEDIR/Headers/$depsbuild/$X.hdrs.tar.gz
 			if [ "$?" == "0" ]; then
 				touch "$receipts/$X.hdrs"
 			fi
