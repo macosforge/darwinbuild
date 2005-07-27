@@ -1,6 +1,11 @@
 Darwin Build Scripts Change History
 -----------------------------------
 
+	- darwinbuild: only invoke installXcodebuild if not already installed
+	- darwinbuild: copy the ditto(1) emulator into the BuildRoot
+	- emulate ditto(1) using tar(1) on systems without Bom.framework
+	- darwinbuild: store downloaded roots in a global cache directory
+
 Release 0.6 [25-Jul-2005]
 	- darwinbuild: enforce that darwinbuild is run as root
 	- darwinbuild: be slightly more graceful about bad parameters
