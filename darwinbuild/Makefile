@@ -26,3 +26,6 @@ uninstall:
 	rm -f $(DATDIR)/installXcodebuild
 	rm -f $(DATDIR)/manifest
 	-rmdir $(DATDIR)
+
+clean:
+	rm -f manifest
