@@ -88,6 +88,7 @@ CFPropertyListRef read_plist(char* path) {
                                 if (data) {
                                         CFStringRef str = NULL;
                                         result = CFPropertyListCreateFromXMLData(NULL, data, kCFPropertyListMutableContainers, &str);
+					CFRelease(data);
                                         if (result == NULL) {
                                                 perror_cfstr(str);
                                         }
