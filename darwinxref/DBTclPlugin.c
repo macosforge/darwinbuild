@@ -314,6 +314,7 @@ int call_tcl_run(DBPlugin* plugin, CFArrayRef args) {
 	Tcl_Obj* varname = tcl_cfstr(CFSTR("__args__"));
 	Tcl_ObjSetVar2(plugin->interp, varname, NULL, tcl_args, TCL_GLOBAL_ONLY);
 	int exitCode = -1;
+	(void)Tcl_Eval(plugin->interp, "fconfigure stdout -translation lf");
 	if (Tcl_Eval(plugin->interp, "eval run ${__args__}") == TCL_OK) {
 		Tcl_Obj* result = Tcl_GetObjResult(plugin->interp);
 		if (Tcl_GetCharLength(result) == 0) {
