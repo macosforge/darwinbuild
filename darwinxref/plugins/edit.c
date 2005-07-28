@@ -32,6 +32,7 @@
 
 #include "DBPlugin.h"
 #include <sys/stat.h>
+#include <sys/wait.h>
 #include <unistd.h>
 
 int editPlist(CFStringRef project);
