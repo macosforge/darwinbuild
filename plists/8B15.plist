@@ -1,24 +1,7 @@
 // !$*UTF8*$!
 {
-	binary_sites = (
-		"http://darwinsource.opendarwin.org/Roots/",
-	);
 	build = 8B15;
 	darwin = "Darwin 8.1";
-	environment = {
-		INSTALLED_PRODUCT_ASIDES = YES;
-		MACOSX_DEPLOYMENT_TARGET = 10.4;
-		NEXT_ROOT = "";
-		RC_ARCHS = "ppc i386";
-		RC_JASPER = YES;
-		RC_NONARCH_CFLAGS = "-pipe -no-cpp-precomp";
-		RC_OS = macos;
-		RC_RELEASE = Tiger;
-		RC_XBS = YES;
-		SEPARATE_STRIP = YES;
-		UNAME_RELEASE = 8.0;
-		UNAME_SYSNAME = Darwin;
-	};
 	inherits = 8A428;
 	macosx = "Mac OS X 10.4.1";
 	projects = {
@@ -376,8 +359,4 @@
 			version = 792.1.5;
 		};
 	};
-	source_sites = (
-		"http://darwinsource.opendarwin.org/tarballs/other/",
-		"http://darwinsource.opendarwin.org/tarballs/apsl/",
-	);
 }
