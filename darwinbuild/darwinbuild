@@ -625,7 +625,7 @@ ExitHandler() {
 	### Twice for devfs
 	[ "$(echo $BuildRoot/dev/*)" == "$BuildRoot/dev/*" ] || umount "$BuildRoot/dev"
 	### Thrice for volfs
-	[ "$(echo $BuildRoot/.vol/*)" == "$BuildRoot/.vol/*" ] || umount "$BuildRoot/.vol"
+	[ "$(echo $BuildRoot/.vol/*)" == "$BuildRoot/.vol/*" ] || chroot "$BuildRoot" umount /.vol
 }
 
 

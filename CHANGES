@@ -1,6 +1,9 @@
 Darwin Build Scripts Change History
 -----------------------------------
 
+	- darwinbuild: actually unmount volfs in the BuildRoot
+	- darwinbuild: recover from interrupted downloads
+	- darwinxref: fixed memory leak in read_plist (toby)
 	- darwinbuild: only invoke installXcodebuild if not already installed
 	- darwinbuild: copy the ditto(1) emulator into the BuildRoot
 	- emulate ditto(1) using tar(1) on systems without Bom.framework
