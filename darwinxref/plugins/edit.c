@@ -35,22 +35,22 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-int editPlist(CFStringRef project);
+int editPlist(CFStringRef build, CFStringRef project);
 static int execEditor(const char* tmpfile);
 
 static int run(CFArrayRef argv) {
+	CFStringRef build = DBGetCurrentBuild();
 	CFStringRef project = NULL;
 	CFIndex count = CFArrayGetCount(argv);
-	if (count > 1)  return -1;
-	if (count == 1) {
-		project = CFArrayGetValueAtIndex(argv, 0);
-	}
-	int res = editPlist(project);
+	if (count > 2) return -1;
+	if (count >= 1) build = CFArrayGetValueAtIndex(argv, 0);
+	if (count >= 2) project = CFArrayGetValueAtIndex(argv, 1);
+	int res = editPlist(build, project);
 	return res;
 }
 
 static CFStringRef usage() {
-	return CFRetain(CFSTR("[<project>]"));
+	return CFRetain(CFSTR("[<build> [<project>]]"));
 }
 
 int initialize(int version) {
@@ -68,8 +68,7 @@ static inline int min(int a, int b) {
 }
 
 
-int editPlist(CFStringRef project) {
-		CFStringRef build = DBGetCurrentBuild();
+int editPlist(CFStringRef build, CFStringRef project) {
         struct stat before, after;
         CFDictionaryRef p = NULL;
         if (project) {
@@ -85,6 +84,11 @@ int editPlist(CFStringRef project) {
         strcpy(tmpfile, "/tmp/darwinxref.project.XXXXXX");
         int fd = mkstemp(tmpfile);
         FILE* f = fdopen(fd, "w");
+		if (project) {
+			cfprintf(f, "// Project %@ for build %@\n", project, build);
+		} else {
+			cfprintf(f, "// All projects for build %@\n", build);
+		}
         writePlist(f, p, 0);
         CFRelease(p);
         fclose(f);
