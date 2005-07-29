@@ -88,7 +88,7 @@ CFPropertyListRef read_plist(char* path) {
                                 if (data) {
                                         CFStringRef str = NULL;
                                         result = CFPropertyListCreateFromXMLData(NULL, data, kCFPropertyListMutableContainers, &str);
-					CFRelease(data);
+                                        CFRelease(data);
                                         if (result == NULL) {
                                                 perror_cfstr(str);
                                         }
@@ -107,16 +107,19 @@ CFPropertyListRef read_plist(char* path) {
 
 
 int cfprintf(FILE* file, const char* format, ...) {
+		char* cstr;
+		int result;
         va_list args;
         va_start(args, format);
         CFStringRef formatStr = CFStringCreateWithCStringNoCopy(NULL, format, kCFStringEncodingUTF8, kCFAllocatorNull);
         CFStringRef str = CFStringCreateWithFormatAndArguments(NULL, NULL, formatStr, args);
         va_end(args);
-        char* cstr = strdup_cfstr(str);
-        fprintf(file, "%s", cstr);
+        cstr = strdup_cfstr(str);
+        result = fprintf(file, "%s", cstr);
         free(cstr);
         CFRelease(str);
         CFRelease(formatStr);
+		return result;
 }
 
 CFArrayRef dictionaryGetSortedKeys(CFDictionaryRef dictionary) {
@@ -134,10 +137,11 @@ CFArrayRef dictionaryGetSortedKeys(CFDictionaryRef dictionary) {
 }
 
 int writePlist(FILE* f, CFPropertyListRef p, int tabs) {
+		int result = 0;
         CFTypeID type = CFGetTypeID(p);
 
         if (tabs == 0) {
-                fprintf(f, "// !$*UTF8*$!\n");
+                result += fprintf(f, "// !$*UTF8*$!\n");
         }
 
         char* t = malloc(tabs+1);
@@ -166,43 +170,44 @@ int writePlist(FILE* f, CFPropertyListRef p, int tabs) {
                 }
                 if (utf8[0] == 0) quote = 1;
 
-                if (quote) fprintf(f, "\"");
+                if (quote) result += fprintf(f, "\"");
                 for (i = 0 ;; ++i) {
                         int c = utf8[i];
                         if (c == 0) break;
                         if (c == '\"' || c == '\\') fprintf(f, "\\");
                         //if (c == '\n') c = 'n';
-                        fprintf(f, "%c", c);
+                        result += fprintf(f, "%c", c);
                 }
-                if (quote) fprintf(f, "\"");
+                if (quote) result += fprintf(f, "\"");
                 free(utf8);
         } else if (type == CFArrayGetTypeID()) {
-                fprintf(f, "(\n");
+                result += fprintf(f, "(\n");
                 int count = CFArrayGetCount(p);
                 for (i = 0; i < count; ++i) {
                         CFTypeRef pp = CFArrayGetValueAtIndex(p, i);
-                        fprintf(f, "%s\t", t);
-                        writePlist(f, pp, tabs+1);
-                        fprintf(f, ",\n");
+                        result += fprintf(f, "%s\t", t);
+                        result += writePlist(f, pp, tabs+1);
+                        result += fprintf(f, ",\n");
                 }
-                fprintf(f, "%s)", t);
+                result += fprintf(f, "%s)", t);
         } else if (type == CFDictionaryGetTypeID()) {
-                fprintf(f, "{\n");
+                result += fprintf(f, "{\n");
                 CFArrayRef keys = dictionaryGetSortedKeys(p);
                 int count = CFArrayGetCount(keys);
                 for (i = 0; i < count; ++i) {
                         CFStringRef key = CFArrayGetValueAtIndex(keys, i);
                         char* utf8 = strdup_cfstr(key);
-                        fprintf(f, "%s\t%s = ", t, utf8);
+                        result += fprintf(f, "%s\t%s = ", t, utf8);
                         free(utf8);
-                        writePlist(f, CFDictionaryGetValue(p,key), tabs+1);
-                        fprintf(f, ";\n");
+                        result += writePlist(f, CFDictionaryGetValue(p,key), tabs+1);
+                        result += fprintf(f, ";\n");
                 }
                 CFRelease(keys);
-                fprintf(f, "%s}", t);
+                result += fprintf(f, "%s}", t);
         }
-        if (tabs == 0) fprintf(f, "\n");
+        if (tabs == 0) result += fprintf(f, "\n");
         free(t);
+		return result;
 }
 
 
