@@ -1,7 +1,6 @@
 SUBDIRS= \
 	darwinbuild \
 	darwinxref \
-	darwinroot \
 	darwintrace
 
 .PHONY: all clean install uninstall
