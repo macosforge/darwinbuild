@@ -90,9 +90,11 @@ function Download() {
 			echo "Attempting to download $master_site/$filename ..."
 			curl --fail \
 				--silent \
-				--output "$destination/$filename" \
+				--continue-at - \
+				--output "$destination/.tmp.${filename}" \
 				--url "$master_site/$filename"
-			if [ -f "$destination/$filename" ]; then
+			if [ "$?" == "0" ]; then
+				mv "$destination/.tmp.${filename}" "$destination/$filename"
 				echo "Download complete"
 				break
 			fi
