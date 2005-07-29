@@ -80,12 +80,12 @@ plugins-darwinports/%.so: plugins-darwinports/%.c DBPlugin.h
 	cc -o $@ $(PLUGIN_CFLAGS) $(PLUGIN_LDFLAGS) $<
 
 apple_plugins:
-	if [ -d plugins-apple ]; then			\
+	@if [ -d plugins-apple ]; then			\
 		make -C plugins-apple;			\
 	fi
 
 install_apple_plugins:
-	if [ -d plugins-apple ]; then			\
+	@if [ -d plugins-apple ]; then			\
 		make -C plugins-apple install;		\
 	fi
 
