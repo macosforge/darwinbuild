@@ -24,7 +24,7 @@ CFLAGS+= \
 TCL_CFLAGS=-DHAVE_TCL_PLUGINS=1
 TCL_LDFLAGS=-ltcl
 
-CFLAGS+=-ggdb $(TCL_CFLAGS) -DVERSION=\"$(shell cat ../VERSION)\" $(SQLITEINC)
+CFLAGS+=-g $(TCL_CFLAGS) -DVERSION=\"$(shell cat ../VERSION)\" $(SQLITEINC)
 LDFLAGS+=-framework CoreFoundation $(TCL_LDFLAGS)
 PLUGIN_CFLAGS=$(CFLAGS) -I.
 PLUGIN_LDFLAGS=$(LDFLAGS) -bundle -bundle_loader darwinxref
@@ -71,13 +71,13 @@ darwinxref: $(SOURCES)
 		$(SQLITELIB)
 
 plugins/register.so: plugins/register.c DBPlugin.h
-	cc -o $@ $(PLUGIN_CFLAGS) $(PLUGIN_LDFLAGS) -lcrypto $^
+	cc -o $@ $(PLUGIN_CFLAGS) $(PLUGIN_LDFLAGS) -lcrypto $<
 
 plugins/%.so: plugins/%.c DBPlugin.h
-	cc -o $@ $(PLUGIN_CFLAGS) $(PLUGIN_LDFLAGS) $^
+	cc -o $@ $(PLUGIN_CFLAGS) $(PLUGIN_LDFLAGS) $<
 
 plugins-darwinports/%.so: plugins-darwinports/%.c DBPlugin.h
-	cc -o $@ $(PLUGIN_CFLAGS) $(PLUGIN_LDFLAGS) $^
+	cc -o $@ $(PLUGIN_CFLAGS) $(PLUGIN_LDFLAGS) $<
 
 apple_plugins:
 	if [ -d plugins-apple ]; then			\
