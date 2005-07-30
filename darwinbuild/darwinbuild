@@ -120,16 +120,29 @@ if [ "$1" == "-init" ]; then
 		exit 1
 	fi
 	build="$2"
+	sites=""
 	[ -d Roots ] || mkdir Roots
 	[ -d Sources ] || mkdir Sources
 	[ -d Symbols ] || mkdir Symbols
 	[ -d Headers ] || mkdir Headers
 	[ -d Logs ] || mkdir Logs
 	[ -d .build ] || mkdir .build
+
+	# check if there's a plist locally by this name
+	if [ -f "$build" ]; then
+	    filepath="$build"
+	    filename=$(basename "$filepath")
+	    build=$(echo "$filename" | sed 's/.plist$//')
+	    # since we don't want to download this, copy it
+	    cp "$filepath" ".build/$build.plist"
+	fi
+
 	echo "$build" > .build/build
+
 	while [ "$build" != "" ]; do
-		Download .build "$build".plist http://darwinsource.opendarwin.org/plists/
+		Download .build "$build".plist "$sites http://darwinsource.opendarwin.org/plists/"
 		$PREFIX/bin/darwinxref "-f$XREFDB" "-b$build" loadIndex .build/"$build".plist
+		sites=$($PREFIX/bin/darwinxref "-f$XREFDB" "-b$build" plist_sites | xargs echo)
 		build=$($PREFIX/bin/darwinxref "-f$XREFDB" "-b$build" inherits)
 	done
 	echo "Initialization Complete"
