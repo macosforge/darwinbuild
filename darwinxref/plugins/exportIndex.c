@@ -37,16 +37,22 @@
 static int run(CFArrayRef argv) {
 	int res = 0;
 	CFIndex count = CFArrayGetCount(argv);
-	if (count > 1)  return -1;
+	if (count > 2)  return -1;
 	int xml = 0;
-	if (count == 1) {
+	CFStringRef build = DBGetCurrentBuild();
+	if (count >= 1) {
 		CFStringRef arg = CFArrayGetValueAtIndex(argv, 0);
 		xml = CFEqual(arg, CFSTR("-xml"));
 		// -xml is the only supported option
-		if (!xml) return -1;
+		if (xml && count >= 2) {
+			build = CFArrayGetValueAtIndex(argv, 1);
+		} else if (count == 1) {
+			build = arg;
+		} else {
+			return -1;
+		}
 	}
 	
-	CFStringRef build = DBGetCurrentBuild();
 	CFPropertyListRef plist = DBCopyBuildPlist(build);
 	if (xml) {
 		CFDataRef data = CFPropertyListCreateXMLData(NULL, plist);
@@ -58,7 +64,7 @@ static int run(CFArrayRef argv) {
 }
 
 static CFStringRef usage() {
-	return CFRetain(CFSTR("[-xml]"));
+	return CFRetain(CFSTR("[-xml] [<build>]"));
 }
 
 int initialize(int version) {
