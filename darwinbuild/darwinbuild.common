@@ -141,9 +141,10 @@ function InstallRoot() {
 		ditto $SRCDIR $BuildRoot
 		touch "$receipts/$X"
 	elif [ ! -f "$receipts/$X" ]; then
+	    	sites=$($PREFIX/bin/darwinxref $dbfile binary_sites | while read a; do echo "$a/$depsbuild"; done)
 		Download "$CACHEDIR/Roots/$depsbuild" \
 			"$X.root.tar.gz" \
-			$($PREFIX/bin/darwinxref $dbfile binary_sites)/$depsbuild
+		    	"$sites"
 		if [ -f $CACHEDIR/Roots/$depsbuild/$X.root.tar.gz ]; then
 			cd "$BuildRoot"
 			tar xzf $CACHEDIR/Roots/$depsbuild/$X.root.tar.gz
@@ -179,8 +180,9 @@ function InstallHeaders() {
 		echo "Copying $X ..."
 		ditto $DARWIN_BUILDROOT/Headers/${X/-*}/$X.hdrs~$bv $BuildRoot
 	else
+	    	sites=$($PREFIX/bin/darwinxref $dbfile binary_sites | while read a; do echo "$a/$depsbuild"; done)
 		Download "$CACHEDIR/Headers/$depsbuild" "$X.hdrs.tar.gz" \
-			$($PREFIX/bin/darwinxref $dbfile binary_sites)/$depsbuild
+		    	"$sites"
 		if [ -f $CACHEDIR/Headers/$depsbuild/$X.hdrs.tar.gz ]; then
 			cd "$BuildRoot"
 			tar xzf $CACHEDIR/Headers/$depsbuild/$X.hdrs.tar.gz
