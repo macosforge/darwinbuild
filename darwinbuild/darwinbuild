@@ -445,7 +445,7 @@ if [ "$CHROOTED" == "YES" -a "$noload" != "YES" ]; then
 	bash_deps=$($PREFIX/bin/darwinxref dependencies -run "bash")
 	deps=$($PREFIX/bin/darwinxref dependencies -build "$projnam")
 
-	for X in files bash $bash_vers $deps ; do
+	for X in files bash $bash_deps $deps ; do
 		InstallRoot "$BuildRoot" "$X"
 	done
 
