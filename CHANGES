@@ -1,6 +1,16 @@
 Darwin Build Scripts Change History
 -----------------------------------
 
+Release X.Y.Z [NOW]
+	- darwinbuild: allow -init to take the path to a local plist (ssen)
+	- darwinbuild: use "plist_sites" to find parent builds for -init (ssen)
+	- darwinxref: preserve sort order for array properties like
+	  source_sites (ssen)
+	- darwinxref: new "plist_sites" plugin (ssen)
+	- darwinxref: fix build version detection for "info"
+	  pseudo-plugin (ssen)
+	- darwinxref: new "patchfiles" plugin (ssen)
+
 Release 0.6.1 [28-Jul-2005]
 	- darwinbuild: actually unmount volfs in the BuildRoot
 	- darwinbuild: recover from interrupted downloads
