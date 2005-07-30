@@ -1,0 +1,34 @@
+This is an informal document on the core darwinxref plugins, describing
+what queries the plugins support, and what plist input format they
+use. This should eventually make its way to the online documentation.
+
+* binary_sites
+Meaning: "binary_sites" stores a set of URLs from where archived
+	 build roots can be downloaded.
+Input plist: Each build can have an array of "binary_sites",
+      which are URLs. Additionally, each project can have
+      a set of URLs.
+Query: If a project had "binary_sites", it will be returned.
+       If not, the global "binary_sites" for that build will
+       be returned (not currently implemented XXX). If
+       no project is specified, the global "binary_sites" for
+       the build will be returned.
+
+* plist_sites
+Meaning: "plist_sites" stores a set of URLs from where
+	 additional build plists can be downloaded, for instance
+	 to resolve "inherits" build chains
+Input plist: Each build can have an array of "plist_sites"
+Query: The set of URLs for the build will be returned.
+
+
+* source_sites
+
+* patchfiles
+Meaning: "patchfiles" stores a set of patch file names
+	 for a project which can be downloaded from "source_sites".
+	 To avoid collisions, names should be unique unless
+	 a patch applies to multiple project versions.
+Input plist: Each project can have an array of "patchfiles"
+Query: The set of patch file names for a given build and
+       project will be returned.
