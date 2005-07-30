@@ -461,9 +461,9 @@ int DBSetPropArray(CFStringRef build, CFStringRef project, CFStringRef property,
 	for (i = 0; i < count; ++i) {
 		char* cvalu = strdup_cfstr(CFArrayGetValueAtIndex(value, i));
 		if (project) {
-			SQL("INSERT INTO properties (build,project,property,value) VALUES (%Q, %Q, %Q, %Q)", cbuild, cproj, cprop, cvalu);
+			SQL("INSERT INTO properties (build,project,property,key,value) VALUES (%Q, %Q, %Q, %Q)", cbuild, cproj, cprop, i, cvalu);
 		} else {
-			SQL("INSERT INTO properties (build,property,value) VALUES (%Q, %Q, %Q)", cbuild, cprop, cvalu);
+			SQL("INSERT INTO properties (build,property,key,value) VALUES (%Q, %Q, %d, %Q)", cbuild, cprop, i, cvalu);
 		}
 		free(cvalu);
 	}
