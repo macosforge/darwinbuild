@@ -77,10 +77,6 @@
 ### to create the root using the Xcode installation on the host system.
 ###
 ### 
-### TODO
-###     - Extract patch information from darwinxref
-###		- Generate Xcode root from host system
-###
 
 PREFIX=/usr/local
 XREFDB=.build/xref.db
@@ -345,7 +341,12 @@ if [ "$alias" != "" ]; then
 else
 	filename="$project.tar.gz"
 fi
+patchfilenames=$($PREFIX/bin/darwinxref patchfiles $projnam)
+#echo "patchfiles are $patchfilenames"
 Download "$SourceCache" "$filename" "$($PREFIX/bin/darwinxref source_sites $projnam)"
+for p in $patchfilenames; do
+    Download "$SourceCache" "$p" "$($PREFIX/bin/darwinxref source_sites $projnam)"    
+done
 
 ### If we are doing a -fetch, stop here.
 if [ "$action" == "fetch" ]; then
@@ -412,6 +413,8 @@ elif [ "$alias" != "" ]; then
 else
 	tar xzf "$SourceCache/$filename"
 fi
+
+# you can avoid registering patches in the DB by using "xnu-792--patches.tar.gz"
 if [ -r "$SourceCache/$project-patches.tar.gz" ]; then
 	tar xzf "$SourceCache/$project-patches.tar.gz"
 fi
@@ -425,6 +428,19 @@ if [ -d "$REAL_SRCROOT/../$project-patches" ]; then
 	echo "*** Applying Patches ..."
 	cat $REAL_SRCROOT/../$project-patches/* | patch -p0
 fi
+for patchfile in $patchfilenames; do
+	echo "*** Applying Patch $patchfile ..."
+	if [ -r "$SourceCache/$patchfile" ]; then
+	    case $patchfile in
+		*.patch)
+		    patch --posix -l -p0 < "$SourceCache/$patchfile"
+		    ;;
+		*)
+		    echo "Don't know how to apply $patchfile"
+		    ;;
+	    esac
+	fi
+done
 
 ### If we are doing a -source, stop here.
 if [ "$action" == "source" ]; then
