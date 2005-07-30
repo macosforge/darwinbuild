@@ -433,7 +433,10 @@ for patchfile in $patchfilenames; do
 	if [ -r "$SourceCache/$patchfile" ]; then
 	    case $patchfile in
 		*.patch)
-		    patch --posix -l -p0 < "$SourceCache/$patchfile"
+		    cat "$SourceCache/$patchfile" | patch --posix -l -p0
+		    ;;
+		*.patch.gz)
+		    gzip -c -d "$SourceCache/$patchfile" | patch --posix -l -p0
 		    ;;
 		*)
 		    echo "Don't know how to apply $patchfile"
