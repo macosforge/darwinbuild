@@ -262,7 +262,6 @@ int run_plugin(int argc, char* argv[]) {
 	return res;
 }
 
-extern CFDictionaryRef _CFCopySystemVersionDictionary();
 static CFStringRef currentBuild = NULL;
 
 void DBSetCurrentBuild(char* build) {
@@ -271,21 +270,5 @@ void DBSetCurrentBuild(char* build) {
 }
 
 CFStringRef DBGetCurrentBuild() {
-	if (currentBuild) return currentBuild;
-
-	// The following is Private API.
-	// Please don't use this in your programs as it may break.
-	// Notice the careful dance around these symbols as they may
-	// someday disappear entirely, in which case this program
-	// will need to be revved.
-	CFDictionaryRef (*fptr)() = dlsym(RTLD_DEFAULT, "_CFCopySystemVersionDictionary");
-	if (fptr) {
-		CFDictionaryRef dict = fptr();
-		if (dict != NULL) {
-			CFStringRef str = CFDictionaryGetValue(dict, CFSTR("ProductBuildVersion"));
-			currentBuild = CFRetain(str);
-			CFRelease(dict);
-		}
-	}
 	return currentBuild;
 }
