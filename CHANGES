@@ -2,6 +2,8 @@ Darwin Build Scripts Change History
 -----------------------------------
 
 Release X.Y.Z [NOW]
+	- darwinbuild: add -source to download and patch sources
+	- darwinbuild: query DB for patch files, download them from source_sites
 	- darwinbuild: allow -init to take the path to a local plist (ssen)
 	- darwinbuild: use "plist_sites" to find parent builds for -init (ssen)
 	- darwinxref: preserve sort order for array properties like
