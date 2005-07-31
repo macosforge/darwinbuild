@@ -1,0 +1,129 @@
+// !$*UTF8*$!
+{
+	build = 7R28;
+	darwin = "Darwin 7.6";
+	inherits = 7M34;
+	macosx = "Mac OS X 10.3.6";
+	projects = {
+		AppleDisplays = {
+			version = 145.4.4;
+		};
+		AppleGMACEthernet = {
+			version = 134.3.2;
+		};
+		AppleK2SATARoot = {
+			version = 104.3.1;
+		};
+		AppleMacRISC2PE = {
+			version = 160.2.5;
+		};
+		AppleMacRISC4PE = {
+			version = 140.2.1;
+		};
+		AppleMacRiscPCI = {
+			version = 2.3;
+		};
+		AppleOnboardAudio = {
+			version = 241.2.1;
+		};
+		AppleUSBAudio = {
+			version = 197.2.1;
+		};
+		AppleUSBCDCDriver = {
+			version = 301.4.1;
+		};
+		CF = {
+			version = 299.32;
+		};
+		DSNSLPlugins = {
+			version = 79.5;
+		};
+		DSPasswordServerPlugin = {
+			version = 70.2;
+		};
+		DiskArbitration = {
+			version = 129.4;
+		};
+		IOATABlockStorage = {
+			version = 131.3.2;
+		};
+		IOAudioFamily = {
+			version = 150.2.9;
+		};
+		IOFireWireFamily = {
+			version = 186.4.0;
+		};
+		IOHIDFamily = {
+			version = 86.21;
+		};
+		IOKitUser = {
+			version = 182;
+		};
+		IOSCSIArchitectureModelFamily = {
+			version = 137.3.5;
+		};
+		IOSCSIParallelFamily = {
+			version = 137.3.2;
+		};
+		IOStorageFamily = {
+			version = 44.4;
+		};
+		IOUSBFamily = {
+			version = 214.4.5;
+		};
+		JavaScriptCore = {
+			version = 125.6;
+		};
+		Kerberos = {
+			version = 47.5;
+		};
+		OpenLDAP = {
+			version = 37.3.1;
+		};
+		OpenSSH = {
+			version = 42;
+		};
+		SquirrelMail = {
+			version = 12.1;
+		};
+		WebCore = {
+			version = 125.8.10;
+		};
+		apache2 = {
+			version = 15;
+		};
+		bsm = {
+			version = 2.11;
+		};
+		cups = {
+			version = 62.3;
+		};
+		libpcap = {
+			version = 12;
+		};
+		lukemftpd = {
+			version = 11;
+		};
+		netinfo = {
+			version = 324.7;
+		};
+		network_cmds = {
+			version = 176.3.5;
+		};
+		postfix = {
+			version = 132.1;
+		};
+		rsync = {
+			version = 14;
+		};
+		samba = {
+			version = 59;
+		};
+		tcpdump = {
+			version = 9;
+		};
+		xnu = {
+			version = 517.9.4;
+		};
+	};
+}

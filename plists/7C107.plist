@@ -1,0 +1,18 @@
+// !$*UTF8*$!
+{
+	build = 7C107;
+	darwin = "Darwin 7.1";
+	inherits = 7B85;
+	macosx = "Mac OS X 10.3.1";
+	projects = {
+		IOStorageFamily = {
+			version = 44.1;
+		};
+		fetchmail = {
+			version = 10;
+		};
+		webdavfs = {
+			version = 148.2;
+		};
+	};
+}

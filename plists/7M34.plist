@@ -1,0 +1,96 @@
+// !$*UTF8*$!
+{
+	build = 7M34;
+	darwin = "Darwin 7.5";
+	inherits = 7H63;
+	macosx = "Mac OS X 10.3.5";
+	projects = {
+		AppleCuda = {
+			version = 103.0.1;
+		};
+		AppleDisplays = {
+			version = 144.1.1;
+		};
+		AppleI2C = {
+			version = 344.0.1;
+		};
+		AppleKeyLargo = {
+			version = 154.0.1;
+		};
+		AppleMacRISC2PE = {
+			version = 150.2.1;
+		};
+		AppleMacRISC4PE = {
+			version = 125.2.2;
+		};
+		AppleOnboardAudio = {
+			version = 226.2.12;
+		};
+		AppleUSBAudio = {
+			version = 195.2.3;
+		};
+		AppleUSBCDCDriver = {
+			version = 300.4.3;
+		};
+		CyrusIMAP = {
+			version = 125.5;
+		};
+		DSAgent = {
+			version = 32.1;
+		};
+		DSPasswordServerPlugin = {
+			version = 70;
+		};
+		DirectoryService = {
+			version = 257.1;
+		};
+		IOFWDVComponents = {
+			version = 162.4.1;
+		};
+		IOGraphics = {
+			version = 126;
+		};
+		IOKitUser = {
+			version = 179.7;
+		};
+		IOSCSIArchitectureModelFamily = {
+			version = 136.3.4;
+		};
+		IOSCSIParallelFamily = {
+			version = 136.3.1;
+		};
+		IOStorageFamily = {
+			version = 44.3;
+		};
+		IOUSBFamily = {
+			version = 211.4.2;
+		};
+		PowerManagement = {
+			version = 63.3;
+		};
+		Security = {
+			version = 177;
+		};
+		Startup = {
+			version = 177.7;
+		};
+		WebCore = {
+			version = 125.8.6;
+		};
+		bootp = {
+			version = 110.7;
+		};
+		netinfo = {
+			version = 324.6;
+		};
+		network_cmds = {
+			version = 176.3.3;
+		};
+		ntfs = {
+			version = 8.1;
+		};
+		xnu = {
+			version = 517.7.21;
+		};
+	};
+}

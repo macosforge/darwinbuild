@@ -1,0 +1,42 @@
+// !$*UTF8*$!
+{
+	build = 7S215;
+	darwin = "Darwin 7.7";
+	inherits = 7R28;
+	macosx = "Mac OS X 10.3.7";
+	projects = {
+		CF = {
+			version = 299.33;
+		};
+		CyrusIMAP = {
+			version = 125.6;
+		};
+		IOSCSIArchitectureModelFamily = {
+			version = 138.3.1;
+		};
+		Kerberos = {
+			version = 47.7;
+		};
+		WebCore = {
+			version = 125.8.12;
+		};
+		apache = {
+			version = 678;
+		};
+		apache2 = {
+			version = 17;
+		};
+		apache_mod_ssl = {
+			version = 678;
+		};
+		netinfo = {
+			version = 324.9;
+		};
+		postfix = {
+			version = 132.2;
+		};
+		xnu = {
+			version = 517.9.5;
+		};
+	};
+}

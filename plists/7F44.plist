@@ -1,0 +1,225 @@
+// !$*UTF8*$!
+{
+	build = 7F44;
+	darwin = "Darwin 7.3";
+	inherits = 7D24;
+	macosx = "Mac OS X 10.3.3";
+	projects = {
+		Apple16X50Serial = {
+			version = 15.1;
+		};
+		AppleGMACEthernet = {
+			version = 132.2.2;
+		};
+		AppleI2C = {
+			version = 342.0.1;
+		};
+		AppleK2SATA = {
+			version = 102.3.4;
+		};
+		AppleK2SATARoot = {
+			version = 102.3.2;
+		};
+		AppleKauaiATA = {
+			version = 103.2.1;
+		};
+		AppleKeyLargo = {
+			version = 150.0.3;
+		};
+		AppleMacRISC4PE = {
+			version = 112.1.17;
+		};
+		AppleMacRiscPCI = {
+			version = 2.1.0;
+		};
+		AppleOnboardAudio = {
+			version = 220.2.6;
+		};
+		AppleRAID = {
+			version = 1.5;
+		};
+		AppleRS232Serial = {
+			version = 123.4.0;
+		};
+		AppleUSBAudio = {
+			version = 188.2.5;
+		};
+		AppleUSBIrDA = {
+			version = 132.2.2;
+		};
+		AppleVIA = {
+			version = 1.3;
+		};
+		BootCache = {
+			version = 17.5.4;
+		};
+		CF = {
+			version = 299.3;
+		};
+		CyrusIMAP = {
+			version = 125.4;
+		};
+		DSNSLPlugins = {
+			version = 79.4;
+		};
+		DSPasswordServerPlugin = {
+			version = 68.1;
+		};
+		DirectoryService = {
+			version = 255.5;
+		};
+		DiskArbitration = {
+			version = 129.2;
+		};
+		IOAudioFamily = {
+			version = 144.2.1;
+		};
+		IOHIDFamily = {
+			version = 86.6.8;
+		};
+		IOKitUser = {
+			version = 177;
+		};
+		IONetworkingFamily = {
+			version = 15.3;
+		};
+		IOSCSIArchitectureModelFamily = {
+			version = 133.3.1;
+		};
+		IOSCSIParallelFamily = {
+			version = 132.3.1;
+		};
+		IOUSBFamily = {
+			version = 208.4.5;
+		};
+		IOUSBMassStorageClass = {
+			version = 131.3.1;
+		};
+		JBoss = {
+			target = magnum;
+			version = 734;
+		};
+		JavaScriptCore = {
+			version = 125.3;
+		};
+		Libinfo = {
+			version = 173.1;
+		};
+		MySQL = {
+			version = 20;
+		};
+		OpenLDAP = {
+			version = 37.1.1;
+		};
+		PowerManagement = {
+			version = 63;
+		};
+		Security = {
+			version = 164.1;
+		};
+		SecurityNssAsn1 = {
+			version = 11.1;
+		};
+		SecurityNssPkcs12 = {
+			version = 7;
+		};
+		SmartCardServices = {
+			version = 15.1;
+		};
+		Startup = {
+			version = 177.2;
+		};
+		WebCore = {
+			version = 125;
+		};
+		apache = {
+			version = 671;
+		};
+		apache2 = {
+			version = 12;
+		};
+		apache_mod_ssl = {
+			version = 15;
+		};
+		automount = {
+			version = 81.1;
+		};
+		bootp = {
+			version = 110.6;
+		};
+		cctools = {
+			version = 495.2;
+		};
+		configd = {
+			version = 84.6;
+		};
+		configd_plugins = {
+			target = configd_plugins;
+			version = 75.3;
+		};
+		cups = {
+			version = 62;
+		};
+		diskdev_cmds = {
+			version = 277.1;
+		};
+		fetchmail = {
+			version = 10;
+		};
+		files = {
+			target = "";
+			version = 436.0.1;
+		};
+		gas = {
+			version = 495.2;
+		};
+		gimp_print = {
+			version = 6;
+		};
+		isoutil = {
+			version = 28.1;
+		};
+		libpcap = {
+			version = 11;
+		};
+		mDNSResponder = {
+			version = 58.5;
+		};
+		netinfo = {
+			version = 324.2.1;
+		};
+		network_cmds = {
+			version = 176.2.1;
+		};
+		objc4 = {
+			version = 237;
+		};
+		ppp = {
+			version = 143.3;
+		};
+		rsync = {
+			version = 12;
+		};
+		samba = {
+			version = 56;
+		};
+		smb = {
+			version = 115.1;
+		};
+		system_cmds = {
+			version = 279.1;
+		};
+		tcpdump = {
+			version = 8;
+		};
+		webdavfs = {
+			version = 148.5;
+		};
+		xinetd = {
+			version = 26.4;
+		};
+		xnu = {
+			version = 517.3.15;
+		};
+	};
+}

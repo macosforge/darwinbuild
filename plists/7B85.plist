@@ -1,0 +1,842 @@
+// !$*UTF8*$!
+{
+	build = 7B85;
+	darwin = "Darwin 7.0";
+	macosx = "Mac OS X 10.3";
+	projects = {
+		Apple16X50Serial = {
+			version = 13;
+		};
+		Apple3Com3C90x = {
+			version = 7;
+		};
+		AppleADBButtons = {
+			version = 250.0.1;
+		};
+		AppleADBDisplay = {
+			version = 103.0.1;
+		};
+		AppleADBKeyboard = {
+			version = 236.0.3;
+		};
+		AppleADBMouse = {
+			version = 209.0.3;
+		};
+		AppleBMacEthernet = {
+			version = 113.4.1;
+		};
+		AppleCore99NVRAM = {
+			version = 1.1;
+		};
+		AppleCore99PE = {
+			version = 121.0.2;
+		};
+		AppleCuda = {
+			version = 102.3.1;
+		};
+		AppleDisplays = {
+			version = 140.1.6;
+		};
+		AppleGMACEthernet = {
+			version = 131.2.1;
+		};
+		AppleGenericPCATA = {
+			version = 4;
+		};
+		AppleGracklePCI = {
+			version = 1.2;
+		};
+		AppleHeathrow = {
+			version = 121.0.1;
+		};
+		AppleI2C = {
+			version = 340.0.3;
+		};
+		AppleI2S = {
+			version = 100.0.2;
+		};
+		AppleI386PCI = {
+			version = 6;
+		};
+		AppleIntel8255x = {
+			version = 13;
+		};
+		AppleIntelAC97Driver = {
+			version = 6;
+		};
+		AppleIntelPIIXATA = {
+			version = 12;
+		};
+		AppleK2SATA = {
+			version = 100.3.3;
+		};
+		AppleK2SATARoot = {
+			version = 100.1.7;
+		};
+		AppleKauaiATA = {
+			version = 102.3.1;
+		};
+		AppleKeyLargo = {
+			version = 141.0.1;
+		};
+		AppleKiwiATA = {
+			version = 102.3.1;
+		};
+		AppleKiwiRoot = {
+			version = 102.3.1;
+		};
+		AppleMESH = {
+			version = 112.3.1;
+		};
+		AppleMPIC = {
+			version = 1.2.3;
+		};
+		AppleMacRISC2PE = {
+			version = 142.2.3;
+		};
+		AppleMacRISC4PE = {
+			version = 102.2.1;
+		};
+		AppleMacRiscPCI = {
+			version = 2.0.0;
+		};
+		AppleMediaBay = {
+			version = 1.0.1;
+		};
+		AppleOnboardAudio = {
+			version = 205.2.14;
+		};
+		ApplePCCardATA = {
+			version = 103.3.1;
+		};
+		ApplePS2Controller = {
+			version = 4;
+		};
+		ApplePS2Keyboard = {
+			version = 6.5;
+		};
+		ApplePS2Mouse = {
+			version = 7;
+		};
+		ApplePS2Trackpad = {
+			version = 3;
+		};
+		AppleRAID = {
+			version = 1.3.4;
+		};
+		AppleRS232Serial = {
+			version = 121.2.2;
+		};
+		AppleSCCSerial = {
+			version = 126.4.0;
+		};
+		AppleSym8xx = {
+			version = 120.0.2;
+		};
+		AppleTalk = {
+			version = 81;
+		};
+		AppleUSBAudio = {
+			version = 185.2.3;
+		};
+		AppleUSBIrDA = {
+			version = 131.2.2;
+		};
+		AppleVIA = {
+			version = 1.2;
+		};
+		BerkeleyDB = {
+			version = 6;
+		};
+		BootCache = {
+			version = 16.1;
+		};
+		BootX = {
+			version = 59;
+		};
+		CF = {
+			version = 299;
+		};
+		CMD646ATA = {
+			version = 107.3.1;
+		};
+		Chess = {
+			version = 102.0.10;
+		};
+		CoreOSMakefiles = {
+			version = 22;
+		};
+		Csu = {
+			version = 46;
+		};
+		CyrusIMAP = {
+			version = 124;
+		};
+		DSAgent = {
+			version = 32;
+		};
+		DSNISPlugin = {
+			version = 13;
+		};
+		DSNSLAppleTalkPlugin = {
+			original = DSNSLPlugins;
+			target = AppleTalk;
+		};
+		DSNSLPlugins = {
+			version = 79;
+		};
+		DSPasswordServerFramework = {
+			original = DSPasswordServerPlugin;
+			target = PasswordServerFramework;
+		};
+		DSPasswordServerPlugin = {
+			version = 68;
+		};
+		DirectoryService = {
+			version = 255;
+		};
+		DiskArbitration = {
+			version = 129;
+		};
+		HeathrowATA = {
+			version = 108.3.1;
+		};
+		ICU = {
+			version = 3.13;
+		};
+		IOADBFamily = {
+			version = 2;
+		};
+		IOATABlockStorage = {
+			version = 130.3.1;
+		};
+		IOATAFamily = {
+			version = 155.3.1;
+		};
+		IOATAPIProtocolTransport = {
+			version = 130.0.2;
+		};
+		IOAudioFamily = {
+			version = 140.2.9;
+		};
+		IOCDStorageFamily = {
+			version = 25;
+		};
+		IODVDStorageFamily = {
+			version = 14;
+		};
+		IOFWDVComponents = {
+			version = 153.4.1;
+		};
+		IOFireWireAVC = {
+			version = 152.4.1;
+		};
+		IOFireWireFamily = {
+			version = 170.4.0;
+		};
+		IOFireWireIP = {
+			version = 120.4.0;
+		};
+		IOFireWireSBP2 = {
+			version = 151.4.0;
+		};
+		IOFireWireSerialBusProtocolTransport = {
+			version = 130.2.7;
+		};
+		IOGraphics = {
+			version = 123;
+		};
+		IOHIDFamily = {
+			version = 86;
+		};
+		IOKitTools = {
+			version = 38;
+		};
+		IOKitUser = {
+			version = 174;
+		};
+		IONetworkingFamily = {
+			version = 15;
+		};
+		IOPCCardFamily = {
+			version = 38;
+		};
+		IOPCIFamily = {
+			version = 21;
+		};
+		IOSCSIArchitectureModelFamily = {
+			version = 130.3.8;
+		};
+		IOSCSIParallelFamily = {
+			version = 130.3.1;
+		};
+		IOSerialFamily = {
+			version = 20;
+		};
+		IOStorageFamily = {
+			version = 44;
+		};
+		IOUSBFamily = {
+			version = 205.3.5;
+		};
+		IOUSBMassStorageClass = {
+			version = 130.2.1;
+		};
+		IPFirewall = {
+			version = 17;
+		};
+		JBoss = {
+			target = magnum;
+			version = 731;
+		};
+		JavaScriptCore = {
+			version = 96;
+		};
+		Kerberos = {
+			version = 47;
+		};
+		KeyLargoATA = {
+			version = 110.3.1;
+		};
+		Libc = {
+			version = 320;
+		};
+		Libc_debug = {
+			original = Libc;
+			target = install;
+		};
+		Libc_profile = {
+			original = Libc;
+			target = install;
+		};
+		Libc_static = {
+			original = Libc;
+			target = install;
+		};
+		Libinfo = {
+			version = 173;
+		};
+		Libkvm = {
+			version = 19;
+		};
+		Libm = {
+			target = libm;
+			version = 47;
+		};
+		Libmx = {
+			original = Libm;
+			target = libmx;
+		};
+		Libnotify = {
+			version = 11;
+		};
+		Librpcsvc = {
+			version = 13;
+		};
+		Libstreams = {
+			version = 23;
+		};
+		Libsystem = {
+			version = 71;
+		};
+		Libwrappers = {
+			version = 9;
+		};
+		Liby = {
+			version = 10;
+		};
+		MySQL = {
+			version = 16;
+		};
+		NKEMgr = {
+			version = 5.3;
+		};
+		OpenLDAP = {
+			version = 37;
+		};
+		OpenSSH = {
+			version = 39;
+		};
+		OpenSSL = {
+			version = 22;
+		};
+		OpenSSL096 = {
+			version = 2;
+		};
+		PowerManagement = {
+			version = 49;
+		};
+		Security = {
+			version = 163;
+		};
+		SecurityNssAsn1 = {
+			version = 11;
+		};
+		SecurityNssPkcs12 = {
+			version = 6;
+		};
+		SecurityNssSmime = {
+			version = 10;
+		};
+		SecurityTool = {
+			version = 7;
+		};
+		SharedIP = {
+			version = 42;
+		};
+		SmartCardServices = {
+			version = 15;
+		};
+		SquirrelMail = {
+			version = 11;
+		};
+		Startup = {
+			version = 177;
+		};
+		UserNotification = {
+			version = 15;
+		};
+		WebCore = {
+			version = 106;
+		};
+		X11 = {
+			version = 0.30;
+		};
+		adv_cmds = {
+			version = 63;
+		};
+		am_utils = {
+			version = 8;
+		};
+		apache = {
+			version = 670;
+		};
+		apache2 = {
+			version = 11;
+		};
+		apache_mod_dav = {
+			version = 9;
+		};
+		apache_mod_hfs_apple = {
+			version = 5;
+		};
+		apache_mod_perl = {
+			version = 5;
+		};
+		apache_mod_php = {
+			version = 12;
+		};
+		apache_mod_rendezvous_apple = {
+			version = 8;
+		};
+		apache_mod_ssl = {
+			version = 13;
+		};
+		architecture = {
+			version = 237;
+		};
+		at_cmds = {
+			version = 46;
+		};
+		autoconf = {
+			version = 11;
+		};
+		automake = {
+			version = 5;
+		};
+		automount = {
+			version = 81;
+		};
+		awk = {
+			version = 2;
+		};
+		bash = {
+			version = 29;
+		};
+		basic_cmds = {
+			version = 38;
+		};
+		bc = {
+			version = 10;
+		};
+		bind9 = {
+			version = 7;
+		};
+		bison = {
+			version = 6;
+		};
+		bless = {
+			version = 11;
+		};
+		boot = {
+			version = 111;
+		};
+		bootp = {
+			version = 110;
+		};
+		bootstrap_cmds = {
+			version = 44;
+		};
+		bsdmake = {
+			version = 11;
+		};
+		bsdmanpages = {
+			version = 40;
+		};
+		bzip2 = {
+			version = 3;
+		};
+		cctools = {
+			version = 495;
+		};
+		cctools_ofiles = {
+			original = cctools;
+			target = ofiles_install;
+		};
+		cddafs = {
+			version = 211.0.7;
+		};
+		configd = {
+			version = 84;
+		};
+		configd_plugins = {
+			target = configd_plugins;
+			version = 75;
+		};
+		configd_plugins_ppc = {
+			original = configd_plugins;
+			target = configd_plugins_ppc;
+		};
+		cron = {
+			version = 7;
+		};
+		crontabs = {
+			version = 12;
+		};
+		cscope = {
+			version = 6;
+		};
+		cups = {
+			version = 58;
+		};
+		curl = {
+			version = 15;
+		};
+		cvs = {
+			version = 30;
+		};
+		developer_cmds = {
+			version = 28;
+		};
+		diffstat = {
+			version = 1;
+		};
+		diskdev_cmds = {
+			version = 277;
+		};
+		distcc = {
+			version = 17;
+		};
+		doc_cmds = {
+			version = 36;
+		};
+		drvAppleCMD646Root = {
+			version = 103.3.1;
+		};
+		efax = {
+			version = 12;
+		};
+		emacs = {
+			version = 56;
+		};
+		enscript = {
+			version = 9;
+		};
+		expect = {
+			version = 1;
+		};
+		extenTools = {
+			version = 17.3;
+		};
+		fetchmail = {
+			version = 9;
+		};
+		file = {
+			version = 1;
+		};
+		file_cmds = {
+			version = 82;
+		};
+		files = {
+			target = "";
+			version = 436;
+		};
+		flex = {
+			version = 11;
+		};
+		gas = {
+			version = 495;
+		};
+		gcc = {
+			version = 1495;
+		};
+		gcc_legacy = {
+			version = 938;
+		};
+		gcc_os = {
+			version = 1256;
+		};
+		gcc_select = {
+			version = 22.33;
+		};
+		gccfast = {
+			version = 1614;
+		};
+		gdb = {
+			version = 292;
+		};
+		gimp_print = {
+			version = 5;
+		};
+		glibtool = {
+			version = 7.2;
+		};
+		gm4 = {
+			version = 9;
+		};
+		gnudiff = {
+			version = 10.2;
+		};
+		gnumake = {
+			version = 108;
+		};
+		gnuserv = {
+			version = 2;
+		};
+		gnutar = {
+			version = 421;
+		};
+		gnuzip = {
+			version = 13;
+		};
+		gperf = {
+			version = 1;
+		};
+		grep = {
+			version = 7;
+		};
+		groff = {
+			version = 19;
+		};
+		headerdoc = {
+			version = 7.4.8;
+		};
+		hfs = {
+			version = 145;
+		};
+		iodbc = {
+			version = 19;
+		};
+		isoutil = {
+			version = 28;
+		};
+		jam = {
+			version = 238;
+		};
+		kext_tools = {
+			version = 42;
+		};
+		keymgr = {
+			version = 3;
+		};
+		less = {
+			version = 10;
+		};
+		libedit = {
+			version = 3;
+		};
+		libiconv = {
+			version = 9;
+		};
+		libpcap = {
+			version = 9;
+		};
+		libtelnet = {
+			version = 5;
+		};
+		libxml2 = {
+			version = 4;
+		};
+		lsof = {
+			version = 12;
+		};
+		lukemftp = {
+			version = 3;
+		};
+		lukemftpd = {
+			version = 8;
+		};
+		mDNSResponder = {
+			version = 58;
+		};
+		mail_cmds = {
+			version = 15;
+		};
+		mailman = {
+			version = 105;
+		};
+		misc_cmds = {
+			version = 11;
+		};
+		msdosfs = {
+			version = 48;
+		};
+		ncurses = {
+			version = 8.1;
+		};
+		net_snmp = {
+			version = 10;
+		};
+		netcat = {
+			version = 4;
+		};
+		netinfo = {
+			version = 324;
+		};
+		network_cmds = {
+			version = 176;
+		};
+		ntfs = {
+			version = 8;
+		};
+		ntp = {
+			version = 16;
+		};
+		objc4 = {
+			version = 235;
+		};
+		pam = {
+			version = 12;
+		};
+		pam_modules = {
+			version = 13;
+		};
+		passwordserver_sasl = {
+			version = 14;
+		};
+		patch_cmds = {
+			version = 9;
+		};
+		pb_makefiles = {
+			version = 118;
+		};
+		pbx_jamfiles = {
+			version = 237;
+		};
+		perl = {
+			version = 25.2;
+		};
+		portmap = {
+			version = 10;
+		};
+		postfix = {
+			version = 129;
+		};
+		ppp = {
+			version = 142;
+		};
+		procmail = {
+			version = 4;
+		};
+		project_makefiles = {
+			version = 125;
+		};
+		python = {
+			version = 7;
+		};
+		rcs = {
+			version = 11;
+		};
+		rsync = {
+			version = 11;
+		};
+		ruby = {
+			version = 12;
+		};
+		samba = {
+			version = 48;
+		};
+		screen = {
+			version = 5;
+		};
+		shell_cmds = {
+			version = 53;
+		};
+		smb = {
+			version = 115;
+		};
+		srm = {
+			version = 2;
+		};
+		sudo = {
+			version = 12;
+		};
+		system_cmds = {
+			version = 279;
+		};
+		system_config = {
+			version = 48;
+		};
+		tcl = {
+			version = 14;
+		};
+		tcp_wrappers = {
+			version = 10;
+		};
+		tcpdump = {
+			version = 7;
+		};
+		tcsh = {
+			version = 44;
+		};
+		texi2html = {
+			version = 1.3;
+		};
+		texinfo = {
+			version = 9;
+		};
+		text_cmds = {
+			version = 30;
+		};
+		top = {
+			version = 9;
+		};
+		usertemplate = {
+			version = 40;
+		};
+		vim = {
+			version = 10;
+		};
+		volfs = {
+			version = 24;
+		};
+		webdavfs = {
+			version = 148;
+		};
+		xinetd = {
+			version = 26;
+		};
+		xnu = {
+			version = 517;
+		};
+		yacc = {
+			version = 6;
+		};
+		zlib = {
+			version = 12;
+		};
+		zsh = {
+			version = 34;
+		};
+	};
+}

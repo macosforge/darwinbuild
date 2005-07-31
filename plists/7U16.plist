@@ -1,0 +1,78 @@
+// !$*UTF8*$!
+{
+	build = 7U16;
+	darwin = "Darwin 7.8";
+	inherits = 7S215;
+	macosx = "Mac OS X 10.3.8";
+	projects = {
+		AppleDisplays = {
+			version = 146.1.2;
+		};
+		AppleI2C = {
+			version = 345.0.2;
+		};
+		AppleKeyLargo = {
+			version = 156.0.0;
+		};
+		AppleMacRISC2PE = {
+			version = 161.2.2;
+		};
+		AppleMacRISC4PE = {
+			version = 151.0.3;
+		};
+		AppleOnboardAudio = {
+			version = 247.2.2;
+		};
+		AppleUSBCDCDriver = {
+			version = 302.2.1;
+		};
+		AppleVIA = {
+			version = 150.0.1;
+		};
+		DSNSLPlugins = {
+			version = 79.6;
+		};
+		IOAudioFamily = {
+			version = 150.2.10;
+		};
+		IOGraphics = {
+			version = 127.1;
+		};
+		IOHIDFamily = {
+			version = 86.26;
+		};
+		IOKitUser = {
+			version = 184;
+		};
+		IOUSBFamily = {
+			version = 215.4.4;
+		};
+		PowerManagement = {
+			version = 63.6;
+		};
+		SquirrelMail = {
+			version = 12.2;
+		};
+		WebCore = {
+			version = 125.8.13;
+		};
+		apache_mod_perl = {
+			version = 5.2;
+		};
+		apache_mod_php = {
+			version = 17.5;
+		};
+		libxml2 = {
+			version = 7.1;
+		};
+		netinfo = {
+			version = 324.11;
+		};
+		system_cmds = {
+			version = 279.6.1;
+		};
+		xnu = {
+			version = 517.11.1;
+		};
+	};
+}

@@ -1,0 +1,193 @@
+// !$*UTF8*$!
+{
+	build = 7H63;
+	darwin = "Darwin 7.4";
+	inherits = 7F44;
+	macosx = "Mac OS X 10.3.4";
+	projects = {
+		Apple16X50Serial = {
+			version = 16;
+		};
+		AppleADBKeyboard = {
+			version = 237.3.3;
+		};
+		AppleDisplays = {
+			version = 143.1.2;
+		};
+		AppleI2C = {
+			version = 343.0.1;
+		};
+		AppleKauaiATA = {
+			version = 105.3.1;
+		};
+		AppleKeyLargo = {
+			version = 152.0.3;
+		};
+		AppleMacRISC2PE = {
+			version = 146.2.1;
+		};
+		AppleMacRISC4PE = {
+			version = 120.0.8;
+		};
+		AppleMacRiscPCI = {
+			version = 2.2.0;
+		};
+		AppleOnboardAudio = {
+			version = 224.2.2;
+		};
+		AppleRS232Serial = {
+			version = 124.3.1;
+		};
+		AppleUSBAudio = {
+			version = 191.2.2;
+		};
+		CF = {
+			version = 299.31;
+		};
+		DSPasswordServerPlugin = {
+			version = 69;
+		};
+		DirectoryService = {
+			version = 256.6;
+		};
+		DiskArbitration = {
+			version = 129.3;
+		};
+		IOATAPIProtocolTransport = {
+			version = 131.3.2;
+		};
+		IOCDStorageFamily = {
+			version = 25.1;
+		};
+		IODVDStorageFamily = {
+			version = 14.1;
+		};
+		IOFWDVComponents = {
+			version = 161.4.0;
+		};
+		IOFireWireAVC = {
+			version = 160.4.0;
+		};
+		IOFireWireFamily = {
+			version = 184.4.0;
+		};
+		IOFireWireSBP2 = {
+			version = 161.4.0;
+		};
+		IOGraphics = {
+			version = 125;
+		};
+		IOHIDFamily = {
+			version = 86.15;
+		};
+		IOSCSIArchitectureModelFamily = {
+			version = 135.3.2;
+		};
+		IOSCSIParallelFamily = {
+			version = 133.3.2;
+		};
+		IOStorageFamily = {
+			version = 44.2;
+		};
+		IOUSBFamily = {
+			version = 210.4.5;
+		};
+		JavaScriptCore = {
+			version = 125.4.2;
+		};
+		Libc = {
+			version = 320.1.3;
+		};
+		Libm = {
+			target = libm;
+			version = 47.1;
+		};
+		Libsystem = {
+			version = 71.1.1;
+		};
+		OpenLDAP = {
+			version = 37.2.1;
+		};
+		OpenSSH = {
+			version = 41;
+		};
+		OpenSSL = {
+			version = 23;
+		};
+		Security = {
+			version = 176;
+		};
+		SecurityNssAsn1 = {
+			version = 12;
+		};
+		SecurityNssSmime = {
+			version = 11;
+		};
+		SecurityTool = {
+			version = 8;
+		};
+		Startup = {
+			version = 177.3;
+		};
+		WebCore = {
+			version = 125.6.4;
+		};
+		X11 = {
+			version = 0.30.4;
+		};
+		apache2 = {
+			version = 13;
+		};
+		automount = {
+			version = 81.4;
+		};
+		bsm = {
+			version = 2.10;
+		};
+		cctools = {
+			version = 495.8;
+		};
+		diskdev_cmds = {
+			version = 277.2;
+		};
+		efax = {
+			version = 15;
+		};
+		gas = {
+			version = 495.8;
+		};
+		hfs = {
+			version = 145.1;
+		};
+		libxml2 = {
+			version = 7;
+		};
+		mDNSResponder = {
+			version = 58.8;
+		};
+		mailman = {
+			version = 110;
+		};
+		netinfo = {
+			version = 324.5;
+		};
+		network_cmds = {
+			version = 176.3.1;
+		};
+		ppp = {
+			version = 144.3;
+		};
+		shell_cmds = {
+			version = 56;
+		};
+		sudo = {
+			version = 13;
+		};
+		system_cmds = {
+			version = 279.6;
+		};
+		xnu = {
+			version = 517.7.7;
+		};
+	};
+}

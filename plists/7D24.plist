@@ -1,0 +1,111 @@
+// !$*UTF8*$!
+{
+	build = 7D24;
+	darwin = "Darwin 7.2";
+	inherits = 7C107;
+	macosx = "Mac OS X 10.3.2";
+	projects = {
+		AppleADBMouse = {
+			version = 209.0.10;
+		};
+		AppleDisplays = {
+			version = 142;
+		};
+		AppleOnboardAudio = {
+			version = 211.3.2;
+		};
+		AppleUSBAudio = {
+			version = 186.3.1;
+		};
+		BootCache = {
+			version = 17.5.2;
+		};
+		BootX = {
+			version = 59.1.1;
+		};
+		CyrusIMAP = {
+			version = 125;
+		};
+		DSNSLPlugins = {
+			version = 79.2;
+		};
+		DirectoryService = {
+			version = 255.1;
+		};
+		DiskArbitration = {
+			version = 129.1;
+		};
+		IOAudioFamily = {
+			version = 141.3.1;
+		};
+		IOFireWireFamily = {
+			version = 172.4.0;
+		};
+		IOFireWireSerialBusProtocolTransport = {
+			version = 131.0.2;
+		};
+		IOHIDFamily = {
+			version = 86.1;
+		};
+		IOSCSIArchitectureModelFamily = {
+			version = 131.0.4;
+		};
+		IOSCSIParallelFamily = {
+			version = 131.0.1;
+		};
+		IOUSBFamily = {
+			version = 206.4.1;
+		};
+		MySQL = {
+			version = 17;
+		};
+		OpenLDAP = {
+			version = 37.0.1;
+		};
+		OpenSSL096 = {
+			version = 3;
+		};
+		SquirrelMail = {
+			version = 12;
+		};
+		WebCore = {
+			version = 106.3;
+		};
+		bootp = {
+			version = 110.3;
+		};
+		cddafs = {
+			version = 212.0.3;
+		};
+		configd = {
+			version = 84.1;
+		};
+		cups = {
+			version = 59;
+		};
+		efax = {
+			version = 13;
+		};
+		fetchmail = {
+			version = 9;
+		};
+		gas = {
+			version = 495;
+		};
+		mDNSResponder = {
+			version = 58.1;
+		};
+		mailman = {
+			version = 105.1;
+		};
+		ppp = {
+			version = 143.2;
+		};
+		webdavfs = {
+			version = 148.4;
+		};
+		xnu = {
+			version = 517.3.7;
+		};
+	};
+}
