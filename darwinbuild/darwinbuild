@@ -149,7 +149,7 @@ fi
 function PrintUsage() {
 	echo "usage: $(basename $0) [flags] <project> [<version>]" 1>&2
 	echo "usage: flags: [-headers] [-build=X] [-target=X]" 1>&2
-	echo "              [-logdeps] [-nochroot] [-noload] [-depsbuild=X]" 1>&2
+	echo "              [-logdeps] [-nochroot] [-noload] [-depsbuild=X [-depsbuild=Y]]" 1>&2
 	echo "              [-fetch] [-source]" 1>&2
 	exit 1
 }
@@ -249,7 +249,7 @@ for ARG in "$@"; do
 		elif [ "${ARG/=*/}" == "-build" ]; then
 			build="${ARG/*=/}"
 		elif [ "${ARG/=*/}" == "-depsbuild" ]; then
-			depsbuild="${ARG/*=/}"
+			depsbuild="${depsbuild} ${ARG/*=/}"
 		elif [ "$ARG" == "-nochroot" ]; then
 			export CHROOTED="NO"
 		elif [ "$ARG" == "-noload" ]; then
@@ -475,7 +475,7 @@ if [ "$CHROOTED" == "YES" -a "$noload" != "YES" ]; then
 	deps=$($PREFIX/bin/darwinxref dependencies -build "$projnam")
 
 	for X in files bash $bash_deps $deps ; do
-		InstallRoot "$BuildRoot" "$X"
+		InstallRoot "$BuildRoot" "$X" "$depsbuild"
 	done
 
 	### so many things require ditto, we have hacked around it
@@ -486,7 +486,7 @@ if [ "$CHROOTED" == "YES" -a "$noload" != "YES" ]; then
 	echo "*** Installing Headers ..."
 	deps=$($PREFIX/bin/darwinxref dependencies -header "$projnam")
 	for X in $deps ; do
-		InstallHeaders "$BuildRoot" "$X"
+		InstallHeaders "$BuildRoot" "$X" "$depsbuild"
 	done
 
 	### xcodebuild is a special case because it is not open source

@@ -81,7 +81,6 @@ function Download() {
 	
 	###
 	### Download the sources,
-	### and any applicable patches.
 	###
 	for master_site in $master_sites ;
 	do
@@ -113,6 +112,7 @@ function Download() {
 function InstallRoot() {
 	local BuildRoot="$1"
 	local X="$2"
+	local depsbuilds="$3"
 	local receipts="$BuildRoot/usr/local/darwinbuild/receipts"
 	mkdir -p "$receipts"
 
@@ -141,20 +141,27 @@ function InstallRoot() {
 		ditto $SRCDIR $BuildRoot
 		touch "$receipts/$X"
 	elif [ ! -f "$receipts/$X" ]; then
-	    	sites=$($PREFIX/bin/darwinxref $dbfile binary_sites | while read a; do echo "$a/$depsbuild"; done)
-		Download "$CACHEDIR/Roots/$depsbuild" \
+	    # install a pre-built root, using the depsbuilds array, in preference order
+	    for dbuild in $depsbuilds; do
+	    	sites=$($PREFIX/bin/darwinxref $dbfile binary_sites | while read a; do echo "$a/$dbuild"; done)
+		Download "$CACHEDIR/Roots/$dbuild" \
 			"$X.root.tar.gz" \
 		    	"$sites"
-		if [ -f $CACHEDIR/Roots/$depsbuild/$X.root.tar.gz ]; then
+		if [ -f $CACHEDIR/Roots/$dbuild/$X.root.tar.gz ]; then
 			cd "$BuildRoot"
-			tar xzf $CACHEDIR/Roots/$depsbuild/$X.root.tar.gz
+			tar xzf $CACHEDIR/Roots/$dbuild/$X.root.tar.gz
 			if [ "$?" == "0" ]; then
 				touch "$receipts/$X"
+				break
 			fi
-		else
-			echo "ERROR: could not find root: $X" 1>&2
-			exit 1
 		fi
+
+		# if we didn't find the root for this build, keep looking in the next build	     
+	    done
+	    if [ ! -f "$receipts/$X" ]; then
+			echo "ERROR: could not find root: $X" 1>&2
+			exi
+	    fi
 	fi
 
 	### Restore CF if necessary
@@ -172,6 +179,7 @@ function InstallRoot() {
 function InstallHeaders() {
 	local BuildRoot="$1"
 	local X="$2"
+	local depsbuilds="$3"
 	local receipts="$BuildRoot/usr/local/darwinbuild/receipts"
 
 	if [ ! -f "$receipts/$X.hdrs" -a ! -f "$receipts/$X" ]; then
@@ -180,18 +188,28 @@ function InstallHeaders() {
 		echo "Copying $X ..."
 		ditto $DARWIN_BUILDROOT/Headers/${X/-*}/$X.hdrs~$bv $BuildRoot
 	else
-	    	sites=$($PREFIX/bin/darwinxref $dbfile binary_sites | while read a; do echo "$a/$depsbuild"; done)
-		Download "$CACHEDIR/Headers/$depsbuild" "$X.hdrs.tar.gz" \
+
+	    # install a pre-built root, using the depsbuilds array, in preference order
+	    for dbuild in $depsbuilds; do
+	    	sites=$($PREFIX/bin/darwinxref $dbfile binary_sites | while read a; do echo "$a/$dbuild"; done)
+		Download "$CACHEDIR/Headers/$dbuild" \
+			"$X.hdrs.tar.gz" \
 		    	"$sites"
-		if [ -f $CACHEDIR/Headers/$depsbuild/$X.hdrs.tar.gz ]; then
+		if [ -f $CACHEDIR/Headers/$dbuild/$X.hdrs.tar.gz ]; then
 			cd "$BuildRoot"
-			tar xzf $CACHEDIR/Headers/$depsbuild/$X.hdrs.tar.gz
+			tar xzf $CACHEDIR/Headers/$dbuild/$X.hdrs.tar.gz
 			if [ "$?" == "0" ]; then
 				touch "$receipts/$X.hdrs"
+				break
 			fi
 		else
-			InstallRoot "$BuildRoot" "$X"
+		    InstallRoot "$BuildRoot" "$X" "$depsbuilds"
 		fi
+		# XXX some may think this is buggy. If you fail to find
+		# a header root for the first build, normal roots
+		# are searched for along the build chain. Secondary
+		# builds are never consulted for header roots
+	    done
 	fi
 	fi
 }
