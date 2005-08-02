@@ -80,7 +80,12 @@
 
 PREFIX=/usr/local
 XREFDB=.build/xref.db
-CACHEDIR=$PREFIX/share/darwinbuild/cache
+DARWINXREF=$PREFIX/bin/darwinxref
+DATADIR=$PREFIX/share/darwinbuild
+CACHEDIR=$DATADIR/cache
+COMMONFILE=$DATADIR/darwinbuild.common
+DARWINTRACE=$DATADIR/darwintrace.dylib
+
 build=""
 depsbuild=""
 CHROOTED="YES"
@@ -95,7 +100,7 @@ version=""
 ### Include some common subroutines
 ###
 
-. "$PREFIX/share/darwinbuild/darwinbuild.common"
+. "$COMMONFILE"
 
 ###
 ### DarwinBuild must be run as root.  Enforce this.
@@ -137,9 +142,9 @@ if [ "$1" == "-init" ]; then
 
 	while [ "$build" != "" ]; do
 		Download .build "$build".plist "$sites http://darwinsource.opendarwin.org/plists/"
-		$PREFIX/bin/darwinxref "-f$XREFDB" "-b$build" loadIndex .build/"$build".plist
-		sites=$($PREFIX/bin/darwinxref "-f$XREFDB" "-b$build" plist_sites | xargs echo)
-		build=$($PREFIX/bin/darwinxref "-f$XREFDB" "-b$build" inherits)
+		$DARWINXREF "-f$XREFDB" "-b$build" loadIndex .build/"$build".plist
+		sites=$($DARWINXREF "-f$XREFDB" "-b$build" plist_sites | xargs echo)
+		build=$($DARWINXREF "-f$XREFDB" "-b$build" inherits)
 	done
 	echo "Initialization Complete"
 	exit 0
@@ -300,7 +305,7 @@ fi
 # Get the version of the project for this build.
 #
 if [ "$version" == "" ]; then
-	project=$($PREFIX/bin/darwinxref version "$projnam")
+	project=$($DARWINXREF version "$projnam")
 	version=${project/$projnam-/}
 else
 	project="$projnam-$version"
@@ -309,13 +314,13 @@ fi
 #
 # Check if the project is a build alias.
 #
-alias=$($PREFIX/bin/darwinxref original "$projnam")
+alias=$($DARWINXREF original "$projnam")
 
 #
 # Look for an alternate target in the database
 #
 if [ "$target" == "" -a "$action" == "install" ]; then
-	target=$($PREFIX/bin/darwinxref target "$projnam")
+	target=$($DARWINXREF target "$projnam")
 fi
 
 #
@@ -341,11 +346,11 @@ if [ "$alias" != "" ]; then
 else
 	filename="$project.tar.gz"
 fi
-patchfilenames=$($PREFIX/bin/darwinxref patchfiles $projnam)
+patchfilenames=$($DARWINXREF patchfiles $projnam)
 #echo "patchfiles are $patchfilenames"
-Download "$SourceCache" "$filename" "$($PREFIX/bin/darwinxref source_sites $projnam)"
+Download "$SourceCache" "$filename" "$($DARWINXREF source_sites $projnam)"
 for p in $patchfilenames; do
-    Download "$SourceCache" "$p" "$($PREFIX/bin/darwinxref source_sites $projnam)"    
+    Download "$SourceCache" "$p" "$($DARWINXREF source_sites $projnam)"    
 done
 
 ### If we are doing a -fetch, stop here.
@@ -471,8 +476,8 @@ if [ "$CHROOTED" == "YES" -a "$noload" != "YES" ]; then
 	echo "*** Installing Roots ..."
 	receipts="$BuildRoot/usr/local/darwinbuild/receipts"
 	mkdir -p "$receipts"
-	bash_deps=$($PREFIX/bin/darwinxref dependencies -run "bash")
-	deps=$($PREFIX/bin/darwinxref dependencies -build "$projnam")
+	bash_deps=$($DARWINXREF dependencies -run "bash")
+	deps=$($DARWINXREF dependencies -build "$projnam")
 
 	for X in files bash $bash_deps $deps ; do
 		InstallRoot "$BuildRoot" "$X" "$depsbuild"
@@ -480,11 +485,11 @@ if [ "$CHROOTED" == "YES" -a "$noload" != "YES" ]; then
 
 	### so many things require ditto, we have hacked around it
 	if [ ! -x "$BuildRoot/usr/bin/ditto" ]; then
-		cp "$PREFIX/share/darwinbuild/ditto" "$BuildRoot/usr/bin/ditto"
+		cp "$DATADIR/ditto" "$BuildRoot/usr/bin/ditto"
 	fi
 
 	echo "*** Installing Headers ..."
-	deps=$($PREFIX/bin/darwinxref dependencies -header "$projnam")
+	deps=$($DARWINXREF dependencies -header "$projnam")
 	for X in $deps ; do
 		InstallHeaders "$BuildRoot" "$X" "$depsbuild"
 	done
@@ -493,7 +498,7 @@ if [ "$CHROOTED" == "YES" -a "$noload" != "YES" ]; then
 	### we try to install it from the host Mac OS X system if it is required
 	if [ "$buildtool" == "xcodebuild" -a ! -f "$receipts/xcodebuild" ]; then
 		echo "*** Installing Xcode Tools ..."
-		"$PREFIX/share/darwinbuild/installXcodebuild" "$BuildRoot"
+		"$DATADIR/installXcodebuild" "$BuildRoot"
 		touch "$receipts/xcodebuild"
 	fi
 fi
@@ -581,7 +586,7 @@ EOF
 ###
 build_string="$build_string \"SRCROOT=$SRCROOT\" \"OBJROOT=$OBJROOT\" \"SYMROOT=$SYMROOT\" \"DSTROOT=$DSTROOT\""
 
-XREF_ENV=$($PREFIX/bin/darwinxref environment $projnam)
+XREF_ENV=$($DARWINXREF environment $projnam)
 OLDIFS="$IFS"
 IFS=$'\n'
 for X in \
@@ -638,9 +643,9 @@ cat <<-EOF >> $SCRIPT
 EOF
 if [ "$logdeps" == "YES" ]; then
 	if [ "$CHROOTED" == "YES" ]; then
-		if [ "$PREFIX/share/darwinbuild/darwintrace.dylib" -nt "$BuildRoot/usr/lib/darwintrace.dylib" ]; then
+		if [ "$DARWINTRACE" -nt "$BuildRoot/usr/lib/darwintrace.dylib" ]; then
 			mkdir -p "$BuildRoot/usr/lib"
-			cp "$PREFIX/share/darwinbuild/darwintrace.dylib" \
+			cp "$DARWINTRACE" \
 		   	"$BuildRoot/usr/lib/darwintrace.dylib"
 		fi
 		echo "export DARWINTRACE_LOG=\"${TRACELOG/$BuildRoot/}\"" >> $SCRIPT
@@ -712,7 +717,7 @@ else
 	### Not CHROOTED, but possibly logging dependencies
 	###
 	if [ "$logdeps" == "YES" ]; then
-		export DYLD_INSERT_LIBRARIES="$PREFIX/share/darwinbuild/darwintrace.dylib"
+		export DYLD_INSERT_LIBRARIES="$DARWINTRACE"
 		export DYLD_FORCE_FLAT_NAMESPACE=1
 		export DARWINTRACE_LOG="$TRACELOG"
 	fi
@@ -744,7 +749,7 @@ if [ "$EXIT_STATUS" == "0" ]; then
 		### which can be used to uniquely identify the root.  Store the unique identifier
 		### in the receipts directory after registration.
 		MANIFEST="/tmp/$projnam.$$"
-		"$PREFIX/bin/darwinxref" register "$projnam" "$REAL_DSTROOT" | tee "$MANIFEST"
+		"$DARWINXREF" register "$projnam" "$REAL_DSTROOT" | tee "$MANIFEST"
 		SHA1=$(cat "$MANIFEST" | openssl dgst -sha1)
 		mkdir -p "$REAL_DSTROOT/usr/local/darwinbuild/receipts"
 		cp "$MANIFEST" "$REAL_DSTROOT/usr/local/darwinbuild/receipts/$SHA1"
@@ -765,8 +770,8 @@ if [ "$EXIT_STATUS" == "0" ]; then
 			grep -v "^$TRACE_TYPES/SourceCache/" | \
         		grep -vi "^$TRACE_TYPES\(/private\)\?\(/var\)\?/tmp/" | \
         		grep -vi  "^$TRACE_TYPES/dev/" | \
-			"$PREFIX/bin/darwinxref" loadDeps "$projnam"
-			"$PREFIX/bin/darwinxref" resolveDeps "$projnam"
+			"$DARWINXREF" loadDeps "$projnam"
+			"$DARWINXREF" resolveDeps "$projnam"
 			cp "$TRACELOG" $DARWIN_BUILDROOT/Logs/$projnam/$project.trace~$build_version
 		fi
 	fi

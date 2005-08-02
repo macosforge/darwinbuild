@@ -132,7 +132,7 @@ function InstallRoot() {
 	### has already been installed.  (Test for the presense of a receipt).
 	###
 	if [ -d "$DARWIN_BUILDROOT/Roots/$X" ]; then
-		Y=$($PREFIX/bin/darwinxref $dbfile version $X)
+		Y=$($DARWINXREF $dbfile version $X)
 		bv=$(GetBuildVersion $DARWIN_BUILDROOT/Roots/$X/$Y.root*)
 		local SRCDIR=$DARWIN_BUILDROOT/Roots/$X/$Y.root~$bv
 	fi
@@ -143,7 +143,7 @@ function InstallRoot() {
 	elif [ ! -f "$receipts/$X" ]; then
 	    # install a pre-built root, using the depsbuilds array, in preference order
 	    for dbuild in $depsbuilds; do
-	    	sites=$($PREFIX/bin/darwinxref $dbfile binary_sites | while read a; do echo "$a/$dbuild"; done)
+	    	sites=$($DARWINXREF $dbfile binary_sites | while read a; do echo "$a/$dbuild"; done)
 		Download "$CACHEDIR/Roots/$dbuild" \
 			"$X.root.tar.gz" \
 		    	"$sites"
@@ -191,7 +191,7 @@ function InstallHeaders() {
 
 	    # install a pre-built root, using the depsbuilds array, in preference order
 	    for dbuild in $depsbuilds; do
-	    	sites=$($PREFIX/bin/darwinxref $dbfile binary_sites | while read a; do echo "$a/$dbuild"; done)
+	    	sites=$($DARWINXREF $dbfile binary_sites | while read a; do echo "$a/$dbuild"; done)
 		Download "$CACHEDIR/Headers/$dbuild" \
 			"$X.hdrs.tar.gz" \
 		    	"$sites"
