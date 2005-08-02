@@ -322,6 +322,7 @@
 					Libc_headers,
 					Libinfo,
 					Libm,
+					Libstreams,
 					architecture,
 					gcc_os,
 					objc4,
