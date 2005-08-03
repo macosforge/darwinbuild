@@ -160,7 +160,7 @@ function InstallRoot() {
 	    done
 	    if [ ! -f "$receipts/$X" ]; then
 			echo "ERROR: could not find root: $X" 1>&2
-			exi
+			exit 1
 	    fi
 	fi
 
