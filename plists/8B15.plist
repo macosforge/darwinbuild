@@ -311,6 +311,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_os_35,
 					gnumake,
 					shell_cmds,
 					system_cmds,
