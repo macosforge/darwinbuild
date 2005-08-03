@@ -836,6 +836,7 @@
 					bsm,
 					dyld,
 					gcc_os,
+					libdyld,
 					libedit,
 					xnu,
 				);
