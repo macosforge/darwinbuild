@@ -72,9 +72,11 @@ for SRC in \
 	/Developer/Private/jam \
 	/Developer/Tools \
 	/usr/bin/xcodebuild \
+    	/Library/Application\ Support/Xcode \
 	; do
 	echo -n "$SRC ... "
-	DST="$BUILDROOT$(dirname $SRC)"
+	DST="$BUILDROOT$SRC"
+	DST=$(dirname "$DST")
 	[ -d "$DST" ] || mkdir -p "$DST"
 	if [ ! -e "$BUILDROOT$SRC" ]; then
 		echo copying
@@ -83,6 +85,21 @@ for SRC in \
 		echo skipped
 	fi
 done
+
+if [ ! -e "$BUILDROOT/Library/Application Support/Xcode/Specifications/GCC 3.5.xcspec" ];
+then
+    echo "Generating GCC 3.5.xcspec"
+    sed \
+	-e 's/4\.0/3.5/g' \
+	-e 's/4_0/3_5/g' \
+	-e '/DashIFlagAcceptsHeadermaps/d' \
+	-e 's/SupportsHeadermaps = Yes/SupportsHeadermaps = No/' \
+	-e '/USE_HEADERMAP/,/}/  s/DefaultValue = YES/DefaultValue = NO/' \
+	-e '/USE_HEADER_SYMLINKS/,/}/  s/DefaultValue = NO/DefaultValue = YES/' \
+	< "$BUILDROOT/Library/Application Support/Xcode/Specifications/GCC 4.0.xcspec" \
+	> "$BUILDROOT/Library/Application Support/Xcode/Specifications/GCC 3.5.xcspec"
+    
+fi
 
 ###
 ### Copy the full CF over the CF-Lite that may be in the build root.
