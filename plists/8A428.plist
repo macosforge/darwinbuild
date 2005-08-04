@@ -8106,6 +8106,7 @@
 					Libm,
 					Libmx,
 					Libsystem,
+					SystemStubs,
 					adv_cmds,
 					awk,
 					bash,
