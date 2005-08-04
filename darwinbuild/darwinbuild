@@ -87,6 +87,14 @@ COMMONFILE=$DATADIR/darwinbuild.common
 DARWINTRACE=$DATADIR/darwintrace.dylib
 DITTO=$DATADIR/ditto
 
+# PREFIX=/Volumes/HD/ltmp/build/darwinbuild
+# DARWINXREF=$PREFIX/darwinxref/darwinxref
+# DATADIR=$PREFIX/darwinbuild
+# CACHEDIR=$PREFIX/cache
+# COMMONFILE=$DATADIR/darwinbuild.common
+# DARWINTRACE=$PREFIX/darwintrace/darwintrace.dylib
+# DITTO=$DATADIR/ditto.sh
+
 build=""
 depsbuild=""
 CHROOTED="YES"
@@ -182,7 +190,7 @@ if [ -d Roots -a \
 	 -d Symbols -a \
 	 -d Headers -a \
 	 -d Logs ]; then
-	export DARWIN_BUILDROOT="$(pwd)"
+	export DARWIN_BUILDROOT="$(pwd -P)"
 else
 	echo "ERROR: Please change your working directory to the mount point" 1>&2
 	echo "of the disk image, partition, or directory containing the" 1>&2
@@ -762,7 +770,7 @@ if [ "$EXIT_STATUS" == "0" ]; then
 		ditto "$REAL_SYMROOT" "$DARWIN_BUILDROOT/Symbols/$projnam/$project.sym~$build_version"
 		ditto "$REAL_DSTROOT" "$DARWIN_BUILDROOT/Roots/$projnam/$project.root~$build_version"
 
-		if [ "$logdeps" == "YES" ]; then
+		if [ "$logdeps" = "YES" ]; then
 			### Log dependencies, but filter out duplicates, relative paths, and temporary files
 			TRACE_TYPES='\(execve\|open\)[[:space:]]\+'
 			cat "$TRACELOG" | sort | uniq | \
