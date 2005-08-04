@@ -2,8 +2,17 @@ Darwin Build Scripts Change History
 -----------------------------------
 
 Release X.Y.Z [NOW]
+	- darwinxref: Create the necessary tables to that "resolveDeps" works
+	- darwinxref: Add "-lib" and "-staticlib" to "dependencies"
+	  plugin
+	- darwinbuild: Install GCC 4.0 Xcode compiler specification,
+	  and use it as a template to synthesize a 3.5 .xcspec. This
+	  allows some Libsystem contributors to be built chrooted
+	- darwinbuild: allow -depsbuild multiple times to download
+	  dependent roots from one of several builds
 	- darwinbuild: add -source to download and patch sources
-	- darwinbuild: query DB for patch files, download them from source_sites
+	- darwinbuild: query DB for patch files, download them from
+	  source_sites
 	- darwinbuild: allow -init to take the path to a local plist (ssen)
 	- darwinbuild: use "plist_sites" to find parent builds for -init (ssen)
 	- darwinxref: preserve sort order for array properties like
