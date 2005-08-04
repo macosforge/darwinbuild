@@ -158,7 +158,8 @@ int loadDeps(const char* build, const char* project) {
 				free(type);
 				if (has_suffix(file, ".h")) {
 					type = "header";
-				} else if (has_suffix(file, ".a")) {
+				} else if (has_suffix(file, ".a")
+					   || has_suffix(file, ".o")) {
 					type = "staticlib";
 				} else {
 					type = "build";
