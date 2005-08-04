@@ -85,6 +85,7 @@ DATADIR=$PREFIX/share/darwinbuild
 CACHEDIR=$DATADIR/cache
 COMMONFILE=$DATADIR/darwinbuild.common
 DARWINTRACE=$DATADIR/darwintrace.dylib
+DITTO=$DATADIR/ditto
 
 build=""
 depsbuild=""
@@ -485,7 +486,7 @@ if [ "$CHROOTED" == "YES" -a "$noload" != "YES" ]; then
 
 	### so many things require ditto, we have hacked around it
 	if [ ! -x "$BuildRoot/usr/bin/ditto" ]; then
-		cp "$DATADIR/ditto" "$BuildRoot/usr/bin/ditto"
+		cp "$DITTO" "$BuildRoot/usr/bin/ditto"
 	fi
 
 	echo "*** Installing Headers ..."
