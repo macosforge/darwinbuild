@@ -75,6 +75,12 @@ int resolve_project_dependencies( const char* build, const char* project, int* r
 	CFMutableArrayRef types = CFArrayCreateMutable(NULL, 0, &cfArrayCStringCallBacks);
 	CFMutableArrayRef params[2] = { files, types };
 
+        char* table = "CREATE TABLE dependencies (build TEXT, project TEXT, type TEXT, dependency TEXT)";
+        char* index = "CREATE INDEX dependencies_index ON unresolved_dependencies (build, project, type, dependency)";
+
+        SQL_NOERR(table);
+        SQL_NOERR(index);
+
 	if (SQL("BEGIN")) { return -1; }
 
 	SQL_CALLBACK(&addToCStrArrays, params,
