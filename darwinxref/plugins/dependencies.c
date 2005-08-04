@@ -53,6 +53,10 @@ static int run(CFArrayRef argv) {
 		CFStringRef types[] = { CFSTR("header"), NULL };
 		CFStringRef recursive[] = { NULL };
 		printDependencies(types, recursive, NULL, DBGetCurrentBuild(), project, 0);
+	} else if (CFEqual(type, CFSTR("-staticlib"))) {
+		CFStringRef types[] = { CFSTR("staticlib"), NULL };
+		CFStringRef recursive[] = { NULL };
+		printDependencies(types, recursive, NULL, DBGetCurrentBuild(), project, 0);
 	} else if (CFEqual(type, CFSTR("-lib"))) {
 		CFStringRef types[] = { CFSTR("lib"), NULL };
 		printDependencies(types, types, NULL, DBGetCurrentBuild(), project, 0);
@@ -63,7 +67,7 @@ static int run(CFArrayRef argv) {
 }
 
 static CFStringRef usage() {
-	return CFRetain(CFSTR("-run | -build | -header | -lib <project>"));
+	return CFRetain(CFSTR("-run | -build | -header | -staticlib | -lib <project>"));
 }
 
 int initialize(int version) {
