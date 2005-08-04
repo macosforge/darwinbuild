@@ -3948,6 +3948,7 @@
 					gcc,
 					gcc_os,
 					gcc_os_35,
+					gnumake,
 					ld64,
 					pbx_jamfiles,
 					shell_cmds,
@@ -4858,6 +4859,32 @@
 				);
 			};
 			version = 18;
+		};
+		SystemStubs = {
+			dependencies = {
+				build = (
+					CF,
+					ICU,
+					adv_cmds,
+					awk,
+					bash,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_os,
+					gcc_os_35,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					Libc_headers,
+					architecture,
+					gcc_os_35,
+					xnu,
+				);
+			};
+			version = 5;
 		};
 		Tokend = {
 			dependencies = {
@@ -8177,6 +8204,7 @@
 					architecture,
 					cctools_ofiles,
 					dyld,
+					libdyld,
 					gcc_os_35,
 					xnu,
 				);

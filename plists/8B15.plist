@@ -215,6 +215,7 @@
 					gcc,
 					gcc_os,
 					gcc_os_35,
+					gnumake,
 					ld64,
 					pbx_jamfiles,
 					shell_cmds,
