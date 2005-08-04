@@ -15,6 +15,8 @@ EXTRACOPY=( \
     /Developer/Makefiles/pbx_jamfiles \
     /Library/Application\ Support/Xcode)
 
+JAMFILES=/Developer/Makefiles/pbx_jamfiles
+
 if [ -z "$BUILDROOT" ]; then
     echo "Usage: $0 /Volumes/DarwinBuild/BuildRoot" 1>&2
     exit 1
@@ -96,7 +98,12 @@ CopyFiles() {
 	sed -e 's,/System,/XCD/SY,g' \
 	-e 's,/usr/lib,/XCD/lib,g' \
 	-e 's,/Developer,/XCD/loper,g' | \
-    (cd "$BUILDROOT"; cpio -im${VERBOSECPIO}d )
+    (cd "$BUILDROOT"; cpio -ium${VERBOSECPIO}d )
+
+    find ".$JAMFILES" | cpio -o -c | \
+	sed -e 's,$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks,/XCD/SY///////Library/PrivateFrameworks,g' \
+	-e 's,/Developer/Makefiles/pbx_jamfiles,/XCD/loper/Makefiles/pbx_jamfiles,g' | \
+    (cd "$BUILDROOT"; cpio -ium${VERBOSECPIO}d )
 
     echo "done"
 }
