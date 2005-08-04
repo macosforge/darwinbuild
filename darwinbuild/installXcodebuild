@@ -12,6 +12,7 @@ EXTRACOPY=( \
     /Developer/Private \
     /Developer/Tools \
     /usr/bin/xcodebuild \
+    /Developer/Makefiles/pbx_jamfiles \
     /Library/Application\ Support/Xcode)
 
 if [ -z "$BUILDROOT" ]; then
@@ -89,12 +90,13 @@ GenerateFileNames() {
 }
 
 CopyFiles() {
+    VERBOSECPIO=""
     echo -n "Copying Xcode and dependencies ..."
     cpio -o -c < /tmp/installXcode.files.$$ | \
-	sed -e 's,/System/Library/Frameworks,/XCD/SY/Library/Frameworks,g' \
-	-e 's,/System/Library/PrivateFrameworks,/XCD/SY/Library/PrivateFrameworks,g' \
-	-e 's,/usr/lib,/XCD/lib,g' | \
-    (cd "$BUILDROOT"; cpio -imvd )
+	sed -e 's,/System,/XCD/SY,g' \
+	-e 's,/usr/lib,/XCD/lib,g' \
+	-e 's,/Developer,/XCD/loper,g' | \
+    (cd "$BUILDROOT"; cpio -im${VERBOSECPIO}d )
 
     echo "done"
 }
