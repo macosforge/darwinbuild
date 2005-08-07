@@ -2,6 +2,8 @@ Darwin Build Scripts Change History
 -----------------------------------
 
 Release X.Y.Z [NOW]
+	- darwinbuild: Modify installXcodebuild so that it doesn't interfere
+	  with the frameworks/dylibs that have already been installed
 	- darwinxref: Create the necessary tables to that "resolveDeps" works
 	- darwinxref: Add "-lib" and "-staticlib" to "dependencies"
 	  plugin
