@@ -173,7 +173,7 @@ int loadDeps(const char* build, const char* project) {
 			struct stat sb;
 			int res = lstat(canonicalized, &sb);
 			// for now, skip if the path points to a directory
-			if (!(res == 0 && (sb.st_mode & S_IFDIR) == S_IFDIR)) {
+			if (res == 0 && !S_ISDIR(sb.st_mode)) {
 				SQL("INSERT INTO unresolved_dependencies (build,project,type,dependency) VALUES (%Q,%Q,%Q,%Q)",
 					build, project, type, canonicalized);
 			}
