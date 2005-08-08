@@ -445,12 +445,24 @@ fi
 for patchfile in $patchfilenames; do
 	echo "*** Applying Patch $patchfile ..."
 	if [ -r "$SourceCache/$patchfile" ]; then
+	    catprog=""
 	    case $patchfile in
-		*.patch)
-		    cat "$SourceCache/$patchfile" | patch --posix -l -p0
+		*.gz)
+		    catprog="gzip -d -c"
 		    ;;
-		*.patch.gz)
-		    gzip -c -d "$SourceCache/$patchfile" | patch --posix -l -p0
+		*.bz2)
+		    catprog="bzip2 -d -c"
+		    ;;
+		*)
+		    catprog="cat"
+		    ;;
+	    esac
+	    case $patchfile in
+		*.p1.patch*)
+		    $catprog "$SourceCache/$patchfile" | patch --posix -l -p1
+		    ;;
+		*.patch*)
+		    $catprog "$SourceCache/$patchfile" | patch --posix -l -p0
 		    ;;
 		*)
 		    echo "Don't know how to apply $patchfile"
