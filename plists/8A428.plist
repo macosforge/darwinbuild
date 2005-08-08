@@ -1097,6 +1097,32 @@
 		};
 		AppleOnboardAudio = {
 			version = 250.2.17;
+			dependencies = {
+				build = (
+					CF,
+					ICU,
+					adv_cmds,
+					awk,
+					bash,
+					cctools,
+					cxxfilt,
+					file_cmds,
+					gcc,
+					gcc_os,
+					pbx_jamfiles,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+					xnu,
+				);
+				header = (
+					AppleI2C,
+					IOAudioFamily,
+					IOPCIFamily,
+					IOUSBFamily,
+					xnu,
+				);
+			};			
 		};
 		AppleOnboardPCATA = {
 			dependencies = {
@@ -11917,6 +11943,23 @@
 			version = 336;
 		};
 		system_config = {
+			dependencies = {
+				build = (
+					CoreOSMakefiles,
+					bash,
+					bootstrap_cmds,
+					cctools,
+					file_cmds,
+					gcc_os,
+					gnumake,
+					netinfo,
+					perl,
+					pb_makefiles,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+			};
 			version = 48;
 		};
 		tcl = {
@@ -12390,6 +12433,7 @@
 			dependencies = {
 				build = (
 					CF,
+					CFNetwork,
 					Csu,
 					DiskArbitration,
 					ICU,
@@ -12419,6 +12463,7 @@
 				);
 				header = (
 					CF,
+					CFNetwork,
 					CarbonHeaders,
 					DiskArbitration,
 					IOKitUser,
@@ -12435,6 +12480,7 @@
 				);
 				lib = (
 					CF,
+					CFNetwork,
 					IOKitUser,
 					Libsystem,
 					OpenSSL,

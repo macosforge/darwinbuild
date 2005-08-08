@@ -1322,6 +1322,7 @@
 			dependencies = {
 				build = (
 					CF,
+					CFNetwork,
 					Csu,
 					DiskArbitration,
 					ICU,
@@ -1351,6 +1352,7 @@
 				);
 				header = (
 					CF,
+					CFNetwork,
 					CarbonHeaders,
 					DiskArbitration,
 					IOKitUser,
@@ -1367,6 +1369,7 @@
 				);
 				lib = (
 					CF,
+					CFNetwork,
 					IOKitUser,
 					Libsystem,
 					OpenSSL,
