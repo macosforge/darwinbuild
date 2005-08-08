@@ -16,6 +16,8 @@ EXTRACOPY=( \
     /Library/Application\ Support/Xcode)
 
 JAMFILES=/Developer/Makefiles/pbx_jamfiles
+XCODESETTINGS="/System/Library/PrivateFrameworks/DevToolsCore.framework/Versions/A/Resources/BuildSettings-macosx.plist"
+XCODECOMP="/System/Library/PrivateFrameworks/DevToolsCore.framework/Versions/A/Resources/Built-in compilers.pbcompspec"
 
 if [ -z "$BUILDROOT" ]; then
     echo "Usage: $0 /Volumes/DarwinBuild/BuildRoot" 1>&2
@@ -100,9 +102,14 @@ CopyFiles() {
 	-e 's,/Developer,/XCD/loper,g' | \
     (cd "$BUILDROOT"; cpio -ium${VERBOSECPIO}d )
 
-    find ".$JAMFILES" | cpio -o -c | \
+    find ".$JAMFILES" ".$XCODECOMP" | cpio -o -c | \
 	sed -e 's,$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks,/XCD/SY///////Library/PrivateFrameworks,g' \
-	-e 's,/Developer/Makefiles/pbx_jamfiles,/XCD/loper/Makefiles/pbx_jamfiles,g' | \
+	-e 's,/Developer/Makefiles/pbx_jamfiles,/XCD/loper/Makefiles/pbx_jamfiles,g' \
+	-e 's,/System/Library/PrivateFrameworks/DevToolsCore.framework,/XCD/SY/Library/PrivateFrameworks/DevToolsCore.framework,g' | \
+    (cd "$BUILDROOT"; cpio -ium${VERBOSECPIO}d )
+
+    find ".$XCODESETTINGS" | cpio -o -c | \
+	sed -e 's,/System/Library/PrivateFrameworks/DevToolsCore.framework,/XCD/SY/Library/PrivateFrameworks/DevToolsCore.framework,g' | \
     (cd "$BUILDROOT"; cpio -ium${VERBOSECPIO}d )
 
     echo "done"
