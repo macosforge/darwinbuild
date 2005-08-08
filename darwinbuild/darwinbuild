@@ -86,6 +86,7 @@ CACHEDIR=$DATADIR/cache
 COMMONFILE=$DATADIR/darwinbuild.common
 DARWINTRACE=$DATADIR/darwintrace.dylib
 DITTO=$DATADIR/ditto
+DEFAULTPLISTSITE=http://darwinsource.opendarwin.org/plists/
 
 # PREFIX=/Volumes/HD/ltmp/build/darwinbuild
 # DARWINXREF=$PREFIX/darwinxref/darwinxref
@@ -94,6 +95,7 @@ DITTO=$DATADIR/ditto
 # COMMONFILE=$DATADIR/darwinbuild.common
 # DARWINTRACE=$PREFIX/darwintrace/darwintrace.dylib
 # DITTO=$DATADIR/ditto.sh
+# DEFAULTPLISTSITE=file:///Volumes/HD/ltmp/build/darwinbuild/plists/
 
 build=""
 depsbuild=""
@@ -150,7 +152,7 @@ if [ "$1" == "-init" ]; then
 	echo "$build" > .build/build
 
 	while [ "$build" != "" ]; do
-		Download .build "$build".plist "$sites http://darwinsource.opendarwin.org/plists/"
+		Download .build "$build".plist "$sites ${DEFAULTPLISTSITE}"
 		$DARWINXREF "-f$XREFDB" "-b$build" loadIndex .build/"$build".plist
 		sites=$($DARWINXREF "-f$XREFDB" "-b$build" plist_sites | xargs echo)
 		build=$($DARWINXREF "-f$XREFDB" "-b$build" inherits)
@@ -677,6 +679,7 @@ if [ "$logdeps" == "YES" ]; then
 	echo "export DYLD_FORCE_FLAT_NAMESPACE=1" >> $SCRIPT
 fi
 cat <<-EOF >> $SCRIPT
+	sh -c "$buildtool -version < /dev/null > /dev/null"
 	$buildtool $action $build_string < /dev/null 
 	EXIT_STATUS="\$?"
 	echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
@@ -785,12 +788,14 @@ if [ "$EXIT_STATUS" == "0" ]; then
 		if [ "$logdeps" = "YES" ]; then
 			### Log dependencies, but filter out duplicates, relative paths, and temporary files
 			TRACE_TYPES='\(execve\|open\)[[:space:]]\+'
-			cat "$TRACELOG" | sort | uniq | \
+			cat "$TRACELOG" | sort -u | \
 			sed "s|$DARWIN_BUILDROOT/BuildRoot||" | \
         		grep -i  "^$TRACE_TYPES/" | \
 			grep -v "^$TRACE_TYPES/SourceCache/" | \
         		grep -vi "^$TRACE_TYPES\(/private\)\?\(/var\)\?/tmp/" | \
+        		grep -vi  "^$TRACE_TYPES/XCD/" | \
         		grep -vi  "^$TRACE_TYPES/dev/" | \
+			sort -u | \
 			"$DARWINXREF" loadDeps "$projnam"
 			"$DARWINXREF" resolveDeps "$projnam"
 			cp "$TRACELOG" $DARWIN_BUILDROOT/Logs/$projnam/$project.trace~$build_version
