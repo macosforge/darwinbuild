@@ -59,7 +59,8 @@ static int run(CFArrayRef argv) {
 		printDependencies(types, recursive, NULL, DBGetCurrentBuild(), project, 0);
 	} else if (CFEqual(type, CFSTR("-lib"))) {
 		CFStringRef types[] = { CFSTR("lib"), NULL };
-		printDependencies(types, types, NULL, DBGetCurrentBuild(), project, 0);
+		CFStringRef recursive[] = { NULL };
+		printDependencies(types, recursive, NULL, DBGetCurrentBuild(), project, 0);
 	} else {
 		return -1;
 	}
