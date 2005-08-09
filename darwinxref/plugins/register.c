@@ -45,15 +45,29 @@
 #include <openssl/evp.h>
 
 int register_files(char* build, char* project, char* path);
+int register_files_from_stdin(char* build, char* project, char* path);
 
 static int run(CFArrayRef argv) {
 	int res = 0;
+       int i = 0, doStdin = 0;
 	CFIndex count = CFArrayGetCount(argv);
-	if (count != 2)  return -1;
+       if (count < 2 || count > 3)  return -1;
 	char* build = strdup_cfstr(DBGetCurrentBuild());
-	char* project = strdup_cfstr(CFArrayGetValueAtIndex(argv, 0));
-	char* dstroot = strdup_cfstr(CFArrayGetValueAtIndex(argv, 1));
-	res = register_files(build, project, dstroot);
+
+       CFStringRef stdinArg = CFArrayGetValueAtIndex(argv, 0);
+       if(CFEqual(stdinArg, CFSTR("-stdin"))) {
+         i++;
+         doStdin = 1;
+       }
+
+       char* project = strdup_cfstr(CFArrayGetValueAtIndex(argv, i++));
+       char* dstroot = strdup_cfstr(CFArrayGetValueAtIndex(argv, i++));
+
+       if(doStdin)
+         res = register_files_from_stdin(build, project, dstroot);
+       else
+         res = register_files(build, project, dstroot);
+
 	free(build);
 	free(project);
 	free(dstroot);
@@ -61,7 +75,7 @@ static int run(CFArrayRef argv) {
 }
 
 static CFStringRef usage() {
-	return CFRetain(CFSTR("<project> <dstroot>"));
+       return CFRetain(CFSTR("[-stdin] <project> <dstroot>"));
 }
 
 int initialize(int version) {
@@ -271,7 +285,7 @@ int register_files(char* build, char* project, char* path) {
 	if (SQL("BEGIN")) { return -1; }
 	
 	res = SQL("DELETE FROM files WHERE build=%Q AND project=%Q",
-		build, project);
+		  build, project);
 
 	SQL("DELETE FROM unresolved_dependencies WHERE build=%Q AND project=%Q", 
 		build, project);
@@ -342,6 +356,110 @@ int register_files(char* build, char* project, char* path) {
 		free(checksum);
 	}
 	fts_close(fts);
+	
+	if (SQL("COMMIT")) { return -1; }
+
+	fprintf(stderr, "%s - %d files registered.\n", project, loaded);
+	
+	return res;
+}
+
+int register_files_from_stdin(char* build, char* project, char* path) {
+	char* errmsg;
+	int res;
+	int loaded = 0;
+	char *line;
+	size_t size;
+
+
+	char* table = "CREATE TABLE files (build text, project text, path text) ";
+	char* index = "CREATE INDEX files_index ON files (build, project, path)";
+	SQL_NOERR(table);
+	SQL_NOERR(index);
+	table = "CREATE TABLE unresolved_dependencies (build text, project text, type text, dependency)";
+	SQL_NOERR(table);
+	
+	if (SQL("BEGIN")) { return -1; }
+	
+	res = SQL("DELETE FROM files WHERE build=%Q AND project=%Q",
+		  build, project);
+
+	SQL("DELETE FROM unresolved_dependencies WHERE build=%Q AND project=%Q", 
+		build, project);
+
+	//
+	// Enumerate the files in the path (DSTROOT) and associate them
+	// with the project name and version in the sqlite database.
+	//
+	// Skip the first result, since that is . of the DSTROOT itself.
+        while ((line = fgetln(stdin, &size)) != NULL) {
+		char filename[MAXPATHLEN+1];
+		char fullpath[MAXPATHLEN+1];
+		char symlink[MAXPATHLEN+1];
+		int len;
+		struct stat sb;
+
+		if (size > 0 && line[size-1] == '\n') line[--size] = 0; // chomp newline
+		if (size > 0 && line[size-1] == '/') line[--size] = 0; // chomp trailing slash
+
+		if(0 == strcmp(line, "."))
+		  continue;
+
+		// Filename
+		filename[0] = 0;
+		strcpy(filename, line+1); /* skip over leading "." */
+
+		sprintf(fullpath, "%s/%s", path, filename);
+		res = lstat(fullpath, &sb);
+		if(res != 0) {
+		  perror(fullpath);
+		  return -1;
+		}
+		  
+		// Symlinks
+		symlink[0] = 0;
+		if (S_ISLNK(sb.st_mode)) {
+			len = readlink(fullpath, symlink, MAXPATHLEN);
+			if (len >= 0) symlink[len] = 0;
+		}
+		
+		// Default to empty SHA-1 checksum
+		char* checksum = strdup("                                        ");
+		
+		// Checksum regular files
+		if (S_ISREG(sb.st_mode)) {
+			int fd = open(fullpath, O_RDONLY);
+			if (fd == -1) {
+				perror(filename);
+				return -1;
+			}
+			res = register_libraries(fd, build, project);
+			lseek(fd, (off_t)0, SEEK_SET);
+			checksum = calculate_digest(fd);
+			close(fd);
+		}
+
+		// register regular files and symlinks in the DB
+		if (S_ISREG(sb.st_mode) || S_ISLNK(sb.st_mode)) {
+			res = SQL("INSERT INTO files (build,project, path) VALUES (%Q,%Q,%Q)",
+				build, project, filename);
+			++loaded;
+		}
+		
+		// add all regular files, directories, and symlinks to the manifest
+		if (S_ISREG(sb.st_mode) || S_ISLNK(sb.st_mode) || S_ISDIR(sb.st_mode)) {
+			fprintf(stdout, "%s %o %d %d %lld .%s%s%s\n",
+				checksum,
+				sb.st_mode,
+				sb.st_uid,
+				sb.st_gid,
+				!S_ISDIR(sb.st_mode) ? sb.st_size : (off_t)0,
+				filename,
+				symlink[0] ? " -> " : "",
+				symlink[0] ? symlink : "");
+		}
+		free(checksum);
+	}
 	
 	if (SQL("COMMIT")) { return -1; }
 
