@@ -33,22 +33,25 @@
 #include "DBPlugin.h"
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <sys/param.h>
 
-int loadDeps(const char* build, const char* project);
+int loadDeps(const char* build, const char* project, const char *root);
 
 static int run(CFArrayRef argv) {
 	int res = 0;
 	CFIndex count = CFArrayGetCount(argv);
-	if (count != 1)  return -1;
+	if (count != 2)  return -1;
 	char* project = strdup_cfstr(CFArrayGetValueAtIndex(argv, 0));
+	char* root = strdup_cfstr(CFArrayGetValueAtIndex(argv, 1));
+	
 	char* build = strdup_cfstr(DBGetCurrentBuild());
-	loadDeps(build, project);
+	loadDeps(build, project, root);
 	free(project);
 	return res;
 }
 
 static CFStringRef usage() {
-	return CFRetain(CFSTR("<project>"));
+	return CFRetain(CFSTR("<project> <buildroot>"));
 }
 
 int initialize(int version) {
@@ -70,70 +73,8 @@ static int has_suffix(const char* big, const char* little) {
 	return found ? (strcmp(found, little) == 0) : 0;
 }
 
-static char* canonicalize_path(const char* path) {
-#if 1 // USE_REALPATH
-	char* result = malloc(PATH_MAX);
-	realpath(path, result);
-	return result;
-#else
-	char* result = malloc(strlen(path) + 1);
-	const char* src = path;
-	char* dst = result;
-	
-	while (*src != 0) {
-		// Backtrack to previous /
-		if (strncmp(src, "/../", 4) == 0) {
-			src += 3; // skip to last /, so we can evaluate that below
-			if (dst == result) {
-				*dst = '/';
-				dst += 1;
-			} else {
-				do {
-					dst -= 1;
-				} while (dst != result && *dst != '/');
-			}
-		// Trim /..
-		} else if (strcmp(src, "/..") == 0) {
-			src += 3;
-			if (dst == result) {
-				*dst = '/';
-				dst += 1;
-			} else {
-				do {
-					dst -= 1;
-				} while (dst != result && *dst != '/');
-			}
-		// Compress /./ to /
-		} else if (strncmp(src, "/./", 3) == 0) {
-			src += 2;	// skip to last /, so we can evaluate that below
-		// Trim /.
-		} else if (strcmp(src, "/.") == 0) {
-			*dst = 0;
-			break;
-		// compress slashes, trim trailing slash
-		} else if (*src == '/') {
-			if ((dst == result || dst[-1] != '/') && src[1] != 0) {
-				*dst = '/';
-				dst += 1;
-				src += 1;
-			} else {
-				src += 1;
-			}
-		// default to copying over a single char
-		} else {
-			*dst = *src;
-			dst += 1;
-			src += 1;
-		}
-	}
-	
-	*dst = 0;  // NUL terminate
-	
-	return result;
-#endif
-}
 
-int loadDeps(const char* build, const char* project) {
+int loadDeps(const char* build, const char* project, const char *root) {
 	size_t size;
 	char* line;
 	int count = 0;
@@ -150,7 +91,9 @@ int loadDeps(const char* build, const char* project) {
 		if (line[size-1] == '\n') line[size-1] = 0; // chomp newline
 		char* tab = memchr(line, '\t', size);
 		if (tab) {
+		  	char fullpath[MAXPATHLEN];
 			char *type, *file;
+			struct stat sb;
 			int typesize = (intptr_t)tab - (intptr_t)line;
 			asprintf(&type, "%.*s", typesize, line);
 			asprintf(&file, "%.*s", size - typesize - 1, tab+1);
@@ -168,16 +111,14 @@ int loadDeps(const char* build, const char* project) {
 				free(type);
 				type = "build";
 			}
-			char* canonicalized = canonicalize_path(file);
 			
-			struct stat sb;
-			int res = lstat(canonicalized, &sb);
+			sprintf(fullpath, "%s/%s", root, file);
+			int res = lstat(fullpath, &sb);
 			// for now, skip if the path points to a directory
 			if (res == 0 && !S_ISDIR(sb.st_mode)) {
 				SQL("INSERT INTO unresolved_dependencies (build,project,type,dependency) VALUES (%Q,%Q,%Q,%Q)",
-					build, project, type, canonicalized);
+					build, project, type, file);
 			}
-			free(canonicalized);
 			free(file);
 		} else {
 			fprintf(stderr, "Error: syntax error in input.  no tab delimiter found.\n");
