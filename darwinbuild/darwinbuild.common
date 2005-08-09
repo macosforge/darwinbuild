@@ -139,6 +139,7 @@ function InstallRoot() {
 	if [ "$SRCDIR" -nt "$receipts/$X" ]; then
 		echo "Copying $X ..."
 		ditto $SRCDIR $BuildRoot
+		"$DARWINXREF" register "$X" "$SRCDIR"  > /dev/null
 		touch "$receipts/$X"
 	elif [ ! -f "$receipts/$X" ]; then
 	    # install a pre-built root, using the depsbuilds array, in preference order
@@ -151,6 +152,13 @@ function InstallRoot() {
 			cd "$BuildRoot"
 			tar xzf $CACHEDIR/Roots/$dbuild/$X.root.tar.gz
 			if [ "$?" == "0" ]; then
+				MANIFEST="$receipts/$X"
+				tar tzf $CACHEDIR/Roots/$dbuild/$X.root.tar.gz | \
+				    "$DARWINXREF" register -stdin "$X" "$BuildRoot" \
+				    > "$MANIFEST"
+				SHA1=$(cat "$MANIFEST" | openssl dgst -sha1)
+				mv -f "$MANIFEST" "$receipts/$SHA1"
+				ln -s "$SHA1" "$MANIFEST"
 				touch "$receipts/$X"
 				break
 			fi
@@ -199,6 +207,13 @@ function InstallHeaders() {
 			cd "$BuildRoot"
 			tar xzf $CACHEDIR/Headers/$dbuild/$X.hdrs.tar.gz
 			if [ "$?" == "0" ]; then
+				MANIFEST="$receipts/$X"
+				tar tzf $CACHEDIR/Headers/$dbuild/$X.hdrs.tar.gz | \
+				    "$DARWINXREF" register -stdin "$X" "$BuildRoot" \
+				    > "$MANIFEST"
+				SHA1=$(cat "$MANIFEST" | openssl dgst -sha1)
+				mv -f "$MANIFEST" "$receipts/$SHA1"
+				ln -s "$SHA1" "$MANIFEST"
 				touch "$receipts/$X.hdrs"
 				break
 			fi
