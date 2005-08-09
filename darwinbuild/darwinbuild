@@ -796,7 +796,7 @@ if [ "$EXIT_STATUS" == "0" ]; then
         		grep -vi  "^$TRACE_TYPES/XCD/" | \
         		grep -vi  "^$TRACE_TYPES/dev/" | \
 			sort -u | \
-			"$DARWINXREF" loadDeps "$projnam"
+			"$DARWINXREF" loadDeps "$projnam" "$DARWIN_BUILDROOT/BuildRoot"
 			"$DARWINXREF" resolveDeps "$projnam"
 			cp "$TRACELOG" $DARWIN_BUILDROOT/Logs/$projnam/$project.trace~$build_version
 		fi
