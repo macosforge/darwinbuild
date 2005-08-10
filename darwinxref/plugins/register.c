@@ -398,6 +398,7 @@ int register_files_from_stdin(char* build, char* project, char* path) {
 		char symlink[MAXPATHLEN+1];
 		int len;
 		struct stat sb;
+		char *lastpathcomp = NULL;
 
 		if (size > 0 && line[size-1] == '\n') line[--size] = 0; // chomp newline
 		if (size > 0 && line[size-1] == '/') line[--size] = 0; // chomp trailing slash
@@ -408,6 +409,11 @@ int register_files_from_stdin(char* build, char* project, char* path) {
 		// Filename
 		filename[0] = 0;
 		strcpy(filename, line+1); /* skip over leading "." */
+
+		lastpathcomp = strrchr(filename, '/');
+		if(lastpathcomp && 0 == strncmp(lastpathcomp+1, "._", 2))
+		  continue;
+
 
 		sprintf(fullpath, "%s/%s", path, filename);
 		res = lstat(fullpath, &sb);
