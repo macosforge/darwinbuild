@@ -2,6 +2,15 @@ Darwin Build Scripts Change History
 -----------------------------------
 
 Release X.Y.Z [NOW]
+	- darwinbuild: Add a -loadonly option which loads
+	  the BuildRoot/ but doesn't start the build
+	- darwinbuild: use -stdin mode to register to register
+	  files from pre-built .tar.gz roots.
+	- darwinxref: Add a -stdin mode to the "register" plugin
+	  to accept file paths to register
+	- darwintrace: Be more aggressive about logging full paths
+	- darwinbuild: Patch files can use gzip, bzip2, or no compression,
+	  and the can be applied with either -p0 or -p1
 	- darwinbuild: Modify installXcodebuild so that it doesn't interfere
 	  with the frameworks/dylibs that have already been installed
 	- darwinxref: Create the necessary tables to that "resolveDeps" works
