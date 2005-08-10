@@ -116,16 +116,6 @@ function InstallRoot() {
 	local receipts="$BuildRoot/usr/local/darwinbuild/receipts"
 	mkdir -p "$receipts"
 
-	### Special case for core foundation because the Mac OS X
-	### version differs from the Darwin version.  If we are using
-	### Xcode, we do not want to install CF-Lite over the CF from
-	### the host Mac OS X system.  Save away a copy and restore
-	### it later.
-	CFPATH=/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation
-	if [ "${X/-*}" == "CF" -a -f "$receipts/xcodebuild" ]; then
-		cp "$BuildRoot/$CFPATH" "$BuildRoot/$CFPATH.bak"
-	fi
-
 	###
 	### There will be duplication between the bash dependencies and the
 	### project's dependencies.  Therefore don't install something that
@@ -141,7 +131,7 @@ function InstallRoot() {
 		ditto $SRCDIR $BuildRoot
 		"$DARWINXREF" register "$X" "$SRCDIR"  > /dev/null
 		touch "$receipts/$X"
-	elif [ ! -f "$receipts/$X" ]; then
+	elif [ ! -e "$receipts/$X" ]; then
 	    # install a pre-built root, using the depsbuilds array, in preference order
 	    for dbuild in $depsbuilds; do
 	    	sites=$($DARWINXREF $dbfile binary_sites | while read a; do echo "$a/$dbuild"; done)
@@ -152,30 +142,24 @@ function InstallRoot() {
 			cd "$BuildRoot"
 			tar xzf $CACHEDIR/Roots/$dbuild/$X.root.tar.gz
 			if [ "$?" == "0" ]; then
-				MANIFEST="$receipts/$X"
 				tar tzf $CACHEDIR/Roots/$dbuild/$X.root.tar.gz | \
 				    "$DARWINXREF" register -stdin "$X" "$BuildRoot" \
-				    > "$MANIFEST"
-				SHA1=$(cat "$MANIFEST" | openssl dgst -sha1)
-				mv -f "$MANIFEST" "$receipts/$SHA1"
-				ln -s "$SHA1" "$MANIFEST"
-				touch "$receipts/$X"
+				    > /dev/null
+				SHA1=$(openssl dgst -sha1 < $CACHEDIR/Roots/$dbuild/$X.root.tar.gz)
+				touch "$receipts/$SHA1"
+				ln -sf "$SHA1" "$receipts/$X"
 				break
 			fi
 		fi
 
 		# if we didn't find the root for this build, keep looking in the next build	     
 	    done
-	    if [ ! -f "$receipts/$X" ]; then
+	    if [ ! -e "$receipts/$X" ]; then
 			echo "ERROR: could not find root: $X" 1>&2
 			exit 1
 	    fi
 	fi
 
-	### Restore CF if necessary
-	if [ -f "$BuildRoot/$CFPATH.bak" ]; then
-		mv "$BuildRoot/$CFPATH.bak" "$BuildRoot/$CFPATH"
-	fi
 }
 
 ###
@@ -190,11 +174,12 @@ function InstallHeaders() {
 	local depsbuilds="$3"
 	local receipts="$BuildRoot/usr/local/darwinbuild/receipts"
 
-	if [ ! -f "$receipts/$X.hdrs" -a ! -f "$receipts/$X" ]; then
+	if [ ! -e "$receipts/$X.hdrs" -a ! -e "$receipts/$X" ]; then
 	bv=$(GetBuildVersion $DARWIN_BUILDROOT/Headers/${X/-*}/$X.hdrs*)
 	if [ -d $DARWIN_BUILDROOT/Headers/${X/-*}/$X.hdrs~$bv ]; then
 		echo "Copying $X ..."
 		ditto $DARWIN_BUILDROOT/Headers/${X/-*}/$X.hdrs~$bv $BuildRoot
+		"$DARWINXREF" register "$X" $DARWIN_BUILDROOT/Headers/${X/-*}/$X.hdrs~$bv  > /dev/null
 	else
 
 	    # install a pre-built root, using the depsbuilds array, in preference order
@@ -207,23 +192,27 @@ function InstallHeaders() {
 			cd "$BuildRoot"
 			tar xzf $CACHEDIR/Headers/$dbuild/$X.hdrs.tar.gz
 			if [ "$?" == "0" ]; then
-				MANIFEST="$receipts/$X"
-				tar tzf $CACHEDIR/Headers/$dbuild/$X.hdrs.tar.gz | \
+				tar xzf $CACHEDIR/Headers/$dbuild/$X.hdrs.tar.gz | \
 				    "$DARWINXREF" register -stdin "$X" "$BuildRoot" \
-				    > "$MANIFEST"
-				SHA1=$(cat "$MANIFEST" | openssl dgst -sha1)
-				mv -f "$MANIFEST" "$receipts/$SHA1"
-				ln -s "$SHA1" "$MANIFEST"
-				touch "$receipts/$X.hdrs"
+				    > /dev/null
+				SHA1=$(openssl dgst -sha1 < $CACHEDIR/Headers/$dbuild/$X.hdrs.tar.gz)
+				touch "$receipts/$SHA1"
+				ln -sf "$SHA1" "$receipts/$X"
 				break
 			fi
 		else
 		    InstallRoot "$BuildRoot" "$X" "$depsbuilds"
 		fi
+
 		# XXX some may think this is buggy. If you fail to find
 		# a header root for the first build, normal roots
 		# are searched for along the build chain. Secondary
 		# builds are never consulted for header roots
+
+		# If InstallRoot worked, stop searching
+		if [ -e "$receipts/$X" ]; then
+		    break
+		fi
 	    done
 	fi
 	fi
