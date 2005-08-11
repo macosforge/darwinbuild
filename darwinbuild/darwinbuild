@@ -239,6 +239,7 @@ fi
 ###   -fetch    Download necessary source and patch files
 ###   -source   Extract, patch, and stage source
 ###   -nochroot Do not chroot into the BuildRoot when building
+###   -load     Populate the BuildRoot with one project
 ###   -noload   Don't load dependencies into the chroot.
 ###				Has no effect if -nochroot is specified.
 ###   -loadonly Only load dependencies into the chroot, but
@@ -272,6 +273,8 @@ for ARG in "$@"; do
 			depsbuild="${depsbuild} ${ARG/*=/}"
 		elif [ "$ARG" == "-nochroot" ]; then
 			export CHROOTED="NO"
+		elif [ "$ARG" == "-load" ]; then
+			action="load"
 		elif [ "$ARG" == "-noload" ]; then
 			noload="YES"
 		elif [ "$ARG" == "-loadonly" ]; then
@@ -317,6 +320,14 @@ if [ "$depsbuild" == "" ]; then
 	depsbuild="$build"
 fi
 
+
+###
+### If we are doing a -load, install the root and exit.
+###
+if [ "$action" == "load" ]; then
+	InstallRoot "$BuildRoot" "$projnam" "$depsbuild"
+	exit 0
+fi
 
 #
 # Get the version of the project for this build.
