@@ -619,6 +619,9 @@ cat <<-EOF > $SCRIPT
 	echo "    Build number:    $build"
 	echo "    cc version:      \$(gcc -v 2>&1 | tail -n 1)"
 	echo "    cctools version: \$(echo | as -v 2>&1 | cut -c 22-)"
+if [ "$buildtool" == "xcodebuild" ]; then
+	echo "    xcode version:   \$($buildtool -version)"
+fi
 	echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
 	echo 'Build parameters:'
 	echo SRCROOT: '$SRCROOT'
