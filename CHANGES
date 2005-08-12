@@ -2,6 +2,7 @@ Darwin Build Scripts Change History
 -----------------------------------
 
 Release X.Y.Z [NOW]
+	- darwinbuild: print Xcode version when building Xcode-based projects
 	- darwinbuild: Add a -load option which loads the BuildRoot/ with a
 	  single project
 	- darwinbuild: Add a -loadonly option which loads
