@@ -192,7 +192,7 @@ function InstallHeaders() {
 			cd "$BuildRoot"
 			tar xzf $CACHEDIR/Headers/$dbuild/$X.hdrs.tar.gz
 			if [ "$?" == "0" ]; then
-				tar xzf $CACHEDIR/Headers/$dbuild/$X.hdrs.tar.gz | \
+				tar tzf $CACHEDIR/Headers/$dbuild/$X.hdrs.tar.gz | \
 				    "$DARWINXREF" register -stdin "$X" "$BuildRoot" \
 				    > /dev/null
 				SHA1=$(openssl dgst -sha1 < $CACHEDIR/Headers/$dbuild/$X.hdrs.tar.gz)
