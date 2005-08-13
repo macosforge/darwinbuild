@@ -1,5 +1,7 @@
 include ../common.mk
 
+LIBS=$(shell if [ -e /usr/lib/libSystemStubs.a ]; then echo -lSystemStubs; fi)
+
 ###
 ### Variables for the 'install' phase
 ###
@@ -15,7 +17,7 @@ darwintrace.dylib: darwintrace.c
 		-nostdlib \
 		-undefined suppress \
 		-dynamiclib \
-		$^
+		$^ $(LIBS)
 clean:
 	rm -f darwintrace.dylib
 
