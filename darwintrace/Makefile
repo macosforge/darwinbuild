@@ -11,7 +11,7 @@ all: darwintrace.dylib
 
 darwintrace.dylib: darwintrace.c
 	cc -o $@ \
-		-W -Wall -pedantic \
+		-W -Wall -pedantic -std=c99 \
 		-flat_namespace \
 		-fno-common \
 		-nostdlib \
