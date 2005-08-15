@@ -40,18 +40,26 @@
 #include <sys/stat.h>
 #include <sys/param.h>
 #include <sys/syscall.h>
+#include <sys/paths.h>
 
 #define DARWINTRACE_SHOW_PROCESS 0
 #define DARWINTRACE_LOG_FULL_PATH 1
+#define DARWINTRACE_DEBUG_OUTPUT 0
 
-int __darwintrace_fd = -2;
+static int __darwintrace_fd = -2;
 #define BUFFER_SIZE	1024
 #if DARWINTRACE_SHOW_PROCESS
-char __darwintrace_progname[BUFFER_SIZE];
-pid_t __darwintrace_pid = -1;
+static char __darwintrace_progname[BUFFER_SIZE];
+static pid_t __darwintrace_pid = -1;
 #endif
 
-inline void __darwintrace_setup() {
+#if DARWINTRACE_DEBUG_OUTPUT
+#define dprintf(...) fprintf(stderr, __VA_ARGS__)
+#else
+#define dprintf(...)
+#endif
+
+static inline void __darwintrace_setup() {
 	if (__darwintrace_fd == -2) {
 	  char* path = getenv("DARWINTRACE_LOG");
 	  if (path != NULL) {
@@ -73,7 +81,7 @@ inline void __darwintrace_setup() {
 }
 
 /* __darwintrace_setup must have been called already */
-inline void __darwintrace_logpath(int fd, const char *procname, char *tag, const char *path) {
+static inline void __darwintrace_logpath(int fd, const char *procname, char *tag, const char *path) {
 #pragma unused(procname)
   char __darwintrace_buf[BUFFER_SIZE];
   int size;
@@ -90,6 +98,49 @@ inline void __darwintrace_logpath(int fd, const char *procname, char *tag, const
   
   write(fd, __darwintrace_buf, size);
   fsync(fd);
+}
+
+/* remap resource fork access to the data fork.
+ * do a partial realpath(3) to fix "foo//bar" to "foo/bar"
+ */
+static inline void __darwintrace_cleanup_path(char *path) {
+  size_t pathlen, rsrclen;
+  size_t i, shiftamount;
+  enum { SAWSLASH, NOTHING } state = NOTHING;
+
+  /* if this is a foo/..namedfork/rsrc, strip it off */
+  pathlen = strlen(path);
+  rsrclen = strlen(_PATH_RSRCFORKSPEC);
+  if(pathlen > rsrclen
+     && 0 == strcmp(path + pathlen - rsrclen,
+		    _PATH_RSRCFORKSPEC)) {
+    path[pathlen - rsrclen] = '\0';
+    pathlen -= rsrclen;
+  }
+
+  /* for each position in string (including
+     terminal \0), check if we're in a run of
+     multiple slashes, and only emit the
+     first one
+  */
+  for(i=0, shiftamount=0; i <= pathlen; i++) {
+    if(state == SAWSLASH) {
+      if(path[i] == '/') {
+	/* consume it */
+	shiftamount++;
+      } else {
+	state = NOTHING;
+	path[i - shiftamount] = path[i];
+      }
+    } else {
+      if(path[i] == '/') {
+	state = SAWSLASH;
+      }
+      path[i - shiftamount] = path[i];
+    }
+  }
+
+  dprintf("darwintrace: cleanup resulted in %s\n", path);
 }
 
 /* Log calls to open(2) into the file specified by DARWINTRACE_LOG.
@@ -120,6 +171,8 @@ int open(const char* path, int flags, ...) {
 	    int usegetpath = 0;
 #endif
 
+	    dprintf("darwintrace: original open path is %s\n", path);
+
 	    /* for volfs paths, we need to do a GETPATH anyway */
 	    if(!usegetpath && strncmp(path, "/.vol/", 6) == 0) {
 	      usegetpath = 1;
@@ -127,15 +180,19 @@ int open(const char* path, int flags, ...) {
 	    
 	    if(usegetpath) {
 	      if(0 == fcntl(result, F_GETPATH, realpath)) {
-		/* printf("resolved %s to %s\n", path, realpath); */
-		path = realpath;
+		dprintf("darwintrace: resolved %s to %s\n", path, realpath);
 	      } else {
 		/* use original path */
-		/* printf("failed to resolve %s\n", path); */
+		dprintf("darwintrace: failed to resolve %s\n", path);
+		strcpy(realpath, path);
 	      }
+	    } else {
+		strcpy(realpath, path);
 	    }
 
-	    __darwintrace_logpath(__darwintrace_fd, NULL, "open", path);
+	    __darwintrace_cleanup_path(realpath);
+
+	    __darwintrace_logpath(__darwintrace_fd, NULL, "open", realpath);
 	  }
 	}
 	return result;
@@ -148,12 +205,23 @@ int execve(const char* path, char* const argv[], char* const envp[]) {
 	__darwintrace_setup();
 	if (__darwintrace_fd >= 0) {
 	  struct stat sb;
-	  int printorig = 1;
+	  char realpath[MAXPATHLEN];
+	  int printorig = 0;
 	  int printreal = 0;
 	  int fd;
+#if DARWINTRACE_LOG_FULL_PATH
+	  int usegetpath = 1;
+#else	  
+	  int usegetpath = 0;
+#endif
 
-	  /* We initially assume path is normal like /bin/cp */
+	  dprintf("darwintrace: original execve path is %s\n", path);
 
+	  /* for symlinks, we wan't to capture
+	   * both the original path and the modified one,
+	   * since for /usr/bin/gcc -> gcc-4.0,
+	   * both "gcc_select" and "gcc" are contributors
+	   */
 	  if (lstat(path, &sb) == 0) {
 	    if(path[0] != '/') {
 	      /* for relative paths, only print full path */
@@ -163,10 +231,17 @@ int execve(const char* path, char* const argv[], char* const envp[]) {
 	      /* for symlinks, print both */
 	      printreal = 1;
 	      printorig = 1;
+	    } else {
+	      /* for fully qualified paths, print real */
+	      printreal = 1;
+	      printorig = 0;
 	    }
 
 	    if(printorig) {
-	      __darwintrace_logpath(__darwintrace_fd, NULL, "execve", path);
+	      strcpy(realpath, path);
+
+	      __darwintrace_cleanup_path(realpath);
+	      __darwintrace_logpath(__darwintrace_fd, NULL, "execve", realpath);
 	    }
 		
 	    fd = open(path, O_RDONLY, 0);
@@ -177,12 +252,20 @@ int execve(const char* path, char* const argv[], char* const envp[]) {
 
 	      /* once we have an open fd, if a full path was requested, do it */
 	      if(printreal) {
-		char realpath[MAXPATHLEN];
 		
-		if(0 == fcntl(fd, F_GETPATH, realpath)) {
-		  /* printf("resolved %s to %s\n", path, realpath); */
-		  __darwintrace_logpath(__darwintrace_fd, NULL, "execve", realpath);
+		if(usegetpath) {
+		  if(0 == fcntl(fd, F_GETPATH, realpath)) {
+		    dprintf("darwintrace: resolved execve path %s to %s\n", path, realpath);
+		  } else {
+		    dprintf("darwintrace: failed to resolve %s\n", path);
+		    strcpy(realpath, path);
+		  }
+		} else {
+		  strcpy(realpath, path);
 		}
+		__darwintrace_cleanup_path(realpath);
+
+		__darwintrace_logpath(__darwintrace_fd, NULL, "execve", realpath);
 	      }
 
 	      bzero(buffer, sizeof(buffer));
@@ -190,7 +273,7 @@ int execve(const char* path, char* const argv[], char* const envp[]) {
 	      bytes_read = read(fd, buffer, MAXPATHLEN);
 	      if (bytes_read > 2 &&
 		  buffer[0] == '#' && buffer[1] == '!') {
-		const char* interp = &buffer[2];
+		char* interp = &buffer[2];
 		int i;
 		/* skip past leading whitespace */
 		for (i = 2; i < bytes_read; ++i) {
@@ -214,6 +297,8 @@ int execve(const char* path, char* const argv[], char* const envp[]) {
 		  procname = strrchr(argv[0], '/') + 1;
 		  if (procname == NULL) procname = argv[0];
 #endif
+		  __darwintrace_cleanup_path(interp);
+
 		  __darwintrace_logpath(__darwintrace_fd, procname, "execve", interp);
 		}
 	      }
