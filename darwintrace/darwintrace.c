@@ -41,11 +41,13 @@
 #include <sys/param.h>
 #include <sys/syscall.h>
 #include <sys/paths.h>
+#include <errno.h>
 
 #define DARWINTRACE_SHOW_PROCESS 0
 #define DARWINTRACE_LOG_FULL_PATH 1
 #define DARWINTRACE_DEBUG_OUTPUT 0
 
+#define START_FD 81
 static int __darwintrace_fd = -2;
 #define BUFFER_SIZE	1024
 #if DARWINTRACE_SHOW_PROCESS
@@ -63,10 +65,21 @@ static inline void __darwintrace_setup() {
 	if (__darwintrace_fd == -2) {
 	  char* path = getenv("DARWINTRACE_LOG");
 	  if (path != NULL) {
-		__darwintrace_fd = open(path,
-		O_CREAT | O_WRONLY | O_APPEND,
-		DEFFILEMODE);
-		fcntl(__darwintrace_fd, F_SETFD, 1); /* close-on-exec */
+		int olderrno = errno;
+	    	int fd = open(path,
+			      O_CREAT | O_WRONLY | O_APPEND,
+			      DEFFILEMODE);
+		int newfd;
+		for(newfd = START_FD; newfd < START_FD + 21; newfd++) {
+		  if(-1 == write(newfd, "", 0) && errno == EBADF) {
+		    if(-1 != dup2(fd, newfd))
+		      __darwintrace_fd = newfd;
+		    close(fd);
+		    fcntl(__darwintrace_fd, F_SETFD, 1); /* close-on-exec */
+		    break;
+		  }
+		}
+		errno = olderrno;
 	  }
 	}
 #if DARWINTRACE_SHOW_PROCESS
