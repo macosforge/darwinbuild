@@ -33,14 +33,15 @@
 #include "DBPlugin.h"
 #include "DBPluginPriv.h"
 #include <sys/stat.h>
-
+#include <libgen.h>
 #include <tcl.h>
+#include <unistd.h>
 
 // XXX
 extern CFStringRef cfstr_tcl(Tcl_Obj* obj);
 extern Tcl_Obj* tcl_cfstr(CFStringRef str);
 extern Tcl_Obj* tcl_cfarray(CFArrayRef);
-
+static CFDataRef archivePortfile(const char* filename);
 
 char *DefaultsTrace(ClientData clientData, Tcl_Interp *interp, const char *name1, const char *name2, int flags) {
 	const char* expr = (const char*)clientData;
@@ -154,6 +155,9 @@ static int run(CFArrayRef argv) {
 		cfprintf(stderr, "Tcl error in %s: %@\n", filename, str);
 		CFRelease(str);
 	} else {
+		CFDataRef data = archivePortfile(filename);
+		DBSetPropData(DBGetCurrentBuild(), project, CFSTR("Portfile"), data);
+		CFRelease(data);
 		DBCommitTransaction();
 	}
 	free(filename);
@@ -172,4 +176,64 @@ int initialize(int version) {
 	DBPluginSetRunFunc(&run);
 	DBPluginSetUsageFunc(&usage);
 	return 0;
+}
+
+extern char** environ;
+static CFDataRef archivePortfile(const char* filename) {
+	const char* portdir = dirname(filename);
+	pid_t pid;
+	int status;
+	int fds[2];
+	CFMutableDataRef result = CFDataCreateMutable(NULL, 0);
+	assert(pipe(fds) != -1);
+	
+	pid = fork();
+	assert(pid != -1);
+	if (pid == 0) {
+		close(fds[0]);
+		assert(dup2(fds[1], STDOUT_FILENO) != -1);
+		const char* args[] = {
+			"/usr/bin/tar",
+			"czvf", "-",
+			"--directory", portdir,
+			"--exclude", "CVS",
+			"--exclude", "work",
+			".",
+			NULL
+		};
+		assert(execve(args[0], (char**)args, environ) != -1);
+		// NOT REACHED
+	}
+	close(fds[1]);
+	
+	for (;;) {
+		char buf[BUFSIZ];
+		int bytes = read(fds[0], buf, BUFSIZ);
+		if (bytes == -1) {
+			if (errno == EINTR) {
+				// interrupted by signal (SIGCHLD), try again
+				continue;
+			} else {
+				// error occurred
+				CFRelease(result);
+				result = NULL;
+				break;
+			}
+		} else if (bytes == 0) {
+			// EOF
+			break;
+		} else {
+			// valid data
+			CFDataAppendBytes(result, (UInt8*)buf, bytes);
+		}
+	}
+
+	close(fds[0]);
+	waitpid(pid, &status, 0);
+	if (status != 0) {
+		CFRelease(result);
+		result = NULL;
+	}
+	
+	return result;
 }
