@@ -35,6 +35,7 @@
 void printDependencies(CFStringRef* types, CFStringRef* recursiveTypes, CFMutableSetRef visited, CFStringRef build, CFStringRef project, int indentLevel);
 
 
+
 static int run(CFArrayRef argv) {
 	CFIndex count = CFArrayGetCount(argv);
 	if (count != 2) return -1;
@@ -46,7 +47,7 @@ static int run(CFArrayRef argv) {
 		CFStringRef types[] = { CFSTR("lib"), CFSTR("run"), NULL };
 		printDependencies(types, types, NULL, DBGetCurrentBuild(), project, 0);
 	} else if (CFEqual(type, CFSTR("-build"))) {
-		CFStringRef types[] = { CFSTR("lib"), CFSTR("run"), CFSTR("build"), NULL };
+		CFStringRef types[] = { CFSTR("staticlib"), CFSTR("lib"), CFSTR("run"), CFSTR("build"), NULL };
 		CFStringRef recursive[] = { CFSTR("lib"), CFSTR("run"), NULL };
 		printDependencies(types, recursive, NULL, DBGetCurrentBuild(), project, 0);
 	} else if (CFEqual(type, CFSTR("-header"))) {
@@ -79,6 +80,7 @@ int initialize(int version) {
 	DBPluginSetRunFunc(&run);
 	DBPluginSetUsageFunc(&usage);
 	DBPluginSetDataType(CFDictionaryGetTypeID());
+	DBPluginSetSubDictDataType(CFArrayGetTypeID());
 	return 0;
 }
 
