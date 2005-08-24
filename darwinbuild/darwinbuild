@@ -114,6 +114,8 @@ version=""
 
 . "$COMMONFILE"
 
+shopt -s nullglob
+
 ###
 ### DarwinBuild must be run as root.  Enforce this.
 ###
@@ -478,10 +480,10 @@ for patchfile in $patchfilenames; do
 	    esac
 	    case $patchfile in
 		*.p1.patch*)
-		    $catprog "$SourceCache/$patchfile" | patch --posix -l -p1
+		    $catprog "$SourceCache/$patchfile" | patch -l -f -p1
 		    ;;
 		*.patch*)
-		    $catprog "$SourceCache/$patchfile" | patch --posix -l -p0
+		    $catprog "$SourceCache/$patchfile" | patch -l -f -p0
 		    ;;
 		*)
 		    echo "Don't know how to apply $patchfile"
@@ -499,8 +501,8 @@ fi
 ### Look for the build tool: make, xcodebuild
 ###
 
-numfiles=$(ls -d *.pbproj *.xcode *.xcodeproj 2> /dev/null | wc -l)
-if [ $numfiles != 0 ]; then
+numfiles=$(echo *.pbproj *.xcode *.xcodeproj 2> /dev/null )
+if [ -n "$numfiles" ]; then
 	buildtool="xcodebuild"
 else
 	buildtool="make"
@@ -531,7 +533,8 @@ if [ "$CHROOTED" == "YES" -a "$noload" != "YES" ]; then
 	echo "*** Installing Headers ..."
 	deps=$($DARWINXREF dependencies -header "$projnam")
 	for X in $deps ; do
-		InstallHeaders "$BuildRoot" "$X" "$depsbuild"
+#		InstallHeaders "$BuildRoot" "$X" "$depsbuild"
+		InstallRoot "$BuildRoot" "$X" "$depsbuild"
 	done
 
 	### xcodebuild is a special case because it is not open source
@@ -717,11 +720,11 @@ chmod ugo+x $SCRIPT
 
 ExitHandler() {
 	### Once for fdsec
-	[ "$(echo $BuildRoot/dev/*)" == "$BuildRoot/dev/*" ] || umount "$BuildRoot/dev"
+	[ -z "$(echo $BuildRoot/dev/*)" ] || umount "$BuildRoot/dev"
 	### Twice for devfs
-	[ "$(echo $BuildRoot/dev/*)" == "$BuildRoot/dev/*" ] || umount "$BuildRoot/dev"
+	[ -z "$(echo $BuildRoot/dev/*)" ] || umount "$BuildRoot/dev"
 	### Thrice for volfs
-	[ "$(echo $BuildRoot/.vol/*)" == "$BuildRoot/.vol/*" ] || chroot "$BuildRoot" umount /.vol
+	[ -z "$(echo $BuildRoot/.vol/*)" ] || chroot "$BuildRoot" umount /.vol
 }
 
 
@@ -736,6 +739,7 @@ if [ "$CHROOTED" == "YES" ] ; then
 	###
 	echo "*** Mounting special filesystems ..."
 	trap ExitHandler EXIT
+
 	if [ ! -c "$BuildRoot/dev/null" ]; then
 		echo "Mounting devfs ..."
 		mkdir -p "$BuildRoot/dev"
@@ -752,7 +756,7 @@ if [ "$CHROOTED" == "YES" ] ; then
  		[ -f "$BuildRoot/sbin/umount" ] || cp /sbin/umount "$BuildRoot/sbin/"
  		[ -d "$BuildRoot/.vol" ] || mkdir -p "$BuildRoot/.vol"
  		## If the directory is empty, assume volfs is not mounted
- 		[ "$(echo $BuildRoot/.vol/*)" == "$BuildRoot/.vol/*" ] && chroot "$BuildRoot" /sbin/mount_volfs "/.vol"
+ 		[ -n "$(echo $BuildRoot/.vol/*)" ] || chroot "$BuildRoot" /sbin/mount_volfs "/.vol"
  	fi
 
 	###
@@ -822,7 +826,7 @@ if [ "$EXIT_STATUS" == "0" ]; then
         		grep -vi  "^$TRACE_TYPES/dev/" | \
 			sort -u | \
 			"$DARWINXREF" loadDeps "$projnam" "$DARWIN_BUILDROOT/BuildRoot"
-			"$DARWINXREF" resolveDeps "$projnam"
+			"$DARWINXREF" resolveDeps -commit "$projnam"
 			cp "$TRACELOG" $DARWIN_BUILDROOT/Logs/$projnam/$project.trace~$build_version
 		fi
 	fi
