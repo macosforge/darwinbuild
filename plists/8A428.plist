@@ -1096,7 +1096,6 @@
 			version = 1.0.1;
 		};
 		AppleOnboardAudio = {
-			version = 250.2.17;
 			dependencies = {
 				build = (
 					CF,
@@ -1122,7 +1121,8 @@
 					IOUSBFamily,
 					xnu,
 				);
-			};			
+			};
+			version = 250.2.17;
 		};
 		AppleOnboardPCATA = {
 			dependencies = {
@@ -5604,8 +5604,8 @@
 					xnu,
 				);
 				lib = (
-					dyld,
 					Libsystem,
+					dyld,
 					ncurses,
 				);
 			};
@@ -7212,8 +7212,8 @@
 				lib = (
 					Libmx,
 					Libsystem,
-					libiconv,
 					gcc_select,
+					libiconv,
 				);
 			};
 			version = 1809;
@@ -8231,8 +8231,8 @@
 					architecture,
 					cctools_ofiles,
 					dyld,
-					libdyld,
 					gcc_os_35,
+					libdyld,
 					xnu,
 				);
 			};
@@ -11953,8 +11953,8 @@
 					gcc_os,
 					gnumake,
 					netinfo,
-					perl,
 					pb_makefiles,
+					perl,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
@@ -12539,8 +12539,8 @@
 		xnu = {
 			dependencies = {
 				build = (
-					awk,
 					adv_cmds,
+					awk,
 					bash,
 					bootstrap_cmds,
 					cctools,
