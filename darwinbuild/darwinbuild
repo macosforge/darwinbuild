@@ -175,38 +175,9 @@ function PrintUsage() {
 }
 
 ###
-### Check that we are properly situated.  Either the
-### DARWIN_BUILDROOT environment variable must be set to an
-### absolute path, or the current working directory must be
-### at the root level of the build environment.
+### Check that we're property situated in an initialized directory
 ###
-if [ "$DARWIN_BUILDROOT" != "" ]; then
-	if [ "${DARWIN_BUILDROOT:0:1}" != "/" ]; then
-		echo "Error:" 1>&2
-		echo "The DARWIN_BUILDROOT environment variable must contain" 1>&2
-		echo "an absolute path." 1>&2
-		echo "" 1>&2
-		exit 1
-	else
-		cd "$DARWIN_BUILDROOT"
-	fi
-fi
-if [ -d Roots -a \
-	 -d Sources -a \
-	 -d Symbols -a \
-	 -d Headers -a \
-	 -d Logs ]; then
-	export DARWIN_BUILDROOT="$(pwd -P)"
-else
-	echo "ERROR: Please change your working directory to the mount point" 1>&2
-	echo "of the disk image, partition, or directory containing the" 1>&2
-	echo "Sources, Symbols, Roots, and Logs directories." 1>&2
-	echo "Alternatively, you may set the DARWIN_BUILDROOT environment" 1>&2
-	echo "variable to the absolute path of that directory." 1>&2
-	echo "" 1>&2
-	exit 1
-fi
-
+CheckDarwinBuildRoot
 
 BuildRoot="$DARWIN_BUILDROOT/BuildRoot"
 mkdir -p "$BuildRoot"

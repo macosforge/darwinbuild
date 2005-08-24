@@ -2,6 +2,8 @@
 #
 # Copyright (c) 2005, Apple Computer, Inc. All rights reserved.
 # 
+# @APPLE_BSD_LICENSE_HEADER_START@
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
 # are met:
@@ -25,7 +27,42 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+#
+# @APPLE_BSD_LICENSE_HEADER_END@
 
+
+###
+### Check that we are properly situated.  Either the
+### DARWIN_BUILDROOT environment variable must be set to an
+### absolute path, or the current working directory must be
+### at the root level of the build environment.
+###
+function CheckDarwinBuildRoot() {
+	if [ "$DARWIN_BUILDROOT" != "" ]; then
+		if [ "${DARWIN_BUILDROOT:0:1}" != "/" ]; then
+			echo "ERROR: DARWIN_BUILDROOT environment variable must contain an absolute path." 1>&2
+			exit 1
+		else
+			cd "$DARWIN_BUILDROOT"
+		fi
+	fi
+	if [ -d Roots -a \
+		-d Sources -a \
+		-d Symbols -a \
+		-d Headers -a \
+		-d Logs ]; then
+		export DARWIN_BUILDROOT="$(pwd -P)"
+	else
+		cat 1>&2 <<- EOB
+			ERROR: please change your working directory to one initialized by:
+			  darwinbuild -init <build>
+			Alternatively, you may set the DARWIN_BUILDROOT environment variable to the
+			absolute path of that directory.
+
+			EOB
+			exit 1
+	fi
+}
 
 ###
 ### Given a list of filenames, this function will
