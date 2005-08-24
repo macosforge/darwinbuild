@@ -2032,13 +2032,9 @@
 					cctools,
 					dyld,
 					file_cmds,
-					gcc_os,
 					gcc_os_35,
 					gnumake,
 					ld64,
-					shell_cmds,
-					system_cmds,
-					text_cmds,
 				);
 				header = (
 					Libc_headers,
@@ -4094,31 +4090,16 @@
 		Libsystem = {
 			dependencies = {
 				build = (
-					CommonCrypto,
 					CoreOSMakefiles,
-					Csu,
-					Libc,
-					Libc_debug,
-					Libc_profile,
-					Libinfo,
-					Libkvm,
 					Libm,
-					Libnotify,
-					Libstreams,
-					UserNotification,
 					bash,
 					bootstrap_cmds,
 					cctools,
-					cctools_ofiles,
-					dyld,
 					file_cmds,
-					gcc_os,
 					gcc_os_35,
 					gnumake,
 					gnutar,
 					grep,
-					keymgr,
-					launchd_libs,
 					ld64,
 					pb_makefiles,
 					project_makefiles,
@@ -4133,7 +4114,24 @@
 				);
 				lib = (
 					Libm,
-					dyld,
+				);
+				staticlib = (
+					CommonCrypto,
+					Csu,
+					Libc,
+					Libc_debug,
+					Libc_profile,
+					Libinfo,
+					Libkvm,
+					Libm,
+					Libnotify,
+					Libstreams,
+					UserNotification,
+					cctools_ofiles,
+					gcc_os_35,
+					keymgr,
+					launchd_libs,
+					libdyld,
 				);
 			};
 			environment = {
@@ -5006,7 +5004,6 @@
 		adv_cmds = {
 			dependencies = {
 				build = (
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -5016,6 +5013,7 @@
 					file_cmds,
 					flex,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					grep,
 					ncurses,
@@ -5024,7 +5022,6 @@
 					rsync,
 					shell_cmds,
 					system_cmds,
-					text_cmds,
 					yacc,
 				);
 				header = (
@@ -5038,7 +5035,13 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
 					ncurses,
+				);
+				staticlib = (
+					Csu,
+					flex,
+					gcc_os,
 				);
 			};
 			version = 79.1;
@@ -5542,7 +5545,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -5551,6 +5553,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					shell_cmds,
 					system_cmds,
@@ -5566,6 +5569,11 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 7;
@@ -5574,7 +5582,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					awk,
@@ -5585,6 +5592,7 @@
 					file_cmds,
 					files,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -5598,7 +5606,6 @@
 					Libc_headers,
 					Libinfo,
 					architecture,
-					dyld,
 					gcc_os,
 					ncurses,
 					xnu,
@@ -5607,6 +5614,10 @@
 					Libsystem,
 					dyld,
 					ncurses,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 44.2;
@@ -6018,8 +6029,6 @@
 		cctools = {
 			dependencies = {
 				build = (
-					Csu,
-					Libc_static,
 					Libm,
 					Libsystem,
 					adv_cmds,
@@ -6029,7 +6038,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
-					gcc_os_35,
+					gcc_select,
 					gnumake,
 					shell_cmds,
 					system_cmds,
@@ -6041,7 +6050,6 @@
 					Libc_headers,
 					Libinfo,
 					Libm,
-					Libstreams,
 					architecture,
 					gcc_os,
 					objc4,
@@ -6049,11 +6057,46 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					Libc_static,
+					Libm,
+					gcc_os,
 				);
 			};
 			version = 576;
 		};
 		cctools_ofiles = {
+			dependencies = {
+				build = (
+					adv_cmds,
+					bash,
+					bootstrap_cmds,
+					cctools,
+					cxxfilt,
+					file_cmds,
+					gcc_os,
+					gcc_os_35,
+					gcc_select,
+					gnumake,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+					xnu,
+				);
+				header = (
+					CarbonHeaders,
+					Libc_headers,
+					Libinfo,
+					Libstreams,
+					architecture,
+					gcc_os,
+					gcc_os_35,
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386";
 			};
@@ -6742,21 +6785,16 @@
 		dyld = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
-					Libc,
 					adv_cmds,
 					awk,
 					bash,
 					cctools,
 					file_cmds,
-					gcc,
 					gcc_os,
 					gcc_os_35,
 					ld64,
-					shell_cmds,
 					system_cmds,
-					text_cmds,
 				);
 				header = (
 					CarbonHeaders,
@@ -6766,6 +6804,10 @@
 					cctools_ofiles,
 					gcc_os_35,
 					xnu,
+				);
+				staticlib = (
+					Libc,
+					gcc_os_35,
 				);
 			};
 			environment = {
@@ -7021,10 +7063,7 @@
 		file_cmds = {
 			dependencies = {
 				build = (
-					CF,
 					CoreOSMakefiles,
-					Csu,
-					ICU,
 					Libm,
 					Libsystem,
 					bash,
@@ -7033,6 +7072,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					gnutar,
 					ncurses,
@@ -7053,7 +7093,12 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
 					ncurses,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 116.9;
@@ -8344,8 +8389,6 @@
 		ld64 = {
 			dependencies = {
 				build = (
-					CF,
-					Csu,
 					ICU,
 					Libm,
 					Libsystem,
@@ -8355,11 +8398,8 @@
 					cctools,
 					cxxfilt,
 					file_cmds,
-					gcc,
 					gcc_os,
-					shell_cmds,
 					system_cmds,
-					text_cmds,
 				);
 				header = (
 					Libc_headers,
@@ -8371,6 +8411,11 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 21;
