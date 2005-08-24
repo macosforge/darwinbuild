@@ -188,6 +188,7 @@ static int register_mach_header(char* build, char* project, struct mach_header* 
 	int i;
 	for (i = 0; i < mh->ncmds; ++i) {
 		struct dylib_command lc;
+		struct dylinker_command lcdyld;
 		int res = read(fd, &lc, sizeof(struct load_command));
 		if (res < sizeof(struct load_command)) { return 0; }
 
@@ -216,6 +217,32 @@ static int register_mach_header(char* build, char* project, struct mach_header* 
 			free(str);
 			
 			lseek(fd, save - sizeof(struct dylib_command) + lc.cmdsize, SEEK_SET);
+			
+		} else if (cmd == LC_LOAD_DYLINKER) {
+		  lcdyld.cmd = lc.cmd;
+		  lcdyld.cmdsize = lc.cmdsize;
+			res = read(fd, &lcdyld.name, sizeof(union lc_str));
+			if (res < sizeof(union lc_str)) { return 0; }
+
+			if (swap) swap_dylinker_command(&lcdyld, NXHostByteOrder());
+
+			off_t save = lseek(fd, 0, SEEK_CUR);
+			off_t offset = lcdyld.name.offset - sizeof(struct dylinker_command);
+
+			if (offset > 0) { lseek(fd, offset, SEEK_CUR); }
+			int strsize = lcdyld.cmdsize - sizeof(struct dylinker_command);
+
+			char* str = malloc(strsize+1);
+			res = read(fd, str, strsize);
+			if (res < sizeof(strsize)) { return 0; }
+			str[strsize] = 0; // NUL-terminate
+						
+			res = SQL("INSERT INTO unresolved_dependencies (build,project,type,dependency) VALUES (%Q,%Q,%Q,%Q)",
+			build, project, "lib", str);
+			
+			free(str);
+			
+			lseek(fd, save - sizeof(struct dylinker_command) + lcdyld.cmdsize, SEEK_SET);
 		} else {
 			uint32_t cmdsize = swap ? NXSwapLong(lc.cmdsize) : lc.cmdsize;
 			lseek(fd, cmdsize - sizeof(struct load_command), SEEK_CUR);
@@ -440,8 +467,10 @@ int register_files_from_stdin(char* build, char* project, char* path) {
 				return -1;
 			}
 			res = register_libraries(fd, build, project);
+			/* For -stdin mode, we don't calculate checksums
 			lseek(fd, (off_t)0, SEEK_SET);
 			checksum = calculate_digest(fd);
+			*/
 			close(fd);
 		}
 
