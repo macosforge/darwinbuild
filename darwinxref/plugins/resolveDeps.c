@@ -34,21 +34,31 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-int resolve_dependencies(const char* build, const char* project);
+int resolve_dependencies(const char* build, const char* project, int commit);
 
 static int run(CFArrayRef argv) {
 	int res = 0;
 	CFIndex count = CFArrayGetCount(argv);
-	if (count > 1)  return -1;
-	char* project = (count == 1) ? strdup_cfstr(CFArrayGetValueAtIndex(argv, 0)) : NULL;
+	if (count > 2)  return -1;
+	char* project = NULL;
+	int commit = 0;
+
+	if(count == 1) {
+	  project = strdup_cfstr(CFArrayGetValueAtIndex(argv, 0));
+	} else {
+	  project = strdup_cfstr(CFArrayGetValueAtIndex(argv, 1));
+	  if(CFEqual(CFSTR("-commit"), CFArrayGetValueAtIndex(argv, 0)))
+	    commit = 1;
+	}
+
 	char* build = strdup_cfstr(DBGetCurrentBuild());
-	resolve_dependencies(build, project);
+	resolve_dependencies(build, project, commit);
 	free(project);
 	return res;
 }
 
 static CFStringRef usage() {
-	return CFRetain(CFSTR("[<project>]"));
+	return CFRetain(CFSTR("[-commit] [<project>]"));
 }
 
 int initialize(int version) {
@@ -70,10 +80,15 @@ static int addToCStrArrays(void* pArg, int argc, char** argv, char** columnNames
 	return 0;
 }
 
-int resolve_project_dependencies( const char* build, const char* project, int* resolvedCount, int* unresolvedCount) {
+int resolve_project_dependencies( const char* build, const char* project, int* resolvedCount, int* unresolvedCount, int commit) {
 	CFMutableArrayRef files = CFArrayCreateMutable(NULL, 0, &cfArrayCStringCallBacks);
 	CFMutableArrayRef types = CFArrayCreateMutable(NULL, 0, &cfArrayCStringCallBacks);
 	CFMutableArrayRef params[2] = { files, types };
+
+	CFMutableDictionaryRef finalDeps = CFDictionaryCreateMutable(NULL, 0,
+								     &kCFCopyStringDictionaryKeyCallBacks,
+								     &kCFTypeDictionaryValueCallBacks);
+
 
         char* table = "CREATE TABLE dependencies (build TEXT, project TEXT, type TEXT, dependency TEXT)";
         char* index = "CREATE INDEX dependencies_index ON unresolved_dependencies (build, project, type, dependency)";
@@ -106,18 +121,41 @@ int resolve_project_dependencies( const char* build, const char* project, int* r
 			}
 			SQL("DELETE FROM unresolved_dependencies WHERE build=%Q AND project=%Q AND type=%Q AND dependency=%Q",
 				build, project, type, file);
+			if(commit) {
+			  // find subarray for this dep type
+			  CFStringRef cfdep = cfstr(type);
+			  CFStringRef cfval = cfstr(dep);
+			  CFMutableArrayRef deparray = (CFMutableArrayRef)CFDictionaryGetValue(finalDeps, cfdep);
+			  if(deparray == NULL) {
+			    deparray = CFArrayCreateMutable(NULL, 0, &kCFTypeArrayCallBacks);
+			    CFDictionarySetValue(finalDeps, cfdep, deparray);
+			    CFRelease(deparray); // still retained by dict
+			  }
+			  if(!CFArrayContainsValue(deparray,
+						   CFRangeMake(0, CFArrayGetCount(deparray)),
+						   cfval)) {
+			    CFArrayAppendValue(deparray, cfval);
+			  }
+			  CFRelease(cfdep);
+			  CFRelease(cfval);
+			}
 		} else {
 			*unresolvedCount += 1;
 		}
 	}
 
+	if(commit) {
+	  DBSetProp(cfstr(build), cfstr(project), CFSTR("dependencies"), finalDeps);
+	}
+
 	if (SQL("COMMIT")) { return -1; }
 	
+	CFRelease(finalDeps);
 	CFRelease(files);
 	CFRelease(types);
 }
 
-int resolve_dependencies(const char* build, const char* project) {
+int resolve_dependencies(const char* build, const char* project, int commit) {
 	CFMutableArrayRef builds = CFArrayCreateMutable(NULL, 0, &cfArrayCStringCallBacks);
 	CFMutableArrayRef projects = CFArrayCreateMutable(NULL, 0, &cfArrayCStringCallBacks);
 	int resolvedCount = 0, unresolvedCount = 0;
@@ -127,7 +165,7 @@ int resolve_dependencies(const char* build, const char* project) {
 	// If no project, version specified, resolve everything.
 	// Otherwise, resolve only that project or version.
 	//
-	if (build == NULL && project == NULL) {
+	if (project == NULL) {
 		SQL_CALLBACK(&addToCStrArrays, params, "SELECT DISTINCT build,project FROM unresolved_dependencies");
 	} else {
 		SQL_CALLBACK(&addToCStrArrays, params, "SELECT DISTINCT build,project FROM unresolved_dependencies WHERE project=%Q", project);
@@ -137,7 +175,7 @@ int resolve_dependencies(const char* build, const char* project) {
 		const char* build = CFArrayGetValueAtIndex(builds, i);
 		const char* project = CFArrayGetValueAtIndex(projects, i);
 		fprintf(stderr, "%s (%s)\n", project, build);
-		resolve_project_dependencies(build, project, &resolvedCount, &unresolvedCount);
+		resolve_project_dependencies(build, project, &resolvedCount, &unresolvedCount, commit);
 	}
 
 	fprintf(stderr, "%d dependencies resolved, %d remaining.\n", resolvedCount, unresolvedCount);
