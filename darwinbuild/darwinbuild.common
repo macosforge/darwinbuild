@@ -28,13 +28,16 @@
 
 
 ###
-### Calculate a non-conflicting build number.
 ### Given a list of filenames, this function will
 ### find the largest number after the '~' and return
-### its value + 1.
+### its value. Used to calculate a non-conflicting build number.
 ###
 function GetBuildVersion() {
 	local maxbuild="0"
+	if [ $# -eq 0 ]; then
+		echo ""
+		return 0
+	fi
 	for X in $* ; do
 		# Grab the numeric portion after the '~'
 		build=$(echo $X | sed -e 's/^.*~\([0-9]*\)$/\1/')
@@ -105,61 +108,88 @@ function Download() {
 }
 
 ###
-### Installs a root into the BuildRoot.  Checks for a
-### receipt file to avoid duplicate installs.
-### Relies on the DARWIN_BUILDROOT environment variable.
+### Installs a root into the BuildRoot. Mediates between
+### receipts, pre-built roots, and self-built roots, so that
+### the build root is "up to date"
+### Relies on the DARWIN_BUILDROOT and CACHEDIR and DARWINXREF
+### and dbfile globals.
 ###
 function InstallRoot() {
 	local BuildRoot="$1"
-	local X="$2"
-	local depsbuilds="$3"
-	local receipts="$BuildRoot/usr/local/darwinbuild/receipts"
-	mkdir -p "$receipts"
+	local Project="$2"
+	local DepsBuildArray="$3"
+
+	local SelfBuiltRoot=""
+	local InstallSelfBuiltRoot=0
+	local InstallPreBuiltRoot=0
+
+	shopt -s nullglob
 
 	###
 	### There will be duplication between the bash dependencies and the
 	### project's dependencies.  Therefore don't install something that
-	### has already been installed.  (Test for the presense of a receipt).
+	### has already been installed.  (Test for the presence of a receipt).
 	###
-	if [ -d "$DARWIN_BUILDROOT/Roots/$X" ]; then
-		Y=$($DARWINXREF $dbfile version $X)
-		bv=$(GetBuildVersion $DARWIN_BUILDROOT/Roots/$X/$Y.root*)
-		local SRCDIR=$DARWIN_BUILDROOT/Roots/$X/$Y.root~$bv
+	if [ -d "$DARWIN_BUILDROOT/Roots/$Project" ]; then
+	    ProjectAndVersion=$($DARWINXREF $dbfile version "$Project")
+	    bv=$(GetBuildVersion $DARWIN_BUILDROOT/Roots/$Project/$ProjectAndVersion.root*)
+	    if [ -n "$bv" ]; then
+		SelfBuiltRoot="$DARWIN_BUILDROOT/Roots/$Project/$ProjectAndVersion.root~$bv"
+	    fi
 	fi
-	if [ "$SRCDIR" -nt "$receipts/$X" ]; then
-		echo "Copying $X ..."
-		ditto $SRCDIR $BuildRoot
-		"$DARWINXREF" register "$X" "$SRCDIR"  > /dev/null
-		touch "$receipts/$X"
-	elif [ ! -e "$receipts/$X" ]; then
+
+	CheckForReceipt "$BuildRoot" "$Project" "root"
+	if [ $? -eq 0 ]; then
+	    # receipt is present. But do we have a newer local build?
+	    CheckIfNewerThanReceipt "$BuildRoot" "$Project" "root" "$SelfBuiltRoot"
+	    if [ $? -eq 0 ]; then
+		# we're newer. Load us
+		InstallSelfBuiltRoot=1
+	    fi
+	else
+	    # there wasn't a receipt. but if we have a self-built root, we should use it
+	    if [ -n "$SelfBuiltRoot" ]; then
+		InstallSelfBuiltRoot=1
+	    else
+		InstallPreBuiltRoot=1
+	    fi
+	fi
+
+	# install a self-built root, or a prebuilt root, or nothing
+	if [ $InstallSelfBuiltRoot -eq 1 ]; then
+	    echo "Copying $Project from $SelfBuiltRoot ..."
+	    ditto "$SelfBuiltRoot" "$BuildRoot"
+	    "$DARWINXREF" register "$Project" "$SelfBuiltRoot"  > /dev/null
+	    TouchReceipt "$BuildRoot" "$Project" "root"
+	    return 0
+	elif [ $InstallPreBuiltRoot -eq 1 ]; then
 	    # install a pre-built root, using the depsbuilds array, in preference order
-	    for dbuild in $depsbuilds; do
-	    	sites=$($DARWINXREF $dbfile binary_sites | while read a; do echo "$a/$dbuild"; done)
+	    for dbuild in $DepsBuildArray; do
+	    	sites=$($DARWINXREF $dbfile -b $dbuild binary_sites | while read a; do echo "$a/$dbuild"; done)
 		Download "$CACHEDIR/Roots/$dbuild" \
-			"$X.root.tar.gz" \
+			"$Project.root.tar.gz" \
 		    	"$sites"
-		if [ -f $CACHEDIR/Roots/$dbuild/$X.root.tar.gz ]; then
+		if [ -f $CACHEDIR/Roots/$dbuild/$Project.root.tar.gz ]; then
 			cd "$BuildRoot"
-			tar xzf $CACHEDIR/Roots/$dbuild/$X.root.tar.gz
-			if [ "$?" == "0" ]; then
-				tar tzf $CACHEDIR/Roots/$dbuild/$X.root.tar.gz | \
-				    "$DARWINXREF" register -stdin "$X" "$BuildRoot" \
+			tar xzf $CACHEDIR/Roots/$dbuild/$Project.root.tar.gz
+			if [ $? -eq 0 ]; then
+				tar tzf $CACHEDIR/Roots/$dbuild/$Project.root.tar.gz | \
+				    "$DARWINXREF" register -stdin "$Project" "$BuildRoot" \
 				    > /dev/null
-				SHA1=$(openssl dgst -sha1 < $CACHEDIR/Roots/$dbuild/$X.root.tar.gz)
-				touch "$receipts/$SHA1"
-				ln -sf "$SHA1" "$receipts/$X"
-				break
+				echo | CreateReceipt "$BuildRoot" "$Project" "root" \
+				    "$CACHEDIR/Roots/$dbuild/$Project.root.tar.gz"
+				return 0
 			fi
 		fi
 
 		# if we didn't find the root for this build, keep looking in the next build	     
 	    done
-	    if [ ! -e "$receipts/$X" ]; then
-			echo "ERROR: could not find root: $X" 1>&2
-			exit 1
-	    fi
+	    # we look through all DepsBuildArray and couldn't actually install anything
+	    return 1
 	fi
 
+	# we had a receipt, so nothing was request
+	return 0
 }
 
 ###
@@ -174,6 +204,8 @@ function InstallHeaders() {
 	local depsbuilds="$3"
 	local receipts="$BuildRoot/usr/local/darwinbuild/receipts"
 
+	shopt -s nullglob
+
 	if [ ! -e "$receipts/$X.hdrs" -a ! -e "$receipts/$X" ]; then
 	bv=$(GetBuildVersion $DARWIN_BUILDROOT/Headers/${X/-*}/$X.hdrs*)
 	if [ -d $DARWIN_BUILDROOT/Headers/${X/-*}/$X.hdrs~$bv ]; then
@@ -184,7 +216,7 @@ function InstallHeaders() {
 
 	    # install a pre-built root, using the depsbuilds array, in preference order
 	    for dbuild in $depsbuilds; do
-	    	sites=$($DARWINXREF $dbfile binary_sites | while read a; do echo "$a/$dbuild"; done)
+	    	sites=$($DARWINXREF $dbfile -b $dbuild binary_sites | while read a; do echo "$a/$dbuild"; done)
 		Download "$CACHEDIR/Headers/$dbuild" \
 			"$X.hdrs.tar.gz" \
 		    	"$sites"
@@ -217,3 +249,116 @@ function InstallHeaders() {
 	fi
 	fi
 }
+
+RECEIPTDIR=/usr/local/darwinbuild/receipts
+
+###
+# For the given project and root type ("root" or "hdrs"), see if
+# a receipt is present in the build root
+function CheckForReceipt() {
+    local BuildRoot="$1"
+    local Project="$2"
+    local RootType=".$3"
+    local receipts="$BuildRoot/$RECEIPTDIR"
+
+    if [ "$RootType" = ".root" ]; then
+	RootType=""
+    fi
+
+    if [ -e "$receipts/$Project$RootType" ]; then
+	return 0 # success
+    else
+	return 1
+    fi
+}
+
+###
+# For the given project and root type ("root" or "hdrs"), touch the
+# a receipt so that it's timestamp is current
+function TouchReceipt() {
+    local BuildRoot="$1"
+    local Project="$2"
+    local RootType=".$3"
+    local receipts="$BuildRoot/$RECEIPTDIR"
+
+    if [ "$RootType" = ".root" ]; then
+	RootType=""
+    fi
+
+    if [ -e "$receipts/$Project$RootType" ]; then
+	touch "$receipts/$Project$RootType"
+	return 0 # success
+    else
+	return 1
+    fi
+}
+
+###
+# For the given project and root type ("root" or "hdrs"), see if
+# a receipt is present and newer than another filesystem object.
+# By definition, something is newer than a non-existent receipt
+# If CmpDir is "", this will return false (1)
+function CheckIfNewerThanReceipt() {
+    local BuildRoot="$1"
+    local Project="$2"
+    local RootType=".$3"
+    local CmpDir="$4"
+    local receipts="$BuildRoot/$RECEIPTDIR"
+
+    if [ "$RootType" = ".root" ]; then
+	RootType=""
+    fi
+
+    if [ -e "$receipts/$Project$RootType" ]; then
+	if [ "$CmpDir" -nt "$receipts/$Project$RootType" ]; then
+	    return 0
+	else
+	    return 1
+	fi
+    else
+	return 0
+    fi
+}
+
+
+
+###
+# For the given project and root type ("root" or "hdrs"), take
+# a receipt specification on stdin. In order to uniquely identify
+# the receipt, a hash is stored of the receipt contents, or
+# an optional hash source. The latter would be used to
+# hash a pre-built tarball instead of the receipt
+function CreateReceipt() {
+    local BuildRoot="$1"
+    local Project="$2"
+    local RootType=".$3"
+    local HashSource="$4"
+
+    local receipts="$BuildRoot/$RECEIPTDIR"
+    local TmpFile=$(mktemp -t "$Project")
+    local Hash=""
+
+    if [ "$RootType" = ".root" ]; then
+	RootType=""
+    fi
+
+    mkdir -p "$receipts"
+
+    # consume stdin
+    cat > "$TmpFile"
+
+    if [ -z "$HashSource" ]; then
+	if [ ! -r "$HashSource" ]; then
+	    echo "ERROR: Could not access $HashSource" 1>&2
+	    exit 1
+	fi
+	Hash=$(openssl dgst -sha1 < "$HashSource")
+    else
+	Hash=$(openssl dgst -sha1 < "$TmpFile")
+    fi
+
+    cp "$TmpFile" "$receipts/$Hash"
+    ln -sf "$Hash" "$receipts/$Project$RootType"
+    return 0
+}
+
