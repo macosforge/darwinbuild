@@ -119,6 +119,27 @@ CFStringRef SQL_CFSTRING(const char* fmt, ...) {
 	return str;
 }
 
+CFDataRef SQL_CFDATA(const char* fmt, ...) {
+	int res;
+	CFDataRef data = NULL;
+	sqlite3_stmt* stmt = NULL;
+	va_list args;
+	char* errmsg;
+	va_start(args, fmt);
+	sqlite3* db = _DBPluginGetDataStorePtr();
+	if (db) {
+		char *query = sqlite3_vmprintf(fmt, args);
+		sqlite3_prepare(db, query, -1, &stmt, NULL);
+		res = sqlite3_step(stmt);
+		if (res == SQLITE_ROW) {
+			const void* buf = sqlite3_column_blob(stmt, 0);
+			data = CFDataCreate(NULL, buf, sqlite3_column_bytes(stmt, 0));
+		}
+		sqlite3_finalize(stmt);
+	}
+	return data;
+}
+
 static int sqlAddStringToArray(void* pArg, int argc, char **argv, char** columnNames) {
 	CFMutableArrayRef array = pArg;
 	CFStringRef str = cfstr(argv[0]);
@@ -295,6 +316,8 @@ CFTypeRef DBCopyProp(CFStringRef build, CFStringRef project, CFStringRef propert
 		res = DBCopyPropArray(build, project, property);
 	} else if (type == CFDictionaryGetTypeID()) {
 		res = DBCopyPropDictionary(build, project, property);
+	} else if (type == CFDataGetTypeID()) {
+		res = DBCopyPropData(build, project, property);
 	}
 	return res;
 }
@@ -309,6 +332,22 @@ CFStringRef _DBCopyPropString(CFStringRef build, CFStringRef project, CFStringRe
 	else
 		sql = "SELECT value FROM properties WHERE property=%Q AND build=%Q AND project IS NULL";
 	CFStringRef res = SQL_CFSTRING(sql, cprop, cbuild, cproj);
+	free(cproj);
+	free(cprop);
+	free(cbuild);
+	return res;
+}
+
+CFDataRef _DBCopyPropData(CFStringRef build, CFStringRef project, CFStringRef property) {
+	char* cbuild = strdup_cfstr(build);
+	char* cproj = strdup_cfstr(project);
+	char* cprop = strdup_cfstr(property);
+	char* sql;
+	if (cproj && *cproj != 0)
+		sql = "SELECT value FROM properties WHERE property=%Q AND build=%Q AND project=%Q";
+	else
+		sql = "SELECT value FROM properties WHERE property=%Q AND build=%Q AND project IS NULL";
+	CFDataRef res = SQL_CFDATA(sql, cprop, cbuild, cproj);
 	free(cproj);
 	free(cprop);
 	free(cbuild);
@@ -430,6 +469,10 @@ CFStringRef DBCopyPropString(CFStringRef build, CFStringRef project, CFStringRef
 	return (CFStringRef)_DBCopyPropWithInheritance(build, project, property, (void*)_DBCopyPropString);
 }
 
+CFDataRef DBCopyPropData(CFStringRef build, CFStringRef project, CFStringRef property) {
+	return (CFDataRef)_DBCopyPropWithInheritance(build, project, property, (void*)_DBCopyPropData);
+}
+
 CFArrayRef DBCopyPropArray(CFStringRef build, CFStringRef project, CFStringRef property) {
 	return (CFArrayRef)_DBCopyPropWithInheritance(build, project, property, (void*)_DBCopyPropArray);
 }
@@ -461,6 +504,8 @@ int DBSetProp(CFStringRef build, CFStringRef project, CFStringRef property, CFTy
 		res = DBSetPropArray(build, project, property, value);
 	} else if (type == CFDictionaryGetTypeID()) {
 		res = DBSetPropDictionary(build, project, property, value);
+	} else if (type == CFDataGetTypeID()) {
+		res = DBSetPropData(build, project, property, value);
 	}
 	return res;
 }
@@ -483,6 +528,39 @@ int DBSetPropString(CFStringRef build, CFStringRef project, CFStringRef property
 	free(cvalu);
 	return 0;
 }
+
+int DBSetPropData(CFStringRef build, CFStringRef project, CFStringRef property, CFDataRef value) {
+	sqlite3* db = _DBPluginGetDataStorePtr();
+	char* cbuild = strdup_cfstr(build);
+	char* cproj = strdup_cfstr(project);
+	char* cprop = strdup_cfstr(property);
+	char* sql = NULL;
+	sqlite3_stmt* stmt = NULL;
+	int i = 1;
+	int res;
+	if (project) {
+		SQL("DELETE FROM properties WHERE build=%Q AND project=%Q AND property=%Q", cbuild, cproj, cprop);
+		sql = "INSERT INTO properties (build,project,property,value) VALUES (?, ?, ?, ?)";
+	} else {
+		SQL("DELETE FROM properties WHERE build=%Q AND project IS NULL AND property=%Q", cbuild, cprop);
+		sql = "INSERT INTO properties (build,property,value) VALUES (?, ?, ?)";
+	}
+
+	sqlite3_prepare(db, sql, -1, &stmt, NULL);
+	sqlite3_bind_text(stmt, i++, cbuild, -1, NULL);
+	if (project) sqlite3_bind_text(stmt, i++, cproj, -1, NULL);
+	sqlite3_bind_text(stmt, i++, cprop, -1, NULL);
+	sqlite3_bind_blob(stmt, i++, CFDataGetBytePtr(value), CFDataGetLength(value), NULL);
+	res = sqlite3_step(stmt);
+	if (res != SQLITE_DONE) fprintf(stderr, "%s:%d result = %d\n", __FILE__, __LINE__, res);
+	sqlite3_finalize(stmt);
+
+	free(cbuild);
+	if (project) free(cproj);
+	free(cprop);
+	return 0;
+}
+
 
 int DBSetPropArray(CFStringRef build, CFStringRef project, CFStringRef property, CFArrayRef value) {
 	char* cbuild = strdup_cfstr(build);

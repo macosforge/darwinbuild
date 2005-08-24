@@ -139,11 +139,13 @@ CFArrayRef DBCopyChangedProjectNames(CFStringRef oldbuild, CFStringRef newbuild)
 
 CFTypeRef DBCopyProp(CFStringRef build, CFStringRef project, CFStringRef property);
 CFStringRef DBCopyPropString(CFStringRef build, CFStringRef project, CFStringRef property);
+CFDataRef DBCopyPropData(CFStringRef build, CFStringRef project, CFStringRef property);
 CFArrayRef DBCopyPropArray(CFStringRef build, CFStringRef project, CFStringRef property);
 CFDictionaryRef DBCopyPropDictionary(CFStringRef build, CFStringRef project, CFStringRef property);
 
 int DBSetProp(CFStringRef build, CFStringRef project, CFStringRef property, CFTypeRef value);
 int DBSetPropString(CFStringRef build, CFStringRef project, CFStringRef property, CFStringRef value);
+int DBSetPropData(CFStringRef build, CFStringRef project, CFStringRef property, CFDataRef value);
 int DBSetPropArray(CFStringRef build, CFStringRef project, CFStringRef property, CFArrayRef value);
 int DBSetPropDictionary(CFStringRef build, CFStringRef project, CFStringRef property, CFDictionaryRef value);
 

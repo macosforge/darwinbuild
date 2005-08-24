@@ -63,6 +63,21 @@ Tcl_Obj* tcl_cfstr(CFStringRef cf) {
 	return tcl_result;
 }
 
+Tcl_Obj* tcl_cfdata(CFDataRef cf) {
+	Tcl_Obj* tcl_result = NULL;
+	if (cf) {
+		CFIndex length = CFDataGetLength(cf);
+		unsigned char* buffer = (unsigned char*)Tcl_Alloc(length);
+		if (buffer) {
+			CFDataGetBytes(cf, CFRangeMake(0, length), (UInt8*)buffer);
+			tcl_result = Tcl_NewByteArrayObj(buffer, length);
+			Tcl_Free((char*)buffer);
+		}
+	}
+	return tcl_result;
+}
+
+
 Tcl_Obj* tcl_cfarray(CFArrayRef array) {
 	Tcl_Obj** objv;
 	int i, objc = CFArrayGetCount(array);
@@ -132,6 +147,8 @@ int DBPluginSetDatatypeCmd(ClientData data, Tcl_Interp* interp, int objc, Tcl_Ob
 	DBPlugin* plugin = (DBPlugin*)data;
 	if (strcmp(type, "string") == 0) {
 		plugin->datatype = CFStringGetTypeID();
+	} else if (strcmp(type, "data") == 0) {
+		plugin->datatype = CFDataGetTypeID();
 	} else if (strcmp(type, "array") == 0) {
 		plugin->datatype = CFArrayGetTypeID();
 	} else if (strcmp(type, "dictionary") == 0) {
@@ -180,6 +197,23 @@ int DBCopyPropStringCmd(ClientData data, Tcl_Interp* interp, int objc, Tcl_Obj* 
 	if (str) {
 		Tcl_SetObjResult(interp, tcl_cfstr(str));
 		CFRelease(str);
+	}
+	return TCL_OK;
+}
+
+int DBCopyPropDataCmd(ClientData data, Tcl_Interp* interp, int objc, Tcl_Obj* CONST objv[]) {
+	if (objc != 4) {
+		Tcl_WrongNumArgs(interp, 1, objv, "build project property");
+		return TCL_ERROR;
+	}
+
+	CFStringRef build = cfstr_tcl(objv[1]);
+	CFStringRef project = cfstr_tcl(objv[2]);
+	CFStringRef property = cfstr_tcl(objv[3]);
+	CFDataRef res = DBCopyPropData(build, project, property);
+	if (data) {
+		Tcl_SetObjResult(interp, tcl_cfdata(res));
+		CFRelease(res);
 	}
 	return TCL_OK;
 }
@@ -287,6 +321,7 @@ int load_tcl_plugin(DBPlugin* plugin, const char* filename) {
 	Tcl_CreateObjCommand(interp, "DBGetCurrentBuild", DBGetCurrentBuildCmd, (ClientData)plugin, (Tcl_CmdDeleteProc *)NULL);
 	Tcl_CreateObjCommand(interp, "DBSetPropString", DBSetPropStringCmd, (ClientData)plugin, (Tcl_CmdDeleteProc *)NULL);
 	Tcl_CreateObjCommand(interp, "DBCopyPropString", DBCopyPropStringCmd, (ClientData)plugin, (Tcl_CmdDeleteProc *)NULL);
+	Tcl_CreateObjCommand(interp, "DBCopyPropData", DBCopyPropDataCmd, (ClientData)plugin, (Tcl_CmdDeleteProc *)NULL);
 	Tcl_CreateObjCommand(interp, "DBSetPropArray", DBSetPropArrayCmd, (ClientData)plugin, (Tcl_CmdDeleteProc *)NULL);
 	Tcl_CreateObjCommand(interp, "DBCopyPropArray", DBCopyPropArrayCmd, (ClientData)plugin, (Tcl_CmdDeleteProc *)NULL);
 
