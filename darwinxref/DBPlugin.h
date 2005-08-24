@@ -122,6 +122,7 @@ void DBPluginSetName(CFStringRef name);
 void DBPluginSetRunFunc(DBPluginRunFunc func);
 void DBPluginSetUsageFunc(DBPluginUsageFunc func);
 void DBPluginSetDataType(CFTypeID type);
+void DBPluginSetSubDictDataType(CFTypeID type);
 
 // generally available routines
 
@@ -130,6 +131,7 @@ int DBHasBuild(CFStringRef build);
 CFArrayRef DBCopyBuilds();
 
 CFTypeID  DBCopyPropType(CFStringRef property);
+CFTypeID  DBCopyPropSubDictType(CFStringRef property);
 CFArrayRef DBCopyPropNames(CFStringRef build, CFStringRef project);
 CFArrayRef DBCopyProjectNames(CFStringRef build);
 

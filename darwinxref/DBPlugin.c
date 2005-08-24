@@ -78,6 +78,11 @@ void DBPluginSetDataType(CFTypeID type) {
 	plugin->datatype = type;
 }
 
+void DBPluginSetSubDictDataType(CFTypeID type) {
+	DBPlugin* plugin = _DBPluginGetCurrentPlugin();
+	plugin->subdictdatatype = type;
+}
+
 
 
 //////

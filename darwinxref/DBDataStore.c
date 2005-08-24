@@ -144,10 +144,23 @@ static int sqlAddValueToDictionary(void* pArg, int argc, char **argv, char** col
 	if (name) {
 		CFTypeRef cf = CFDictionaryGetValue(dict, name);
 		if (cf == NULL) {
-			CFDictionarySetValue(dict, name, value);
-		} else if (CFGetTypeID(cf) == CFStringGetTypeID()) {
+		  CFDictionaryAddValue(dict, name, value);
+		}
+		CFRelease(name);
+	}
+	CFRelease(value);
+	return 0;
+}
+
+static int sqlAddArrayValueToDictionary(void* pArg, int argc, char **argv, char** columnNames) {
+	CFMutableDictionaryRef dict = pArg;
+	CFStringRef name = cfstr(argv[0]);
+	CFStringRef value = cfstr(argv[1]);
+	if (!value) value = CFRetain(CFSTR(""));
+	if (name) {
+		CFTypeRef cf = CFDictionaryGetValue(dict, name);
+		if (cf == NULL) {
 			CFMutableArrayRef array = CFArrayCreateMutable(NULL, 0, &kCFTypeArrayCallBacks);
-			CFArrayAppendValue(array, cf);
 			CFArrayAppendValue(array, value);
 			CFDictionarySetValue(dict, name, array);
 			CFRelease(array);
@@ -164,6 +177,13 @@ CFDictionaryRef SQL_CFDICTIONARY(const char* fmt, ...) {
 	int res;
 	CFMutableDictionaryRef dict = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
 	__SQL(sqlAddValueToDictionary, dict, fmt);
+	return dict;
+}
+
+CFDictionaryRef SQL_CFDICTIONARY_OFCFARRAYS(const char* fmt, ...) {
+	int res;
+	CFMutableDictionaryRef dict = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+	__SQL(sqlAddArrayValueToDictionary, dict, fmt);
 	return dict;
 }
 
@@ -255,6 +275,15 @@ CFTypeID  DBCopyPropType(CFStringRef property) {
 	return type;
 }
 
+CFTypeID  DBCopyPropSubDictType(CFStringRef property) {
+	CFTypeID type = -1;
+	const DBPlugin* plugin = DBGetPluginWithName(property);
+	if (plugin && plugin->type == kDBPluginPropertyType) {
+		type = plugin->subdictdatatype;
+	}
+	return type;
+}
+
 CFTypeRef DBCopyProp(CFStringRef build, CFStringRef project, CFStringRef property) {
 	CFTypeRef res = NULL;
 	CFTypeID type = DBCopyPropType(property);
@@ -310,12 +339,19 @@ CFDictionaryRef _DBCopyPropDictionary(CFStringRef build, CFStringRef project, CF
 	char* cbuild = strdup_cfstr(build);
 	char* cproj = strdup_cfstr(project);
 	char* cprop = strdup_cfstr(property);
+	CFTypeID subtype = DBCopyPropSubDictType(property);
 	char* sql;
 	if (cproj && *cproj != 0)
 		sql = "SELECT DISTINCT key,value FROM properties WHERE property=%Q AND build=%Q AND project=%Q ORDER BY key";
 	else
 		sql = "SELECT DISTINCT key,value FROM properties WHERE property=%Q AND build=%Q AND project IS NULL ORDER BY key";
-	CFDictionaryRef res = SQL_CFDICTIONARY(sql, cprop, cbuild, cproj);
+	CFDictionaryRef res;
+
+	if(subtype == CFArrayGetTypeID())
+	  res = SQL_CFDICTIONARY_OFCFARRAYS(sql, cprop, cbuild, cproj);
+	else
+	  res = SQL_CFDICTIONARY(sql, cprop, cbuild, cproj);
+
 	if (res && CFDictionaryGetCount(res) == 0) {
 		CFRelease(res);
 		res = NULL;

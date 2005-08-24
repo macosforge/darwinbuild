@@ -44,6 +44,8 @@
 	for this plugin.
 	@field datatype The datatype of this property
 	(i.e. one of CFStringGetTypeID(), CFArrayGetTypeID(), CFDictionaryGetTypeID())
+	@field subdictdatatype For dictionary data types, force values to be
+	this type (i.e. CFArrayGetTypeID())
 	@field getprop The property get accessor, NULL for default behavior
 	@field setprop The property set accessor, NULL for default behavior
 */
@@ -60,6 +62,7 @@ struct DBPlugin {
 #endif
 	// for property plugins
 	CFTypeID	datatype;
+	CFTypeID	subdictdatatype;
 //	DBPluginGetPropFunc getprop;
 //	DBPluginSetPropFunc setprop;
 };
