@@ -21,6 +21,7 @@ install: all
 	$(INSTALL) $(INSTALL_EXE_FLAGS) manifest $(DATDIR)
 	$(INSTALL) $(INSTALL_EXE_FLAGS) ditto.sh $(DATDIR)/ditto
 	$(INSTALL) $(INSTALL_EXE_FLAGS) packageRoots.sh $(DATDIR)/packageRoots
+	$(INSTALL) $(INSTALL_EXE_FLAGS) synthfat.sh $(DATDIR)/synthfat
 	$(INSTALL) $(INSTALL_EXE_FLAGS) thinFile.sh $(DATDIR)/thinFile
 	$(INSTALL) $(INSTALL_EXE_FLAGS) thinPackages.sh $(DATDIR)/thinPackages
 
