@@ -772,10 +772,6 @@ if [ "$EXIT_STATUS" == "0" ]; then
 		### Register the root with the darwinxref database.  This will output a manifest
 		### which can be used to uniquely identify the root.  Store the unique identifier
 		### in the receipts directory after registration.
-		### Undo the prebinding information to get canonical Mach-O binaries
-		if [ -x /usr/bin/redo_prebinding ]; then
-			find "$REAL_DSTROOT" -type f -exec redo_prebinding -i -z -u {} ';'
-		fi
 		MANIFEST="/tmp/$projnam.$$"
 		"$DARWINXREF" register "$projnam" "$REAL_DSTROOT" | tee "$MANIFEST"
 		SHA1=$(cat "$MANIFEST" | openssl dgst -sha1)
