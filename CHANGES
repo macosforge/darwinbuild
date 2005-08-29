@@ -2,6 +2,8 @@ Darwin Build Scripts Change History
 -----------------------------------
 
 Release X.Y.Z [now]
+	- darwinbuild: redo_prebinding to create a canonical Mach-O prior to
+	  registering for reproducible manifests.
 	- Added synthfat script to synthesize fat dylibs from thin dylibs
 	- Added darwinmaster.sh for creating bootable CDs
 	- Added packageRoots.sh to archive most recent Roots for the build
