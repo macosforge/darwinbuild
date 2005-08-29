@@ -215,6 +215,9 @@ void print_usage(char* progname, int argc, char* argv[]) {
 		}
 	}
 
+	cfprintf(stderr, "usage: %s [-f db] [-b build] <command> ...\n", progname);
+	cfprintf(stderr, "commands:\n");
+
 	CFArrayRef pluginNames = dictionaryGetSortedKeys(plugins);
 	CFIndex i, count = CFArrayGetCount(pluginNames);
 	for (i = 0; i < count; ++i) {
@@ -231,7 +234,7 @@ void print_usage(char* progname, int argc, char* argv[]) {
 #else
 		CFStringRef usage = plugin->usage();
 #endif
-		cfprintf(stderr, "usage: %s [-f db] [-b build] %@ %@\n", progname, name, usage);
+		cfprintf(stderr, "\t%@ %@\n", name, usage);
 		CFRelease(usage);
 	}
 }
@@ -262,8 +265,6 @@ int run_plugin(int argc, char* argv[]) {
 #else
 		res = plugin->run(args);
 #endif
-	} else {
-		print_usage("darwinxref", argc, argv);
 	}
 	CFRelease(name);
 	return res;
