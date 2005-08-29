@@ -210,6 +210,8 @@ void print_usage(char* progname, int argc, char* argv[]) {
 			cfprintf(stderr, "usage: %s [-f db] [-b build] %@ %@\n", progname, name, usage);
 			CFRelease(usage);
 			return;
+		} else {
+			cfprintf(stderr, "%s: no such command: %@\n", progname, name);
 		}
 	}
 
