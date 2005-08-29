@@ -199,16 +199,7 @@ void print_usage(char* progname, int argc, char* argv[]) {
 		const DBPlugin* plugin = DBGetPluginWithName(name);
 		if (plugin) {
 			_DBPluginSetCurrentPlugin(plugin);
-#if HAVE_TCL_PLUGINS
-			CFStringRef usage = NULL;
-			if ((plugin->interp) != 0) {
-				usage = call_tcl_usage((DBPlugin*)plugin);
-			} else {
-				usage = plugin->usage();
-			}
-#else
 			CFStringRef usage = plugin->usage();
-#endif
 			cfprintf(stderr, "usage: %s [-f db] [-b build] %@ %@\n", progname, name, usage);
 			CFRelease(usage);
 			return;
@@ -226,16 +217,7 @@ void print_usage(char* progname, int argc, char* argv[]) {
 		CFStringRef name = CFArrayGetValueAtIndex(pluginNames, i);
 		const DBPlugin* plugin = DBGetPluginWithName(name);
 		_DBPluginSetCurrentPlugin(plugin);
-#if HAVE_TCL_PLUGINS
-		CFStringRef usage = NULL;
-		if ((plugin->interp) != 0) {
-			usage = call_tcl_usage((DBPlugin*)plugin);
-		} else {
-			usage = plugin->usage();
-		}
-#else
 		CFStringRef usage = plugin->usage();
-#endif
 		cfprintf(stderr, "\t%@ %@\n", name, usage);
 		CFRelease(usage);
 	}
@@ -258,15 +240,7 @@ int run_plugin(int argc, char* argv[]) {
 	const DBPlugin* plugin = DBGetPluginWithName(name);
 	if (plugin) {
 		_DBPluginSetCurrentPlugin(plugin);
-#if HAVE_TCL_PLUGINS
-		if ((plugin->interp) != 0) {
-			res = call_tcl_run((DBPlugin*)plugin, args);
-		} else {
-			res = plugin->run(args);
-		}
-#else
 		res = plugin->run(args);
-#endif
 	}
 	CFRelease(name);
 	return res;

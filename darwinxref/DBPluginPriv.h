@@ -78,8 +78,8 @@ int DBCommitTransaction();
 
 #if HAVE_TCL_PLUGINS
 int load_tcl_plugin(DBPlugin* plugin, const char* filename);
-CFStringRef call_tcl_usage(DBPlugin* plugin);
-int call_tcl_run(DBPlugin* plugin, CFArrayRef args);
+CFStringRef _DBPluginTclUsage();
+int _DBPluginTclRun(CFArrayRef args);
 #endif
 
 int DBPluginLoadPlugins(const char* path);

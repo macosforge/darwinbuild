@@ -316,7 +316,9 @@ int DBCopyChangedProjectNamesCmd(ClientData data, Tcl_Interp* interp, int objc, 
 int load_tcl_plugin(DBPlugin* plugin, const char* filename) {
 	Tcl_Interp* interp = Tcl_CreateInterp();
 
-	plugin->interp = (DBPluginRunFunc)interp;
+	plugin->usage = &_DBPluginTclUsage;
+	plugin->run = &_DBPluginTclRun;
+	plugin->interp = interp;
 
 	// Register our plugin callbacks
 	Tcl_CreateObjCommand(interp, "DBPluginSetName", DBPluginSetNameCmd, (ClientData)plugin, (Tcl_CmdDeleteProc *)NULL);
@@ -342,7 +344,9 @@ int load_tcl_plugin(DBPlugin* plugin, const char* filename) {
 	return 0;
 }
 
-CFStringRef call_tcl_usage(DBPlugin* plugin) {
+CFStringRef _DBPluginTclUsage() {
+	DBPlugin* plugin = _DBPluginGetCurrentPlugin();
+
 	// Test if the 'usage' proc exists, if not, use the default handler.
 	if (Tcl_Eval(plugin->interp, "info commands usage") == TCL_OK) {
 		const char* result = Tcl_GetStringResult(plugin->interp);
@@ -356,7 +360,9 @@ CFStringRef call_tcl_usage(DBPlugin* plugin) {
 	return cfstr_tcl(res);
 }
 
-int call_tcl_run(DBPlugin* plugin, CFArrayRef args) {
+int _DBPluginTclRun(CFArrayRef args) {
+	DBPlugin* plugin = _DBPluginGetCurrentPlugin();
+
 	// Test if the 'run' proc exists, if not, use the default handler.
 	if (Tcl_Eval(plugin->interp, "info commands run") == TCL_OK) {
 		const char* result = Tcl_GetStringResult(plugin->interp);
