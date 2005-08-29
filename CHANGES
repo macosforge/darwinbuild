@@ -1,6 +1,14 @@
 Darwin Build Scripts Change History
 -----------------------------------
 
+Release X.Y.Z [now]
+	- Added synthfat script to synthesize fat dylibs from thin dylibs
+	- Added darwinmaster.sh for creating bootable CDs
+	- Added packageRoots.sh to archive most recent Roots for the build
+	- Added thinFile.sh to thin a single Mach-O file
+	- Added thinPackages.sh to create multiple thin Packages from a fat one
+	- darwinbuild.common: added CheckDarwinBuildRoot function
+	- darwinxref: added support for CFData in the sqlite database
 Release 0.7.0 [12-Aug-2005]
 	- darwinbuild: print Xcode version when building Xcode-based projects
 	- darwinbuild: Add a -load option which loads the BuildRoot/ with a
