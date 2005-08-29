@@ -1,13 +1,3 @@
 DBPluginSetName darwin
-DBPluginSetType property
+DBPluginSetType property.build
 DBPluginSetDatatype string
-
-proc usage {} {
-	return {[<project>]}
-}
-
-proc run {args} {
-	set project [lindex $args 0]
-	set build [DBGetCurrentBuild]
-	puts [DBCopyPropString $build $project darwin]
-}

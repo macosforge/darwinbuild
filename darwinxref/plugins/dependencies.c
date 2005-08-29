@@ -75,7 +75,7 @@ static CFStringRef usage() {
 int initialize(int version) {
 	//if ( version < kDBPluginCurrentVersion ) return -1;
 	
-	DBPluginSetType(kDBPluginPropertyType);
+	DBPluginSetType(kDBPluginProjectPropertyType);
 	DBPluginSetName(CFSTR("dependencies"));
 	DBPluginSetRunFunc(&run);
 	DBPluginSetUsageFunc(&usage);

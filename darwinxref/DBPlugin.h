@@ -80,11 +80,17 @@ enum {
 	command line.
 	@constant kDBPluginPropertyType
 	Plugin which adds a build or project property to the plist file.
+	@constant kDBPluginProjectPropertyType
+	Plugin which adds a per-project property to the plist file.
+	@constant kDBPluginBuildPropertyType
+	Plugin which adds a per-build property to the plist file.
 */
 enum {
 	kDBPluginNullType = 0,
 	kDBPluginBasicType = 1,
 	kDBPluginPropertyType = 2,
+	kDBPluginProjectPropertyType = 3,
+	kDBPluginBuildPropertyType = 4,
 };
 
 /*!
@@ -123,6 +129,10 @@ void DBPluginSetRunFunc(DBPluginRunFunc func);
 void DBPluginSetUsageFunc(DBPluginUsageFunc func);
 void DBPluginSetDataType(CFTypeID type);
 void DBPluginSetSubDictDataType(CFTypeID type);
+
+// default handlers
+int DBPluginPropertyDefaultRun(CFArrayRef argv);
+CFStringRef DBPluginPropertyDefaultUsage();
 
 // generally available routines
 

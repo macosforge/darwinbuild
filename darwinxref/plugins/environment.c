@@ -92,17 +92,13 @@ static int run(CFArrayRef argv) {
 	return 0;
 }
 
-static CFStringRef usage() {
-	return CFRetain(CFSTR("[<project>]"));
-}
-
 int initialize(int version) {
 	//if ( version < kDBPluginCurrentVersion ) return -1;
 	
 	DBPluginSetType(kDBPluginPropertyType);
 	DBPluginSetName(CFSTR("environment"));
 	DBPluginSetRunFunc(&run);
-	DBPluginSetUsageFunc(&usage);
+	DBPluginSetUsageFunc(&DBPluginPropertyDefaultUsage);
 	DBPluginSetDataType(CFDictionaryGetTypeID());
 	return 0;
 }

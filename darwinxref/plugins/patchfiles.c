@@ -32,33 +32,13 @@
 
 #include "DBPlugin.h"
 
-static int run(CFArrayRef argv) {
-	CFIndex i, count = CFArrayGetCount(argv);
-	CFStringRef build = DBGetCurrentBuild();
-	CFStringRef project = NULL;
-	if (count != 1)  return -1;
-
-	project = CFArrayGetValueAtIndex(argv, 0);
-	CFArrayRef patchfiles = DBCopyPropArray(build, project, CFSTR("patchfiles"));
-
-	count = patchfiles ? CFArrayGetCount(patchfiles) : 0;
-	for (i = 0; i < count; ++i) {
-		cfprintf(stdout, "%@\n", CFArrayGetValueAtIndex(patchfiles, i));
-	}
-	return 0;
-}
-
-static CFStringRef usage() {
-	return CFRetain(CFSTR("<project>"));
-}
-
 int initialize(int version) {
 	//if ( version < kDBPluginCurrentVersion ) return -1;
 	
-	DBPluginSetType(kDBPluginPropertyType);
+	DBPluginSetType(kDBPluginProjectPropertyType);
 	DBPluginSetName(CFSTR("patchfiles"));
-	DBPluginSetRunFunc(&run);
-	DBPluginSetUsageFunc(&usage);
+	DBPluginSetRunFunc(&DBPluginPropertyDefaultRun);
+	DBPluginSetUsageFunc(&DBPluginPropertyDefaultUsage);
 	DBPluginSetDataType(CFArrayGetTypeID());
 	return 0;
 }

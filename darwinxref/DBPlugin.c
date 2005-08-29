@@ -50,6 +50,8 @@ void DBPluginSetType(UInt32 type) {
 	switch (type) {
 		case kDBPluginBasicType:
 		case kDBPluginPropertyType:
+		case kDBPluginBuildPropertyType:
+		case kDBPluginProjectPropertyType:
 			plugin->type = type;
 			break;
 		default:
@@ -279,4 +281,57 @@ void DBSetCurrentBuild(char* build) {
 
 CFStringRef DBGetCurrentBuild() {
 	return currentBuild;
+}
+
+
+int DBPluginPropertyDefaultRun(CFArrayRef argv) {
+	DBPlugin* plugin = _DBPluginGetCurrentPlugin();
+	assert(plugin != NULL);
+	assert(plugin->name != NULL);
+
+	CFStringRef build = DBGetCurrentBuild();
+	CFIndex argc = CFArrayGetCount(argv);
+	CFStringRef project = (argc > 0) ? CFArrayGetValueAtIndex(argv, 0) : NULL;
+	
+	// kDBPluginProjectPropertyType must have project argument,
+	// kDBPluginBuildPropertyType must not have project argument,
+	// kDBPluginPropertyType may have project argument.
+	if (plugin->type == kDBPluginProjectPropertyType && argc != 1) return -1;
+	if (plugin->type == kDBPluginBuildPropertyType && argc != 0) return -1;
+	if (plugin->type == kDBPluginPropertyType && argc != 0 && argc != 1) return -1;
+
+	if (plugin->datatype == CFStringGetTypeID()) {
+		CFStringRef value = DBCopyPropString(build, project, plugin->name);
+		// kDBPluginPropertyType: if no value in project, look in build.
+		if (!value && project) value = DBCopyPropString(build, NULL, plugin->name);
+		if (value) cfprintf(stdout, "%@\n", value);
+
+	} else if (plugin->datatype == CFArrayGetTypeID()) {
+		CFArrayRef value = DBCopyPropArray(build, project, plugin->name);
+		CFIndex i, count = value ? CFArrayGetCount(value) : 0;
+		// kDBPluginPropertyType: if no value in project, look in build.
+		if ((!value || !count) && project) {
+			value = DBCopyPropArray(build, NULL, plugin->name);
+			count = value ? CFArrayGetCount(value) : 0;
+		}
+		for (i = 0; i < count; ++i) {
+			cfprintf(stdout, "%@\n", CFArrayGetValueAtIndex(value, i));
+		}
+
+	} else {
+		fprintf(stderr, "internal error: no default handler for CFDictionary type\n");
+		return -1;
+	}
+	return 0;
+}
+
+CFStringRef DBPluginPropertyDefaultUsage() {
+	DBPlugin* plugin = _DBPluginGetCurrentPlugin();
+	assert(plugin != NULL);
+	// kDBPluginProjectPropertyType must have project argument,
+	// kDBPluginBuildPropertyType must not have project argument,
+	// kDBPluginPropertyType may have project argument.
+	if (plugin->type == kDBPluginProjectPropertyType) return CFRetain(CFSTR("<project>"));
+	if (plugin->type == kDBPluginBuildPropertyType) return CFRetain(CFSTR(""));
+	if (plugin->type == kDBPluginPropertyType) return CFRetain(CFSTR("[<project>]"));
 }

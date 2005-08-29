@@ -130,6 +130,10 @@ int DBPluginSetTypeCmd(ClientData data, Tcl_Interp* interp, int objc, Tcl_Obj* C
 		plugin->type = kDBPluginBasicType;
 	} else if (strcmp(type, "property") == 0) {
 		plugin->type = kDBPluginPropertyType;
+	} else if (strcmp(type, "property.project") == 0) {
+		plugin->type = kDBPluginProjectPropertyType;
+	} else if (strcmp(type, "property.build") == 0) {
+		plugin->type = kDBPluginBuildPropertyType;
 	} else {
 			Tcl_AppendResult(interp, "Unknown type: ", type, NULL);
 			return TCL_ERROR;
@@ -339,12 +343,28 @@ int load_tcl_plugin(DBPlugin* plugin, const char* filename) {
 }
 
 CFStringRef call_tcl_usage(DBPlugin* plugin) {
+	// Test if the 'usage' proc exists, if not, use the default handler.
+	if (Tcl_Eval(plugin->interp, "info commands usage") == TCL_OK) {
+		const char* result = Tcl_GetStringResult(plugin->interp);
+		if (result && strcmp(result, "usage") != 0) {
+			return DBPluginPropertyDefaultUsage();
+		}
+	}
+
 	Tcl_Eval(plugin->interp, "usage");
 	Tcl_Obj* res = Tcl_GetObjResult(plugin->interp);
 	return cfstr_tcl(res);
 }
 
 int call_tcl_run(DBPlugin* plugin, CFArrayRef args) {
+	// Test if the 'run' proc exists, if not, use the default handler.
+	if (Tcl_Eval(plugin->interp, "info commands run") == TCL_OK) {
+		const char* result = Tcl_GetStringResult(plugin->interp);
+		if (result && strcmp(result, "run") != 0) {
+			return DBPluginPropertyDefaultRun(args);
+		}
+	}
+	
 	Tcl_Obj* tcl_args = tcl_cfarray(args);
 	Tcl_Obj* varname = tcl_cfstr(CFSTR("__args__"));
 	Tcl_ObjSetVar2(plugin->interp, varname, NULL, tcl_args, TCL_GLOBAL_ONLY);

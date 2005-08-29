@@ -32,25 +32,13 @@
 
 #include "DBPlugin.h"
 
-static int run(CFArrayRef argv) {
-	if (CFArrayGetCount(argv) != 0)  return -1;
-	CFStringRef build = DBGetCurrentBuild();
-	CFStringRef inherits = DBCopyPropString(build, NULL, CFSTR("inherits"));
-	if (inherits) cfprintf(stdout, "%@\n", inherits);
-	return 0;
-}
-
-static CFStringRef usage() {
-	return CFRetain(CFSTR(""));
-}
-
 int initialize(int version) {
 	//if ( version < kDBPluginCurrentVersion ) return -1;
 	
-	DBPluginSetType(kDBPluginPropertyType);
+	DBPluginSetType(kDBPluginBuildPropertyType);
 	DBPluginSetName(CFSTR("inherits"));
-	DBPluginSetRunFunc(&run);
-	DBPluginSetUsageFunc(&usage);
+	DBPluginSetRunFunc(&DBPluginPropertyDefaultRun);
+	DBPluginSetUsageFunc(&DBPluginPropertyDefaultUsage);
 	DBPluginSetDataType(CFStringGetTypeID());
 	return 0;
 }

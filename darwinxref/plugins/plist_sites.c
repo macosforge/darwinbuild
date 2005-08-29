@@ -32,31 +32,13 @@
 
 #include "DBPlugin.h"
 
-static int run(CFArrayRef argv) {
-	CFIndex i, count = CFArrayGetCount(argv);
-	CFStringRef build = DBGetCurrentBuild();
-
-	if (count != 0)  return -1;
-
-	CFArrayRef plist_sites = DBCopyPropArray(build, NULL, CFSTR("plist_sites"));
-	count = plist_sites ? CFArrayGetCount(plist_sites) : 0;
-	for (i = 0; i < count; ++i) {
-		cfprintf(stdout, "%@\n", CFArrayGetValueAtIndex(plist_sites, i));
-	}
-	return 0;
-}
-
-static CFStringRef usage() {
-	return CFRetain(CFSTR(""));
-}
-
 int initialize(int version) {
 	//if ( version < kDBPluginCurrentVersion ) return -1;
 	
-	DBPluginSetType(kDBPluginPropertyType);
+	DBPluginSetType(kDBPluginBuildPropertyType);
 	DBPluginSetName(CFSTR("plist_sites"));
-	DBPluginSetRunFunc(&run);
-	DBPluginSetUsageFunc(&usage);
+	DBPluginSetRunFunc(&DBPluginPropertyDefaultRun);
+	DBPluginSetUsageFunc(&DBPluginPropertyDefaultUsage);
 	DBPluginSetDataType(CFArrayGetTypeID());
 	return 0;
 }
