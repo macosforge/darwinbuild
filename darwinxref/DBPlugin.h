@@ -172,6 +172,10 @@ CFDictionaryRef DBCopyBuildPlist(CFStringRef build);
 */
 int DBSetPlist(CFStringRef build, CFStringRef project, CFPropertyListRef plist);
 
+CFArrayRef DBCopyGroupNames(CFStringRef build);
+CFArrayRef DBCopyGroupMembers(CFStringRef build, CFStringRef group);
+int DBSetGroupMembers(CFStringRef build, CFStringRef group, CFArrayRef members);
+
 int DBBeginTransaction();
 int DBCommitTransaction();
 int DBRollbackTransaction();

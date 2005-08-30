@@ -226,11 +226,12 @@ int DBDataStoreInitialize(const char* datafile) {
 		__DBDataStore = NULL;
 	}
 
-	char* table = "CREATE TABLE properties (build TEXT, project TEXT, property TEXT, key TEXT, value TEXT)";
-	char* index = "CREATE INDEX properties_index ON properties (build, project, property, key, value)";
-	SQL_NOERR(table);
-	SQL_NOERR(index);
-	
+	SQL_NOERR("CREATE TABLE properties (build TEXT, project TEXT, property TEXT, key TEXT, value TEXT)");
+	SQL_NOERR("CREATE INDEX properties_index ON properties (build, project, property, key, value)");
+
+	SQL_NOERR("CREATE TABLE groups (build TEXT, name TEXT, member TEXT)");
+	SQL_NOERR("CREATE INDEX groups_index ON groups (build, name, member)");
+
 	return 0;
 }
 
@@ -653,6 +654,10 @@ CFDictionaryRef DBCopyProjectPlist(CFStringRef build, CFStringRef project) {
 
 CFDictionaryRef DBCopyBuildPlist(CFStringRef build) {
 	CFMutableDictionaryRef plist = (CFMutableDictionaryRef)DBCopyProjectPlist(build, NULL);
+
+	CFDictionarySetValue(plist, CFSTR("build"), build);
+
+	// Generate projects dictionary
 	CFMutableDictionaryRef projects = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
 	CFArrayRef names = DBCopyProjectNames(build);
 	CFIndex i, count = CFArrayGetCount(names);
@@ -662,8 +667,26 @@ CFDictionaryRef DBCopyBuildPlist(CFStringRef build) {
 		CFDictionaryAddValue(projects, name, proj);
 		CFRelease(proj);
 	}
-	CFDictionarySetValue(plist, CFSTR("build"), build);
 	CFDictionarySetValue(plist, CFSTR("projects"), projects);
+	CFRelease(projects);
+	CFRelease(names);
+	
+	// Generate groups dictionary
+	CFMutableDictionaryRef groups = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+	names = DBCopyGroupNames(build);
+	count = CFArrayGetCount(names);
+	for (i = 0; i < count; ++i) {
+		CFStringRef name = CFArrayGetValueAtIndex(names, i);
+		CFArrayRef members = DBCopyGroupMembers(build, name);
+		CFDictionaryAddValue(groups, name, members);
+		CFRelease(members);
+	}
+	if (CFDictionaryGetCount(groups) > 0) {
+		CFDictionarySetValue(plist, CFSTR("groups"), groups);
+	}
+	CFRelease(groups);
+	CFRelease(names);
+	
 	return plist;
 }
 
@@ -680,9 +703,14 @@ int DBSetPlist(CFStringRef buildParam, CFStringRef projectParam, CFPropertyListR
 	CFStringRef project = CFDictionaryGetValue(plist, CFSTR("name"));
 	if (!project) project = projectParam;
 	CFDictionaryRef projects = CFDictionaryGetValue(plist, CFSTR("projects"));
+	CFDictionaryRef groups = CFDictionaryGetValue(plist, CFSTR("groups"));
 		
 	if (projects && CFGetTypeID(projects) != CFDictionaryGetTypeID()) {
 		fprintf(stderr, "Error: projects must be a dictionary.\n");
+		return -1;
+	}
+	if (groups && CFGetTypeID(groups) != CFDictionaryGetTypeID()) {
+		fprintf(stderr, "Error: groups must be a dictionary.\n");
 		return -1;
 	}
 
@@ -722,7 +750,7 @@ int DBSetPlist(CFStringRef buildParam, CFStringRef projectParam, CFPropertyListR
 		CFStringRef prop = CFArrayGetValueAtIndex(props, i);
 		
 		// These are more like pseudo-properties
-		if (CFEqual(prop, CFSTR("build")) || CFEqual(prop, CFSTR("projects"))) continue;
+		if (CFEqual(prop, CFSTR("build")) || CFEqual(prop, CFSTR("projects")) || CFEqual(prop, CFSTR("groups"))) continue;
 		
 		CFTypeRef value = CFDictionaryGetValue(plist, prop);
 		res = DBSetProp(build, project, prop, value);
@@ -741,12 +769,74 @@ int DBSetPlist(CFStringRef buildParam, CFStringRef projectParam, CFPropertyListR
 		CFRelease(projectNames);
 	}
 	if (props) CFRelease(props);
+	
+	//
+	// Load the groups dictionary if present
+	//
+	if (groups) {
+		// delete old groups so we don't leave any stale entries
+		char* cbuild = strdup_cfstr(build);
+		SQL("DELETE FROM groups WHERE build=%Q", cbuild);
+		free(cbuild);
+
+		CFArrayRef groupNames = dictionaryGetSortedKeys(groups);
+		CFIndex i, count = CFArrayGetCount(groupNames);
+		for (i = 0; i < count; ++i) {
+			CFStringRef name = CFArrayGetValueAtIndex(groupNames, i);
+			CFArrayRef members = CFDictionaryGetValue(groups, name);
+			DBSetGroupMembers(build, name, members);
+		}
+		CFRelease(groupNames);
+	}
 
 	DBCommitTransaction();
 
 	return res;
 }
 
+
+CFArrayRef DBCopyGroupNames(CFStringRef build) {
+	char* cbuild = strdup_cfstr(build);
+	CFArrayRef res = SQL_CFARRAY("SELECT DISTINCT name FROM groups WHERE build=%Q ORDER BY name", cbuild);
+	free(cbuild);
+	return res;
+}
+
+// copy group members for a single build (no inheritance)
+static CFArrayRef _DBCopyGroupMembers(CFStringRef build, CFStringRef group) {
+	char* cbuild = strdup_cfstr(build);
+	char* cgroup = strdup_cfstr(group);
+	CFArrayRef res = SQL_CFARRAY("SELECT DISTINCT member FROM groups WHERE build=%Q AND name=%Q ORDER BY member", cbuild, cgroup);
+	free(cbuild);
+	free(cgroup);
+	return res;
+}
+
+CFArrayRef DBCopyGroupMembers(CFStringRef build, CFStringRef group) {
+	CFArrayRef res = NULL;
+	do {
+		res = _DBCopyGroupMembers(build, group);
+		if (res) break;
+		
+		build = _DBCopyPropString(build, NULL, CFSTR("inherits"));
+	} while (build != NULL);
+	return res;
+}
+
+int DBSetGroupMembers(CFStringRef build, CFStringRef group, CFArrayRef members) {
+	char* cbuild = strdup_cfstr(build);
+	char* cgroup = strdup_cfstr(group);
+	SQL("DELETE FROM groups WHERE build=%Q AND name=%Q", cbuild, cgroup);
+	CFIndex i, count = CFArrayGetCount(members);
+	for (i = 0; i < count; ++i) {
+		char* cmember = strdup_cfstr(CFArrayGetValueAtIndex(members, i));
+		SQL("INSERT INTO groups (build,name,member) VALUES (%Q, %Q, %Q)", cbuild, cgroup, cmember);
+		free(cmember);
+	}
+	free(cbuild);
+	free(cgroup);
+	return 0;
+}
 
 // NOT THREAD SAFE
 int DBBeginTransaction() {

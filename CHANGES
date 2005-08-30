@@ -2,6 +2,7 @@ Darwin Build Scripts Change History
 -----------------------------------
 
 Release X.Y.Z [now]
+	- darwinxref: added new groups API
 	- darwinxref: added default handlers for plugins
 	- darwinbuild: redo_prebinding to create a canonical Mach-O prior to
 	  registering for reproducible manifests.
