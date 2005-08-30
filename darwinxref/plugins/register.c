@@ -44,6 +44,8 @@
 #include <string.h>
 #include <openssl/evp.h>
 
+extern char** environ;
+
 int register_files(char* build, char* project, char* path);
 int register_files_from_stdin(char* build, char* project, char* path);
 
@@ -158,6 +160,49 @@ static char* calculate_digest(int fd) {
 	return format_digest(digstr);
 }
 
+static int have_redo_prebinding() {
+	static int result = -2;
+	if (result == -2) {
+		struct stat sb;
+		result = stat("/usr/bin/redo_prebinding", &sb);
+	}
+	return result;
+}
+
+static char* calculate_unprebound_digest(const char* filename) {
+	pid_t pid;
+	int status;
+	int fds[2];
+
+	assert(pipe(fds) != -1);
+	
+	pid = fork();
+	assert(pid != -1);
+	if (pid == 0) {
+		close(fds[0]);
+		assert(dup2(fds[1], STDOUT_FILENO) != -1);
+		const char* args[] = {
+			"/usr/bin/redo_prebinding",
+			"-z", "-u", "-s",
+			filename,
+			NULL
+		};
+		assert(execve(args[0], (char**)args, environ) != -1);
+		// NOT REACHED
+	}
+	close(fds[1]);
+	
+	char* checksum = calculate_digest(fds[0]);
+
+	close(fds[0]);
+	waitpid(pid, &status, 0);
+	if (status != 0) {
+		checksum = strdup("ERROR");
+	}
+	
+	return checksum;
+}
+
 // If the path points to a Mach-O file, records all dylib
 // link commands as library dependencies in the database.
 // XXX
@@ -167,9 +212,11 @@ static char* calculate_digest(int fd) {
 #include <mach-o/fat.h>
 #include <mach-o/swap.h>
 
-static int register_mach_header(char* build, char* project, struct mach_header* mh, int fd) {
+static int register_mach_header(char* build, char* project, struct mach_header* mh, int fd, int* isMachO) {
 	int swap = 0;
+	if (isMachO) *isMachO = 0;
 	if (mh->magic != MH_MAGIC && mh->magic != MH_CIGAM) return 0;
+	if (isMachO) *isMachO = 1;
 	if (mh->magic == MH_CIGAM) { 
 		swap = 1;
 		swap_mach_header(mh, NXHostByteOrder());
@@ -251,7 +298,7 @@ static int register_mach_header(char* build, char* project, struct mach_header* 
 	return 0;
 }
 
-int register_libraries(int fd, char* build, char* project) {
+static int register_libraries(int fd, char* build, char* project, int* isMachO) {
 	int res;
 	
 	struct mach_header mh;
@@ -285,12 +332,12 @@ int register_libraries(int fd, char* build, char* project) {
 
 			res = read(fd, &mh, sizeof(mh));
 			if (res < sizeof(mh)) { goto error_out; }
-			register_mach_header(build, project, &mh, fd);
+			register_mach_header(build, project, &mh, fd, isMachO);
 			
 			lseek(fd, save, SEEK_SET);
 		}
 	} else {
-		register_mach_header(build, project, &mh, fd);
+		register_mach_header(build, project, &mh, fd, isMachO);
 	}
 error_out:
 	return 0;
@@ -354,9 +401,14 @@ int register_files(char* build, char* project, char* path) {
 				perror(filename);
 				return -1;
 			}
-			res = register_libraries(fd, build, project);
+			int isMachO;
+			res = register_libraries(fd, build, project, &isMachO);
 			lseek(fd, (off_t)0, SEEK_SET);
-			checksum = calculate_digest(fd);
+			if (isMachO && have_redo_prebinding() == 0) {
+				checksum = calculate_unprebound_digest(ent->fts_accpath);
+			} else {
+				checksum = calculate_digest(fd);
+			}
 			close(fd);
 		}
 
@@ -466,7 +518,7 @@ int register_files_from_stdin(char* build, char* project, char* path) {
 				perror(filename);
 				return -1;
 			}
-			res = register_libraries(fd, build, project);
+			res = register_libraries(fd, build, project, NULL);
 			/* For -stdin mode, we don't calculate checksums
 			lseek(fd, (off_t)0, SEEK_SET);
 			checksum = calculate_digest(fd);
