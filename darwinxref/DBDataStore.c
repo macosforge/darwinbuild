@@ -291,7 +291,10 @@ CFArrayRef DBCopyChangedProjectNames(CFStringRef oldbuild, CFStringRef newbuild)
 CFTypeID  DBCopyPropType(CFStringRef property) {
 	CFTypeID type = -1;
 	const DBPlugin* plugin = DBGetPluginWithName(property);
-	if (plugin && plugin->type == kDBPluginPropertyType) {
+	if (plugin &&
+		(plugin->type == kDBPluginPropertyType ||
+		 plugin->type == kDBPluginBuildPropertyType ||
+		 plugin->type == kDBPluginProjectPropertyType)) {
 		type = plugin->datatype;
 	}
 	return type;
@@ -300,7 +303,10 @@ CFTypeID  DBCopyPropType(CFStringRef property) {
 CFTypeID  DBCopyPropSubDictType(CFStringRef property) {
 	CFTypeID type = -1;
 	const DBPlugin* plugin = DBGetPluginWithName(property);
-	if (plugin && plugin->type == kDBPluginPropertyType) {
+	if (plugin &&
+		(plugin->type == kDBPluginPropertyType ||
+		 plugin->type == kDBPluginBuildPropertyType ||
+		 plugin->type == kDBPluginProjectPropertyType)) {
 		type = plugin->subdictdatatype;
 	}
 	return type;
