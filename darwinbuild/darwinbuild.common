@@ -160,8 +160,6 @@ function InstallRoot() {
 	local InstallSelfBuiltRoot=0
 	local InstallPreBuiltRoot=0
 
-	shopt -s nullglob
-
 	###
 	### There will be duplication between the bash dependencies and the
 	### project's dependencies.  Therefore don't install something that
@@ -240,8 +238,6 @@ function InstallHeaders() {
 	local X="$2"
 	local depsbuilds="$3"
 	local receipts="$BuildRoot/usr/local/darwinbuild/receipts"
-
-	shopt -s nullglob
 
 	if [ ! -e "$receipts/$X.hdrs" -a ! -e "$receipts/$X" ]; then
 	bv=$(GetBuildVersion $DARWIN_BUILDROOT/Headers/${X/-*}/$X.hdrs*)
