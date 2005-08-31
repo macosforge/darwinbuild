@@ -803,6 +803,7 @@ if [ "$EXIT_STATUS" == "0" ]; then
 	fi
 fi
 
-#rm -Rf "${BuildRoot}"
+#ExitHandler
+#rm -Rf "${BuildRoot}"/*
 
 exit $EXIT_STATUS
