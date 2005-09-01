@@ -1,7 +1,7 @@
 // !$*UTF8*$!
 {
 	binary_sites = (
-		"http://darwinsource.opendarwin.org/Roots/",
+		"http://darwinsource.opendarwin.org/Roots/8A428",
 	);
 	build = 8A428;
 	darwin = "Darwin 8.0";
