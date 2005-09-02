@@ -2,6 +2,10 @@ Darwin Build Scripts Change History
 -----------------------------------
 
 Release X.Y.Z [now]
+	- darwinxref: install DBPlugin.h header file
+	- darwinxref: added group Tcl hooks and group plugin
+	- darwinbuild: no longer appends build number to binary_sites URL;
+	  uses inheritance when HTTP failures encountered
 	- darwinxref: added new groups API
 	- darwinxref: added default handlers for plugins
 	- darwinxref: call redo_prebinding to create a canonical Mach-O binary
