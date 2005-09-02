@@ -4,6 +4,7 @@ include ../common.mk
 ### Variables for the 'install' phase
 ###
 DATDIR:=$(DATDIR)/darwinxref
+INCDIR:=$(INCDIR)/DarwinBuild
 
 SOURCES= \
 	DBDataStore.c \
@@ -52,6 +53,10 @@ install: all install_apple_plugins
 	[ -d $(DATDIR)/plugins ] || \
 		$(INSTALL) -d $(INSTALL_DIR_FLAGS) $(DATDIR)/plugins
 	$(INSTALL) $(INSTALL_DOC_FLAGS) $(PLUGIN_OBJECTS) $(DATDIR)/plugins
+
+	[ -d $(INCDIR) ] || \
+		$(INSTALL) -d $(INSTALL_DIR_FLAGS) $(INCDIR)
+	$(INSTALL) $(INSTALL_DOC_FLAGS) DBPlugin.h cfutils.h $(INCDIR)
 
 uninstall:
 	rm -f $(BINDIR)/darwinxref
