@@ -154,7 +154,7 @@ function Download() {
 function InstallRoot() {
 	local BuildRoot="$1"
 	local Project="$2"
-	local DepsBuildArray="$3"
+	local dbuild="$3"
 
 	local SelfBuiltRoot=""
 	local InstallSelfBuiltRoot=0
@@ -198,29 +198,32 @@ function InstallRoot() {
 	    TouchReceipt "$BuildRoot" "$Project" "root"
 	    return 0
 	elif [ $InstallPreBuiltRoot -eq 1 ]; then
-	    # install a pre-built root, using the depsbuilds array, in preference order
-	    for dbuild in $DepsBuildArray; do
-	    	sites=$($DARWINXREF $dbfile -b $dbuild binary_sites | while read a; do echo "$a/$dbuild"; done)
-		Download "$CACHEDIR/Roots/$dbuild" \
-			"$Project.root.tar.gz" \
-		    	"$sites"
-		if [ -f $CACHEDIR/Roots/$dbuild/$Project.root.tar.gz ]; then
-			cd "$BuildRoot"
-			tar xzf $CACHEDIR/Roots/$dbuild/$Project.root.tar.gz
-			if [ $? -eq 0 ]; then
-				tar tzf $CACHEDIR/Roots/$dbuild/$Project.root.tar.gz | \
-				    "$DARWINXREF" register -stdin "$Project" "$BuildRoot" \
-				    > /dev/null
-				echo | CreateReceipt "$BuildRoot" "$Project" "root" \
-				    "$CACHEDIR/Roots/$dbuild/$Project.root.tar.gz"
-				return 0
+	    # install a pre-built root, in inheritance order
+		while [ "$dbuild" != "" ]; do
+	    	sites=$($DARWINXREF $dbfile -b $dbuild binary_sites "$X")
+			Download "$CACHEDIR/Roots/$dbuild" \
+				"$Project.root.tar.gz" \
+					"$sites"
+			if [ -f $CACHEDIR/Roots/$dbuild/$Project.root.tar.gz ]; then
+				cd "$BuildRoot"
+				tar xzf $CACHEDIR/Roots/$dbuild/$Project.root.tar.gz
+				if [ $? -eq 0 ]; then
+					tar tzf $CACHEDIR/Roots/$dbuild/$Project.root.tar.gz | \
+						"$DARWINXREF" register -stdin "$Project" "$BuildRoot" \
+						> /dev/null
+					echo | CreateReceipt "$BuildRoot" "$Project" "root" \
+						"$CACHEDIR/Roots/$dbuild/$Project.root.tar.gz"
+					return 0
+				fi
+			else
+				dbuild=$($DARWINXREF $dbfile -b $dbuild inherits)
 			fi
-		fi
 
 		# if we didn't find the root for this build, keep looking in the next build	     
 	    done
-	    # we look through all DepsBuildArray and couldn't actually install anything
-	    return 1
+	    # we look through all inherited builds and couldn't actually install anything
+		echo "ERROR: could not find root: $X" 1>&2
+	    exit 1
 	fi
 
 	# we had a receipt, so nothing was request
@@ -236,7 +239,7 @@ function InstallRoot() {
 function InstallHeaders() {
 	local BuildRoot="$1"
 	local X="$2"
-	local depsbuilds="$3"
+	local dbuild="$3"
 	local receipts="$BuildRoot/usr/local/darwinbuild/receipts"
 
 	if [ ! -e "$receipts/$X.hdrs" -a ! -e "$receipts/$X" ]; then
@@ -247,38 +250,31 @@ function InstallHeaders() {
 		"$DARWINXREF" register "$X" $DARWIN_BUILDROOT/Headers/${X/-*}/$X.hdrs~$bv  > /dev/null
 	else
 
-	    # install a pre-built root, using the depsbuilds array, in preference order
-	    for dbuild in $depsbuilds; do
-	    	sites=$($DARWINXREF $dbfile -b $dbuild binary_sites | while read a; do echo "$a/$dbuild"; done)
+	    # install a pre-built root
+		sites=$($DARWINXREF $dbfile -b $dbuild binary_sites "$X")
 		Download "$CACHEDIR/Headers/$dbuild" \
 			"$X.hdrs.tar.gz" \
-		    	"$sites"
+				"$sites"
 		if [ -f $CACHEDIR/Headers/$dbuild/$X.hdrs.tar.gz ]; then
 			cd "$BuildRoot"
 			tar xzf $CACHEDIR/Headers/$dbuild/$X.hdrs.tar.gz
 			if [ "$?" == "0" ]; then
 				tar tzf $CACHEDIR/Headers/$dbuild/$X.hdrs.tar.gz | \
-				    "$DARWINXREF" register -stdin "$X" "$BuildRoot" \
-				    > /dev/null
+					"$DARWINXREF" register -stdin "$X" "$BuildRoot" \
+					> /dev/null
 				SHA1=$(openssl dgst -sha1 < $CACHEDIR/Headers/$dbuild/$X.hdrs.tar.gz)
 				touch "$receipts/$SHA1"
 				ln -sf "$SHA1" "$receipts/$X"
 				break
 			fi
 		else
-		    InstallRoot "$BuildRoot" "$X" "$depsbuilds"
+			InstallRoot "$BuildRoot" "$X" "$dbuild"
 		fi
 
 		# XXX some may think this is buggy. If you fail to find
 		# a header root for the first build, normal roots
 		# are searched for along the build chain. Secondary
 		# builds are never consulted for header roots
-
-		# If InstallRoot worked, stop searching
-		if [ -e "$receipts/$X" ]; then
-		    break
-		fi
-	    done
 	fi
 	fi
 }
