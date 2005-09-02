@@ -312,6 +312,58 @@ int DBCopyChangedProjectNamesCmd(ClientData data, Tcl_Interp* interp, int objc, 
 	return TCL_OK;
 }
 
+int DBCopyGroupNamesCmd(ClientData data, Tcl_Interp* interp, int objc, Tcl_Obj* CONST objv[]) {
+	if (objc != 2) {
+		Tcl_WrongNumArgs(interp, 1, objv, "build");
+		return TCL_ERROR;
+	}
+
+	CFStringRef build = cfstr_tcl(objv[1]);
+	CFArrayRef array = DBCopyGroupNames(build);
+	if (array) {
+		Tcl_SetObjResult(interp, tcl_cfarray(array));
+		CFRelease(array);
+	}
+	CFRelease(build);
+	return TCL_OK;
+}
+
+int DBCopyGroupMembersCmd(ClientData data, Tcl_Interp* interp, int objc, Tcl_Obj* CONST objv[]) {
+	if (objc != 3) {
+		Tcl_WrongNumArgs(interp, 1, objv, "build group");
+		return TCL_ERROR;
+	}
+
+	CFStringRef build = cfstr_tcl(objv[1]);
+	CFStringRef group = cfstr_tcl(objv[2]);
+	CFArrayRef array = DBCopyGroupMembers(build, group);
+	if (array) {
+		Tcl_SetObjResult(interp, tcl_cfarray(array));
+		CFRelease(array);
+	}
+	CFRelease(build);
+	CFRelease(group);
+	return TCL_OK;
+}
+
+int DBSetGroupMembersCmd(ClientData data, Tcl_Interp* interp, int objc, Tcl_Obj* CONST objv[]) {
+	if (objc != 4) {
+		Tcl_WrongNumArgs(interp, 1, objv, "build group list");
+		return TCL_ERROR;
+	}
+
+	CFStringRef build = cfstr_tcl(objv[1]);
+	CFStringRef group = cfstr_tcl(objv[2]);
+	CFArrayRef  members = cfarray_tcl(interp, objv[3]);
+	DBSetGroupMembers(build, group, members);
+	CFRelease(build);
+	CFRelease(group);
+	CFRelease(members);
+	return TCL_OK;
+}
+
+
+
 
 int load_tcl_plugin(DBPlugin* plugin, const char* filename) {
 	Tcl_Interp* interp = Tcl_CreateInterp();
@@ -337,6 +389,10 @@ int load_tcl_plugin(DBPlugin* plugin, const char* filename) {
 
 	Tcl_CreateObjCommand(interp, "DBCopyProjectNames", DBCopyProjectNamesCmd, (ClientData)plugin, (Tcl_CmdDeleteProc *)NULL);
 	Tcl_CreateObjCommand(interp, "DBCopyChangedProjectNames", DBCopyChangedProjectNamesCmd, (ClientData)plugin, (Tcl_CmdDeleteProc *)NULL);
+
+	Tcl_CreateObjCommand(interp, "DBCopyGroupNames", DBCopyGroupNamesCmd, (ClientData)plugin, (Tcl_CmdDeleteProc *)NULL);
+	Tcl_CreateObjCommand(interp, "DBCopyGroupMembers", DBCopyGroupMembersCmd, (ClientData)plugin, (Tcl_CmdDeleteProc *)NULL);
+	Tcl_CreateObjCommand(interp, "DBSetGroupMembers", DBSetGroupMembersCmd, (ClientData)plugin, (Tcl_CmdDeleteProc *)NULL);
 
 	// Source the plugin file
 	Tcl_EvalFile(interp, filename);
