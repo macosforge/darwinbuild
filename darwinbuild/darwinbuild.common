@@ -468,7 +468,7 @@ function CreateReceipt() {
     # consume stdin
     cat > "$TmpFile"
 
-    if [ -z "$HashSource" ]; then
+    if [ -n "$HashSource" ]; then
 	if [ ! -r "$HashSource" ]; then
 	    echo "ERROR: Could not access $HashSource" 1>&2
 	    exit 1
