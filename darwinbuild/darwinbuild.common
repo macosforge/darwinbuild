@@ -279,8 +279,16 @@ function InstallHeader() {
 	    else
 		CheckIfNewerThanReceipt "$BuildRoot" "$Project" "hdrs" "$SelfBuiltRoot"
 		if [ $? -eq 0 ]; then
-		    # we're newer Root. Load us
-		    InstallSelfBuiltRoot=1
+		    CheckForReceipt "$BuildRoot" "$Project" "root"
+		    if [ $? -eq 0 ]; then
+			CheckIfNewerThanReceipt "$BuildRoot" "$Project" "root" "$SelfBuiltRoot"
+			if [ $? -eq 0 ]; then
+			# we're newer Root. Load us
+			    InstallSelfBuiltRoot=1
+			fi
+		    else
+			InstallSelfBuiltRoot=1
+		    fi
 		fi
 		
 	    fi
