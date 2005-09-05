@@ -504,8 +504,8 @@ if [ "$CHROOTED" == "YES" -a "$noload" != "YES" ]; then
 	echo "*** Installing Headers ..."
 	deps=$($DARWINXREF dependencies -header "$projnam")
 	for X in $deps ; do
-#		InstallHeaders "$BuildRoot" "$X" "$depsbuild"
-		InstallRoot "$BuildRoot" "$X" "$depsbuild"
+		InstallHeader "$BuildRoot" "$X" "$depsbuild"
+#		InstallRoot "$BuildRoot" "$X" "$depsbuild"
 	done
 
 	### xcodebuild is a special case because it is not open source
@@ -758,6 +758,13 @@ else
 		export -n DYLD_INSERT_LIBRARIES DYLD_FORCE_FLAT_NAMESPACE DARWINTRACE_LOG
 	fi
 fi
+
+IsDirectoryEmpty "$REAL_DSTROOT"
+if [ $? -eq 0 ]; then
+    echo "$REAL_DSTROOT is empty. Build verification failed." 1>&2
+    EXIT_STATUS=3
+fi
+
 
 if [ "$EXIT_STATUS" == "0" ]; then
 	###
