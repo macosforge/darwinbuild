@@ -196,7 +196,7 @@ static char* calculate_unprebound_digest(const char* filename) {
 		assert(dup2(fds[1], STDOUT_FILENO) != -1);
 		const char* args[] = {
 			"/usr/bin/redo_prebinding",
-			"-z", "-u", "-s",
+			"-z", "-u", "-i", "-s",
 			filename,
 			NULL
 		};
