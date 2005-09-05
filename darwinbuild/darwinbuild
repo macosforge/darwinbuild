@@ -646,14 +646,17 @@ EOF
 # Uses tail +3 to avoid getting . and ..
 RECEIPTS=$DARWIN_BUILDROOT/BuildRoot/usr/local/darwinbuild/receipts
 perl -e "opendir(DIR,\"$RECEIPTS\");
-	@files = sort(readdir(DIR));
-	foreach my \$x (@files) {
-		print \"echo \\\"\$x\";
-		if ( -l \"$RECEIPTS/\$x\" ) {
-			print ' -> ' . readlink(\"$RECEIPTS/\$x\");
-		} 
-		print \"\\\"\n\";
-	} closedir(DIR);" | tail +3 >> $SCRIPT
+        @files = sort(readdir(DIR));
+        foreach my \$x (@files) {
+		print \"echo \\\"\";
+                if ( -l \"$RECEIPTS/\$x\" ) {
+                        printf \"%-20s -> %s\", \"\$x\",
+				readlink(\"$RECEIPTS/\$x\");
+                } else {
+                        printf \"%-24s%s\", \"\", \"\$x\";
+                }
+                print \"\\\"\n\";
+        } closedir(DIR);" | tail +3 >> $SCRIPT
 cat <<-EOF >> $SCRIPT
 	echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
 	echo $buildtool $action '$build_string' < /dev/null
