@@ -75,7 +75,7 @@ CheckDarwinBuildRoot
 
 
 if [ "$NORUN" == "YES" ]; then
-	CMD="true"
+	CMD="echo SKIPPING tar czf"
 else
 	CMD="tar czf"
 fi
@@ -98,7 +98,7 @@ function PackageThem() {
 		     "$DARWIN_BUILDROOT/Packages/$X$SFX.tar.gz" ]; then
 			echo "$X$SFX~$build_version"
 			cd "$DARWIN_BUILDROOT/$DIR/$Y/$X$SFX~$build_version"
-			eval $CMD "$DARWIN_BUILDROOT/Packages/$X$SFX.tar.gz" .
+			eval $CMD "$DARWIN_BUILDROOT/Packages/$Y$SFX.tar.gz" .
 		fi
 	done
 	IFS="$OLDIFS"
