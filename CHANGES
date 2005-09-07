@@ -1,7 +1,8 @@
 Darwin Build Scripts Change History
 -----------------------------------
 
-Release X.Y.Z [now]
+Release 0.7.1 [6-Sep-2005]
+	- darwinbuild: Restore use of InstallHeader()
 	- darwinxref: install DBPlugin.h header file
 	- darwinxref: added group Tcl hooks and group plugin
 	- darwinbuild: no longer appends build number to binary_sites URL;
