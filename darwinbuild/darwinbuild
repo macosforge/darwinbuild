@@ -101,6 +101,7 @@ build=""
 depsbuild=""
 CHROOTED="YES"
 logdeps=""
+nopatch=""
 noload=""
 loadonly=""
 projnam=""
@@ -166,11 +167,13 @@ fi
 
 
 function PrintUsage() {
-	echo "usage: $(basename $0) [flags] <project> [<version>]" 1>&2
-	echo "usage: flags: [-headers] [-build=X] [-target=X]" 1>&2
-	echo "              [-logdeps] [-nochroot] [-noload | -loadonly]" 1>&2
-	echo "              [-depsbuild=X [-depsbuild=Y]]" 1>&2
-	echo "              [-fetch] [-source]" 1>&2
+	cat <<-EOF 1>&2
+	usage: $(basename $0) [flags] <project> [<version>]
+	usage: flags: [-headers] [-build=X] [-target=X]
+	              [-logdeps] [-nochroot] [-nopatch] [-noload | -loadonly]
+	              [-depsbuild=X [-depsbuild=Y]]
+	              [-fetch] [-source]
+EOF
 	exit 1
 }
 
@@ -213,6 +216,7 @@ fi
 ###   -source   Extract, patch, and stage source
 ###   -nochroot Do not chroot into the BuildRoot when building
 ###   -load     Populate the BuildRoot with one project
+###   -nopatch  Don't patch sources before building.
 ###   -noload   Don't load dependencies into the chroot.
 ###				Has no effect if -nochroot is specified.
 ###   -loadonly Only load dependencies into the chroot, but
@@ -246,6 +250,8 @@ for ARG in "$@"; do
 			depsbuild="${depsbuild} ${ARG/*=/}"
 		elif [ "$ARG" == "-nochroot" ]; then
 			export CHROOTED="NO"
+		elif [ "$ARG" == "-nopatch" ]; then
+			nopatch="YES"
 		elif [ "$ARG" == "-load" ]; then
 			action="load"
 		elif [ "$ARG" == "-noload" ]; then
@@ -254,8 +260,10 @@ for ARG in "$@"; do
 			loadonly="YES"
 		elif [ "$ARG" == "-logdeps" ]; then
 			logdeps="YES"
-		else
+		elif [ "${ARG:0:1}" != "-" ]; then
 			projnam="$ARG"
+		else
+			PrintUsage "$0"
 		fi
 	elif [ "$version" == "" ]; then
 		version="$ARG"
@@ -430,6 +438,7 @@ fi
 ### Current working directory should be the SRCROOT
 ###
 cd "$REAL_SRCROOT"
+if [ "$nopatch" != "YES" ]; then
 if [ -d "$REAL_SRCROOT/../$project-patches" ]; then
 	echo "*** Applying Patches ..."
 	cat $REAL_SRCROOT/../$project-patches/* | patch -p0
@@ -462,6 +471,7 @@ for patchfile in $patchfilenames; do
 	    esac
 	fi
 done
+fi
 
 ### If we are doing a -source, stop here.
 if [ "$action" == "source" ]; then

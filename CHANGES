@@ -1,6 +1,9 @@
 Darwin Build Scripts Change History
 -----------------------------------
 
+Release 0.X.Y [now]
+	- darwinbuild: added -nopatch option to build without applying patches
+
 Release 0.7.1 [6-Sep-2005]
 	- darwinbuild: Restore use of InstallHeader()
 	- darwinxref: install DBPlugin.h header file
