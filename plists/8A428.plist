@@ -1,7 +1,6 @@
 // !$*UTF8*$!
 {
 	binary_sites = (
-		"file:///Volumes/Savannah/shantonu/darwinsource/8A428",
 		"http://darwinsource.opendarwin.org/Roots/8A428",
 	);
 	build = 8A428;
