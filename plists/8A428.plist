@@ -1,6 +1,7 @@
 // !$*UTF8*$!
 {
 	binary_sites = (
+		"file:///Volumes/Savannah/shantonu/darwinsource/8A428",
 		"http://darwinsource.opendarwin.org/Roots/8A428",
 	);
 	build = 8A428;
@@ -24,7 +25,6 @@
 		Apple16X50Serial = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -34,11 +34,10 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IOACPIFamily,
@@ -47,13 +46,16 @@
 					IOSerialFamily,
 					xnu,
 				);
+				staticlib = (
+					gcc_os,
+					xnu,
+				);
 			};
 			version = 16;
 		};
 		Apple3Com3C90x = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -63,15 +65,18 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IONetworkingFamily,
 					IOPCIFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -80,7 +85,6 @@
 		AppleAC97Audio = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -90,16 +94,19 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IOAudioFamily,
 					IOGraphics,
 					IOPCIFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -108,7 +115,6 @@
 		AppleADBButtons = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -118,16 +124,19 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IOADBFamily,
 					IOGraphics,
 					IOHIDFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -136,7 +145,6 @@
 		AppleADBKeyboard = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -146,16 +154,19 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IOADBFamily,
 					IOGraphics,
 					IOHIDFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -164,7 +175,6 @@
 		AppleADBMouse = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -174,16 +184,19 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IOADBFamily,
 					IOGraphics,
 					IOHIDFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -192,7 +205,6 @@
 		AppleAPIC = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -202,13 +214,16 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -217,7 +232,6 @@
 		AppleBCM440XEthernet = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -227,15 +241,18 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IONetworkingFamily,
 					IOPCIFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -244,7 +261,6 @@
 		AppleBMacEthernet = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -254,14 +270,16 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
-					text_cmds,
-					xnu,
 				);
 				header = (
 					IONetworkingFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -270,7 +288,6 @@
 		AppleCore99NVRAM = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -280,13 +297,16 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -295,7 +315,6 @@
 		AppleCore99PE = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -305,14 +324,17 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IOPCIFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -321,7 +343,6 @@
 		AppleCuda = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -331,14 +352,17 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IOADBFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -347,7 +371,6 @@
 		AppleDP83816Ethernet = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -357,15 +380,18 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IONetworkingFamily,
 					IOPCIFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -403,7 +429,6 @@
 		AppleFan = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -413,15 +438,20 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					AppleI2C,
+					CF,
 					IOI2CFamily,
+					IOKitUser,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -430,7 +460,6 @@
 		AppleFileSystemDriver = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -440,16 +469,19 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					AppleRAID,
 					IOStorageFamily,
 					Libc_headers,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -458,7 +490,6 @@
 		AppleFlashNVRAM = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -468,13 +499,16 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -483,7 +517,6 @@
 		AppleGMACEthernet = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -493,15 +526,17 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
-					text_cmds,
-					xnu,
 				);
 				header = (
 					IONetworkingFamily,
 					IOPCIFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -510,7 +545,6 @@
 		AppleGPIO = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -520,14 +554,19 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
+					CF,
 					IOI2CFamily,
+					IOKitUser,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -536,7 +575,6 @@
 		AppleGenericPCATA = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -546,15 +584,18 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IOATAFamily,
 					IOPCIFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -563,7 +604,6 @@
 		AppleGracklePCI = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -573,14 +613,17 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IOPCIFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -589,7 +632,6 @@
 		AppleHWSensor = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -599,15 +641,20 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
+					CF,
 					CarbonHeaders,
 					IOI2CFamily,
+					IOKitUser,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -616,7 +663,6 @@
 		AppleHeathrow = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -626,13 +672,16 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -641,7 +690,6 @@
 		AppleI2C = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -651,13 +699,16 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -666,7 +717,6 @@
 		AppleI2S = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -676,13 +726,16 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -691,7 +744,6 @@
 		AppleI386GenericPlatform = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -701,13 +753,16 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -716,7 +771,6 @@
 		AppleI386PCI = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -726,14 +780,17 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IOPCIFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -742,7 +799,6 @@
 		AppleIntel8255x = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -752,15 +808,18 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IONetworkingFamily,
 					IOPCIFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -825,7 +884,6 @@
 		AppleK2SATARoot = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -835,15 +893,18 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IOATAFamily,
 					IOPCIFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -852,7 +913,6 @@
 		AppleKauaiATA = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -862,21 +922,49 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IOATAFamily,
 					IOPCIFamily,
 					xnu,
 				);
+				staticlib = (
+					gcc_os,
+					xnu,
+				);
 			};
 			version = 110.3.1;
 		};
 		AppleKeyLargo = {
+			dependencies = {
+				build = (
+					ICU,
+					adv_cmds,
+					awk,
+					bash,
+					cctools,
+					cxxfilt,
+					file_cmds,
+					gcc,
+					gcc_os,
+					gcc_select,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					IOPCIFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = ppc;
 			};
@@ -885,7 +973,6 @@
 		AppleKeyswitch = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -895,13 +982,16 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -910,7 +1000,6 @@
 		AppleKiwiATA = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -920,15 +1009,18 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IOATAFamily,
 					IOPCIFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -937,7 +1029,6 @@
 		AppleKiwiRoot = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -947,15 +1038,18 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IOATAFamily,
 					IOPCIFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -964,7 +1058,6 @@
 		AppleMPIC = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -974,13 +1067,16 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -989,7 +1085,6 @@
 		AppleMTRRSupport = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -999,13 +1094,16 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -1017,7 +1115,6 @@
 		AppleMacRISC2PE = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -1027,14 +1124,17 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IOPCIFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -1046,7 +1146,6 @@
 		AppleMacRiscPCI = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -1056,14 +1155,17 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IOPCIFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -1072,7 +1174,6 @@
 		AppleMediaBay = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -1082,14 +1183,17 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IOATAFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -1127,7 +1231,6 @@
 		AppleOnboardPCATA = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -1137,15 +1240,18 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IOATAFamily,
 					IOPCIFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -1154,7 +1260,6 @@
 		ApplePCCard16ATA = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -1164,16 +1269,19 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IOATAFamily,
 					IOPCCardFamily,
 					IOPCIFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -1182,7 +1290,6 @@
 		ApplePCCardATA = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -1192,14 +1299,17 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IOATAFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -1208,7 +1318,6 @@
 		ApplePS2Controller = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -1218,14 +1327,17 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					ApplePS2Controller,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -1234,7 +1346,6 @@
 		ApplePS2Keyboard = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -1244,16 +1355,19 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					ApplePS2Controller,
 					IOGraphics,
 					IOHIDFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -1262,7 +1376,6 @@
 		ApplePS2Mouse = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -1272,16 +1385,19 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					ApplePS2Controller,
 					IOGraphics,
 					IOHIDFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -1290,7 +1406,6 @@
 		ApplePS2Trackpad = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -1300,16 +1415,19 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					ApplePS2Controller,
 					IOGraphics,
 					IOHIDFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -1372,7 +1490,6 @@
 		AppleRS232Serial = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -1382,14 +1499,17 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IOSerialFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -1398,7 +1518,6 @@
 		AppleRTL8139Ethernet = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -1408,15 +1527,18 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IONetworkingFamily,
 					IOPCIFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -1425,7 +1547,6 @@
 		AppleSCCSerial = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -1435,14 +1556,17 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IOSerialFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -1451,7 +1575,6 @@
 		AppleSMBIOS = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -1461,13 +1584,16 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -1476,7 +1602,6 @@
 		AppleSym8xx = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -1486,14 +1611,18 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IOPCIFamily,
+					SCSIHeaderInstaller,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -1502,9 +1631,6 @@
 		AppleTalk = {
 			dependencies = {
 				build = (
-					CF,
-					Csu,
-					ICU,
 					Libm,
 					Libsystem,
 					bash,
@@ -1512,12 +1638,12 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					gnutar,
 					pb_makefiles,
 					project_makefiles,
 					shell_cmds,
-					system_cmds,
 					text_cmds,
 				);
 				header = (
@@ -1531,6 +1657,10 @@
 				lib = (
 					Libsystem,
 				);
+				staticlib = (
+					Csu,
+					gcc_os,
+				);
 			};
 			environment = {
 				RC_RELEASE = Darwin;
@@ -1540,7 +1670,6 @@
 		AppleThermal = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -1550,14 +1679,17 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					AppleI2C,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -1566,7 +1698,6 @@
 		AppleUSBAudio = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -1576,16 +1707,19 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IOAudioFamily,
 					IOGraphics,
 					IOUSBFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -1594,7 +1728,6 @@
 		AppleUSBCDCDriver = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -1604,15 +1737,16 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					shell_cmds,
 					system_cmds,
-					text_cmds,
-					xnu,
 				);
 				header = (
 					IONetworkingFamily,
 					IOSerialFamily,
 					IOUSBFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -1621,60 +1755,33 @@
 		AppleUSBIrDA = {
 			dependencies = {
 				build = (
-					CF,
-					Csu,
-					DiskArbitration,
 					ICU,
-					IOKitUser,
-					Libm,
-					Libmx,
-					Libsystem,
-					OpenSSL,
-					SQLite,
-					Security,
 					adv_cmds,
 					awk,
 					bash,
-					bsm,
 					cctools,
-					configd,
-					cups,
 					cxxfilt,
 					file_cmds,
 					gcc,
 					gcc_os,
+					gcc_select,
 					grep,
-					libiconv,
-					libxml2,
-					objc4,
-					pbx_jamfiles,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
-					zlib,
 				);
 				header = (
-					CF,
-					CarbonHeaders,
-					DiskArbitration,
-					IOGraphics,
-					IOHIDFamily,
-					IOKitUser,
 					IOSerialFamily,
 					IOUSBFamily,
-					Libc_headers,
-					Libm,
-					architecture,
-					configd,
-					cups,
-					gcc_os,
-					objc4,
 					xnu,
 				);
 				lib = (
 					IOKitUser,
 					Libsystem,
+				);
+				staticlib = (
+					gcc_os,
+					xnu,
 				);
 			};
 			version = 134.2.2;
@@ -1682,7 +1789,6 @@
 		AppleVIA = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -1692,13 +1798,16 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -1736,7 +1845,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -1745,6 +1853,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -1755,12 +1864,17 @@
 				header = (
 					Libc_headers,
 					architecture,
-					dyld,
 					gcc_os,
+					libdyld,
 					xnu,
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 12;
@@ -1824,9 +1938,6 @@
 		BootX = {
 			dependencies = {
 				build = (
-					CF,
-					Csu,
-					ICU,
 					Libm,
 					Libsystem,
 					bash,
@@ -1835,6 +1946,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					gnutar,
 					pb_makefiles,
@@ -1851,13 +1963,16 @@
 					gcc_os,
 					xnu,
 				);
+				staticlib = (
+					Csu,
+					gcc_os,
+				);
 			};
 			version = 74.1;
 		};
 		CF = {
 			dependencies = {
 				build = (
-					Csu,
 					ICU,
 					Libm,
 					Libsystem,
@@ -1866,12 +1981,12 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					gnutar,
 					objc4,
 					shell_cmds,
 					system_cmds,
-					text_cmds,
 				);
 				header = (
 					CarbonHeaders,
@@ -1892,6 +2007,10 @@
 					ICU,
 					Libsystem,
 					objc4,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 368;
@@ -1947,7 +2066,6 @@
 		CMD646ATA = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -1957,21 +2075,30 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IOATAFamily,
 					IOPCIFamily,
 					xnu,
 				);
+				staticlib = (
+					gcc_os,
+					xnu,
+				);
 			};
 			version = 107.3.1;
 		};
 		CarbonHeaders = {
+			dependencies = {
+				build = (
+					file_cmds,
+					gnumake,
+				);
+			};
 			version = 8A428;
 		};
 		ChatServer = {
@@ -1983,7 +2110,6 @@
 		CommonCrypto = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -1993,9 +2119,7 @@
 					gcc,
 					gcc_os,
 					gcc_os_35,
-					shell_cmds,
 					system_cmds,
-					text_cmds,
 				);
 				header = (
 					Libc_headers,
@@ -2014,9 +2138,7 @@
 				build = (
 					bash,
 					bootstrap_cmds,
-					cctools,
 					file_cmds,
-					gcc_os,
 					gnumake,
 					shell_cmds,
 					system_cmds,
@@ -2129,7 +2251,6 @@
 			dependencies = {
 				build = (
 					CF,
-					Csu,
 					DirectoryService,
 					ICU,
 					Libm,
@@ -2144,10 +2265,9 @@
 					file_cmds,
 					gcc,
 					gcc_os,
+					gcc_select,
 					netinfo,
 					objc4,
-					pbx_jamfiles,
-					shell_cmds,
 					system_cmds,
 					text_cmds,
 				);
@@ -2171,6 +2291,10 @@
 					configd,
 					netinfo,
 				);
+				staticlib = (
+					Csu,
+					gcc_os,
+				);
 			};
 			version = 37;
 		};
@@ -2178,8 +2302,8 @@
 			dependencies = {
 				build = (
 					CF,
-					Csu,
 					DirectoryService,
+					DirectoryServiceDaemon,
 					ICU,
 					IOKitUser,
 					Libm,
@@ -2195,13 +2319,11 @@
 					file_cmds,
 					gcc,
 					gcc_os,
+					gcc_select,
 					netinfo,
 					objc4,
 					passwordserver_sasl,
-					pbx_jamfiles,
-					shell_cmds,
 					system_cmds,
-					text_cmds,
 					zlib,
 				);
 				header = (
@@ -2227,10 +2349,66 @@
 					configd,
 					passwordserver_sasl,
 				);
+				staticlib = (
+					Csu,
+					DirectoryService,
+					gcc_os,
+				);
 			};
 			version = 17;
 		};
 		DSNSLAppleTalkPlugin = {
+			dependencies = {
+				build = (
+					AppleTalk,
+					CF,
+					DirectoryService,
+					DirectoryServiceDaemon,
+					ICU,
+					IOKitUser,
+					Libm,
+					Libsystem,
+					OpenSSL,
+					adv_cmds,
+					awk,
+					bash,
+					cctools,
+					configd,
+					cxxfilt,
+					file_cmds,
+					gcc,
+					gcc_os,
+					gcc_select,
+					netinfo,
+					objc4,
+					passwordserver_sasl,
+					system_cmds,
+					zlib,
+				);
+				header = (
+					CF,
+					CarbonHeaders,
+					DirectoryService,
+					Libc_headers,
+					Libm,
+					architecture,
+					configd,
+					gcc_os,
+					xnu,
+				);
+				lib = (
+					AppleTalk,
+					CF,
+					DirectoryService,
+					Libsystem,
+					configd,
+				);
+				staticlib = (
+					Csu,
+					DirectoryService,
+					gcc_os,
+				);
+			};
 			original = DSNSLPlugins;
 			target = AppleTalk;
 		};
@@ -2291,6 +2469,51 @@
 			version = 112;
 		};
 		DSPasswordServerFramework = {
+			dependencies = {
+				build = (
+					CF,
+					ICU,
+					Libm,
+					Libsystem,
+					OpenSSL,
+					adv_cmds,
+					awk,
+					bash,
+					cctools,
+					cxxfilt,
+					file_cmds,
+					gcc,
+					gcc_os,
+					gcc_select,
+					objc4,
+					passwordserver_sasl,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					CF,
+					CarbonHeaders,
+					DirectoryService,
+					Libc_headers,
+					Libinfo,
+					Libm,
+					OpenSSL,
+					architecture,
+					gcc_os,
+					passwordserver_sasl,
+					xnu,
+				);
+				lib = (
+					CF,
+					Libsystem,
+					OpenSSL,
+					passwordserver_sasl,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
+				);
+			};
 			original = DSPasswordServerPlugin;
 			target = PasswordServerFramework;
 		};
@@ -2298,9 +2521,9 @@
 			dependencies = {
 				build = (
 					CF,
-					Csu,
 					DSPasswordServerFramework,
 					DirectoryService,
+					DirectoryServiceDaemon,
 					ICU,
 					IOKitUser,
 					Libm,
@@ -2317,13 +2540,11 @@
 					file_cmds,
 					gcc,
 					gcc_os,
+					gcc_select,
 					netinfo,
 					objc4,
 					passwordserver_sasl,
-					pbx_jamfiles,
-					shell_cmds,
 					system_cmds,
-					text_cmds,
 					zlib,
 				);
 				header = (
@@ -2350,6 +2571,11 @@
 					Security,
 					configd,
 					passwordserver_sasl,
+				);
+				staticlib = (
+					Csu,
+					DirectoryService,
+					gcc_os,
 				);
 			};
 			version = 113;
@@ -2423,42 +2649,68 @@
 			};
 			version = 60;
 		};
-		DarwinInstaller = {
-			version = 1;
-		};
 		DarwinTools = {
+			dependencies = {
+				build = (
+					CF,
+					ICU,
+					Libm,
+					Libsystem,
+					bash,
+					cctools,
+					cxxfilt,
+					file_cmds,
+					gcc_os,
+					gcc_select,
+					gnumake,
+					objc4,
+				);
+				header = (
+					CF,
+					CarbonHeaders,
+					Libc_headers,
+					Libinfo,
+					Libm,
+					architecture,
+					gcc_os,
+					xnu,
+				);
+				lib = (
+					CF,
+					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
+				);
+			};
 			version = 1;
 		};
 		DirectoryService = {
 			dependencies = {
 				build = (
 					CF,
-					Csu,
-					DSPasswordServerFramework,
-					DiskArbitration,
 					ICU,
 					IOKitUser,
-					Kerberos,
 					Libm,
 					Libsystem,
-					OpenLDAP,
 					OpenSSL,
 					Security,
 					adv_cmds,
 					awk,
 					bash,
 					bootstrap_cmds,
-					bsm,
 					cctools,
 					configd,
 					cxxfilt,
 					file_cmds,
 					gcc,
 					gcc_os,
+					gcc_select,
 					netinfo,
 					objc4,
 					passwordserver_sasl,
-					pbx_jamfiles,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
@@ -2468,40 +2720,30 @@
 				header = (
 					CF,
 					CarbonHeaders,
-					DSPasswordServerFramework,
-					DiskArbitration,
 					IOKitUser,
 					IONetworkingFamily,
-					Kerberos,
 					Libc_headers,
 					Libinfo,
 					Libm,
-					Libnotify,
-					OpenLDAP,
 					OpenSSL,
 					Security,
 					architecture,
-					bsm,
-					configd,
 					gcc_os,
 					netinfo,
-					passwordserver_sasl,
 					xnu,
 				);
 				lib = (
 					CF,
-					DSPasswordServerFramework,
-					DirectoryService,
 					IOKitUser,
-					Kerberos,
 					Libsystem,
-					OpenLDAP,
 					OpenSSL,
 					Security,
-					bsm,
-					configd,
 					netinfo,
 					passwordserver_sasl,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			target = DirectoryServiceFW;
@@ -2512,6 +2754,30 @@
 			target = DirectoryServiceDaemon;
 		};
 		DirectoryServiceMIG = {
+			dependencies = {
+				build = (
+					ICU,
+					adv_cmds,
+					awk,
+					bash,
+					bootstrap_cmds,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_os,
+					gcc_select,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+					xnu,
+				);
+				header = (
+					Libc_headers,
+					architecture,
+					gcc_os,
+					xnu,
+				);
+			};
 			original = DirectoryService;
 			target = DirectoryServiceMIG;
 		};
@@ -2583,7 +2849,6 @@
 			dependencies = {
 				build = (
 					CF,
-					Csu,
 					ICU,
 					IOKitUser,
 					Libm,
@@ -2597,11 +2862,9 @@
 					file_cmds,
 					gcc,
 					gcc_os,
+					gcc_select,
 					objc4,
-					pbx_jamfiles,
-					shell_cmds,
 					system_cmds,
-					text_cmds,
 					zlib,
 				);
 				header = (
@@ -2621,6 +2884,10 @@
 					Libsystem,
 					configd,
 				);
+				staticlib = (
+					Csu,
+					gcc_os,
+				);
 			};
 			version = 1.3.0;
 		};
@@ -2628,7 +2895,6 @@
 			dependencies = {
 				build = (
 					CF,
-					Csu,
 					ICU,
 					Libm,
 					Libsystem,
@@ -2641,9 +2907,7 @@
 					gcc,
 					gcc_os,
 					objc4,
-					shell_cmds,
 					system_cmds,
-					text_cmds,
 				);
 				header = (
 					CF,
@@ -2658,6 +2922,11 @@
 				lib = (
 					CF,
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 15;
@@ -2665,7 +2934,6 @@
 		HeathrowATA = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -2675,14 +2943,17 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IOATAFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -2691,15 +2962,16 @@
 		ICU = {
 			dependencies = {
 				build = (
-					Csu,
 					ICU,
 					Libm,
 					Libsystem,
+					OrderFiles,
 					bash,
 					cctools,
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -2717,13 +2989,16 @@
 				lib = (
 					Libsystem,
 				);
+				staticlib = (
+					Csu,
+					gcc_os,
+				);
 			};
 			version = 6.2.4;
 		};
 		IOACPIFamily = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -2733,14 +3008,17 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IOACPIFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -2752,7 +3030,6 @@
 		IOADBFamily = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -2762,14 +3039,17 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IOADBFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -2880,7 +3160,6 @@
 		IOAudioFamily = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -2890,15 +3169,19 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IOAudioFamily,
 					IOGraphics,
+					IOUSBFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -3021,7 +3304,6 @@
 			dependencies = {
 				build = (
 					CF,
-					Csu,
 					ICU,
 					IOKitUser,
 					Libm,
@@ -3030,16 +3312,13 @@
 					awk,
 					bash,
 					cctools,
-					configd_executables,
+					configd,
 					cxxfilt,
 					file_cmds,
 					gcc,
 					gcc_os,
 					objc4,
-					shell_cmds,
 					system_cmds,
-					text_cmds,
-					xnu,
 					zlib,
 				);
 				header = (
@@ -3059,6 +3338,11 @@
 					IOKitUser,
 					Libsystem,
 				);
+				staticlib = (
+					Csu,
+					gcc_os,
+					xnu,
+				);
 			};
 			version = 181.4.0;
 		};
@@ -3066,7 +3350,6 @@
 			dependencies = {
 				build = (
 					CF,
-					Csu,
 					ICU,
 					IOKitUser,
 					Libm,
@@ -3082,10 +3365,7 @@
 					gcc,
 					gcc_os,
 					objc4,
-					shell_cmds,
 					system_cmds,
-					text_cmds,
-					xnu,
 					zlib,
 				);
 				header = (
@@ -3105,13 +3385,17 @@
 					Libsystem,
 					Security,
 				);
+				staticlib = (
+					Csu,
+					gcc_os,
+					xnu,
+				);
 			};
 			version = 200.4.0;
 		};
 		IOFireWireIP = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -3121,15 +3405,18 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IOFireWireFamily,
 					IONetworkingFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -3139,7 +3426,6 @@
 			dependencies = {
 				build = (
 					CF,
-					Csu,
 					ICU,
 					IOKitUser,
 					Libm,
@@ -3148,16 +3434,13 @@
 					awk,
 					bash,
 					cctools,
-					configd_executables,
+					configd,
 					cxxfilt,
 					file_cmds,
 					gcc,
 					gcc_os,
 					objc4,
-					shell_cmds,
 					system_cmds,
-					text_cmds,
-					xnu,
 					zlib,
 				);
 				header = (
@@ -3176,6 +3459,11 @@
 					CF,
 					IOKitUser,
 					Libsystem,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
+					xnu,
 				);
 			};
 			version = 175.4.0;
@@ -3211,7 +3499,6 @@
 		IOGraphics = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -3221,17 +3508,20 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					AppleI2C,
 					IOGraphics,
 					IOHIDFamily,
 					IOPCIFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -3241,7 +3531,6 @@
 			dependencies = {
 				build = (
 					CF,
-					Csu,
 					ICU,
 					IOKitUser,
 					Libm,
@@ -3255,18 +3544,16 @@
 					file_cmds,
 					gcc,
 					gcc_os,
+					gcc_select,
 					objc4,
-					pbx_jamfiles,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 					zlib,
 				);
 				header = (
 					CF,
 					CarbonHeaders,
-					DiskArbitration,
 					IOGraphics,
 					IOHIDFamily,
 					IOKitUser,
@@ -3283,6 +3570,11 @@
 					IOKitUser,
 					Libsystem,
 				);
+				staticlib = (
+					Csu,
+					gcc_os,
+					xnu,
+				);
 			};
 			version = 164;
 		};
@@ -3290,7 +3582,6 @@
 			dependencies = {
 				build = (
 					CF,
-					Csu,
 					ICU,
 					IOKitUser,
 					Libm,
@@ -3304,12 +3595,11 @@
 					file_cmds,
 					gcc,
 					gcc_os,
+					gcc_select,
 					objc4,
-					pbx_jamfiles,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 					zlib,
 				);
 				header = (
@@ -3326,6 +3616,11 @@
 					CF,
 					IOKitUser,
 					Libsystem,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
+					xnu,
 				);
 			};
 			version = 105.0.2;
@@ -3450,7 +3745,6 @@
 		IONetworkingFamily = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -3461,14 +3755,17 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IONetworkingFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -3477,7 +3774,6 @@
 		IOPCCardFamily = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -3487,15 +3783,18 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IOPCCardFamily,
 					IOPCIFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -3504,7 +3803,6 @@
 		IOPCIFamily = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -3514,13 +3812,16 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -3608,7 +3909,6 @@
 		IOSerialFamily = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -3618,14 +3918,17 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IOSerialFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -3774,7 +4077,6 @@
 		KeyLargoATA = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -3784,14 +4086,17 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IOATAFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -3800,18 +4105,15 @@
 		Libc = {
 			dependencies = {
 				build = (
-					Csu,
 					Libm,
 					Libmx,
 					Libsystem,
-					SystemStubs,
 					bash,
 					bootstrap_cmds,
 					bsdmake,
 					cctools,
 					developer_cmds,
 					file_cmds,
-					gcc_os,
 					gcc_os_35,
 					gnumake,
 					misc_cmds,
@@ -3830,10 +4132,15 @@
 					Libnotify,
 					architecture,
 					cctools_ofiles,
-					dyld,
 					gcc_os_35,
+					libdyld,
 					netinfo,
 					xnu,
+				);
+				staticlib = (
+					Csu,
+					Libm,
+					gcc_os_35,
 				);
 			};
 			environment = {
@@ -3842,6 +4149,46 @@
 			version = 391;
 		};
 		Libc_debug = {
+			dependencies = {
+				build = (
+					Libm,
+					Libmx,
+					Libsystem,
+					bash,
+					bootstrap_cmds,
+					bsdmake,
+					cctools,
+					developer_cmds,
+					file_cmds,
+					gcc_os_35,
+					gnumake,
+					misc_cmds,
+					patch_cmds,
+					perl,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+					xnu,
+				);
+				header = (
+					CarbonHeaders,
+					Libc_headers,
+					Libinfo,
+					Libm,
+					Libnotify,
+					architecture,
+					cctools_ofiles,
+					gcc_os_35,
+					libdyld,
+					netinfo,
+					xnu,
+				);
+				staticlib = (
+					Csu,
+					Libm,
+					gcc_os_35,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386";
 			};
@@ -3849,6 +4196,26 @@
 			target = install;
 		};
 		Libc_headers = {
+			dependencies = {
+				build = (
+					bash,
+					bootstrap_cmds,
+					bsdmake,
+					file_cmds,
+					gcc_os_35,
+					gnumake,
+					grep,
+					patch_cmds,
+					perl,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+					xnu,
+				);
+				header = (
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386";
 			};
@@ -3856,10 +4223,62 @@
 			target = install;
 		};
 		Libc_man = {
+			dependencies = {
+				build = (
+					bash,
+					bsdmake,
+					file_cmds,
+					gnumake,
+					patch_cmds,
+					perl,
+					system_cmds,
+					text_cmds,
+				);
+			};
 			original = Libc;
 			target = install;
 		};
 		Libc_profile = {
+			dependencies = {
+				build = (
+					Libm,
+					Libmx,
+					Libsystem,
+					bash,
+					bootstrap_cmds,
+					bsdmake,
+					cctools,
+					developer_cmds,
+					file_cmds,
+					gcc_os_35,
+					gnumake,
+					misc_cmds,
+					patch_cmds,
+					perl,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+					xnu,
+				);
+				header = (
+					CarbonHeaders,
+					Libc_headers,
+					Libinfo,
+					Libm,
+					Libnotify,
+					architecture,
+					cctools_ofiles,
+					gcc_os_35,
+					libdyld,
+					netinfo,
+					xnu,
+				);
+				staticlib = (
+					Csu,
+					Libm,
+					gcc_os_35,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386";
 			};
@@ -3867,6 +4286,45 @@
 			target = install;
 		};
 		Libc_static = {
+			dependencies = {
+				build = (
+					Libm,
+					Libmx,
+					Libsystem,
+					bash,
+					bootstrap_cmds,
+					bsdmake,
+					cctools,
+					developer_cmds,
+					file_cmds,
+					gcc_os_35,
+					gnumake,
+					misc_cmds,
+					patch_cmds,
+					perl,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+					xnu,
+				);
+				header = (
+					CarbonHeaders,
+					Libc_headers,
+					Libinfo,
+					Libm,
+					Libnotify,
+					architecture,
+					cctools_ofiles,
+					gcc_os_35,
+					libdyld,
+					netinfo,
+					xnu,
+				);
+				staticlib = (
+					Csu,
+					gcc_os_35,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386";
 			};
@@ -3876,7 +4334,6 @@
 		Libcpp_kext = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -3885,9 +4342,7 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					shell_cmds,
 					system_cmds,
-					text_cmds,
 				);
 			};
 			version = 3;
@@ -3895,8 +4350,6 @@
 		Libinfo = {
 			dependencies = {
 				build = (
-					CF,
-					ICU,
 					bash,
 					bootstrap_cmds,
 					cctools,
@@ -3933,18 +4386,14 @@
 		Libkvm = {
 			dependencies = {
 				build = (
-					CF,
-					ICU,
 					bash,
 					cctools,
 					file_cmds,
-					gcc_os,
 					gcc_os_35,
 					gnumake,
 					gnutar,
 					pb_makefiles,
 					shell_cmds,
-					system_cmds,
 					text_cmds,
 				);
 				header = (
@@ -3959,8 +4408,6 @@
 		Libm = {
 			dependencies = {
 				build = (
-					CF,
-					Csu,
 					ICU,
 					adv_cmds,
 					awk,
@@ -3970,9 +4417,8 @@
 					gcc,
 					gcc_os,
 					gcc_os_35,
-					gnumake,
+					gcc_select,
 					ld64,
-					pbx_jamfiles,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
@@ -3984,6 +4430,10 @@
 					gcc_os_35,
 					xnu,
 				);
+				staticlib = (
+					Csu,
+					gcc_os_35,
+				);
 			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386";
@@ -3992,6 +4442,39 @@
 			version = 92;
 		};
 		Libmx = {
+			dependencies = {
+				build = (
+					ICU,
+					Libm,
+					Libsystem,
+					adv_cmds,
+					awk,
+					bash,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_os,
+					gcc_os_35,
+					gcc_select,
+					ld64,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					Libc_headers,
+					Libm,
+					architecture,
+					gcc_os_35,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+				);
+				staticlib = (
+					Csu,
+					gcc_os_35,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386";
 			};
@@ -4001,14 +4484,13 @@
 		Libnotify = {
 			dependencies = {
 				build = (
-					CF,
-					ICU,
 					bash,
 					bootstrap_cmds,
 					cctools,
 					file_cmds,
 					gcc_os,
 					gcc_os_35,
+					gcc_select,
 					gnumake,
 					gnutar,
 					pb_makefiles,
@@ -4060,18 +4542,16 @@
 		Libstreams = {
 			dependencies = {
 				build = (
-					CF,
-					ICU,
 					bash,
 					cctools,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					gnutar,
 					pb_makefiles,
 					project_makefiles,
 					shell_cmds,
-					system_cmds,
 					text_cmds,
 				);
 				header = (
@@ -4142,12 +4622,12 @@
 		Liby = {
 			dependencies = {
 				build = (
-					ICU,
 					bash,
 					bootstrap_cmds,
 					cctools,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					gnutar,
 					pb_makefiles,
@@ -4165,9 +4645,6 @@
 		MySQL = {
 			dependencies = {
 				build = (
-					CF,
-					Csu,
-					ICU,
 					Libm,
 					Libsystem,
 					adv_cmds,
@@ -4178,6 +4655,7 @@
 					file_cmds,
 					files,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					gnutar,
@@ -4189,6 +4667,7 @@
 					perl,
 					shell_cmds,
 					system_cmds,
+					tcsh,
 					texinfo,
 					text_cmds,
 					zlib,
@@ -4198,16 +4677,21 @@
 					Libinfo,
 					Libm,
 					architecture,
-					dyld,
 					gcc_os,
+					libdyld,
 					ncurses,
 					xnu,
 					zlib,
 				);
 				lib = (
 					Libsystem,
+					dyld,
 					ncurses,
 					zlib,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 29;
@@ -4215,17 +4699,13 @@
 		NFS = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
-					cctools,
 					file_cmds,
 					gcc,
 					gcc_os,
-					shell_cmds,
 					system_cmds,
-					text_cmds,
 				);
 			};
 			version = 1;
@@ -4236,10 +4716,8 @@
 		OpenLDAP = {
 			dependencies = {
 				build = (
-					BerkeleyDB,
 					CF,
 					CoreOSMakefiles,
-					Csu,
 					DSPasswordServerFramework,
 					ICU,
 					Libm,
@@ -4257,6 +4735,7 @@
 					file_cmds,
 					files,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					gnutar,
@@ -4281,8 +4760,8 @@
 					Libm,
 					OpenSSL,
 					architecture,
-					dyld,
 					gcc_os,
+					libdyld,
 					netinfo,
 					passwordserver_sasl,
 					xnu,
@@ -4292,8 +4771,14 @@
 					DSPasswordServerFramework,
 					Libsystem,
 					OpenSSL,
+					dyld,
 					netinfo,
 					passwordserver_sasl,
+				);
+				staticlib = (
+					BerkeleyDB,
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 68;
@@ -4303,10 +4788,7 @@
 				build = (
 					CF,
 					CoreOSMakefiles,
-					Csu,
-					DiskArbitration,
 					ICU,
-					IOKitUser,
 					Kerberos,
 					Libm,
 					Libsystem,
@@ -4317,10 +4799,10 @@
 					bootstrap_cmds,
 					bsm,
 					cctools,
-					configd_executables,
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -4330,19 +4812,14 @@
 					pam,
 					shell_cmds,
 					system_cmds,
-					tcp_wrappers,
 					text_cmds,
 					zlib,
 				);
 				header = (
-					CF,
 					CarbonHeaders,
-					DiskArbitration,
-					IOKitUser,
 					Kerberos,
 					Libc_headers,
 					Libinfo,
-					Libm,
 					Libnotify,
 					OpenSSL,
 					Security,
@@ -4363,8 +4840,14 @@
 					OpenSSL,
 					Security,
 					bsm,
+					dyld,
 					pam,
 					zlib,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
+					tcp_wrappers,
 				);
 			};
 			version = 56;
@@ -4448,6 +4931,16 @@
 			};
 			version = 5;
 		};
+		OrderFiles = {
+			dependencies = {
+				build = (
+					bash,
+					file_cmds,
+					gnumake,
+				);
+			};
+			version = 1;
+		};
 		PowerManagement = {
 			dependencies = {
 				build = (
@@ -4499,6 +4992,13 @@
 			version = 90;
 		};
 		SCSIHeaderInstaller = {
+			dependencies = {
+				build = (
+					bash,
+					file_cmds,
+					gnumake,
+				);
+			};
 			version = 100.0.2;
 		};
 		SQLite = {
@@ -4506,7 +5006,6 @@
 				build = (
 					CF,
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					awk,
@@ -4518,6 +5017,7 @@
 					file,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -4532,8 +5032,8 @@
 					Libc_headers,
 					Libm,
 					architecture,
-					dyld,
 					gcc_os,
+					libdyld,
 					libedit,
 					tcl,
 					xnu,
@@ -4541,8 +5041,14 @@
 				lib = (
 					Libsystem,
 					SQLite,
+					dyld,
 					libedit,
 					ncurses,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
+					tcl,
 				);
 			};
 			version = 28;
@@ -4624,7 +5130,6 @@
 			dependencies = {
 				build = (
 					CF,
-					Csu,
 					ICU,
 					Libm,
 					Libsystem,
@@ -4639,12 +5144,12 @@
 					file_cmds,
 					gcc,
 					gcc_os,
+					gcc_select,
 					libsecurity_cdsa_client,
 					libsecurity_cdsa_utilities,
 					libsecurity_utilities,
 					libsecurityd,
 					objc4,
-					pbx_jamfiles,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
@@ -4670,6 +5175,10 @@
 					Libsystem,
 					Security,
 					SmartCardServices,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 7;
@@ -4728,7 +5237,6 @@
 		SharedIP = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -4738,13 +5246,16 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -4754,7 +5265,6 @@
 			dependencies = {
 				build = (
 					CF,
-					Csu,
 					ICU,
 					IOKitUser,
 					Libm,
@@ -4765,18 +5275,17 @@
 					awk,
 					bash,
 					cctools,
-					configd_executables,
+					configd,
 					cxxfilt,
 					file_cmds,
-					flex,
 					gcc,
 					gcc_os,
+					gcc_select,
 					libsecurity_cdsa_client,
 					libsecurity_cdsa_utilities,
 					libsecurity_utilities,
 					libsecurityd,
 					objc4,
-					pbx_jamfiles,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
@@ -4806,7 +5315,13 @@
 					OpenSSL,
 					Security,
 					SmartCardServices,
+					dyld,
 					zlib,
+				);
+				staticlib = (
+					Csu,
+					flex,
+					gcc_os,
 				);
 			};
 			version = 31;
@@ -4867,18 +5382,12 @@
 		SquirrelMail = {
 			dependencies = {
 				build = (
-					CF,
-					ICU,
 					bash,
-					cctools,
 					file_cmds,
-					gcc_os,
 					gnumake,
 					gnutar,
 					gnuzip,
 					pb_makefiles,
-					shell_cmds,
-					system_cmds,
 					text_cmds,
 				);
 			};
@@ -4887,7 +5396,6 @@
 		SystemStubs = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -4897,14 +5405,15 @@
 					gcc,
 					gcc_os,
 					gcc_os_35,
-					shell_cmds,
 					system_cmds,
-					text_cmds,
 				);
 				header = (
+					CarbonHeaders,
 					Libc_headers,
 					architecture,
+					cctools_ofiles,
 					gcc_os_35,
+					libdyld,
 					xnu,
 				);
 			};
@@ -4914,7 +5423,6 @@
 			dependencies = {
 				build = (
 					CF,
-					Csu,
 					ICU,
 					Libm,
 					Libsystem,
@@ -4933,9 +5441,7 @@
 					libsecurity_cdsa_utilities,
 					libsecurity_utilities,
 					objc4,
-					shell_cmds,
 					system_cmds,
-					text_cmds,
 					zlib,
 				);
 				header = (
@@ -4960,7 +5466,12 @@
 					Security,
 					SecurityTokend,
 					SmartCardServices,
+					dyld,
 					zlib,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 11;
@@ -4968,19 +5479,15 @@
 		UserNotification = {
 			dependencies = {
 				build = (
-					CF,
-					ICU,
 					bash,
 					cctools,
 					file_cmds,
-					gcc_os,
 					gcc_os_35,
 					gnumake,
 					gnutar,
 					pb_makefiles,
 					project_makefiles,
 					shell_cmds,
-					system_cmds,
 					text_cmds,
 				);
 				header = (
@@ -5050,7 +5557,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					awk,
@@ -5061,6 +5567,7 @@
 					file_cmds,
 					files,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					gnutar,
@@ -5077,12 +5584,17 @@
 					Libm,
 					architecture,
 					cctools_ofiles,
-					dyld,
 					gcc_os,
+					libdyld,
 					xnu,
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 683;
@@ -5090,9 +5602,6 @@
 		apache2 = {
 			dependencies = {
 				build = (
-					CF,
-					Csu,
-					ICU,
 					Libm,
 					Libsystem,
 					OpenSSL,
@@ -5106,6 +5615,7 @@
 					file_cmds,
 					files,
 					gcc_os,
+					gcc_select,
 					glibtool,
 					gm4,
 					gnudiff,
@@ -5120,6 +5630,7 @@
 					perl,
 					shell_cmds,
 					system_cmds,
+					tcsh,
 					text_cmds,
 				);
 				header = (
@@ -5130,8 +5641,8 @@
 					OpenSSL,
 					architecture,
 					cctools_ofiles,
-					dyld,
 					gcc_os,
+					libdyld,
 					libiconv,
 					netinfo,
 					xnu,
@@ -5140,8 +5651,13 @@
 					Libsystem,
 					OpenSSL,
 					apache2,
+					dyld,
 					libiconv,
 					netinfo,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 19;
@@ -5150,7 +5666,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					apache,
@@ -5160,6 +5675,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -5173,12 +5689,16 @@
 					Libinfo,
 					apache,
 					architecture,
-					dyld,
 					gcc_os,
+					libdyld,
 					xnu,
 				);
 				lib = (
 					Libsystem,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 10;
@@ -5186,9 +5706,6 @@
 		apache_mod_hfs_apple = {
 			dependencies = {
 				build = (
-					CF,
-					Csu,
-					ICU,
 					Libm,
 					Libsystem,
 					apache,
@@ -5197,12 +5714,10 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					pb_makefiles,
 					perl,
-					shell_cmds,
-					system_cmds,
-					text_cmds,
 				);
 				header = (
 					CarbonHeaders,
@@ -5217,15 +5732,17 @@
 				lib = (
 					Libsystem,
 				);
+				staticlib = (
+					Csu,
+					gcc_os,
+				);
 			};
 			version = 5;
 		};
 		apache_mod_perl = {
 			dependencies = {
 				build = (
-					CPAN,
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					apache,
@@ -5237,11 +5754,13 @@
 					file_cmds,
 					files,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					grep,
 					perl,
 					shell_cmds,
 					system_cmds,
+					tcsh,
 					text_cmds,
 				);
 				header = (
@@ -5251,13 +5770,18 @@
 					apache,
 					apache_mod_perl,
 					architecture,
-					dyld,
 					gcc_os,
+					libdyld,
 					perl,
 					xnu,
 				);
 				lib = (
 					Libsystem,
+					perl,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 					perl,
 				);
 			};
@@ -5268,37 +5792,28 @@
 				build = (
 					CF,
 					CoreOSMakefiles,
-					Csu,
-					DiskArbitration,
 					ICU,
-					IOKitUser,
 					Libm,
-					Libmx,
 					Libsystem,
 					OpenLDAP,
 					OpenSSL,
-					Security,
 					apache,
 					apache_mod_php,
 					awk,
 					bash,
 					bison,
 					bootstrap_cmds,
-					bsm,
 					cctools,
-					configd,
-					cups_ppc,
 					curl,
 					cxxfilt,
 					file_cmds,
 					flex,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
 					iodbc,
-					libiconv,
-					libxml2,
 					ncurses,
 					netinfo,
 					objc4,
@@ -5310,12 +5825,7 @@
 					zlib,
 				);
 				header = (
-					CF,
 					CarbonHeaders,
-					DiskArbitration,
-					IOGraphics,
-					IOHIDFamily,
-					IOKitUser,
 					Libc_headers,
 					Libinfo,
 					Libm,
@@ -5324,9 +5834,9 @@
 					architecture,
 					cctools_ofiles,
 					curl,
-					dyld,
 					gcc_os,
 					iodbc,
+					libdyld,
 					ncurses,
 					netinfo,
 					xnu,
@@ -5337,9 +5847,15 @@
 					OpenLDAP,
 					OpenSSL,
 					curl,
+					dyld,
 					iodbc,
 					netinfo,
 					zlib,
+				);
+				staticlib = (
+					Csu,
+					flex,
+					gcc_os,
 				);
 			};
 			version = 17;
@@ -5348,7 +5864,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					OpenSSL,
@@ -5360,6 +5875,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					grep,
 					perl,
@@ -5373,13 +5889,17 @@
 					OpenSSL,
 					apache,
 					architecture,
-					dyld,
 					gcc_os,
+					libdyld,
 					xnu,
 				);
 				lib = (
 					Libsystem,
 					OpenSSL,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 679;
@@ -5388,19 +5908,51 @@
 			dependencies = {
 				build = (
 					bash,
-					cctools,
 					developer_cmds,
 					file_cmds,
-					gcc_os,
 					gnumake,
-					shell_cmds,
-					system_cmds,
-					text_cmds,
 				);
 			};
 			version = 245;
 		};
 		at_cmds = {
+			dependencies = {
+				build = (
+					AppleTalk,
+					Libm,
+					Libsystem,
+					bash,
+					cctools,
+					cxxfilt,
+					file_cmds,
+					gcc_os,
+					gcc_select,
+					gnumake,
+					gnutar,
+					pb_makefiles,
+					project_makefiles,
+					shell_cmds,
+					text_cmds,
+				);
+				header = (
+					AppleTalk,
+					CarbonHeaders,
+					Libc_headers,
+					architecture,
+					gcc_os,
+					ncurses,
+					xnu,
+				);
+				lib = (
+					AppleTalk,
+					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
+				);
+			};
 			version = 51;
 		};
 		autoconf = {
@@ -5409,10 +5961,7 @@
 					CoreOSMakefiles,
 					bash,
 					bootstrap_cmds,
-					cctools,
-					emacs,
 					file_cmds,
-					gcc_os,
 					gm4,
 					gnudiff,
 					gnumake,
@@ -5429,8 +5978,6 @@
 		autofs = {
 			dependencies = {
 				build = (
-					CF,
-					Csu,
 					ICU,
 					Libm,
 					Libsystem,
@@ -5442,10 +5989,7 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					shell_cmds,
 					system_cmds,
-					text_cmds,
-					xnu,
 				);
 				header = (
 					Libc_headers,
@@ -5455,6 +5999,12 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
+					xnu,
 				);
 			};
 			version = 19;
@@ -5466,9 +6016,7 @@
 					autoconf,
 					bash,
 					bootstrap_cmds,
-					cctools,
 					file_cmds,
-					gcc_os,
 					gm4,
 					gnudiff,
 					gnumake,
@@ -5607,6 +6155,7 @@
 					Libinfo,
 					architecture,
 					gcc_os,
+					libdyld,
 					ncurses,
 					xnu,
 				);
@@ -5626,7 +6175,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -5636,6 +6184,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					gnuzip,
 					shell_cmds,
@@ -5652,6 +6201,11 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 43;
@@ -5660,7 +6214,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					autoconf,
@@ -5673,6 +6226,7 @@
 					file_cmds,
 					flex,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -5693,8 +6247,14 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
 					libedit,
 					ncurses,
+				);
+				staticlib = (
+					Csu,
+					flex,
+					gcc_os,
 				);
 			};
 			version = 18;
@@ -5703,7 +6263,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -5713,6 +6272,7 @@
 					emacs,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -5729,6 +6289,11 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 11;
@@ -5737,7 +6302,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					autoconf,
@@ -5748,6 +6312,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -5765,6 +6330,11 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 6;
@@ -5773,20 +6343,17 @@
 			dependencies = {
 				build = (
 					CF,
-					Csu,
+					DarwinInstaller,
 					DiskArbitration,
 					ICU,
 					IOKitUser,
 					Libm,
-					Libmx,
 					Libsystem,
-					OpenSSL,
 					Security,
 					adv_cmds,
 					awk,
 					bash,
 					bless,
-					bsm,
 					cctools,
 					configd,
 					cxxfilt,
@@ -5806,8 +6373,6 @@
 					CF,
 					CarbonHeaders,
 					DiskArbitration,
-					IOGraphics,
-					IOHIDFamily,
 					IOKitUser,
 					IOStorageFamily,
 					Libc_headers,
@@ -5822,6 +6387,11 @@
 					DiskArbitration,
 					IOKitUser,
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 24;
@@ -5830,13 +6400,44 @@
 			version = 47.2;
 		};
 		boot = {
+			dependencies = {
+				build = (
+					Libm,
+					Libsystem,
+					adv_cmds,
+					awk,
+					bash,
+					bootstrap_cmds,
+					cctools,
+					cxxfilt,
+					file_cmds,
+					files,
+					gcc_os,
+					gcc_select,
+					gnumake,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					IOStorageFamily,
+					Libc_headers,
+					architecture,
+					cctools_ofiles,
+					gcc_os,
+					xnu,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
+				);
+			};
 			version = 122;
 		};
 		bootp = {
 			dependencies = {
 				build = (
 					CF,
-					Csu,
 					ICU,
 					IOKitUser,
 					Libm,
@@ -5844,10 +6445,11 @@
 					bash,
 					bootstrap_cmds,
 					cctools,
-					configd_executables,
+					configd,
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					gnutar,
 					objc4,
@@ -5867,7 +6469,7 @@
 					Libinfo,
 					Libm,
 					architecture,
-					configd_executables,
+					configd,
 					gcc_os,
 					netinfo,
 					objc4,
@@ -5879,8 +6481,12 @@
 					Libsystem,
 					bootp,
 					configd,
-					configd_executables,
+					dyld,
 					objc4,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			environment = {
@@ -5891,9 +6497,6 @@
 		bootstrap_cmds = {
 			dependencies = {
 				build = (
-					CF,
-					Csu,
-					ICU,
 					Libm,
 					Libsystem,
 					bash,
@@ -5902,6 +6505,7 @@
 					file_cmds,
 					flex,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					gnutar,
 					pb_makefiles,
@@ -5920,6 +6524,11 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 49;
@@ -5928,7 +6537,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -5938,6 +6546,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					gnuzip,
 					shell_cmds,
@@ -5953,18 +6562,29 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 16;
 		};
 		bsdmanpages = {
+			dependencies = {
+				build = (
+					bash,
+					file_cmds,
+					gnumake,
+				);
+			};
 			version = 56;
 		};
 		bsm = {
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -5973,6 +6593,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					shell_cmds,
 					system_cmds,
@@ -5989,6 +6610,11 @@
 				lib = (
 					Libsystem,
 					bsm,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 8;
@@ -5997,7 +6623,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -6006,6 +6631,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					shell_cmds,
@@ -6022,6 +6648,11 @@
 				lib = (
 					Libsystem,
 					bzip2,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 9;
@@ -6223,10 +6854,114 @@
 			version = 130;
 		};
 		configd_executables = {
+			dependencies = {
+				build = (
+					CF,
+					ICU,
+					IOKitUser,
+					Libm,
+					Libsystem,
+					adv_cmds,
+					awk,
+					bash,
+					bootstrap_cmds,
+					cctools,
+					configd,
+					cxxfilt,
+					file_cmds,
+					gcc,
+					gcc_os,
+					gcc_select,
+					libedit,
+					ncurses,
+					objc4,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+					xnu,
+					zlib,
+				);
+				header = (
+					CF,
+					CarbonHeaders,
+					Libc_headers,
+					Libinfo,
+					Libm,
+					Libnotify,
+					Security,
+					architecture,
+					cctools_ofiles,
+					dyld,
+					gcc_os,
+					libedit,
+					objc4,
+					xnu,
+				);
+				lib = (
+					CF,
+					IOKitUser,
+					Libsystem,
+					configd,
+					dyld,
+					libedit,
+					objc4,
+				);
+				staticlib = (
+					Csu,
+					configd,
+					configd_plugins,
+					gcc_os,
+				);
+			};
 			original = configd;
 			target = configd_executables;
 		};
 		configd_plugins = {
+			dependencies = {
+				build = (
+					AppleTalk,
+					CF,
+					ICU,
+					Libm,
+					Libsystem,
+					adv_cmds,
+					awk,
+					bash,
+					cctools,
+					configd,
+					cxxfilt,
+					file_cmds,
+					gcc,
+					gcc_os,
+					objc4,
+					system_cmds,
+				);
+				header = (
+					AppleTalk,
+					CF,
+					CarbonHeaders,
+					IOKitUser,
+					IONetworkingFamily,
+					Libc_headers,
+					Libinfo,
+					Libm,
+					Libnotify,
+					architecture,
+					gcc_os,
+					netinfo,
+					xnu,
+				);
+				lib = (
+					AppleTalk,
+					CF,
+					Libsystem,
+					configd,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
+				);
+			};
 			original = configd;
 			target = configd_plugins;
 		};
@@ -6235,7 +6970,6 @@
 				build = (
 					CF,
 					CoreOSMakefiles,
-					Csu,
 					ICU,
 					IOKitUser,
 					Libm,
@@ -6249,6 +6983,7 @@
 					developer_cmds,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					gnuzip,
 					misc_cmds,
@@ -6272,18 +7007,34 @@
 					CF,
 					IOKitUser,
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 12.2;
 		};
 		crontabs = {
+			dependencies = {
+				build = (
+					CoreOSMakefiles,
+					bash,
+					bootstrap_cmds,
+					file_cmds,
+					gnumake,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+			};
 			version = 23;
 		};
 		cscope = {
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -6294,6 +7045,7 @@
 					file_cmds,
 					flex,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -6311,7 +7063,13 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
 					ncurses,
+				);
+				staticlib = (
+					Csu,
+					flex,
+					gcc_os,
 				);
 			};
 			version = 9;
@@ -6390,7 +7148,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					OpenSSL,
@@ -6402,6 +7159,7 @@
 					file,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -6416,8 +7174,8 @@
 					Libinfo,
 					OpenSSL,
 					architecture,
-					dyld,
 					gcc_os,
+					libdyld,
 					xnu,
 					zlib,
 				);
@@ -6425,7 +7183,12 @@
 					Libsystem,
 					OpenSSL,
 					curl,
+					dyld,
 					zlib,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 28;
@@ -6435,20 +7198,18 @@
 				build = (
 					CF,
 					CoreOSMakefiles,
-					Csu,
-					DiskArbitration,
 					ICU,
-					IOKitUser,
+					Kerberos,
 					Libm,
 					Libsystem,
 					Security,
 					bash,
 					bootstrap_cmds,
 					cctools,
-					configd,
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -6458,10 +7219,10 @@
 					system_cmds,
 					texinfo,
 					text_cmds,
-					zlib,
 				);
 				header = (
 					CarbonHeaders,
+					Kerberos,
 					Libc_headers,
 					Libinfo,
 					architecture,
@@ -6469,19 +7230,70 @@
 					xnu,
 				);
 				lib = (
+					Kerberos,
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 33;
 		};
 		cvs_wrapped = {
+			dependencies = {
+				build = (
+					CF,
+					CoreOSMakefiles,
+					ICU,
+					Kerberos,
+					Libm,
+					Libsystem,
+					Security,
+					bash,
+					bison,
+					bootstrap_cmds,
+					cctools,
+					cxxfilt,
+					file_cmds,
+					gcc_os,
+					gcc_select,
+					gnudiff,
+					gnumake,
+					grep,
+					netinfo,
+					objc4,
+					perl,
+					shell_cmds,
+					system_cmds,
+					texi2html,
+					text_cmds,
+				);
+				header = (
+					CarbonHeaders,
+					Kerberos,
+					Libc_headers,
+					Libinfo,
+					architecture,
+					gcc_os,
+					xnu,
+				);
+				lib = (
+					Kerberos,
+					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
+				);
+			};
 			version = 5;
 		};
 		cxxfilt = {
 			dependencies = {
 				build = (
-					CF,
-					Csu,
 					ICU,
 					Libm,
 					Libsystem,
@@ -6497,6 +7309,7 @@
 					flex,
 					gcc,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -6515,6 +7328,12 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					flex,
+					gcc_os,
 				);
 			};
 			version = 1;
@@ -6522,10 +7341,7 @@
 		developer_cmds = {
 			dependencies = {
 				build = (
-					CF,
 					CoreOSMakefiles,
-					Csu,
-					ICU,
 					Libm,
 					Libsystem,
 					adv_cmds,
@@ -6535,6 +7351,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					gnutar,
 					pb_makefiles,
@@ -6552,6 +7369,11 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 39;
@@ -6560,7 +7382,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -6569,6 +7390,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -6584,6 +7406,11 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 3;
@@ -6592,7 +7419,6 @@
 			dependencies = {
 				build = (
 					CF,
-					Csu,
 					DiskArbitration,
 					ICU,
 					IOKitUser,
@@ -6609,6 +7435,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					gnutar,
 					groff,
@@ -6641,6 +7468,11 @@
 					IOKitUser,
 					Libsystem,
 					OpenSSL,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 332;
@@ -6649,7 +7481,6 @@
 			dependencies = {
 				build = (
 					CF,
-					Csu,
 					ICU,
 					Libm,
 					Libsystem,
@@ -6661,11 +7492,9 @@
 					file_cmds,
 					gcc,
 					gcc_os,
+					gcc_select,
 					objc4,
-					pbx_jamfiles,
-					shell_cmds,
 					system_cmds,
-					text_cmds,
 					zlib,
 				);
 				header = (
@@ -6682,7 +7511,12 @@
 				lib = (
 					CF,
 					Libsystem,
+					dyld,
 					zlib,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 1;
@@ -6690,7 +7524,6 @@
 		distcc = {
 			dependencies = {
 				build = (
-					Csu,
 					Libm,
 					Libsystem,
 					OpenSSL,
@@ -6699,8 +7532,8 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
-					shell_cmds,
 					system_cmds,
 					text_cmds,
 				);
@@ -6717,6 +7550,11 @@
 				lib = (
 					Libsystem,
 					OpenSSL,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 25;
@@ -6725,7 +7563,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -6735,6 +7572,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					gnuzip,
 					shell_cmds,
@@ -6751,7 +7589,12 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
 					zlib,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 44;
@@ -6759,7 +7602,6 @@
 		drvAppleCMD646Root = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -6769,14 +7611,17 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					IOPCIFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -6791,6 +7636,7 @@
 					bash,
 					cctools,
 					file_cmds,
+					gcc,
 					gcc_os,
 					gcc_os_35,
 					ld64,
@@ -6820,9 +7666,7 @@
 			dependencies = {
 				build = (
 					CF,
-					Csu,
 					ICU,
-					IOKitUser,
 					Libm,
 					Libsystem,
 					OpenSSL,
@@ -6830,10 +7674,11 @@
 					bash,
 					bootstrap_cmds,
 					cctools,
-					configd_executables,
+					configd,
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					gnutar,
 					objc4,
@@ -6843,7 +7688,6 @@
 					system_cmds,
 					text_cmds,
 					xnu,
-					zlib,
 				);
 				header = (
 					CF,
@@ -6853,7 +7697,7 @@
 					OpenSSL,
 					Security,
 					architecture,
-					configd_executables,
+					configd,
 					gcc_os,
 					xnu,
 				);
@@ -6863,8 +7707,12 @@
 					OpenSSL,
 					Security,
 					configd,
-					configd_executables,
+					dyld,
 					eap8021x,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			environment = {
@@ -6921,7 +7769,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -6932,6 +7779,7 @@
 					file,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					gnutar,
@@ -6954,20 +7802,102 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
 					ncurses,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 59;
 		};
 		enscript = {
 			dependencies = {
+				build = (
+					CoreOSMakefiles,
+					Libm,
+					Libsystem,
+					autoconf,
+					automake,
+					bash,
+					bootstrap_cmds,
+					cctools,
+					cxxfilt,
+					file_cmds,
+					flex,
+					gcc_os,
+					gcc_select,
+					gnudiff,
+					gnumake,
+					grep,
+					perl,
+					shell_cmds,
+					system_cmds,
+					texinfo,
+					text_cmds,
+				);
+				header = (
+					Libc_headers,
+					Libm,
+					architecture,
+					gcc_os,
+					xnu,
+				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					flex,
+					gcc_os,
 				);
 			};
 			version = 9;
 		};
 		extenTools = {
+			dependencies = {
+				build = (
+					CF,
+					ICU,
+					Libm,
+					Libsystem,
+					bash,
+					bootstrap_cmds,
+					cctools,
+					cxxfilt,
+					file_cmds,
+					gcc_os,
+					gcc_select,
+					gnumake,
+					gnutar,
+					objc4,
+					pb_makefiles,
+					project_makefiles,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					CF,
+					CarbonHeaders,
+					Libc_headers,
+					Libm,
+					architecture,
+					gcc_os,
+					xnu,
+				);
+				lib = (
+					CF,
+					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
+				);
+			};
 			version = 17.3;
 		};
 		fetchmail = {
@@ -6975,10 +7905,7 @@
 				build = (
 					CF,
 					CoreOSMakefiles,
-					Csu,
-					DiskArbitration,
 					ICU,
-					IOKitUser,
 					Kerberos,
 					Libm,
 					Libsystem,
@@ -6988,11 +7915,11 @@
 					bison,
 					bootstrap_cmds,
 					cctools,
-					configd,
 					cxxfilt,
 					file_cmds,
 					flex,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -7002,7 +7929,6 @@
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					zlib,
 				);
 				header = (
 					CarbonHeaders,
@@ -7020,6 +7946,12 @@
 					Kerberos,
 					Libsystem,
 					OpenSSL,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					flex,
+					gcc_os,
 				);
 			};
 			version = 14;
@@ -7028,7 +7960,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -7037,6 +7968,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -7055,7 +7987,12 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
 					zlib,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 6;
@@ -7109,9 +8046,7 @@
 					CoreOSMakefiles,
 					bash,
 					bootstrap_cmds,
-					cctools,
 					file_cmds,
-					gcc_os,
 					gnumake,
 					netinfo,
 					perl,
@@ -7127,7 +8062,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -7137,6 +8071,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -7154,6 +8089,11 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 13;
@@ -7162,11 +8102,9 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libmx,
 					Libsystem,
-					SystemStubs,
 					awk,
 					bash,
 					bison,
@@ -7176,8 +8114,8 @@
 					file_cmds,
 					files,
 					flex,
-					gcc,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					gnutar,
@@ -7191,20 +8129,63 @@
 					text_cmds,
 				);
 				header = (
+					CarbonHeaders,
+					CommonCrypto,
+					Kerberos,
 					Libc_headers,
+					Libinfo,
 					Libm,
+					Libnotify,
+					Librpcsvc,
+					MySQL,
+					OpenLDAP,
+					OpenSSL,
+					SQLite,
+					apache,
+					apache_mod_php,
 					architecture,
+					bsm,
+					bzip2,
 					cctools_ofiles,
+					cups,
+					curl,
+					flex,
 					gcc,
 					gcc_os,
+					gcc_os_35,
+					glibtool,
+					iodbc,
+					launchd,
+					libdyld,
+					libedit,
 					libiconv,
+					libpcap,
+					libxml2,
+					libxslt,
+					ncurses,
+					net_snmp,
+					netinfo,
+					objc4,
+					pam,
+					python,
+					tcl,
+					tcp_wrappers,
+					tidy,
 					xnu,
+					zlib,
 				);
 				lib = (
 					Libmx,
 					Libsystem,
+					dyld,
 					gcc,
 					libiconv,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+					gcc_os,
 				);
 			};
 			version = 4061;
@@ -7213,7 +8194,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libmx,
 					Libsystem,
@@ -7231,6 +8211,7 @@
 					files,
 					flex,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					gnutar,
@@ -7243,22 +8224,60 @@
 					text_cmds,
 				);
 				header = (
+					CarbonHeaders,
+					CommonCrypto,
+					Kerberos,
 					Libc_headers,
 					Libinfo,
 					Libm,
-					X11,
+					Libnotify,
+					Librpcsvc,
+					MySQL,
+					OpenLDAP,
+					OpenSSL,
+					SQLite,
+					apache,
+					apache_mod_php,
 					architecture,
-					dyld,
+					bsm,
+					bzip2,
+					cctools_ofiles,
+					cups,
+					curl,
+					flex,
+					gcc,
 					gcc_os,
+					gcc_os_35,
+					glibtool,
+					iodbc,
+					launchd,
+					libdyld,
+					libedit,
 					libiconv,
+					libpcap,
+					libxml2,
+					libxslt,
 					ncurses,
+					net_snmp,
+					netinfo,
+					objc4,
+					pam,
+					python,
+					tcl,
+					tcp_wrappers,
+					tidy,
 					xnu,
+					zlib,
 				);
 				lib = (
 					Libmx,
 					Libsystem,
-					gcc_select,
+					dyld,
 					libiconv,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 1809;
@@ -7267,21 +8286,19 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libmx,
 					Libsystem,
-					SystemStubs,
 					awk,
 					bash,
 					bison,
 					cctools,
 					cxxfilt,
-					file,
 					file_cmds,
 					files,
 					flex,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					gnutar,
@@ -7295,18 +8312,61 @@
 					text_cmds,
 				);
 				header = (
+					CarbonHeaders,
+					CommonCrypto,
+					Kerberos,
 					Libc_headers,
+					Libinfo,
 					Libm,
+					Libnotify,
+					Librpcsvc,
+					MySQL,
+					OpenLDAP,
+					OpenSSL,
+					SQLite,
+					apache,
+					apache_mod_php,
 					architecture,
+					bsm,
+					bzip2,
 					cctools_ofiles,
+					cups,
+					curl,
+					flex,
+					gcc,
 					gcc_os,
+					gcc_os_35,
+					glibtool,
+					iodbc,
+					launchd,
+					libdyld,
+					libedit,
 					libiconv,
+					libpcap,
+					libxml2,
+					libxslt,
+					ncurses,
+					net_snmp,
+					netinfo,
+					objc4,
+					pam,
+					python,
+					tcl,
+					tcp_wrappers,
+					tidy,
 					xnu,
+					zlib,
 				);
 				lib = (
 					Libmx,
 					Libsystem,
+					dyld,
 					libiconv,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
+					gcc_os_35,
 				);
 			};
 			version = 3506;
@@ -7315,7 +8375,7 @@
 			dependencies = {
 				build = (
 					CF,
-					Csu,
+					DarwinTools,
 					Libm,
 					Libsystem,
 					awk,
@@ -7324,6 +8384,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					grep,
 					perl,
@@ -7339,6 +8400,11 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 46;
@@ -7347,7 +8413,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					autoconf,
@@ -7364,6 +8429,7 @@
 					files,
 					flex,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					gnutar,
@@ -7376,20 +8442,59 @@
 					text_cmds,
 				);
 				header = (
+					CarbonHeaders,
+					CommonCrypto,
+					Kerberos,
 					Libc_headers,
 					Libinfo,
 					Libm,
-					X11,
+					Libnotify,
+					Librpcsvc,
+					MySQL,
+					OpenLDAP,
+					OpenSSL,
+					SQLite,
+					apache,
+					apache_mod_php,
 					architecture,
-					dyld,
+					bsm,
+					bzip2,
+					cctools_ofiles,
+					cups,
+					curl,
+					flex,
+					gcc,
 					gcc_os,
+					gcc_os_35,
+					glibtool,
+					iodbc,
+					launchd,
+					libdyld,
+					libedit,
 					libiconv,
+					libpcap,
+					libxml2,
+					libxslt,
 					ncurses,
+					net_snmp,
+					netinfo,
+					objc4,
+					pam,
+					python,
+					tcl,
+					tcp_wrappers,
+					tidy,
 					xnu,
+					zlib,
 				);
 				lib = (
 					Libsystem,
+					dyld,
 					libiconv,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 1621.1;
@@ -7397,7 +8502,6 @@
 		gdb = {
 			dependencies = {
 				build = (
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -7431,11 +8535,10 @@
 					Libc_headers,
 					Libinfo,
 					Libm,
-					X11,
 					architecture,
 					cctools_ofiles,
-					dyld,
 					gcc_os,
+					libdyld,
 					libiconv,
 					libxml2,
 					ncurses,
@@ -7443,10 +8546,16 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
 					libiconv,
 					libxml2,
 					ncurses,
 					zlib,
+				);
+				staticlib = (
+					Csu,
+					flex,
+					gcc_os,
 				);
 			};
 			version = 384;
@@ -7456,7 +8565,6 @@
 				build = (
 					CF,
 					CoreOSMakefiles,
-					Csu,
 					ICU,
 					Libm,
 					Libsystem,
@@ -7470,6 +8578,7 @@
 					file_cmds,
 					flex,
 					gcc_os,
+					gcc_select,
 					glibtool,
 					gnudiff,
 					gnumake,
@@ -7489,9 +8598,9 @@
 					Libm,
 					architecture,
 					cups,
-					dyld,
 					gcc_os,
 					glibtool,
+					libdyld,
 					libedit,
 					libiconv,
 					xnu,
@@ -7500,11 +8609,16 @@
 				lib = (
 					Libsystem,
 					cups,
-					cups_ppc,
+					dyld,
 					gimp_print,
 					libedit,
 					ncurses,
 					zlib,
+				);
+				staticlib = (
+					Csu,
+					flex,
+					gcc_os,
 				);
 			};
 			version = 11;
@@ -7513,7 +8627,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -7523,6 +8636,7 @@
 					developer_cmds,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					gnutar,
@@ -7540,12 +8654,16 @@
 					Libc_headers,
 					architecture,
 					cctools_ofiles,
-					dyld,
 					gcc_os,
+					libdyld,
 					xnu,
 				);
 				lib = (
 					Libsystem,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 7.2;
@@ -7554,7 +8672,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -7563,12 +8680,14 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
 					perl,
 					shell_cmds,
 					system_cmds,
+					texi2html,
 					text_cmds,
 				);
 				header = (
@@ -7579,6 +8698,11 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 10.2;
@@ -7587,7 +8711,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -7596,6 +8719,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -7614,6 +8738,11 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 13;
@@ -7622,7 +8751,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -7631,6 +8759,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -7650,6 +8779,11 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 110;
@@ -7657,7 +8791,6 @@
 		gnuserv = {
 			dependencies = {
 				build = (
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -7666,6 +8799,7 @@
 					emacs,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -7682,6 +8816,11 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 3;
@@ -7690,7 +8829,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					autoconf,
@@ -7701,6 +8839,7 @@
 					file_cmds,
 					files,
 					gcc_os,
+					gcc_select,
 					gm4,
 					gnudiff,
 					gnumake,
@@ -7721,6 +8860,11 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 433;
@@ -7729,7 +8873,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -7738,6 +8881,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -7755,6 +8899,11 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 19;
@@ -7763,7 +8912,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -7772,6 +8920,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -7788,6 +8937,11 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 4;
@@ -7795,8 +8949,6 @@
 		gpt = {
 			dependencies = {
 				build = (
-					CF,
-					Csu,
 					ICU,
 					Libm,
 					Libsystem,
@@ -7808,9 +8960,7 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					shell_cmds,
 					system_cmds,
-					text_cmds,
 				);
 				header = (
 					IOStorageFamily,
@@ -7821,6 +8971,11 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 5;
@@ -7830,7 +8985,6 @@
 				build = (
 					CF,
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					autoconf,
@@ -7845,6 +8999,7 @@
 					file_cmds,
 					flex,
 					gcc_os,
+					gcc_select,
 					glibtool,
 					gm4,
 					gnudiff,
@@ -7861,18 +9016,24 @@
 				header = (
 					Libc_headers,
 					Libm,
-					X11,
 					architecture,
-					dyld,
 					gcc_os,
+					libdyld,
 					tcl,
 					xnu,
 					zlib,
 				);
 				lib = (
 					Libsystem,
+					dyld,
 					graphviz,
 					zlib,
+				);
+				staticlib = (
+					Csu,
+					flex,
+					gcc_os,
+					tcl,
 				);
 			};
 			version = 498;
@@ -7881,7 +9042,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -7892,6 +9052,7 @@
 					file_cmds,
 					files,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -7911,6 +9072,11 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 14;
@@ -7919,7 +9085,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					awk,
@@ -7930,6 +9095,7 @@
 					file_cmds,
 					files,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -7949,6 +9115,11 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 28;
@@ -7956,7 +9127,6 @@
 		headerdoc = {
 			dependencies = {
 				build = (
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -7964,12 +9134,12 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					libiconv,
 					libxml2,
 					perl,
 					shell_cmds,
-					system_cmds,
 					text_cmds,
 					zlib,
 				);
@@ -7983,7 +9153,12 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
 					libxml2,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 8.5.9;
@@ -7992,7 +9167,6 @@
 			dependencies = {
 				build = (
 					CF,
-					Csu,
 					ICU,
 					Libm,
 					Libsystem,
@@ -8003,6 +9177,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					gnutar,
 					objc4,
@@ -8025,6 +9200,11 @@
 					CF,
 					Libsystem,
 					OpenSSL,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 154;
@@ -8087,7 +9267,6 @@
 			dependencies = {
 				build = (
 					CF,
-					Csu,
 					ICU,
 					Libm,
 					Libsystem,
@@ -8100,11 +9279,9 @@
 					file_cmds,
 					gcc,
 					gcc_os,
+					gcc_select,
 					objc4,
-					pbx_jamfiles,
-					shell_cmds,
 					system_cmds,
-					text_cmds,
 				);
 				header = (
 					CF,
@@ -8122,6 +9299,10 @@
 					Libsystem,
 					configd,
 				);
+				staticlib = (
+					Csu,
+					gcc_os,
+				);
 			};
 			version = 22;
 		};
@@ -8129,7 +9310,6 @@
 			dependencies = {
 				build = (
 					CF,
-					Csu,
 					ICU,
 					IOKitUser,
 					Libm,
@@ -8140,13 +9320,13 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					gnutar,
 					objc4,
 					pb_makefiles,
 					project_makefiles,
 					shell_cmds,
-					system_cmds,
 					text_cmds,
 					zlib,
 				);
@@ -8164,6 +9344,11 @@
 					CF,
 					IOKitUser,
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 32;
@@ -8171,13 +9356,10 @@
 		jam = {
 			dependencies = {
 				build = (
-					CF,
-					Csu,
 					ICU,
 					Libm,
 					Libmx,
 					Libsystem,
-					SystemStubs,
 					adv_cmds,
 					awk,
 					bash,
@@ -8185,7 +9367,7 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
@@ -8200,6 +9382,12 @@
 				lib = (
 					Libmx,
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
 				);
 			};
 			version = 505;
@@ -8208,7 +9396,6 @@
 			dependencies = {
 				build = (
 					CF,
-					Csu,
 					ICU,
 					IOKitUser,
 					Libm,
@@ -8223,8 +9410,8 @@
 					file_cmds,
 					gcc,
 					gcc_os,
+					gcc_select,
 					objc4,
-					pbx_jamfiles,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
@@ -8234,7 +9421,6 @@
 				header = (
 					CF,
 					CarbonHeaders,
-					DiskArbitration,
 					IOKitUser,
 					Libc_headers,
 					Libinfo,
@@ -8249,6 +9435,11 @@
 					CF,
 					IOKitUser,
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 59;
@@ -8256,7 +9447,6 @@
 		keymgr = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -8266,16 +9456,13 @@
 					gcc,
 					gcc_os,
 					gcc_os_35,
-					shell_cmds,
 					system_cmds,
-					text_cmds,
 				);
 				header = (
 					CarbonHeaders,
 					Libc_headers,
 					architecture,
 					cctools_ofiles,
-					dyld,
 					gcc_os_35,
 					libdyld,
 					xnu,
@@ -8290,7 +9477,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -8299,8 +9485,8 @@
 					cxxfilt,
 					file,
 					file_cmds,
-					flex,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -8316,14 +9502,22 @@
 					Libm,
 					architecture,
 					cctools_ofiles,
-					dyld,
 					gcc_os,
+					libdyld,
 					libiconv,
 					xnu,
 				);
 				lib = (
 					Libsystem,
+					dyld,
 					libiconv,
+				);
+				staticlib = (
+					AppleRAID,
+					Csu,
+					SystemStubs,
+					flex,
+					gcc_os,
 				);
 			};
 			version = 4;
@@ -8398,6 +9592,7 @@
 					cctools,
 					cxxfilt,
 					file_cmds,
+					gcc,
 					gcc_os,
 					system_cmds,
 				);
@@ -8424,7 +9619,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -8433,6 +9627,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -8450,12 +9645,39 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
 					ncurses,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 14;
 		};
 		libdyld = {
+			dependencies = {
+				build = (
+					ICU,
+					adv_cmds,
+					awk,
+					bash,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_os,
+					gcc_os_35,
+					system_cmds,
+				);
+				header = (
+					CarbonHeaders,
+					Libc_headers,
+					architecture,
+					cctools_ofiles,
+					gcc_os_35,
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386";
 			};
@@ -8466,7 +9688,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					awk,
@@ -8476,6 +9697,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -8495,13 +9717,16 @@
 					Libsystem,
 					ncurses,
 				);
+				staticlib = (
+					Csu,
+					gcc_os,
+				);
 			};
 			version = 5.1;
 		};
 		libfs = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -8510,9 +9735,7 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					shell_cmds,
 					system_cmds,
-					text_cmds,
 				);
 				header = (
 					CF,
@@ -8529,7 +9752,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -8541,6 +9763,7 @@
 					file_cmds,
 					files,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -8552,14 +9775,19 @@
 				header = (
 					Libc_headers,
 					architecture,
-					dyld,
 					gcc_os,
+					libdyld,
 					libiconv,
 					xnu,
 				);
 				lib = (
 					Libsystem,
+					dyld,
 					libiconv,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 13;
@@ -8568,7 +9796,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -8579,6 +9806,7 @@
 					file_cmds,
 					flex,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -8596,13 +9824,16 @@
 				lib = (
 					Libsystem,
 				);
+				staticlib = (
+					Csu,
+					gcc_os,
+				);
 			};
 			version = 14;
 		};
 		libsecurity_agent = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -8612,7 +9843,7 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
@@ -8672,7 +9903,6 @@
 		libsecurity_apple_cspdl = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -8681,8 +9911,7 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
-					shell_cmds,
+					gcc_select,
 					system_cmds,
 					text_cmds,
 				);
@@ -8708,7 +9937,6 @@
 		libsecurity_apple_file_dl = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -8717,8 +9945,7 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
-					shell_cmds,
+					gcc_select,
 					system_cmds,
 					text_cmds,
 				);
@@ -8742,7 +9969,6 @@
 		libsecurity_apple_x509_cl = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -8751,8 +9977,7 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
-					shell_cmds,
+					gcc_select,
 					system_cmds,
 					text_cmds,
 				);
@@ -8776,7 +10001,6 @@
 		libsecurity_apple_x509_tp = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -8785,8 +10009,7 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
-					shell_cmds,
+					gcc_select,
 					system_cmds,
 					text_cmds,
 				);
@@ -8812,7 +10035,6 @@
 		libsecurity_asn1 = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -8821,8 +10043,7 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
-					shell_cmds,
+					gcc_select,
 					system_cmds,
 					text_cmds,
 				);
@@ -8843,7 +10064,6 @@
 		libsecurity_authorization = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -8852,8 +10072,7 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
-					shell_cmds,
+					gcc_select,
 					system_cmds,
 					text_cmds,
 				);
@@ -8876,7 +10095,6 @@
 		libsecurity_cdsa_client = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -8885,8 +10103,7 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
-					shell_cmds,
+					gcc_select,
 					system_cmds,
 					text_cmds,
 				);
@@ -8909,7 +10126,6 @@
 		libsecurity_cdsa_plugin = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -8918,9 +10134,8 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					perl,
-					shell_cmds,
 					system_cmds,
 					text_cmds,
 				);
@@ -8943,7 +10158,6 @@
 		libsecurity_cdsa_utilities = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -8952,10 +10166,9 @@
 					file_cmds,
 					gcc,
 					gcc_os,
+					gcc_select,
 					gm4,
 					gnudiff,
-					pbx_jamfiles,
-					shell_cmds,
 					system_cmds,
 					text_cmds,
 				);
@@ -8976,7 +10189,6 @@
 		libsecurity_cdsa_utils = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -8985,8 +10197,7 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
-					shell_cmds,
+					gcc_select,
 					system_cmds,
 					text_cmds,
 				);
@@ -9006,7 +10217,6 @@
 		libsecurity_checkpw = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -9015,13 +10225,12 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
-					shell_cmds,
+					gcc_select,
 					system_cmds,
 					text_cmds,
 				);
 				header = (
-					DirectoryService,
+					DirectoryServiceMIG,
 					Libc_headers,
 					architecture,
 					gcc_os,
@@ -9033,7 +10242,6 @@
 		libsecurity_cryptkit = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -9042,8 +10250,7 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
-					shell_cmds,
+					gcc_select,
 					system_cmds,
 					text_cmds,
 				);
@@ -9066,7 +10273,6 @@
 		libsecurity_cssm = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -9075,9 +10281,8 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					perl,
-					shell_cmds,
 					system_cmds,
 					text_cmds,
 				);
@@ -9100,7 +10305,6 @@
 		libsecurity_filedb = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -9109,8 +10313,7 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
-					shell_cmds,
+					gcc_select,
 					system_cmds,
 					text_cmds,
 				);
@@ -9172,7 +10375,6 @@
 			dependencies = {
 				build = (
 					CF,
-					Csu,
 					DirectoryService,
 					ICU,
 					Libm,
@@ -9187,9 +10389,7 @@
 					gcc,
 					gcc_os,
 					objc4,
-					shell_cmds,
 					system_cmds,
-					text_cmds,
 				);
 				header = (
 					CF,
@@ -9209,13 +10409,16 @@
 					Libsystem,
 					Security,
 				);
+				staticlib = (
+					Csu,
+					gcc_os,
+				);
 			};
 			version = 11;
 		};
 		libsecurity_manifest = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -9224,8 +10427,7 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
-					shell_cmds,
+					gcc_select,
 					system_cmds,
 					text_cmds,
 				);
@@ -9248,7 +10450,6 @@
 		libsecurity_mds = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -9257,8 +10458,7 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
-					shell_cmds,
+					gcc_select,
 					system_cmds,
 					text_cmds,
 				);
@@ -9283,7 +10483,6 @@
 		libsecurity_ocspd = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -9293,7 +10492,7 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
@@ -9319,7 +10518,6 @@
 		libsecurity_pkcs12 = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -9328,8 +10526,7 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
-					shell_cmds,
+					gcc_select,
 					system_cmds,
 					text_cmds,
 				);
@@ -9355,7 +10552,6 @@
 		libsecurity_sd_cspdl = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -9364,8 +10560,7 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
-					shell_cmds,
+					gcc_select,
 					system_cmds,
 					text_cmds,
 				);
@@ -9390,7 +10585,6 @@
 		libsecurity_smime = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -9399,8 +10593,7 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
-					shell_cmds,
+					gcc_select,
 					system_cmds,
 					text_cmds,
 				);
@@ -9421,7 +10614,6 @@
 		libsecurity_ssl = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -9430,8 +10622,7 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
-					shell_cmds,
+					gcc_select,
 					system_cmds,
 					text_cmds,
 				);
@@ -9454,7 +10645,6 @@
 		libsecurity_utilities = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -9463,26 +10653,25 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
-					shell_cmds,
+					gcc_select,
 					system_cmds,
 					text_cmds,
 				);
 				header = (
 					CF,
 					CarbonHeaders,
-					DiskArbitration,
 					IOKitUser,
 					IOUSBFamily,
 					Libc_headers,
 					Libinfo,
 					Libm,
 					Libnotify,
+					SmartCardServices,
 					architecture,
 					bsm,
 					cctools_ofiles,
-					dyld,
 					gcc_os,
+					libdyld,
 					xnu,
 				);
 			};
@@ -9491,7 +10680,6 @@
 		libsecurityd = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -9501,7 +10689,7 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
+					gcc_select,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
@@ -9534,6 +10722,7 @@
 					developer_cmds,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					misc_cmds,
 					shell_cmds,
@@ -9557,9 +10746,10 @@
 				build = (
 					CF,
 					CoreOSMakefiles,
-					Csu,
+					DarwinTools,
 					Libm,
 					Libsystem,
+					OrderFiles,
 					bash,
 					bootstrap_cmds,
 					cctools,
@@ -9568,6 +10758,7 @@
 					file,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -9584,8 +10775,8 @@
 					Libinfo,
 					Libm,
 					architecture,
-					dyld,
 					gcc_os,
+					libdyld,
 					libiconv,
 					netinfo,
 					xnu,
@@ -9593,9 +10784,14 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
 					libiconv,
 					libxml2,
 					zlib,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 16;
@@ -9604,7 +10800,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					awk,
@@ -9616,6 +10811,7 @@
 					file,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -9631,18 +10827,23 @@
 					Libc_headers,
 					Libm,
 					architecture,
-					dyld,
 					gcc_os,
+					libdyld,
 					libiconv,
 					libxml2,
 					xnu,
 				);
 				lib = (
 					Libsystem,
+					dyld,
 					libiconv,
 					libxml2,
 					libxslt,
 					zlib,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 8.1;
@@ -9651,7 +10852,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -9660,6 +10860,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					grep,
 					ncurses,
@@ -9674,7 +10875,12 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
 					ncurses,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 20;
@@ -9682,7 +10888,6 @@
 		lukemftp = {
 			dependencies = {
 				build = (
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -9690,13 +10895,13 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
 					libedit,
 					ncurses,
 					shell_cmds,
-					system_cmds,
 					text_cmds,
 				);
 				header = (
@@ -9711,8 +10916,13 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
 					libedit,
 					ncurses,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 5;
@@ -9720,7 +10930,6 @@
 		lukemftpd = {
 			dependencies = {
 				build = (
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -9728,12 +10937,12 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
 					pam,
 					shell_cmds,
-					system_cmds,
 					text_cmds,
 					yacc,
 				);
@@ -9748,7 +10957,12 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
 					pam,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 17;
@@ -9812,8 +11026,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
-					ICU,
 					Libm,
 					Libsystem,
 					bash,
@@ -9822,6 +11034,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					gnutar,
 					ncurses,
@@ -9841,7 +11054,12 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
 					ncurses,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 17.2;
@@ -9850,7 +11068,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -9859,6 +11076,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					gnutar,
@@ -9879,6 +11097,11 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 117;
@@ -9887,7 +11110,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					awk,
@@ -9897,9 +11119,9 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					grep,
-					groff,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
@@ -9912,6 +11134,11 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 4;
@@ -9920,7 +11147,6 @@
 			dependencies = {
 				build = (
 					CF,
-					Csu,
 					DirectoryService,
 					ICU,
 					Libm,
@@ -9935,6 +11161,7 @@
 					file_cmds,
 					gcc,
 					gcc_os,
+					gcc_select,
 					objc4,
 					shell_cmds,
 					system_cmds,
@@ -9952,6 +11179,11 @@
 				lib = (
 					DirectoryService,
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 19;
@@ -9960,7 +11192,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -9970,6 +11201,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					gnuzip,
 					shell_cmds,
@@ -9984,6 +11216,11 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 17;
@@ -9992,7 +11229,6 @@
 			dependencies = {
 				build = (
 					CF,
-					Csu,
 					ICU,
 					Libm,
 					Libsystem,
@@ -10000,15 +11236,13 @@
 					awk,
 					bash,
 					cctools,
-					configd_executables,
+					configd,
 					cxxfilt,
 					file_cmds,
 					gcc,
 					gcc_os,
 					objc4,
-					shell_cmds,
 					system_cmds,
-					text_cmds,
 				);
 				header = (
 					CF,
@@ -10016,7 +11250,7 @@
 					Libc_headers,
 					Libm,
 					architecture,
-					configd_executables,
+					configd,
 					gcc_os,
 					xnu,
 				);
@@ -10024,7 +11258,11 @@
 					CF,
 					Libsystem,
 					configd,
-					configd_executables,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 6;
@@ -10033,7 +11271,6 @@
 			dependencies = {
 				build = (
 					CF,
-					Csu,
 					ICU,
 					Libm,
 					Libsystem,
@@ -10042,16 +11279,14 @@
 					bash,
 					cctools,
 					cxxfilt,
-					diskdev_cmds,
 					file_cmds,
 					gcc,
 					gcc_os,
+					gcc_select,
 					objc4,
-					pbx_jamfiles,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					CF,
@@ -10064,6 +11299,13 @@
 				lib = (
 					CF,
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					diskdev_cmds,
+					gcc_os,
+					xnu,
 				);
 			};
 			version = 88;
@@ -10072,7 +11314,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -10081,6 +11322,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -10101,7 +11343,12 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
 					ncurses,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 3;
@@ -10110,7 +11357,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					awk,
@@ -10120,6 +11366,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -10139,7 +11386,12 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
 					ncurses,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 15;
@@ -10148,7 +11400,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					OpenSSL,
@@ -10164,13 +11415,13 @@
 					file_cmds,
 					files,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
 					perl,
 					shell_cmds,
 					system_cmds,
-					tcp_wrappers,
 					text_cmds,
 					zlib,
 				);
@@ -10180,8 +11431,8 @@
 					Libm,
 					OpenSSL,
 					architecture,
-					dyld,
 					gcc_os,
+					libdyld,
 					tcp_wrappers,
 					xnu,
 					zlib,
@@ -10189,8 +11440,14 @@
 				lib = (
 					Libsystem,
 					OpenSSL,
+					dyld,
 					net_snmp,
 					zlib,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
+					tcp_wrappers,
 				);
 			};
 			version = 16;
@@ -10199,7 +11456,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -10208,6 +11464,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					shell_cmds,
 					system_cmds,
@@ -10222,6 +11479,11 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 4;
@@ -10229,9 +11491,6 @@
 		netinfo = {
 			dependencies = {
 				build = (
-					CF,
-					Csu,
-					ICU,
 					Libinfo,
 					Libm,
 					Libsystem,
@@ -10240,7 +11499,6 @@
 					bash,
 					bootstrap_cmds,
 					cctools,
-					configd,
 					cxxfilt,
 					developer_cmds,
 					file_cmds,
@@ -10269,8 +11527,8 @@
 					architecture,
 					cctools_ofiles,
 					configd,
-					dyld,
 					gcc_os,
+					libdyld,
 					libedit,
 					netinfo,
 					objc4,
@@ -10280,10 +11538,16 @@
 				lib = (
 					Libsystem,
 					OpenSSL,
+					dyld,
 					libedit,
 					netinfo,
 					objc4,
 					passwordserver_sasl,
+				);
+				staticlib = (
+					Csu,
+					configd,
+					gcc_os,
 				);
 			};
 			environment = {
@@ -10295,11 +11559,8 @@
 			dependencies = {
 				build = (
 					CF,
-					Csu,
 					DirectoryService,
-					DiskArbitration,
 					ICU,
-					IOKitUser,
 					Kerberos,
 					Libm,
 					Librpcsvc,
@@ -10309,7 +11570,6 @@
 					bash,
 					bootstrap_cmds,
 					cctools,
-					configd,
 					cxxfilt,
 					developer_cmds,
 					file_cmds,
@@ -10318,7 +11578,6 @@
 					gcc_select,
 					gnumake,
 					gnutar,
-					libtelnet,
 					ncurses,
 					netinfo,
 					objc4,
@@ -10328,7 +11587,6 @@
 					system_cmds,
 					text_cmds,
 					yacc,
-					zlib,
 				);
 				header = (
 					CF,
@@ -10356,8 +11614,15 @@
 					Libsystem,
 					OpenSSL,
 					Security,
+					dyld,
 					ncurses,
 					network_cmds,
+				);
+				staticlib = (
+					Csu,
+					flex,
+					gcc_os,
+					libtelnet,
 				);
 			};
 			version = 245;
@@ -10366,7 +11631,6 @@
 			dependencies = {
 				build = (
 					CF,
-					Csu,
 					ICU,
 					Libm,
 					Libsystem,
@@ -10375,16 +11639,14 @@
 					bash,
 					cctools,
 					cxxfilt,
-					diskdev_cmds,
 					file_cmds,
 					gcc,
 					gcc_os,
+					gcc_select,
 					objc4,
-					pbx_jamfiles,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
-					xnu,
 				);
 				header = (
 					CF,
@@ -10397,6 +11659,13 @@
 				lib = (
 					CF,
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					diskdev_cmds,
+					gcc_os,
+					xnu,
 				);
 			};
 			version = 35;
@@ -10405,7 +11674,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -10414,6 +11682,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -10435,7 +11704,12 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
 					libedit,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 20;
@@ -10443,30 +11717,33 @@
 		objc4 = {
 			dependencies = {
 				build = (
-					Csu,
 					Libm,
 					Libsystem,
+					OrderFiles,
 					bash,
 					cctools,
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					shell_cmds,
-					system_cmds,
-					text_cmds,
 				);
 				header = (
 					CarbonHeaders,
 					Libc_headers,
 					architecture,
 					cctools_ofiles,
-					dyld,
 					gcc_os,
+					libdyld,
 					xnu,
 				);
 				lib = (
 					Libsystem,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 266;
@@ -10474,7 +11751,6 @@
 		old_ncurses = {
 			dependencies = {
 				build = (
-					Csu,
 					Libm,
 					Libsystem,
 					awk,
@@ -10483,6 +11759,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -10503,6 +11780,10 @@
 					Libsystem,
 					old_ncurses,
 				);
+				staticlib = (
+					Csu,
+					gcc_os,
+				);
 			};
 			version = 1;
 		};
@@ -10510,7 +11791,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -10520,6 +11800,7 @@
 					file_cmds,
 					flex,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -10532,14 +11813,19 @@
 					Libc_headers,
 					architecture,
 					cctools_ofiles,
-					dyld,
 					gcc_os,
+					libdyld,
 					pam,
 					xnu,
 				);
 				lib = (
 					Libsystem,
 					pam,
+				);
+				staticlib = (
+					Csu,
+					flex,
+					gcc_os,
 				);
 			};
 			version = 14;
@@ -10549,7 +11835,6 @@
 				build = (
 					CF,
 					CoreOSMakefiles,
-					Csu,
 					ICU,
 					Libm,
 					Libsystem,
@@ -10560,6 +11845,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					objc4,
 					pam,
@@ -10582,18 +11868,19 @@
 					Security,
 					pam,
 				);
+				staticlib = (
+					Csu,
+					gcc_os,
+				);
 			};
 			version = 17;
 		};
 		passwordserver_sasl = {
 			dependencies = {
 				build = (
-					CF,
-					Csu,
 					ICU,
 					Libm,
 					Libsystem,
-					MySQL,
 					OpenSSL,
 					adv_cmds,
 					awk,
@@ -10603,8 +11890,7 @@
 					file_cmds,
 					gcc,
 					gcc_os,
-					pbx_jamfiles,
-					shell_cmds,
+					gcc_select,
 					system_cmds,
 					text_cmds,
 				);
@@ -10614,18 +11900,63 @@
 					MySQL,
 					OpenSSL,
 					architecture,
-					dyld,
 					gcc_os,
+					libdyld,
 					xnu,
 				);
 				lib = (
 					Libsystem,
 					OpenSSL,
 				);
+				staticlib = (
+					Csu,
+					MySQL,
+					gcc_os,
+				);
 			};
 			version = 59.2;
 		};
 		passwordserver_saslkerberos = {
+			dependencies = {
+				build = (
+					CF,
+					ICU,
+					Kerberos,
+					Libm,
+					Libsystem,
+					Security,
+					adv_cmds,
+					awk,
+					bash,
+					cctools,
+					cxxfilt,
+					file_cmds,
+					gcc,
+					gcc_os,
+					gcc_select,
+					netinfo,
+					objc4,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					CarbonHeaders,
+					Kerberos,
+					Libc_headers,
+					Libinfo,
+					architecture,
+					gcc_os,
+					xnu,
+				);
+				lib = (
+					Kerberos,
+					Libsystem,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
+				);
+			};
 			original = passwordserver_sasl;
 			target = KerberosTargets;
 		};
@@ -10633,7 +11964,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					autoconf,
@@ -10643,6 +11973,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gm4,
 					gnudiff,
 					gnumake,
@@ -10660,6 +11991,11 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 10;
@@ -10667,9 +12003,6 @@
 		pb_makefiles = {
 			dependencies = {
 				build = (
-					CF,
-					Csu,
-					ICU,
 					Libm,
 					Libsystem,
 					bash,
@@ -10677,6 +12010,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					gnutar,
 					pb_makefiles,
@@ -10693,6 +12027,11 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 126;
@@ -10700,16 +12039,10 @@
 		pbx_jamfiles = {
 			dependencies = {
 				build = (
-					CF,
-					ICU,
 					bash,
-					cctools,
 					file_cmds,
-					gcc_os,
 					gnumake,
 					pb_makefiles,
-					shell_cmds,
-					system_cmds,
 					text_cmds,
 				);
 			};
@@ -10719,7 +12052,6 @@
 			dependencies = {
 				build = (
 					CF,
-					Csu,
 					ICU,
 					IOKitUser,
 					Libm,
@@ -10734,9 +12066,7 @@
 					gcc,
 					gcc_os,
 					objc4,
-					shell_cmds,
 					system_cmds,
-					text_cmds,
 					zlib,
 				);
 				header = (
@@ -10754,6 +12084,11 @@
 					CF,
 					IOKitUser,
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 5;
@@ -10762,7 +12097,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					awk,
@@ -10774,6 +12108,7 @@
 					file_cmds,
 					files,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					gnutar,
@@ -10791,13 +12126,18 @@
 					Libinfo,
 					Libm,
 					architecture,
-					dyld,
 					gcc_os,
+					libdyld,
 					xnu,
 				);
 				lib = (
 					Libsystem,
+					dyld,
 					perl,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 35;
@@ -10810,7 +12150,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -10820,11 +12159,11 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					gnuzip,
 					shell_cmds,
 					system_cmds,
-					tcp_wrappers,
 					text_cmds,
 				);
 				header = (
@@ -10837,6 +12176,12 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
+					tcp_wrappers,
 				);
 			};
 			version = 17;
@@ -10845,11 +12190,8 @@
 			dependencies = {
 				build = (
 					CF,
-					Csu,
 					DirectoryService,
-					DiskArbitration,
 					ICU,
-					IOKitUser,
 					Kerberos,
 					Libm,
 					Libsystem,
@@ -10858,10 +12200,10 @@
 					awk,
 					bash,
 					cctools,
-					configd,
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -10869,20 +12211,15 @@
 					objc4,
 					passwordserver_sasl,
 					shell_cmds,
-					system_cmds,
 					text_cmds,
-					zlib,
 				);
 				header = (
 					CF,
 					CarbonHeaders,
 					DirectoryService,
-					DiskArbitration,
-					IOKitUser,
 					Kerberos,
 					Libc_headers,
 					Libinfo,
-					Libm,
 					OpenSSL,
 					Security,
 					architecture,
@@ -10896,7 +12233,12 @@
 					Kerberos,
 					Libsystem,
 					OpenSSL,
+					dyld,
 					passwordserver_sasl,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 144;
@@ -10984,13 +12326,35 @@
 			version = 229.1;
 		};
 		prebind = {
+			dependencies = {
+				build = (
+					bash,
+					cctools,
+					dyld,
+					file_cmds,
+					gcc_os,
+					gcc_select,
+					gnumake,
+				);
+				header = (
+					CarbonHeaders,
+					Libc_headers,
+					architecture,
+					cctools_ofiles,
+					gcc_os,
+					libdyld,
+					xnu,
+				);
+				lib = (
+					dyld,
+				);
+			};
 			version = 107;
 		};
 		procmail = {
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -11000,6 +12364,7 @@
 					file_cmds,
 					files,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					grep,
 					shell_cmds,
@@ -11016,6 +12381,11 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 9;
@@ -11023,7 +12393,6 @@
 		project_makefiles = {
 			dependencies = {
 				build = (
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -11032,6 +12401,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					shell_cmds,
 					system_cmds,
@@ -11047,6 +12417,11 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 126;
@@ -11068,7 +12443,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -11077,6 +12451,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -11092,6 +12467,11 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 11;
@@ -11100,7 +12480,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -11109,6 +12488,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -11128,7 +12508,12 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
 					netinfo,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 20;
@@ -11137,7 +12522,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					OpenSSL,
@@ -11148,6 +12532,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -11169,8 +12554,8 @@
 					OpenSSL,
 					architecture,
 					cctools_ofiles,
-					dyld,
 					gcc_os,
+					libdyld,
 					libiconv,
 					ncurses,
 					tcl,
@@ -11180,10 +12565,15 @@
 				lib = (
 					Libsystem,
 					OpenSSL,
+					dyld,
 					libiconv,
 					ncurses,
 					objc4,
 					zlib,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 18;
@@ -11269,7 +12659,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					awk,
@@ -11279,6 +12668,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -11297,7 +12687,12 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
 					ncurses,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 6.1;
@@ -11306,7 +12701,6 @@
 			dependencies = {
 				build = (
 					CF,
-					Csu,
 					ICU,
 					Libm,
 					Libsystem,
@@ -11319,10 +12713,9 @@
 					file_cmds,
 					gcc,
 					gcc_os,
+					gcc_select,
 					libsecurity_utilities,
 					objc4,
-					pbx_jamfiles,
-					shell_cmds,
 					system_cmds,
 					text_cmds,
 				);
@@ -11339,6 +12732,11 @@
 				lib = (
 					Libsystem,
 					Security,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 4;
@@ -11346,18 +12744,14 @@
 		security_certificates = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
 					bash,
-					cctools,
 					file_cmds,
 					gcc,
 					gcc_os,
-					shell_cmds,
 					system_cmds,
-					text_cmds,
 				);
 			};
 			version = 16;
@@ -11366,7 +12760,6 @@
 			dependencies = {
 				build = (
 					CF,
-					Csu,
 					ICU,
 					Libm,
 					Libsystem,
@@ -11379,13 +12772,12 @@
 					file_cmds,
 					gcc,
 					gcc_os,
+					gcc_select,
 					libsecurity_cdsa_client,
 					libsecurity_cdsa_utilities,
 					libsecurity_cdsa_utils,
 					libsecurity_utilities,
 					objc4,
-					pbx_jamfiles,
-					shell_cmds,
 					system_cmds,
 					text_cmds,
 				);
@@ -11407,6 +12799,11 @@
 					CF,
 					Libsystem,
 					Security,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 4;
@@ -11415,7 +12812,6 @@
 			dependencies = {
 				build = (
 					CF,
-					Csu,
 					ICU,
 					Libm,
 					Libsystem,
@@ -11428,14 +12824,13 @@
 					file_cmds,
 					gcc,
 					gcc_os,
+					gcc_select,
 					libsecurity_cdsa_client,
 					libsecurity_cdsa_utilities,
 					libsecurity_cdsa_utils,
 					libsecurity_ocspd,
 					libsecurity_utilities,
 					objc4,
-					pbx_jamfiles,
-					shell_cmds,
 					system_cmds,
 					text_cmds,
 				);
@@ -11455,6 +12850,11 @@
 					CF,
 					Libsystem,
 					Security,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 4;
@@ -11527,7 +12927,6 @@
 			dependencies = {
 				build = (
 					CF,
-					Csu,
 					ICU,
 					Libm,
 					Libsystem,
@@ -11540,12 +12939,10 @@
 					file_cmds,
 					gcc,
 					gcc_os,
+					gcc_select,
 					libsecurity_utilities,
 					objc4,
-					pbx_jamfiles,
-					shell_cmds,
 					system_cmds,
-					text_cmds,
 				);
 				header = (
 					CF,
@@ -11562,6 +12959,11 @@
 				lib = (
 					Libsystem,
 					Security,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 4;
@@ -11570,7 +12972,6 @@
 			dependencies = {
 				build = (
 					CF,
-					Csu,
 					ICU,
 					Libm,
 					Libsystem,
@@ -11583,15 +12984,13 @@
 					file_cmds,
 					gcc,
 					gcc_os,
+					gcc_select,
 					libsecurity_cdsa_client,
 					libsecurity_cdsa_utilities,
 					libsecurity_utilities,
 					libsecurityd,
 					objc4,
-					pbx_jamfiles,
-					shell_cmds,
 					system_cmds,
-					text_cmds,
 				);
 				header = (
 					CF,
@@ -11611,6 +13010,11 @@
 					CF,
 					Libsystem,
 					Security,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 11;
@@ -11619,7 +13023,6 @@
 			dependencies = {
 				build = (
 					CF,
-					Csu,
 					ICU,
 					IOKitUser,
 					Libm,
@@ -11633,11 +13036,12 @@
 					bootstrap_cmds,
 					bsm,
 					cctools,
-					configd_executables,
+					configd,
 					cxxfilt,
 					file_cmds,
 					gcc,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					libsecurity_agent,
@@ -11646,7 +13050,6 @@
 					libsecurity_utilities,
 					libsecurityd,
 					objc4,
-					pbx_jamfiles,
 					perl,
 					shell_cmds,
 					system_cmds,
@@ -11682,6 +13085,11 @@
 					Security,
 					SmartCardServices,
 					bsm,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 61;
@@ -11689,10 +13097,7 @@
 		shell_cmds = {
 			dependencies = {
 				build = (
-					CF,
 					CoreOSMakefiles,
-					Csu,
-					ICU,
 					Libm,
 					Libsystem,
 					bash,
@@ -11702,6 +13107,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					gnutar,
 					netinfo,
@@ -11725,8 +13131,13 @@
 				lib = (
 					Libsystem,
 					bsm,
+					dyld,
 					netinfo,
 					pam,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 74.1;
@@ -11788,7 +13199,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					autoconf,
@@ -11799,6 +13209,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					glibtool,
 					gm4,
 					gnudiff,
@@ -11819,6 +13230,11 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 3;
@@ -11829,10 +13245,8 @@
 					cctools,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
-					shell_cmds,
-					system_cmds,
-					text_cmds,
 				);
 				header = (
 					Libc_headers,
@@ -11848,7 +13262,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -11858,6 +13271,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -11872,15 +13286,20 @@
 					Libnotify,
 					architecture,
 					bsm,
-					dyld,
 					gcc_os,
+					libdyld,
 					pam,
 					xnu,
 				);
 				lib = (
 					Libsystem,
 					bsm,
+					dyld,
 					pam,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 16;
@@ -11888,8 +13307,6 @@
 		syslog = {
 			dependencies = {
 				build = (
-					Csu,
-					ICU,
 					Libm,
 					Libsystem,
 					bash,
@@ -11898,6 +13315,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					gnutar,
 					pb_makefiles,
@@ -11911,12 +13329,17 @@
 					Libinfo,
 					Libnotify,
 					architecture,
-					dyld,
 					gcc_os,
+					libdyld,
 					xnu,
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 13;
@@ -11990,19 +13413,24 @@
 		system_config = {
 			dependencies = {
 				build = (
-					CoreOSMakefiles,
+					Libm,
+					Libsystem,
 					bash,
-					bootstrap_cmds,
 					cctools,
+					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
-					netinfo,
+					gnutar,
 					pb_makefiles,
-					perl,
+					project_makefiles,
 					shell_cmds,
-					system_cmds,
 					text_cmds,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 48;
@@ -12092,7 +13520,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -12101,6 +13528,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					shell_cmds,
@@ -12116,6 +13544,11 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 12;
@@ -12124,7 +13557,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					OpenSSL,
@@ -12135,6 +13567,7 @@
 					file_cmds,
 					files,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -12155,7 +13588,12 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
 					libpcap,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 11;
@@ -12164,7 +13602,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -12173,6 +13610,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -12190,7 +13628,12 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
 					ncurses,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 46;
@@ -12201,10 +13644,8 @@
 					CoreOSMakefiles,
 					bash,
 					bootstrap_cmds,
-					cctools,
 					file_cmds,
 					files,
-					gcc_os,
 					gnudiff,
 					gnumake,
 					grep,
@@ -12222,7 +13663,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -12233,6 +13673,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					gnutar,
@@ -12254,8 +13695,13 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
 					libiconv,
 					ncurses,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 12;
@@ -12263,10 +13709,7 @@
 		text_cmds = {
 			dependencies = {
 				build = (
-					CF,
 					CoreOSMakefiles,
-					Csu,
-					ICU,
 					Libm,
 					Libsystem,
 					OpenSSL,
@@ -12276,6 +13719,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					gnutar,
 					ncurses,
@@ -12297,7 +13741,12 @@
 				lib = (
 					Libsystem,
 					OpenSSL,
+					dyld,
 					ncurses,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 47;
@@ -12306,15 +13755,16 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
+					OrderFiles,
 					bash,
 					bootstrap_cmds,
 					cctools,
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					shell_cmds,
 					system_cmds,
@@ -12329,7 +13779,12 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
 					tidy,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 5;
@@ -12338,23 +13793,20 @@
 			dependencies = {
 				build = (
 					CF,
-					Csu,
 					ICU,
 					IOKitUser,
 					Libm,
 					Libsystem,
 					bash,
 					cctools,
-					configd_executables,
+					configd,
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					ncurses,
 					objc4,
-					shell_cmds,
-					system_cmds,
-					text_cmds,
 					zlib,
 				);
 				header = (
@@ -12374,7 +13826,12 @@
 					CF,
 					IOKitUser,
 					Libsystem,
+					dyld,
 					ncurses,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 15;
@@ -12399,11 +13856,9 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
-					basic_cmds,
 					bootstrap_cmds,
 					cctools,
 					cxxfilt,
@@ -12411,6 +13866,7 @@
 					emacs,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
@@ -12428,16 +13884,21 @@
 					Libc_headers,
 					Libinfo,
 					architecture,
-					dyld,
 					gcc_os,
+					libdyld,
 					libiconv,
 					ncurses,
 					xnu,
 				);
 				lib = (
 					Libsystem,
+					dyld,
 					libiconv,
 					ncurses,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 13;
@@ -12445,8 +13906,6 @@
 		volfs = {
 			dependencies = {
 				build = (
-					Csu,
-					ICU,
 					Libm,
 					Libsystem,
 					bash,
@@ -12454,12 +13913,12 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					gnutar,
 					pb_makefiles,
 					project_makefiles,
 					shell_cmds,
-					system_cmds,
 					text_cmds,
 				);
 				header = (
@@ -12470,6 +13929,11 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 25;
@@ -12543,7 +14007,6 @@
 				build = (
 					CF,
 					CoreOSMakefiles,
-					Csu,
 					ICU,
 					Libm,
 					Libsystem,
@@ -12554,13 +14017,13 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					gnumake,
 					grep,
 					objc4,
 					shell_cmds,
 					system_cmds,
-					tcp_wrappers,
 					text_cmds,
 				);
 				header = (
@@ -12577,6 +14040,12 @@
 				lib = (
 					Libsystem,
 					Security,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
+					tcp_wrappers,
 				);
 			};
 			version = 34;
@@ -12585,11 +14054,9 @@
 			dependencies = {
 				build = (
 					adv_cmds,
-					awk,
 					bash,
 					bootstrap_cmds,
 					cctools,
-					cctools_ofiles,
 					developer_cmds,
 					file_cmds,
 					files,
@@ -12603,6 +14070,10 @@
 					tcsh,
 					text_cmds,
 				);
+				staticlib = (
+					cctools_ofiles,
+					gcc_os,
+				);
 			};
 			version = 792;
 		};
@@ -12610,8 +14081,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
-					ICU,
 					Libm,
 					Libsystem,
 					bash,
@@ -12620,6 +14089,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					gnutar,
 					pb_makefiles,
@@ -12636,6 +14106,11 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 8;
@@ -12644,7 +14119,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -12669,6 +14143,11 @@
 				);
 				lib = (
 					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 6;
@@ -12677,7 +14156,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					bash,
@@ -12687,6 +14165,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gnumake,
 					gnutar,
 					patch_cmds,
@@ -12703,6 +14182,10 @@
 				lib = (
 					Libsystem,
 				);
+				staticlib = (
+					Csu,
+					gcc_os,
+				);
 			};
 			version = 15;
 		};
@@ -12710,7 +14193,6 @@
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
-					Csu,
 					Libm,
 					Libsystem,
 					autoconf,
@@ -12721,6 +14203,7 @@
 					cxxfilt,
 					file_cmds,
 					gcc_os,
+					gcc_select,
 					gm4,
 					gnudiff,
 					gnumake,
@@ -12738,16 +14221,21 @@
 					Libinfo,
 					Libm,
 					architecture,
-					dyld,
 					gcc_os,
+					libdyld,
 					libiconv,
 					ncurses,
 					xnu,
 				);
 				lib = (
 					Libsystem,
+					dyld,
 					libiconv,
 					ncurses,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 42;
