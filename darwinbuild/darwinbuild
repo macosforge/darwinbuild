@@ -742,14 +742,16 @@ if [ "$CHROOTED" == "YES" ] ; then
 		echo "devfs appears to exist ..."
 	fi
 
- 	if [ "$buildtool" == "xcodebuild" ]; then
+	if [ -z "$(echo $BuildRoot/.vol/*)" ]; then
  		echo "Mounting volfs ..."
  		[ -d "$BuildRoot/sbin" ] || mkdir -p "$BuildRoot/sbin"
  		[ -f "$BuildRoot/sbin/mount_volfs" ] || cp /sbin/mount_volfs "$BuildRoot/sbin/"
  		[ -f "$BuildRoot/sbin/umount" ] || cp /sbin/umount "$BuildRoot/sbin/"
  		[ -d "$BuildRoot/.vol" ] || mkdir -p "$BuildRoot/.vol"
  		## If the directory is empty, assume volfs is not mounted
- 		[ -n "$(echo $BuildRoot/.vol/*)" ] || chroot "$BuildRoot" /sbin/mount_volfs "/.vol"
+ 		chroot "$BuildRoot" /sbin/mount_volfs "/.vol"
+	else
+	    echo "volfs appears to be mounted ..."
  	fi
 
 	###
