@@ -2784,12 +2784,13 @@
 			dependencies = {
 				build = (
 					CF,
-					Csu,
+					CarbonHeaders,
 					ICU,
 					IOKitUser,
 					Libm,
 					Libsystem,
 					OpenSSL,
+					OrderFiles,
 					Security,
 					adv_cmds,
 					awk,
@@ -2799,10 +2800,9 @@
 					configd,
 					cxxfilt,
 					file_cmds,
-					gcc,
 					gcc_os,
+					gcc_select,
 					objc4,
-					pbx_jamfiles,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
@@ -2840,6 +2840,11 @@
 					OpenSSL,
 					Security,
 					configd,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
 				);
 			};
 			version = 156;
@@ -3189,7 +3194,6 @@
 		IOCDStorageFamily = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -3198,17 +3202,18 @@
 					cxxfilt,
 					developer_cmds,
 					file_cmds,
-					gcc,
 					gcc_os,
-					shell_cmds,
+					gcc_select,
 					system_cmds,
-					text_cmds,
-					xnu,
 				);
 				header = (
 					IOCDStorageFamily,
 					IOSCSIArchitectureModelFamily,
 					IOStorageFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -3217,7 +3222,6 @@
 		IODVDStorageFamily = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -3226,18 +3230,19 @@
 					cxxfilt,
 					developer_cmds,
 					file_cmds,
-					gcc,
 					gcc_os,
-					shell_cmds,
+					gcc_select,
 					system_cmds,
-					text_cmds,
-					xnu,
 				);
 				header = (
 					IOCDStorageFamily,
 					IODVDStorageFamily,
 					IOSCSIArchitectureModelFamily,
 					IOStorageFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -3936,7 +3941,6 @@
 		IOStorageFamily = {
 			dependencies = {
 				build = (
-					CF,
 					ICU,
 					adv_cmds,
 					awk,
@@ -3945,16 +3949,17 @@
 					cxxfilt,
 					developer_cmds,
 					file_cmds,
-					gcc,
 					gcc_os,
-					shell_cmds,
+					gcc_select,
 					system_cmds,
-					text_cmds,
-					xnu,
 				);
 				header = (
 					IOSCSIArchitectureModelFamily,
 					IOStorageFamily,
+					xnu,
+				);
+				staticlib = (
+					gcc_os,
 					xnu,
 				);
 			};
@@ -6342,7 +6347,6 @@
 			dependencies = {
 				build = (
 					CF,
-					DarwinInstaller,
 					DiskArbitration,
 					ICU,
 					IOKitUser,
@@ -6357,13 +6361,14 @@
 					configd,
 					cxxfilt,
 					file_cmds,
-					gcc,
 					gcc_os,
+					gcc_select,
 					gnudiff,
 					grep,
 					objc4,
 					shell_cmds,
 					system_cmds,
+					system_config,
 					text_cmds,
 					zlib,
 				);
