@@ -110,6 +110,9 @@ int loadDeps(const char* build, const char* project, const char *root) {
 			} else if (strcmp(type, "execve") == 0) {
 				free(type);
 				type = "build";
+			} else if (strcmp(type, "readlink") == 0) {
+				free(type);
+				type = "build";
 			}
 			
 			sprintf(fullpath, "%s/%s", root, file);

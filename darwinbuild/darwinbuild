@@ -807,7 +807,7 @@ if [ "$EXIT_STATUS" == "0" ]; then
 
 		if [ "$logdeps" = "YES" ]; then
 			### Log dependencies, but filter out duplicates, relative paths, and temporary files
-			TRACE_TYPES='\(execve\|open\)[[:space:]]\+'
+			TRACE_TYPES='\(execve\|open\|readlink\)[[:space:]]\+'
 			cat "$TRACELOG" | sort -u | \
 			sed "s|$DARWIN_BUILDROOT/BuildRoot||" | \
         		grep -i  "^$TRACE_TYPES/" | \
