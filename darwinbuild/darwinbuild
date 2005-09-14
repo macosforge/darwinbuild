@@ -786,6 +786,15 @@ if [ "$EXIT_STATUS" == "0" ]; then
 	###
 
 	if [ "$action" == "installhdrs" ]; then
+	    	### Output the manifest
+		MANIFEST="/tmp/$projnam.$$"
+		"$DARWINXREF" register "$projnam" "$REAL_DSTROOT" | tee "$MANIFEST"
+		SHA1=$(cat "$MANIFEST" | openssl dgst -sha1)
+		mkdir -p "$REAL_DSTROOT/usr/local/darwinbuild/receipts"
+		cp "$MANIFEST" "$REAL_DSTROOT/usr/local/darwinbuild/receipts/$SHA1"
+		ln -s "$SHA1" "$REAL_DSTROOT/usr/local/darwinbuild/receipts/$projnam.hdrs"
+		rm -f "$MANIFEST"
+
 		mkdir -p "$DARWIN_BUILDROOT/Headers/$projnam/$project.hdrs~$build_version"
 		ditto "$REAL_DSTROOT" "$DARWIN_BUILDROOT/Headers/$projnam/$project.hdrs~$build_version"
 	else
