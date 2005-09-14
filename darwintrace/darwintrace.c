@@ -211,6 +211,33 @@ int open(const char* path, int flags, ...) {
 	return result;
 }
 
+/* Log calls to readlink(2) into the file specified by DARWINTRACE_LOG.
+   Only logs if the DARWINTRACE_LOG environment variable is set.
+   Only logs files where the readlink succeeds.
+*/
+
+ssize_t  readlink(const char * path, char * buf, size_t bufsiz) {
+#define readlink(x,y,z) syscall(SYS_readlink, (x), (y), (z))
+	ssize_t result;
+
+	result = readlink(path, buf, bufsiz);
+	if (result >= 0) {
+	  __darwintrace_setup();
+	  if (__darwintrace_fd >= 0) {
+	    char realpath[MAXPATHLEN];
+
+	    dprintf("darwintrace: original readlink path is %s\n", path);
+
+	    strcpy(realpath, path);
+	    
+	    __darwintrace_cleanup_path(realpath);
+
+	    __darwintrace_logpath(__darwintrace_fd, NULL, "readlink", realpath);
+	  }
+	}
+	return result;
+}
+
 int execve(const char* path, char* const argv[], char* const envp[]) {
 #define execve(x,y,z) syscall(SYS_execve, (x), (y), (z))
 	int result;
