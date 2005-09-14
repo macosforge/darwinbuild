@@ -594,18 +594,42 @@ SCRIPT="$BuildRoot/$vartmp/$projnam/build-$project~$build_version.sh"
 cat <<-EOF > $SCRIPT
 	#!/bin/sh
 	echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-	echo "BUILDING $project~$build_version on \$(date)"
+	echo "BUILDING $project~$build_version on \$(date 2>/dev/null)"
 	echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
 	echo 'Build configuration:'
-	echo "    Build host:      \$(hostname)"
+	echo "    Build host:      \$(hostname 2>/dev/null)"
 	echo '    Build tool:      $buildtool'
 	echo '    Build action:    $action'
 	echo "    Build number:    $build"
-	echo "    cc version:      \$(gcc -v 2>&1 | tail -n 1)"
-	echo "    cctools version: \$(echo | as -v 2>&1 | cut -c 22-)"
-if [ "$buildtool" == "xcodebuild" ]; then
-	echo "    xcode version:   \$($buildtool -version)"
+	echo "    cc version:      \$(gcc -v 2>&1 | tail -n 1 2>/dev/null)"
+	echo "    cctools version: \$(as -v -o /dev/null < /dev/null 2>&1 | cut -c 22- 2>/dev/null)"
+EOF
+if [ "$logdeps" == "YES" ]; then
+	if [ "$CHROOTED" == "YES" ]; then
+		if [ "$DARWINTRACE" -nt "$BuildRoot/usr/lib/darwintrace.dylib" ]; then
+			mkdir -p "$BuildRoot/usr/lib"
+			cp "$DARWINTRACE" \
+		   	"$BuildRoot/usr/lib/darwintrace.dylib"
+		fi
+		echo "export DARWINTRACE_LOG=\"${TRACELOG/$BuildRoot/}\"" >> $SCRIPT
+		echo "export DYLD_INSERT_LIBRARIES=/usr/lib/darwintrace.dylib" >> $SCRIPT
+	else
+		echo "export DARWINTRACE_LOG=\"${TRACELOG}\"" >> $SCRIPT
+		echo "export DYLD_INSERT_LIBRARIES=$DARWINTRACE" >> $SCRIPT
+	fi
+	echo "export DYLD_FORCE_FLAT_NAMESPACE=1" >> $SCRIPT
 fi
+if [ "$buildtool" == "xcodebuild" ]; then
+cat <<-EOF >> $SCRIPT
+	echo "    xcode version:   \$(sh -c \\\"$buildtool -version\\\")"
+EOF
+else
+cat <<-EOF >> $SCRIPT
+	echo "    make version:    \$(sh -c \\\"$buildtool -version\\\" | head -1 2>/dev/null)"
+EOF
+fi
+
+cat <<-EOF >> $SCRIPT
 	echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
 	echo 'Build parameters:'
 	echo SRCROOT: '$SRCROOT'
@@ -676,22 +700,7 @@ cat <<-EOF >> $SCRIPT
 	echo ''
 	cd '$SRCROOT'
 EOF
-if [ "$logdeps" == "YES" ]; then
-	if [ "$CHROOTED" == "YES" ]; then
-		if [ "$DARWINTRACE" -nt "$BuildRoot/usr/lib/darwintrace.dylib" ]; then
-			mkdir -p "$BuildRoot/usr/lib"
-			cp "$DARWINTRACE" \
-		   	"$BuildRoot/usr/lib/darwintrace.dylib"
-		fi
-		echo "export DARWINTRACE_LOG=\"${TRACELOG/$BuildRoot/}\"" >> $SCRIPT
-		echo "export DYLD_INSERT_LIBRARIES=/usr/lib/darwintrace.dylib" >> $SCRIPT
-	else
-		echo "export DARWINTRACE_LOG=\"${TRACELOG}\"" >> $SCRIPT
-	fi
-	echo "export DYLD_FORCE_FLAT_NAMESPACE=1" >> $SCRIPT
-fi
 cat <<-EOF >> $SCRIPT
-	sh -c "$buildtool -version < /dev/null > /dev/null"
 	$buildtool $action $build_string < /dev/null 
 	EXIT_STATUS="\$?"
 	echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
@@ -750,14 +759,6 @@ if [ "$CHROOTED" == "YES" ] ; then
 	EXIT_STATUS="${PIPESTATUS[0]}"
 
 else
-	###
-	### Not CHROOTED, but possibly logging dependencies
-	###
-	if [ "$logdeps" == "YES" ]; then
-		export DYLD_INSERT_LIBRARIES="$DARWINTRACE"
-		export DYLD_FORCE_FLAT_NAMESPACE=1
-		export DARWINTRACE_LOG="$TRACELOG"
-	fi
 	###
 	### Actually invoke the build tool here
 	###
