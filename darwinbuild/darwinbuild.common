@@ -213,7 +213,7 @@ function InstallRoot() {
 						> /dev/null
 					CheckForReceipt "$BuildRoot" "$Project" "root"
 					if [ $? -ne 0 ]; then
-					    echo | CreateReceipt "$BuildRoot" "$Project" "root" \
+					    echo -n | CreateReceipt "$BuildRoot" "$Project" "root" \
 						"$CACHEDIR/Roots/$dbuild/$Project.root.tar.gz"
 					fi
 					return 0
@@ -347,7 +347,7 @@ function InstallHeader() {
 						> /dev/null
 					CheckForReceipt "$BuildRoot" "$Project" "hdrs"
 					if [ $? -ne 0 ]; then
-					    echo | CreateReceipt "$BuildRoot" "$Project" "hdrs" \
+					    echo -n | CreateReceipt "$BuildRoot" "$Project" "hdrs" \
 						"$CACHEDIR/Roots/$dbuild/$Project.hdrs.tar.gz"
 					fi
 					return 0
@@ -367,7 +367,7 @@ function InstallHeader() {
 							> /dev/null
 						CheckForReceipt "$BuildRoot" "$Project" "root"
 						if [ $? -ne 0 ]; then
-						    echo | CreateReceipt "$BuildRoot" "$Project" "root" \
+						    echo -n | CreateReceipt "$BuildRoot" "$Project" "root" \
 							"$CACHEDIR/Roots/$dbuild/$Project.root.tar.gz"
 						fi
 						return 0
@@ -491,6 +491,7 @@ function CreateReceipt() {
 	    exit 1
 	fi
 	Hash=$(openssl dgst -sha1 < "$HashSource")
+	echo "# Hash of $HashSource" >> "$TmpFile"
     else
 	Hash=$(openssl dgst -sha1 < "$TmpFile")
     fi
