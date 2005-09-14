@@ -211,8 +211,11 @@ function InstallRoot() {
 					tar tzf $CACHEDIR/Roots/$dbuild/$Project.root.tar.gz | \
 						"$DARWINXREF" register -stdin "$Project" "$BuildRoot" \
 						> /dev/null
-					echo | CreateReceipt "$BuildRoot" "$Project" "root" \
+					CheckForReceipt "$BuildRoot" "$Project" "root"
+					if [ $? -ne 0 ]; then
+					    echo | CreateReceipt "$BuildRoot" "$Project" "root" \
 						"$CACHEDIR/Roots/$dbuild/$Project.root.tar.gz"
+					fi
 					return 0
 				fi
 			else
@@ -342,8 +345,11 @@ function InstallHeader() {
 					tar tzf $CACHEDIR/Roots/$dbuild/$Project.hdrs.tar.gz | \
 						"$DARWINXREF" register -stdin "$Project" "$BuildRoot" \
 						> /dev/null
-					echo | CreateReceipt "$BuildRoot" "$Project" "hdrs" \
+					CheckForReceipt "$BuildRoot" "$Project" "hdrs"
+					if [ $? -ne 0 ]; then
+					    echo | CreateReceipt "$BuildRoot" "$Project" "hdrs" \
 						"$CACHEDIR/Roots/$dbuild/$Project.hdrs.tar.gz"
+					fi
 					return 0
 				fi
 			else
@@ -359,8 +365,11 @@ function InstallHeader() {
 						tar tzf $CACHEDIR/Roots/$dbuild/$Project.root.tar.gz | \
 							"$DARWINXREF" register -stdin "$Project" "$BuildRoot" \
 							> /dev/null
-						echo | CreateReceipt "$BuildRoot" "$Project" "root" \
+						CheckForReceipt "$BuildRoot" "$Project" "root"
+						if [ $? -ne 0 ]; then
+						    echo | CreateReceipt "$BuildRoot" "$Project" "root" \
 							"$CACHEDIR/Roots/$dbuild/$Project.root.tar.gz"
+						fi
 						return 0
 					fi
 				else
