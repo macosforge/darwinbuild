@@ -7,7 +7,7 @@ BUILDROOT="$1"
 
 EXTRACOPY=( \
     /usr/lib/dyld \
-# /usr/share/icu \
+    /usr/share/icu \
     /System/Library/CoreServices/CharacterSets \
     /Developer/Private \
     /Developer/Tools \
@@ -94,11 +94,13 @@ GenerateFileNames() {
 }
 
 CopyFiles() {
+#    VERBOSECPIO="v"
     VERBOSECPIO=""
     echo -n "Copying Xcode and dependencies ..."
     cpio -o -c < /tmp/installXcode.files.$$ | \
 	sed -e 's,/System,/XCD/SY,g' \
 	-e 's,/usr/lib,/XCD/lib,g' \
+	-e 's,/usr/share/icu,/XCD/share/icu,g' \
 	-e 's,/Developer,/XCD/loper,g' | \
     (cd "$BUILDROOT"; cpio -ium${VERBOSECPIO}d )
 
