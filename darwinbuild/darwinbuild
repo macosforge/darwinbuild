@@ -775,10 +775,12 @@ else
 	fi
 fi
 
-IsDirectoryEmpty "$REAL_DSTROOT"
-if [ $? -eq 0 ]; then
-    echo "$REAL_DSTROOT is empty. Build verification failed." 1>&2
-    EXIT_STATUS=3
+if [ $EXIT_STATUS -eq 0 ]; then
+    IsDirectoryEmpty "$REAL_DSTROOT"
+    if [ $? -eq 0 ]; then
+	echo "$REAL_DSTROOT is empty. Build verification failed." 1>&2
+	EXIT_STATUS=3
+    fi
 fi
 
 
