@@ -281,8 +281,6 @@ static void arrayAppendArrayDistinct(CFMutableArrayRef array, CFArrayRef other) 
 	}
 }
 
-static CFStringRef _DBCopyPropString(CFStringRef build, CFStringRef project, CFStringRef property);
-
 CFArrayRef DBCopyProjectNames(CFStringRef build) {
 	CFMutableArrayRef projects = CFArrayCreateMutable(NULL, 0, &kCFTypeArrayCallBacks);
 	do {		
@@ -293,7 +291,7 @@ CFArrayRef DBCopyProjectNames(CFStringRef build) {
 		arrayAppendArrayDistinct(projects, res);
 		CFRelease(res);
 
-		build = _DBCopyPropString(build, NULL, CFSTR("inherits"));
+		build = DBCopyOnePropString(build, NULL, CFSTR("inherits"));
 	} while (build != NULL);
 
 	CFArraySortValues(projects, CFRangeMake(0, CFArrayGetCount(projects)), (CFComparatorFunction)CFStringCompare, 0);
@@ -362,7 +360,25 @@ CFTypeRef DBCopyProp(CFStringRef build, CFStringRef project, CFStringRef propert
 	return res;
 }
 
-CFStringRef _DBCopyPropString(CFStringRef build, CFStringRef project, CFStringRef property) {
+CFTypeRef DBCopyOneProp(CFStringRef build, CFStringRef project, CFStringRef property) {
+	CFTypeRef res = NULL;
+	CFTypeID type = DBCopyPropType(property);
+	if (type == -1) return NULL;
+
+	if (type == CFStringGetTypeID()) {
+		res = DBCopyOnePropString(build, project, property);
+	} else if (type == CFArrayGetTypeID()) {
+		res = DBCopyOnePropArray(build, project, property);
+	} else if (type == CFDictionaryGetTypeID()) {
+		res = DBCopyOnePropDictionary(build, project, property);
+	} else if (type == CFDataGetTypeID()) {
+		res = DBCopyOnePropData(build, project, property);
+	}
+	return res;
+}
+
+
+CFStringRef DBCopyOnePropString(CFStringRef build, CFStringRef project, CFStringRef property) {
 	char* cbuild = strdup_cfstr(build);
 	char* cproj = strdup_cfstr(project);
 	char* cprop = strdup_cfstr(property);
@@ -378,7 +394,7 @@ CFStringRef _DBCopyPropString(CFStringRef build, CFStringRef project, CFStringRe
 	return res;
 }
 
-CFDataRef _DBCopyPropData(CFStringRef build, CFStringRef project, CFStringRef property) {
+CFDataRef DBCopyOnePropData(CFStringRef build, CFStringRef project, CFStringRef property) {
 	char* cbuild = strdup_cfstr(build);
 	char* cproj = strdup_cfstr(project);
 	char* cprop = strdup_cfstr(property);
@@ -394,7 +410,7 @@ CFDataRef _DBCopyPropData(CFStringRef build, CFStringRef project, CFStringRef pr
 	return res;
 }
 
-CFArrayRef _DBCopyPropArray(CFStringRef build, CFStringRef project, CFStringRef property) {
+CFArrayRef DBCopyOnePropArray(CFStringRef build, CFStringRef project, CFStringRef property) {
 	char* cbuild = strdup_cfstr(build);
 	char* cproj = strdup_cfstr(project);
 	char* cprop = strdup_cfstr(property);
@@ -414,7 +430,7 @@ CFArrayRef _DBCopyPropArray(CFStringRef build, CFStringRef project, CFStringRef 
 	return res;
 }
 
-CFDictionaryRef _DBCopyPropDictionary(CFStringRef build, CFStringRef project, CFStringRef property) {
+CFDictionaryRef DBCopyOnePropDictionary(CFStringRef build, CFStringRef project, CFStringRef property) {
 	char* cbuild = strdup_cfstr(build);
 	char* cproj = strdup_cfstr(project);
 	char* cprop = strdup_cfstr(property);
@@ -483,10 +499,10 @@ CFTypeRef _DBCopyPropWithInheritance(CFStringRef build, CFStringRef project, CFS
 		res = func(build, project, property);
 		if (res) break;
 		
-		original = _DBCopyPropString(build, project, CFSTR("original"));
+		original = DBCopyOnePropString(build, project, CFSTR("original"));
 		if (original) break;
 
-		CFStringRef inherits = _DBCopyPropString(build, NULL, CFSTR("inherits"));
+		CFStringRef inherits = DBCopyOnePropString(build, NULL, CFSTR("inherits"));
 		if (inherits) CFArrayAppendValue(builds, inherits);
 		build = inherits;
 	} while (build != NULL);
@@ -506,19 +522,19 @@ CFTypeRef _DBCopyPropWithInheritance(CFStringRef build, CFStringRef project, CFS
 
 
 CFStringRef DBCopyPropString(CFStringRef build, CFStringRef project, CFStringRef property) {
-	return (CFStringRef)_DBCopyPropWithInheritance(build, project, property, (void*)_DBCopyPropString);
+	return (CFStringRef)_DBCopyPropWithInheritance(build, project, property, (void*)DBCopyOnePropString);
 }
 
 CFDataRef DBCopyPropData(CFStringRef build, CFStringRef project, CFStringRef property) {
-	return (CFDataRef)_DBCopyPropWithInheritance(build, project, property, (void*)_DBCopyPropData);
+	return (CFDataRef)_DBCopyPropWithInheritance(build, project, property, (void*)DBCopyOnePropData);
 }
 
 CFArrayRef DBCopyPropArray(CFStringRef build, CFStringRef project, CFStringRef property) {
-	return (CFArrayRef)_DBCopyPropWithInheritance(build, project, property, (void*)_DBCopyPropArray);
+	return (CFArrayRef)_DBCopyPropWithInheritance(build, project, property, (void*)DBCopyOnePropArray);
 }
 
 CFDictionaryRef DBCopyPropDictionary(CFStringRef build, CFStringRef project, CFStringRef property) {
-	return (CFDictionaryRef)_DBCopyPropWithInheritance(build, project, property, (void*)_DBCopyPropDictionary);
+	return (CFDictionaryRef)_DBCopyPropWithInheritance(build, project, property, (void*)DBCopyOnePropDictionary);
 }
 
 
@@ -857,7 +873,7 @@ CFArrayRef DBCopyGroupMembers(CFStringRef build, CFStringRef group) {
 		res = _DBCopyGroupMembers(build, group);
 		if (res) break;
 		
-		build = _DBCopyPropString(build, NULL, CFSTR("inherits"));
+		build = DBCopyOnePropString(build, NULL, CFSTR("inherits"));
 	} while (build != NULL);
 	return res;
 }

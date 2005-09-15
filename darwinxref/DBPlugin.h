@@ -147,11 +147,20 @@ CFArrayRef DBCopyProjectNames(CFStringRef build);
 
 CFArrayRef DBCopyChangedProjectNames(CFStringRef oldbuild, CFStringRef newbuild);
 
+// Get properties with inheritance
 CFTypeRef DBCopyProp(CFStringRef build, CFStringRef project, CFStringRef property);
 CFStringRef DBCopyPropString(CFStringRef build, CFStringRef project, CFStringRef property);
 CFDataRef DBCopyPropData(CFStringRef build, CFStringRef project, CFStringRef property);
 CFArrayRef DBCopyPropArray(CFStringRef build, CFStringRef project, CFStringRef property);
 CFDictionaryRef DBCopyPropDictionary(CFStringRef build, CFStringRef project, CFStringRef property);
+
+// Get properties without inheritance (only check one build)
+CFTypeRef DBCopyOneProp(CFStringRef build, CFStringRef project, CFStringRef property);
+CFStringRef DBCopyOnePropString(CFStringRef build, CFStringRef project, CFStringRef property);
+CFDataRef DBCopyOnePropData(CFStringRef build, CFStringRef project, CFStringRef property);
+CFArrayRef DBCopyOnePropArray(CFStringRef build, CFStringRef project, CFStringRef property);
+CFDictionaryRef DBCopyOnePropDictionary(CFStringRef build, CFStringRef project, CFStringRef property);
+
 
 int DBSetProp(CFStringRef build, CFStringRef project, CFStringRef property, CFTypeRef value);
 int DBSetPropString(CFStringRef build, CFStringRef project, CFStringRef property, CFStringRef value);
