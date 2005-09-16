@@ -10,7 +10,7 @@ Release 0.X.Y [now]
 	- darwinxref: version '*' now prints all inherited project versions
 	- darwinbuild: always enable volfs when building
 	- darwinbuild: enable darwintrace earlier so that xcodebuild is logged
-	- installXcodebuild: install ICU into the BuildRoot
+	- installXcodebuild: install ICU into the private BuildRoot/XCD/
 	- darwinbuild: receipts are now created for pre-built roots only when
 	  necessary
 	- darwinbuild: create receipts for -headers mode
