@@ -19,7 +19,7 @@ PLUGIN_OBJECTS=$(wildcard plugins/*.so) $(wildcard plugins/*.tcl)
 ### todo: --with-plugin-path configuration
 CFLAGS+= \
 	-DDEFAULT_DB_FILE=\".build/xref.db\" \
-	-DDEFAULT_PLUGIN_PATH=\"$(DATDIR)/plugins\"
+	-DDEFAULT_PLUGIN_PATH=\"$(subst $(DESTDIR),,$(DATDIR))/plugins\"
 
 ### todo: --with-tcl-plugins configuration
 TCL_CFLAGS=-DHAVE_TCL_PLUGINS=1

@@ -2,7 +2,7 @@
 ### Common makefile variables potentially set by autoconf
 ###
 PREFIX?=/usr/local
-DESTDIR?=
+DESTDIR?=$(DSTROOT)
 
 ###
 ###
