@@ -349,3 +349,17 @@ int execve(const char* path, char* const argv[], char* const envp[]) {
 	result = execve(path, argv, envp);
 	return result;
 }
+
+/* if darwintrace has  been initialized, trap
+   attempts to close our file descriptor
+*/
+int close(int fd) {
+#define close(x) syscall(SYS_close, (x))
+
+  if(__darwintrace_fd != -2 && fd == __darwintrace_fd) {
+    errno = EBADF;
+    return -1;
+  }
+
+  return close(fd);
+}
