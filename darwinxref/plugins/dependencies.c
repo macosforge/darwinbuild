@@ -84,11 +84,100 @@ int initialize(int version) {
 	return 0;
 }
 
+// Dependencies are special, so we can't use a simple DBCopyPropDictionary() call.
+//
+// We support additive and subtractive dependencies like so:
+//
+// 8A428:
+// foo = {
+//     ...
+//     dependencies = {
+//         build = {
+//             bash,
+//             gcc_os,
+//             gcc_select
+//             gnumake,
+//         };
+//     };
+// };
+//
+// 8B15 (inherits 8A428):
+// foo = {
+//     ...
+//     dependencies = {
+//         "+build" = {
+//             gcc,
+//         };
+//         "-build" = {
+//             gcc_os,
+//         };
+//     };
+// };
+//
+// Would result in the following:
+// $ darwinxref -b 8B15 dependencies build foo
+// bash
+// gcc
+// gcc_select
+// gnumake
+
+static CFDictionaryRef copyDependenciesDictionary(CFStringRef build, CFStringRef project) {
+	CFArrayRef builds = DBCopyBuildInheritance(build);
+	CFMutableDictionaryRef result = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+	CFIndex i, count = CFArrayGetCount(builds);
+	
+	for (i = 0; i < count; ++i) {
+		build = CFArrayGetValueAtIndex(builds, i);
+		CFDictionaryRef deps = DBCopyOnePropDictionary(build, project, CFSTR("dependencies"));
+		if (deps == NULL) continue;
+		CFArrayRef keys = dictionaryGetSortedKeys(deps);
+		CFIndex k, kcount = CFArrayGetCount(keys);
+		// iterate through the array backwards, since we want to process these in the order:
+		// "foo", "-foo", "+foo".
+		for (k = kcount - 1; k >= 0; k--) {
+			CFStringRef key = CFArrayGetValueAtIndex(keys, k);
+			CFArrayRef newdeps = CFDictionaryGetValue(deps, key);
+			
+			UniChar first = CFStringGetCharacterAtIndex(key, 0);
+			if (first == '+') {
+				// add in these dependencies (if they don't already exist)
+				CFStringRef base = CFStringCreateWithSubstring(NULL, key, CFRangeMake(1, CFStringGetLength(key)-1));
+				CFMutableArrayRef olddeps = (CFMutableArrayRef)CFDictionaryGetValue(result, base);
+				if (olddeps != NULL) arrayAppendArrayDistinct(olddeps, newdeps);
+				CFRelease(base);
+			} else if (first == '-') {
+				// subtract these dependencies (if they exist)
+				CFStringRef base = CFStringCreateWithSubstring(NULL, key, CFRangeMake(1, CFStringGetLength(key)-1));
+				CFMutableArrayRef olddeps = (CFMutableArrayRef)CFDictionaryGetValue(result, base);
+				if (olddeps != NULL) {
+					CFIndex i, count = CFArrayGetCount(newdeps);
+					CFRange range = CFRangeMake(0, CFArrayGetCount(olddeps));
+					for (i = 0; i < count; ++i) {
+						CFStringRef item = CFArrayGetValueAtIndex(newdeps, i);
+						// XXX: assumes there's only one occurrance of the value
+						CFIndex idx = CFArrayGetFirstIndexOfValue(olddeps, range, item);
+						if (idx != kCFNotFound) {
+							CFArrayRemoveValueAtIndex(olddeps, idx);
+							--range.length;
+						}
+					}
+				}
+				CFRelease(base);
+			} else {
+				// replace the entire list of dependencies
+				CFDictionarySetValue(result, key, newdeps);
+			}
+		}
+		CFRelease(keys);
+	}
+	CFRelease(builds);
+	return result;
+}
 
 void printDependencies(CFStringRef* types, CFStringRef* recursiveTypes, CFMutableSetRef visited, CFStringRef build, CFStringRef project, int indentLevel) {
 	if (!visited) visited = CFSetCreateMutable(NULL, 0, &kCFTypeSetCallBacks);
 	
-	CFDictionaryRef dependencies = DBCopyPropDictionary(build, project, CFSTR("dependencies"));
+	CFDictionaryRef dependencies = copyDependenciesDictionary(build, project);
 	if (dependencies) {
 		CFStringRef* type = types;
 		while (*type != NULL) {
