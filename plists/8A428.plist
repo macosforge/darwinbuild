@@ -14055,6 +14055,7 @@
 			dependencies = {
 				build = (
 					adv_cmds,
+					awk,
 					bash,
 					bootstrap_cmds,
 					cctools,
