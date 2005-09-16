@@ -246,6 +246,16 @@ CFArrayRef DBCopyBuilds() {
 	return SQL_CFARRAY(sql);
 }
 
+CFArrayRef DBCopyBuildInheritance(CFStringRef param) {
+	CFMutableArrayRef builds = CFArrayCreateMutable(NULL, 0, &kCFTypeArrayCallBacks);
+	CFStringRef build = param;
+	do {
+		CFArrayInsertValueAtIndex(builds, 0, build);
+		if (build != param) CFRelease(build);
+		build = DBCopyOnePropString(build, NULL, CFSTR("inherits"));
+	} while (build != NULL);
+	return builds;
+}
 
 CFArrayRef DBCopyPropNames(CFStringRef build, CFStringRef project) {
 	char* cbuild = strdup_cfstr(build);
@@ -267,18 +277,6 @@ CFArrayRef DBCopyOneProjectNames(CFStringRef build) {
 	CFArrayRef res = SQL_CFARRAY("SELECT DISTINCT project FROM properties WHERE build=%Q ORDER BY project", cbuild);
 	free(cbuild);
 	return res;
-}
-
-// appends each element that does not already exist in the array
-static void arrayAppendArrayDistinct(CFMutableArrayRef array, CFArrayRef other) {
-	CFIndex i, count = CFArrayGetCount(other);
-	CFRange range = CFRangeMake(0, CFArrayGetCount(array));
-	for (i = 0; i < count; ++i) {
-		CFTypeRef o = CFArrayGetValueAtIndex(other, i);
-		if (!CFArrayContainsValue(array, range, o)) {
-			CFArrayAppendValue(array, o);
-		}
-	}
 }
 
 CFArrayRef DBCopyProjectNames(CFStringRef build) {
