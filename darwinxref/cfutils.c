@@ -196,9 +196,9 @@ int writePlist(FILE* f, CFPropertyListRef p, int tabs) {
                 int count = CFArrayGetCount(keys);
                 for (i = 0; i < count; ++i) {
                         CFStringRef key = CFArrayGetValueAtIndex(keys, i);
-                        char* utf8 = strdup_cfstr(key);
-                        result += fprintf(f, "%s\t%s = ", t, utf8);
-                        free(utf8);
+						result += fprintf(f, "\t%s", t);
+						result += writePlist(f, key, tabs+1);
+                        result += fprintf(f, " = ");
                         result += writePlist(f, CFDictionaryGetValue(p,key), tabs+1);
                         result += fprintf(f, ";\n");
                 }
@@ -252,6 +252,18 @@ CFDictionaryRef mergeDictionaries(CFDictionaryRef dst, CFDictionaryRef src) {
 	CFMutableDictionaryRef res = CFDictionaryCreateMutableCopy(NULL, 0, dst);
 	CFDictionaryApplyFunction(src, _mergeDictionaries, res);
 	return res;
+}
+
+// appends each element that does not already exist in the array
+void arrayAppendArrayDistinct(CFMutableArrayRef array, CFArrayRef other) {
+	CFIndex i, count = CFArrayGetCount(other);
+	CFRange range = CFRangeMake(0, CFArrayGetCount(array));
+	for (i = 0; i < count; ++i) {
+		CFTypeRef o = CFArrayGetValueAtIndex(other, i);
+		if (!CFArrayContainsValue(array, range, o)) {
+			CFArrayAppendValue(array, o);
+		}
+	}
 }
 
 //
