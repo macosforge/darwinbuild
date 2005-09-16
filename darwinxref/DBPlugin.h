@@ -140,6 +140,8 @@ CFStringRef DBGetCurrentBuild();
 int DBHasBuild(CFStringRef build);
 CFArrayRef DBCopyBuilds();
 
+CFArrayRef DBCopyBuildInheritance(CFStringRef build);
+
 CFTypeID  DBCopyPropType(CFStringRef property);
 CFTypeID  DBCopyPropSubDictType(CFStringRef property);
 CFArrayRef DBCopyPropNames(CFStringRef build, CFStringRef project);
