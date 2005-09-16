@@ -712,7 +712,7 @@ CFDictionaryRef DBCopyBuildPlist(CFStringRef build) {
 
 	// Generate projects dictionary
 	CFMutableDictionaryRef projects = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-	CFArrayRef names = DBOneCopyProjectNames(build);
+	CFArrayRef names = DBCopyOneProjectNames(build);
 	CFIndex i, count = CFArrayGetCount(names);
 	for (i = 0; i < count; ++i) {
 		CFStringRef name = CFArrayGetValueAtIndex(names, i);
