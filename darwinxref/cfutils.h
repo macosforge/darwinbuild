@@ -43,6 +43,7 @@ CFArrayRef dictionaryGetSortedKeys(CFDictionaryRef dictionary);
 int writePlist(FILE* f, CFPropertyListRef p, int tabs);
 CFArrayRef tokenizeString(CFStringRef str);
 CFDictionaryRef mergeDictionaries(CFDictionaryRef dst, CFDictionaryRef src);
+void arrayAppendArrayDistinct(CFMutableArrayRef array, CFArrayRef other);
 
 extern CFArrayCallBacks cfArrayCStringCallBacks;
 extern CFDictionaryKeyCallBacks cfDictionaryCStringKeyCallBacks;
