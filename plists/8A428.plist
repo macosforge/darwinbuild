@@ -2098,7 +2098,7 @@
 					gnumake,
 				);
 			};
-			version = 8A428;
+			version = 2;
 		};
 		ChatServer = {
 			version = 37.1;
