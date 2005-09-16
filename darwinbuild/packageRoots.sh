@@ -88,9 +88,7 @@ function PackageThem() {
 	local DIR="$1"
 	local SFX="$2"
 	echo "*** Packaging $DIR"
-	OLDIFS="$IFS"
-	IFS=$'\n'
-	for X in $("$DARWINXREF" version '*') ; do
+	"$DARWINXREF" version '*' | while read X; do
 		Y="${X/-*/}"
 		build_version=$(GetBuildVersion $DARWIN_BUILDROOT/$DIR/$Y/$X*)
 		if [ "$build_version" != "0" -a \
@@ -101,7 +99,6 @@ function PackageThem() {
 			eval $CMD "$DARWIN_BUILDROOT/Packages/$Y$SFX.tar.gz" .
 		fi
 	done
-	IFS="$OLDIFS"
 }
 PackageThem Headers .hdrs
 PackageThem Roots .root
