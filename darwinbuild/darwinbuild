@@ -466,7 +466,7 @@ for patchfile in $patchfilenames; do
 		    $catprog "$SourceCache/$patchfile" | patch -l -f -p0
 		    ;;
 		*.add*)
-		    newfile=`echo $patchfile | sed -e 's/\.add.*$//' -e 's,_,/,g'`
+		    newfile=`echo $patchfile | sed -e 's/^.*-\([^-]*\)\.add.*/\1/' -e 's,_,/,g'`
 		    $catprog "$SourceCache/$patchfile" > "./$newfile"
 		    ;;
 		*)
