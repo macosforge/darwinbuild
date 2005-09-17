@@ -2,6 +2,7 @@ Darwin Build Scripts Change History
 -----------------------------------
 
 Release 0.X.Y [now]
+	- darwinbuild: Add support for "src_foo.c.add" patches as overlays
 	- updated Makfile to honor DSTROOT
 	- darwinxref: Added additive and subtractive dependencies
 	- darwintrace: prevent the log file descriptor from being closed
