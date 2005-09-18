@@ -119,7 +119,7 @@ function PackageThem() {
 	    xar)
 		FILE="$DARWIN_BUILDROOT/Packages/$PROJ$SFX.xar"
 		ARGS="-c -f"
-		SRCARG="$SOURCEDIR"
+		SRCARG="."
 		;;
 	    *)
 	    	FILE="$DARWIN_BUILDROOT/Packages/$PROJ$SFX.$TOOL"
