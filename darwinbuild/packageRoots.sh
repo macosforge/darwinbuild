@@ -32,6 +32,8 @@
 #
 # Kevin Van Vechten <kevin@opendarwin.org>
 
+set -e
+
 PREFIX=/usr/local
 XREFDB=.build/xref.db
 DARWINXREF=$PREFIX/bin/darwinxref
@@ -39,27 +41,43 @@ DATADIR=$PREFIX/share/darwinbuild
 COMMONFILE=$DATADIR/darwinbuild.common
 
 NORUN=""
+VERBOSE="true"
+TOOL="tar"
 
 ###
 ### Interpret our arguments:
 ###   -n  Don't actually package anything, just say what we would do.
 function PrintUsage() {
-	echo "usage: $(basename $0) [-n]" 1>&2
+	echo "usage: $(basename $0) [-n] [-x]" 1>&2
 	exit
 }
 
-for ARG in "$@"; do
-	if [ "$NORUN" == "" ]; then
-		if [ "$ARG" == "-n" ]; then
-			NORUN="YES"
-		else
-			PrintUsage "$0"
-		fi
-	else
-		PrintUsage "$0"
-	fi
-done
+args=`getopt nxv $*`
+if [ $? -ne 0 ]; then
+    PrintUsage
+fi
 
+set -- $args
+
+for i; do
+    case "$i" in
+	-n)
+	NORUN="true"
+	shift
+	;;
+	-x)
+	TOOL="xar"
+	shift
+	;;
+	-v)
+	VERBOSE="echo"
+	shift
+	;;
+	--)
+	shift
+	;;
+    esac
+done
 
 ###
 ### Include some common subroutines
@@ -73,31 +91,51 @@ shopt -s nullglob
 ###
 CheckDarwinBuildRoot
 
-
-if [ "$NORUN" == "YES" ]; then
-	CMD="echo SKIPPING tar czf"
-else
-	CMD="tar czf"
-fi
-
 if [ ! -d "$DARWIN_BUILDROOT/Packages" ]; then
-	mkdir "$DARWIN_BUILDROOT/Packages"
+    mkdir "$DARWIN_BUILDROOT/Packages"
 fi
+
+$TOOL --version > /dev/null
+echo "Archive tool: $($TOOL --version | head -1)"
 
 function PackageThem() {
-	local DIR="$1"
-	local SFX="$2"
-	echo "*** Packaging $DIR"
-	"$DARWINXREF" version '*' | while read X; do
-		Y="${X/-*/}"
-		build_version=$(GetBuildVersion $DARWIN_BUILDROOT/$DIR/$Y/$X*)
-		if [ "$build_version" != "0" -a \
-		     "$DARWIN_BUILDROOT/$DIR/$Y/$X$SFX~$build_version" -nt \
-		     "$DARWIN_BUILDROOT/Packages/$X$SFX.tar.gz" ]; then
-			echo "$X$SFX~$build_version"
-			cd "$DARWIN_BUILDROOT/$DIR/$Y/$X$SFX~$build_version"
-			eval $CMD "$DARWIN_BUILDROOT/Packages/$Y$SFX.tar.gz" .
-		fi
+    local DIR="$1"
+    local SFX="$2"
+    echo "*** Packaging $DIR"
+    "$DARWINXREF" version '*' | while read PROJVERS; do
+	local PROJ="${PROJVERS/-*/}"
+	local FILE=""
+	local ARGS=""
+	local SRCARG=""
+	local build_version=$(GetBuildVersion $DARWIN_BUILDROOT/$DIR/$PROJ/$PROJVERS*)
+	local SOURCEDIR="$DARWIN_BUILDROOT/$DIR/$PROJ/$PROJVERS$SFX~$build_version"
+
+	case "$TOOL" in
+	    tar)
+		FILE="$DARWIN_BUILDROOT/Packages/$PROJ$SFX.tar.gz"
+		ARGS="zcf"
+		SRCARG="."
+		;;
+	    xar)
+		FILE="$DARWIN_BUILDROOT/Packages/$PROJ$SFX.xar"
+		ARGS="-c -f"
+		SRCARG="$SOURCEDIR"
+		;;
+	    *)
+	    	FILE="$DARWIN_BUILDROOT/Packages/$PROJ$SFX.$TOOL"
+		ARGS=""
+		SRCARG="."
+		;;
+	esac
+
+	if [ -n "$build_version" -a \
+	    "$SOURCEDIR" -nt "$FILE" ]; then
+	    echo "$PROJVERS~$build_version"
+	    $VERBOSE cd "$SOURCEDIR"
+	    cd "$SOURCEDIR"
+	    $VERBOSE $TOOL $ARGS "$FILE" "$SRCARG"
+	    $NORUN $TOOL $ARGS "$FILE" "$SRCARG"
+	fi
 	done
 }
 PackageThem Headers .hdrs
