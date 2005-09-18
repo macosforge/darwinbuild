@@ -498,6 +498,7 @@ function CreateReceipt() {
 
     cp "$TmpFile" "$receipts/$Hash"
     ln -sf "$Hash" "$receipts/$Project$RootType"
+    rm "$TmpFile"
     return 0
 }
 
