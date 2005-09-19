@@ -25,7 +25,7 @@ cat "$PROJECTS" | while read proj; do
     echo -n "Building $proj..."
     mkdir -p WholeLogs
     darwinbuild -noload $proj 2>&1 | tee WholeLogs/$proj >> WholeLogs/All
-    if [ $? -eq 0 ]; then
+    if [ ${PIPESTATUS[0]} -eq 0 ]; then
 	echo " done"
 	darwinbuild -load $proj 2>&1 | tee -a WholeLogs/$proj >> WholeLogs/All
     else
