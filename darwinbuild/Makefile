@@ -20,6 +20,8 @@ install: all
 	$(INSTALL) $(INSTALL_EXE_FLAGS) installXcodebuild $(DATDIR)
 	$(INSTALL) $(INSTALL_EXE_FLAGS) manifest $(DATDIR)
 	$(INSTALL) $(INSTALL_EXE_FLAGS) ditto.sh $(DATDIR)/ditto
+	$(INSTALL) $(INSTALL_EXE_FLAGS) buildlist.sh $(DATDIR)/buildlist
+	$(INSTALL) $(INSTALL_EXE_FLAGS) buildorder.pl $(DATDIR)/buildorder
 	$(INSTALL) $(INSTALL_EXE_FLAGS) packageRoots.sh $(DATDIR)/packageRoots
 	$(INSTALL) $(INSTALL_EXE_FLAGS) synthfat.sh $(DATDIR)/synthfat
 	$(INSTALL) $(INSTALL_EXE_FLAGS) thinFile.sh $(DATDIR)/thinFile
