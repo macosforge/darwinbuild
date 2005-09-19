@@ -24,14 +24,16 @@ cat "$PROJECTS" | while read proj; do
     fi
     echo -n "Building $proj..."
     mkdir -p WholeLogs
-    darwinbuild -noload $proj > WholeLogs/$proj 2>&1
+    darwinbuild -noload $proj 2>&1 | tee WholeLogs/$proj >> WholeLogs/All
     if [ $? -eq 0 ]; then
 	echo " done"
+	darwinbuild -load $proj 2>&1 | tee -a WholeLogs/$proj >> WholeLogs/All
     else
 	echo " FAILED"
     fi
 
     rm -rf BuildRoot/SourceCache
     rm -rf BuildRoot/var/tmp/$proj
+    rm -rf Symbols/$proj
 
 done
