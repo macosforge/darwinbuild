@@ -7,6 +7,21 @@ use strict;
 use File::Basename;
 use File::Glob ':glob';
 
+my $darwinxref = '/usr/local/bin/darwinxref';
+
+sub getBuild {
+	local *BUILD;
+	my $path = '.build/build';
+	if ($ENV{'DARWIN_BUILDROOT'}) {
+		$path = $ENV{'DARWIN_BUILDROOT'} . "/$path";
+	}
+	open BUILD, $path || return undef;
+	my $build = <BUILD>;
+	chomp $build;
+	close BUILD;
+	return $build;
+}
+
 sub getBuildVersion {
 	my $maxbuild = 0;
 	foreach (@_) {
@@ -20,8 +35,13 @@ sub getProjects {
 	my $build = shift;
 
 	local *PROJECTS;
-	open PROJECTS, '-|', 'darwinxref', '-b', $build, 'version', '*' || die;
-	my @projects = <PROJECTS>;
+	open PROJECTS, '-|', $darwinxref, '-b', $build, 'version', '*' || die;
+	my @projects;
+	while (<PROJECTS>) {
+		my $project = $_;
+		chomp($project);
+		push @projects, $project;
+	}
 	close PROJECTS;
 
 	return @projects;
@@ -31,8 +51,24 @@ sub getProjects {
 ### Main
 ###
 
-my $LOGDIR = $ARGV[0];
-my $BUILD = "8C46od1";
+my $BUILD = &getBuild();
+
+if (!$BUILD) {
+	print STDERR <<EOB;
+ERROR: please change your working directory to one initialized by:
+  darwinbuild -init <build>
+Alternatively, you may set the DARWIN_BUILDROOT environment variable to the
+absolute path of that directory.
+EOB
+	exit 1;
+}
+
+my $LOGDIR;
+if ($ENV{'DARWIN_BUILDROOT'}) {
+	$LOGDIR = $ENV{'DARWIN_BUILDROOT'} . "/Logs";
+} else {
+	$LOGDIR = "Logs";
+}
 
 print <<EOB;
 <html>
@@ -117,9 +153,9 @@ function sortByExitStatus(row1, row2) {
 <tbody>
 EOB
 
-#foreach my $project (getProjects($BUILD)) {
-foreach my $project (sort(bsd_glob("$LOGDIR/*"))) {
-	my $projnam = basename($project);
+foreach my $project (getProjects($BUILD)) {
+	my $projnam = $project;
+	$projnam =~ s/-(.*)$//;
 
 	my $build_version = "";
 	my $buildaction = "";
