@@ -17,6 +17,12 @@
 		DirectoryService = {
 			version = 349;
 		};
+		GraphicsDrivers = {
+			version = 4.2.9;
+			source_sites = (
+				"http://darwinsource.opendarwin.org/tarballs/binary_drivers/8B15/",
+			);
+		};
 		Libm = {
 			version = 93;
 		};
