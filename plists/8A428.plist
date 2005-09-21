@@ -2563,6 +2563,78 @@
 			version = 3;
 		};
 		ChatServer = {
+			dependencies = {
+				build = (
+					CF,
+					DirectoryService,
+					ICU,
+					Libm,
+					Libsystem,
+					OpenSSL,
+					Security,
+					adv_cmds,
+					autoconf,
+					automake,
+					awk,
+					bash,
+					bison,
+					cctools,
+					cxxfilt,
+					developer_cmds,
+					file,
+					file_cmds,
+					gcc_os,
+					gcc_select,
+					glibtool,
+					gm4,
+					gnudiff,
+					gnumake,
+					gnutar,
+					gnuzip,
+					grep,
+					libiconv,
+					libxml2,
+					libxslt,
+					ncurses,
+					objc4,
+					pb_makefiles,
+					perl,
+					python,
+					shell_cmds,
+					system_cmds,
+					texinfo,
+					text_cmds,
+				);
+				header = (
+					CF,
+					CarbonHeaders,
+					DirectoryService,
+					Libc_headers,
+					Libinfo,
+					Libm,
+					OpenSSL,
+					Security,
+					architecture,
+					gcc_os,
+					libdyld,
+					libiconv,
+					netinfo,
+					python,
+					xnu,
+				);
+				lib = (
+					CF,
+					DirectoryService,
+					Libsystem,
+					OpenSSL,
+					Security,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc_os,
+				);
+			};
 			version = 37.1;
 		};
 		Chess = {
