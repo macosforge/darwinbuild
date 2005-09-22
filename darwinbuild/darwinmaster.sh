@@ -75,6 +75,8 @@ PKGDIR="$DARWIN_BUILDROOT/Packages"
 MKISOFS="/opt/local/bin/mkisofs"
 SIZE="650m"
 
+export DARWINXREF_DB_FILE="$DARWIN_BUILDROOT/$XREFDB"
+
 ###
 ### Must be run as root.  Enforce this.
 ###
@@ -82,6 +84,32 @@ if [ "$EUID" != "0" ]; then
 	echo "Error: $(basename $0) must be run as root." 1>&2
 	exit 1
 fi
+
+###
+### Look for a build number
+###
+if [ "$DARWINBUILD_BUILD" != "" ]; then
+	build="$DARWINBUILD_BUILD"
+fi
+
+###
+### No build number specified.  Look in the DARWIN_BUILDROOT for
+### a cached value.
+###
+if [ "$build" == "" -a -f "$DARWIN_BUILDROOT/.build/build" ]; then
+	build="$(cat $DARWIN_BUILDROOT/.build/build)"
+fi
+
+###
+### Still no build number specified.  Error.
+###
+if [ "$build" == "" ]; then
+	echo "Error: no build number specified." 2>&1
+	exit 1
+fi
+export DARWINBUILD_BUILD="$build"
+
+
 
 ###
 ### Update binary packages
@@ -107,7 +135,6 @@ fi
 DESTDIR=$(hdiutil attach "$DMG" \
 		-readwrite \
 		-owners on | tail -1 | awk '{print $3}')
-RECEIPTS="$DESTDIR/.receipts"
 
 ###
 ### Copy roots necessary for booting / installation onto disk image
@@ -117,21 +144,8 @@ chown root:admin "$DESTDIR"
 chmod 1775 "$DESTDIR"
 
 echo "Installing Roots ..."
-[ -d "$RECEIPTS" ] || mkdir "$RECEIPTS"
-#for X in $PKGDIR/files-*.tar.gz $PKGDIR/*-*.tar.gz ; do
-for Z in $(cat "$DARWIN_BUILDROOT/boot.txt") ; do
-	X=$DARWIN_BUILDROOT/BinaryDrivers_${ARCH}/$Z-*.tar.bz2
-	if [ ! -f "$X" ]; then
-		X=$DARWIN_BUILDROOT/Packages_${ARCH}/$Z-*.tar.bz2
-	fi
-	if [ -f "$X" ]; then
-		RECEIPT=$RECEIPTS/$(basename $X)
-		if [ "$RECEIPT" -ot $X ]; then
-			echo ... $(basename $X)
-			tar xjf $X
-			touch $RECEIPT
-		fi
-	fi
+for Project in $("$DARWINXREF" group boot) ; do
+	InstallRoot "$DESTDIR" "$Project" "$build"
 done
 
 ###
