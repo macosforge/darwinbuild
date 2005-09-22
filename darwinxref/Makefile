@@ -13,8 +13,8 @@ SOURCES= \
 	cfutils.c \
 	main.c
 
-PLUGIN_SOURCES=$(wildcard plugins/*.c) $(wildcard plugins-darwinports/*.c)
-PLUGIN_OBJECTS=$(wildcard plugins/*.so) $(wildcard plugins/*.tcl)
+PLUGIN_SOURCES=$(wildcard plugins/*.c)
+PLUGIN_OBJECTS=$(PLUGIN_SOURCES:.c=.so) $(wildcard plugins/*.tcl)
 
 ### todo: --with-plugin-path configuration
 CFLAGS+= \
