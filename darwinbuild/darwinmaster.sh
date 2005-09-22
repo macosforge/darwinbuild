@@ -38,16 +38,31 @@
 # Felix Kronlage    <fkr@opendarwin.org>
 # Chuck Remes       <cremes@opendarwin.org>
 
-ARCH="$1"
-VOLNAME="$2"
-
-if [ "$ARCH" != "ppc" -a "$ARCH" != "i386" \
-	-o "$VOLNAME" == "" ]; then
+function PrintUsage() {
 	cat 1>&2 <<- EOB
-usage: $(basename $0) <arch> <volname>
+usage: $(basename "$0") [-arch=arch] <volname>
        arch = {ppc, i386}
 EOB
 	exit 1
+}
+
+for ARG in "$@"; do
+	if [ "$VOLNAME" == "" ]; then
+		if [ "${ARG/=*/}" == "-arch" ]; then
+			ARCH="${ARCH/*=/}"
+		elif [ "${ARG:0:1}" != "-" ]; then
+			VOLNAME="$ARG"
+		else
+			PrintUsage "$0"
+		fi
+	else
+		PrintUsage "$0"
+	fi
+done
+
+if [ "$ARCH" != "" -a "$ARCH" != "ppc" -a "$ARCH" != "i386" \
+	-o "$VOLNAME" == "" ]; then
+	PrintUsage "$0"
 fi
 
 PREFIX=/usr/local
@@ -74,6 +89,11 @@ ISO="/tmp/$VOLNAME.iso"
 PKGDIR="$DARWIN_BUILDROOT/Packages"
 MKISOFS="/opt/local/bin/mkisofs"
 SIZE="650m"
+if [ ! -z "$ARCH" ]; then
+	ARCHSFX="_$ARCH"
+else
+	ARCHSFX=""
+fi
 
 export DARWINXREF_DB_FILE="$DARWIN_BUILDROOT/$XREFDB"
 
@@ -119,7 +139,9 @@ export DARWINBUILD_BUILD="$build"
 ###
 ### Update thin packages
 ###
-"$DATADIR/thinPackages" "$ARCH"
+if [ ! -z "$ARCH" ]; then
+	"$DATADIR/thinPackages" "$ARCH"
+fi
 
 
 ###
@@ -154,7 +176,12 @@ done
 echo "Generating MKext ..."
 
 export TMPDIR="$DESTDIR/private/tmp"
-kextcache -a $ARCH -k -K "$DESTDIR/mach_kernel" -m "$DESTDIR/System/Library/Extensions.mkext" "$DESTDIR/System/Library/Extensions"
+if [ -z "$ARCH" ]; then
+	KEXTARCH="-a ppc -a i386"
+else
+	KEXTARCH="-a $ARCH"
+fi
+kextcache $KEXTARCH -k -K "$DESTDIR/mach_kernel" -m "$DESTDIR/System/Library/Extensions.mkext" "$DESTDIR/System/Library/Extensions"
 export -n TMPDIR
 
 ###
@@ -177,21 +204,21 @@ nicl -raw "$DESTDIR/var/db/netinfo/local.nidb" -create /users/root passwd ''
 ###
 ### Copy installation packages
 ###
-mkdir -p "$DESTDIR/System/Installation/BinaryDrivers_${ARCH}"
+mkdir -p "$DESTDIR/System/Installation/BinaryDrivers${ARCHSFX}"
 echo "Copying binary drivers ..."
-for X in $DARWIN_BUILDROOT/BinaryDrivers_${ARCH}/*-*.tar.bz2 ; do
-	Y="$DESTDIR"/System/Installation/BinaryDrivers_${ARCH}/$(basename $X)
+for X in $DARWIN_BUILDROOT/BinaryDrivers${ARCHSFX}/*-*.tar.bz2 ; do
+	Y="$DESTDIR"/System/Installation/BinaryDrivers${ARCHSFX}/$(basename $X)
 	if [ $X -nt $Y ]; then
 		cp $X $Y
 	fi
 done
 
 echo "Copying packages ..."
-mkdir -p "$DESTDIR"/System/Installation/Packages_${ARCH}
-for X in $DARWIN_BUILDROOT/Packages_${ARCH}/*-*.tar.bz2 ; do
+mkdir -p "$DESTDIR"/System/Installation/Packages${ARCHSFX}
+for X in $DARWIN_BUILDROOT/Packages${ARCHSFX}/*-*.tar.bz2 ; do
 	f=$(basename $X)
 	if [ "${f/-*/}" != "DarwinInstaller" ]; then
-	Y="$DESTDIR"/System/Installation/Packages_${ARCH}/$(basename $X)
+	Y="$DESTDIR"/System/Installation/Packages${ARCHSFX}/$(basename $X)
 	if [ $X -nt $Y ]; then
 		echo $f
 		cp $X $Y
@@ -220,7 +247,7 @@ if [ "$ARCH" == "ppc" ]; then
                 -o "$CDR"
 
 
-elif [ "$ARCH" == "i386" ]; then
+elif [ "$ARCH" == "i386" -o -z "$ARCH" ]; then
 	###
 	### Create a bootable ISO filesystem
 	###
