@@ -237,7 +237,11 @@ fi
 for ARG in "$@"; do
 	if [ "$projnam" == "" ]; then
 		if [ "$ARG" == "-headers" ]; then
-			action="installhdrs"
+			if [ "$action" == "load" ]; then
+				action="loadhdrs"
+			else
+				action="installhdrs"
+			fi
 		elif [ "$ARG" == "-fetch" ]; then
 			action="fetch"
 		elif [ "$ARG" == "-source" ]; then
@@ -253,7 +257,11 @@ for ARG in "$@"; do
 		elif [ "$ARG" == "-nopatch" ]; then
 			nopatch="YES"
 		elif [ "$ARG" == "-load" ]; then
-			action="load"
+			if [ "$action" == "installhdrs" ]; then
+				action="loadhdrs"
+			else
+				action="load"
+			fi
 		elif [ "$ARG" == "-noload" ]; then
 			noload="YES"
 		elif [ "$ARG" == "-loadonly" ]; then
@@ -307,6 +315,9 @@ fi
 ###
 if [ "$action" == "load" ]; then
 	InstallRoot "$BuildRoot" "$projnam" "$depsbuild"
+	exit 0
+elif [ "$action" == "loadhdrs" ]; then
+	InstallHeader "$BuildRoot" "$projnam" "$depsbuild"
 	exit 0
 fi
 
