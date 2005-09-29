@@ -274,9 +274,25 @@ CFArrayRef DBCopyPropNames(CFStringRef build, CFStringRef project) {
 
 CFArrayRef DBCopyOneProjectNames(CFStringRef build) {
 	char* cbuild = strdup_cfstr(build);
-	CFArrayRef res = SQL_CFARRAY("SELECT DISTINCT project FROM properties WHERE build=%Q ORDER BY project", cbuild);
+
+	CFMutableArrayRef projects = (CFMutableArrayRef)SQL_CFARRAY("SELECT DISTINCT project FROM properties WHERE build=%Q", cbuild);
+	
+	// also include any build aliases for these projects
+	do {		
+		CFArrayRef res = SQL_CFARRAY("SELECT DISTINCT project FROM properties WHERE build=%Q AND property='original'", cbuild);
+		free(cbuild);
+
+		arrayAppendArrayDistinct(projects, res);
+		CFRelease(res);
+
+		build = DBCopyOnePropString(build, NULL, CFSTR("inherits"));
+		cbuild = strdup_cfstr(build);
+	} while (build != NULL);
+
+	CFArraySortValues(projects, CFRangeMake(0, CFArrayGetCount(projects)), (CFComparatorFunction)CFStringCompare, 0);
+	
 	free(cbuild);
-	return res;
+	return projects;
 }
 
 CFArrayRef DBCopyProjectNames(CFStringRef build) {
