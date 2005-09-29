@@ -146,6 +146,7 @@ CFTypeID  DBCopyPropType(CFStringRef property);
 CFTypeID  DBCopyPropSubDictType(CFStringRef property);
 CFArrayRef DBCopyPropNames(CFStringRef build, CFStringRef project);
 CFArrayRef DBCopyProjectNames(CFStringRef build);
+CFArrayRef DBCopyOneProjectNames(CFStringRef build);
 
 CFArrayRef DBCopyChangedProjectNames(CFStringRef oldbuild, CFStringRef newbuild);
 

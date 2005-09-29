@@ -49,6 +49,12 @@ static int run(CFArrayRef argv) {
 		for (i = 0; i < count; ++i) {
 			printProjectVersion(CFArrayGetValueAtIndex(projects, i));
 		}
+	} else if (CFEqual(project, CFSTR("?"))) {
+		CFArrayRef projects = DBCopyOneProjectNames(build);
+		CFIndex i, count = CFArrayGetCount(projects);
+		for (i = 0; i < count; ++i) {
+			printProjectVersion(CFArrayGetValueAtIndex(projects, i));
+		}
 	} else {
 		printProjectVersion(project);
 	}
@@ -57,7 +63,7 @@ static int run(CFArrayRef argv) {
 }
 
 static CFStringRef usage() {
-	return CFRetain(CFSTR("<project>"));
+	return CFRetain(CFSTR("<project>\n*: all projects (including inheritance)\n?: all projects (without inheritance)"));
 }
 
 int initialize(int version) {
