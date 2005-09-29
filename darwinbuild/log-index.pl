@@ -35,7 +35,7 @@ sub getProjects {
 	my $build = shift;
 
 	local *PROJECTS;
-	open PROJECTS, '-|', $darwinxref, '-b', $build, 'version', '*' || die;
+	open PROJECTS, '-|', $darwinxref, '-b', $build, 'version', '?' || die;
 	my @projects;
 	while (<PROJECTS>) {
 		my $project = $_;
@@ -166,9 +166,8 @@ foreach my $project (getProjects($BUILD)) {
 	my $logfile;
 	
 	if ( -e "$LOGDIR/$projnam" ) {
-		#$build_version = getBuildVersion bsd_glob("$LOGDIR/$projnam/$project.*");
-		#my $logfile = "$LOGDIR/$projnam/$project.log~$build_version";
-		$logfile = bsd_glob("$LOGDIR/$projnam/*.log~*");
+		$build_version = getBuildVersion(bsd_glob("$LOGDIR/$projnam/$project.*"));
+		$logfile = "$LOGDIR/$projnam/$project.log~$build_version";
 		if ( -e $logfile ) {
 			local *LOG;
 			open LOG, $logfile;
@@ -204,6 +203,14 @@ foreach my $project (getProjects($BUILD)) {
   <td><small>$rcarchs</small></td>
   <td align="right" $color>$exitstatus</td>
 </tr>
+EOB
+	} else {
+		print <<EOB;
+<tr>
+  <td>$project</td>
+  <td></td>
+  <td></td>
+  <td></td>
 EOB
 	}
 }
