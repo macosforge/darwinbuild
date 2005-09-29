@@ -272,50 +272,42 @@ function InstallHeader() {
 	    fi
 	fi
 
-	CheckForReceipt "$BuildRoot" "$Project" "hdrs"
-	if [ $? -eq 0 ]; then
-	    # receipt is present. But do we have a newer local build?
+	# Install self-built headers only if they're newer than anything
+	# else that's been installed (Headers and Roots)
+	if [ -n "$SelfBuiltHeader" ]; then
 	    CheckIfNewerThanReceipt "$BuildRoot" "$Project" "hdrs" "$SelfBuiltHeader"
 	    if [ $? -eq 0 ]; then
-		# we're newer Headers. Load us
-		InstallSelfBuiltHeader=1
-	    else
+			CheckIfNewerThanReceipt "$BuildRoot" "$Project" "root" "$SelfBuiltHeader"
+			if [ $? -eq 0 ]; then
+				# we're newer Headers. Load us
+				InstallSelfBuiltHeader=1
+			fi
+	    fi
+	fi
+	
+	# If we can't find self-built headers, install a self-built root only
+	# if it's newer than anything else that's been installed (Headers and Roots)
+	if [ $InstallSelfBuiltHeader -eq 0 -a -n "$SelfBuiltRoot" ]; then
 		CheckIfNewerThanReceipt "$BuildRoot" "$Project" "hdrs" "$SelfBuiltRoot"
 		if [ $? -eq 0 ]; then
-		    CheckForReceipt "$BuildRoot" "$Project" "root"
-		    if [ $? -eq 0 ]; then
 			CheckIfNewerThanReceipt "$BuildRoot" "$Project" "root" "$SelfBuiltRoot"
 			if [ $? -eq 0 ]; then
-			# we're newer Root. Load us
-			    InstallSelfBuiltRoot=1
+				# we're newer Headers. Load us
+				InstallSelfBuiltRoot=1
 			fi
-		    else
-			InstallSelfBuiltRoot=1
-		    fi
 		fi
-		
-	    fi
-	else
-	    # there wasn't a Headers receipt. look for Roots
-	    CheckForReceipt "$BuildRoot" "$Project" "root"
-	    if [ $? -eq 0 ]; then
-		CheckIfNewerThanReceipt "$BuildRoot" "$Project" "root" "$SelfBuiltRoot"
-		if [ $? -eq 0 ]; then
-		    # we're newer Root. Load us
-		    InstallSelfBuiltRoot=1
+	fi
+
+	# If we can't find self-built headers or self-built roots, install a
+	# pre-built root only if nothing's been previously installed.
+	if [ $InstallSelfBuiltHeader -eq 0 -a $InstallSelfBuiltRoot -eq 0 ]; then
+		CheckForReceipt "$BuildRoot" "$Project" "hdrs"
+		if [ $? -eq 1 ]; then
+			CheckForReceipt "$BuildRoot" "$Project" "root"
+			if [ $? -eq 1 ]; then
+				InstallPreBuiltRoot=1
+			fi
 		fi
-	    else
-		# there wasn't any receipt. but if we have a self-built root, we should use it
-		if [ -n "$SelfBuiltHeader" ]; then
-		    InstallSelfBuiltHeader=1
-		else
-		    if [ -n "$SelfBuiltRoot" ]; then
-			    InstallSelfBuiltRoot=1
-		    else
-			    InstallPreBuiltRoot=1
-		    fi
-		fi
-	    fi
 	fi
 
 	# install a self-built root, or a prebuilt root, or nothing
