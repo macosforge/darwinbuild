@@ -118,7 +118,7 @@ function PackageThem() {
 		;;
 	    xar)
 		FILE="$DARWIN_BUILDROOT/Packages/$PROJ$SFX.xar"
-		ARGS="-c -f"
+		ARGS="-s /tmp/$PROJ.$$.xml -n darwinbuild -c -f"
 		SRCARG="."
 		;;
 	    *)
@@ -131,10 +131,15 @@ function PackageThem() {
 	if [ -n "$build_version" -a \
 	    "$SOURCEDIR" -nt "$FILE" ]; then
 	    echo "$PROJVERS~$build_version"
+	    $VERBOSE cd "$DARWIN_BUILDROOT"
+	    cd "$DARWIN_BUILDROOT"
+	    $VERBOSE "$DARWINXREF" exportProject -xml $PROJ 
+	    "$DARWINXREF" exportProject -xml $PROJ > /tmp/$PROJ.$$.xml
 	    $VERBOSE cd "$SOURCEDIR"
 	    cd "$SOURCEDIR"
 	    $VERBOSE $TOOL $ARGS "$FILE" "$SRCARG"
 	    $NORUN $TOOL $ARGS "$FILE" "$SRCARG"
+	    rm -f /tmp/$PROJ.$$.xml
 	fi
 	done
 }

@@ -2,6 +2,9 @@ Darwin Build Scripts Change History
 -----------------------------------
 
 Release 0.X.Y [now]
+	- darwinbuild: add support to packageRoots -x to embed project
+	  plists as xar subdocs (bbraun)
+	- darwinxref: add exportProject verb (bbraun)
 	- darwinbuild: Add support for "src_foo.c.add" patches as overlays
 	- updated Makfile to honor DSTROOT
 	- darwinxref: Added additive and subtractive dependencies
