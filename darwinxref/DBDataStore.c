@@ -277,7 +277,7 @@ CFArrayRef DBCopyOneProjectNames(CFStringRef build) {
 
 	CFMutableArrayRef projects = (CFMutableArrayRef)SQL_CFARRAY("SELECT DISTINCT project FROM properties WHERE build=%Q", origbuild);
 	
-	char* cbuild = origbuild;
+	char* cbuild = strdup(origbuild);
 	
 	// also include any build aliases for these projects
 	do {		
