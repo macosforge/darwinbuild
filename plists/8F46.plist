@@ -1,0 +1,322 @@
+// !$*UTF8*$!
+{
+        binary_sites = (
+                "http://darwinsource.opendarwin.org/Roots/8F46",
+        );
+	build = 8F46;
+	darwin = "Darwin 8.3";
+	inherits = 8C46;
+	macosx = "Mac OS X 10.4.3";
+	projects = {
+		AppleADBKeyboard = {
+			version = 239.1;
+		};
+		AppleDisplays = {
+			version = 148.1.8;
+		};
+		AppleGMACEthernet = {
+			version = 142.3.1;
+		};
+		AppleGPIO = {
+			version = 119.0.0;
+		};
+		AppleHWSensor = {
+			version = 145.0.11;
+		};
+		AppleKauaiATA = {
+			version = 121.3.4;
+		};
+		AppleKeyLargo = {
+			version = 170.0.0;
+		};
+		AppleMPIC = {
+			version = 1.5.2;
+		};
+		AppleMacRISC2PE = {
+			version = 180.0.12;
+		};
+		AppleMacRISC4PE = {
+			version = 180.0.34;
+		};
+		AppleMacRiscPCI = {
+			version = 3.2.0;
+		};
+		AppleOnboardAudio = {
+			version = 256.2.5;
+		};
+		AppleRAID = {
+			version = 2.1.7;
+		};
+		AppleUSBAudio = {
+			version = 199.2.13;
+		};
+		AppleUSBCDCDriver = {
+			version = 319.4.1;
+		};
+		CF = {
+			version = 368.18;
+		};
+		CFNetwork = {
+			version = 129.5;
+		};
+		CyrusIMAP = {
+			version = 156.8;
+		};
+		DSNISPlugin = {
+			version = 17.6;
+		};
+		DSTools = {
+			version = 60.1;
+		};
+		DirectoryService = {
+			target = DirectoryServiceFW;
+			version = 351.13;
+		};
+		DynamicPowerStep = {
+			version = 1.4.0;
+		};
+		FirewallTool = {
+			version = 16;
+		};
+		IOATABlockStorage = {
+			version = 142.1.1;
+		};
+		IOATAPIProtocolTransport = {
+			version = 143.0.1;
+		};
+		IOFireWireFamily = {
+			version = 208.4.2;
+		};
+		IOGraphics = {
+			version = 179.2;
+		};
+		IOHIDFamily = {
+			version = 172.8;
+		};
+		IOI2CFamily = {
+			version = 108.2.1;
+		};
+		IOKitUser = {
+			version = 277.6;
+		};
+		IOPCCardFamily = {
+			version = 45;
+		};
+		IOPCIFamily = {
+			version = 34;
+		};
+		IOSCSIArchitectureModelFamily = {
+			version = 144.0.7;
+		};
+		IOUSBFamily = {
+			version = 226.4.3;
+		};
+		IOUSBMassStorageClass = {
+			version = 142.0.1;
+		};
+		JavaScriptCore = {
+			version = 416.13;
+		};
+		JavaScriptGlue = {
+			version = 416.9;
+		};
+		Kerberos = {
+			version = 65.5;
+		};
+		Libc = {
+			version = 391.2.3;
+		};
+		Libcpp_kext = {
+			version = 4;
+		};
+		Libinfo = {
+			version = 222.1;
+		};
+		Libnotify = {
+			version = 20.2;
+		};
+		Libsystem = {
+			version = 88.1.2;
+		};
+		MySQL = {
+			version = 32;
+		};
+		OpenLDAP = {
+			version = 69.0.1;
+		};
+		OpenSSL = {
+			version = 26.1;
+		};
+		PowerManagement = {
+			version = 90.1;
+		};
+		Security = {
+			version = 24844;
+		};
+		SmartCardServices = {
+			version = 24946;
+		};
+		SquirrelMail = {
+			version = 19;
+		};
+		WebCore = {
+			version = 416.13;
+		};
+		X11 = {
+			version = 0.40.2;
+		};
+		apache2 = {
+			version = 19.2;
+		};
+		bind9 = {
+			version = 13;
+		};
+		blojsom = {
+			version = 58;
+		};
+		cctools = {
+			version = 590;
+		};
+		cddafs = {
+			version = 221.0.1;
+		};
+		configd = {
+			target = configd_base;
+			version = 135;
+		};
+		cups = {
+			target = installfat;
+			version = 91;
+		};
+		diskdev_cmds = {
+			version = 332.11;
+		};
+		distcc = {
+			version = 31.0.81;
+		};
+		dyld = {
+			target = dyld;
+			version = 44.2;
+		};
+		eap8021x = {
+			version = 33.3;
+		};
+		efax = {
+			version = 25;
+		};
+		gcc = {
+			version = 5026.1;
+		};
+		gcc_binary_shlibs = {
+			version = 1;
+		};
+		gcc_os_35 = {
+			version = 3506.0.80;
+		};
+		gcc_select = {
+			version = 48;
+		};
+		gdb = {
+			version = 413;
+		};
+		graphviz = {
+			version = 601;
+		};
+		hfs = {
+			version = 157;
+		};
+		jam = {
+			version = 605;
+		};
+		ld64 = {
+			version = 26.0.80;
+		};
+		libsecurity_apple_cspdl = {
+			version = 24834;
+		};
+		libsecurity_apple_x509_cl = {
+			version = 24817;
+		};
+		libsecurity_apple_x509_tp = {
+			version = 24818;
+		};
+		libsecurity_cdsa_client = {
+			version = 24814;
+		};
+		libsecurity_cssm = {
+			version = 24849;
+		};
+		libsecurity_dotmacdl = {
+			version = 25420;
+		};
+		libsecurity_keychain = {
+			version = 24850;
+		};
+		libsecurity_mds = {
+			version = 25276;
+		};
+		mDNSResponder = {
+			version = 107.3;
+		};
+		memberd = {
+			version = 20;
+		};
+		modemccl = {
+			version = 7;
+		};
+		msdosfs = {
+			version = 89.3;
+		};
+		netinfo = {
+			version = 369.1.5;
+		};
+		network_cmds = {
+			version = 245.1;
+		};
+		objc4 = {
+			version = 267;
+		};
+		pbx_jamfiles = {
+			version = 617;
+		};
+		portmap = {
+			version = 18;
+		};
+		ppp = {
+			version = 233;
+		};
+		python = {
+			version = 16.1.2;
+		};
+		ruby = {
+			version = 18.0.1;
+		};
+		samba = {
+			version = 92.13;
+		};
+		security_certificates = {
+			version = 24977;
+		};
+		security_dotmac_tp = {
+			version = 25077;
+		};
+		security_ocspd = {
+			version = 25421;
+		};
+		securityd = {
+			version = 25481;
+		};
+		smb = {
+			version = 217.6.2;
+		};
+		tcl = {
+			version = 20.2.1;
+		};
+		xnu = {
+			version = 792.6.22;
+		};
+		zlib = {
+			version = 15.1.1;
+		};
+	};
+}
