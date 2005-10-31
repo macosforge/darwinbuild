@@ -47,11 +47,26 @@ sub getProjects {
 	return @projects;
 }
 
+sub getTitle {
+	my $build = shift;
+	my $result = "";
+	local *STREAM;
+	open STREAM, '-|', $darwinxref, '-b', $build, 'darwin' || die;
+	while(<STREAM>) { $result .= $_; }
+	close STREAM;
+	$result .= " (";
+	open STREAM, '-|', $darwinxref, '-b', $build, 'macosx' || die;
+	while(<STREAM>) { $result .= $_; }
+	close STREAM;
+	$result .= ")";
+	return $result;
+}
+
 ###
 ### Main
 ###
 
-my $BUILD = &getBuild();
+my $BUILD = $ARGV[0] ? $ARGV[0] : &getBuild();
 
 if (!$BUILD) {
 	print STDERR <<EOB;
@@ -62,6 +77,8 @@ absolute path of that directory.
 EOB
 	exit 1;
 }
+
+my $TITLE = &getTitle($BUILD);
 
 my $LOGDIR;
 if ($ENV{'DARWIN_BUILDROOT'}) {
@@ -138,6 +155,7 @@ function sortByExitStatus(row1, row2) {
 
 <body>
 <h2>$BUILD</h2>
+<h3>$TITLE</h3>
 <p>Build log summary.</p>
 
 <table id="logtab">
