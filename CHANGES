@@ -1,10 +1,14 @@
 Darwin Build Scripts Change History
 -----------------------------------
 
-Release 0.X.Y [now]
+Release 0.7.2 [31-Oct-2005]
+	- Added 8F46 plist (Mac OS X 10.4.3, Darwin 8.3)
+	- darwinbuild: support -headers for -load, which loads the Headers root
+	- darwinbuild: load Headers if newer than Roots
 	- darwinbuild: add support to packageRoots -x to embed project
 	  plists as xar subdocs (bbraun)
 	- darwinxref: add exportProject verb (bbraun)
+	- darwinmaster: default to fat roots and hybrid HFS+/ISO filesystem
 	- darwinbuild: Add support for "src_foo.c.add" patches as overlays
 	- updated Makfile to honor DSTROOT
 	- darwinxref: Added additive and subtractive dependencies
