@@ -13,7 +13,9 @@
 		RC_JASPER = YES;
 		RC_NONARCH_CFLAGS = "-pipe -no-cpp-precomp";
 		RC_OS = macos;
+		RC_PRIVATE = "/private";
 		RC_RELEASE = Tiger;
+		RC_USE_GCC35_FOR_PPC64 = YES;
 		RC_XBS = YES;
 		SEPARATE_STRIP = YES;
 		UNAME_RELEASE = 8.0;
@@ -7223,6 +7225,7 @@
 			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386";
+				RC_FORCEHDRS = YES;
 			};
 			original = cctools;
 			target = ofiles_install;
