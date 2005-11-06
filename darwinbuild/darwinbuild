@@ -695,20 +695,25 @@ EOF
 # Uses tail +3 to avoid getting . and ..
 RECEIPTS=$DARWIN_BUILDROOT/BuildRoot/usr/local/darwinbuild/receipts
 perl -e "opendir(DIR,\"$RECEIPTS\");
-        @files = sort(readdir(DIR));
-        foreach my \$x (@files) {
-		print \"echo \\\"\";
-                if ( -l \"$RECEIPTS/\$x\" ) {
-                        printf \"%-20s -> %s\", \"\$x\",
-				readlink(\"$RECEIPTS/\$x\");
-                } else {
-                        printf \"%-24s%s\", \"\", \"\$x\";
-                }
-                print \"\\\"\n\";
+	@files = sort(readdir(DIR));
+	my %seen;
+	foreach my \$x (@files) {
+		if ( -l \"$RECEIPTS/\$x\" ) {
+			\$seen{readlink(\"$RECEIPTS/\$x\")} = 1;
+		}
+	}
+	foreach my \$x (@files) {
+		my \$str = undef;
+		if ( -l \"$RECEIPTS/\$x\" ) {
+			\$str = sprintf \"%-20s -> %s\", \"\$x\", readlink(\"$RECEIPTS/\$x\");
+		} elsif (!exists(\$seen{\$x})) {
+			\$str = sprintf \"%-24s%s\", \"\", \"\$x\";
+		}
+		print \"echo \\\"\$str\\\"\n\" if \$str;
         } closedir(DIR);" | tail +3 >> $SCRIPT
 cat <<-EOF >> $SCRIPT
 	echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-	echo $buildtool $action '$build_string' < /dev/null
+	echo $buildtool $action '$build_string' \< /dev/null
 	echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
 	echo ''
 	echo 'Build log begins here:'
@@ -716,9 +721,13 @@ cat <<-EOF >> $SCRIPT
 	cd '$SRCROOT'
 EOF
 cat <<-EOF >> $SCRIPT
+	START_DATE=\$(date "+%s")
 	$buildtool $action $build_string < /dev/null 
 	EXIT_STATUS="\$?"
+	END_DATE=\$(date "+%s")
+	ELAPSED_TIME=\$((\$END_DATE - \$START_DATE))
 	echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+	echo " BUILD TIME: \$((\$ELAPSED_TIME / 3600))h \$((\$ELAPSED_TIME / 60))m \$((\$ELAPSED_TIME % 60))s"
 	echo "EXIT STATUS: \$EXIT_STATUS"
 	exit \$EXIT_STATUS
 EOF

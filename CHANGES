@@ -1,6 +1,10 @@
 Darwin Build Scripts Change History
 -----------------------------------
 
+Release x.y.z [Now]
+	- darwinbuild: consolidate manifest symlinks and digests in build log
+	- darwinbuild: added elapsed build time to the build log
+
 Release 0.7.2 [31-Oct-2005]
 	- Added 8F46 plist (Mac OS X 10.4.3, Darwin 8.3)
 	- darwinbuild: support -headers for -load, which loads the Headers root
