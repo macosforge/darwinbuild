@@ -176,7 +176,10 @@ SHA1DigestMachO::SHA1DigestMachO(const char* filename) {
 		if (ret == REDO_PREBINDING_SUCCESS && block != NULL) {
 			digest(SHA1Digest::m_md, (uint8_t*)block, blocklen);
 		} else {
-			fprintf(stderr, "%s:%d: unexpected unprebind result %d: %s\n", __FILE__, __LINE__, ret, error);
+			//fprintf(stderr, "%s:%d: unexpected unprebind result: %s: %s (%d)\n", __FILE__, __LINE__, filename, error, ret);
+			int fd = open(filename, O_RDONLY);
+			digest(SHA1Digest::m_md, fd);
+			close(fd);
 		}
 		if (block != NULL) {
 			kern_return_t ret = vm_deallocate(mach_task_self(), (vm_address_t)block, (vm_size_t)blocklen);
