@@ -21,6 +21,8 @@
  * @APPLE_LICENSE_HEADER_END@
  */
 
+#include <sys/types.h>
+#include <stdint.h>
 #include <openssl/evp.h>
 
 ////
