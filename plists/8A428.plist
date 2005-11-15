@@ -5552,8 +5552,6 @@
 			dependencies = {
 				build = (
 					CF,
-					Csu,
-					DirectoryService,
 					ICU,
 					Libm,
 					Libsystem,
@@ -5563,9 +5561,11 @@
 					cctools,
 					cxxfilt,
 					file_cmds,
-					gcc,
+					files,
 					gcc_os,
+					gcc_select,
 					gnudiff,
+					gnumake,
 					grep,
 					libsecurity_apple_csp,
 					libsecurity_apple_cspdl,
@@ -5579,7 +5579,6 @@
 					libsecurity_cdsa_utilities,
 					libsecurity_cdsa_utils,
 					libsecurity_checkpw,
-					libsecurity_cryptkit,
 					libsecurity_cssm,
 					libsecurity_filedb,
 					libsecurity_keychain,
@@ -5593,7 +5592,6 @@
 					libsecurity_utilities,
 					libsecurityd,
 					objc4,
-					pbx_jamfiles,
 					perl,
 					shell_cmds,
 					system_cmds,
@@ -5617,6 +5615,11 @@
 				lib = (
 					CF,
 					Libsystem,
+				);
+				staticlib = (
+					Csu,
+					DirectoryServiceMIG,
+					gcc_os,
 				);
 			};
 			version = 222;
