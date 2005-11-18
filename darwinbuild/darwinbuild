@@ -612,12 +612,13 @@ cat <<-EOF > $SCRIPT
 	echo "BUILDING $project~$build_version on \$(date 2>/dev/null)"
 	echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
 	echo 'Build configuration:'
-	echo "    Build host:      \$(hostname 2>/dev/null)"
-	echo '    Build tool:      $buildtool'
-	echo '    Build action:    $action'
-	echo "    Build number:    $build"
-	echo "    cc version:      \$(gcc -v 2>&1 | tail -n 1 2>/dev/null)"
-	echo "    cctools version: \$(as -v -o /dev/null < /dev/null 2>&1 | cut -c 22- 2>/dev/null)"
+	echo "    Build host:           \$(hostname 2>/dev/null)"
+	echo '    Build tool:           $buildtool'
+	echo '    Build action:         $action'
+	echo "    Build number:         $build"
+	echo "    Host kernel version:  \$(uname -v 2>/dev/null)"
+	echo "    cc version:           \$(gcc -v 2>&1 | tail -n 1 2>/dev/null)"
+	echo "    cctools version:      \$(as -v -o /dev/null < /dev/null 2>&1 | cut -c 22- 2>/dev/null)"
 EOF
 if [ "$logdeps" == "YES" ]; then
 	if [ "$CHROOTED" == "YES" ]; then
@@ -636,11 +637,11 @@ if [ "$logdeps" == "YES" ]; then
 fi
 if [ "$buildtool" == "xcodebuild" ]; then
 cat <<-EOF >> $SCRIPT
-	echo "    xcode version:   \$(sh -c \\\"$buildtool -version\\\")"
+	echo "    xcode version:        \$(sh -c \\\"$buildtool -version\\\")"
 EOF
 else
 cat <<-EOF >> $SCRIPT
-	echo "    make version:    \$(sh -c \\\"$buildtool -version\\\" | head -1 2>/dev/null)"
+	echo "    make version:         \$(sh -c \\\"$buildtool -version\\\" | head -1 2>/dev/null)"
 EOF
 fi
 
