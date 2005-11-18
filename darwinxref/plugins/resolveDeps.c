@@ -45,7 +45,7 @@ static int run(CFArrayRef argv) {
 
 	if(count == 1) {
 	  project = strdup_cfstr(CFArrayGetValueAtIndex(argv, 0));
-	} else {
+	} else if (count > 1) {
 	  project = strdup_cfstr(CFArrayGetValueAtIndex(argv, 1));
 	  if(CFEqual(CFSTR("-commit"), CFArrayGetValueAtIndex(argv, 0)))
 	    commit = 1;
