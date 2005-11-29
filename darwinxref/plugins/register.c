@@ -247,67 +247,64 @@ static int register_mach_header(char* build, char* project, struct mach_header* 
 	
 	int i;
 	for (i = 0; i < mh->ncmds; ++i) {
-		struct dylib_command lc;
-		struct dylinker_command lcdyld;
-		int res = read(fd, &lc, sizeof(struct load_command));
+		//
+		// Read a generic load command into memory.
+		// At first, we only know it has a type and size.
+		//
+		struct load_command lctmp;
+
+		int res = read(fd, &lctmp, sizeof(struct load_command));
 		if (res < sizeof(struct load_command)) { return 0; }
 
-		uint32_t cmd = swap ? NXSwapLong(lc.cmd) : lc.cmd;
+		uint32_t cmd = swap ? NXSwapLong(lctmp.cmd) : lctmp.cmd;
+		uint32_t cmdsize = swap ? NXSwapLong(lctmp.cmdsize) : lctmp.cmdsize;
+		if (cmdsize == 0) continue;
+		
+		struct load_command* lc = malloc(cmdsize);
+		if (lc == NULL) { return 0; }
+		memset(lc, 0, cmdsize);
+		memcpy(lc, &lctmp, sizeof(lctmp));
+		
+		// Read the remainder of the load command.
+		res = read(fd, (uint8_t*)lc + sizeof(struct load_command), cmdsize - sizeof(struct load_command));
+		if (res < (cmdsize - sizeof(struct load_command))) { free(lc); return 0; }
 
 		if (cmd == LC_LOAD_DYLIB || cmd == LC_LOAD_WEAK_DYLIB) {
-			res = read(fd, &lc.dylib, sizeof(struct dylib));
-			if (res < sizeof(struct dylib)) { return 0; }
+			struct dylib_command *dylib = (struct dylib_command*)lc;
+			if (swap) swap_dylib_command(dylib, NXHostByteOrder());
 
-			if (swap) swap_dylib_command(&lc, NXHostByteOrder());
+			// sections immediately follow the dylib_command structure, and are
+			// reflected in the cmdsize.
 
-			off_t save = lseek(fd, 0, SEEK_CUR);
-			off_t offset = lc.dylib.name.offset - sizeof(struct dylib_command);
-
-			if (offset > 0) { lseek(fd, offset, SEEK_CUR); }
-			int strsize = lc.cmdsize - sizeof(struct dylib_command);
-
+			int strsize = dylib->cmdsize - sizeof(struct dylib_command);
 			char* str = malloc(strsize+1);
-			res = read(fd, str, strsize);
-			if (res < sizeof(strsize)) { return 0; }
+			strncpy(str, (char*)((uint8_t*)dylib + dylib->dylib.name.offset), strsize);
 			str[strsize] = 0; // NUL-terminate
-						
+
 			res = SQL("INSERT INTO unresolved_dependencies (build,project,type,dependency) VALUES (%Q,%Q,%Q,%Q)",
 			build, project, "lib", str);
 			
 			free(str);
-			
-			lseek(fd, save - sizeof(struct dylib_command) + lc.cmdsize, SEEK_SET);
-			
+		
 		} else if (cmd == LC_LOAD_DYLINKER) {
-		  lcdyld.cmd = lc.cmd;
-		  lcdyld.cmdsize = lc.cmdsize;
-			res = read(fd, &lcdyld.name, sizeof(union lc_str));
-			if (res < sizeof(union lc_str)) { return 0; }
+			struct dylinker_command *dylinker = (struct dylinker_command*)lc;
+			if (swap) swap_dylinker_command(dylinker, NXHostByteOrder());
 
-			if (swap) swap_dylinker_command(&lcdyld, NXHostByteOrder());
+			// sections immediately follow the dylib_command structure, and are
+			// reflected in the cmdsize.
 
-			off_t save = lseek(fd, 0, SEEK_CUR);
-			off_t offset = lcdyld.name.offset - sizeof(struct dylinker_command);
-
-			if (offset > 0) { lseek(fd, offset, SEEK_CUR); }
-			int strsize = lcdyld.cmdsize - sizeof(struct dylinker_command);
-
+			int strsize = dylinker->cmdsize - sizeof(struct dylinker_command);
 			char* str = malloc(strsize+1);
-			res = read(fd, str, strsize);
-			if (res < sizeof(strsize)) { return 0; }
+			strncpy(str, (char*)((uint8_t*)dylinker + dylinker->name.offset), strsize);
 			str[strsize] = 0; // NUL-terminate
-						
+
 			res = SQL("INSERT INTO unresolved_dependencies (build,project,type,dependency) VALUES (%Q,%Q,%Q,%Q)",
 			build, project, "lib", str);
 			
 			free(str);
-			
-			lseek(fd, save - sizeof(struct dylinker_command) + lcdyld.cmdsize, SEEK_SET);
-		} else {
-			uint32_t cmdsize = swap ? NXSwapLong(lc.cmdsize) : lc.cmdsize;
-			lseek(fd, cmdsize - sizeof(struct load_command), SEEK_CUR);
 		}
 	}
+
 	return 0;
 }
 
