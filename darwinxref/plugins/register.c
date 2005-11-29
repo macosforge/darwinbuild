@@ -303,6 +303,8 @@ static int register_mach_header(char* build, char* project, struct mach_header* 
 			
 			free(str);
 		}
+		
+		free(lc);
 	}
 
 	return 0;
