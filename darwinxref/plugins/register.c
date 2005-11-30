@@ -225,15 +225,75 @@ static char* calculate_unprebound_digest(const char* filename) {
 #include <mach-o/fat.h>
 #include <mach-o/swap.h>
 
-static int register_mach_header(char* build, char* project, struct mach_header* mh, int fd, int* isMachO) {
+// We need these static swap functions until the following is fixed:
+// <radar://problem/4358209> libmacho needs 64-bit swap routines
+
+static void
+swap_mach_header_64(
+struct mach_header_64 *mh,
+enum NXByteOrder target_byte_sex)
+{
+	mh->magic = NXSwapLong(mh->magic);
+	mh->cputype = NXSwapLong(mh->cputype);
+	mh->cpusubtype = NXSwapLong(mh->cpusubtype);
+	mh->filetype = NXSwapLong(mh->filetype);
+	mh->ncmds = NXSwapLong(mh->ncmds);
+	mh->sizeofcmds = NXSwapLong(mh->sizeofcmds);
+	mh->flags = NXSwapLong(mh->flags);
+	mh->reserved = NXSwapLong(mh->reserved);
+}
+
+
+static int register_mach_header(char* build, char* project, int fd, int* isMachO) {
+	int res;
+	uint32_t magic;
 	int swap = 0;
+	
+	struct mach_header* mh = NULL;
+	struct mach_header_64* mh64 = NULL;
+
 	if (isMachO) *isMachO = 0;
-	if (mh->magic != MH_MAGIC && mh->magic != MH_CIGAM) return 0;
-	if (isMachO) *isMachO = 1;
-	if (mh->magic == MH_CIGAM) { 
-		swap = 1;
-		swap_mach_header(mh, NXHostByteOrder());
+
+	res = read(fd, &magic, sizeof(uint32_t));
+	if (res < sizeof(uint32_t)) { return 0; }
+	
+	//
+	// 32-bit, read the rest of the header
+	//
+	if (magic == MH_MAGIC || magic == MH_CIGAM) {
+		*isMachO = 1;
+		mh = malloc(sizeof(struct mach_header));
+		if (mh == NULL) return -1;
+		memset(mh, 0, sizeof(struct mach_header));
+		mh->magic = magic;
+		res = read(fd, &mh->cputype, sizeof(struct mach_header) - sizeof(uint32_t));
+		if (res < sizeof(struct mach_header) - sizeof(uint32_t)) { return 0; }
+		if (magic == MH_CIGAM) {
+			swap = 1;
+			swap_mach_header(mh, NXHostByteOrder());
+		}
+	//
+	// 64-bit, read the rest of the header
+	//
+	} else if (magic == MH_MAGIC_64 || magic == MH_CIGAM_64) {
+		*isMachO = 1;
+		mh64 = malloc(sizeof(struct mach_header_64));
+		if (mh64 == NULL) return -1;
+		memset(mh64, 0, sizeof(struct mach_header_64));
+		mh64->magic = magic;
+		res = read(fd, &mh64->cputype, sizeof(struct mach_header_64) - sizeof(uint32_t));
+		if (res < sizeof(struct mach_header_64) - sizeof(uint32_t)) { return 0; }
+		if (magic == MH_CIGAM_64) {
+			swap = 1;
+			swap_mach_header_64(mh64, NXHostByteOrder());
+		}
+	//
+	// Not a Mach-O
+	//
+	} else {
+		return 0;
 	}
+
 	
 	switch (mh->filetype) {
 		case MH_EXECUTE:
@@ -342,14 +402,12 @@ static int register_libraries(int fd, char* build, char* project, int* isMachO) 
 			off_t save = lseek(fd, 0, SEEK_CUR);
 			lseek(fd, (off_t)fa.offset, SEEK_SET);
 
-			res = read(fd, &mh, sizeof(mh));
-			if (res < sizeof(mh)) { goto error_out; }
-			register_mach_header(build, project, &mh, fd, isMachO);
+			register_mach_header(build, project, fd, isMachO);
 			
 			lseek(fd, save, SEEK_SET);
 		}
 	} else {
-		register_mach_header(build, project, &mh, fd, isMachO);
+		register_mach_header(build, project, fd, isMachO);
 	}
 error_out:
 	return 0;
