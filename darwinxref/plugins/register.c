@@ -373,23 +373,23 @@ static int register_mach_header(char* build, char* project, int fd, int* isMachO
 static int register_libraries(int fd, char* build, char* project, int* isMachO) {
 	int res;
 	
-	struct mach_header mh;
-	struct fat_header fh;
+	uint32_t magic;
 	
-	// The magic logic assumes mh is bigger than fh.
-	assert(sizeof(mh) >= sizeof(fh));
-	res = read(fd, &mh, sizeof(mh));
-	if (res < sizeof(mh)) { goto error_out; }
-	
+	res = read(fd, &magic, sizeof(uint32_t));
+	if (res < sizeof(uint32_t)) { goto error_out; }
+
 	// It's a fat file.  copy mh over to fh, and dereference.
-	if (mh.magic == FAT_MAGIC || mh.magic == FAT_CIGAM) {
+	if (magic == FAT_MAGIC || magic == FAT_CIGAM) {
+		struct fat_header fh;
 		int swap = 0;
-		memcpy(&fh, &mh, sizeof(fh));
-		if (fh.magic == FAT_CIGAM) {
+
+		res = read(fd, &fh.nfat_arch, sizeof(struct fat_header) - sizeof(uint32_t));
+		if (res < sizeof(uint32_t)) { goto error_out; }
+
+		if (magic == FAT_CIGAM) {
 			swap = 1;
 			swap_fat_header(&fh, NXHostByteOrder());
 		}
-		lseek(fd, (off_t)sizeof(fh), SEEK_SET);
 
 		int i;
 		for (i = 0; i < fh.nfat_arch; ++i) {
@@ -407,6 +407,7 @@ static int register_libraries(int fd, char* build, char* project, int* isMachO) 
 			lseek(fd, save, SEEK_SET);
 		}
 	} else {
+		lseek(fd, 0, SEEK_SET);
 		register_mach_header(build, project, fd, isMachO);
 	}
 error_out:
