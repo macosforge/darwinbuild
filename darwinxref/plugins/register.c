@@ -43,6 +43,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <openssl/evp.h>
+#include "sqlite3.h"
 
 extern char** environ;
 
@@ -243,8 +244,67 @@ enum NXByteOrder target_byte_sex)
 	mh->reserved = NXSwapLong(mh->reserved);
 }
 
+static void 
+swap_segment_command_64(
+struct segment_command_64* sg,
+enum NXByteOrder target_byte_sex)
+{
+	/* char segname[16] */
+	sg->cmd = NXSwapLong(sg->cmd);
+	sg->cmdsize = NXSwapLong(sg->cmdsize);
+	sg->vmaddr = NXSwapLongLong(sg->vmaddr);
+	sg->vmsize = NXSwapLongLong(sg->vmsize);
+	sg->fileoff = NXSwapLongLong(sg->fileoff);
+	sg->filesize = NXSwapLongLong(sg->filesize);
+	sg->maxprot = NXSwapLong(sg->maxprot);
+	sg->initprot = NXSwapLong(sg->initprot);
+	sg->nsects = NXSwapLong(sg->nsects);
+	sg->flags = NXSwapLong(sg->flags);
+}
 
-static int register_mach_header(char* build, char* project, int fd, int* isMachO) {
+static void
+swap_section_64(
+struct section_64 *s,
+uint32_t nsects,
+enum NXByteOrder target_byte_sex)
+{
+    uint32_t i;
+
+	for(i = 0; i < nsects; i++){
+	    /* sectname[16] */
+	    /* segname[16] */
+	    s[i].addr = NXSwapLongLong(s[i].addr);
+	    s[i].size = NXSwapLongLong(s[i].size);
+	    s[i].offset = NXSwapLong(s[i].offset);
+	    s[i].align = NXSwapLong(s[i].align);
+	    s[i].reloff = NXSwapLong(s[i].reloff);
+	    s[i].nreloc = NXSwapLong(s[i].nreloc);
+	    s[i].flags = NXSwapLong(s[i].flags);
+	    s[i].reserved1 = NXSwapLong(s[i].reserved1);
+	    s[i].reserved2 = NXSwapLong(s[i].reserved2);
+	    s[i].reserved3 = NXSwapLong(s[i].reserved3);
+	}
+}
+
+static void
+swap_nlist_64(
+struct nlist_64 *symbols,
+uint32_t nsymbols,
+enum NXByteOrder target_byte_sex)
+{
+    uint32_t i;
+
+	for(i = 0; i < nsymbols; i++){
+	    symbols[i].n_un.n_strx = NXSwapLong(symbols[i].n_un.n_strx);
+	    /* n_type */
+	    /* n_sect */
+	    symbols[i].n_desc = NXSwapShort(symbols[i].n_desc);
+	    symbols[i].n_value = NXSwapLongLong(symbols[i].n_value);
+	}
+}
+
+
+static int register_mach_header(const char* build, const char* project, const char* path, struct fat_arch* fa, int fd, int* isMachO) {
 	int res;
 	uint32_t magic;
 	int swap = 0;
@@ -294,7 +354,7 @@ static int register_mach_header(char* build, char* project, int fd, int* isMachO
 		return 0;
 	}
 
-	
+
 	switch (mh->filetype) {
 		case MH_EXECUTE:
 		case MH_DYLIB:
@@ -304,7 +364,31 @@ static int register_mach_header(char* build, char* project, int fd, int* isMachO
 		default:
 			return 0;
 	}
+
+	res = SQL("INSERT INTO mach_o_objects (magic, type, cputype, cpusubtype, flags, build, project, path) VALUES (%u, %u, %u, %u, %u, %Q, %Q, %Q)",
+		mh64 ? mh64->magic : mh->magic,
+		mh64 ? mh64->filetype : mh->filetype,
+		mh64 ? mh64->cputype : mh->cputype,
+		mh64 ? mh64->cpusubtype : mh->cpusubtype,
+		mh64 ? mh64->flags : mh->flags,
+		build, project, path);
+	uint64_t serial = sqlite3_last_insert_rowid((sqlite3*)_DBPluginGetDataStorePtr());
+
+	//
+	// Information needed to parse the symbol table
+	//
+	int count_nsect = 0;
+	unsigned char text_nsect = NO_SECT;
+	unsigned char data_nsect = NO_SECT;
+	unsigned char bss_nsect = NO_SECT;
+
+	uint32_t nsyms = 0;
+	uint8_t *symbols = NULL;
 	
+	uint32_t strsize = 0;
+	uint8_t *strings = NULL;
+
+
 	int i;
 	for (i = 0; i < mh->ncmds; ++i) {
 		//
@@ -329,6 +413,10 @@ static int register_mach_header(char* build, char* project, int fd, int* isMachO
 		res = read(fd, (uint8_t*)lc + sizeof(struct load_command), cmdsize - sizeof(struct load_command));
 		if (res < (cmdsize - sizeof(struct load_command))) { free(lc); return 0; }
 
+		//
+		// LC_LOAD_DYLIB and LC_LOAD_WEAK_DYLIB
+		// Add dylibs as unresolved "lib" dependencies.
+		//
 		if (cmd == LC_LOAD_DYLIB || cmd == LC_LOAD_WEAK_DYLIB) {
 			struct dylib_command *dylib = (struct dylib_command*)lc;
 			if (swap) swap_dylib_command(dylib, NXHostByteOrder());
@@ -346,6 +434,10 @@ static int register_mach_header(char* build, char* project, int fd, int* isMachO
 			
 			free(str);
 		
+		//
+		// LC_LOAD_DYLINKER
+		// Add the dynamic linker (usually dyld) as an unresolved "lib" dependency.
+		//
 		} else if (cmd == LC_LOAD_DYLINKER) {
 			struct dylinker_command *dylinker = (struct dylinker_command*)lc;
 			if (swap) swap_dylinker_command(dylinker, NXHostByteOrder());
@@ -362,23 +454,166 @@ static int register_mach_header(char* build, char* project, int fd, int* isMachO
 			build, project, "lib", str);
 			
 			free(str);
+		
+		//
+		// LC_SYMTAB
+		// Read the symbol table into memory, we'll process it after we're
+		// done with the load commands.
+		//
+		} else if (cmd == LC_SYMTAB && symbols == NULL) {
+			struct symtab_command *symtab = (struct symtab_command*)lc;
+			if (swap) swap_symtab_command(symtab, NXHostByteOrder());
+
+			nsyms = symtab->nsyms;
+			uint32_t symsize = nsyms * sizeof(struct nlist); // XXX: nlist_64
+			symbols = malloc(symsize);
+			
+			strsize = symtab->strsize;
+			// XXX: check strsize != 0
+			strings = malloc(strsize);
+
+			off_t save = lseek(fd, 0, SEEK_CUR);
+
+			off_t origin = fa ? fa->offset : 0;
+
+			lseek(fd, symtab->symoff + origin, SEEK_SET);
+			res = read(fd, symbols, symsize);
+			if (res < symsize) { /* XXX: leaks */ return 0; }
+			
+			lseek(fd, symtab->stroff + origin, SEEK_SET);
+			res = read(fd, strings, strsize);
+			if (res < strsize) { /* XXX: leaks */ return 0; }
+			
+			lseek(fd, save, SEEK_SET);
+		
+		//
+		// LC_SEGMENT
+		// We're looking for the section number of the text, data, and bss segments
+		// in order to parse symbols.
+		//
+		} else if (cmd == LC_SEGMENT) {
+			struct segment_command* seg = (struct segment_command*)lc;
+			if (swap) swap_segment_command(seg, NXHostByteOrder());
+			
+			// sections immediately follow the segment_command structure, and are
+			// reflected in the cmdsize.
+			int k;
+			for (k = 0; k < seg->nsects; ++k) {
+				struct section* sect = (struct section*)((uint8_t*)seg + sizeof(struct segment_command) + k * sizeof(struct section));
+				if (strcmp(sect->sectname, SECT_TEXT) == 0 && strcmp(sect->segname, SEG_TEXT) == 0) {
+					text_nsect = ++count_nsect;
+				} else if (strcmp(sect->sectname, SECT_DATA) == 0 && strcmp(sect->segname, SEG_DATA) == 0) {
+					data_nsect = ++count_nsect;
+				} else if (strcmp(sect->sectname, SECT_BSS) == 0 && strcmp(sect->segname, SEG_DATA) == 0) {
+					bss_nsect = ++count_nsect;
+				} else {
+					++count_nsect;
+				}
+			}
+
+		//
+		// LC_SEGMENT_64
+		// Same as LC_SEGMENT, but for 64-bit binaries.
+		//
+		} else if (lc->cmd == LC_SEGMENT_64) {
+			struct segment_command_64* seg = (struct segment_command_64*)lc;
+			if (swap) swap_segment_command_64(seg, NXHostByteOrder());
+			
+			// sections immediately follow the segment_command structure, and are
+			// reflected in the cmdsize.
+			int k;
+			for (k = 0; k < seg->nsects; ++k) {
+				struct section_64* sect = (struct section_64*)((uint8_t*)seg + sizeof(struct segment_command_64) + k * sizeof(struct section_64));
+				if (strcmp(sect->sectname, SECT_TEXT) == 0 && strcmp(sect->segname, SEG_TEXT) == 0) {
+					text_nsect = ++count_nsect;
+				} else if (strcmp(sect->sectname, SECT_DATA) == 0 && strcmp(sect->segname, SEG_DATA) == 0) {
+					data_nsect = ++count_nsect;
+				} else if (strcmp(sect->sectname, SECT_BSS) == 0 && strcmp(sect->segname, SEG_DATA) == 0) {
+					bss_nsect = ++count_nsect;
+				} else {
+					++count_nsect;
+				}
+			}
 		}
 		
 		free(lc);
 	}
 
+	//
+	// Finished processing the load commands, now insert symbols into the database.
+	//
+	int j;
+	for (j = 0; j < nsyms; ++j) {
+		struct nlist_64 symbol;
+		if (mh64) {
+			memcpy(&symbol, (symbols + j * sizeof(struct nlist_64)), sizeof(struct nlist_64));
+			if (swap) swap_nlist_64(&symbol, 1, NXHostByteOrder());
+		} else {
+			memcpy(&symbol, (symbols + j * sizeof(struct nlist)), sizeof(struct nlist));
+			if (swap) swap_nlist_64(&symbol, 1, NXHostByteOrder());
+			// we copied a 32-bit nlist into a 64-bit one, adjust the value accordingly
+			// all other fields are identical sizes
+			symbol.n_value >>= 32;
+		}
+		char type = '?';
+		switch (symbol.n_type & N_TYPE) {
+			case N_UNDF:
+			case N_PBUD:
+				type = 'u';
+				if (symbol.n_value != 0) {
+					type = 'c';
+				}
+				break;
+			case N_ABS:
+				type = 'a';
+				break;
+			case N_SECT:
+				if (symbol.n_sect == text_nsect) {
+					type = 't';
+				} else if (symbol.n_sect == data_nsect) {
+					type = 'd';
+				} else if (symbol.n_sect == bss_nsect) {
+					type = 'b';
+				} else {
+					type = 's';
+				}
+				break;
+			case N_INDR:
+				type = 'i';
+				break;
+		}
+
+		// uppercase indicates an externally visible symbol
+		if ((symbol.n_type & N_EXT) && type != '?') {
+			type = toupper(type);
+		}
+
+		if (type != '?' && type != 'u' && type != 'c') {
+			const uint8_t* name = (const uint8_t*)"";
+			if (symbol.n_un.n_strx != 0) {
+				name = (uint8_t*)(strings + symbol.n_un.n_strx);
+			}
+			res = SQL("INSERT INTO mach_o_symbols VALUES (%lld, %u, %lld, %Q)",
+				serial,
+				type,
+				symbol.n_value,
+				name);
+		}
+	}
+
 	return 0;
 }
 
-static int register_libraries(int fd, char* build, char* project, int* isMachO) {
+static int register_libraries(int fd, const char* build, const char* project, const char* filename, int* isMachO) {
 	int res;
+	
+	SQL("DELETE FROM mach_o_objects WHERE build=%Q AND project=%Q AND path=%Q;", build, project, filename);
 	
 	uint32_t magic;
 	
 	res = read(fd, &magic, sizeof(uint32_t));
 	if (res < sizeof(uint32_t)) { goto error_out; }
 
-	// It's a fat file.  copy mh over to fh, and dereference.
 	if (magic == FAT_MAGIC || magic == FAT_CIGAM) {
 		struct fat_header fh;
 		int swap = 0;
@@ -390,7 +625,7 @@ static int register_libraries(int fd, char* build, char* project, int* isMachO) 
 			swap = 1;
 			swap_fat_header(&fh, NXHostByteOrder());
 		}
-
+		
 		int i;
 		for (i = 0; i < fh.nfat_arch; ++i) {
 			struct fat_arch fa;
@@ -402,13 +637,13 @@ static int register_libraries(int fd, char* build, char* project, int* isMachO) 
 			off_t save = lseek(fd, 0, SEEK_CUR);
 			lseek(fd, (off_t)fa.offset, SEEK_SET);
 
-			register_mach_header(build, project, fd, isMachO);
+			register_mach_header(build, project, filename, &fa, fd, isMachO);
 			
 			lseek(fd, save, SEEK_SET);
 		}
 	} else {
 		lseek(fd, 0, SEEK_SET);
-		register_mach_header(build, project, fd, isMachO);
+		register_mach_header(build, project, filename, NULL, fd, isMachO);
 	}
 error_out:
 	return 0;
@@ -424,7 +659,14 @@ int register_files(char* build, char* project, char* path) {
 	char* index = "CREATE INDEX files_index ON files (build, project, path)";
 	SQL_NOERR(table);
 	SQL_NOERR(index);
+
 	table = "CREATE TABLE unresolved_dependencies (build text, project text, type text, dependency)";
+	SQL_NOERR(table);
+
+	table = "CREATE TABLE mach_o_objects (serial INTEGER PRIMARY KEY AUTOINCREMENT, magic INTEGER, type INTEGER, cputype INTEGER, cpusubtype INTEGER, flags INTEGER, build TEXT, project TEXT, path TEXT)";
+	SQL_NOERR(table);
+
+	table = "CREATE TABLE mach_o_symbols (mach_o_object INTEGER, type INTEGER, value INTEGER, name TEXT)";
 	SQL_NOERR(table);
 	
 	if (SQL("BEGIN")) { return -1; }
@@ -473,7 +715,7 @@ int register_files(char* build, char* project, char* path) {
 				return -1;
 			}
 			int isMachO;
-			res = register_libraries(fd, build, project, &isMachO);
+			res = register_libraries(fd, build, project, filename, &isMachO);
 			lseek(fd, (off_t)0, SEEK_SET);
 			if (isMachO && have_undo_prebinding() == 0) {
 				checksum = calculate_unprebound_digest(ent->fts_accpath);
@@ -589,7 +831,7 @@ int register_files_from_stdin(char* build, char* project, char* path) {
 				perror(filename);
 				return -1;
 			}
-			res = register_libraries(fd, build, project, NULL);
+			res = register_libraries(fd, build, project, filename, NULL);
 			/* For -stdin mode, we don't calculate checksums
 			lseek(fd, (off_t)0, SEEK_SET);
 			checksum = calculate_digest(fd);
