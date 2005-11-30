@@ -607,6 +607,7 @@ static int register_mach_header(const char* build, const char* project, const ch
 static int register_libraries(int fd, const char* build, const char* project, const char* filename, int* isMachO) {
 	int res;
 	
+	SQL("DELETE FROM mach_o_symbols WHERE mach_o_object IN (SELECT serial FROM mach_o_objects WHERE build=%Q AND project=%Q AND path=%Q)", build, project, filename);
 	SQL("DELETE FROM mach_o_objects WHERE build=%Q AND project=%Q AND path=%Q;", build, project, filename);
 	
 	uint32_t magic;
