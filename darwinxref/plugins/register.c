@@ -593,7 +593,7 @@ static int register_mach_header(const char* build, const char* project, const ch
 			if (symbol.n_un.n_strx != 0) {
 				name = (uint8_t*)(strings + symbol.n_un.n_strx);
 			}
-			res = SQL("INSERT INTO mach_o_symbols VALUES (%lld, %u, %lld, %Q)",
+			res = SQL("INSERT INTO mach_o_symbols VALUES (%lld, \'%c\', %lld, %Q)",
 				serial,
 				type,
 				symbol.n_value,
