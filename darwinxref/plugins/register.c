@@ -355,7 +355,7 @@ static int register_mach_header(const char* build, const char* project, const ch
 	}
 
 
-	switch (mh->filetype) {
+	switch (mh64 ? mh64->filetype : mh->filetype) {
 		case MH_EXECUTE:
 		case MH_DYLIB:
 		case MH_BUNDLE:
@@ -390,7 +390,8 @@ static int register_mach_header(const char* build, const char* project, const ch
 
 
 	int i;
-	for (i = 0; i < mh->ncmds; ++i) {
+	uint32_t ncmds = mh64 ? mh64->ncmds : mh->ncmds;
+	for (i = 0; i < ncmds; ++i) {
 		//
 		// Read a generic load command into memory.
 		// At first, we only know it has a type and size.
@@ -465,7 +466,7 @@ static int register_mach_header(const char* build, const char* project, const ch
 			if (swap) swap_symtab_command(symtab, NXHostByteOrder());
 
 			nsyms = symtab->nsyms;
-			uint32_t symsize = nsyms * sizeof(struct nlist); // XXX: nlist_64
+			uint32_t symsize = nsyms * (mh64 ? sizeof(struct nlist_64) : sizeof(struct nlist));
 			symbols = malloc(symsize);
 			
 			strsize = symtab->strsize;
@@ -476,11 +477,11 @@ static int register_mach_header(const char* build, const char* project, const ch
 
 			off_t origin = fa ? fa->offset : 0;
 
-			lseek(fd, symtab->symoff + origin, SEEK_SET);
+			lseek(fd, (off_t)symtab->symoff + origin, SEEK_SET);
 			res = read(fd, symbols, symsize);
 			if (res < symsize) { /* XXX: leaks */ return 0; }
 			
-			lseek(fd, symtab->stroff + origin, SEEK_SET);
+			lseek(fd, (off_t)symtab->stroff + origin, SEEK_SET);
 			res = read(fd, strings, strsize);
 			if (res < strsize) { /* XXX: leaks */ return 0; }
 			
@@ -500,6 +501,7 @@ static int register_mach_header(const char* build, const char* project, const ch
 			int k;
 			for (k = 0; k < seg->nsects; ++k) {
 				struct section* sect = (struct section*)((uint8_t*)seg + sizeof(struct segment_command) + k * sizeof(struct section));
+				if (swap) swap_section(sect, 1, NXHostByteOrder());
 				if (strcmp(sect->sectname, SECT_TEXT) == 0 && strcmp(sect->segname, SEG_TEXT) == 0) {
 					text_nsect = ++count_nsect;
 				} else if (strcmp(sect->sectname, SECT_DATA) == 0 && strcmp(sect->segname, SEG_DATA) == 0) {
@@ -524,6 +526,7 @@ static int register_mach_header(const char* build, const char* project, const ch
 			int k;
 			for (k = 0; k < seg->nsects; ++k) {
 				struct section_64* sect = (struct section_64*)((uint8_t*)seg + sizeof(struct segment_command_64) + k * sizeof(struct section_64));
+				if (swap) swap_section_64(sect, 1, NXHostByteOrder());
 				if (strcmp(sect->sectname, SECT_TEXT) == 0 && strcmp(sect->segname, SEG_TEXT) == 0) {
 					text_nsect = ++count_nsect;
 				} else if (strcmp(sect->sectname, SECT_DATA) == 0 && strcmp(sect->segname, SEG_DATA) == 0) {
@@ -549,6 +552,7 @@ static int register_mach_header(const char* build, const char* project, const ch
 			memcpy(&symbol, (symbols + j * sizeof(struct nlist_64)), sizeof(struct nlist_64));
 			if (swap) swap_nlist_64(&symbol, 1, NXHostByteOrder());
 		} else {
+			symbol.n_value = 0;
 			memcpy(&symbol, (symbols + j * sizeof(struct nlist)), sizeof(struct nlist));
 			if (swap) swap_nlist_64(&symbol, 1, NXHostByteOrder());
 			// we copied a 32-bit nlist into a 64-bit one, adjust the value accordingly
