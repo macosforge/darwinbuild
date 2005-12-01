@@ -321,7 +321,7 @@ static int register_mach_header(const char* build, const char* project, const ch
 	// 32-bit, read the rest of the header
 	//
 	if (magic == MH_MAGIC || magic == MH_CIGAM) {
-		*isMachO = 1;
+		if (isMachO) *isMachO = 1;
 		mh = malloc(sizeof(struct mach_header));
 		if (mh == NULL) return -1;
 		memset(mh, 0, sizeof(struct mach_header));
@@ -336,7 +336,7 @@ static int register_mach_header(const char* build, const char* project, const ch
 	// 64-bit, read the rest of the header
 	//
 	} else if (magic == MH_MAGIC_64 || magic == MH_CIGAM_64) {
-		*isMachO = 1;
+		if (isMachO) *isMachO = 1;
 		mh64 = malloc(sizeof(struct mach_header_64));
 		if (mh64 == NULL) return -1;
 		memset(mh64, 0, sizeof(struct mach_header_64));
@@ -652,11 +652,7 @@ error_out:
 }
 
 
-int register_files(char* build, char* project, char* path) {
-	char* errmsg;
-	int res;
-	int loaded = 0;
-	
+static int create_tables() {
 	char* table = "CREATE TABLE files (build text, project text, path text)";
 	char* index = "CREATE INDEX files_index ON files (build, project, path)";
 	SQL_NOERR(table);
@@ -670,10 +666,11 @@ int register_files(char* build, char* project, char* path) {
 
 	table = "CREATE TABLE mach_o_symbols (mach_o_object INTEGER, type INTEGER, value INTEGER, name TEXT)";
 	SQL_NOERR(table);
-	
-	if (SQL("BEGIN")) { return -1; }
-	
-	res = SQL("DELETE FROM files WHERE build=%Q AND project=%Q",
+	return 0;
+}
+
+static int prune_old_entries(const char* build, const char* project) {
+	SQL("DELETE FROM files WHERE build=%Q AND project=%Q",
 		  build, project);
 
 	SQL("DELETE FROM unresolved_dependencies WHERE build=%Q AND project=%Q", 
@@ -681,7 +678,21 @@ int register_files(char* build, char* project, char* path) {
 
 	SQL("DELETE FROM mach_o_objects WHERE build=%Q AND project=%Q", build, project);
 	
-	SQL("DELETE FROM mach_o_symbols WHERE mach_o_object NOT IN (SELECT serial FROM mach_o_objects WHERE build=%Q AND project=%Q)", build, project);
+	SQL("DELETE FROM mach_o_symbols WHERE mach_o_object NOT IN (SELECT serial FROM mach_o_objects)");
+}
+
+int register_files(char* build, char* project, char* path) {
+	char* errmsg;
+	int res;
+	int loaded = 0;
+	
+	create_tables();
+
+	if (SQL("BEGIN")) { return -1; }
+
+	prune_old_entries(build, project);
+	
+	
 
 	//
 	// Enumerate the files in the path (DSTROOT) and associate them
@@ -769,21 +780,11 @@ int register_files_from_stdin(char* build, char* project, char* path) {
 	char *line;
 	size_t size;
 
-
-	char* table = "CREATE TABLE files (build text, project text, path text) ";
-	char* index = "CREATE INDEX files_index ON files (build, project, path)";
-	SQL_NOERR(table);
-	SQL_NOERR(index);
-	table = "CREATE TABLE unresolved_dependencies (build text, project text, type text, dependency)";
-	SQL_NOERR(table);
+	create_tables();
 	
 	if (SQL("BEGIN")) { return -1; }
 	
-	res = SQL("DELETE FROM files WHERE build=%Q AND project=%Q",
-		  build, project);
-
-	SQL("DELETE FROM unresolved_dependencies WHERE build=%Q AND project=%Q", 
-		build, project);
+	prune_old_entries(build, project);
 
 	//
 	// Enumerate the files in the path (DSTROOT) and associate them
