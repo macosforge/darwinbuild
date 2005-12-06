@@ -664,18 +664,19 @@ int DBSetPropDictionary(CFStringRef build, CFStringRef project, CFStringRef prop
 	char* cproj = strdup_cfstr(project);
 	char* cprop = strdup_cfstr(property);
 
+	// Delete all keys from the dictionary prior to insertion.
+	if (project) {
+		SQL("DELETE FROM properties WHERE build=%Q AND project=%Q AND property=%Q", cbuild, cproj, cprop);
+	} else {
+		SQL("DELETE FROM properties WHERE build=%Q AND project IS NULL AND property=%Q", cbuild, cprop);
+	}
+
 	CFArrayRef keys = dictionaryGetSortedKeys(value);
 	CFIndex i, count = CFArrayGetCount(keys);
 	for (i = 0; i < count; ++i) {
 		CFStringRef key = CFArrayGetValueAtIndex(keys, i);
 		char* ckey = strdup_cfstr(key);
 		CFTypeRef cf = CFDictionaryGetValue(value, key);
-
-		if (project) {
-			SQL("DELETE FROM properties WHERE build=%Q AND project=%Q AND property=%Q AND key=%Q", cbuild, cproj, cprop, ckey);
-		} else {
-			SQL("DELETE FROM properties WHERE build=%Q AND project IS NULL AND property=%Q AND key=%Q", cbuild, cprop, ckey);
-		}
 
 		if (CFGetTypeID(cf) == CFStringGetTypeID()) {
 			char* cvalu = strdup_cfstr(cf);
