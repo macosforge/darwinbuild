@@ -10288,7 +10288,6 @@
 					libsecurity_asn1,
 					libsecurity_cdsa_plugin,
 					libsecurity_cdsa_utilities,
-					libsecurity_cryptkit,
 					libsecurity_utilities,
 					xnu,
 				);
@@ -10624,36 +10623,6 @@
 				);
 			};
 			version = 7;
-		};
-		libsecurity_cryptkit = {
-			dependencies = {
-				build = (
-					CarbonHeaders,
-					adv_cmds,
-					awk,
-					bash,
-					cctools,
-					file_cmds,
-					gcc_os,
-					gcc_select,
-					system_cmds,
-					text_cmds,
-				);
-				header = (
-					CF,
-					CarbonHeaders,
-					CommonCrypto,
-					Libc_headers,
-					Security,
-					architecture,
-					gcc_os,
-					libsecurity_asn1,
-					libsecurity_cdsa_utilities,
-					libsecurity_utilities,
-					xnu,
-				);
-			};
-			version = 6;
 		};
 		libsecurity_cssm = {
 			dependencies = {
