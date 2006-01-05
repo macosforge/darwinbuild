@@ -497,7 +497,7 @@ fi
 ### Look for the build tool: make, xcodebuild
 ###
 
-numfiles=$(echo *.pbproj *.xcode *.xcodeproj 2> /dev/null )
+numfiles=$(echo *.pbxproj *.pbproj *.xcode *.xcodeproj 2> /dev/null )
 if [ -n "$numfiles" ]; then
 	buildtool="xcodebuild"
 else
