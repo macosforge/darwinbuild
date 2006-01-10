@@ -1,0 +1,132 @@
+// !$*UTF8*$!
+{
+	binary_sites = (
+		"http://darwinsource.opendarwin.org/Roots/8G32",
+	);
+	build = 8G32;
+	darwin = "Darwin 8.4";
+	inherits = 8F46;
+	macosx = "Mac OS X 10.4.4";
+	projects = {
+		AppleI2C = {
+			version = 350.0.2;
+		};
+		AppleKiwiRoot = {
+			version = 104.2.1;
+		};
+		AppleMacRISC4PE = {
+			version = 185.0.0;
+		};
+		CF = {
+			version = 368.25;
+		};
+		CFNetwork = {
+			version = 129.9;
+		};
+		CyrusIMAP = {
+			version = 156.9;
+		};
+		DirectoryService = {
+			target = DirectoryServiceFW;
+			version = 352.1;
+		};
+		IOFWDVComponents = {
+			version = 179.4.0;
+		};
+		IOFireWireFamily = {
+			version = 209.4.1;
+		};
+		IOSerialFamily = {
+			version = 30.1;
+		};
+		IOStorageFamily = {
+			version = 69.1;
+		};
+		IOUSBFamily = {
+			version = 228.4.0;
+		};
+		JBoss = {
+			target = magnum;
+			version = 737;
+		};
+		JavaScriptCore = {
+			version = 417.8;
+		};
+		JavaScriptGlue = {
+			version = 417;
+		};
+		OpenSSL = {
+			version = 26.2;
+		};
+		Security = {
+			version = 25966;
+		};
+		SpamAssassin = {
+			version = 124.2;
+		};
+		Tokend = {
+			version = 25868;
+		};
+		WebCore = {
+			version = 417.17;
+		};
+		apache2 = {
+			version = 19.4;
+		};
+		apache_mod_php = {
+			version = 18.2;
+		};
+		apache_mod_ssl = {
+			version = 680;
+		};
+		bootp = {
+			version = 133.6;
+		};
+		configd = {
+			target = configd_base;
+			version = 136.1;
+		};
+		curl = {
+			version = 28.0.2;
+		};
+		diskdev_cmds = {
+			version = 332.11.1;
+		};
+		libsecurity_keychain = {
+			version = 25886;
+		};
+		libsecurityd = {
+			version = 25847;
+		};
+		mDNSResponder = {
+			version = 107.4;
+		};
+		msdosfs = {
+			version = 89.3.1;
+		};
+		netinfo = {
+			version = 369.2;
+		};
+		network_cmds = {
+			version = 245.1.3;
+		};
+		passwordserver_sasl = {
+			version = 59.3;
+		};
+		samba = {
+			version = 92.15;
+		};
+		securityd = {
+			version = 25991;
+		};
+		sudo = {
+			version = 17;
+		};
+		syslog = {
+			version = 13.1;
+		};
+		xnu = {
+			version = 792.6.56;
+		};
+	};
+}
