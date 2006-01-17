@@ -722,13 +722,19 @@ cat <<-EOF >> $SCRIPT
 	cd '$SRCROOT'
 EOF
 cat <<-EOF >> $SCRIPT
-	START_DATE=\$(date "+%s")
+	if [ -x /bin/date ]; then
+		START_DATE=\$(date "+%s")
+	fi
 	$buildtool $action $build_string < /dev/null 
 	EXIT_STATUS="\$?"
-	END_DATE=\$(date "+%s")
-	ELAPSED_TIME=\$((\$END_DATE - \$START_DATE))
+	if [ -x /bin/date ]; then
+		END_DATE=\$(date "+%s")
+		ELAPSED_TIME=\$((\$END_DATE - \$START_DATE))
+	fi
 	echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-	echo " BUILD TIME: \$((\$ELAPSED_TIME / 3600))h \$((\$ELAPSED_TIME / 60))m \$((\$ELAPSED_TIME % 60))s"
+	if [ -x /bin/date ]; then
+		echo " BUILD TIME: \$((\$ELAPSED_TIME / 3600))h \$((\$ELAPSED_TIME / 60))m \$((\$ELAPSED_TIME % 60))s"
+	fi
 	echo "EXIT STATUS: \$EXIT_STATUS"
 	exit \$EXIT_STATUS
 EOF
