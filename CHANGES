@@ -2,6 +2,12 @@ Darwin Build Scripts Change History
 -----------------------------------
 
 Release x.y.z [Now]
+	- Added 8G32 plist (Mac OS X 10.4.4 for PowerPC, Darwin 8.4)
+	- darwintrace: build ppc64 library
+	- darwinbuild: add .pbxproj suffix (for xcodebuild)
+	- darwinxref: delete dictionary keys from database when obsolete
+	- darwinxref: register Mach-O symbols
+	- darwinxref: register ppc64 binaries
 	- darwinbuild: consolidate manifest symlinks and digests in build log
 	- darwinbuild: added elapsed build time to the build log
 
