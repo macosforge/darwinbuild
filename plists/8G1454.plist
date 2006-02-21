@@ -1,0 +1,48 @@
+// !$*UTF8*$!
+{
+	binary_sites = (
+		"http://darwinsource.opendarwin.org/Roots/8G1165",
+	);
+	build = 8G1454;
+	darwin = "Darwin 8.5";
+	inherits = 8G1165;
+	macosx = "Mac OS X 10.4.5";
+	projects = {
+		ICU = {
+			version = 6.2.7;
+		};
+		IOKitUser = {
+			version = 296;
+		};
+		Libc = {
+			version = 391.4.1;
+		};
+		Libsystem = {
+			version = 88.1.5;
+		};
+		PowerManagement = {
+			version = 94.18;
+		};
+		WebCore = {
+			version = 417.19;
+		};
+		bless = {
+			version = 37.1;
+		};
+		libsecurity_utilities = {
+			version = 26545;
+		};
+		libsecurityd = {
+			version = 26483;
+		};
+		netinfo = {
+			version = 369.3;
+		};
+		network_cmds = {
+			version = 245.11;
+		};
+		system_cmds = {
+			version = 336.10;
+		};
+	};
+}

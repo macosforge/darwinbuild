@@ -1,0 +1,484 @@
+// !$*UTF8*$!
+{
+	binary_sites = (
+		"http://darwinsource.opendarwin.org/Roots/8G1165",
+	);
+	build = 8G1165;
+	darwin = "Darwin 8.4";
+	inherits = 8F46;
+	macosx = "Mac OS X 10.4.4";
+	projects = {
+		AppleTalk = {
+			version = 90;
+		};
+		CF = {
+			version = 368.26;
+		};
+		CFNetwork = {
+			version = 129.10;
+		};
+		Chess = {
+			version = 104.0.2;
+		};
+		CommonCrypto = {
+			version = 24911;
+		};
+		CoreOSMakefiles = {
+			version = 31;
+		};
+		Csu = {
+			version = 58;
+		};
+		CyrusIMAP = {
+			version = 156.9;
+		};
+		DSNSLPlugins = {
+			version = 115;
+		};
+		DSPasswordServerPlugin = {
+			version = 114;
+		};
+		DirectoryService = {
+			target = DirectoryServiceFW;
+			version = 352.1;
+		};
+		DynamicPowerStep = {
+			version = 1.4.1;
+		};
+		FirewallTool = {
+			version = 17;
+		};
+		ICU = {
+			version = 6.2.6;
+		};
+		IOKitTools = {
+			version = 57.1;
+		};
+		IOKitUser = {
+			version = 294;
+		};
+		JBoss = {
+			target = magnum;
+			version = 737;
+		};
+		JavaScriptCore = {
+			version = 417.8;
+		};
+		JavaScriptGlue = {
+			version = 417;
+		};
+		Kerberos = {
+			version = 65.9;
+		};
+		Libc = {
+			version = 391.1.21;
+		};
+		Libinfo = {
+			version = 222.0.4;
+		};
+		Libkvm = {
+			version = 25;
+		};
+		Libm = {
+			target = libm;
+			version = 210.2;
+		};
+		Libnotify = {
+			version = 19.0.1;
+		};
+		Libsystem = {
+			version = 88.1.3;
+		};
+		OpenAL = {
+			version = 9;
+		};
+		OpenSSH = {
+			version = 57;
+		};
+		OpenSSL = {
+			version = 30;
+		};
+		OpenSSL096 = {
+			version = 6.1;
+		};
+		PowerManagement = {
+			version = 94.7;
+		};
+		Security = {
+			version = 24989;
+		};
+		SecurityTokend = {
+			version = 24743;
+		};
+		SecurityTool = {
+			version = 24739;
+		};
+		SpamAssassin = {
+			version = 127.2;
+		};
+		SystemStubs = {
+			version = 6;
+		};
+		Tokend = {
+			version = 26098;
+		};
+		UserNotification = {
+			version = 18;
+		};
+		WebCore = {
+			version = 417.18;
+		};
+		X11 = {
+			version = 0.40.80;
+		};
+		apache2 = {
+			version = 19.4;
+		};
+		apache_mod_perl = {
+			version = 11;
+		};
+		apache_mod_php = {
+			version = 18.2;
+		};
+		apache_mod_ssl = {
+			version = 680;
+		};
+		architecture = {
+			version = 246;
+		};
+		at_cmds = {
+			version = 53;
+		};
+		automount = {
+			version = 133.1;
+		};
+		awk = {
+			version = 7.2;
+		};
+		bash = {
+			version = 44.3;
+		};
+		bc = {
+			version = 19;
+		};
+		bless = {
+			version = 35.1;
+		};
+		boot = {
+			version = 132;
+		};
+		bootp = {
+			version = 133.6;
+		};
+		bsdmake = {
+			version = 17;
+		};
+		cctools = {
+			version = 590.23.2;
+		};
+		configd = {
+			target = configd_base;
+			version = 137.2;
+		};
+		cscope = {
+			version = 10;
+		};
+		cups = {
+			target = installfat;
+			version = 97;
+		};
+		curl = {
+			version = 28.0.2;
+		};
+		cvs = {
+			version = 33.0.1;
+		};
+		cxxfilt = {
+			version = 3;
+		};
+		diffstat = {
+			version = 4.3;
+		};
+		diskdev_cmds = {
+			version = 332.14;
+		};
+		distcc = {
+			version = 39;
+		};
+		dyld = {
+			target = dyld;
+			version = 44.17;
+		};
+		emacs = {
+			version = 60;
+		};
+		file = {
+			version = 6.1;
+		};
+		files = {
+			target = "";
+			version = 473;
+		};
+		gcc = {
+			version = 5250;
+		};
+		gcc_os = {
+			version = 1819;
+		};
+		gcc_select = {
+			version = 55;
+		};
+		gccfast = {
+			version = 1622;
+		};
+		gdb = {
+			version = 437;
+		};
+		glibtool = {
+			version = 9;
+		};
+		gnuserv = {
+			version = 4;
+		};
+		graphviz = {
+			version = 622;
+		};
+		headerdoc = {
+			version = 8.5.10;
+		};
+		iodbc = {
+			version = 29;
+		};
+		jam = {
+			version = 700;
+		};
+		kext_tools = {
+			version = 65.2;
+		};
+		keymgr = {
+			version = 15;
+		};
+		launchd = {
+			version = 106.10;
+		};
+		ld64 = {
+			version = 26.0.81;
+		};
+		libfs = {
+			version = 4;
+		};
+		libiconv = {
+			version = 13.2;
+		};
+		libpcap = {
+			version = 16;
+		};
+		libsecurity_agent = {
+			version = 24739;
+		};
+		libsecurity_apple_csp = {
+			version = 24739;
+		};
+		libsecurity_apple_cspdl = {
+			version = 24989;
+		};
+		libsecurity_apple_file_dl = {
+			version = 24739;
+		};
+		libsecurity_apple_x509_cl = {
+			version = 24989;
+		};
+		libsecurity_apple_x509_tp = {
+			version = 24989;
+		};
+		libsecurity_asn1 = {
+			version = 24739;
+		};
+		libsecurity_authorization = {
+			version = 24739;
+		};
+		libsecurity_cdsa_client = {
+			version = 24989;
+		};
+		libsecurity_cdsa_plugin = {
+			version = 24739;
+		};
+		libsecurity_cdsa_utilities = {
+			version = 24739;
+		};
+		libsecurity_cdsa_utils = {
+			version = 24739;
+		};
+		libsecurity_checkpw = {
+			version = 24739;
+		};
+		libsecurity_cssm = {
+			version = 24989;
+		};
+		libsecurity_dotmacdl = {
+			version = 25435;
+		};
+		libsecurity_filedb = {
+			version = 24739;
+		};
+		libsecurity_keychain = {
+			version = 26098;
+		};
+		libsecurity_ldap_dl = {
+			version = 24742;
+		};
+		libsecurity_manifest = {
+			version = 24739;
+		};
+		libsecurity_mds = {
+			version = 26120;
+		};
+		libsecurity_ocspd = {
+			version = 24739;
+		};
+		libsecurity_pkcs12 = {
+			version = 24739;
+		};
+		libsecurity_sd_cspdl = {
+			version = 24739;
+		};
+		libsecurity_smime = {
+			version = 24739;
+		};
+		libsecurity_ssl = {
+			version = 24739;
+		};
+		libsecurity_utilities = {
+			version = 26320;
+		};
+		libsecurityd = {
+			version = 25962;
+		};
+		libstdcxx = {
+			version = 5.1;
+		};
+		libtelnet = {
+			version = 6;
+		};
+		lsof = {
+			version = 24;
+		};
+		mDNSResponder = {
+			version = 108;
+		};
+		memberd = {
+			version = 21;
+		};
+		misc_cmds = {
+			version = 18;
+		};
+		nasm = {
+			version = 2;
+		};
+		net_snmp = {
+			version = 19;
+		};
+		netinfo = {
+			version = 369.2;
+		};
+		network_cmds = {
+			version = 245.8;
+		};
+		ntp = {
+			version = 24;
+		};
+		objc4 = {
+			version = 274;
+		};
+		pam = {
+			version = 15;
+		};
+		passwordserver_sasl = {
+			version = 59.3;
+		};
+		pbx_jamfiles = {
+			version = 628;
+		};
+		perl = {
+			version = 38;
+		};
+		postfix = {
+			version = 147;
+		};
+		ppp = {
+			version = 233.7;
+		};
+		prebind = {
+			version = 109.1;
+		};
+		python = {
+			version = 16.1.3;
+		};
+		ruby = {
+			version = 22;
+		};
+		samba = {
+			version = 92.15;
+		};
+		security_authtrampoline = {
+			version = 24739;
+		};
+		security_certificates = {
+			version = 24989;
+		};
+		security_certtool = {
+			version = 24739;
+		};
+		security_crlrefresh = {
+			version = 24989;
+		};
+		security_dotmac_tp = {
+			version = 25085;
+		};
+		security_ocspd = {
+			version = 25433;
+		};
+		security_privportserver = {
+			version = 24739;
+		};
+		security_systemkeychain = {
+			version = 24739;
+		};
+		securityd = {
+			version = 26232;
+		};
+		shell_cmds = {
+			version = 81;
+		};
+		smb = {
+			version = 217.15;
+		};
+		sudo = {
+			version = 17;
+		};
+		syslog = {
+			version = 14.2;
+		};
+		system_cmds = {
+			version = 336.6;
+		};
+		system_config = {
+			version = 48.0.80;
+		};
+		tcl = {
+			version = 20.1.4;
+		};
+		tcp_wrappers = {
+			version = 12;
+		};
+		tcpdump = {
+			version = 16;
+		};
+		wxWidgets = {
+			version = 6;
+		};
+		xinetd = {
+			version = 35;
+		};
+	};
+}
