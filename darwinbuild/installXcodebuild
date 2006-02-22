@@ -139,14 +139,34 @@ popd > /dev/null
 if [ ! -e "$BUILDROOT/Library/Application Support/Xcode/Specifications/GCC 3.5.xcspec" ];
 then
     echo "Generating GCC 3.5.xcspec"
+    SRC="$BUILDROOT/Library/Application Support/Xcode/Specifications/GCC 4.0.xcspec"
+    if [ ! -e "$SRC" ]; then
+	SRC="$BUILDROOT/Library/Application Support/Xcode/Specifications/GCC 4.0.xcplugin/Contents/Resources/GCC 4.0.xcspec"
+	if [ ! -e "$SRC" ]; then
+	    echo "No template for 3.5 spec" 1>&2
+	    exit 1
+	fi
+    fi
     sed \
 	-e 's/4\.0/3.5/g' \
 	-e 's/4_0/3_5/g' \
 	-e '/DashIFlagAcceptsHeadermaps/d' \
+	-e '/SupportsPredictiveCompilation/d' \
+	-e '/SupportsSeparateUserHeaderPaths/d' \
+	-e '/SupportsSymbolSeparation/d' \
+	-e '/SupportsMacOSXMinVersionFlag/d' \
+	-e '/SupportsIsysroot/d' \
 	-e 's/SupportsHeadermaps = Yes/SupportsHeadermaps = No/' \
 	-e '/USE_HEADERMAP/,/}/  s/DefaultValue = YES/DefaultValue = NO/' \
 	-e '/USE_HEADER_SYMLINKS/,/}/  s/DefaultValue = NO/DefaultValue = YES/' \
-	< "$BUILDROOT/Library/Application Support/Xcode/Specifications/GCC 4.0.xcspec" \
+	-e '/Name = GCC_MACOSX_VERSION_MIN/,/},/d' \
+	-e '/Name = GCC_ENABLE_SYMBOL_SEPARATION/,/},/d' \
+	-e '/Name = GCC_ENABLE_SSE3_EXTENSIONS/,/},/d' \
+	-e '/Name = GCC_THREADSAFE_STATICS/,/},/d' \
+	-e '/Name = GCC_OBJC_CALL_CXX_CDTORS/,/},/d' \
+	-e '/Name = GCC_USE_NASM_FOR_ASM_FILETYPE/,/},/d' \
+	-e '/OptionsForSDKPackages/,/};/d' \
+	< "$SRC" \
 	> "$BUILDROOT/Library/Application Support/Xcode/Specifications/GCC 3.5.xcspec"
     
 fi
