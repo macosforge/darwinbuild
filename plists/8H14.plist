@@ -1,0 +1,39 @@
+// !$*UTF8*$!
+{
+	build = 8H14;
+	darwin = "Darwin 8.5";
+	inherits = 8G32;
+	macosx = "Mac OS X 10.4.5";
+	projects = {
+		AppleFileSystemDriver = {
+			version = 7;
+		};
+		ICU = {
+			version = 6.2.8;
+		};
+		IOI2CFamily = {
+			version = 109.0.1;
+		};
+		Libc = {
+			version = 391.2.5;
+		};
+		Libsystem = {
+			version = 88.1.5;
+		};
+		WebCore = {
+			version = 417.19;
+		};
+		msdosfs = {
+			version = 89.9;
+		};
+		network_cmds = {
+			version = 245.1.4;
+		};
+		system_cmds = {
+			version = 336.1.2;
+		};
+		xnu = {
+			version = 792.6.61;
+		};
+	};
+}
