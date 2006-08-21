@@ -104,6 +104,8 @@ function ditto() {
 	fi
 }
 
+CURLARGS=${CURLARGS:-}
+
 ###
 ### Download a .tar.gz file
 ###
@@ -127,7 +129,7 @@ function Download() {
 		if [ ! -f "$destination/$filename" ]; then
 			mkdir -p "$destination"
 			echo "Attempting to download $master_site/$filename ..."
-			curl --fail \
+			curl $CURLARGS --fail \
 				--silent \
 				--continue-at - \
 				--output "$destination/.tmp.${filename}" \
