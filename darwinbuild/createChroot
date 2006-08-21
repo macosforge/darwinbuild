@@ -1,0 +1,120 @@
+#!/bin/sh
+
+FORCE="YES"
+
+XCODEBUILD=/usr/bin/xcodebuild
+BUILDROOT="$1"
+
+EXTRADIR=( \
+    /.vol \
+    /cores \
+    /dev \
+    /private/tmp \
+    /private/var \
+    /private/var/tmp )
+
+EXTRACOPY=( \
+    /Developer/Makefiles \
+    /Library/Application\ Support \
+    /System/Library/Frameworks \
+    /System/Library/PrivateFrameworks \
+    /System/Library/DTDs \
+    /System/Library/Fonts \
+    /System/Library/Keyboard\ Layouts \
+    /System/Library/Perl \
+    /System/Library/Tcl \
+    /System/Library/CoreServices/CharacterSets \
+    /bin \
+    /private/etc \
+    /sbin \
+    /usr/bin \
+    /usr/include \
+    /usr/lib \
+    /usr/libexec \
+    /usr/sbin \
+    /usr/share )
+
+EXTRALINKS=( \
+    private/tmp \
+    private/var \
+    private/etc )
+
+if [ -z "$BUILDROOT" ]; then
+    echo "Usage: $0 /Volumes/DarwinBuild/BuildRoot" 1>&2
+    exit 1
+fi
+
+mkdir -p "$BUILDROOT"
+
+RemoveTemps() {
+	rm -f /tmp/installXcode.libs.$$
+	rm -f /tmp/installXcode.seen.$$
+	rm -f /tmp/installXcode.tmplibs.$$
+	rm -f /tmp/installXcode.tmpfiles.$$
+	rm -f /tmp/installXcode.files.$$
+}
+
+AppendExtraFiles() {
+    for X in "${EXTRACOPY[@]}"; do
+	echo "$X" >> /tmp/installXcode.libs.$$
+    done
+}
+
+GenerateFileNames() {
+    cat /tmp/installXcode.libs.$$ | sort -u | while read X; do
+	# echo adding children for "$X"
+
+	# first mkdir parent directories
+	PARENT=$(dirname "$X")
+	while [ "$PARENT" != "/" -a "$PARENT" != "." ]; do
+	    echo ".$PARENT" >> /tmp/installXcode.tmpfiles.$$
+	    PARENT=$(dirname "$PARENT")
+	done
+	find -x ".$X" \! \( -name \*_debug\* -o -name \*_profile\* -o -path \*.lproj\* -o -path \*.dict\* \) >> /tmp/installXcode.tmpfiles.$$
+    done
+    sort -u /tmp/installXcode.tmpfiles.$$ > /tmp/installXcode.files.$$
+}
+
+CopyFiles() {
+#    VERBOSECPIO="v"
+    VERBOSECPIO=""
+    echo -n "Copying system ..."
+    cpio -o -c < /tmp/installXcode.files.$$ | \
+    (cd "$BUILDROOT"; cpio -ium${VERBOSECPIO}d )
+
+    echo "done"
+}
+
+
+
+###
+### Find all the framework and library dependencies of Xcode build
+### For frameworks, copy over all supporting files.
+###
+
+pushd / > /dev/null
+
+RemoveTemps
+touch /tmp/installXcode.seen.$$
+echo Analyzing files to copy into chroot  ...
+AppendExtraFiles
+GenerateFileNames
+CopyFiles
+
+for X in "${EXTRADIR[@]}"; do
+    mkdir -p $BUILDROOT/$X
+done
+
+for X in "${EXTRALINKS[@]}"; do
+    ln -sf $X $BUILDROOT/
+done
+
+# We provide this functionality, at least
+mkdir -p $BUILDROOT/usr/local/darwinbuild/receipts
+for i in "files" "bash"; do
+    touch $BUILDROOT/usr/local/darwinbuild/receipts/$i
+done
+
+popd > /dev/null
+
+RemoveTemps

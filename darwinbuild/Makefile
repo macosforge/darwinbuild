@@ -18,6 +18,7 @@ install: all
 	[ -d $(DATDIR) ] || $(INSTALL) -d $(INSTALL_DIR_FLAGS) $(DATDIR)
 	$(INSTALL) $(INSTALL_DOC_FLAGS) darwinbuild.common $(DATDIR)
 	$(INSTALL) $(INSTALL_EXE_FLAGS) installXcodebuild $(DATDIR)
+	$(INSTALL) $(INSTALL_EXE_FLAGS) createChroot $(DATDIR)
 	$(INSTALL) $(INSTALL_EXE_FLAGS) manifest $(DATDIR)
 	$(INSTALL) $(INSTALL_EXE_FLAGS) ditto.sh $(DATDIR)/ditto
 	$(INSTALL) $(INSTALL_EXE_FLAGS) buildlist.sh $(DATDIR)/buildlist
@@ -31,6 +32,7 @@ uninstall:
 	rm -f $(BINDIR)/darwinbuild
 	rm -f $(DATDIR)/darwinbuild.common
 	rm -f $(DATDIR)/installXcodebuild
+	rm -f $(DATDIR)/createChroot
 	rm -f $(DATDIR)/manifest
 	-rmdir $(DATDIR)
 
