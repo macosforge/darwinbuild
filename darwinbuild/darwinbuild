@@ -618,7 +618,8 @@ cat <<-EOF > $SCRIPT
 	echo "    Build number:         $build"
 	echo "    Host kernel version:  \$(uname -v 2>/dev/null)"
 	echo "    cc version:           \$(gcc -v 2>&1 | tail -n 1 2>/dev/null)"
-	echo "    cctools version:      \$(as -v -o /dev/null < /dev/null 2>&1 | cut -c 22- 2>/dev/null)"
+	# Panther cctools unlinks -o target, so don't use /dev/null
+	echo "    cctools version:      \$(as -v -o /.devnull < /dev/null 2>&1 | cut -c 22- 2>/dev/null)"
 EOF
 if [ "$logdeps" == "YES" ]; then
 	if [ "$CHROOTED" == "YES" ]; then
