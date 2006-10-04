@@ -86,7 +86,7 @@ CACHEDIR=$DATADIR/cache
 COMMONFILE=$DATADIR/darwinbuild.common
 DARWINTRACE=$DATADIR/darwintrace.dylib
 DITTO=$DATADIR/ditto
-DEFAULTPLISTSITE=http://darwinsource.opendarwin.org/plists/
+DEFAULTPLISTSITE=http://svn.macosforge.org/repository/darwinbuild/trunk/plists/
 
 # PREFIX=/Volumes/HD/ltmp/build/darwinbuild
 # DARWINXREF=$PREFIX/darwinxref/darwinxref

@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
 # process-logs.pl
-# Kevin Van Vechten <kevin@opendarwin.org>
+# Kevin Van Vechten <kvv@apple.com>
 
 use strict;
 use File::Basename;

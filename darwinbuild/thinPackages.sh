@@ -30,7 +30,7 @@
 #
 # @APPLE_BSD_LICENSE_HEADER_END@
 #
-# Kevin Van Vechten <kevin@opendarwin.org>
+# Kevin Van Vechten <kvv@apple.com>
 
 PREFIX=/usr/local
 XREFDB=.build/xref.db

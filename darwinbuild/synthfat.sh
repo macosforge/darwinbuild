@@ -30,7 +30,7 @@
 #
 # @APPLE_BSD_LICENSE_HEADER_END@
 #
-# Kevin Van Vechten <kevin@opendarwin.org>
+# Kevin Van Vechten <kvv@apple.com>
 #
 # Adapted from OpenDarwin src/build/Makefile by:
 #

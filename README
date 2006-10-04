@@ -1,7 +1,7 @@
 Darwin Build Scripts
-Updated 25-Jul-2005
+Updated 4-Oct-2006
 
-Kevin Van Vechten <kevin@opendarwin.org>
+Kevin Van Vechten <kvv@apple.com>
 
 1. Overview
   1.1 Availability, Bug Reports, Contributions, and Discussion
@@ -27,31 +27,30 @@ The Darwin Build Scripts are a collection of tools that assist compilation of
 the many projects contained in Darwin[1], the open source base of Apple's
 Mac OS X operating system[2].  Apple publishes the sources of these projects
 in an archive format (.tar.gz).  An archive is published for each project
-version on Apple's site[3] and the archives are mirrored at OpenDarwin[4].
+version on Apple's site[3].
+
 These tools will provide the proper build environment as well as help to
 resolve any necessary dependencies prior to building.
 
 [1] <http://developer.apple.com/darwin/>
 [2] <http://www.apple.com/macosx/>
 [3] <http://www.opensource.apple.com/darwinsource/>
-[4] <http://darwinsource.opendarwin.org/>
 
 
 1.1 Availability, Bug Reports, Contributions, and Discussion
 
 The latest release of the Darwin Build Scripts is available on the web[1].
-Pre-release versions are available via CVS[2] in the 'darwinbuild' module.
+Pre-release versions are available via Subversion[2].
 
-Bugs or enhancement requests should be filed in Bugzilla[3], under the
-"darwinbuild" product.
+Bugs or enhancement requests should be filed in Trac[3].
 
 Discussion about the Darwin Build Scripts, or building Darwin projects in
-general, should take place on the darwinbuild[4] mailing list.
+general, should take place on the darwinbuild-dev[4] mailing list.
 
-[1] <http://darwinsource.opendarwin.org/darwinbuild/>
-[2] <http://opendarwin.org/en/articles/cvs_howto/index.html#anoncvs-opendarwin>
-[3] <http://bugzilla.opendarwin.org/>
-[4] <http://opendarwin.org/mailman/listinfo/darwinbuild>
+[1] <http://trac.macosforge.org/projects/darwinbuild/>
+[2] <http://svn.macosforge.org/repository/darwinbuild/trunk>
+[3] <http://trac.macosforge.org/projects/darwinbuild/report>
+[4] <http://lists.macosforge.org/mailman/listinfo/darwinbuild-dev>
 
 ===============
 2. Installation
@@ -80,11 +79,11 @@ important that the volume's file ownership is honored:
   # mkdir Build8C46
   # cd Build8C46
   # darwinbuild -init 8C46
-  Attempting to download http://darwinsource.opendarwin.org/plists//8C46.plist ...
+  Attempting to download http://svn.macosforge.org/repository/darwinbuild/trunk/plists//8C46.plist ...
   Download complete
-  Attempting to download http://darwinsource.opendarwin.org/plists//8B15.plist ...
+  Attempting to download http://svn.macosforge.org/repository/darwinbuild/trunk/plists//8B15.plist ...
   Download complete
-  Attempting to download http://darwinsource.opendarwin.org/plists//8A428.plist ...
+  Attempting to download http://svn.macosforge.org/repository/darwinbuild/trunk/plists//8A428.plist ...
   Download complete
   # ls
   .build  Headers Logs    Roots   Sources Symbols
@@ -95,7 +94,7 @@ After initialization, the build directory will contain the following:
 Headers    contains the resulting header files from previous builds
 Logs       contains logs of previous build attempts 
 Roots      contains the finished products of previous successful builds
-Sources    contains sources downloaded from OpenDarwin
+Sources    contains sources downloaded from the web
 Symbols    contains debug symbol versions of previous build products
 
 When using the darwinbuild script, it is necessary that the current
@@ -121,7 +120,7 @@ ownership and permissions on the build results.
 darwinbuild first looks in the Sources directory for a directory containing
 the sources to be built (Sources/xnu-517.11.1), or a .tar.gz archive
 containing the sources (Sources/xnu-517.11.1.tar.gz).  If neither is found,
-darwinbuild will attempt to download the sources from OpenDarwin.
+darwinbuild will attempt to download the sources from the web.
 
 If it does not already exist, a BuildRoot directory will be created.  This
 is where the build will actually take place.  During the build, DarwinBuild
@@ -129,7 +128,7 @@ will change the root directory to BuildRoot (see the chroot(8) man page for
 details).  DarwinBuild is capable of copying the required tools, libraries
 and headers from the Roots directory into the BuildRoot prior to building.
 If a necessary dependency is not found in the Roots directory, it will be
-downloaded from the OpenDarwin site.
+downloaded from the web.
 
 The build output will be written to the console, and additionally logged
 into a file in the Logs directory.  The above example produces the
@@ -271,20 +270,18 @@ about what dependencies a particular project has, and what files the project
 produces.  As each Mac OS X release is made available, Apple publishes a
 property list file containing the project names and versions in that release.
 These property lists are read by the darwinxref tool to seed its internal
-database.  Property lists are available on Apple's open source site[1] and
-mirrored at OpenDarwin[2].
+database.  Property lists are available via Subversion[1].
 
-The darwinxref tool uses SQLite[3] to maintain its database of projects,
+The darwinxref tool uses SQLite[2] to maintain its database of projects,
 versions, files and dependencies.  This distribution includes a pre-built
 version of the sqlite library in the file libsqlite3.a, and its associated
 header file, sqlite3.h.
 
-[1] <http://www.opensource.apple.com/darwinsource/>
-[2] <http://darwinsource.opendarwin.org/>
-[3] <http://www.sqlite.org/>
+[1] <http://svn.macosforge.org/repository/darwinbuild/trunk/plists>
+[2] <http://www.sqlite.org/>
 
 An example of downloading, installing, and querying a property list:
-  % curl http://darwinsource.opendarwin.org/10.3.8/projects-list.plist > \
+  % curl http://svn.macosforge.org/repository/darwinbuild/trunk/plists/7U16.plist > \
       plists/7U16.plist
   % bin/darwinxref loadIndex plists/7U16.plist
   268 of 268 projects loaded.
