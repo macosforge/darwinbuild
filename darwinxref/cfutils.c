@@ -153,7 +153,6 @@ int writePlist(FILE* f, CFPropertyListRef p, int tabs) {
 
         if (type == CFStringGetTypeID()) {
                 char* utf8 = strdup_cfstr(p);
-                // XXX: needs work
                 int quote = 0;
                 for (i = 0 ;; ++i) {
                         int c = utf8[i];
