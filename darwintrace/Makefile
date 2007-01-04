@@ -9,13 +9,21 @@ DATDIR:=$(DATDIR)/darwinbuild
 
 all: darwintrace.dylib
 
+VERSION=$(shell uname -r | cut -f1 -d. )
+ifeq ($(VERSION), 9)
+CFLAGS = -nodefaultlibs
+else
+CFLAGS = -nostdlib
+endif
+
+
 darwintrace.dylib: darwintrace.c
 	cc -o $@ \
 		-arch i386 -arch ppc -arch ppc64 \
 		-W -Wall -pedantic -std=c99 \
 		-flat_namespace \
 		-fno-common \
-		-nostdlib \
+		$(CFLAGS) \
 		-undefined suppress \
 		-dynamiclib \
 		$^ $(LIBS)
