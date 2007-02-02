@@ -1,0 +1,159 @@
+// !$*UTF8*$!
+{
+	build = 8J135;
+	darwin = "Darwin 8.7";
+	inherits = 8I127;
+	macosx = "Mac OS X 10.4.7";
+	projects = {
+		AppleUSBAudio = {
+			version = 205.2.1;
+		};
+		CF = {
+			version = 368.27;
+		};
+		CFNetwork = {
+			version = 129.16;
+		};
+		IOFireWireAVC = {
+			version = 182.4.1;
+		};
+		IOFireWireFamily = {
+			version = 225.4.1;
+		};
+		IOFireWireSerialBusProtocolTransport = {
+			version = 144.0.1;
+		};
+		IOKitUser = {
+			version = 277.8;
+		};
+		IOSCSIArchitectureModelFamily = {
+			version = 149.0.2;
+		};
+		IOUSBFamily = {
+			version = 256.4.2;
+		};
+		IOUSBMassStorageClass = {
+			version = 145.0.4;
+		};
+		JavaScriptCore = {
+			version = 418.3;
+		};
+		JavaScriptGlue = {
+			version = 418;
+		};
+		Libc = {
+			version = 391.2.6;
+		};
+		Libinfo = {
+			version = 222.3.3;
+		};
+		Libsystem = {
+			version = 88.1.6;
+		};
+		MySQL = {
+			version = 34;
+		};
+		OpenAL = {
+			version = 16;
+		};
+		OpenLDAP = {
+			version = 69.0.2;
+		};
+		Security = {
+			version = 27566;
+		};
+		SmartCardServices = {
+			version = 27738;
+		};
+		SpamAssassin = {
+			version = 124.5;
+		};
+		WebCore = {
+			version = 418.19;
+		};
+		architecture = {
+			version = 246;
+		};
+		bash = {
+			version = 44.4;
+		};
+		bootp = {
+			version = 133.7;
+		};
+		cctools = {
+			version = 590.23.6;
+		};
+		configd = {
+			target = configd_base;
+			version = 136.2;
+		};
+		cups = {
+			target = installfat;
+			version = 97.2;
+		};
+		curl = {
+			version = 28.0.3;
+		};
+		diskdev_cmds = {
+			version = 332.11.5;
+		};
+		dyld = {
+			target = dyld;
+			version = 45.1;
+		};
+		file_cmds = {
+			version = 116.10;
+		};
+		gcc_select = {
+			version = 55.2;
+		};
+		gnutar = {
+			version = 433.1;
+		};
+		ipv6configuration = {
+			version = 22.1;
+		};
+		kext_tools = {
+			version = 65.2.1;
+		};
+		launchd = {
+			version = 106.14;
+		};
+		libsecurity_apple_x509_tp = {
+			version = 27666;
+		};
+		libsecurity_cssm = {
+			version = 27544;
+		};
+		libsecurity_keychain = {
+			version = 27723;
+		};
+		libsecurity_manifest = {
+			version = 28178;
+		};
+		libsecurity_utilities = {
+			version = 27756;
+		};
+		lsof = {
+			version = 28;
+		};
+		msdosfs = {
+			version = 89.10;
+		};
+		ruby = {
+			version = 22.2.2;
+		};
+		samba = {
+			version = 92.20;
+		};
+		security_certificates = {
+			version = 27797;
+		};
+		securityd = {
+			version = 27887;
+		};
+		xnu = {
+			version = 792.6.76;
+		};
+	};
+}

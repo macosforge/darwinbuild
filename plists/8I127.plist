@@ -1,0 +1,168 @@
+// !$*UTF8*$!
+{
+	build = 8I127;
+	darwin = "Darwin 8.6";
+	inherits = 8H14;
+	macosx = "Mac OS X 10.4.6";
+	projects = {
+		AppleRAID = {
+			version = 2.3.3;
+		};
+		AppleUSBAudio = {
+			version = 204.2.2;
+		};
+		CFNetwork = {
+			version = 129.13;
+		};
+		CoreOSMakefiles = {
+			version = 31;
+		};
+		Csu = {
+			environment = {
+				RC_ARCHS = "i386 ppc ppc64";
+				CC = "gcc-4.0";
+			};
+			version = 58;
+		};
+		CyrusIMAP = {
+			version = 156.10;
+		};
+		DSNISPlugin = {
+			version = 17.7;
+		};
+		DSPasswordServerPlugin = {
+			version = 113.3;
+		};
+		DirectoryService = {
+			target = DirectoryServiceFW;
+			version = 353.3;
+		};
+		FirewallTool = {
+			version = 17;
+		};
+		ICU = {
+			version = 6.2.9;
+		};
+		IOATABlockStorage = {
+			version = 143.0.3;
+		};
+		IOI2CFamily = {
+			version = 110;
+		};
+		IOUSBFamily = {
+			version = 229.4.0;
+		};
+		JavaScriptCore = {
+			version = 417.11;
+		};
+		Kerberos = {
+			version = 65.10;
+		};
+		Libm = {
+			target = libm;
+			version = 213;
+		};
+		SmartCardServices = {
+			version = 26726;
+		};
+		SpamAssassin = {
+			version = 124.3;
+		};
+		WebCore = {
+			version = 417.24;
+		};
+		apache_mod_php = {
+			version = 18.4;
+		};
+		automount = {
+			version = 133.3;
+		};
+		bless = {
+			version = 37;
+		};
+		blojsom = {
+			version = 59;
+		};
+		cctools = {
+			version = 590.23.2;
+		};
+		cups = {
+			target = installfat;
+			version = 97.1;
+		};
+		dyld = {
+			target = dyld;
+			version = 44.4;
+		};
+		gcc = {
+			version = 5250;
+		};
+		gcc_os = {
+			version = 1819;
+		};
+		gcc_select = {
+			version = 50;
+		};
+		gccfast = {
+			version = 1622;
+		};
+		gdb = {
+			version = 437;
+		};
+		jam = {
+			version = 700;
+		};
+		launchd = {
+			version = 106.13;
+		};
+		ld64 = {
+			version = 26.0.81;
+		};
+		libstdcxx = {
+			environment = {
+				RC_ARCHS = "i386 ppc ppc64";
+				CC = "/usr/bin/gcc-4.0";
+			};
+			version = 5.1;
+		};
+		netinfo = {
+			version = 369.5;
+		};
+		network_cmds = {
+			version = 245.12;
+		};
+		objc4 = {
+			version = 267.1;
+		};
+		pbx_jamfiles = {
+			version = 628;
+		};
+		ppp = {
+			version = 233.0.2;
+		};
+		rsync = {
+			version = 24;
+		};
+		ruby = {
+			version = 22.2;
+		};
+		samba = {
+			version = 92.19;
+		};
+		securityd = {
+			version = 26692;
+		};
+		smb = {
+			version = 217.18;
+		};
+		system_cmds = {
+			version = 336.1.5;
+		};
+		webdavfs = {
+			version = 221.2;
+		};
+		xnu = {
+			version = 792.6.70;
+		};
+	};
+}

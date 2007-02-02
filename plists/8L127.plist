@@ -1,0 +1,98 @@
+// !$*UTF8*$!
+{
+	build = 8L127;
+	darwin = "Darwin 8.8";
+	inherits = 8J135;
+	macosx = "Mac OS X 10.4.8";
+	environment = {
+		INSTALLED_PRODUCT_ASIDES = YES;
+		MACOSX_DEPLOYMENT_TARGET = 10.4;
+		NEXT_ROOT = "";
+		RC_ARCHS = "ppc i386";
+		RC_JASPER = YES;
+		RC_NONARCH_CFLAGS = "-pipe -no-cpp-precomp";
+		RC_OS = macos;
+		RC_PRIVATE = /private;
+		RC_RELEASE = SUTiMiami;
+		RC_USE_GCC35_FOR_PPC64 = YES;
+		RC_XBS = YES;
+		SEPARATE_STRIP = YES;
+		UNAME_RELEASE = 8.0;
+		UNAME_SYSNAME = Darwin;
+	};
+	projects = {
+		CFNetwork = {
+			version = 129.18;
+		};
+		CyrusIMAP = {
+			version = 156.11;
+		};
+		DSNSLPlugins = {
+			version = 115.1;
+		};
+		IOI2CFamily = {
+			version = 1011.0.1;
+		};
+		IOUSBFamily = {
+			version = 258.4.1;
+		};
+		Libc = {
+			version = 391.2.7;
+		};
+		Libsystem = {
+			version = 88.1.7;
+		};
+		OpenSSH = {
+			version = 57.3;
+		};
+		Security = {
+			version = 28992;
+		};
+		WebCore = {
+			version = 418.21;
+		};
+		bootp = {
+			version = 133.8;
+		};
+		cctools = {
+			version = 622.5.1;
+		};
+		dyld = {
+			target = dyld;
+			version = 45.3;
+		};
+		eap8021x = {
+			version = 33.5;
+		};
+		fetchmail = {
+			version = 16;
+		};
+		gcc_select = {
+			version = 55.3;
+		};
+		gnuzip = {
+			version = 22;
+		};
+		libsecurity_ssl = {
+			version = 28976;
+		};
+		msdosfs = {
+			version = 89.13;
+		};
+		network_cmds = {
+			version = 245.15;
+		};
+		pam_modules = {
+			version = 17.1;
+		};
+		passwordserver_sasl = {
+			version = 59.4;
+		};
+		samba = {
+			version = 100.4;
+		};
+		xnu = {
+			version = 792.12.6;
+		};
+	};
+}
