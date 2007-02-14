@@ -8,7 +8,7 @@ DATDIR:=$(DATDIR)/darwinbuild
 all: manifest
 
 manifest: manifest.c
-	cc -o $@ -lcrypto $^
+	cc -o $(OBJROOT)/$@ -lcrypto $^
 
 install: all
 	[ -d $(BINDIR) ] || $(INSTALL) -d $(INSTALL_DIR_FLAGS) $(BINDIR)
@@ -19,7 +19,7 @@ install: all
 	$(INSTALL) $(INSTALL_DOC_FLAGS) darwinbuild.common $(DATDIR)
 	$(INSTALL) $(INSTALL_EXE_FLAGS) installXcodebuild $(DATDIR)
 	$(INSTALL) $(INSTALL_EXE_FLAGS) createChroot $(DATDIR)
-	$(INSTALL) $(INSTALL_EXE_FLAGS) manifest $(DATDIR)
+	$(INSTALL) $(INSTALL_EXE_FLAGS) $(OBJROOT)/manifest $(DATDIR)
 	$(INSTALL) $(INSTALL_EXE_FLAGS) ditto.sh $(DATDIR)/ditto
 	$(INSTALL) $(INSTALL_EXE_FLAGS) buildlist.sh $(DATDIR)/buildlist
 	$(INSTALL) $(INSTALL_EXE_FLAGS) buildorder.pl $(DATDIR)/buildorder

@@ -18,7 +18,7 @@ endif
 
 
 darwintrace.dylib: darwintrace.c
-	cc -o $@ \
+	cc -o $(OBJROOT)/$@ \
 		-arch i386 -arch ppc -arch ppc64 \
 		-W -Wall -pedantic -std=c99 \
 		-flat_namespace \
@@ -33,7 +33,7 @@ clean:
 install: all
 	[ -d $(DATDIR) ] || \
 		$(INSTALL) -d $(INSTALL_DIR_FLAGS) $(DATDIR)
-	$(INSTALL) $(INSTALL_DOC_FLAGS) darwintrace.dylib $(DATDIR)
+	$(INSTALL) $(INSTALL_DOC_FLAGS) $(OBJROOT)/darwintrace.dylib $(DATDIR)
 
 uninstall:
 	rm -f $(DATDIR)/darwintrace.dylib

@@ -28,7 +28,7 @@ TCL_LDFLAGS=-ltcl
 CFLAGS+=-g $(TCL_CFLAGS) -DVERSION=\"$(shell cat ../VERSION)\" $(SQLITEINC)
 LDFLAGS+=-framework CoreFoundation $(TCL_LDFLAGS)
 PLUGIN_CFLAGS=$(CFLAGS) -I.
-PLUGIN_LDFLAGS=$(LDFLAGS) -bundle -bundle_loader darwinxref
+PLUGIN_LDFLAGS=$(LDFLAGS) -bundle -bundle_loader $(OBJROOT)/darwinxref
 
 VERSION=$(shell uname -r | cut -f1 -d. )
 ifeq ($(VERSION), 7)
@@ -48,11 +48,11 @@ all: \
 install: all install_apple_plugins
 	[ -d $(BINDIR) ] || \
 		$(INSTALL) -d $(INSTALL_DIR_FLAGS) $(BINDIR)
-	$(INSTALL) $(INSTALL_EXE_FLAGS) darwinxref $(BINDIR)
+	$(INSTALL) $(INSTALL_EXE_FLAGS) $(OBJROOT)/darwinxref $(BINDIR)
 
 	[ -d $(DATDIR)/plugins ] || \
 		$(INSTALL) -d $(INSTALL_DIR_FLAGS) $(DATDIR)/plugins
-	$(INSTALL) $(INSTALL_DOC_FLAGS) $(PLUGIN_OBJECTS) $(DATDIR)/plugins
+	$(INSTALL) $(INSTALL_DOC_FLAGS) $(wildcard $(OBJROOT)/plugins/*.so) $(wildcard $(OBJROOT)/plugins/*.tcl) $(DATDIR)/plugins
 
 	[ -d $(INCDIR) ] || \
 		$(INSTALL) -d $(INSTALL_DIR_FLAGS) $(INCDIR)
@@ -69,20 +69,22 @@ clean:
 	rm -f upgrade_plist
 
 darwinxref: $(SOURCES)
-	cc -o $@ \
+	cc -o $(OBJROOT)/$@ \
 		$(CFLAGS) \
 		$(LDFLAGS) \
 		$(SOURCES) \
 		$(SQLITELIB)
 
 plugins/register.so: plugins/register.c DBPlugin.h
-	cc -o $@ $(PLUGIN_CFLAGS) $(PLUGIN_LDFLAGS) $(SQLITEINC) $(SQLITELIB) -lcrypto $<
+	@mkdir -p $(OBJROOT)/plugins
+	cc -o $(OBJROOT)/$@ $(PLUGIN_CFLAGS) $(PLUGIN_LDFLAGS) $(SQLITEINC) $(SQLITELIB) -lcrypto $<
 
 plugins/%.so: plugins/%.c DBPlugin.h
-	cc -o $@ $(PLUGIN_CFLAGS) $(PLUGIN_LDFLAGS) $<
+	@mkdir -p $(OBJROOT)/plugins
+	cc -o $(OBJROOT)/$@ $(PLUGIN_CFLAGS) $(PLUGIN_LDFLAGS) $<
 
 plugins-darwinports/%.so: plugins-darwinports/%.c DBPlugin.h
-	cc -o $@ $(PLUGIN_CFLAGS) $(PLUGIN_LDFLAGS) $<
+	cc -o $(OBJROOT)/$@ $(PLUGIN_CFLAGS) $(PLUGIN_LDFLAGS) $<
 
 apple_plugins:
 	@if [ -d plugins-apple ]; then			\
@@ -95,4 +97,4 @@ install_apple_plugins:
 	fi
 
 upgrade_plist: upgrade_plist.c cfutils.c
-	cc -o $@ $(CFLAGS) $(LDFLAGS) $^
+	cc -o $(OBJROOT)/$@ $(CFLAGS) $(LDFLAGS) $^

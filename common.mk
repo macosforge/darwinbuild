@@ -4,6 +4,10 @@
 PREFIX?=/usr/local
 DESTDIR?=$(DSTROOT)
 
+### makefile variables normally set by XBS
+OBJROOT?=.
+SYMROOT?=.
+
 ###
 ###
 BINDIR=$(DESTDIR)$(PREFIX)/bin
