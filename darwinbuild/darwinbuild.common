@@ -128,12 +128,34 @@ function Download() {
 	do
 		if [ ! -f "$destination/$filename" ]; then
 			mkdir -p "$destination"
-			echo "Attempting to download $master_site/$filename ..."
-			curl $CURLARGS --fail \
-				--silent \
-				--continue-at - \
-				--output "$destination/.tmp.${filename}" \
-				--url "$master_site/$filename"
+			if echo "$master_site" | grep -q "^file://" ; then
+				proj=$(echo "$filename" | sed -e 's,.tar.gz$,,' | sed -e 's,.root$,,')
+				projnam=$(echo "$proj" | sed -e 's,-[0-9.]*$,,')
+				srcdir=$(echo "$master_site/$projnam" | sed -e 's,^file://,,')
+				if [ -d "$srcdir/$proj" ]; then
+					echo "Copying $srcdir/$proj ..."
+					tar czf \
+					    "$destination/.tmp.${filename}" \
+					    -C "$srcdir" \
+					    "$proj"
+				elif [ -d "$srcdir" ]; then
+					echo "Copying $srcdir ..."
+					tar czf \
+					    "$destination/.tmp.${filename}" \
+					    -C "$srcdir" \
+					    .
+				else
+					echo "No such directory: $srcdir"
+					break
+				fi
+			else
+				echo "Downloading $master_site/$filename ..."
+				curl $CURLARGS --fail \
+					--silent \
+					--continue-at - \
+					--output "$destination/.tmp.${filename}" \
+					--url "$master_site/$filename"
+			fi
 			if [ "$?" == "0" ]; then
 				mv "$destination/.tmp.${filename}" "$destination/$filename"
 				echo "Download complete"

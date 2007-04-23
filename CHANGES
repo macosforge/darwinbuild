@@ -2,6 +2,8 @@ Darwin Build Scripts Change History
 -----------------------------------
 
 Release x.y.z [Now]
+	- darwinbuild: special case file:/// URLs for downloads
+	- darwintrace: build on Leopard
 	- Added 8G32 plist (Mac OS X 10.4.4 for PowerPC, Darwin 8.4)
 	- darwintrace: build ppc64 library
 	- darwinbuild: add .pbxproj suffix (for xcodebuild)
