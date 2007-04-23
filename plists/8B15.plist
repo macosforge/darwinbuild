@@ -1,7 +1,7 @@
 // !$*UTF8*$!
 {
 	binary_sites = (
-		"http://darwinsource.opendarwin.org/Roots/8B15",
+		"http://src.macosforge.org/Roots/8B15/",
 	);
 	build = 8B15;
 	darwin = "Darwin 8.1";
@@ -20,7 +20,7 @@
 		GraphicsDrivers = {
 			version = 4.2.9;
 			source_sites = (
-				"http://darwinsource.opendarwin.org/tarballs/binary_drivers/8B15/",
+				"http://src.macosforge.org/BinaryDrivers/8B15/",
 			);
 		};
 		Libm = {

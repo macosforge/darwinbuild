@@ -1,7 +1,7 @@
 // !$*UTF8*$!
 {
         binary_sites = (
-                "http://darwinsource.opendarwin.org/Roots/8F46",
+                "http://src.macosforge.org/Roots/8F46/",
         );
 	build = 8F46;
 	darwin = "Darwin 8.3";

@@ -1,7 +1,7 @@
 // !$*UTF8*$!
 {
 	binary_sites = (
-		"http://darwinsource.opendarwin.org/Roots/7W98",
+		"http://src.macosforge.org/Roots/7W98/",
 	);
 	build = 7W98;
 	darwin = "Darwin 7.9";
@@ -8926,7 +8926,6 @@
 		};
 	};
 	source_sites = (
-		"http://darwinsource.opendarwin.org/tarballs/apsl/",
-		"http://darwinsource.opendarwin.org/tarballs/other/",
+		"http://src.macosforge.org/Projects/",
 	);
 }

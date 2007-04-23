@@ -1,7 +1,7 @@
 // !$*UTF8*$!
 {
 	binary_sites = (
-		"http://darwinsource.opendarwin.org/Roots/8C46",
+		"http://src.macosforge.org/Roots/8C46/",
 	);
 	build = 8C46;
 	darwin = "Darwin 8.2";
@@ -11,7 +11,7 @@
 		AppleMacRISC4PE = {
 			version = 162.0.0;
 			source_sites = (
-				"http://darwinsource.opendarwin.org/tarballs/binary_drivers/8C46/",
+				"http://src.macosforge.org/BinaryDrivers/8C46/",
 			);
 		};
 		AppleUSBCDCDriver = {
@@ -35,7 +35,7 @@
 		GraphicsDrivers = {
 			version = 4.6.8;
 			source_sites = (
-				"http://darwinsource.opendarwin.org/tarballs/binary_drivers/8C46/",
+				"http://src.macosforge.org/BinaryDrivers/8C46/",
 			);
 		};
 		JavaScriptCore = {
