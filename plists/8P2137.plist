@@ -1,0 +1,208 @@
+// !$*UTF8*$!
+{
+	build = 8P2137;
+	darwin = "Darwin 8.9";
+	inherits = 8L2127;
+	macosx = "Mac OS X 10.4.9";
+	projects = {
+		Apple16X50Serial = {
+			version = 19.2;
+		};
+		AppleHWSensor = {
+			version = 155.0.2;
+		};
+		AppleIntelPIIXATA = {
+			version = 30;
+		};
+		AppleKeyswitch = {
+			version = 104.0.1;
+		};
+		AppleSMBIOS = {
+			version = 25;
+		};
+		AppleThermal = {
+			version = 101.3.1;
+		};
+		AppleUSBAudio = {
+			version = 210.2.1;
+		};
+		CF = {
+			version = 368.28;
+		};
+		CFNetwork = {
+			version = 129.20;
+		};
+		DirectoryService = {
+			target = DirectoryServiceFW;
+			version = 353.6;
+		};
+		FirewallTool = {
+			version = 18;
+		};
+		ICU = {
+			version = 6.2.14;
+		};
+		IOAudioFamily = {
+			version = 160.2.6;
+		};
+		IOFireWireFamily = {
+			version = 255.4.0;
+		};
+		IOFireWireIP = {
+			version = 154.4.0;
+		};
+		IOFireWireSBP2 = {
+			version = 188.4.0;
+		};
+		IOGraphics = {
+			version = 193.2;
+		};
+		IOHIDFamily = {
+			version = 185.19;
+		};
+		IOPCIFamily = {
+			version = 79.5;
+		};
+		IOSCSIParallelFamily = {
+			version = 144.0.4;
+		};
+		IOUSBFamily = {
+			version = 270.4.1;
+		};
+		IOUSBMassStorageClass = {
+			version = 147.0.7;
+		};
+		Libc = {
+			version = 391.5.21;
+		};
+		Libinfo = {
+			version = 222.4.11;
+		};
+		Libm = {
+			target = libm;
+			version = 236.1;
+		};
+		Libsystem = {
+			version = 88.3.6;
+		};
+		MySQL = {
+			version = 38;
+		};
+		OpenSSH = {
+			version = 74;
+		};
+		OpenSSL = {
+			version = 38;
+		};
+		PowerManagement = {
+			version = 111.7;
+		};
+		Security = {
+			version = 29774;
+		};
+		SecurityTool = {
+			version = 30489;
+		};
+		SmartCardServices = {
+			version = 30487;
+		};
+		SpamAssassin = {
+			version = 124.6;
+		};
+		Tokend = {
+			version = 30557;
+		};
+		X11 = {
+			version = 0.46.4;
+		};
+		apache_mod_php = {
+			version = 18.8;
+		};
+		bash = {
+			version = 44.5;
+		};
+		blojsom = {
+			version = 67;
+		};
+		cups = {
+			target = installfat;
+			version = 97.3;
+		};
+		diskdev_cmds = {
+			version = 332.22;
+		};
+		dyld = {
+			target = dyld;
+			version = 46.12;
+		};
+		eap8021x = {
+			version = 33.6;
+		};
+		gnutar = {
+			version = 433.2;
+		};
+		gnuzip = {
+			version = 22.1;
+		};
+		libsecurity_apple_csp = {
+			version = 29774;
+		};
+		libsecurity_apple_x509_tp = {
+			version = 30431;
+		};
+		libsecurity_cssm = {
+			version = 30431;
+		};
+		libsecurity_keychain = {
+			version = 30542;
+		};
+		libsecurity_utilities = {
+			version = 30557;
+		};
+		mDNSResponder = {
+			version = 108.4;
+		};
+		modemccl = {
+			version = 7.1;
+		};
+		msdosfs = {
+			version = 89.14;
+		};
+		network_cmds = {
+			version = 245.16;
+		};
+		ntfs = {
+			version = 36.4;
+		};
+		perl = {
+			version = 38.1.1;
+		};
+		ppp = {
+			version = 233.15;
+		};
+		rsync = {
+			version = 24.1;
+		};
+		samba = {
+			version = 100.7;
+		};
+		security_certificates = {
+			version = 30663;
+		};
+		security_ocspd = {
+			version = 29774;
+		};
+		securityd = {
+			version = 30557;
+		};
+		sudo = {
+			version = 23;
+		};
+		system_cmds = {
+			version = 336.20;
+		};
+		xnu = {
+			version = 792.18.15;
+		};
+	};
+}

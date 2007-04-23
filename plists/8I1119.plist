@@ -1,0 +1,126 @@
+// !$*UTF8*$!
+{
+	build = 8I1119;
+	darwin = "Darwin 8.6";
+	inherits = 8G1454;
+	macosx = "Mac OS X 10.4.6";
+	projects = {
+		AppleDisplays = {
+			version = 150.1.2;
+		};
+		AppleRAID = {
+			version = 2.3.3;
+		};
+		AppleUSBAudio = {
+			version = 204.2.2;
+		};
+		CFNetwork = {
+			version = 129.13;
+		};
+		CyrusIMAP = {
+			version = 156.10;
+		};
+		DSNISPlugin = {
+			version = 17.7;
+		};
+		DSPasswordServerPlugin = {
+			version = 114.3;
+		};
+		DirectoryService = {
+			target = DirectoryServiceFW;
+			version = 353.3;
+		};
+		DynamicPowerStep = {
+			version = 1.5.0;
+		};
+		ICU = {
+			version = 6.2.10;
+		};
+		IOAudioFamily = {
+			version = 158.2.2;
+		};
+		IOFireWireFamily = {
+			version = 217.4.0;
+		};
+		IOHIDFamily = {
+			version = 185.8;
+		};
+		IOI2CFamily = {
+			version = 110;
+		};
+		IOKitUser = {
+			version = 297;
+		};
+		IOPCIFamily = {
+			version = 60;
+		};
+		IOUSBFamily = {
+			version = 246.4.0;
+		};
+		JavaScriptCore = {
+			version = 417.11;
+		};
+		Kerberos = {
+			version = 65.10;
+		};
+		Libc = {
+			version = 391.4.2;
+		};
+		Libm = {
+			target = libm;
+			version = 213;
+		};
+		SmartCardServices = {
+			version = 26777;
+		};
+		WebCore = {
+			version = 417.24;
+		};
+		apache_mod_php = {
+			version = 18.4;
+		};
+		automount = {
+			version = 133.3;
+		};
+		bless = {
+			version = 37.1.4;
+		};
+		cups = {
+			target = installfat;
+			version = 97.1;
+		};
+		launchd = {
+			version = 106.13;
+		};
+		netinfo = {
+			version = 369.5;
+		};
+		network_cmds = {
+			version = 245.12;
+		};
+		ppp = {
+			version = 233.10;
+		};
+		rsync = {
+			version = 24;
+		};
+		samba = {
+			version = 92.19;
+		};
+		securityd = {
+			version = 26674;
+		};
+		smb = {
+			version = 217.18;
+		};
+		system_cmds = {
+			version = 336.13;
+		};
+		webdavfs = {
+			version = 221.2;
+		};
+		xnu = {
+			version = 792.9.22;
+		};
+	};
+}

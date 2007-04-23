@@ -1,0 +1,156 @@
+// !$*UTF8*$!
+{
+	build = 8P135;
+	darwin = "Darwin 8.9";
+	inherits = 8L127;
+	macosx = "Mac OS X 10.4.9";
+	projects = {
+		AppleThermal = {
+			version = 101.3.1;
+		};
+		CF = {
+			version = 368.28;
+		};
+		CFNetwork = {
+			version = 129.20;
+		};
+		DirectoryService = {
+			target = DirectoryServiceFW;
+			version = 353.6;
+		};
+		FirewallTool = {
+			version = 18;
+		};
+		ICU = {
+			version = 6.2.13;
+		};
+		IOHIDFamily = {
+			version = 185.19;
+		};
+		IOUSBFamily = {
+			version = 259.4.1;
+		};
+		Libc = {
+			version = 391.2.9;
+		};
+		Libinfo = {
+			version = 222.3.5;
+		};
+		Libsystem = {
+			version = 88.1.8;
+		};
+		MySQL = {
+			version = 34.3;
+		};
+		OpenSSH = {
+			version = 74;
+		};
+		OpenSSL = {
+			version = 38;
+		};
+		Security = {
+			version = 29770;
+		};
+		SpamAssassin = {
+			version = 124.6;
+		};
+		Tokend = {
+			version = 30544;
+		};
+		X11 = {
+			version = 0.46.4;
+		};
+		apache_mod_php = {
+			version = 18.8;
+		};
+		bash = {
+			version = 44.5;
+		};
+		bind9 = {
+			version = 13.0.1;
+		};
+		blojsom = {
+			version = 67;
+		};
+		cups = {
+			target = installfat;
+			version = 97.3;
+		};
+		diskdev_cmds = {
+			version = 332.11.9;
+		};
+		dyld = {
+			target = dyld;
+			version = 46.12;
+		};
+		eap8021x = {
+			version = 33.6;
+		};
+		gnutar = {
+			version = 433.2;
+		};
+		gnuzip = {
+			version = 22.1;
+		};
+		libsecurity_agent = {
+			version = 28479;
+		};
+		libsecurity_apple_csp = {
+			version = 29770;
+		};
+		libsecurity_apple_x509_tp = {
+			version = 30430;
+		};
+		libsecurity_cssm = {
+			version = 30430;
+		};
+		libsecurity_utilities = {
+			version = 30544;
+		};
+		mDNSResponder = {
+			version = 108.4;
+		};
+		modemccl = {
+			version = 7.1;
+		};
+		msdosfs = {
+			version = 89.14;
+		};
+		network_cmds = {
+			version = 245.16;
+		};
+		ntfs = {
+			version = 36.4;
+		};
+		perl = {
+			version = 35.1.1;
+		};
+		ppp = {
+			version = 233.0.6;
+		};
+		rsync = {
+			version = 24.1;
+		};
+		samba = {
+			version = 100.7;
+		};
+		security_certificates = {
+			version = 30663;
+		};
+		security_ocspd = {
+			version = 29770;
+		};
+		securityd = {
+			version = 30544;
+		};
+		sudo = {
+			version = 23;
+		};
+		system_cmds = {
+			version = 336.1.8;
+		};
+		xnu = {
+			version = 792.17.14;
+		};
+	};
+}
