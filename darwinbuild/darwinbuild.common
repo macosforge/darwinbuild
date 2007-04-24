@@ -172,7 +172,7 @@ function Download() {
 ### Installs a root into the BuildRoot. Mediates between
 ### receipts, pre-built roots, and self-built roots, so that
 ### the build root is "up to date"
-### Relies on the DARWIN_BUILDROOT and CACHEDIR and DARWINXREF
+### Relies on the DARWIN_BUILDROOT and DARWINXREF
 ### and dbfile globals.
 ###
 function InstallRoot() {
@@ -183,6 +183,8 @@ function InstallRoot() {
 	local SelfBuiltRoot=""
 	local InstallSelfBuiltRoot=0
 	local InstallPreBuiltRoot=0
+
+	local CACHEDIR="$DARWIN_BUILDROOT/Roots/.DownloadCache"
 
 	###
 	### There will be duplication between the bash dependencies and the
@@ -225,20 +227,20 @@ function InstallRoot() {
 	    # install a pre-built root, in inheritance order
 		while [ "$dbuild" != "" ]; do
 	    	sites=$($DARWINXREF $dbfile -b $dbuild binary_sites "$X")
-			Download "$CACHEDIR/Roots/$dbuild" \
+			Download "$CACHEDIR" \
 				"$Project.root.tar.gz" \
 					"$sites"
-			if [ -f $CACHEDIR/Roots/$dbuild/$Project.root.tar.gz ]; then
+			if [ -f "$CACHEDIR/$Project.root.tar.gz" ]; then
 				cd "$BuildRoot"
-				tar xzf $CACHEDIR/Roots/$dbuild/$Project.root.tar.gz
+				tar xzf "$CACHEDIR/$Project.root.tar.gz"
 				if [ $? -eq 0 ]; then
-					tar tzf $CACHEDIR/Roots/$dbuild/$Project.root.tar.gz | \
+					tar tzf "$CACHEDIR/$Project.root.tar.gz" | \
 						"$DARWINXREF" register -stdin "$Project" "$BuildRoot" \
 						> /dev/null
 					CheckForReceipt "$BuildRoot" "$Project" "root"
 					if [ $? -ne 0 ]; then
 					    echo -n | CreateReceipt "$BuildRoot" "$Project" "root" \
-						"$CACHEDIR/Roots/$dbuild/$Project.root.tar.gz"
+						"$CACHEDIR/$Project.root.tar.gz"
 					fi
 					return 0
 				fi
@@ -261,7 +263,7 @@ function InstallRoot() {
 ### Installs a header root into the BuildRoot. Mediates between
 ### receipts, pre-built roots, and self-built roots, so that
 ### the build root is "up to date"
-### Relies on the DARWIN_BUILDROOT and CACHEDIR and DARWINXREF
+### Relies on the DARWIN_BUILDROOT and DARWINXREF
 ### and dbfile globals.
 ###
 function InstallHeader() {
@@ -274,6 +276,8 @@ function InstallHeader() {
 	local InstallSelfBuiltRoot=0
 	local InstallSelfBuiltHeader=0
 	local InstallPreBuiltRoot=0
+
+	local CACHEDIR="$DARWIN_BUILDROOT/Roots/.DownloadCache"
 
 	###
 	### There will be duplication between the bash dependencies and the
@@ -351,40 +355,40 @@ function InstallHeader() {
 	    # install a pre-built root, in inheritance order
 		while [ "$dbuild" != "" ]; do
 	    	sites=$($DARWINXREF $dbfile -b $dbuild binary_sites "$X")
-			Download "$CACHEDIR/Roots/$dbuild" \
+			Download "$CACHEDIR" \
 				"$Project.hdrs.tar.gz" \
 					"$sites"
-			if [ -f $CACHEDIR/Roots/$dbuild/$Project.hdrs.tar.gz ]; then
+			if [ -f "$CACHEDIR/$Project.hdrs.tar.gz" ]; then
 				cd "$BuildRoot"
-				tar xzf $CACHEDIR/Roots/$dbuild/$Project.hdrs.tar.gz
+				tar xzf "$CACHEDIR/$Project.hdrs.tar.gz"
 				if [ $? -eq 0 ]; then
-					tar tzf $CACHEDIR/Roots/$dbuild/$Project.hdrs.tar.gz | \
+					tar tzf "$CACHEDIR/$Project.hdrs.tar.gz" | \
 						"$DARWINXREF" register -stdin "$Project" "$BuildRoot" \
 						> /dev/null
 					CheckForReceipt "$BuildRoot" "$Project" "hdrs"
 					if [ $? -ne 0 ]; then
 					    echo -n | CreateReceipt "$BuildRoot" "$Project" "hdrs" \
-						"$CACHEDIR/Roots/$dbuild/$Project.hdrs.tar.gz"
+						"$CACHEDIR/$Project.hdrs.tar.gz"
 					fi
 					return 0
 				fi
 			else
 				# if we couldnt' download a header root for a given build,
 				# try the full root
-				Download "$CACHEDIR/Roots/$dbuild" \
+				Download "$CACHEDIR" \
 					"$Project.root.tar.gz" \
 						"$sites"
-				if [ -f $CACHEDIR/Roots/$dbuild/$Project.root.tar.gz ]; then
+				if [ -f "$CACHEDIR/$Project.root.tar.gz" ]; then
 					cd "$BuildRoot"
-					tar xzf $CACHEDIR/Roots/$dbuild/$Project.root.tar.gz
+					tar xzf "$CACHEDIR/$Project.root.tar.gz"
 					if [ $? -eq 0 ]; then
-						tar tzf $CACHEDIR/Roots/$dbuild/$Project.root.tar.gz | \
+						tar tzf "$CACHEDIR/$Project.root.tar.gz" | \
 							"$DARWINXREF" register -stdin "$Project" "$BuildRoot" \
 							> /dev/null
 						CheckForReceipt "$BuildRoot" "$Project" "root"
 						if [ $? -ne 0 ]; then
 						    echo -n | CreateReceipt "$BuildRoot" "$Project" "root" \
-							"$CACHEDIR/Roots/$dbuild/$Project.root.tar.gz"
+							"$CACHEDIR/$Project.root.tar.gz"
 						fi
 						return 0
 					fi
