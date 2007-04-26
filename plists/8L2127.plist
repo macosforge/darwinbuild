@@ -1,5 +1,8 @@
 // !$*UTF8*$!
 {
+	binary_sites = (
+		"http://src.macosforge.org/Roots/8L2127/",
+	);
 	build = 8L2127;
 	darwin = "Darwin 8.8";
 	environment = {
@@ -530,6 +533,31 @@
 			};
 		};
 		Libm = {
+			dependencies = {
+				build = (
+					bash,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnumake,
+					ld64,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					Libc_headers,
+					Libm,
+					architecture,
+					gcc,
+					xnu,
+				);
+				staticlib = (
+					Csu,
+					gcc,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -1955,13 +1983,10 @@
 		keymgr = {
 			dependencies = {
 				build = (
-					adv_cmds,
-					awk,
 					bash,
 					cctools,
 					file_cmds,
 					gcc,
-					gcc_os,
 					gcc_select,
 					system_cmds,
 				);
