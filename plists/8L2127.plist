@@ -921,6 +921,68 @@
 			};
 			version = 246.3;
 		};
+		at_cmds = {
+			dependencies = {
+				build = (
+					AppleTalk,
+					Libm,
+					Libsystem,
+					bash,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnumake,
+					gnutar,
+					pb_makefiles,
+					project_makefiles,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					AppleTalk,
+					CarbonHeaders,
+					Libc_headers,
+					architecture,
+					gcc,
+					ncurses,
+					xnu,
+				);
+				lib = (
+					AppleTalk,
+					Libsystem,
+					dyld,
+					gcc,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
+		};
+		autoconf = {
+			dependencies = {
+				build = (
+					CoreOSMakefiles,
+					bash,
+					bootstrap_cmds,
+					cctools,
+					emacs,
+					file_cmds,
+					gm4,
+					gnudiff,
+					gnumake,
+					grep,
+					perl,
+					shell_cmds,
+					system_cmds,
+					texinfo,
+					text_cmds,
+				);
+			};
+		};
 		automake = {
 			dependencies = {
 				build = (
@@ -1100,7 +1162,6 @@
 					xnu,
 				);
 				lib = (
-					Libmx,
 					Libsystem,
 					dyld,
 					gcc,
@@ -1109,12 +1170,56 @@
 				);
 				staticlib = (
 					Csu,
+					SystemStubs,
 					flex,
 					gcc,
 				);
 			};
 		};
 		bind9 = {
+			dependencies = {
+				build = (
+					CoreOSMakefiles,
+					Libm,
+					Libsystem,
+					OpenSSL,
+					bash,
+					bootstrap_cmds,
+					cctools,
+					emacs,
+					file_cmds,
+					files,
+					gcc,
+					gcc_select,
+					gnudiff,
+					gnumake,
+					grep,
+					perl,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					Libc_headers,
+					Libinfo,
+					Libnotify,
+					OpenSSL,
+					architecture,
+					gcc,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					OpenSSL,
+					dyld,
+					gcc,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
 			version = 13.0.1;
 		};
 		bison = {
@@ -1122,7 +1227,6 @@
 				build = (
 					CoreOSMakefiles,
 					Libm,
-					Libmx,
 					Libsystem,
 					autoconf,
 					automake,
@@ -1148,13 +1252,13 @@
 					xnu,
 				);
 				lib = (
-					Libmx,
 					Libsystem,
 					dyld,
 					gcc,
 				);
 				staticlib = (
 					Csu,
+					SystemStubs,
 					gcc,
 				);
 			};
@@ -1200,6 +1304,63 @@
 			};
 		};
 		bootp = {
+			dependencies = {
+				build = (
+					CF,
+					ICU,
+					IOKitUser,
+					Libm,
+					Libmx,
+					Libsystem,
+					bash,
+					bootstrap_cmds,
+					cctools,
+					configd,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnumake,
+					gnutar,
+					libstdcxx,
+					objc4,
+					pb_makefiles,
+					project_makefiles,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+					xnu,
+					zlib,
+				);
+				header = (
+					CF,
+					CarbonHeaders,
+					IOKitUser,
+					Libc_headers,
+					Libinfo,
+					Libm,
+					architecture,
+					configd,
+					gcc,
+					netinfo,
+					objc4,
+					xnu,
+				);
+				lib = (
+					CF,
+					IOKitUser,
+					Libsystem,
+					bootp,
+					configd,
+					dyld,
+					gcc,
+					objc4,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
 			version = 133.8;
 		};
 		bootstrap_cmds = {
@@ -1278,6 +1439,16 @@
 				staticlib = (
 					Csu,
 					gcc,
+				);
+			};
+		};
+		bsdmanpages = {
+			dependencies = {
+				build = (
+					bash,
+					file_cmds,
+					gnumake,
+					system_cmds,
 				);
 			};
 		};
@@ -1424,6 +1595,283 @@
 				RC_FORCEHDRS = YES;
 			};
 		};
+		configd = {
+			dependencies = {
+				build = (
+					CF,
+					ICU,
+					Libm,
+					Libmx,
+					Libsystem,
+					OrderFiles,
+					bash,
+					bootstrap_cmds,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnutar,
+					libstdcxx,
+					objc4,
+					ppp,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+					xnu,
+				);
+				header = (
+					CF,
+					CarbonHeaders,
+					IOKitUser,
+					IONetworkingFamily,
+					IOSCSIArchitectureModelFamily,
+					IOSerialFamily,
+					Libc_headers,
+					Libinfo,
+					Libm,
+					Libnotify,
+					Security,
+					architecture,
+					cctools_ofiles,
+					gcc,
+					libdyld,
+					netinfo,
+					ppp,
+					xnu,
+				);
+				lib = (
+					CF,
+					Libsystem,
+					gcc,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
+		};
+		configd_executables = {
+			dependencies = {
+				build = (
+					CF,
+					ICU,
+					IOKitUser,
+					Libm,
+					Libmx,
+					Libsystem,
+					bash,
+					bootstrap_cmds,
+					cctools,
+					configd,
+					file_cmds,
+					gcc,
+					gcc_select,
+					libedit,
+					libstdcxx,
+					ncurses,
+					objc4,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+					xnu,
+					zlib,
+				);
+				header = (
+					CF,
+					CarbonHeaders,
+					Libc_headers,
+					Libinfo,
+					Libm,
+					Libnotify,
+					Security,
+					architecture,
+					cctools_ofiles,
+					gcc,
+					libdyld,
+					libedit,
+					objc4,
+					xnu,
+				);
+				lib = (
+					CF,
+					IOKitUser,
+					Libsystem,
+					configd,
+					dyld,
+					gcc,
+					libedit,
+					objc4,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					configd,
+					configd_plugins,
+					gcc,
+				);
+			};
+		};
+		configd_plugins = {
+			dependencies = {
+				build = (
+					AppleTalk,
+					CF,
+					ICU,
+					Libm,
+					Libmx,
+					Libsystem,
+					bash,
+					cctools,
+					configd,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnutar,
+					libstdcxx,
+					objc4,
+					system_cmds,
+				);
+				header = (
+					AppleTalk,
+					CF,
+					CarbonHeaders,
+					IOKitUser,
+					IONetworkingFamily,
+					Libc_headers,
+					Libinfo,
+					Libm,
+					Libnotify,
+					architecture,
+					gcc,
+					netinfo,
+					xnu,
+				);
+				lib = (
+					AppleTalk,
+					CF,
+					Libsystem,
+					configd,
+					gcc,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
+		};
+		cron = {
+			dependencies = {
+				build = (
+					CF,
+					CoreOSMakefiles,
+					ICU,
+					IOKitUser,
+					Libm,
+					Libmx,
+					Libsystem,
+					bash,
+					bootstrap_cmds,
+					bsdmake,
+					cctools,
+					configd,
+					developer_cmds,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnumake,
+					gnuzip,
+					libstdcxx,
+					misc_cmds,
+					objc4,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+					zlib,
+				);
+				header = (
+					CF,
+					CarbonHeaders,
+					IOKitUser,
+					Libc_headers,
+					Libm,
+					architecture,
+					gcc,
+					xnu,
+				);
+				lib = (
+					CF,
+					IOKitUser,
+					Libsystem,
+					dyld,
+					gcc,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
+		};
+		crontabs = {
+			dependencies = {
+				build = (
+					CoreOSMakefiles,
+					bash,
+					bootstrap_cmds,
+					file_cmds,
+					gnumake,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+			};
+		};
+		cscope = {
+			dependencies = {
+				build = (
+					CoreOSMakefiles,
+					Libm,
+					Libmx,
+					Libsystem,
+					bash,
+					bison,
+					bootstrap_cmds,
+					cctools,
+					file_cmds,
+					flex,
+					gcc,
+					gcc_select,
+					gnudiff,
+					gnumake,
+					grep,
+					ncurses,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					Libc_headers,
+					architecture,
+					gcc,
+					ncurses,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					dyld,
+					gcc,
+					ncurses,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					flex,
+					gcc,
+				);
+			};
+		};
 		curl = {
 			dependencies = {
 				build = (
@@ -1473,6 +1921,99 @@
 				);
 			};
 		};
+		cvs = {
+			dependencies = {
+				build = (
+					CF,
+					CoreOSMakefiles,
+					ICU,
+					Kerberos,
+					Libm,
+					Libmx,
+					Libsystem,
+					Security,
+					bash,
+					bootstrap_cmds,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnudiff,
+					gnumake,
+					grep,
+					libstdcxx,
+					netinfo,
+					objc4,
+					shell_cmds,
+					system_cmds,
+					texinfo,
+					text_cmds,
+				);
+				header = (
+					CarbonHeaders,
+					Kerberos,
+					Libc_headers,
+					Libinfo,
+					architecture,
+					gcc,
+					xnu,
+				);
+				lib = (
+					Kerberos,
+					Libsystem,
+					dyld,
+					gcc,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
+		};
+		cxxfilt = {
+			dependencies = {
+				build = (
+					CoreOSMakefiles,
+					Libm,
+					Libsystem,
+					autoconf,
+					bash,
+					bootstrap_cmds,
+					cctools,
+					file_cmds,
+					flex,
+					gcc,
+					gcc_select,
+					gnudiff,
+					gnumake,
+					grep,
+					perl,
+					shell_cmds,
+					system_cmds,
+					texinfo,
+					text_cmds,
+				);
+				header = (
+					Libc_headers,
+					Libm,
+					architecture,
+					gcc,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					dyld,
+					gcc,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					flex,
+					gcc,
+				);
+			};
+		};
 		developer_cmds = {
 			dependencies = {
 				build = (
@@ -1514,11 +2055,131 @@
 				);
 			};
 		};
+		diffstat = {
+			dependencies = {
+				build = (
+					CoreOSMakefiles,
+					Libm,
+					Libsystem,
+					bash,
+					bootstrap_cmds,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnudiff,
+					gnumake,
+					grep,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					Libc_headers,
+					architecture,
+					gcc,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					dyld,
+					gcc,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
+		};
 		diskdev_cmds = {
 			version = 332.18;
 		};
+		disklabel = {
+			dependencies = {
+				build = (
+					CF,
+					ICU,
+					Libm,
+					Libmx,
+					Libsystem,
+					bash,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					libstdcxx,
+					objc4,
+					system_cmds,
+					zlib,
+				);
+				header = (
+					CF,
+					CarbonHeaders,
+					IOStorageFamily,
+					Libc_headers,
+					Libm,
+					architecture,
+					gcc,
+					xnu,
+					zlib,
+				);
+				lib = (
+					CF,
+					Libsystem,
+					dyld,
+					gcc,
+					zlib,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
+		};
 		distcc = {
 			version = 42;
+		};
+		doc_cmds = {
+			dependencies = {
+				build = (
+					CoreOSMakefiles,
+					Libm,
+					Libsystem,
+					bash,
+					bootstrap_cmds,
+					bsdmake,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnumake,
+					gnuzip,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+					zlib,
+				);
+				header = (
+					Libc_headers,
+					architecture,
+					gcc,
+					xnu,
+					zlib,
+				);
+				lib = (
+					Libsystem,
+					dyld,
+					gcc,
+					zlib,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
 		};
 		dyld = {
 			dependencies = {
@@ -1779,6 +2440,22 @@
 			};
 			version = 5363;
 		};
+		gcc_binary_shlibs = {
+			dependencies = {
+				build = (
+					bash,
+					gcc_select,
+					gnutar,
+					gnuzip,
+					system_cmds,
+				);
+				lib = (
+					Libmx,
+					Libsystem,
+					gcc,
+				);
+			};
+		};
 		gcc_select = {
 			dependencies = {
 				build = (
@@ -1993,6 +2670,43 @@
 				);
 			};
 		};
+		gnuserv = {
+			dependencies = {
+				build = (
+					Libm,
+					Libsystem,
+					bash,
+					cctools,
+					emacs,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnudiff,
+					gnumake,
+					grep,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					Libc_headers,
+					Libinfo,
+					architecture,
+					gcc,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					dyld,
+					gcc,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
+		};
 		gnutar = {
 			dependencies = {
 				build = (
@@ -2042,6 +2756,77 @@
 		gnuzip = {
 			version = 22;
 		};
+		gperf = {
+			dependencies = {
+				build = (
+					CoreOSMakefiles,
+					Libm,
+					Libsystem,
+					bash,
+					bootstrap_cmds,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnudiff,
+					gnumake,
+					grep,
+					libstdcxx,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					Libc_headers,
+					Libm,
+					architecture,
+					gcc,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					dyld,
+					gcc,
+					libstdcxx,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
+		};
+		gpt = {
+			dependencies = {
+				build = (
+					Libm,
+					Libsystem,
+					bash,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					system_cmds,
+				);
+				header = (
+					IOStorageFamily,
+					Libc_headers,
+					architecture,
+					gcc,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					dyld,
+					gcc,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
+		};
 		grep = {
 			dependencies = {
 				build = (
@@ -2085,8 +2870,224 @@
 				);
 			};
 		};
+		groff = {
+			dependencies = {
+				build = (
+					CoreOSMakefiles,
+					Libm,
+					Libsystem,
+					awk,
+					bash,
+					bootstrap_cmds,
+					cctools,
+					file_cmds,
+					files,
+					gcc,
+					gcc_select,
+					gnudiff,
+					gnumake,
+					grep,
+					groff,
+					libstdcxx,
+					shell_cmds,
+					system_cmds,
+					tcsh,
+					texinfo,
+					text_cmds,
+				);
+				header = (
+					Libc_headers,
+					Libm,
+					architecture,
+					gcc,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					dyld,
+					gcc,
+					libstdcxx,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
+		};
 		hfs = {
+			dependencies = {
+				build = (
+					CF,
+					ICU,
+					Libm,
+					Libmx,
+					Libsystem,
+					OpenSSL,
+					bash,
+					bootstrap_cmds,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnumake,
+					gnutar,
+					libstdcxx,
+					objc4,
+					pb_makefiles,
+					project_makefiles,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					CF,
+					CarbonHeaders,
+					Libc_headers,
+					OpenSSL,
+					architecture,
+					gcc,
+					xnu,
+				);
+				lib = (
+					CF,
+					Libsystem,
+					OpenSSL,
+					dyld,
+					gcc,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
 			version = 157.1;
+		};
+		ipv6configuration = {
+			dependencies = {
+				build = (
+					CF,
+					ICU,
+					Libm,
+					Libmx,
+					Libsystem,
+					bash,
+					cctools,
+					configd,
+					file_cmds,
+					gcc,
+					gcc_select,
+					libstdcxx,
+					objc4,
+					system_cmds,
+				);
+				header = (
+					CF,
+					CarbonHeaders,
+					Libc_headers,
+					Libinfo,
+					Libm,
+					architecture,
+					configd,
+					gcc,
+					xnu,
+				);
+				lib = (
+					CF,
+					Libsystem,
+					configd,
+					gcc,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
+		};
+		isoutil = {
+			dependencies = {
+				build = (
+					CF,
+					ICU,
+					IOKitUser,
+					Libm,
+					Libmx,
+					Libsystem,
+					bash,
+					cctools,
+					configd,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnumake,
+					gnutar,
+					libstdcxx,
+					objc4,
+					pb_makefiles,
+					project_makefiles,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+					zlib,
+				);
+				header = (
+					CF,
+					CarbonHeaders,
+					IOKitUser,
+					Libc_headers,
+					Libinfo,
+					architecture,
+					gcc,
+					xnu,
+				);
+				lib = (
+					CF,
+					IOKitUser,
+					Libsystem,
+					dyld,
+					gcc,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
+		};
+		jam = {
+			dependencies = {
+				build = (
+					Libm,
+					Libsystem,
+					bash,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+					yacc,
+				);
+				header = (
+					Libc_headers,
+					architecture,
+					gcc,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					dyld,
+					gcc,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
 		};
 		kext_tools = {
 			version = 65.76;
@@ -2115,6 +3116,53 @@
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
 			version = 16;
+		};
+		ksh = {
+			dependencies = {
+				build = (
+					CoreOSMakefiles,
+					Libm,
+					Libsystem,
+					bash,
+					bootstrap_cmds,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnudiff,
+					gnumake,
+					grep,
+					libiconv,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					CarbonHeaders,
+					Libc_headers,
+					Libinfo,
+					Libm,
+					architecture,
+					cctools_ofiles,
+					gcc,
+					libdyld,
+					libiconv,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					dyld,
+					gcc,
+					libiconv,
+				);
+				staticlib = (
+					AppleRAID,
+					Csu,
+					SystemStubs,
+					flex,
+					gcc,
+				);
+			};
 		};
 		launchd = {
 			version = 106.20;
@@ -2220,6 +3268,65 @@
 				);
 				staticlib = (
 					Csu,
+					gcc,
+				);
+			};
+		};
+		libfs = {
+			dependencies = {
+				build = (
+					bash,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					system_cmds,
+				);
+				header = (
+					CF,
+					CarbonHeaders,
+					Libc_headers,
+					architecture,
+					gcc,
+					xnu,
+				);
+			};
+		};
+		libpcap = {
+			dependencies = {
+				build = (
+					CoreOSMakefiles,
+					Libm,
+					Libsystem,
+					bash,
+					bison,
+					bootstrap_cmds,
+					cctools,
+					file_cmds,
+					flex,
+					gcc,
+					gcc_select,
+					gnudiff,
+					gnumake,
+					grep,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					Libc_headers,
+					Libinfo,
+					architecture,
+					gcc,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					gcc,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
 					gcc,
 				);
 			};
@@ -2389,8 +3496,218 @@
 				);
 			};
 		};
+		lukemftp = {
+			dependencies = {
+				build = (
+					Libm,
+					Libmx,
+					Libsystem,
+					bash,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnudiff,
+					gnumake,
+					grep,
+					libedit,
+					ncurses,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					Libc_headers,
+					Libinfo,
+					architecture,
+					gcc,
+					libedit,
+					ncurses,
+					netinfo,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					dyld,
+					gcc,
+					libedit,
+					ncurses,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
+		};
+		lukemftpd = {
+			dependencies = {
+				build = (
+					Libm,
+					Libmx,
+					Libsystem,
+					bash,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnudiff,
+					gnumake,
+					grep,
+					pam,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+					yacc,
+				);
+				header = (
+					Libc_headers,
+					Libinfo,
+					architecture,
+					gcc,
+					netinfo,
+					pam,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					dyld,
+					gcc,
+					pam,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
+		};
 		mDNSResponder = {
 			version = 108.2;
+		};
+		mail_cmds = {
+			dependencies = {
+				build = (
+					CoreOSMakefiles,
+					Libm,
+					Libmx,
+					Libsystem,
+					bash,
+					bootstrap_cmds,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnumake,
+					gnutar,
+					ncurses,
+					pb_makefiles,
+					project_makefiles,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					Libc_headers,
+					Libinfo,
+					architecture,
+					gcc,
+					ncurses,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					dyld,
+					gcc,
+					ncurses,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
+		};
+		man = {
+			dependencies = {
+				build = (
+					CoreOSMakefiles,
+					Libm,
+					Libsystem,
+					awk,
+					bash,
+					bootstrap_cmds,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnumake,
+					grep,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					Libc_headers,
+					architecture,
+					gcc,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					dyld,
+					gcc,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
+		};
+		memberd = {
+			dependencies = {
+				build = (
+					CF,
+					DirectoryService,
+					ICU,
+					Libm,
+					Libmx,
+					Libsystem,
+					Security,
+					bash,
+					bootstrap_cmds,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					libstdcxx,
+					objc4,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+					xnu,
+				);
+				header = (
+					CarbonHeaders,
+					DirectoryService,
+					Libc_headers,
+					architecture,
+					gcc,
+					xnu,
+				);
+				lib = (
+					DirectoryService,
+					Libsystem,
+					dyld,
+					gcc,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
 		};
 		misc_cmds = {
 			dependencies = {
@@ -2431,7 +3748,92 @@
 			};
 		};
 		msdosfs = {
+			dependencies = {
+				build = (
+					CF,
+					ICU,
+					Libm,
+					Libmx,
+					Libsystem,
+					bash,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					libstdcxx,
+					objc4,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					CF,
+					CarbonHeaders,
+					Libc_headers,
+					architecture,
+					gcc,
+					xnu,
+				);
+				lib = (
+					CF,
+					Libsystem,
+					dyld,
+					gcc,
+				);
+				staticlib = (
+					Csu,
+					Libcpp_kext,
+					SystemStubs,
+					diskdev_cmds,
+					gcc,
+					xnu,
+				);
+			};
 			version = 89.13;
+		};
+		nano = {
+			dependencies = {
+				build = (
+					CoreOSMakefiles,
+					Libm,
+					Libmx,
+					Libsystem,
+					bash,
+					bootstrap_cmds,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnudiff,
+					gnumake,
+					grep,
+					libiconv,
+					ncurses,
+					shell_cmds,
+					system_cmds,
+					texinfo,
+					text_cmds,
+				);
+				header = (
+					Libc_headers,
+					architecture,
+					gcc,
+					libiconv,
+					ncurses,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					dyld,
+					gcc,
+					ncurses,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
 		};
 		nasm = {
 			dependencies = {
@@ -2710,6 +4112,95 @@
 			};
 			version = 245.15;
 		};
+		ntfs = {
+			dependencies = {
+				build = (
+					CF,
+					ICU,
+					Libm,
+					Libmx,
+					Libsystem,
+					bash,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					libstdcxx,
+					objc4,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					CF,
+					CarbonHeaders,
+					Libc_headers,
+					architecture,
+					gcc,
+					xnu,
+				);
+				lib = (
+					CF,
+					Libsystem,
+					dyld,
+					gcc,
+				);
+				staticlib = (
+					Csu,
+					Libcpp_kext,
+					SystemStubs,
+					diskdev_cmds,
+					gcc,
+					xnu,
+				);
+			};
+		};
+		ntp = {
+			dependencies = {
+				build = (
+					CoreOSMakefiles,
+					Libm,
+					Libmx,
+					Libsystem,
+					bash,
+					bootstrap_cmds,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnudiff,
+					gnumake,
+					grep,
+					libedit,
+					ncurses,
+					perl,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					Libc_headers,
+					Libinfo,
+					Libm,
+					architecture,
+					gcc,
+					libedit,
+					netinfo,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					dyld,
+					gcc,
+					libedit,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
+		};
 		objc4 = {
 			dependencies = {
 				build = (
@@ -2740,6 +4231,45 @@
 				);
 				staticlib = (
 					Csu,
+					gcc,
+				);
+			};
+		};
+		old_ncurses = {
+			dependencies = {
+				build = (
+					Libm,
+					Libsystem,
+					awk,
+					bash,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnudiff,
+					gnumake,
+					grep,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					Libc_headers,
+					Libinfo,
+					Libm,
+					architecture,
+					gcc,
+					ncurses,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					gcc,
+					old_ncurses,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
 					gcc,
 				);
 			};
@@ -2791,6 +4321,41 @@
 			version = 17.1;
 		};
 		passwordserver_sasl = {
+			dependencies = {
+				build = (
+					Libm,
+					Libsystem,
+					OpenSSL,
+					bash,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					Libc_headers,
+					Libinfo,
+					MySQL,
+					OpenSSL,
+					architecture,
+					gcc,
+					libdyld,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					OpenSSL,
+					gcc,
+				);
+				staticlib = (
+					Csu,
+					MySQL,
+					SystemStubs,
+					gcc,
+				);
+			};
 			version = 59.4;
 		};
 		passwordserver_saslkerberos = {
@@ -2871,6 +4436,51 @@
 		pbx_jamfiles = {
 			version = 751.1;
 		};
+		pdisk = {
+			dependencies = {
+				build = (
+					CF,
+					ICU,
+					IOKitUser,
+					Libm,
+					Libmx,
+					Libsystem,
+					bash,
+					cctools,
+					configd,
+					file_cmds,
+					gcc,
+					gcc_select,
+					libstdcxx,
+					objc4,
+					system_cmds,
+					zlib,
+				);
+				header = (
+					CF,
+					CarbonHeaders,
+					IOKitUser,
+					IOStorageFamily,
+					Libc_headers,
+					Libm,
+					architecture,
+					gcc,
+					xnu,
+				);
+				lib = (
+					CF,
+					IOKitUser,
+					Libsystem,
+					dyld,
+					gcc,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
+		};
 		perl = {
 			dependencies = {
 				build = (
@@ -2923,11 +4533,186 @@
 		};
 		perl_extras = {
 		};
+		portmap = {
+			dependencies = {
+				build = (
+					CoreOSMakefiles,
+					Libm,
+					Libsystem,
+					bash,
+					bootstrap_cmds,
+					bsdmake,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnumake,
+					gnuzip,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					Libc_headers,
+					Libinfo,
+					architecture,
+					gcc,
+					launchd,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					dyld,
+					gcc,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+					tcp_wrappers,
+				);
+			};
+		};
 		postfix = {
+			dependencies = {
+				build = (
+					CF,
+					DirectoryService,
+					ICU,
+					Kerberos,
+					Libm,
+					Libmx,
+					Libsystem,
+					OpenSSL,
+					Security,
+					awk,
+					bash,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnudiff,
+					gnumake,
+					grep,
+					libstdcxx,
+					netinfo,
+					objc4,
+					passwordserver_sasl,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					CF,
+					CarbonHeaders,
+					DirectoryService,
+					Kerberos,
+					Libc_headers,
+					Libinfo,
+					OpenSSL,
+					Security,
+					architecture,
+					gcc,
+					netinfo,
+					passwordserver_sasl,
+					xnu,
+				);
+				lib = (
+					DirectoryService,
+					Kerberos,
+					Libsystem,
+					OpenSSL,
+					dyld,
+					gcc,
+					passwordserver_sasl,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
 			version = 148;
 		};
 		ppp = {
 			version = 233.11;
+		};
+		prebind = {
+			dependencies = {
+				build = (
+					Libm,
+					Libsystem,
+					bash,
+					cctools,
+					dyld,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnumake,
+					libstdcxx,
+					system_cmds,
+				);
+				header = (
+					CarbonHeaders,
+					Libc_headers,
+					architecture,
+					cctools_ofiles,
+					gcc,
+					libdyld,
+					libstdcxx,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					dyld,
+					gcc,
+					libstdcxx,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
+		};
+		procmail = {
+			dependencies = {
+				build = (
+					CoreOSMakefiles,
+					Libm,
+					Libsystem,
+					bash,
+					bootstrap_cmds,
+					cctools,
+					file_cmds,
+					files,
+					gcc,
+					gcc_select,
+					gnumake,
+					grep,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					Libc_headers,
+					Libinfo,
+					Libm,
+					architecture,
+					gcc,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					dyld,
+					gcc,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
 		};
 		project_makefiles = {
 			dependencies = {
@@ -2965,8 +4750,186 @@
 				);
 			};
 		};
+		rcs = {
+			dependencies = {
+				build = (
+					CoreOSMakefiles,
+					Libm,
+					Libsystem,
+					bash,
+					bootstrap_cmds,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnudiff,
+					gnumake,
+					grep,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					Libc_headers,
+					architecture,
+					gcc,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					dyld,
+					gcc,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
+		};
+		rsync = {
+			dependencies = {
+				build = (
+					CoreOSMakefiles,
+					Libm,
+					Libmx,
+					Libsystem,
+					bash,
+					bootstrap_cmds,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnudiff,
+					gnumake,
+					grep,
+					netinfo,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					Libc_headers,
+					Libinfo,
+					Libm,
+					architecture,
+					gcc,
+					netinfo,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					dyld,
+					gcc,
+					netinfo,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
+		};
 		samba = {
 			version = 100.4;
+		};
+		screen = {
+			dependencies = {
+				build = (
+					CoreOSMakefiles,
+					Libm,
+					Libmx,
+					Libsystem,
+					awk,
+					bash,
+					bootstrap_cmds,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnudiff,
+					gnumake,
+					grep,
+					ncurses,
+					shell_cmds,
+					system_cmds,
+					texinfo,
+					text_cmds,
+				);
+				header = (
+					Libc_headers,
+					Libinfo,
+					architecture,
+					gcc,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					dyld,
+					gcc,
+					ncurses,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
+		};
+		security_authtrampoline = {
+			dependencies = {
+				build = (
+					CF,
+					ICU,
+					Libm,
+					Libmx,
+					Libsystem,
+					Security,
+					bash,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					libsecurity_utilities,
+					libstdcxx,
+					objc4,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					CF,
+					CarbonHeaders,
+					Libc_headers,
+					Security,
+					architecture,
+					gcc,
+					libsecurity_utilities,
+					libstdcxx,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					Security,
+					dyld,
+					gcc,
+					libstdcxx,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
+		};
+		security_certificates = {
+			dependencies = {
+				build = (
+					bash,
+					file_cmds,
+					gnumake,
+					system_cmds,
+				);
+			};
 		};
 		securityd = {
 			version = 29035;
@@ -3020,8 +4983,229 @@
 				);
 			};
 		};
+		srm = {
+			dependencies = {
+				build = (
+					CoreOSMakefiles,
+					Libm,
+					Libsystem,
+					autoconf,
+					automake,
+					bash,
+					bootstrap_cmds,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					glibtool,
+					gm4,
+					gnudiff,
+					gnumake,
+					grep,
+					libxml2,
+					libxslt,
+					perl,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					Libc_headers,
+					architecture,
+					gcc,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					dyld,
+					gcc,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
+		};
+		stmalloc = {
+			dependencies = {
+				build = (
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnumake,
+					system_cmds,
+				);
+				header = (
+					Libc_headers,
+					Libinfo,
+					architecture,
+					gcc,
+					xnu,
+				);
+			};
+		};
+		sudo = {
+			dependencies = {
+				build = (
+					CoreOSMakefiles,
+					Libm,
+					Libmx,
+					Libsystem,
+					bash,
+					bootstrap_cmds,
+					bsm,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnudiff,
+					gnumake,
+					grep,
+					pam,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					Libc_headers,
+					Libinfo,
+					Libnotify,
+					architecture,
+					bsm,
+					gcc,
+					libdyld,
+					pam,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					bsm,
+					dyld,
+					gcc,
+					pam,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
+		};
+		syslog = {
+			dependencies = {
+				build = (
+					Libm,
+					Libsystem,
+					bash,
+					bootstrap_cmds,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnumake,
+					gnutar,
+					pb_makefiles,
+					project_makefiles,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					Libc_headers,
+					Libinfo,
+					Libnotify,
+					architecture,
+					gcc,
+					libdyld,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					dyld,
+					gcc,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
+		};
 		system_cmds = {
 			version = 336.17;
+		};
+		system_config = {
+			dependencies = {
+				build = (
+					Libm,
+					Libsystem,
+					bash,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnumake,
+					gnutar,
+					pb_makefiles,
+					project_makefiles,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
+		};
+		tcpdump = {
+			dependencies = {
+				build = (
+					CoreOSMakefiles,
+					Libm,
+					Libsystem,
+					OpenSSL,
+					bash,
+					bootstrap_cmds,
+					cctools,
+					file_cmds,
+					files,
+					gcc,
+					gcc_select,
+					gnudiff,
+					gnumake,
+					grep,
+					libpcap,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					Libc_headers,
+					Libinfo,
+					OpenSSL,
+					architecture,
+					gcc,
+					libpcap,
+					netinfo,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					OpenSSL,
+					dyld,
+					gcc,
+					libpcap,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
 		};
 		tcsh = {
 			dependencies = {
@@ -3064,10 +5248,79 @@
 				);
 			};
 		};
+		texi2html = {
+			dependencies = {
+				build = (
+					CoreOSMakefiles,
+					bash,
+					bootstrap_cmds,
+					file_cmds,
+					files,
+					gnudiff,
+					gnumake,
+					grep,
+					perl,
+					shell_cmds,
+					system_cmds,
+					texi2html,
+					texinfo,
+					text_cmds,
+				);
+			};
+		};
+		texinfo = {
+			dependencies = {
+				build = (
+					CoreOSMakefiles,
+					Libm,
+					Libmx,
+					Libsystem,
+					bash,
+					bison,
+					bootstrap_cmds,
+					bzip2,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnudiff,
+					gnumake,
+					gnutar,
+					grep,
+					libiconv,
+					ncurses,
+					shell_cmds,
+					system_cmds,
+					texinfo,
+					text_cmds,
+				);
+				header = (
+					Libc_headers,
+					architecture,
+					gcc,
+					libiconv,
+					ncurses,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					dyld,
+					gcc,
+					libiconv,
+					ncurses,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
+		};
 		text_cmds = {
 			dependencies = {
 				build = (
 					CoreOSMakefiles,
+					Libm,
 					Libmx,
 					Libsystem,
 					OpenSSL,
@@ -3096,7 +5349,6 @@
 					xnu,
 				);
 				lib = (
-					Libmx,
 					Libsystem,
 					OpenSSL,
 					dyld,
@@ -3105,6 +5357,7 @@
 				);
 				staticlib = (
 					Csu,
+					SystemStubs,
 					gcc,
 				);
 			};
@@ -3148,10 +5401,158 @@
 			};
 		};
 		top = {
+			dependencies = {
+				build = (
+					CF,
+					ICU,
+					IOKitUser,
+					Libm,
+					Libmx,
+					Libsystem,
+					bash,
+					cctools,
+					configd,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnumake,
+					libstdcxx,
+					ncurses,
+					objc4,
+					system_cmds,
+					zlib,
+				);
+				header = (
+					CF,
+					CarbonHeaders,
+					IOKitUser,
+					IOStorageFamily,
+					Libc_headers,
+					Libinfo,
+					Libm,
+					architecture,
+					gcc,
+					ncurses,
+					xnu,
+				);
+				lib = (
+					CF,
+					IOKitUser,
+					Libsystem,
+					dyld,
+					gcc,
+					ncurses,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
 			version = 17.4;
 		};
 		usertemplate = {
 			version = 42;
+		};
+		vim = {
+			dependencies = {
+				build = (
+					CoreOSMakefiles,
+					Libm,
+					Libmx,
+					Libsystem,
+					bash,
+					bootstrap_cmds,
+					cctools,
+					developer_cmds,
+					emacs,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnudiff,
+					gnumake,
+					grep,
+					libiconv,
+					man,
+					ncurses,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+					xnu,
+				);
+				header = (
+					Libc_headers,
+					Libinfo,
+					architecture,
+					gcc,
+					libdyld,
+					libiconv,
+					ncurses,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					dyld,
+					gcc,
+					libiconv,
+					ncurses,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
+		};
+		xinetd = {
+			dependencies = {
+				build = (
+					CF,
+					CoreOSMakefiles,
+					ICU,
+					Libm,
+					Libmx,
+					Libsystem,
+					Security,
+					bash,
+					bootstrap_cmds,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnudiff,
+					gnumake,
+					grep,
+					libstdcxx,
+					objc4,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					CarbonHeaders,
+					Libc_headers,
+					Libinfo,
+					Libm,
+					Security,
+					architecture,
+					gcc,
+					tcp_wrappers,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					Security,
+					dyld,
+					gcc,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+					tcp_wrappers,
+				);
+			};
 		};
 		xnu = {
 			dependencies = {
