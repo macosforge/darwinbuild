@@ -253,6 +253,7 @@
 		Libc = {
 			dependencies = {
 				build = (
+					Libm,
 					Libsystem,
 					bash,
 					bootstrap_cmds,
@@ -286,7 +287,8 @@
 				);
 				staticlib = (
 					Csu,
-					SystemStubs,
+					Libm,
+					gcc,
 				);
 			};
 			environment = {
@@ -297,6 +299,7 @@
 		Libc_debug = {
 			dependencies = {
 				build = (
+					Libm,
 					Libsystem,
 					bash,
 					bootstrap_cmds,
@@ -329,7 +332,8 @@
 				);
 				staticlib = (
 					Csu,
-					SystemStubs,
+					Libm,
+					gcc,
 				);
 			};
 			environment = {
@@ -378,6 +382,7 @@
 		Libc_profile = {
 			dependencies = {
 				build = (
+					Libm,
 					Libsystem,
 					bash,
 					bootstrap_cmds,
@@ -410,7 +415,8 @@
 				);
 				staticlib = (
 					Csu,
-					SystemStubs,
+					Libm,
+					gcc,
 				);
 			};
 			environment = {
@@ -453,7 +459,7 @@
 				);
 				staticlib = (
 					Csu,
-					SystemStubs,
+					gcc,
 				);
 			};
 			environment = {
@@ -659,6 +665,51 @@
 			};
 		};
 		Libsystem = {
+			dependencies = {
+				build = (
+					CoreOSMakefiles,
+					Libm,
+					bash,
+					bootstrap_cmds,
+					cctools,
+					file_cmds,
+					gcc,
+					gnumake,
+					gnutar,
+					ld64,
+					pb_makefiles,
+					project_makefiles,
+					rsync,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					architecture,
+					xnu,
+				);
+				lib = (
+					Libm,
+				);
+				staticlib = (
+					CommonCrypto,
+					Csu,
+					Libc,
+					Libc_debug,
+					Libc_profile,
+					Libinfo,
+					Libkvm,
+					Libm,
+					Libnotify,
+					Libstreams,
+					UserNotification,
+					cctools_ofiles,
+					gcc,
+					keymgr,
+					launchd_libs,
+					libdyld,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -758,6 +809,27 @@
 		};
 		SpamAssassin = {
 			version = 124.5.1;
+		};
+		SystemStubs = {
+			dependencies = {
+				build = (
+					bash,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					system_cmds,
+				);
+				header = (
+					CarbonHeaders,
+					Libc_headers,
+					architecture,
+					cctools_ofiles,
+					gcc,
+					libdyld,
+					xnu,
+				);
+			};
 		};
 		UserNotification = {
 			dependencies = {
@@ -1170,6 +1242,45 @@
 				);
 			};
 		};
+		bsdmake = {
+			dependencies = {
+				build = (
+					CoreOSMakefiles,
+					Libm,
+					Libmx,
+					Libsystem,
+					bash,
+					bootstrap_cmds,
+					bsdmake,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnumake,
+					gnuzip,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					Libc_headers,
+					Libm,
+					architecture,
+					gcc,
+					xnu,
+				);
+				lib = (
+					Libmx,
+					Libsystem,
+					dyld,
+					gcc,
+				);
+				staticlib = (
+					Csu,
+					gcc,
+				);
+			};
+		};
 		bsm = {
 			dependencies = {
 				build = (
@@ -1310,6 +1421,7 @@
 			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
+				RC_FORCEHDRS = YES;
 			};
 		};
 		curl = {
@@ -1585,7 +1697,6 @@
 				build = (
 					CoreOSMakefiles,
 					Libm,
-					Libmx,
 					Libsystem,
 					awk,
 					bash,
@@ -1601,6 +1712,7 @@
 					gnumake,
 					gnutar,
 					grep,
+					ld64,
 					libiconv,
 					perl,
 					shell_cmds,
@@ -1655,7 +1767,6 @@
 					zlib,
 				);
 				lib = (
-					Libmx,
 					Libsystem,
 					dyld,
 					gcc,
@@ -2281,6 +2392,44 @@
 		mDNSResponder = {
 			version = 108.2;
 		};
+		misc_cmds = {
+			dependencies = {
+				build = (
+					CoreOSMakefiles,
+					Libm,
+					Libmx,
+					Libsystem,
+					bash,
+					bootstrap_cmds,
+					bsdmake,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnumake,
+					gnuzip,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					Libc_headers,
+					architecture,
+					gcc,
+					xnu,
+				);
+				lib = (
+					Libmx,
+					Libsystem,
+					dyld,
+					gcc,
+				);
+				staticlib = (
+					Csu,
+					gcc,
+				);
+			};
+		};
 		msdosfs = {
 			version = 89.13;
 		};
@@ -2645,6 +2794,47 @@
 			version = 59.4;
 		};
 		passwordserver_saslkerberos = {
+		};
+		patch_cmds = {
+			dependencies = {
+				build = (
+					CoreOSMakefiles,
+					Libm,
+					Libmx,
+					Libsystem,
+					autoconf,
+					bash,
+					bootstrap_cmds,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gm4,
+					gnudiff,
+					gnumake,
+					grep,
+					perl,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					Libc_headers,
+					architecture,
+					gcc,
+					xnu,
+				);
+				lib = (
+					Libmx,
+					Libsystem,
+					dyld,
+					gcc,
+				);
+				staticlib = (
+					Csu,
+					gcc,
+				);
+			};
 		};
 		pb_makefiles = {
 			dependencies = {
