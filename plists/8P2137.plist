@@ -1,5 +1,8 @@
 // !$*UTF8*$!
 {
+	binary_sites = (
+		"http://src.macosforge.org/Roots/8P2137/",
+	);
 	build = 8P2137;
 	darwin = "Darwin 8.9";
 	inherits = 8L2127;
