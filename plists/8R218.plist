@@ -1,0 +1,84 @@
+// !$*UTF8*$!
+{
+	build = 8R218;
+	darwin = "Darwin 8.10";
+	inherits = 8P135;
+	macosx = "Mac OS X 10.4.10";
+	projects = {
+		ICU = {
+			version = 6.2.15;
+		};
+		IOHIDFamily = {
+			version = 185.22;
+		};
+		IOUSBFamily = {
+			version = 281.4.1;
+		};
+		JavaScriptCore = {
+			version = 418.5;
+		};
+		Kerberos = {
+			version = 65.15;
+		};
+		Libc = {
+			version = 391.2.10;
+		};
+		Libinfo = {
+			version = 222.3.6;
+		};
+		Libsystem = {
+			version = 88.1.10;
+		};
+		WebCore = {
+			version = 418.22;
+		};
+		bind9 = {
+			version = 13.0.2;
+		};
+		crontabs = {
+			version = 23.1;
+		};
+		diskdev_cmds = {
+			version = 332.11.10;
+		};
+		fetchmail = {
+			version = 28;
+		};
+		file = {
+			version = 6.0.1;
+		};
+		gnutar = {
+			version = 433.3;
+		};
+		lukemftpd = {
+			version = 32;
+		};
+		mDNSResponder = {
+			version = 108.5;
+		};
+		network_cmds = {
+			version = 245.17;
+		};
+		ppp = {
+			version = 233.0.7;
+		};
+		ruby = {
+			version = 22.3;
+		};
+		screen = {
+			version = 6.2;
+		};
+		smb = {
+			version = 217.19;
+		};
+		texinfo = {
+			version = 12.1;
+		};
+		webdavfs = {
+			version = 221.3;
+		};
+		xnu = {
+			version = 792.21.3;
+		};
+	};
+}

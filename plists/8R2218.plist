@@ -1,0 +1,129 @@
+// !$*UTF8*$!
+{
+	build = 8R2218;
+	darwin = "Darwin 8.10";
+	inherits = 8P2137;
+	macosx = "Mac OS X 10.4.10";
+	projects = {
+		AppleDisplays = {
+			version = 155.1.7;
+		};
+		AppleFileSystemDriver = {
+			version = 8.1;
+		};
+		AppleSMBIOS = {
+			version = 26;
+		};
+		AppleUSBAudio = {
+			version = 250.2.8;
+		};
+		ICU = {
+			version = 6.2.16;
+		};
+		IOATAPIProtocolTransport = {
+			version = 151.0.1;
+		};
+		IOAudioFamily = {
+			version = 160.2.7;
+		};
+		IOFireWireFamily = {
+			version = 257.4.2;
+		};
+		IOGraphics = {
+			version = 193.2.1;
+		};
+		IOHIDFamily = {
+			version = 185.22;
+		};
+		IOKitUser = {
+			version = 297.13;
+		};
+		IOSCSIParallelFamily = {
+			version = 145.0.2;
+		};
+		IOUSBFamily = {
+			version = 276.4.0;
+		};
+		IOUSBMassStorageClass = {
+			version = 149.0.6;
+		};
+		JavaScriptCore = {
+			version = 418.5;
+		};
+		Kerberos = {
+			version = 65.15;
+		};
+		Libc = {
+			version = 391.5.22;
+		};
+		Libinfo = {
+			version = 222.4.12;
+		};
+		Libsystem = {
+			version = 88.3.9;
+		};
+		PowerManagement = {
+			version = 111.8;
+		};
+		WebCore = {
+			version = 418.22;
+		};
+		bind9 = {
+			version = 13.0.2;
+		};
+		bless = {
+			version = 56;
+		};
+		crontabs = {
+			version = 23.1;
+		};
+		diskdev_cmds = {
+			version = 332.23;
+		};
+		fetchmail = {
+			version = 28;
+		};
+		file = {
+			version = 6.2.1;
+		};
+		gcc = {
+			version = 5363.0.5;
+		};
+		gnutar = {
+			version = 433.3;
+		};
+		lukemftpd = {
+			version = 32;
+		};
+		mDNSResponder = {
+			version = 108.5;
+		};
+		network_cmds = {
+			version = 245.17;
+		};
+		ppp = {
+			version = 233.16;
+		};
+		ruby = {
+			version = 22.1.1;
+		};
+		screen = {
+			version = 6.2;
+		};
+		smb = {
+			version = 217.19;
+		};
+		texinfo = {
+			version = 12.1;
+		};
+		webdavfs = {
+			version = 221.3;
+		};
+		xnu = {
+			version = 792.22.5;
+		};
+		zip = {
+			version = 6.1;
+		};
+	};
+}
