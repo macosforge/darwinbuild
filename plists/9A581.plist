@@ -38,15 +38,24 @@
 			version = 212;
 		};
 		AppleAPIC = {
+			environment = {
+				RC_ARCHS = "i386";
+			};
 			version = 10;
 		};
 		AppleCore99NVRAM = {
+			environment = {
+				RC_ARCHS = "ppc";
+			};
 			version = 111.3.1;
 		};
 		AppleDisplays = {
 			version = 160.0.1;
 		};
 		AppleFan = {
+			environment = {
+				RC_ARCHS = "ppc";
+			};
 			version = 109.2.3;
 		};
 		AppleFileSystemDriver = {
@@ -56,9 +65,15 @@
 			version = 105.4.0;
 		};
 		AppleGMACEthernet = {
+			environment = {
+				RC_ARCHS = "ppc";
+			};
 			version = 157.3.1;
 		};
 		AppleGPIO = {
+			environment = {
+				RC_ARCHS = "ppc";
+			};
 			version = 120.0.0;
 		};
 		AppleHWSensor = {
@@ -74,45 +89,81 @@
 			version = 18.0.80;
 		};
 		AppleIntelPIIXATA = {
+			environment = {
+				RC_ARCHS = "i386";
+			};
 			version = 32;
 		};
 		AppleK2SATA = {
+			environment = {
+				RC_ARCHS = "ppc";
+			};
 			version = 104.3.2;
 		};
 		AppleK2SATARoot = {
+			environment = {
+				RC_ARCHS = "ppc";
+			};
 			version = 105.2.2;
 		};
 		AppleKauaiATA = {
+			environment = {
+				RC_ARCHS = "ppc";
+			};
 			version = 121.3.4;
 		};
 		AppleKeyLargo = {
+			environment = {
+				RC_ARCHS = "ppc";
+			};
 			version = 171.3.3;
 		};
 		AppleKeyswitch = {
 			version = 104.0.1;
 		};
 		AppleKiwiATA = {
+			environment = {
+				RC_ARCHS = "ppc";
+			};
 			version = 102.3.2;
 		};
 		AppleKiwiRoot = {
+			environment = {
+				RC_ARCHS = "ppc";
+			};
 			version = 105.3.1;
 		};
 		AppleMPIC = {
+			environment = {
+				RC_ARCHS = "ppc";
+			};
 			version = 1.5.3;
 		};
 		AppleMacRISC2PE = {
+			environment = {
+				RC_ARCHS = "ppc";
+			};
 			version = 185.0.5;
 		};
 		AppleMacRISC4PE = {
+			environment = {
+				RC_ARCHS = "ppc";
+			};
 			version = 202.0.9;
 		};
 		AppleMacRiscPCI = {
+			environment = {
+				RC_ARCHS = "ppc";
+			};
 			version = 3.4;
 		};
 		AppleMediaBay = {
 			version = 102.3.1;
 		};
 		AppleOnboardAudio = {
+			environment = {
+				RC_ARCHS = "ppc";
+			};
 			version = 257.3.2;
 		};
 		ApplePCCard16ATA = {
@@ -125,15 +176,24 @@
 			version = 3.0.19;
 		};
 		AppleRS232Serial = {
+			environment = {
+				RC_ARCHS = "ppc";
+			};
 			version = 130.2.7;
 		};
 		AppleRTL8139Ethernet = {
 			version = 141;
 		};
 		AppleSCCSerial = {
+			environment = {
+				RC_ARCHS = "ppc";
+			};
 			version = 132.4.2;
 		};
 		AppleSMBIOS = {
+			environment = {
+				RC_ARCHS = "i386";
+			};
 			version = 26;
 		};
 		AppleSym8xx = {
@@ -167,15 +227,27 @@
 			version = 81;
 		};
 		CF = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 476;
 		};
 		CFNetwork = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 219;
 		};
 		CFOpenDirectory = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			original = OpenDirectory;
 		};
 		CPAN = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 20;
 		};
 		CPANInternal = {
@@ -188,21 +260,33 @@
 			version = 105.0.14;
 		};
 		CommonCrypto = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 32207;
 		};
 		CoreOSMakefiles = {
 			version = 40;
 		};
 		CrackLib = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 30889;
 		};
 		Csu = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 75;
 		};
 		CyrusIMAP = {
 			version = 187;
 		};
 		DSPasswordServerFramework = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			original = DSPasswordServerPlugin;
 			target = PasswordServerFramework;
 		};
@@ -210,6 +294,9 @@
 			version = 206;
 		};
 		DSTools = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 109;
 		};
 		DirectoryService = {
@@ -221,22 +308,34 @@
 			target = DirectoryServiceDaemon;
 		};
 		DirectoryServiceMIG = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			original = DirectoryService;
 			target = DirectoryServiceMIG;
 		};
 		DiskArbitration = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 182;
 		};
 		DynamicPowerStep = {
 			version = 1.6.0;
 		};
 		FastCGI = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 4;
 		};
 		FirewallTool = {
 			version = 20;
 		};
 		ICU = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 8.11;
 		};
 		ICU_debug = {
@@ -246,9 +345,15 @@
 			original = ICU;
 		};
 		IOACPIFamily = {
+			environment = {
+				RC_ARCHS = "i386";
+			};
 			version = 5;
 		};
 		IOADBFamily = {
+			environment = {
+				RC_ARCHS = "ppc";
+			};
 			version = 6;
 		};
 		IOATAFamily = {
@@ -270,15 +375,24 @@
 			version = 195.4.0;
 		};
 		IOFireWireAVC = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 221.4.0;
 		};
 		IOFireWireFamily = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 338.4.0;
 		};
 		IOFireWireIP = {
 			version = 170.4.0;
 		};
 		IOFireWireSBP2 = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 197.4.0;
 		};
 		IOFireWireSerialBusProtocolTransport = {
@@ -288,15 +402,24 @@
 			version = 233;
 		};
 		IOHIDFamily = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 247;
 		};
 		IOI2CFamily = {
+			environment = {
+				RC_ARCHS = "ppc";
+			};
 			version = 111.0.2;
 		};
 		IOKitTools = {
 			version = 76;
 		};
 		IOKitUser = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 376;
 		};
 		IONetworkingFamily = {
@@ -342,9 +465,15 @@
 			original = OpenLDAP;
 		};
 		Libc = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 498;
 		};
 		Libc_debug = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			original = Libc;
 			target = install;
 		};
@@ -357,6 +486,9 @@
 			target = install;
 		};
 		Libc_profile = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			original = Libc;
 			target = install;
 		};
@@ -364,17 +496,29 @@
 			version = 5;
 		};
 		Libinfo = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 278;
 		};
 		Libm = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			target = libm;
 			version = 287.1;
 		};
 		Libmx = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			original = Libm;
 			target = libmx;
 		};
 		Libnotify = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 35;
 		};
 		Librpcsvc = {
@@ -384,24 +528,39 @@
 			version = 25;
 		};
 		Libsyscall = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			original = xnu;
 		};
 		Libsystem = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 111;
 		};
 		Liby = {
 			version = 15;
 		};
 		MySQL = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 43;
 		};
 		NFS = {
 			version = 24;
 		};
 		OpenAL = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 29;
 		};
 		OpenDirectory = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 39;
 		};
 		OpenLDAP = {
@@ -411,9 +570,15 @@
 			version = 87;
 		};
 		OpenSSL = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 46;
 		};
 		OpenSSL096 = {
+			environment = {
+				RC_ARCHS = "ppc";
+			};
 			version = 6.2;
 		};
 		PowerManagement = {
@@ -423,18 +588,27 @@
 			version = 5;
 		};
 		RubyCocoa = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 57;
 		};
 		RubyGems = {
 			version = 15;
 		};
 		RubyOnRails = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 25;
 		};
 		SCSIHeaderInstaller = {
 			version = 100.0.2;
 		};
 		SQLite = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 45;
 		};
 		Security = {
@@ -477,6 +651,9 @@
 			version = 3;
 		};
 		UserNotification = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 21;
 		};
 		VirtualAudioDriver = {
@@ -484,6 +661,9 @@
 			target = VirtualAudioDriver;
 		};
 		WebCore = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 5523.10.3;
 		};
 		X11apps = {
@@ -493,12 +673,18 @@
 			version = 5;
 		};
 		X11libs = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 16;
 		};
 		X11misc = {
 			version = 6;
 		};
 		X11proto = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 14;
 		};
 		X11server = {
@@ -511,27 +697,45 @@
 			version = 110;
 		};
 		apache = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 729;
 		};
 		apache1 = {
 			version = 696;
 		};
 		apache_mod_bonjour = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 9;
 		};
 		apache_mod_fastcgi = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 3;
 		};
 		apache_mod_hfs_apple = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 7;
 		};
 		apache_mod_perl = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 101;
 		};
 		apache_mod_perl1 = {
 			version = 16;
 		};
 		apache_mod_php = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 43;
 		};
 		apache_mod_php4 = {
@@ -580,6 +784,9 @@
 			version = 1;
 		};
 		bless = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 60;
 		};
 		bootp = {
@@ -592,15 +799,24 @@
 			version = 23;
 		};
 		bsm = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 13;
 		};
 		bzip2 = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 16;
 		};
 		cctools = {
 			version = 667.3;
 		};
 		cctools_ofiles = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			original = cctools;
 			target = ofiles_install;
 		};
@@ -611,6 +827,9 @@
 			version = 116;
 		};
 		configd = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			target = configd_base;
 			version = 204;
 		};
@@ -624,6 +843,9 @@
 			version = 91;
 		};
 		copyfile = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 41;
 		};
 		cron = {
@@ -636,10 +858,16 @@
 			version = 13;
 		};
 		cups = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			target = installfat;
 			version = 136;
 		};
 		curl = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 42;
 		};
 		cvs = {
@@ -670,16 +898,28 @@
 			version = 47;
 		};
 		drvAppleCMD646Root = {
+			environment = {
+				RC_ARCHS = "ppc";
+			};
 			version = 104.2.2;
 		};
 		dtrace = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 48;
 		};
 		dyld = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			target = dyld;
 			version = 95.3;
 		};
 		eap8021x = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 49;
 		};
 		efax = {
@@ -692,6 +932,9 @@
 			version = 11.1;
 		};
 		expat = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 6;
 		};
 		extenTools = {
@@ -711,6 +954,9 @@
 			version = 520;
 		};
 		flex = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 20.3;
 		};
 		freeradius = {
@@ -777,6 +1023,9 @@
 			version = 23;
 		};
 		gutenprint = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 5;
 		};
 		headerdoc = {
@@ -786,6 +1035,9 @@
 			version = 165;
 		};
 		iodbc = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 34;
 		};
 		ipv6configuration = {
@@ -801,6 +1053,9 @@
 			version = 117;
 		};
 		keymgr = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 18;
 		};
 		ksh = {
@@ -810,6 +1065,9 @@
 			version = 257;
 		};
 		launchd_libs = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			original = launchd;
 			target = launchd_libs;
 		};
@@ -820,124 +1078,241 @@
 			version = 20;
 		};
 		libdyld = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			original = dyld;
 			target = libdyld;
 		};
 		libedit = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 11;
 		};
 		libffi = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 10;
 		};
 		libfs = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 7;
 		};
 		libgcc = {
 			version = 8.1;
 		};
 		libiconv = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 24;
 		};
 		libmd = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 2;
 		};
 		libpcap = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 18;
 		};
 		libresolv = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 19;
 		};
 		libsecurity_agent = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 32091.1;
 		};
 		libsecurity_apple_csp = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 32567;
 		};
 		libsecurity_apple_cspdl = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 32466;
 		};
 		libsecurity_apple_file_dl = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 29159;
 		};
 		libsecurity_apple_x509_cl = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 29856;
 		};
 		libsecurity_apple_x509_tp = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 32578;
 		};
 		libsecurity_asn1 = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 29908;
 		};
 		libsecurity_authorization = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 32564;
 		};
 		libsecurity_cdsa_client = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 32432;
 		};
 		libsecurity_cdsa_plugin = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 29159;
 		};
 		libsecurity_cdsa_utilities = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 32432;
 		};
 		libsecurity_cdsa_utils = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 32586;
 		};
 		libsecurity_checkpw = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 29159;
 		};
 		libsecurity_cms = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 32521;
 		};
 		libsecurity_codesigning = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 32568;
 		};
 		libsecurity_cssm = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 31536;
 		};
 		libsecurity_dotmacdl = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 29745;
 		};
 		libsecurity_filedb = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 32510;
 		};
 		libsecurity_filevault = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 28631;
 		};
 		libsecurity_keychain = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 32623;
 		};
 		libsecurity_ldap_dl = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 30174;
 		};
 		libsecurity_manifest = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 29384;
 		};
 		libsecurity_mds = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 32449;
 		};
 		libsecurity_ocspd = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 29518;
 		};
 		libsecurity_pkcs12 = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 32085;
 		};
 		libsecurity_sd_cspdl = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 29159;
 		};
 		libsecurity_smime = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 29908;
 		};
 		libsecurity_ssl = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 32463;
 		};
 		libsecurity_utilities = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 32566;
 		};
 		libsecurityd = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 32676;
 		};
 		libstdcxx = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 16;
 		};
 		libstdcxx_SUPanWheat = {
@@ -947,12 +1322,21 @@
 			version = 7;
 		};
 		libutil = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 11;
 		};
 		libxml2 = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 17.7.2;
 		};
 		libxslt = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 8.4.1;
 		};
 		lsof = {
@@ -968,6 +1352,9 @@
 			version = 161.1;
 		};
 		mDNSResponderSystemLibraries = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			original = mDNSResponder;
 		};
 		mail_cmds = {
@@ -995,9 +1382,15 @@
 			version = 13;
 		};
 		ncurses = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 21;
 		};
 		neon = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 8;
 		};
 		net_snmp = {
@@ -1007,6 +1400,9 @@
 			version = 7;
 		};
 		netinfo = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 382;
 		};
 		network_cmds = {
@@ -1022,9 +1418,15 @@
 			version = 37;
 		};
 		objc4 = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 371;
 		};
 		openmpi = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 5;
 		};
 		pam = {
@@ -1034,6 +1436,9 @@
 			version = 35;
 		};
 		passwordserver_sasl = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 118;
 		};
 		passwordserver_saslextra = {
@@ -1056,6 +1461,9 @@
 			version = 6;
 		};
 		perl = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 51;
 		};
 		portmap = {
@@ -1080,6 +1488,9 @@
 			version = 14;
 		};
 		python = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 30;
 		};
 		python23 = {
@@ -1089,6 +1500,9 @@
 			version = 2;
 		};
 		python_modules = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 12;
 		};
 		rcs = {
@@ -1098,18 +1512,30 @@
 			version = 12;
 		};
 		removefile = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 10;
 		};
 		rsync = {
 			version = 30;
 		};
 		ruby = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 67;
 		};
 		ruby_dnssd = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 6;
 		};
 		ruby_libxml = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 6;
 		};
 		samba = {
@@ -1122,6 +1548,9 @@
 			version = 32534;
 		};
 		security_certificates = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 32641;
 		};
 		security_certtool = {
@@ -1131,6 +1560,9 @@
 			version = 31832;
 		};
 		security_dotmac_tp = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 32199;
 		};
 		security_ocspd = {
@@ -1149,6 +1581,9 @@
 			version = 116;
 		};
 		smb = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 344;
 		};
 		srm = {
@@ -1158,6 +1593,9 @@
 			version = 4;
 		};
 		subversion = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 16;
 		};
 		sudo = {
@@ -1179,15 +1617,24 @@
 			version = 49;
 		};
 		tcl = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 64;
 		};
 		tcl_ext = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			original = tcl;
 		};
 		tcl_tk = {
 			original = tcl;
 		};
 		tcp_wrappers = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 18;
 		};
 		tcpdump = {
@@ -1206,6 +1653,9 @@
 			version = 68;
 		};
 		tidy = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 13;
 		};
 		top = {
@@ -1227,6 +1677,9 @@
 			version = 11;
 		};
 		xar = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 28;
 		};
 		xelf = {
@@ -1239,6 +1692,9 @@
 			version = 9;
 		};
 		zlib = {
+			environment = {
+				RC_ARCHS = "ppc ppc64 i386 x86_64";
+			};
 			version = 18;
 		};
 		zsh = {
