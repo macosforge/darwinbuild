@@ -1,8 +1,26 @@
 // !$*UTF8*$!
 {
+	binary_sites = (
+		"http://src.macosforge.org/Roots/8A428/",
+	);
 	build = 9A581;
 	darwin = "Darwin 9.0";
 	macosx = "Mac OS X 10.5";
+	environment = {
+		INSTALLED_PRODUCT_ASIDES = YES;
+		MACOSX_DEPLOYMENT_TARGET = 10.5;
+		NEXT_ROOT = "";
+		RC_ARCHS = "ppc i386";
+		RC_JASPER = YES;
+		RC_NONARCH_CFLAGS = "-pipe -no-cpp-precomp";
+		RC_OS = macos;
+		RC_PRIVATE = /private;
+		RC_RELEASE = Leopard;
+		RC_XBS = YES;
+		SEPARATE_STRIP = YES;
+		UNAME_RELEASE = 9.0;
+		UNAME_SYSNAME = Darwin;
+	};
 	projects = {
 		Apple16X50Serial = {
 			version = 19.2;
@@ -1227,4 +1245,7 @@
 			version = 48;
 		};
 	};
+	source_sites = (
+		"http://src.macosforge.org/Projects/",
+	);
 }
