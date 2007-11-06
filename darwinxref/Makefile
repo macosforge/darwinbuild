@@ -31,13 +31,19 @@ PLUGIN_CFLAGS=$(CFLAGS) -I.
 PLUGIN_LDFLAGS=$(LDFLAGS) -bundle -bundle_loader $(OBJROOT)/darwinxref
 
 VERSION=$(shell uname -r | cut -f1 -d. )
-ifeq ($(VERSION), 7)
+ifeq ($(VERSION),7)
 SQLITEINC = -I../sqlite
 SQLITELIB = ../sqlite/sqlite3.o
 else
 SQLITEINC =
 SQLITELIB = -lsqlite3
 endif
+#ifeq ($(VERSION),9)
+#CFLAGS += -mmacosx-version-min=10.5
+#endif
+
+CC = cc
+DSYMUTIL = dsymutil
 
 all: \
 	darwinxref \
@@ -65,15 +71,23 @@ uninstall:
 
 clean:
 	rm -f darwinxref
-	rm -f $(PLUGIN_SOURCES:c=so)
+	rm -rf darwinxref.dSYM
+	rm -f $(SOURCES:.c=.o)
+	rm -f $(PLUGIN_SOURCES:.c=.so)
+	rm -rf $(PLUGIN_SOURCES:.c=.so.dSYM)
 	rm -f upgrade_plist
+	rm -rf upgrade_plist.dSYM
 
 darwinxref: $(SOURCES)
-	cc -o $(OBJROOT)/$@ \
-		$(CFLAGS) \
-		$(LDFLAGS) \
-		$(SOURCES) \
-		$(SQLITELIB)
+	@for CFILE in $(SOURCES); do \
+		OFILE=$$(echo $$(basename $${CFILE}) | sed -e 's,\.[^.]*$$,.o,') ; \
+		CMD="$(CC) $(CFLAGS) -c -o $(OBJROOT)/$${OFILE} $${CFILE}"; \
+		echo $$CMD ; $$CMD || exit 1 ; \
+	done
+	$(CC) $(LDFLAGS) -o $(SYMROOT)/darwinxref \
+		$(SQLITELIB) \
+		$(foreach OFILE, $(SOURCES:.c=.o), $(OBJROOT)/$(notdir $(OFILE)))
+	$(DSYMUTIL) --out $(SYMROOT)/darwinxref.dSYM $(SYMROOT)/darwinxref || true
 
 plugins/register.so: plugins/register.c DBPlugin.h
 	@mkdir -p $(OBJROOT)/plugins
