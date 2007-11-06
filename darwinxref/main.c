@@ -30,20 +30,15 @@
  * @APPLE_BSD_LICENSE_HEADER_END@
  */
 
+#include <sys/cdefs.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "sqlite3.h"
 #include <fcntl.h>
 #include <dlfcn.h>
+#include <getopt.h>
 
 #include "DBPluginPriv.h"
-
-// getopt globals
-char* optarg;
-int optind;
-int optopt;
-int opterr;
-int optreset;
 
 // user environment global
 extern char** environ;
