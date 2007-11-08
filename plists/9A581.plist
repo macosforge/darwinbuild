@@ -5,7 +5,6 @@
 	);
 	build = 9A581;
 	darwin = "Darwin 9.0";
-	macosx = "Mac OS X 10.5";
 	environment = {
 		INSTALLED_PRODUCT_ASIDES = YES;
 		MACOSX_DEPLOYMENT_TARGET = 10.5;
@@ -21,6 +20,7 @@
 		UNAME_RELEASE = 9.0;
 		UNAME_SYSNAME = Darwin;
 	};
+	macosx = "Mac OS X 10.5";
 	projects = {
 		Apple16X50Serial = {
 			version = 19.2;
@@ -39,13 +39,13 @@
 		};
 		AppleAPIC = {
 			environment = {
-				RC_ARCHS = "i386";
+				RC_ARCHS = i386;
 			};
 			version = 10;
 		};
 		AppleCore99NVRAM = {
 			environment = {
-				RC_ARCHS = "ppc";
+				RC_ARCHS = ppc;
 			};
 			version = 111.3.1;
 		};
@@ -54,7 +54,7 @@
 		};
 		AppleFan = {
 			environment = {
-				RC_ARCHS = "ppc";
+				RC_ARCHS = ppc;
 			};
 			version = 109.2.3;
 		};
@@ -66,13 +66,13 @@
 		};
 		AppleGMACEthernet = {
 			environment = {
-				RC_ARCHS = "ppc";
+				RC_ARCHS = ppc;
 			};
 			version = 157.3.1;
 		};
 		AppleGPIO = {
 			environment = {
-				RC_ARCHS = "ppc";
+				RC_ARCHS = ppc;
 			};
 			version = 120.0.0;
 		};
@@ -90,31 +90,31 @@
 		};
 		AppleIntelPIIXATA = {
 			environment = {
-				RC_ARCHS = "i386";
+				RC_ARCHS = i386;
 			};
 			version = 32;
 		};
 		AppleK2SATA = {
 			environment = {
-				RC_ARCHS = "ppc";
+				RC_ARCHS = ppc;
 			};
 			version = 104.3.2;
 		};
 		AppleK2SATARoot = {
 			environment = {
-				RC_ARCHS = "ppc";
+				RC_ARCHS = ppc;
 			};
 			version = 105.2.2;
 		};
 		AppleKauaiATA = {
 			environment = {
-				RC_ARCHS = "ppc";
+				RC_ARCHS = ppc;
 			};
 			version = 121.3.4;
 		};
 		AppleKeyLargo = {
 			environment = {
-				RC_ARCHS = "ppc";
+				RC_ARCHS = ppc;
 			};
 			version = 171.3.3;
 		};
@@ -123,37 +123,37 @@
 		};
 		AppleKiwiATA = {
 			environment = {
-				RC_ARCHS = "ppc";
+				RC_ARCHS = ppc;
 			};
 			version = 102.3.2;
 		};
 		AppleKiwiRoot = {
 			environment = {
-				RC_ARCHS = "ppc";
+				RC_ARCHS = ppc;
 			};
 			version = 105.3.1;
 		};
 		AppleMPIC = {
 			environment = {
-				RC_ARCHS = "ppc";
+				RC_ARCHS = ppc;
 			};
 			version = 1.5.3;
 		};
 		AppleMacRISC2PE = {
 			environment = {
-				RC_ARCHS = "ppc";
+				RC_ARCHS = ppc;
 			};
 			version = 185.0.5;
 		};
 		AppleMacRISC4PE = {
 			environment = {
-				RC_ARCHS = "ppc";
+				RC_ARCHS = ppc;
 			};
 			version = 202.0.9;
 		};
 		AppleMacRiscPCI = {
 			environment = {
-				RC_ARCHS = "ppc";
+				RC_ARCHS = ppc;
 			};
 			version = 3.4;
 		};
@@ -162,7 +162,7 @@
 		};
 		AppleOnboardAudio = {
 			environment = {
-				RC_ARCHS = "ppc";
+				RC_ARCHS = ppc;
 			};
 			version = 257.3.2;
 		};
@@ -177,7 +177,7 @@
 		};
 		AppleRS232Serial = {
 			environment = {
-				RC_ARCHS = "ppc";
+				RC_ARCHS = ppc;
 			};
 			version = 130.2.7;
 		};
@@ -186,13 +186,13 @@
 		};
 		AppleSCCSerial = {
 			environment = {
-				RC_ARCHS = "ppc";
+				RC_ARCHS = ppc;
 			};
 			version = 132.4.2;
 		};
 		AppleSMBIOS = {
 			environment = {
-				RC_ARCHS = "i386";
+				RC_ARCHS = i386;
 			};
 			version = 26;
 		};
@@ -245,6 +245,11 @@
 			original = OpenDirectory;
 		};
 		CPAN = {
+			dependencies = {
+				lib = (
+					Kerberos,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -254,6 +259,11 @@
 			version = 32;
 		};
 		ChatServer = {
+			dependencies = {
+				lib = (
+					DirectoryService,
+				);
+			};
 			version = 260;
 		};
 		Chess = {
@@ -281,6 +291,12 @@
 			version = 75;
 		};
 		CyrusIMAP = {
+			dependencies = {
+				lib = (
+					DirectoryService,
+					Kerberos,
+				);
+			};
 			version = 187;
 		};
 		DSPasswordServerFramework = {
@@ -291,9 +307,24 @@
 			target = PasswordServerFramework;
 		};
 		DSPasswordServerPlugin = {
+			dependencies = {
+				lib = (
+					DSPasswordServerFramework,
+					DirectoryService,
+					LDAPFramework,
+				);
+			};
 			version = 206;
 		};
 		DSTools = {
+			dependencies = {
+				lib = (
+					CFOpenDirectory,
+					DSPasswordServerFramework,
+					DSTools,
+					DirectoryService,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -304,6 +335,14 @@
 			version = 514;
 		};
 		DirectoryServiceDaemon = {
+			dependencies = {
+				lib = (
+					DSPasswordServerFramework,
+					DirectoryService,
+					Kerberos,
+					LDAPFramework,
+				);
+			};
 			original = DirectoryService;
 			target = DirectoryServiceDaemon;
 		};
@@ -315,6 +354,11 @@
 			target = DirectoryServiceMIG;
 		};
 		DiskArbitration = {
+			dependencies = {
+				lib = (
+					DiskArbitration,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -346,13 +390,13 @@
 		};
 		IOACPIFamily = {
 			environment = {
-				RC_ARCHS = "i386";
+				RC_ARCHS = i386;
 			};
 			version = 5;
 		};
 		IOADBFamily = {
 			environment = {
-				RC_ARCHS = "ppc";
+				RC_ARCHS = ppc;
 			};
 			version = 6;
 		};
@@ -409,7 +453,7 @@
 		};
 		IOI2CFamily = {
 			environment = {
-				RC_ARCHS = "ppc";
+				RC_ARCHS = ppc;
 			};
 			version = 111.0.2;
 		};
@@ -453,9 +497,21 @@
 			version = 5523.5;
 		};
 		Kerberos = {
+			dependencies = {
+				lib = (
+					Kerberos,
+					LDAPFramework,
+				);
+			};
 			version = 75.9;
 		};
 		KerberosHelper = {
+			dependencies = {
+				lib = (
+					CFOpenDirectory,
+					Kerberos,
+				);
+			};
 			version = 31;
 		};
 		KeyLargoATA = {
@@ -549,6 +605,12 @@
 			version = 43;
 		};
 		NFS = {
+			dependencies = {
+				lib = (
+					DiskArbitration,
+					Libsystem,
+				);
+			};
 			version = 24;
 		};
 		OpenAL = {
@@ -558,15 +620,33 @@
 			version = 29;
 		};
 		OpenDirectory = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
 			version = 39;
 		};
 		OpenLDAP = {
+			dependencies = {
+				lib = (
+					CFOpenDirectory,
+					DSPasswordServerFramework,
+					Libsystem,
+				);
+			};
 			version = 106;
 		};
 		OpenSSH = {
+			dependencies = {
+				lib = (
+					Kerberos,
+					Libsystem,
+				);
+			};
 			version = 87;
 		};
 		OpenSSL = {
@@ -576,18 +656,35 @@
 			version = 46;
 		};
 		OpenSSL096 = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					OpenSSL096,
+				);
+			};
 			environment = {
-				RC_ARCHS = "ppc";
+				RC_ARCHS = ppc;
 			};
 			version = 6.2;
 		};
 		PowerManagement = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
 			version = 137;
 		};
 		PyRSS2Gen = {
 			version = 5;
 		};
 		RubyCocoa = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					RubyCocoa,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -597,6 +694,11 @@
 			version = 15;
 		};
 		RubyOnRails = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -624,6 +726,11 @@
 			version = 32672;
 		};
 		SpamAssassin = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
 			version = 137;
 		};
 		SquirrelMail = {
@@ -633,6 +740,11 @@
 			version = 6;
 		};
 		TargetConfig = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
 			version = 1;
 		};
 		TimeZoneData = {
@@ -642,6 +754,11 @@
 			version = 32432;
 		};
 		Twisted = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
 			version = 3;
 		};
 		TwistedWords = {
@@ -667,6 +784,11 @@
 			version = 5523.10.3;
 		};
 		X11apps = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
 			version = 13;
 		};
 		X11fonts = {
@@ -679,6 +801,11 @@
 			version = 16;
 		};
 		X11misc = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
 			version = 6;
 		};
 		X11proto = {
@@ -688,9 +815,20 @@
 			version = 14;
 		};
 		X11server = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					X11server,
+				);
+			};
 			version = 46;
 		};
 		adv_cmds = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
 			version = 118;
 		};
 		amavisd = {
@@ -703,6 +841,11 @@
 			version = 729;
 		};
 		apache1 = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
 			version = 696;
 		};
 		apache_mod_bonjour = {
@@ -712,6 +855,11 @@
 			version = 9;
 		};
 		apache_mod_fastcgi = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -745,60 +893,142 @@
 			version = 689;
 		};
 		apr = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					apr,
+				);
+			};
 			version = 12;
 		};
 		architecture = {
 			version = 254;
 		};
 		at_cmds = {
+			dependencies = {
+				lib = (
+					AppleTalk,
+					Libsystem,
+				);
+			};
 			version = 54;
 		};
 		autoconf = {
 			version = 14;
 		};
 		autofs = {
+			dependencies = {
+				lib = (
+					DirectoryService,
+					Libsystem,
+				);
+			};
 			version = 109;
 		};
 		automake = {
 			version = 7;
 		};
 		awk = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
 			version = 11;
 		};
 		bash = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
 			version = 76.1;
 		};
 		basic_cmds = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
 			version = 48;
 		};
 		bc = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
 			version = 21;
 		};
 		bind9 = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
 			version = 24;
 		};
 		bison = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
 			version = 13;
 		};
 		bison1 = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
 			version = 1;
 		};
 		bless = {
+			dependencies = {
+				lib = (
+					DiskArbitration,
+					Libsystem,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
 			version = 60;
 		};
 		bootp = {
+			dependencies = {
+				lib = (
+					CFOpenDirectory,
+					Libsystem,
+					bootp,
+				);
+			};
 			version = 170;
 		};
 		bootstrap_cmds = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
 			version = 60;
 		};
 		bsdmake = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
 			version = 23;
 		};
 		bsm = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					bsm,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -811,6 +1041,11 @@
 			version = 16;
 		};
 		cctools = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
 			version = 667.3;
 		};
 		cctools_ofiles = {
@@ -821,12 +1056,28 @@
 			target = ofiles_install;
 		};
 		cddafs = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
 			version = 230.0.5;
 		};
 		clamav = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
 			version = 116;
 		};
 		configd = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					configd,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -834,6 +1085,13 @@
 			version = 204;
 		};
 		configd_executables = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					bsm,
+					configd,
+				);
+			};
 			original = configd;
 			target = configd_executables;
 		};
@@ -849,12 +1107,27 @@
 			version = 41;
 		};
 		cron = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
 			version = 30;
 		};
 		crontabs = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
 			version = 34;
 		};
 		cscope = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
 			version = 13;
 		};
 		cups = {
@@ -871,35 +1144,82 @@
 			version = 42;
 		};
 		cvs = {
+			dependencies = {
+				lib = (
+					Kerberos,
+					Libsystem,
+				);
+			};
 			version = 39;
 		};
 		cvs_wrapped = {
+			dependencies = {
+				lib = (
+					Kerberos,
+					Libsystem,
+				);
+			};
 			version = 13;
 		};
 		cxxfilt = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
 			version = 6;
 		};
 		developer_cmds = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
 			version = 48;
 		};
 		diffstat = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
 			version = 5;
 		};
 		diskdev_cmds = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
 			version = 419;
 		};
 		disklabel = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
 			version = 2;
 		};
 		distcc = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
 			version = 881;
 		};
 		doc_cmds = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
 			version = 47;
 		};
 		drvAppleCMD646Root = {
 			environment = {
-				RC_ARCHS = "ppc";
+				RC_ARCHS = ppc;
 			};
 			version = 104.2.2;
 		};
@@ -910,6 +1230,12 @@
 			version = 48;
 		};
 		dyld = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -917,18 +1243,44 @@
 			version = 95.3;
 		};
 		eap8021x = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					configd,
+					dyld,
+					eap8021x,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
 			version = 49;
 		};
 		efax = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+				);
+			};
 			version = 28;
 		};
 		emacs = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+				);
+			};
 			version = 70;
 		};
 		enscript = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+				);
+			};
 			version = 11.1;
 		};
 		expat = {
@@ -938,15 +1290,40 @@
 			version = 6;
 		};
 		extenTools = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+				);
+			};
 			version = 17.3;
 		};
 		fetchmail = {
+			dependencies = {
+				lib = (
+					Kerberos,
+					Libsystem,
+					dyld,
+				);
+			};
 			version = 28;
 		};
 		file = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+				);
+			};
 			version = 23;
 		};
 		file_cmds = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+				);
+			};
 			version = 184;
 		};
 		files = {
@@ -960,66 +1337,198 @@
 			version = 20.3;
 		};
 		freeradius = {
+			dependencies = {
+				lib = (
+					DirectoryService,
+					Kerberos,
+					LDAPFramework,
+					Libsystem,
+					dyld,
+				);
+			};
 			version = 11;
 		};
 		gcc = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+				);
+			};
 			version = 5465;
 		};
 		gcc_42 = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+				);
+			};
 			version = 5531;
 		};
 		gcc_os = {
+			dependencies = {
+				lib = (
+					Libmx,
+					Libsystem,
+					dyld,
+				);
+			};
 			version = 1823;
 		};
 		gcc_select = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+				);
+			};
 			version = 66;
 		};
 		gccfast = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+				);
+			};
 			version = 1626;
 		};
 		gdb = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+				);
+			};
 			version = 768;
 		};
 		gdbforcw = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+				);
+			};
 			version = 5;
 		};
 		glibtool = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
 			version = 12;
 		};
 		gm4 = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+				);
+			};
 			version = 12;
 		};
 		gnudiff = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+				);
+			};
 			version = 13;
 		};
 		gnumake = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+				);
+			};
 			version = 119;
 		};
 		gnuserv = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+				);
+			};
 			version = 7;
 		};
 		gnutar = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+				);
+			};
 			version = 441;
 		};
 		gnuzip = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+				);
+			};
 			version = 25;
 		};
 		gperf = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+				);
+			};
 			version = 4;
 		};
 		gpt = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+				);
+			};
 			version = 7;
 		};
 		graphviz = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					graphviz,
+				);
+			};
 			version = 622;
 		};
 		grep = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+				);
+			};
 			version = 24;
 		};
 		groff = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+				);
+			};
 			version = 31;
 		};
 		gssd = {
+			dependencies = {
+				lib = (
+					Kerberos,
+					Libsystem,
+					bsm,
+					dyld,
+				);
+			};
 			version = 23;
 		};
 		gutenprint = {
@@ -1029,9 +1538,21 @@
 			version = 5;
 		};
 		headerdoc = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+				);
+			};
 			version = 8.6.16;
 		};
 		hfs = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+				);
+			};
 			version = 165;
 		};
 		iodbc = {
@@ -1041,15 +1562,40 @@
 			version = 34;
 		};
 		ipv6configuration = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					configd,
+				);
+			};
 			version = 27;
 		};
 		isoutil = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+				);
+			};
 			version = 34;
 		};
 		jam = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+				);
+			};
 			version = 851;
 		};
 		kext_tools = {
+			dependencies = {
+				lib = (
+					DiskArbitration,
+					Libsystem,
+					dyld,
+				);
+			};
 			version = 117;
 		};
 		keymgr = {
@@ -1059,9 +1605,22 @@
 			version = 18;
 		};
 		ksh = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+				);
+			};
 			version = 13;
 		};
 		launchd = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					bsm,
+					dyld,
+				);
+			};
 			version = 257;
 		};
 		launchd_libs = {
@@ -1072,9 +1631,21 @@
 			target = launchd_libs;
 		};
 		ld64 = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+				);
+			};
 			version = 77;
 		};
 		less = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+				);
+			};
 			version = 20;
 		};
 		libdyld = {
@@ -1091,6 +1662,11 @@
 			version = 11;
 		};
 		libffi = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -1103,6 +1679,11 @@
 			version = 7;
 		};
 		libgcc = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
 			version = 8.1;
 		};
 		libiconv = {
@@ -1124,6 +1705,12 @@
 			version = 18;
 		};
 		libresolv = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libgcc,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -1310,6 +1897,12 @@
 			version = 32676;
 		};
 		libstdcxx = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libgcc,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -1322,6 +1915,12 @@
 			version = 7;
 		};
 		libutil = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libgcc,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -1340,15 +1939,46 @@
 			version = 8.4.1;
 		};
 		lsof = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+				);
+			};
 			version = 33;
 		};
 		lukemftp = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+				);
+			};
 			version = 11;
 		};
 		lukemftpd = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+				);
+			};
 			version = 33;
 		};
 		mDNSResponder = {
+			dependencies = {
+				lib = (
+					Libmx,
+					Libsystem,
+					bsm,
+					configd,
+					dyld,
+					libgcc,
+				);
+			};
 			version = 161.1;
 		};
 		mDNSResponderSystemLibraries = {
@@ -1358,27 +1988,77 @@
 			original = mDNSResponder;
 		};
 		mail_cmds = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+				);
+			};
 			version = 22;
 		};
 		mailman = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+				);
+			};
 			version = 126;
 		};
 		man = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+				);
+			};
 			version = 12;
 		};
 		misc_cmds = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+				);
+			};
 			version = 23;
 		};
 		modemccl = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					configd,
+					dyld,
+					libgcc,
+				);
+			};
 			version = 20;
 		};
 		msdosfs = {
 			version = 135;
 		};
 		nano = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+				);
+			};
 			version = 4;
 		};
 		nasm = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+				);
+			};
 			version = 13;
 		};
 		ncurses = {
@@ -1397,24 +2077,67 @@
 			version = 112;
 		};
 		netcat = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+				);
+			};
 			version = 7;
 		};
 		netinfo = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libgcc,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
 			version = 382;
 		};
 		network_cmds = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+					network_cmds,
+				);
+			};
 			version = 306;
 		};
 		notify = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+				);
+			};
 			version = 14;
 		};
 		ntfs = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+					libutil,
+				);
+			};
 			version = 51;
 		};
 		ntp = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+				);
+			};
 			version = 37;
 		};
 		objc4 = {
@@ -1424,40 +2147,110 @@
 			version = 371;
 		};
 		openmpi = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+					libstdcxx,
+					libutil,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
 			version = 5;
 		};
 		pam = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libgcc,
+					pam,
+				);
+			};
 			version = 31;
 		};
 		pam_modules = {
+			dependencies = {
+				lib = (
+					CFOpenDirectory,
+					Libsystem,
+					libgcc,
+					pam,
+				);
+			};
 			version = 35;
 		};
 		passwordserver_sasl = {
+			dependencies = {
+				lib = (
+					Kerberos,
+					Libsystem,
+					dyld,
+					libgcc,
+					passwordserver_sasl,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
 			version = 118;
 		};
 		passwordserver_saslextra = {
+			dependencies = {
+				lib = (
+					Kerberos,
+					Libsystem,
+					dyld,
+					libgcc,
+					passwordserver_sasl,
+				);
+			};
 			original = passwordserver_sasl;
 		};
 		passwordserver_saslkerberos = {
+			dependencies = {
+				lib = (
+					Kerberos,
+					Libsystem,
+					libgcc,
+				);
+			};
 			original = passwordserver_sasl;
 			target = KerberosTargets;
 		};
 		patch_cmds = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+				);
+			};
 			version = 11;
 		};
 		pb_makefiles = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+				);
+			};
 			version = 128;
 		};
 		pbx_jamfiles = {
 			version = 874;
 		};
 		pdisk = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+				);
+			};
 			version = 6;
 		};
 		perl = {
@@ -1467,24 +2260,79 @@
 			version = 51;
 		};
 		portmap = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+				);
+			};
 			version = 26;
 		};
 		postfix = {
+			dependencies = {
+				lib = (
+					DirectoryService,
+					Kerberos,
+					Libsystem,
+					dyld,
+					libgcc,
+					passwordserver_sasl,
+				);
+			};
 			version = 174;
 		};
 		ppp = {
+			dependencies = {
+				lib = (
+					DirectoryService,
+					Kerberos,
+					Libsystem,
+					bsm,
+					configd,
+					dyld,
+					eap8021x,
+					libgcc,
+				);
+			};
 			version = 314;
 		};
 		procmail = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+				);
+			};
 			version = 11;
 		};
 		project_makefiles = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+				);
+			};
 			version = 126;
 		};
 		pyOpenSSL = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libgcc,
+				);
+			};
 			version = 2;
 		};
 		pyobjc = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libgcc,
+				);
+			};
 			version = 14;
 		};
 		python = {
@@ -1494,21 +2342,49 @@
 			version = 30;
 		};
 		python23 = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libgcc,
+				);
+			};
 			version = 17;
 		};
 		python_dateutil = {
 			version = 2;
 		};
 		python_modules = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
 			version = 12;
 		};
 		rcs = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+				);
+			};
 			version = 13;
 		};
 		remote_cmds = {
+			dependencies = {
+				lib = (
+					Kerberos,
+					Libsystem,
+					dyld,
+					libgcc,
+				);
+			};
 			version = 12;
 		};
 		removefile = {
@@ -1518,6 +2394,14 @@
 			version = 10;
 		};
 		rsync = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+					libresolv,
+				);
+			};
 			version = 30;
 		};
 		ruby = {
@@ -1527,21 +2411,54 @@
 			version = 67;
 		};
 		ruby_dnssd = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libgcc,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
 			version = 6;
 		};
 		ruby_libxml = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libgcc,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
 			version = 6;
 		};
 		samba = {
+			dependencies = {
+				lib = (
+					DirectoryService,
+					Kerberos,
+					LDAPFramework,
+					Libsystem,
+					configd,
+					dyld,
+					libgcc,
+					libresolv,
+					libstdcxx,
+					pam,
+				);
+			};
 			version = 187;
 		};
 		screen = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+				);
+			};
 			version = 12;
 		};
 		security_authtrampoline = {
@@ -1578,15 +2495,41 @@
 			version = 32661;
 		};
 		shell_cmds = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					bsm,
+					dyld,
+					libgcc,
+					libresolv,
+					pam,
+				);
+			};
 			version = 116;
 		};
 		smb = {
+			dependencies = {
+				lib = (
+					Kerberos,
+					Libsystem,
+					dyld,
+					libgcc,
+					libutil,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
 			version = 344;
 		};
 		srm = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+				);
+			};
 			version = 6;
 		};
 		stmalloc = {
@@ -1599,18 +2542,59 @@
 			version = 16;
 		};
 		sudo = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					bsm,
+					dyld,
+					libgcc,
+					pam,
+				);
+			};
 			version = 28;
 		};
 		svk = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libgcc,
+				);
+			};
 			version = 9;
 		};
 		swig = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+					libstdcxx,
+				);
+			};
 			version = 4;
 		};
 		syslog = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+				);
+			};
 			version = 64;
 		};
 		system_cmds = {
+			dependencies = {
+				lib = (
+					CFOpenDirectory,
+					DirectoryService,
+					Libsystem,
+					bsm,
+					dyld,
+					libgcc,
+					pam,
+				);
+			};
 			version = 431;
 		};
 		system_config = {
@@ -1632,48 +2616,131 @@
 			original = tcl;
 		};
 		tcp_wrappers = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
 			version = 18;
 		};
 		tcpdump = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+				);
+			};
 			version = 23;
 		};
 		tcsh = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+				);
+			};
 			version = 60;
 		};
 		texi2html = {
 			version = 5;
 		};
 		texinfo = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+				);
+			};
 			version = 17;
 		};
 		text_cmds = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+				);
+			};
 			version = 68;
 		};
 		tidy = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+					tidy,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
 			version = 13;
 		};
 		top = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+					libutil,
+				);
+			};
 			version = 37;
 		};
 		usertemplate = {
 			version = 65;
 		};
 		uucp = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+				);
+			};
 			version = 10;
 		};
 		vim = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+				);
+			};
 			version = 34;
 		};
 		webdavfs = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					configd,
+					dyld,
+					libgcc,
+					libutil,
+				);
+			};
 			version = 252;
 		};
 		wxWidgets = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+					libstdcxx,
+					wxWidgets,
+				);
+			};
 			version = 11;
 		};
 		xar = {
@@ -1683,21 +2750,48 @@
 			version = 28;
 		};
 		xelf = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+				);
+			};
 			version = 1;
 		};
 		xnu = {
 			version = 1228;
 		};
 		zip = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+				);
+			};
 			version = 9;
 		};
 		zlib = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libgcc,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
 			version = 18;
 		};
 		zsh = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+				);
+			};
 			version = 48;
 		};
 	};
