@@ -23,123 +23,417 @@
 	macosx = "Mac OS X 10.5";
 	projects = {
 		Apple16X50Serial = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			version = 19.2;
 		};
 		Apple3Com3C90x = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			version = 10;
 		};
 		AppleADBButtons = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			version = 300;
 		};
 		AppleADBKeyboard = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			version = 239.1;
 		};
 		AppleADBMouse = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			version = 212;
 		};
 		AppleAPIC = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = i386;
 			};
 			version = 10;
 		};
 		AppleCore99NVRAM = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = ppc;
 			};
 			version = 111.3.1;
 		};
 		AppleDisplays = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			version = 160.0.1;
 		};
 		AppleFan = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = ppc;
 			};
 			version = 109.2.3;
 		};
 		AppleFileSystemDriver = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			version = 12;
 		};
 		AppleFlashNVRAM = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			version = 105.4.0;
 		};
 		AppleGMACEthernet = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = ppc;
 			};
 			version = 157.3.1;
 		};
 		AppleGPIO = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = ppc;
 			};
 			version = 120.0.0;
 		};
 		AppleHWSensor = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			version = 170.0.0;
 		};
 		AppleI2C = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			version = 400.0.3;
 		};
 		AppleI2S = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			version = 101.3.1;
 		};
 		AppleIntel8255x = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			version = 18.0.80;
 		};
 		AppleIntelPIIXATA = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = i386;
 			};
 			version = 32;
 		};
 		AppleK2SATA = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = ppc;
 			};
 			version = 104.3.2;
 		};
 		AppleK2SATARoot = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = ppc;
 			};
 			version = 105.2.2;
 		};
 		AppleKauaiATA = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = ppc;
 			};
 			version = 121.3.4;
 		};
 		AppleKeyLargo = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = ppc;
 			};
 			version = 171.3.3;
 		};
 		AppleKeyswitch = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+			};
 			version = 104.0.1;
 		};
 		AppleKiwiATA = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = ppc;
 			};
 			version = 102.3.2;
 		};
 		AppleKiwiRoot = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = ppc;
 			};
 			version = 105.3.1;
 		};
 		AppleMPIC = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = ppc;
 			};
 			version = 1.5.3;
 		};
 		AppleMacRISC2PE = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = ppc;
 			};
@@ -152,12 +446,34 @@
 			version = 202.0.9;
 		};
 		AppleMacRiscPCI = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = ppc;
 			};
 			version = 3.4;
 		};
 		AppleMediaBay = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			version = 102.3.1;
 		};
 		AppleOnboardAudio = {
@@ -167,63 +483,213 @@
 			version = 257.3.2;
 		};
 		ApplePCCard16ATA = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			version = 113;
 		};
 		ApplePCCardATA = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			version = 103.3.2;
 		};
 		AppleRAID = {
 			version = 3.0.19;
 		};
 		AppleRS232Serial = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = ppc;
 			};
 			version = 130.2.7;
 		};
 		AppleRTL8139Ethernet = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			version = 141;
 		};
 		AppleSCCSerial = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = ppc;
 			};
 			version = 132.4.2;
 		};
 		AppleSMBIOS = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = i386;
 			};
 			version = 26;
 		};
 		AppleSym8xx = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			version = 122.3.1;
 		};
 		AppleTalk = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libgcc,
+				);
+			};
 			version = 91;
 		};
 		AppleThermal = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			version = 101.3.2;
 		};
 		AppleUSBAudio = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			version = 252.2.9;
 		};
 		AppleUSBCDCDriver = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			version = 326.4.1;
 		};
 		AppleUSBIrDA = {
 			version = 144.4.0;
 		};
 		AppleVIA = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			version = 151.0.1;
 		};
 		BerkeleyDB = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+				);
+			};
 			version = 15;
 		};
 		BootCache = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+				);
+			};
 			version = 40;
 		};
 		BootX = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					cctools_ofiles,
+					xnu,
+				);
+			};
 			version = 81;
 		};
 		CF = {
@@ -239,6 +705,12 @@
 			version = 219;
 		};
 		CFOpenDirectory = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libgcc,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -248,6 +720,14 @@
 			dependencies = {
 				lib = (
 					Kerberos,
+					Libsystem,
+					dyld,
+					libgcc,
+					libresolv,
+					libstdcxx,
+					libutil,
+					wxWidgets,
+					zlib,
 				);
 			};
 			environment = {
@@ -256,35 +736,82 @@
 			version = 20;
 		};
 		CPANInternal = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libgcc,
+				);
+			};
 			version = 32;
 		};
 		ChatServer = {
 			dependencies = {
 				lib = (
 					DirectoryService,
+					Libsystem,
+					dyld,
+					libgcc,
+					libresolv,
+					passwordserver_sasl,
+					zlib,
 				);
 			};
 			version = 260;
 		};
 		Chess = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+					libstdcxx,
+				);
+			};
 			version = 105.0.14;
 		};
 		CommonCrypto = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
 			version = 32207;
 		};
 		CoreOSMakefiles = {
+			dependencies = {
+				build = (
+					bash,
+				);
+			};
 			version = 40;
 		};
 		CrackLib = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
 			version = 30889;
 		};
 		Csu = {
+			dependencies = {
+				header = (
+					cctools_ofiles,
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -295,11 +822,26 @@
 				lib = (
 					DirectoryService,
 					Kerberos,
+					Libsystem,
+					dyld,
+					libgcc,
+					libresolv,
+					passwordserver_sasl,
+					tcp_wrappers,
 				);
 			};
 			version = 187;
 		};
 		DSPasswordServerFramework = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					configd,
+					libgcc,
+					libstdcxx,
+					passwordserver_sasl,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -312,6 +854,11 @@
 					DSPasswordServerFramework,
 					DirectoryService,
 					LDAPFramework,
+					Libsystem,
+					configd,
+					libgcc,
+					libstdcxx,
+					passwordserver_sasl,
 				);
 			};
 			version = 206;
@@ -323,6 +870,12 @@
 					DSPasswordServerFramework,
 					DSTools,
 					DirectoryService,
+					Libsystem,
+					configd,
+					dyld,
+					libgcc,
+					libresolv,
+					libstdcxx,
 				);
 			};
 			environment = {
@@ -331,6 +884,15 @@
 			version = 109;
 		};
 		DirectoryService = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libgcc,
+					libresolv,
+					libstdcxx,
+					passwordserver_sasl,
+				);
+			};
 			target = DirectoryServiceFW;
 			version = 514;
 		};
@@ -341,12 +903,29 @@
 					DirectoryService,
 					Kerberos,
 					LDAPFramework,
+					Libsystem,
+					bsm,
+					configd,
+					dyld,
+					libgcc,
+					libresolv,
+					libstdcxx,
+					passwordserver_sasl,
 				);
 			};
 			original = DirectoryService;
 			target = DirectoryServiceDaemon;
 		};
 		DirectoryServiceMIG = {
+			dependencies = {
+				build = (
+					bash,
+					xnu,
+				);
+				header = (
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -357,6 +936,10 @@
 			dependencies = {
 				lib = (
 					DiskArbitration,
+					Libsystem,
+					configd,
+					dyld,
+					libgcc,
 				);
 			};
 			environment = {
@@ -365,6 +948,13 @@
 			version = 182;
 		};
 		DynamicPowerStep = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					configd,
+					libgcc,
+				);
+			};
 			version = 1.6.0;
 		};
 		FastCGI = {
@@ -389,63 +979,208 @@
 			original = ICU;
 		};
 		IOACPIFamily = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = i386;
 			};
 			version = 5;
 		};
 		IOADBFamily = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = ppc;
 			};
 			version = 6;
 		};
 		IOATAFamily = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			version = 173.3.1;
 		};
 		IOATAPIProtocolTransport = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			version = 152.0.1;
 		};
 		IOAudioFamily = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			version = 164.2.7;
 		};
 		IOCDStorageFamily = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			version = 39;
 		};
 		IODVDStorageFamily = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			version = 26;
 		};
 		IOFWDVComponents = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libgcc,
+				);
+			};
 			version = 195.4.0;
 		};
 		IOFireWireAVC = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libgcc,
+					libstdcxx,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
 			version = 221.4.0;
 		};
 		IOFireWireFamily = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libgcc,
+					libstdcxx,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
 			version = 338.4.0;
 		};
 		IOFireWireIP = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			version = 170.4.0;
 		};
 		IOFireWireSBP2 = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libgcc,
+					libstdcxx,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
 			version = 197.4.0;
 		};
 		IOFireWireSerialBusProtocolTransport = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			version = 150.0.7;
 		};
 		IOGraphics = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			version = 233;
 		};
 		IOHIDFamily = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+					libstdcxx,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -458,6 +1193,13 @@
 			version = 111.0.2;
 		};
 		IOKitTools = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+				);
+			};
 			version = 76;
 		};
 		IOKitUser = {
@@ -467,33 +1209,125 @@
 			version = 376;
 		};
 		IONetworkingFamily = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			version = 46;
 		};
 		IOPCCardFamily = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			version = 48;
 		};
 		IOPCIFamily = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			version = 103;
 		};
 		IOSCSIParallelFamily = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			version = 150.0.7;
 		};
 		IOSerialFamily = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			version = 31;
 		};
 		IOStorageFamily = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			version = 88;
 		};
 		IOUSBFamily = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+					libstdcxx,
+				);
+			};
 			version = 303.4.5;
 		};
 		IOUSBMassStorageClass = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			version = 200.0.3;
 		};
 		JavaScriptCore = {
 			version = 5523.10.3;
 		};
 		JavaScriptGlue = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libgcc,
+					libstdcxx,
+				);
+			};
 			version = 5523.5;
 		};
 		Kerberos = {
@@ -501,6 +1335,11 @@
 				lib = (
 					Kerberos,
 					LDAPFramework,
+					Libsystem,
+					configd,
+					dyld,
+					libgcc,
+					libresolv,
 				);
 			};
 			version = 75.9;
@@ -510,23 +1349,66 @@
 				lib = (
 					CFOpenDirectory,
 					Kerberos,
+					Libsystem,
+					bsm,
+					dyld,
+					libgcc,
 				);
 			};
 			version = 31;
 		};
 		KeyLargoATA = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			version = 111.3.1;
 		};
 		LDAPFramework = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libgcc,
+					libresolv,
+					passwordserver_sasl,
+				);
+			};
 			original = OpenLDAP;
 		};
 		Libc = {
+			dependencies = {
+				build = (
+					bash,
+					xnu,
+				);
+				header = (
+					cctools_ofiles,
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
 			version = 498;
 		};
 		Libc_debug = {
+			dependencies = {
+				build = (
+					bash,
+					xnu,
+				);
+				header = (
+					cctools_ofiles,
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -534,14 +1416,34 @@
 			target = install;
 		};
 		Libc_headers = {
+			dependencies = {
+				build = (
+					bash,
+				);
+			};
 			original = Libc;
 			target = install;
 		};
 		Libc_man = {
+			dependencies = {
+				build = (
+					bash,
+				);
+			};
 			original = Libc;
 			target = install;
 		};
 		Libc_profile = {
+			dependencies = {
+				build = (
+					bash,
+					xnu,
+				);
+				header = (
+					cctools_ofiles,
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -549,15 +1451,37 @@
 			target = install;
 		};
 		Libcpp_kext = {
+			dependencies = {
+				build = (
+					bash,
+				);
+			};
 			version = 5;
 		};
 		Libinfo = {
+			dependencies = {
+				build = (
+					bash,
+					xnu,
+				);
+				header = (
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
 			version = 278;
 		};
 		Libm = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -565,6 +1489,12 @@
 			version = 287.1;
 		};
 		Libmx = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libgcc,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -572,30 +1502,80 @@
 			target = libmx;
 		};
 		Libnotify = {
+			dependencies = {
+				build = (
+					bash,
+					xnu,
+				);
+				header = (
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
 			version = 35;
 		};
 		Librpcsvc = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+			};
 			version = 15;
 		};
 		Libstreams = {
+			dependencies = {
+				header = (
+					cctools_ofiles,
+					xnu,
+				);
+			};
 			version = 25;
 		};
 		Libsyscall = {
+			dependencies = {
+				build = (
+					bash,
+					xnu,
+				);
+				header = (
+					cctools_ofiles,
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
 			original = xnu;
 		};
 		Libsystem = {
+			dependencies = {
+				build = (
+					bash,
+					xnu,
+				);
+				header = (
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
 			version = 111;
 		};
 		Liby = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+			};
 			version = 15;
 		};
 		MySQL = {
@@ -609,6 +1589,9 @@
 				lib = (
 					DiskArbitration,
 					Libsystem,
+					dyld,
+					libgcc,
+					libutil,
 				);
 			};
 			version = 24;
@@ -623,6 +1606,7 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					libgcc,
 				);
 			};
 			environment = {
@@ -636,6 +1620,10 @@
 					CFOpenDirectory,
 					DSPasswordServerFramework,
 					Libsystem,
+					dyld,
+					libgcc,
+					libresolv,
+					passwordserver_sasl,
 				);
 			};
 			version = 106;
@@ -645,6 +1633,12 @@
 				lib = (
 					Kerberos,
 					Libsystem,
+					bsm,
+					dyld,
+					libgcc,
+					pam,
+					tcp_wrappers,
+					zlib,
 				);
 			};
 			version = 87;
@@ -660,6 +1654,7 @@
 				lib = (
 					Libsystem,
 					OpenSSL096,
+					libgcc,
 				);
 			};
 			environment = {
@@ -671,6 +1666,9 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					configd,
+					dyld,
+					libgcc,
 				);
 			};
 			version = 137;
@@ -683,6 +1681,8 @@
 				lib = (
 					Libsystem,
 					RubyCocoa,
+					libffi,
+					libgcc,
 				);
 			};
 			environment = {
@@ -691,12 +1691,18 @@
 			version = 57;
 		};
 		RubyGems = {
+			dependencies = {
+				build = (
+					bash,
+				);
+			};
 			version = 15;
 		};
 		RubyOnRails = {
 			dependencies = {
 				lib = (
 					Libsystem,
+					libgcc,
 				);
 			};
 			environment = {
@@ -705,6 +1711,11 @@
 			version = 25;
 		};
 		SCSIHeaderInstaller = {
+			dependencies = {
+				build = (
+					bash,
+				);
+			};
 			version = 100.0.2;
 		};
 		SQLite = {
@@ -729,6 +1740,9 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					dyld,
+					libgcc,
+					zlib,
 				);
 			};
 			version = 137;
@@ -737,17 +1751,33 @@
 			version = 23;
 		};
 		SystemStubs = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					cctools_ofiles,
+					xnu,
+				);
+			};
 			version = 6;
 		};
 		TargetConfig = {
 			dependencies = {
 				lib = (
 					Libsystem,
+					dyld,
+					libgcc,
 				);
 			};
 			version = 1;
 		};
 		TimeZoneData = {
+			dependencies = {
+				build = (
+					bash,
+				);
+			};
 			version = 6;
 		};
 		Tokend = {
@@ -757,23 +1787,50 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					libgcc,
 				);
 			};
 			version = 3;
 		};
 		TwistedWords = {
+			dependencies = {
+				build = (
+					bash,
+				);
+			};
 			version = 3;
 		};
 		TwistedXish = {
+			dependencies = {
+				build = (
+					bash,
+				);
+			};
 			version = 3;
 		};
 		UserNotification = {
+			dependencies = {
+				header = (
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
 			version = 21;
 		};
 		VirtualAudioDriver = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			original = AppleOnboardAudio;
 			target = VirtualAudioDriver;
 		};
@@ -787,11 +1844,23 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					X11server,
+					dyld,
+					libgcc,
+					zlib,
 				);
 			};
 			version = 13;
 		};
 		X11fonts = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+			};
 			version = 5;
 		};
 		X11libs = {
@@ -804,6 +1873,8 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					dyld,
+					libgcc,
 				);
 			};
 			version = 6;
@@ -819,6 +1890,11 @@
 				lib = (
 					Libsystem,
 					X11server,
+					configd,
+					dyld,
+					libgcc,
+					libstdcxx,
+					zlib,
 				);
 			};
 			version = 46;
@@ -827,6 +1903,9 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					dyld,
+					libgcc,
+					libstdcxx,
 				);
 			};
 			version = 118;
@@ -844,6 +1923,8 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					dyld,
+					libgcc,
 				);
 			};
 			version = 696;
@@ -858,6 +1939,7 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					libgcc,
 				);
 			};
 			environment = {
@@ -897,11 +1979,17 @@
 				lib = (
 					Libsystem,
 					apr,
+					libgcc,
 				);
 			};
 			version = 12;
 		};
 		architecture = {
+			dependencies = {
+				build = (
+					bash,
+				);
+			};
 			version = 254;
 		};
 		at_cmds = {
@@ -909,11 +1997,18 @@
 				lib = (
 					AppleTalk,
 					Libsystem,
+					dyld,
+					libgcc,
 				);
 			};
 			version = 54;
 		};
 		autoconf = {
+			dependencies = {
+				build = (
+					bash,
+				);
+			};
 			version = 14;
 		};
 		autofs = {
@@ -921,17 +2016,28 @@
 				lib = (
 					DirectoryService,
 					Libsystem,
+					configd,
+					dyld,
+					libgcc,
+					libutil,
 				);
 			};
 			version = 109;
 		};
 		automake = {
+			dependencies = {
+				build = (
+					bash,
+				);
+			};
 			version = 7;
 		};
 		awk = {
 			dependencies = {
 				lib = (
 					Libsystem,
+					dyld,
+					libgcc,
 				);
 			};
 			version = 11;
@@ -940,6 +2046,8 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					dyld,
+					libgcc,
 				);
 			};
 			version = 76.1;
@@ -948,6 +2056,8 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					dyld,
+					libgcc,
 				);
 			};
 			version = 48;
@@ -956,6 +2066,8 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					dyld,
+					libgcc,
 				);
 			};
 			version = 21;
@@ -964,6 +2076,8 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					dyld,
+					libgcc,
 				);
 			};
 			version = 24;
@@ -972,6 +2086,8 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					dyld,
+					libgcc,
 				);
 			};
 			version = 13;
@@ -980,6 +2096,8 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					dyld,
+					libgcc,
 				);
 			};
 			version = 1;
@@ -989,6 +2107,8 @@
 				lib = (
 					DiskArbitration,
 					Libsystem,
+					dyld,
+					libgcc,
 				);
 			};
 			environment = {
@@ -1002,6 +2122,10 @@
 					CFOpenDirectory,
 					Libsystem,
 					bootp,
+					configd,
+					dyld,
+					libgcc,
+					libresolv,
 				);
 			};
 			version = 170;
@@ -1010,6 +2134,8 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					dyld,
+					libgcc,
 				);
 			};
 			version = 60;
@@ -1018,6 +2144,8 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					dyld,
+					libgcc,
 				);
 			};
 			version = 23;
@@ -1027,6 +2155,8 @@
 				lib = (
 					Libsystem,
 					bsm,
+					dyld,
+					libgcc,
 				);
 			};
 			environment = {
@@ -1044,11 +2174,22 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					dyld,
+					libgcc,
 				);
 			};
 			version = 667.3;
 		};
 		cctools_ofiles = {
+			dependencies = {
+				build = (
+					bash,
+					xnu,
+				);
+				header = (
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -1059,6 +2200,11 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					configd,
+					dyld,
+					libgcc,
+					libstdcxx,
+					libutil,
 				);
 			};
 			version = 230.0.5;
@@ -1067,6 +2213,10 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					dyld,
+					libgcc,
+					libresolv,
+					zlib,
 				);
 			};
 			version = 116;
@@ -1076,6 +2226,8 @@
 				lib = (
 					Libsystem,
 					configd,
+					dyld,
+					libgcc,
 				);
 			};
 			environment = {
@@ -1090,6 +2242,8 @@
 					Libsystem,
 					bsm,
 					configd,
+					dyld,
+					libgcc,
 				);
 			};
 			original = configd;
@@ -1101,6 +2255,14 @@
 			version = 91;
 		};
 		copyfile = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -1110,6 +2272,9 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					dyld,
+					libgcc,
+					libutil,
 				);
 			};
 			version = 30;
@@ -1118,6 +2283,8 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					dyld,
+					libgcc,
 				);
 			};
 			version = 34;
@@ -1126,6 +2293,8 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					dyld,
+					libgcc,
 				);
 			};
 			version = 13;
@@ -1148,6 +2317,10 @@
 				lib = (
 					Kerberos,
 					Libsystem,
+					dyld,
+					libgcc,
+					pam,
+					zlib,
 				);
 			};
 			version = 39;
@@ -1157,6 +2330,8 @@
 				lib = (
 					Kerberos,
 					Libsystem,
+					dyld,
+					libgcc,
 				);
 			};
 			version = 13;
@@ -1165,6 +2340,8 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					dyld,
+					libgcc,
 				);
 			};
 			version = 6;
@@ -1173,6 +2350,8 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					dyld,
+					libgcc,
 				);
 			};
 			version = 48;
@@ -1181,6 +2360,8 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					dyld,
+					libgcc,
 				);
 			};
 			version = 5;
@@ -1189,6 +2370,9 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					dyld,
+					libgcc,
+					libutil,
 				);
 			};
 			version = 419;
@@ -1197,6 +2381,9 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					dyld,
+					libgcc,
+					zlib,
 				);
 			};
 			version = 2;
@@ -1205,6 +2392,8 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					dyld,
+					libgcc,
 				);
 			};
 			version = 881;
@@ -1213,11 +2402,22 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					dyld,
+					libgcc,
+					zlib,
 				);
 			};
 			version = 47;
 		};
 		drvAppleCMD646Root = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				staticlib = (
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = ppc;
 			};
@@ -1234,6 +2434,8 @@
 				lib = (
 					Libsystem,
 					dyld,
+					libgcc,
+					libstdcxx,
 				);
 			};
 			environment = {
@@ -1249,6 +2451,7 @@
 					configd,
 					dyld,
 					eap8021x,
+					libgcc,
 				);
 			};
 			environment = {
@@ -1261,6 +2464,7 @@
 				lib = (
 					Libsystem,
 					dyld,
+					libgcc,
 				);
 			};
 			version = 28;
@@ -1270,6 +2474,7 @@
 				lib = (
 					Libsystem,
 					dyld,
+					libgcc,
 				);
 			};
 			version = 70;
@@ -1279,6 +2484,7 @@
 				lib = (
 					Libsystem,
 					dyld,
+					libgcc,
 				);
 			};
 			version = 11.1;
@@ -1294,6 +2500,7 @@
 				lib = (
 					Libsystem,
 					dyld,
+					libgcc,
 				);
 			};
 			version = 17.3;
@@ -1304,6 +2511,8 @@
 					Kerberos,
 					Libsystem,
 					dyld,
+					libgcc,
+					libresolv,
 				);
 			};
 			version = 28;
@@ -1313,6 +2522,8 @@
 				lib = (
 					Libsystem,
 					dyld,
+					libgcc,
+					zlib,
 				);
 			};
 			version = 23;
@@ -1322,11 +2533,18 @@
 				lib = (
 					Libsystem,
 					dyld,
+					libgcc,
+					libutil,
 				);
 			};
 			version = 184;
 		};
 		files = {
+			dependencies = {
+				build = (
+					bash,
+				);
+			};
 			target = "";
 			version = 520;
 		};
@@ -1344,6 +2562,9 @@
 					LDAPFramework,
 					Libsystem,
 					dyld,
+					libgcc,
+					libresolv,
+					pam,
 				);
 			};
 			version = 11;
@@ -1353,6 +2574,7 @@
 				lib = (
 					Libsystem,
 					dyld,
+					libgcc,
 				);
 			};
 			version = 5465;
@@ -1362,6 +2584,7 @@
 				lib = (
 					Libsystem,
 					dyld,
+					libgcc,
 				);
 			};
 			version = 5531;
@@ -1381,6 +2604,7 @@
 				lib = (
 					Libsystem,
 					dyld,
+					libgcc,
 				);
 			};
 			version = 66;
@@ -1399,6 +2623,7 @@
 				lib = (
 					Libsystem,
 					dyld,
+					libgcc,
 				);
 			};
 			version = 768;
@@ -1408,6 +2633,7 @@
 				lib = (
 					Libsystem,
 					dyld,
+					libgcc,
 				);
 			};
 			version = 5;
@@ -1416,6 +2642,7 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					libgcc,
 				);
 			};
 			version = 12;
@@ -1425,6 +2652,7 @@
 				lib = (
 					Libsystem,
 					dyld,
+					libgcc,
 				);
 			};
 			version = 12;
@@ -1434,6 +2662,7 @@
 				lib = (
 					Libsystem,
 					dyld,
+					libgcc,
 				);
 			};
 			version = 13;
@@ -1443,6 +2672,7 @@
 				lib = (
 					Libsystem,
 					dyld,
+					libgcc,
 				);
 			};
 			version = 119;
@@ -1452,6 +2682,7 @@
 				lib = (
 					Libsystem,
 					dyld,
+					libgcc,
 				);
 			};
 			version = 7;
@@ -1461,6 +2692,7 @@
 				lib = (
 					Libsystem,
 					dyld,
+					libgcc,
 				);
 			};
 			version = 441;
@@ -1470,6 +2702,7 @@
 				lib = (
 					Libsystem,
 					dyld,
+					libgcc,
 				);
 			};
 			version = 25;
@@ -1479,6 +2712,8 @@
 				lib = (
 					Libsystem,
 					dyld,
+					libgcc,
+					libstdcxx,
 				);
 			};
 			version = 4;
@@ -1488,6 +2723,7 @@
 				lib = (
 					Libsystem,
 					dyld,
+					libgcc,
 				);
 			};
 			version = 7;
@@ -1498,6 +2734,8 @@
 					Libsystem,
 					dyld,
 					graphviz,
+					libgcc,
+					zlib,
 				);
 			};
 			version = 622;
@@ -1507,6 +2745,7 @@
 				lib = (
 					Libsystem,
 					dyld,
+					libgcc,
 				);
 			};
 			version = 24;
@@ -1516,6 +2755,8 @@
 				lib = (
 					Libsystem,
 					dyld,
+					libgcc,
+					libstdcxx,
 				);
 			};
 			version = 31;
@@ -1527,6 +2768,7 @@
 					Libsystem,
 					bsm,
 					dyld,
+					libgcc,
 				);
 			};
 			version = 23;
@@ -1542,6 +2784,7 @@
 				lib = (
 					Libsystem,
 					dyld,
+					libgcc,
 				);
 			};
 			version = 8.6.16;
@@ -1551,6 +2794,7 @@
 				lib = (
 					Libsystem,
 					dyld,
+					libgcc,
 				);
 			};
 			version = 165;
@@ -1566,6 +2810,7 @@
 				lib = (
 					Libsystem,
 					configd,
+					libgcc,
 				);
 			};
 			version = 27;
@@ -1575,6 +2820,7 @@
 				lib = (
 					Libsystem,
 					dyld,
+					libgcc,
 				);
 			};
 			version = 34;
@@ -1584,6 +2830,7 @@
 				lib = (
 					Libsystem,
 					dyld,
+					libgcc,
 				);
 			};
 			version = 851;
@@ -1594,11 +2841,21 @@
 					DiskArbitration,
 					Libsystem,
 					dyld,
+					libgcc,
 				);
 			};
 			version = 117;
 		};
 		keymgr = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					cctools_ofiles,
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -1609,6 +2866,7 @@
 				lib = (
 					Libsystem,
 					dyld,
+					libgcc,
 				);
 			};
 			version = 13;
@@ -1619,6 +2877,7 @@
 					Libsystem,
 					bsm,
 					dyld,
+					libgcc,
 				);
 			};
 			version = 257;
@@ -1635,6 +2894,8 @@
 				lib = (
 					Libsystem,
 					dyld,
+					libgcc,
+					libstdcxx,
 				);
 			};
 			version = 77;
@@ -1644,11 +2905,22 @@
 				lib = (
 					Libsystem,
 					dyld,
+					libgcc,
 				);
 			};
 			version = 20;
 		};
 		libdyld = {
+			dependencies = {
+				build = (
+					bash,
+					xnu,
+				);
+				header = (
+					cctools_ofiles,
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -1665,6 +2937,7 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					libgcc,
 				);
 			};
 			environment = {
@@ -1673,6 +2946,14 @@
 			version = 10;
 		};
 		libfs = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -1693,6 +2974,14 @@
 			version = 24;
 		};
 		libmd = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -1789,6 +3078,14 @@
 			version = 32586;
 		};
 		libsecurity_checkpw = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -1885,6 +3182,15 @@
 			version = 32463;
 		};
 		libsecurity_utilities = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					cctools_ofiles,
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -1912,6 +3218,14 @@
 			version = 16;
 		};
 		libtelnet = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+			};
 			version = 7;
 		};
 		libutil = {
@@ -1964,6 +3278,7 @@
 					Libsystem,
 					dyld,
 					libgcc,
+					pam,
 				);
 			};
 			version = 33;
@@ -2190,6 +3505,7 @@
 					dyld,
 					libgcc,
 					passwordserver_sasl,
+					zlib,
 				);
 			};
 			environment = {
@@ -2205,6 +3521,7 @@
 					dyld,
 					libgcc,
 					passwordserver_sasl,
+					zlib,
 				);
 			};
 			original = passwordserver_sasl;
@@ -2265,6 +3582,7 @@
 					Libsystem,
 					dyld,
 					libgcc,
+					tcp_wrappers,
 				);
 			};
 			version = 26;
@@ -2331,6 +3649,7 @@
 				lib = (
 					Libsystem,
 					libgcc,
+					zlib,
 				);
 			};
 			version = 14;
@@ -2346,11 +3665,17 @@
 				lib = (
 					Libsystem,
 					libgcc,
+					zlib,
 				);
 			};
 			version = 17;
 		};
 		python_dateutil = {
+			dependencies = {
+				build = (
+					bash,
+				);
+			};
 			version = 2;
 		};
 		python_modules = {
@@ -2388,6 +3713,14 @@
 			version = 12;
 		};
 		removefile = {
+			dependencies = {
+				build = (
+					bash,
+				);
+				header = (
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -2427,6 +3760,7 @@
 				lib = (
 					Libsystem,
 					libgcc,
+					zlib,
 				);
 			};
 			environment = {
@@ -2447,6 +3781,7 @@
 					libresolv,
 					libstdcxx,
 					pam,
+					zlib,
 				);
 			};
 			version = 187;
@@ -2465,6 +3800,11 @@
 			version = 32534;
 		};
 		security_certificates = {
+			dependencies = {
+				build = (
+					bash,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -2533,6 +3873,11 @@
 			version = 6;
 		};
 		stmalloc = {
+			dependencies = {
+				header = (
+					xnu,
+				);
+			};
 			version = 4;
 		};
 		subversion = {
@@ -2649,6 +3994,11 @@
 			version = 60;
 		};
 		texi2html = {
+			dependencies = {
+				build = (
+					bash,
+				);
+			};
 			version = 5;
 		};
 		texinfo = {
@@ -2697,6 +4047,11 @@
 			version = 37;
 		};
 		usertemplate = {
+			dependencies = {
+				build = (
+					bash,
+				);
+			};
 			version = 65;
 		};
 		uucp = {
@@ -2739,6 +4094,7 @@
 					libgcc,
 					libstdcxx,
 					wxWidgets,
+					zlib,
 				);
 			};
 			version = 11;
@@ -2760,6 +4116,12 @@
 			version = 1;
 		};
 		xnu = {
+			dependencies = {
+				build = (
+					bash,
+					kext_tools,
+				);
+			};
 			version = 1228;
 		};
 		zip = {
