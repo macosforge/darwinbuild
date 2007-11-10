@@ -4522,6 +4522,7 @@
 					dyld,
 					libgcc,
 					libstdcxx,
+					ncurses,
 				);
 				staticlib = (
 					Csu,
@@ -4886,7 +4887,9 @@
 					xnu,
 				);
 				lib = (
+					Libsystem,
 					dyld,
+					libgcc,
 				);
 				staticlib = (
 					Csu,
@@ -4934,6 +4937,8 @@
 					Libsystem,
 					dyld,
 					libgcc,
+					libiconv,
+					ncurses,
 				);
 				staticlib = (
 					Csu,
@@ -6673,6 +6678,7 @@
 					dyld,
 					libgcc,
 					libutil,
+					ncurses,
 				);
 				staticlib = (
 					Csu,
@@ -6820,6 +6826,7 @@
 					Libsystem,
 					dyld,
 					libgcc,
+					libiconv,
 				);
 				staticlib = (
 					Csu,
@@ -6974,6 +6981,7 @@
 					Libmx,
 					Libsystem,
 					dyld,
+					libiconv,
 				);
 				staticlib = (
 					Csu,
@@ -7001,7 +7009,9 @@
 					xnu,
 				);
 				lib = (
+					Libsystem,
 					dyld,
+					libgcc,
 				);
 				staticlib = (
 					Csu,
@@ -8400,6 +8410,46 @@
 			version = 8.1;
 		};
 		libiconv = {
+			dependencies = {
+				build = (
+					Libm,
+					Libsystem,
+					bash,
+					bootstrap_cmds,
+					cctools,
+					file_cmds,
+					files,
+					gcc,
+					gcc_select,
+					gnumake,
+					gnuzip,
+					grep,
+					ld64,
+					libgcc,
+					libiconv,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					Libc_headers,
+					architecture,
+					gcc,
+					libiconv,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+					libiconv,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -8809,7 +8859,9 @@
 					xnu,
 				);
 				lib = (
+					Libsystem,
 					dyld,
+					libgcc,
 				);
 				staticlib = (
 					Csu,
@@ -9310,6 +9362,41 @@
 			version = 13;
 		};
 		ncurses = {
+			dependencies = {
+				build = (
+					Libsystem,
+					awk,
+					bash,
+					bootstrap_cmds,
+					cctools,
+					file_cmds,
+					files,
+					gcc,
+					gcc_select,
+					gnumake,
+					gnuzip,
+					grep,
+					ld64,
+					libgcc,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+				);
+				header = (
+					gcc,
+					ncurses,
+				);
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+					ncurses,
+				);
+				staticlib = (
+					Csu,
+					gcc,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -11255,6 +11342,7 @@
 					bsm,
 					dyld,
 					libgcc,
+					ncurses,
 					pam,
 				);
 				staticlib = (
@@ -11419,6 +11507,8 @@
 					Libsystem,
 					dyld,
 					libgcc,
+					libiconv,
+					ncurses,
 				);
 				staticlib = (
 					Csu,
@@ -11521,6 +11611,7 @@
 					Libsystem,
 					dyld,
 					libgcc,
+					ncurses,
 				);
 				staticlib = (
 					Csu,
