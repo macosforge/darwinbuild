@@ -3508,6 +3508,9 @@
 				header = (
 					xnu,
 				);
+				lib = (
+					Libm,
+				);
 				staticlib = (
 					CommonCrypto,
 					Csu,
