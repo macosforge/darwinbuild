@@ -1415,6 +1415,15 @@
 			};
 			version = 32;
 		};
+		CarbonHeaders = {
+			dependencies = {
+				build = (
+					file_cmds,
+					gnumake,
+				);
+			};
+			version = 9A581;
+		};
 		ChatServer = {
 			dependencies = {
 				build = (
@@ -5404,6 +5413,7 @@
 					xnu,
 				);
 				header = (
+					CarbonHeaders,
 					Libc_headers,
 					Libinfo,
 					Libm,
@@ -5411,6 +5421,7 @@
 					architecture,
 					gcc,
 					launchd,
+					objc4,
 					xnu,
 				);
 				lib = (
@@ -9668,6 +9679,39 @@
 			version = 37;
 		};
 		objc4 = {
+			dependencies = {
+				build = (
+					Libm,
+					Libsystem,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnumake,
+					ld64,
+					libgcc,
+					shell_cmds,
+				);
+				header = (
+					CarbonHeaders,
+					Libc_headers,
+					Libsyscall,
+					architecture,
+					cctools_ofiles,
+					gcc,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					libgcc,
+					libstdcxx,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
