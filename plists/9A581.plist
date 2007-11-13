@@ -10123,6 +10123,55 @@
 			version = 6;
 		};
 		perl = {
+			dependencies = {
+				build = (
+					CoreOSMakefiles,
+					Libm,
+					Libsystem,
+					awk,
+					bash,
+					bootstrap_cmds,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnumake,
+					gnutar,
+					gnuzip,
+					grep,
+					ld64,
+					libgcc,
+					libutil,
+					perl,
+					shell_cmds,
+					system_cmds,
+					tcsh,
+					text_cmds,
+					xnu,
+				);
+				header = (
+					CarbonHeaders,
+					Libc_headers,
+					Libinfo,
+					Libm,
+					architecture,
+					gcc,
+					libutil,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					dyld,
+					libgcc,
+					libutil,
+					perl,
+				);
+				staticlib = (
+					Csu,
+					SystemStubs,
+					gcc,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -12004,6 +12053,7 @@
 					gnuzip,
 					kext_tools,
 					ld64,
+					perl,
 					shell_cmds,
 					system_cmds,
 					tcsh,
