@@ -524,6 +524,11 @@ if [ "$CHROOTED" == "YES" -a "$noload" != "YES" ]; then
 		cp "$DITTO" "$BuildRoot/usr/bin/ditto"
 	fi
 
+	### need dsymutil too... (hack for now)
+	if [ ! -x "$BuildRoot/usr/bin/dsymutil" ]; then
+		cp "/usr/bin/dsymutil" "$BuildRoot/usr/bin/dsymutil"
+	fi
+
 	echo "*** Installing Headers ..."
 	deps=$($DARWINXREF dependencies -header "$projnam")
 	for X in $deps ; do
