@@ -43,11 +43,11 @@ static int run(CFArrayRef argv) {
 	char* project = NULL;
 	int commit = 0;
 
-	if(count == 1) {
+	if (count == 1) {
 	  project = strdup_cfstr(CFArrayGetValueAtIndex(argv, 0));
 	} else if (count > 1) {
 	  project = strdup_cfstr(CFArrayGetValueAtIndex(argv, 1));
-	  if(CFEqual(CFSTR("-commit"), CFArrayGetValueAtIndex(argv, 0)))
+	  if (CFEqual(CFSTR("-commit"), CFArrayGetValueAtIndex(argv, 0)))
 	    commit = 1;
 	}
 
@@ -85,11 +85,6 @@ int resolve_project_dependencies( const char* build, const char* project, int* r
 	CFMutableArrayRef types = CFArrayCreateMutable(NULL, 0, &cfArrayCStringCallBacks);
 	CFMutableArrayRef params[2] = { files, types };
 
-	CFMutableDictionaryRef finalDeps = CFDictionaryCreateMutable(NULL, 0,
-								     &kCFCopyStringDictionaryKeyCallBacks,
-								     &kCFTypeDictionaryValueCallBacks);
-
-
         char* table = "CREATE TABLE dependencies (build TEXT, project TEXT, type TEXT, dependency TEXT)";
         char* index = "CREATE INDEX dependencies_index ON unresolved_dependencies (build, project, type, dependency)";
 
@@ -98,6 +93,8 @@ int resolve_project_dependencies( const char* build, const char* project, int* r
 
 	if (SQL("BEGIN")) { return -1; }
 
+	// Convert from unresolved_dependencies (i.e. path names) to resolved dependencies (i.e. project names)
+	// Deletes unresolved_dependencies after they are processed.
 	SQL_CALLBACK(&addToCStrArrays, params,
 		"SELECT DISTINCT dependency,type FROM unresolved_dependencies WHERE build=%Q AND project=%Q",
 		build, project);
@@ -121,38 +118,60 @@ int resolve_project_dependencies( const char* build, const char* project, int* r
 			}
 			SQL("DELETE FROM unresolved_dependencies WHERE build=%Q AND project=%Q AND type=%Q AND dependency=%Q",
 				build, project, type, file);
-			if(commit) {
-			  // find subarray for this dep type
-			  CFStringRef cfdep = cfstr(type);
-			  CFStringRef cfval = cfstr(dep);
-			  CFMutableArrayRef deparray = (CFMutableArrayRef)CFDictionaryGetValue(finalDeps, cfdep);
-			  if(deparray == NULL) {
-			    deparray = CFArrayCreateMutable(NULL, 0, &kCFTypeArrayCallBacks);
-			    CFDictionarySetValue(finalDeps, cfdep, deparray);
-			    CFRelease(deparray); // still retained by dict
-			  }
-			  if(!CFArrayContainsValue(deparray,
-						   CFRangeMake(0, CFArrayGetCount(deparray)),
-						   cfval)) {
-			    CFArrayAppendValue(deparray, cfval);
-			  }
-			  CFRelease(cfdep);
-			  CFRelease(cfval);
-			}
 		} else {
 			*unresolvedCount += 1;
 		}
 	}
 
-	if(commit) {
-	  DBSetProp(cfstr(build), cfstr(project), CFSTR("dependencies"), finalDeps);
+	CFRelease(files);
+	CFRelease(types);
+
+	// If committing, merge resolved dependencies to the dependencies property dictionary.
+	// Deletes resolved dependencies after they are processed.
+	if (commit) {
+		CFMutableArrayRef types = CFArrayCreateMutable(NULL, 0, &cfArrayCStringCallBacks);
+		CFMutableArrayRef projs = CFArrayCreateMutable(NULL, 0, &cfArrayCStringCallBacks);
+		CFMutableArrayRef params[2] = { projs, types };
+		CFMutableDictionaryRef dependencies = (CFMutableDictionaryRef)DBCopyPropDictionary(cfstr(build), cfstr(project), CFSTR("dependencies"));
+		if (dependencies == NULL) {
+			dependencies = CFDictionaryCreateMutable(NULL, 0,
+								     &kCFCopyStringDictionaryKeyCallBacks,
+								     &kCFTypeDictionaryValueCallBacks);
+		}
+		
+		SQL_CALLBACK(&addToCStrArrays, params,
+			"SELECT DISTINCT dependency,type FROM dependencies WHERE build=%Q AND project=%Q",
+			build, project);
+		
+		CFIndex i, count = CFArrayGetCount(projs);
+		for (i = 0; i < count; ++i) {
+			CFStringRef proj = cfstr(CFArrayGetValueAtIndex(projs, i));
+			CFStringRef type = cfstr(CFArrayGetValueAtIndex(types, i));
+			
+			CFMutableArrayRef deparray = (CFMutableArrayRef)CFDictionaryGetValue(dependencies, type);
+			if (deparray == NULL) {
+				deparray = CFArrayCreateMutable(NULL, 0, &kCFTypeArrayCallBacks);
+				CFDictionarySetValue(dependencies, type, deparray);
+				CFRelease(deparray); // still retained by dict
+			}
+			if (!CFArrayContainsValue(deparray,
+							CFRangeMake(0, CFArrayGetCount(deparray)),
+							proj)) {
+				CFArrayAppendValue(deparray, proj);
+			}
+			CFRelease(proj);
+			CFRelease(type);
+		}
+		
+		DBSetProp(cfstr(build), cfstr(project), CFSTR("dependencies"), dependencies);
+		CFRelease(dependencies);
+		CFRelease(types);
+		CFRelease(projs);
+
+		SQL("DELETE FROM dependencies WHERE build=%Q AND project=%Q", build, project);
 	}
 
 	if (SQL("COMMIT")) { return -1; }
-	
-	CFRelease(finalDeps);
-	CFRelease(files);
-	CFRelease(types);
 }
 
 int resolve_dependencies(const char* build, const char* project, int commit) {
