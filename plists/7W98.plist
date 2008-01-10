@@ -19,6 +19,7 @@
 		UNAME_RELEASE = 7.0;
 		UNAME_SYSNAME = Darwin;
 	};
+	inherits = 7U16;
 	macosx = "Mac OS X 10.3.9";
 	projects = {
 		Apple16X50Serial = {
