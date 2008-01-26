@@ -32,7 +32,8 @@ my %BuiltProjectsHash = (); # has project built?
 my %Dependencies = ();
 my %InvertedDependencies = ();
 
-my %DepExceptions = ( "IOKitUser" => { "configd" => 1 },
+my %DepExceptions = ( "passwordserver_sasl" => { "Kerberos" => 1},  
+		      "IOKitUser" => { "configd" => 1 },
 		      "configd" => { "configd_plugins" => 1});
 
 print "Considering projects: @UnbuiltProjects\n";
