@@ -1,0 +1,147 @@
+// !$*UTF8*$!
+{
+	build = 8S2167;
+	inherits = 8R2218;
+	darwin = "Darwin 8.11";
+	macosx = "Mac OS X 10.4.11";
+	projects = {
+		AppleDisplays = {
+			version = 155.1.12;
+		};
+		AppleKeyLargo = {
+			version = 171.3.1;
+		};
+		AppleRAID = {
+			version = 2.5.7;
+		};
+		AppleUSBAudio = {
+			version = 252.2.9;
+		};
+		CF = {
+			version = 368.31;
+		};
+		CFNetwork = {
+			version = 129.22;
+		};
+		DiskArbitration = {
+			version = 156.3;
+		};
+		ICU = {
+			version = 6.2.22;
+		};
+		IOFireWireFamily = {
+			version = 260.4.0;
+		};
+		IOGraphics = {
+			version = 193.2.2;
+		};
+		IOHIDFamily = {
+			version = 185.38;
+		};
+		IOPCCardFamily = {
+			version = 47;
+		};
+		IOUSBFamily = {
+			version = 277.4.1;
+		};
+		IOUSBMassStorageClass = {
+			version = 150.1.3;
+		};
+		JBoss = {
+			target = magnum;
+			version = 742;
+		};
+		JavaScriptCore = {
+			version = 4523.12;
+		};
+		JavaScriptGlue = {
+			version = 4523.12;
+		};
+		Kerberos = {
+			version = 65.18;
+		};
+		PowerManagement = {
+			version = 111.9;
+		};
+		SquirrelMail = {
+			version = 21;
+		};
+		Tokend = {
+			version = 32404;
+		};
+		WebCore = {
+			version = 4523.12;
+		};
+		apache_mod_php = {
+			version = 18.9;
+		};
+		bind9 = {
+			version = 13.0.3;
+		};
+		bless = {
+			version = 57;
+		};
+		bzip2 = {
+			version = 15;
+		};
+		cscope = {
+			version = 13;
+		};
+		cups = {
+			target = installfat;
+			version = 97.4;
+		};
+		diskdev_cmds = {
+			version = 332.25;
+		};
+		dyld = {
+			target = dyld;
+			version = 46.16;
+		};
+		file_cmds = {
+			version = 116.11;
+		};
+		gnumake = {
+			version = 119;
+		};
+		gnuzip = {
+			version = 22.2;
+		};
+		ipv6configuration = {
+			version = 22.3;
+		};
+		mDNSResponder = {
+			version = 108.6;
+		};
+		memberd = {
+			version = 21.1;
+		};
+		network_cmds = {
+			version = 245.19;
+		};
+		ntfs = {
+			version = 36.5;
+		};
+		ppp = {
+			version = 233.18;
+		};
+		samba = {
+			version = 100.9;
+		};
+		security_certificates = {
+			version = 32290;
+		};
+		securityd = {
+			version = 32597;
+		};
+		shell_cmds = {
+			version = 81.1;
+		};
+		system_cmds = {
+			version = 336.23;
+		};
+		xnu = {
+			version = 792.25.20;
+		};
+	};
+}

@@ -1,0 +1,120 @@
+// !$*UTF8*$!
+{
+	build = 8S165;
+	inherits = 8R218;
+	darwin = "Darwin 8.11";
+	macosx = "Mac OS X 10.4.11";
+	projects = {
+		AppleMacRISC4PE = {
+			version = 186.3.1;
+		};
+		AppleRAID = {
+			version = 2.3.4;
+		};
+		AppleUSBAudio = {
+			version = 252.2.9;
+		};
+		CF = {
+			version = 368.31;
+		};
+		CFNetwork = {
+			version = 129.22;
+		};
+		DiskArbitration = {
+			version = 156.3;
+		};
+		ICU = {
+			version = 6.2.21;
+		};
+		IOGraphics = {
+			version = 179.2.1;
+		};
+		IOHIDFamily = {
+			version = 185.38;
+		};
+		JBoss = {
+			target = magnum;
+			version = 737.1;
+		};
+		JavaScriptCore = {
+			version = 4523.12;
+		};
+		JavaScriptGlue = {
+			version = 4523.12;
+		};
+		Kerberos = {
+			version = 65.18;
+		};
+		SquirrelMail = {
+			version = 21;
+		};
+		Tokend = {
+			version = 32296;
+		};
+		WebCore = {
+			version = 4523.12;
+		};
+		apache_mod_php = {
+			version = 18.9;
+		};
+		bind9 = {
+			version = 13.0.3;
+		};
+		bzip2 = {
+			version = 15;
+		};
+		cscope = {
+			version = 13;
+		};
+		cups = {
+			target = installfat;
+			version = 97.4;
+		};
+		diskdev_cmds = {
+			version = 332.11.12;
+		};
+		dyld = {
+			target = dyld;
+			version = 46.16;
+		};
+		file_cmds = {
+			version = 116.11;
+		};
+		gnuzip = {
+			version = 22.2;
+		};
+		mDNSResponder = {
+			version = 108.6;
+		};
+		memberd = {
+			version = 21.1;
+		};
+		network_cmds = {
+			version = 245.19;
+		};
+		ntfs = {
+			version = 36.5;
+		};
+		ppp = {
+			version = 233.0.8;
+		};
+		samba = {
+			version = 100.9;
+		};
+		security_certificates = {
+			version = 32290;
+		};
+		securityd = {
+			version = 32596;
+		};
+		shell_cmds = {
+			version = 74.1.1;
+		};
+		system_cmds = {
+			version = 336.1.11;
+		};
+		xnu = {
+			version = 792.24.17;
+		};
+	};
+}
