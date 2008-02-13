@@ -1,0 +1,280 @@
+// !$*UTF8*$!
+{
+	build = 9C31;
+	inherits = 9B18;
+	projects = {
+		AppleDisplays = {
+			version = 160.0.5;
+		};
+		AppleIntelPIIXATA = {
+			version = 200.0.1;
+		};
+		AppleMacRISC2PE = {
+			version = 185.0.6;
+		};
+		AppleMacRISC4PE = {
+			version = 203.0.9;
+		};
+		AppleSMBIOS = {
+			version = 27;
+		};
+		AppleUSBAudio = {
+			version = 254.2.4;
+		};
+		BootCache = {
+			version = 41.1;
+		};
+		CF = {
+			version = 476.10;
+		};
+		CFOpenDirectory = {
+			original = OpenDirectory;
+		};
+		ChatServer = {
+			version = 262;
+		};
+		CoreOSMakefiles = {
+			version = 43;
+		};
+		CyrusIMAP = {
+			version = 187.1;
+		};
+		DSPasswordServerPlugin = {
+			version = 207.2;
+		};
+		DSTools = {
+			version = 110;
+		};
+		DirectoryService = {
+			target = DirectoryServiceFW;
+			version = 514.4;
+		};
+		DiskArbitration = {
+			version = 183;
+		};
+		ICU_debug = {
+			original = ICU;
+		};
+		ICU_profile = {
+			original = ICU;
+		};
+		IOFireWireFamily = {
+			version = 340.4.1;
+		};
+		IOFireWireIP = {
+			version = 171.4.0;
+		};
+		IOFireWireSerialBusProtocolTransport = {
+			version = 151.0.4;
+		};
+		IOGraphics = {
+			version = 233.1;
+		};
+		IOHIDFamily = {
+			version = 258.1;
+		};
+		IOKitUser = {
+			version = 388;
+		};
+		IOPCIFamily = {
+			version = 103.1;
+		};
+		IOUSBFamily = {
+			version = 308.4.0;
+		};
+		Kerberos = {
+			version = 75.10.1;
+		};
+		LDAPFramework = {
+			original = OpenLDAP;
+		};
+		Libm = {
+			target = libm;
+			version = 292.1;
+		};
+		Libsyscall = {
+			original = xnu;
+		};
+		NFS = {
+			version = 25;
+		};
+		PowerManagement = {
+			version = 142;
+		};
+		RubyCocoa = {
+			version = 57.2;
+		};
+		RubyGems = {
+			version = 15.2;
+		};
+		RubyOnRails = {
+			version = 25.1;
+		};
+		SQLite = {
+			version = 46;
+		};
+		Security = {
+			version = 33001;
+		};
+		SpamAssassin = {
+			version = 137.1;
+		};
+		WebCore = {
+			version = 5523.15.1;
+		};
+		X11apps = {
+			version = 14;
+		};
+		X11libs = {
+			version = 17;
+		};
+		X11proto = {
+			version = 15;
+		};
+		X11server = {
+			version = 48;
+		};
+		apache_mod_php = {
+			version = 44;
+		};
+		bless = {
+			version = 63;
+		};
+		bootp = {
+			version = 170.1;
+		};
+		configd = {
+			target = configd_base;
+			version = 210;
+		};
+		cups = {
+			target = installfat;
+			version = 136.4;
+		};
+		diskdev_cmds = {
+			version = 421.1;
+		};
+		dyld = {
+			target = dyld;
+			version = 96.2;
+		};
+		eap8021x = {
+			version = 49.3;
+		};
+		files = {
+			target = "";
+			version = 521;
+		};
+		launchd = {
+			version = 258.1;
+		};
+		ld64 = {
+			version = 77.1;
+		};
+		libresolv = {
+			version = 25;
+		};
+		libsecurity_apple_x509_tp = {
+			version = 32993;
+		};
+		libsecurity_codesigning = {
+			version = 32953;
+		};
+		libsecurity_cssm = {
+			version = 32993;
+		};
+		libsecurity_filedb = {
+			version = 32868;
+		};
+		libsecurity_mds = {
+			version = 32820;
+		};
+		libsecurity_smime = {
+			version = 32850;
+		};
+		libsecurity_utilities = {
+			version = 32820;
+		};
+		libsecurityd = {
+			version = 32914;
+		};
+		mDNSResponder = {
+			version = 170;
+		};
+		mDNSResponderSystemLibraries = {
+			original = mDNSResponder;
+		};
+		msdosfs = {
+			version = 136;
+		};
+		network_cmds = {
+			version = 307;
+		};
+		notify = {
+			version = 15;
+		};
+		ntfs = {
+			version = 52;
+		};
+		objc4 = {
+			version = 371.1;
+		};
+		pam = {
+			version = 32;
+		};
+		pam_modules = {
+			version = 36;
+		};
+		passwordserver_saslextra = {
+			original = passwordserver_sasl;
+		};
+		perl = {
+			version = 51.1.2;
+		};
+		pyobjc = {
+			version = 14.1.1;
+		};
+		python = {
+			version = 30.1.2;
+		};
+		python23 = {
+			version = 17.1.1;
+		};
+		remote_cmds = {
+			version = 13;
+		};
+		removefile = {
+			version = 11;
+		};
+		ruby = {
+			version = 67.2;
+		};
+		samba = {
+			version = 187.4;
+		};
+		security_certificates = {
+			version = 32854;
+		};
+		securityd = {
+			version = 33082;
+		};
+		shell_cmds = {
+			version = 118;
+		};
+		smb = {
+			version = 348.1;
+		};
+		system_cmds = {
+			version = 433;
+		};
+		tcl_ext = {
+			original = tcl;
+		};
+		tcl_tk = {
+			original = tcl;
+		};
+		xnu = {
+			version = 1228.3.13;
+		};
+	};
+}
