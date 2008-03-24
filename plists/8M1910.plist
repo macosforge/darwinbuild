@@ -1,0 +1,34 @@
+// !$*UTF8*$!
+{
+	build = 8M1910;
+	inherits = 8M1780;
+	projects = {
+		cctools = {
+			version = 622.5;
+		};
+		distcc = {
+			version = 43;
+		};
+		gcc = {
+			version = 5367;
+		};
+		gcc_select = {
+			version = 58;
+		};
+		gdb = {
+			version = 573;
+		};
+		gnutar = {
+			version = 433.1;
+		};
+		ld64 = {
+			version = 62.1;
+		};
+		pb_makefiles = {
+			version = 127;
+		};
+		pbx_jamfiles = {
+			version = 751.1;
+		};
+	};
+}
