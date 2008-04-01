@@ -2634,6 +2634,16 @@
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
+			dependencies = {
+				lib = (
+					objc4,
+					ICU,
+					libxml2,
+					zlib,
+					configd,
+					Security,
+				);
+			};
 			version = 376;
 		};
 		IONetworkingFamily = {
