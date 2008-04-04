@@ -10,7 +10,7 @@
 	projects = {
 		AppleMacRISC4PE = {
 			version = 162.0.0;
-			source_sites = (
+			binary_sites = (
 				"http://src.macosforge.org/BinaryDrivers/8C46/",
 			);
 		};
@@ -34,7 +34,7 @@
 		};
 		GraphicsDrivers = {
 			version = 4.6.8;
-			source_sites = (
+			binary_sites = (
 				"http://src.macosforge.org/BinaryDrivers/8C46/",
 			);
 		};

@@ -19,7 +19,7 @@
 		};
 		GraphicsDrivers = {
 			version = 4.2.9;
-			source_sites = (
+			binary_sites = (
 				"http://src.macosforge.org/BinaryDrivers/8B15/",
 			);
 		};
