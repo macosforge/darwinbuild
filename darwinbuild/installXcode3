@@ -1,0 +1,45 @@
+#!/bin/sh
+
+XCFILEDIR=/usr/local/share/darwinbuild/xcodefiles
+BROOT=$1
+
+if [ "x$BROOT" == "x" ];
+then 
+    echo "$0 <build root>";
+    exit 1;
+fi
+
+echo "Installing xcodebuild into ${BROOT}";
+
+# make initial buildroot and symlinks if needed
+echo "Making initial build root...";
+mkdir -p "${BROOT}";
+pushd $BROOT >> /dev/null
+for D in etc tmp var ;
+do
+    echo "Symlinking $D";
+    ln -s private/$D $D ;
+done;
+popd >> /dev/null
+
+
+# copy files we need
+exec <$XCFILEDIR/Xcode_3.0.txt
+while read line;
+do
+    parent=$(dirname $line);
+    echo "Copying: ${line}";
+    mkdir -p "${BROOT}/${parent}" ;   
+    cp -R "${line}" "${BROOT}/${parent}" ;
+done;
+
+# load roots
+echo "Loading roots that Xcode needs...";
+darwinbuild -load objc4
+darwinbuild -load ICU
+darwinbuild -load libxml2
+darwinbuild -load SQLite
+darwinbuild -load libxslt
+darwinbuild -load OpenSSL
+darwinbuild -load DiskArbitration
+darwinbuild -load pb_makefiles

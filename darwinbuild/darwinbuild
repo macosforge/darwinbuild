@@ -508,6 +508,8 @@ fi
 ### Make sure we have at least a minimally functioning root
 ### by installing bash and its dependencies.
 ###
+### Also install CoreOSMakefiles and Perl for make based projects
+###
 if [ "$CHROOTED" == "YES" -a "$noload" != "YES" ]; then
 	echo "*** Installing Roots ..."
 	receipts="$BuildRoot/usr/local/darwinbuild/receipts"
@@ -529,6 +531,16 @@ if [ "$CHROOTED" == "YES" -a "$noload" != "YES" ]; then
 		cp "/usr/bin/dsymutil" "$BuildRoot/usr/bin/dsymutil"
 	fi
 
+	### CoreOSMakefiles 
+	if [ ! -d "$BuildRoot/Developer/Makefiles/CoreOS" ]; then
+	    InstallRoot "$BuildRoot" "CoreOSMakefiles" "$depsbuild"
+	fi	
+
+	### Perl
+	if [ ! -x "$BuildRoot/usr/bin/perl" ]; then
+	    InstallRoot "$BuildRoot" "perl" "$depsbuild"
+	fi	
+
 	echo "*** Installing Headers ..."
 	deps=$($DARWINXREF dependencies -header "$projnam")
 	for X in $deps ; do
@@ -540,7 +552,7 @@ if [ "$CHROOTED" == "YES" -a "$noload" != "YES" ]; then
 	### we try to install it from the host Mac OS X system if it is required
 	if [ "$buildtool" == "xcodebuild" -a ! -f "$receipts/xcodebuild" ]; then
 		echo "*** Installing Xcode Tools ..."
-		"$DATADIR/installXcodebuild" "$BuildRoot"
+		"$DATADIR/installXcode" "$BuildRoot"
 		touch "$receipts/xcodebuild"
 	fi
 

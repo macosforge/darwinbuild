@@ -1,0 +1,13 @@
+#!/bin/sh
+
+BINDIR=/usr/local/share/darwinbuild/
+
+BROOT=$1
+VER=$(/usr/bin/xcodebuild -version | cut -d "-" -f 2 | cut -d ";" -f 1)
+
+if [ "$VER" == "921.0" ];
+then
+	"$BINDIR/installXcode3" "$BROOT";	
+else
+	"$BINDIR/installXcode2" "$BROOT";
+fi

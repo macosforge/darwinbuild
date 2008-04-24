@@ -4,6 +4,7 @@ include ../common.mk
 ### Variables for the 'install' phase
 ###
 DATDIR:=$(DATDIR)/darwinbuild
+XCFILEDIR:=$(DATDIR)/xcodefiles
 
 all: manifest
 
@@ -17,7 +18,13 @@ install: all
 
 	[ -d $(DATDIR) ] || $(INSTALL) -d $(INSTALL_DIR_FLAGS) $(DATDIR)
 	$(INSTALL) $(INSTALL_DOC_FLAGS) darwinbuild.common $(DATDIR)
-	$(INSTALL) $(INSTALL_EXE_FLAGS) installXcodebuild $(DATDIR)
+	$(INSTALL) $(INSTALL_EXE_FLAGS) installXcode $(DATDIR)
+	$(INSTALL) $(INSTALL_EXE_FLAGS) installXcode2 $(DATDIR)
+	$(INSTALL) $(INSTALL_EXE_FLAGS) installXcode3 $(DATDIR)
+
+	[ -d $(XCFILEDIR) ] || $(INSTALL) -d $(INSTALL_DIR_FLAGS) $(XCFILEDIR)
+	$(INSTALL) $(INSTALL_DOC_FLAGS) xcodefiles/* $(XCFILEDIR)
+
 	$(INSTALL) $(INSTALL_EXE_FLAGS) createChroot $(DATDIR)
 	$(INSTALL) $(INSTALL_EXE_FLAGS) $(OBJROOT)/manifest $(DATDIR)
 	$(INSTALL) $(INSTALL_EXE_FLAGS) ditto.sh $(DATDIR)/ditto
@@ -31,9 +38,13 @@ install: all
 uninstall:
 	rm -f $(BINDIR)/darwinbuild
 	rm -f $(DATDIR)/darwinbuild.common
-	rm -f $(DATDIR)/installXcodebuild
+	rm -f $(DATDIR)/installXcode
+	rm -f $(DATDIR)/installXcode2
+	rm -f $(DATDIR)/installXcode3
 	rm -f $(DATDIR)/createChroot
 	rm -f $(DATDIR)/manifest
+	rm -f $(XCFILEDIR)/*
+	-rmdir $(XCFILEDIR)
 	-rmdir $(DATDIR)
 
 clean:
