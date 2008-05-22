@@ -76,6 +76,12 @@
 			};
 			version = 10;
 		};
+		AppleACPIPlatform = {
+			version = 118.2;
+                        binary_sites = (
+                                "http://src.macosforge.org/BinaryDrivers/9A581/",
+                        );
+		};
 		AppleADBButtons = {
 			dependencies = {
 				build = (
@@ -889,6 +895,12 @@
 				RC_ARCHS = ppc;
 			};
 			version = 130.2.7;
+		};
+		AppleRTC = {
+			version = 16;
+                        binary_sites = (
+                                "http://src.macosforge.org/BinaryDrivers/9A581/",
+                        );			
 		};
 		AppleRTL8139Ethernet = {
 			dependencies = {
@@ -2172,6 +2184,12 @@
 			};
 			version = 6;
 		};
+		IOATABlockStorage = {
+			version = 200.1.8;
+                        binary_sites = (
+                                "http://src.macosforge.org/BinaryDrivers/9A581/",
+                        );
+		};
 		IOATAFamily = {
 			dependencies = {
 				build = (
@@ -2709,6 +2727,12 @@
 				);
 			};
 			version = 103;
+		};
+		IOSCSIArchitectureModelFamily = {
+			version = 200.3.6;
+                        binary_sites = (
+                                "http://src.macosforge.org/BinaryDrivers/9A581/",
+                        );
 		};
 		IOSCSIParallelFamily = {
 			dependencies = {
@@ -6416,6 +6440,12 @@
 				);
 			};
 			version = 28;
+		};
+		efiboot = {
+			version = 50;
+                        binary_sites = (
+                                "http://src.macosforge.org/BinaryDrivers/9A581/",
+                        );
 		};
 		emacs = {
 			dependencies = {
