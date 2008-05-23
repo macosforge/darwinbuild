@@ -1263,6 +1263,15 @@
 			version = 81;
 		};
 		CF = {
+			dependencies = {
+				build = (
+					gnumake,
+					file_cmds,
+					shell_cmds,
+					gcc_select,
+					cctools,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
