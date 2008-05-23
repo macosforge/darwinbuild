@@ -1268,6 +1268,7 @@
 					gnumake,
 					file_cmds,
 					shell_cmds,
+					gcc,
 					gcc_select,
 					cctools,
 				);
