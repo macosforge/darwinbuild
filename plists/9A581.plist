@@ -7893,6 +7893,9 @@
 			};
 			version = 34;
 		};
+		ipsec = {
+                        version = 34;
+		};
 		ipv6configuration = {
 			dependencies = {
 				build = (
