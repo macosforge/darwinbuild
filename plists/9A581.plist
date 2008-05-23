@@ -1325,6 +1325,7 @@
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
 			original = OpenDirectory;
+			target = CFOpenDirectory;
 		};
 		CPAN = {
 			dependencies = {
@@ -7910,6 +7911,7 @@
 					bsm,
 					configd,
 					zlib,
+					file_cmds,
 				);
 			};
                         version = 34;
