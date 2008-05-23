@@ -1271,6 +1271,7 @@
 					gcc,
 					gcc_select,
 					cctools,
+					Libc_headers,
 				);
 			};
 			environment = {
