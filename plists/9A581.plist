@@ -7894,6 +7894,13 @@
 			version = 34;
 		};
 		ipsec = {
+			dependencies = {
+				build = (
+					bsm,
+					configd,
+					zlib,
+				);
+			};
                         version = 34;
 		};
 		ipv6configuration = {
