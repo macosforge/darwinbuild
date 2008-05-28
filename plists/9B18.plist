@@ -4,6 +4,9 @@
 	inherits = 9A581;
 	darwin = "Darwin 9.1";
 	macosx = "Mac OS X 10.5.1";
+        binary_sites = (
+                "http://src.macosforge.org/Roots/9B18/",
+        );
 	projects = {
 		CFNetwork = {
 			version = 220;
