@@ -17,8 +17,11 @@ mkdir -p "${BROOT}";
 pushd $BROOT >> /dev/null
 for D in etc tmp var ;
 do
-    echo "Symlinking $D";
-    ln -s private/$D $D ;
+    if [ ! -L $D ] ;
+    then 
+        echo "Symlinking $D";
+        ln -s private/$D $D ;
+    fi
 done;
 popd >> /dev/null
 
@@ -27,6 +30,14 @@ popd >> /dev/null
 exec <$XCFILEDIR/Xcode_3.0.txt
 while read line;
 do
+    case "${line}" in
+        *".framework") 
+            if [ -d ${BROOT}/${line} ] ;
+            then
+	        echo "Deleting: ${BROOT}/${line}";
+       	        rm -r "${BROOT}/${line}" ;
+            fi ;;
+    esac
     parent=$(dirname $line);
     echo "Copying: ${line}";
     mkdir -p "${BROOT}/${parent}" ;   
@@ -43,3 +54,4 @@ darwinbuild -load libxslt
 darwinbuild -load OpenSSL
 darwinbuild -load DiskArbitration
 darwinbuild -load pb_makefiles
+
