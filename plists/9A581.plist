@@ -2275,6 +2275,12 @@
 			};
 			version = 164.2.7;
 		};
+		IOBDStorageFamily = {
+                        version = 6;
+                        binary_sites = (
+                                "http://src.macosforge.org/BinaryDrivers/9A581/",
+                        );
+                };
 		IOCDStorageFamily = {
 			dependencies = {
 				build = (
