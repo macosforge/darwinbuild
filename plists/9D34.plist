@@ -1,0 +1,309 @@
+// !$*UTF8*$!
+{
+	build = 9D34;
+	inherits = 9C31;
+        binary_sites = (
+                "http://src.macosforge.org/Roots/9D34/",
+        );
+	projects = {
+		AppleDisplays = {
+			version = 160.0.9;
+		};
+		AppleFan = {
+			version = 110.3.1;
+		};
+		AppleGPIO = {
+			version = 131.0.0;
+		};
+		AppleHWSensor = {
+			version = 171.0.0;
+		};
+		AppleKeyLargo = {
+			version = 172.3.1;
+		};
+		AppleMacRISC2PE = {
+			version = 187.0.5;
+		};
+		AppleMacRISC4PE = {
+			version = 204.0.9;
+		};
+		AppleSMBIOS = {
+			version = 28;
+		};
+		AppleUSBAudio = {
+			version = 256.2.3;
+		};
+		BootCache = {
+			version = 43.1;
+		};
+		CF = {
+			version = 476.13;
+		};
+		ChatServer = {
+			version = 263;
+		};
+		CyrusIMAP = {
+			version = 187.4;
+		};
+		DSPasswordServerPlugin = {
+			version = 208.4;
+		};
+		DSTools = {
+			version = 112;
+		};
+		DirectoryService = {
+			target = DirectoryServiceFW;
+			version = 514.19;
+		};
+		ICU = {
+			version = 8.11.1;
+		};
+		ICU_debug = {
+			original = ICU;
+		};
+		ICU_profile = {
+			original = ICU;
+		};
+		IOFireWireFamily = {
+			version = 344.4.0;
+		};
+		IOFireWireSBP2 = {
+			version = 198.4.0;
+		};
+		IOGraphics = {
+			version = 233.3;
+		};
+		IOKitUser = {
+			version = 388.2;
+		};
+		IOSCSIParallelFamily = {
+			version = 151.1.1;
+		};
+		IOStorageFamily = {
+			version = 89;
+		};
+		IOUSBFamily = {
+			version = 315.4.1;
+		};
+		IOUSBMassStorageClass = {
+			version = 201.0.2;
+		};
+		JavaScriptCore = {
+			version = 5525.17;
+		};
+		JavaScriptGlue = {
+			version = 5525.13;
+		};
+		Kerberos = {
+			version = 75.10.3;
+		};
+		KerberosHelper = {
+			version = 31.4;
+		};
+		LDAPFramework = {
+			original = OpenLDAP;
+		};
+		Libc = {
+			version = 498.1.1;
+		};
+		Libinfo = {
+			version = 278.0.3;
+		};
+		Libm = {
+			target = libm;
+			version = 292.4;
+		};
+		Libsyscall = {
+			original = xnu;
+		};
+		Libsystem = {
+			version = 111.1.1;
+		};
+		OpenLDAP = {
+			version = 108.1;
+		};
+		OpenSSH = {
+			version = 95;
+		};
+		PowerManagement = {
+			version = 143;
+		};
+		RubyOnRails = {
+			version = 25.2;
+		};
+		Security = {
+			version = 33532;
+		};
+		SquirrelMail = {
+			version = 24;
+		};
+		TargetConfig = {
+			version = 3;
+		};
+		TimeZoneData = {
+			version = 10;
+		};
+		Twisted = {
+			version = 5;
+		};
+		WebCore = {
+			version = 5525.18.1;
+		};
+		X11libs = {
+			version = 17.2;
+		};
+		X11server = {
+			version = 48.1;
+		};
+		adv_cmds = {
+			version = 119;
+		};
+		amavisd = {
+			version = 110.2;
+		};
+		apache = {
+			version = 731;
+		};
+		apache1 = {
+			version = 697;
+		};
+		apache_mod_php4 = {
+			version = 32;
+		};
+		apache_mod_ssl = {
+			version = 690;
+		};
+		autofs = {
+			version = 109.1;
+		};
+		bash = {
+			version = 76.2;
+		};
+		clamav = {
+			version = 116.2;
+		};
+		configd = {
+			target = configd_base;
+			version = 212.2;
+		};
+		copyfile = {
+			version = 42;
+		};
+		cups = {
+			target = installfat;
+			version = 136.9;
+		};
+		developer_cmds = {
+			version = 49;
+		};
+		diskdev_cmds = {
+			version = 421.1.11;
+		};
+		eap8021x = {
+			version = 49.4;
+		};
+		emacs = {
+			version = 70.1;
+		};
+		file_cmds = {
+			version = 185.2;
+		};
+		files = {
+			target = "";
+			version = 530.1.3;
+		};
+		gnudiff = {
+			version = 14;
+		};
+		launchd = {
+			version = 258.12;
+		};
+		libsecurity_apple_x509_tp = {
+			version = 33583;
+		};
+		libsecurity_cdsa_utilities = {
+			version = 33506;
+		};
+		libsecurity_codesigning = {
+			version = 33803;
+		};
+		libsecurity_keychain = {
+			version = 33583;
+		};
+		libsecurityd = {
+			version = 33470;
+		};
+		libxml2 = {
+			version = 17.7.6;
+		};
+		mDNSResponder = {
+			version = 171.4;
+		};
+		mDNSResponderSystemLibraries = {
+			original = mDNSResponder;
+		};
+		mailman = {
+			version = 126.1;
+		};
+		msdosfs = {
+			version = 136.2;
+		};
+		pam = {
+			version = 32.1;
+		};
+		pam_modules = {
+			version = 36.1;
+		};
+		passwordserver_saslextra = {
+			original = passwordserver_sasl;
+		};
+		postfix = {
+			version = 174.1;
+		};
+		rsync = {
+			version = 31;
+		};
+		samba = {
+			version = 187.5;
+		};
+		security_dotmac_tp = {
+			version = 33607;
+		};
+		security_systemkeychain = {
+			version = 33578;
+		};
+		securityd = {
+			version = 33639;
+		};
+		smb = {
+			version = 348.3;
+		};
+		system_cmds = {
+			version = 433.1;
+		};
+		tcl_ext = {
+			original = tcl;
+		};
+		tcl_tk = {
+			original = tcl;
+		};
+		text_cmds = {
+			version = 69;
+		};
+		tidy = {
+			version = 14;
+		};
+		top = {
+			version = 38;
+		};
+		usertemplate = {
+			version = 66;
+		};
+		webdavfs = {
+			version = 252.6;
+		};
+		xnu = {
+			version = 1228.5.18;
+		};
+	};
+}
