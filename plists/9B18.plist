@@ -8,29 +8,11 @@
                 "http://src.macosforge.org/Roots/9B18/",
         );
 	projects = {
-		CFNetwork = {
-			version = 220;
-		};
-		CFOpenDirectory = {
-			original = OpenDirectory;
-		};
 		DSPasswordServerPlugin = {
 			version = 207.1;
 		};
-		ICU_debug = {
-			original = ICU;
-		};
-		ICU_profile = {
-			original = ICU;
-		};
 		IOKitUser = {
 			version = 376.0.1;
-		};
-		LDAPFramework = {
-			original = OpenLDAP;
-		};
-		Libsyscall = {
-			original = xnu;
 		};
 		Security = {
 			version = 32736;
@@ -44,23 +26,11 @@
 		mDNSResponder = {
 			version = 164;
 		};
-		mDNSResponderSystemLibraries = {
-			original = mDNSResponder;
-		};
-		passwordserver_saslextra = {
-			original = passwordserver_sasl;
-		};
 		samba = {
 			version = 187.1;
 		};
 		smb = {
 			version = 345;
-		};
-		tcl_ext = {
-			original = tcl;
-		};
-		tcl_tk = {
-			original = tcl;
 		};
 		xnu = {
 			version = 1228.0.2;

@@ -2,8 +2,10 @@
 {
 	build = 9C31;
 	inherits = 9B18;
+	darwin = "Darwin 9.2";
+	macosx = "Mac OS X 10.5.2";
         binary_sites = (
-                "http://src.macosforge.org/Roots/9C31/",
+        	"http://src.macosforge.org/Roots/9C31/",
         );
 	projects = {
 		AppleDisplays = {
@@ -30,9 +32,6 @@
 		CF = {
 			version = 476.10;
 		};
-		CFOpenDirectory = {
-			original = OpenDirectory;
-		};
 		ChatServer = {
 			version = 262;
 		};
@@ -54,12 +53,6 @@
 		};
 		DiskArbitration = {
 			version = 183;
-		};
-		ICU_debug = {
-			original = ICU;
-		};
-		ICU_profile = {
-			original = ICU;
 		};
 		IOFireWireFamily = {
 			version = 340.4.1;
@@ -88,15 +81,9 @@
 		Kerberos = {
 			version = 75.10.1;
 		};
-		LDAPFramework = {
-			original = OpenLDAP;
-		};
 		Libm = {
 			target = libm;
 			version = 292.1;
-		};
-		Libsyscall = {
-			original = xnu;
 		};
 		NFS = {
 			version = 25;
@@ -204,9 +191,6 @@
 		mDNSResponder = {
 			version = 170;
 		};
-		mDNSResponderSystemLibraries = {
-			original = mDNSResponder;
-		};
 		msdosfs = {
 			version = 136;
 		};
@@ -227,9 +211,6 @@
 		};
 		pam_modules = {
 			version = 36;
-		};
-		passwordserver_saslextra = {
-			original = passwordserver_sasl;
 		};
 		perl = {
 			version = 51.1.2;
@@ -269,12 +250,6 @@
 		};
 		system_cmds = {
 			version = 433;
-		};
-		tcl_ext = {
-			original = tcl;
-		};
-		tcl_tk = {
-			original = tcl;
 		};
 		xnu = {
 			version = 1228.3.13;

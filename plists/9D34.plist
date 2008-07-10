@@ -2,8 +2,10 @@
 {
 	build = 9D34;
 	inherits = 9C31;
+	darwin = "Darwin 9.3";
+	macosx = "Mac OS X 10.5.3";
         binary_sites = (
-                "http://src.macosforge.org/Roots/9D34/",
+		"http://src.macosforge.org/Roots/9D34/",
         );
 	projects = {
 		AppleDisplays = {
@@ -58,12 +60,6 @@
 		ICU = {
 			version = 8.11.1;
 		};
-		ICU_debug = {
-			original = ICU;
-		};
-		ICU_profile = {
-			original = ICU;
-		};
 		IOFireWireFamily = {
 			version = 344.4.0;
 		};
@@ -100,9 +96,6 @@
 		KerberosHelper = {
 			version = 31.4;
 		};
-		LDAPFramework = {
-			original = OpenLDAP;
-		};
 		Libc = {
 			version = 498.1.1;
 		};
@@ -112,9 +105,6 @@
 		Libm = {
 			target = libm;
 			version = 292.4;
-		};
-		Libsyscall = {
-			original = xnu;
 		};
 		Libsystem = {
 			version = 111.1.1;
@@ -239,9 +229,6 @@
 		mDNSResponder = {
 			version = 171.4;
 		};
-		mDNSResponderSystemLibraries = {
-			original = mDNSResponder;
-		};
 		mailman = {
 			version = 126.1;
 		};
@@ -253,9 +240,6 @@
 		};
 		pam_modules = {
 			version = 36.1;
-		};
-		passwordserver_saslextra = {
-			original = passwordserver_sasl;
 		};
 		postfix = {
 			version = 174.1;
@@ -280,12 +264,6 @@
 		};
 		system_cmds = {
 			version = 433.1;
-		};
-		tcl_ext = {
-			original = tcl;
-		};
-		tcl_tk = {
-			original = tcl;
 		};
 		text_cmds = {
 			version = 69;
