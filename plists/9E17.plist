@@ -1,0 +1,55 @@
+// !$*UTF8*$!
+{
+	build = 9E17;
+	inherits = 9D34;
+        darwin = "Darwin 9.4";
+        macosx = "Mac OS X 10.5.4";
+        binary_sites = (
+                "http://src.macosforge.org/Roots/9E17/",
+        );
+	projects = {
+		CF = {
+			version = 476.14;
+		};
+		DirectoryService = {
+			target = DirectoryServiceFW;
+			version = 514.21;
+		};
+		JavaScriptCore = {
+			version = 5525.18;
+		};
+		Security = {
+			version = 34102;
+		};
+		cxxfilt = {
+			version = 7;
+		};
+		eap8021x = {
+			version = 49.6;
+		};
+		ipsec = {
+			version = 34.0.1;
+		};
+		libsecurity_keychain = {
+			version = 34101;
+		};
+		libsecurity_sd_cspdl = {
+			version = 34101;
+		};
+		net_snmp = {
+			version = 112.1;
+		};
+		ppp = {
+			version = 314.0.1;
+		};
+		ruby = {
+			version = 67.3;
+		};
+		samba = {
+			version = 187.7;
+		};
+		xnu = {
+			version = 1228.5.20;
+		};
+	};
+}
