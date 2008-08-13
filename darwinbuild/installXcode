@@ -3,7 +3,7 @@
 BINDIR=/usr/local/share/darwinbuild
 
 BROOT=$1
-VER=$(/usr/bin/xcodebuild -version | cut -d "-" -f 2 | cut -d ";" -f 1 | tail -1 | cut -d "." -f 1)
+VER=$(/usr/bin/xcodebuild -version | grep version | cut -d "-" -f 2 | cut -d ";" -f 1 | cut -d "." -f 1)
 
 if [ "$VER" -gt "920" ];
 then
