@@ -13,6 +13,7 @@ EXTRACOPY=( \
     /usr/bin/xcodebuild \
     /usr/bin/xcode-select \
     /Developer/usr/bin/xcodebuild \
+    /Developer/Platforms/MacOSX.platform \
     /Developer/Makefiles/pbx_jamfiles)
     
 
@@ -103,12 +104,14 @@ CopyFiles() {
     echo "Copying Xcode and dependencies ..."
 
     # copy files and use sed to rewrite paths during copy
+    #  The [^m] used for /Developer is to prevent matching Platform subdirectories
     cpio -o -c < /tmp/installXcode.files.$$ | \
 	sed -e 's,/System,/XCD/SY,g' \
 	-e 's,/usr/lib,/XCD/lib,g' \
 	-e 's,/usr/share/icu,/XCD/share/icu,g' \
         -e 's,@rpath,/XCD/R,g' \
-	-e 's,/Developer,/XCD/loper,g' | \
+	-e 's,/Developer,/XCD/loper,g' \
+	-e 's,platform/XCD/loper,platform/Developer,g' | \
     (cd "$BUILDROOT"; cpio -ium${VERBOSECPIO}d )
 
     # symlink R to @rpath so we can replace uses of @rpath

@@ -170,7 +170,7 @@ function PrintUsage() {
 	usage: flags: [-headers] [-build=X] [-target=X]
 	              [-logdeps] [-nochroot] [-nopatch] [-noload | -loadonly]
 	              [-depsbuild=X [-depsbuild=Y]]
-	              [-fetch] [-source]
+	              [-fetch] [-source] [-load]
 EOF
 	exit 1
 }
@@ -593,17 +593,15 @@ export DARWIN_BUILDROOT DARWINBUILD_BUILD DARWINXREF_DB_FILE
 export CHROOTED
 
 export PATH=/bin:/sbin:/usr/bin:/usr/sbin/:/usr/local/bin:/usr/local/sbin
+
+# sets the install path to xcode tools
+export DEVELOPER_DIR="/XCD/loper"
+
 export SHELL="/bin/sh"
 export HOME="/var/root"
 export LOGNAME="root"
 export USER="root"
 export GROUP="wheel"
-#export HOST=$(hostname)
-#export HOSTTYPE="powermac"
-#export MACHTYPE=$(uname -p)
-#export OSTYPE="darwin"
-#export UNAME_RELEASE
-#export UNAME_SYSNAME
 
 build_string=""
 if [ "$buildtool" == "xcodebuild" -a "$target" != "" ]; then

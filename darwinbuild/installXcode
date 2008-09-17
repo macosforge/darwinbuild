@@ -7,7 +7,14 @@ VER=$(/usr/bin/xcodebuild -version | grep version | cut -d "-" -f 2 | cut -d ";"
 
 if [ "$VER" -gt "920" ];
 then
-	"$BINDIR/installXcode3" "$BROOT";	
+	if [ "$VER" -gt "1000" ];
+	then
+		"$BINDIR/installXcode31" "$BROOT";	
+	else
+		"$BINDIR/installXcode3" "$BROOT";	
+	fi
 else
 	"$BINDIR/installXcode2" "$BROOT";
 fi
+
+

@@ -4,7 +4,6 @@ include ../common.mk
 ### Variables for the 'install' phase
 ###
 DATDIR:=$(DATDIR)/darwinbuild
-XCFILEDIR:=$(DATDIR)/xcodefiles
 
 all: manifest
 
@@ -21,9 +20,7 @@ install: all
 	$(INSTALL) $(INSTALL_EXE_FLAGS) installXcode $(DATDIR)
 	$(INSTALL) $(INSTALL_EXE_FLAGS) installXcode2 $(DATDIR)
 	$(INSTALL) $(INSTALL_EXE_FLAGS) installXcode3 $(DATDIR)
-
-	[ -d $(XCFILEDIR) ] || $(INSTALL) -d $(INSTALL_DIR_FLAGS) $(XCFILEDIR)
-	$(INSTALL) $(INSTALL_DOC_FLAGS) xcodefiles/* $(XCFILEDIR)
+	$(INSTALL) $(INSTALL_EXE_FLAGS) installXcode31 $(DATDIR)
 
 	$(INSTALL) $(INSTALL_EXE_FLAGS) createChroot $(DATDIR)
 	$(INSTALL) $(INSTALL_EXE_FLAGS) $(OBJROOT)/manifest $(DATDIR)
@@ -41,10 +38,9 @@ uninstall:
 	rm -f $(DATDIR)/installXcode
 	rm -f $(DATDIR)/installXcode2
 	rm -f $(DATDIR)/installXcode3
+	rm -f $(DATDIR)/installXcode31
 	rm -f $(DATDIR)/createChroot
 	rm -f $(DATDIR)/manifest
-	rm -f $(XCFILEDIR)/*
-	-rmdir $(XCFILEDIR)
 	-rmdir $(DATDIR)
 
 clean:
