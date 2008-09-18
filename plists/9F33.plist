@@ -1,0 +1,117 @@
+// !$*UTF8*$!
+{
+	build = 9F33;
+	inherits = 9E17;
+	projects = {
+		AppleUSBCDCDriver = {
+			version = 3310.4.1;
+		};
+		BootCache = {
+			version = 43.5;
+		};
+		CF = {
+			version = 476.15;
+		};
+		ChatServer = {
+			version = 263.1;
+		};
+		DirectoryService = {
+			target = DirectoryServiceFW;
+			version = 514.23;
+		};
+		IOHIDFamily = {
+			version = 258.3;
+		};
+		IOKitUser = {
+			version = 388.2.1;
+		};
+		IOUSBMassStorageClass = {
+			version = 202.1.0;
+		};
+		Kerberos = {
+			version = 75.10.5;
+		};
+		OpenLDAP = {
+			version = 110;
+		};
+		OpenSSH = {
+			version = 95.1.4;
+		};
+		OpenSSL = {
+			version = 46.10;
+		};
+		PowerManagement = {
+			version = 143.11;
+		};
+		TimeZoneData = {
+			version = 13;
+		};
+		X11apps = {
+			version = 14.1;
+		};
+		X11fonts = {
+			version = 5.1;
+		};
+		X11libs = {
+			version = 17.3;
+		};
+		X11proto = {
+			version = 15.1;
+		};
+		X11server = {
+			version = 48.4;
+		};
+		apache_mod_php = {
+			version = 44.1;
+		};
+		bind9 = {
+			version = 26.1.2;
+		};
+		clamav = {
+			version = 116.4;
+		};
+		cups = {
+			target = installfat;
+			version = 136.11;
+		};
+		eap8021x = {
+			version = 49.7;
+		};
+		ipsec = {
+			version = 34.0.2;
+		};
+		launchd = {
+			version = 258.18;
+		};
+		libresolv = {
+			version = 25.0.2;
+		};
+		mDNSResponder = {
+			version = 176.2;
+		};
+		objc4 = {
+			version = 371.2;
+		};
+		rsync = {
+			version = 35.2;
+		};
+		ruby = {
+			version = 67.4;
+		};
+		samba = {
+			version = 187.8;
+		};
+		security_certificates = {
+			version = 34618;
+		};
+		smb = {
+			version = 348.5;
+		};
+		xar = {
+			version = 30;
+		};
+		xnu = {
+			version = 1228.7.58;
+		};
+	};
+}
