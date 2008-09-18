@@ -21,6 +21,7 @@
  * @APPLE_LICENSE_HEADER_END@
  */
 
+#include <stdint.h>
 #include <stdio.h>
 #include <sys/types.h>
 #include <time.h>

@@ -21,6 +21,7 @@
  * @APPLE_LICENSE_HEADER_END@
  */
 
+#include <stdint.h>
 #include <sys/types.h>
 
 // a variably lengthed set of serial numbers from the database

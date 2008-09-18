@@ -335,8 +335,11 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback, 
 			// If we're going to need to squirrel away data, create
 			// the directory hierarchy now.
 			if (INFO_TEST(actual->info(), FILE_INFO_ROLLBACK_DATA)) {
-				const char* path = actual->path();
+				char path[PATH_MAX];
 				char* backup_dirpath;
+
+				size_t len = strlcpy(path, actual->path(), sizeof(path));
+				assert(len <= sizeof(path));
 				
 				const char* dir = dirname(path);
 				assert(dir != NULL);

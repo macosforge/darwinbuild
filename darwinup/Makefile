@@ -11,8 +11,12 @@ main.o: main.cpp Depot.h Utils.h
 
 # libredo.o is generated from cctools_ofiles
 
+REDO=$(shell if [ -f /usr/local/lib/libredo_prebinding.a ]; then \
+		echo /usr/local/lib/libredo_prebinding.a ; else \
+		echo libredo.o ; fi)
+
 darwinup: Archive.o Depot.o Digest.o File.o SerialSet.o Utils.o main.o \
-	  libredo.o
+	$(REDO)
 	g++ -lcrypto -lsqlite3 -o $@ $^
 
 clean:
