@@ -18,6 +18,12 @@ EXTRACOPY=( \
     /Developer/Platforms/MacOSX.platform \
     /Developer/Makefiles/pbx_jamfiles)
     
+BINSYMLINKS=( \
+    gcc \
+    gcc-3.3 \
+    gcc-4.0 \
+    strip)
+    
 
 JAMFILES="/Developer/Makefiles/pbx_jamfiles"
 XCODERESOURCES="/Developer/Library/PrivateFrameworks/DevToolsCore.framework/Versions/A/Resources/"
@@ -31,15 +37,20 @@ fi
 
 mkdir -p "$BUILDROOT"
 
-SymlinkCompilers() {
-    echo "Creating compiler symlinks ..."
-    COMPILER_DIR="$BUILDROOT/XCD/loper/usr/bin/"
-    mkdir -p $COMPILER_DIR
-    pushd $COMPILER_DIR > /dev/null
+###
+### Symlink opensource binaries used by Xcode to /usr/bin
+###  so the opensource-built binary can be used instead
+###  of the one that ships with Xcode
+###
+SymlinkBinaries() {
+    echo "Creating symlinks for binaries ..."
+    BIN_DIR="$BUILDROOT/XCD/loper/usr/bin/"
+    mkdir -p $BIN_DIR
+    pushd $BIN_DIR > /dev/null
     
-    ln -s /usr/bin/gcc gcc
-    ln -s /usr/bin/gcc-3.3 gcc-3.3
-    ln -s /usr/bin/gcc-4.0 gcc-4.0
+    for B in "${BINSYMLINKS[@]}"; do
+	ln -s "/usr/bin/$B" "$B"
+    done
 
     popd > /dev/null
 }
@@ -185,7 +196,7 @@ RecurseLibs $XCODEBUILD
 AppendExtraFiles
 GenerateFileNames
 CopyFiles
-SymlinkCompilers
+SymlinkBinaries
 
 popd > /dev/null
 
