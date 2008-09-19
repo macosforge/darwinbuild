@@ -12,14 +12,15 @@ EXTRACOPY=( \
     /Developer/Tools \
     /usr/bin/xcodebuild \
     /usr/bin/xcode-select \
+    /Developer/Library/version.plist \
+    /Developer/usr/bin/dsymutil \
     /Developer/usr/bin/xcodebuild \
     /Developer/Platforms/MacOSX.platform \
     /Developer/Makefiles/pbx_jamfiles)
     
 
-JAMFILES=/Developer/Makefiles/pbx_jamfiles
-XCODESETTINGS="/System/Library/PrivateFrameworks/DevToolsCore.framework/Versions/A/Resources/BuildSettings-macosx.plist"
-XCODECOMP="/System/Library/PrivateFrameworks/DevToolsCore.framework/Versions/A/Resources/Built-in compilers.pbcompspec"
+JAMFILES="/Developer/Makefiles/pbx_jamfiles"
+XCODERESOURCES="/Developer/Library/PrivateFrameworks/DevToolsCore.framework/Versions/A/Resources/"
 
 RPATH=/Developer/Library/PrivateFrameworks
 
@@ -29,6 +30,19 @@ if [ -z "$BUILDROOT" ]; then
 fi
 
 mkdir -p "$BUILDROOT"
+
+SymlinkCompilers() {
+    echo "Creating compiler symlinks ..."
+    COMPILER_DIR="$BUILDROOT/XCD/loper/usr/bin/"
+    mkdir -p $COMPILER_DIR
+    pushd $COMPILER_DIR > /dev/null
+    
+    ln -s /usr/bin/gcc gcc
+    ln -s /usr/bin/gcc-3.3 gcc-3.3
+    ln -s /usr/bin/gcc-4.0 gcc-4.0
+
+    popd > /dev/null
+}
 
 ###
 ### Recurse through frameworks and libraries looking for dependencies
@@ -47,6 +61,7 @@ RecurseLibs() {
 
 RemoveTemps() {
 	rm -f /tmp/installXcode.libs.$$
+	rm -f /tmp/installXcode.outlibs.$$
 	rm -f /tmp/installXcode.seen.$$
 	rm -f /tmp/installXcode.tmplibs.$$
 	rm -f /tmp/installXcode.tmpfiles.$$
@@ -107,6 +122,8 @@ CopyFiles() {
     #  The [^m] used for /Developer is to prevent matching Platform subdirectories
     cpio -o -c < /tmp/installXcode.files.$$ | \
 	sed -e 's,/System,/XCD/SY,g' \
+	-e 's,CoreServices/XCD/SY,CoreServices/System,g' \
+	-e 's,Resources/XCD/SY,Resources/System,g' \
 	-e 's,/usr/lib,/XCD/lib,g' \
 	-e 's,/usr/share/icu,/XCD/share/icu,g' \
         -e 's,@rpath,/XCD/R,g' \
@@ -114,22 +131,42 @@ CopyFiles() {
 	-e 's,platform/XCD/loper,platform/Developer,g' | \
     (cd "$BUILDROOT"; cpio -ium${VERBOSECPIO}d )
 
+    echo "Symlinking for RPATH ..."
     # symlink R to @rpath so we can replace uses of @rpath
     pushd "$BUILDROOT/XCD" > /dev/null
     ln -s loper/Library/PrivateFrameworks R
     popd > /dev/null
 
-    find ".$JAMFILES" ".$XCODECOMP" | cpio -o -c | \
-	sed -e 's,$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks,/XCD/SY///////Library/PrivateFrameworks,g' \
-	-e 's,/Developer/Makefiles/pbx_jamfiles,/XCD/loper/Makefiles/pbx_jamfiles,g' \
-	-e 's,/System/Library/PrivateFrameworks/DevToolsCore.framework,/XCD/SY/Library/PrivateFrameworks/DevToolsCore.framework,g' | \
+    echo "Copying Jamfiles, Xcode Resources, and CoreServices ..."
+    find ".$JAMFILES" ".$XCODERESOURCES" \
+	./System/Library/CoreServices/System*.{plist,bundle} \
+	./System/Library/CoreServices/CoreTypes.bundle/ \
+	| cpio -o -c | \
+	sed -e 's,/System,/XCD/SY,g' \
+	-e 's,CoreServices/XCD/SY,CoreServices/System,g' \
+	-e 's,Resources/XCD/SY,Resources/System,g' \
+	-e 's,/usr/lib,/XCD/lib,g' \
+	-e 's,/usr/share/icu,/XCD/share/icu,g' \
+        -e 's,@rpath,/XCD/R,g' \
+	-e 's,/Developer,/XCD/loper,g' \
+	-e 's,platform/XCD/loper,platform/Developer,g' | \
     (cd "$BUILDROOT"; cpio -ium${VERBOSECPIO}d )
 
-    find ".$XCODESETTINGS" | cpio -o -c | \
-	sed -e 's,/System/Library/PrivateFrameworks/DevToolsCore.framework,/XCD/SY/Library/PrivateFrameworks/DevToolsCore.framework,g' | \
-    (cd "$BUILDROOT"; cpio -ium${VERBOSECPIO}d )
+    # copy xcode support files such as plugins
+    #   but do not copy svn plugins since they are unecessary
+    echo "Copying Xcode library support files ..."
+    find "./Developer/Library/Xcode/" \! -ipath '*subversion*' \
+	| cpio -o -c | \
+	sed -e 's,/System,/XCD/SY,g' \
+	-e 's,CoreServices/XCD/SY,CoreServices/System,g' \
+	-e 's,Resources/XCD/SY,Resources/System,g' \
+	-e 's,/usr/lib,/XCD/lib,g' \
+	-e 's,/usr/share/icu,/XCD/share/icu,g' \
+        -e 's,@rpath,/XCD/R,g' \
+	-e 's,/Developer,/XCD/loper,g' \
+	-e 's,platform/XCD/loper,platform/Developer,g' | \
+    (cd "$BUILDROOT"; cpio -ium${VERBOSECPIO}d )           
 
-    echo "done"
 }
 
 
@@ -148,7 +185,10 @@ RecurseLibs $XCODEBUILD
 AppendExtraFiles
 GenerateFileNames
 CopyFiles
+SymlinkCompilers
 
 popd > /dev/null
 
 RemoveTemps
+
+echo "Completed Xcode installation!"
