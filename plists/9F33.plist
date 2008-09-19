@@ -2,6 +2,11 @@
 {
 	build = 9F33;
 	inherits = 9E17;
+        darwin = "Darwin 9.5";
+        macosx = "Mac OS X 10.5.5";
+        binary_sites = (
+                "http://src.macosforge.org/Roots/9F33/",
+        );
 	projects = {
 		AppleUSBCDCDriver = {
 			version = 3310.4.1;
