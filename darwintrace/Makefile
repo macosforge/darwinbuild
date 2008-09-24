@@ -10,16 +10,17 @@ DATDIR:=$(DATDIR)/darwinbuild
 all: darwintrace.dylib
 
 VERSION=$(shell uname -r | cut -f1 -d. )
-ifeq ($(VERSION), 9)
-CFLAGS = -nodefaultlibs
-else
+ifeq ($(VERSION), 8)
 CFLAGS = -nostdlib
+else
+CFLAGS = -nodefaultlibs
 endif
 
+ARCHS=$(shell lipo -info /usr/lib/libSystem.dylib | cut -d : -f 3 | sed 's/ppc7400/ppc/' | awk '{ ORS=" "; for(i=1;i<=NF;i++) print "-arch", $$i}') 
 
 darwintrace.dylib: darwintrace.c
 	cc -o $(OBJROOT)/$@ \
-		-arch i386 -arch ppc -arch ppc64 \
+		$(ARCHS) \
 		-W -Wall -pedantic -std=c99 \
 		-flat_namespace \
 		-fno-common \

@@ -43,17 +43,16 @@
 #include <sys/paths.h>
 #include <errno.h>
 
-#define DARWINTRACE_SHOW_PROCESS 0
 #define DARWINTRACE_LOG_FULL_PATH 1
 #define DARWINTRACE_DEBUG_OUTPUT 0
 
 #define START_FD 81
 static int __darwintrace_fd = -2;
 #define BUFFER_SIZE	1024
-#if DARWINTRACE_SHOW_PROCESS
+
 static char __darwintrace_progname[BUFFER_SIZE];
 static pid_t __darwintrace_pid = -1;
-#endif
+
 
 #if DARWINTRACE_DEBUG_OUTPUT
 #define dprintf(...) fprintf(stderr, __VA_ARGS__)
@@ -82,7 +81,7 @@ static inline void __darwintrace_setup() {
 		errno = olderrno;
 	  }
 	}
-#if DARWINTRACE_SHOW_PROCESS
+
 	if (__darwintrace_pid == -1) {
 		__darwintrace_pid = getpid();
 		char** progname = _NSGetProgname();
@@ -90,7 +89,7 @@ static inline void __darwintrace_setup() {
 			strcpy(__darwintrace_progname, *progname);
 		}
 	}
-#endif
+
 }
 
 /* __darwintrace_setup must have been called already */
@@ -100,13 +99,13 @@ static inline void __darwintrace_logpath(int fd, const char *procname, char *tag
   int size;
 
   size = snprintf(__darwintrace_buf, sizeof(__darwintrace_buf),
-#if DARWINTRACE_SHOW_PROCESS
+
 		  "%s[%d]\t"
-#endif
+
 		  "%s\t%s\n",
-#if DARWINTRACE_SHOW_PROCESS
+
 		  procname ? procname : __darwintrace_progname, __darwintrace_pid,
-#endif
+
 		  tag, path );
   
   write(fd, __darwintrace_buf, size);
@@ -333,10 +332,10 @@ int execve(const char* path, char* const argv[], char* const envp[]) {
 		/* we have liftoff */
 		if (interp && interp[0] != '\0') {
 		  const char* procname = NULL;
-#if DARWINTRACE_SHOW_PROCESS
+
 		  procname = strrchr(argv[0], '/') + 1;
 		  if (procname == NULL) procname = argv[0];
-#endif
+
 		  __darwintrace_cleanup_path(interp);
 
 		  __darwintrace_logpath(__darwintrace_fd, procname, "execve", interp);

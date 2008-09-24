@@ -20,8 +20,14 @@ EXTRACOPY=( \
     
 BINSYMLINKS=( \
     gcc \
-    gcc-3.3 \
     gcc-4.0 \
+    gcc-4.2 \
+    gcov \
+    gcov-4.0 \
+    gcov-4.2 \
+    g++ \
+    g++-4.0 \
+    g++-4.2 \
     strip)
     
 
