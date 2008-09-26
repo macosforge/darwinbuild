@@ -13,12 +13,11 @@ EXTRACOPY=( \
     /usr/bin/xcodebuild \
     /usr/bin/xcode-select \
     /Developer/Library/version.plist \
-    /Developer/usr/bin/dsymutil \
-    /Developer/usr/bin/xcodebuild \
-    /Developer/Platforms/MacOSX.platform \
-    /Developer/Makefiles/pbx_jamfiles)
+    /Developer/usr/bin/xcodebuild)
     
 BINSYMLINKS=( \
+    cc \
+    dsymutil \
     gcc \
     gcc-4.0 \
     gcc-4.2 \
@@ -28,6 +27,8 @@ BINSYMLINKS=( \
     g++ \
     g++-4.0 \
     g++-4.2 \
+    libtool \
+    mig \
     strip)
     
 
@@ -136,7 +137,6 @@ CopyFiles() {
     echo "Copying Xcode and dependencies ..."
 
     # copy files and use sed to rewrite paths during copy
-    #  The [^m] used for /Developer is to prevent matching Platform subdirectories
     cpio -o -c < /tmp/installXcode.files.$$ | \
 	sed -e 's,/System,/XCD/SY,g' \
 	-e 's,CoreServices/XCD/SY,CoreServices/System,g' \
@@ -154,10 +154,17 @@ CopyFiles() {
     ln -s loper/Library/PrivateFrameworks R
     popd > /dev/null
 
-    echo "Copying Jamfiles, Xcode Resources, and CoreServices ..."
-    find ".$JAMFILES" ".$XCODERESOURCES" \
-	./System/Library/CoreServices/System*.{plist,bundle} \
-	./System/Library/CoreServices/CoreTypes.bundle/ \
+    echo "Copying Jamfiles and Xcode Resources ..."
+    find ".$JAMFILES" ".$XCODERESOURCES" | cpio -o -c | \
+        sed -e 's,$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks,/XCD/SY///////Library/PrivateFrameworks,g' \
+        -e 's,/Developer/Makefiles/pbx_jamfiles,/XCD/loper/Makefiles/pbx_jamfiles,g' \
+        -e 's,/Developer/Library/PrivateFrameworks/DevToolsCore.framework,/XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework,g' | \
+    (cd "$BUILDROOT"; cpio -ium${VERBOSECPIO}d )
+
+
+    echo "Copying CoreServices ..."
+    find ./System/Library/CoreServices/System*.{plist,bundle} \
+	 ./System/Library/CoreServices/CoreTypes.bundle/ \
 	| cpio -o -c | \
 	sed -e 's,/System,/XCD/SY,g' \
 	-e 's,CoreServices/XCD/SY,CoreServices/System,g' \
@@ -184,6 +191,19 @@ CopyFiles() {
 	-e 's,platform/XCD/loper,platform/Developer,g' | \
     (cd "$BUILDROOT"; cpio -ium${VERBOSECPIO}d )           
 
+    # Platform
+    echo "Copying Mac OS X Platform ..."
+    find "./Developer/Platforms/MacOSX.platform" | cpio -o -c | \
+        sed -e 's,/System,/XCD/SY,g' \
+        -e 's,CoreServices/XCD/SY,CoreServices/System,g' \
+        -e 's,Resources/XCD/SY,Resources/System,g' \
+        -e 's,/usr/lib,/XCD/lib,g' \
+        -e 's,/usr/share/icu,/XCD/share/icu,g' \
+        -e 's,@rpath,/XCD/R,g' \
+        -e 's,/Developer,/XCD/loper,g' \
+        -e 's,platform/XCD/loper,platform/Developer,g' | \
+    (cd "$BUILDROOT"; cpio -ium${VERBOSECPIO}d )
+
 }
 
 
@@ -206,6 +226,6 @@ SymlinkBinaries
 
 popd > /dev/null
 
-RemoveTemps
+#RemoveTemps
 
 echo "Completed Xcode installation!"

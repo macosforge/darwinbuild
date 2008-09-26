@@ -2670,6 +2670,15 @@
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
+                        dependencies = {
+                                build = (
+                                        bootstrap_cmds,
+					xnu,
+				);
+				header = (
+					PowerManagement,
+				);
+			};
 			version = 376;
 		};
 		IONetworkingFamily = {
@@ -8201,7 +8210,10 @@
 					xnu,
 				);
 				header = (
+					CarbonHeaders,
+					CF,
 					DiskArbitration,
+					IOKitUser,
 					Libc_headers,
 					Libinfo,
 					Libm,

@@ -526,9 +526,9 @@ if [ "$CHROOTED" == "YES" -a "$noload" != "YES" ]; then
 		cp "$DITTO" "$BuildRoot/usr/bin/ditto"
 	fi
 
-	### need dsymutil too... (hack for now)
+	### need dsymutil but it depends on libauto so disable for now
 	if [ ! -x "$BuildRoot/usr/bin/dsymutil" ]; then
-		cp "/usr/bin/dsymutil" "$BuildRoot/usr/bin/dsymutil"
+		cp "/usr/bin/true" "$BuildRoot/usr/bin/dsymutil"
 	fi
 
 	### CoreOSMakefiles 
@@ -594,8 +594,10 @@ export CHROOTED
 
 export PATH=/bin:/sbin:/usr/bin:/usr/sbin/:/usr/local/bin:/usr/local/sbin
 
-# sets the install path to xcode tools
-export DEVELOPER_DIR="/XCD/loper"
+# sets the install path to xcode tools if we're chrooted
+if [ "$CHROOTED" == "YES" ]; then
+	export DEVELOPER_DIR="/XCD/loper"
+fi
 
 export SHELL="/bin/sh"
 export HOME="/var/root"
