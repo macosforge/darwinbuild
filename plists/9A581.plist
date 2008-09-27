@@ -8224,6 +8224,8 @@
 					gcc,
 					launchd,
 					libdyld,
+					libedit,
+					mDNSResponderSystemLibraries,
 					xnu,
 				);
 				lib = (
@@ -9114,6 +9116,7 @@
 					distcc,
 					file_cmds,
 					gcc,
+					gcc_42,
 					gcc_os,
 					gcc_select,
 					gm4,
@@ -9121,6 +9124,7 @@
 					jam,
 					libgcc,
 					mDNSResponder,
+					pb_makefiles,
 					shell_cmds,
 					system_cmds,
 					tcsh,
@@ -9153,6 +9157,7 @@
 					configd,
 					dyld,
 					libgcc,
+					objc4,
 				);
 				staticlib = (
 					Csu,
