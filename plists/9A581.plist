@@ -2674,6 +2674,10 @@
                                 build = (
                                         bootstrap_cmds,
 					xnu,
+					system_cmds,
+					shell_cmds,
+					file_cmds,
+					text_cmds,
 				);
 				header = (
 					PowerManagement,
@@ -8189,12 +8193,14 @@
 		launchd = {
 			dependencies = {
 				build = (
+					IOKitUser,
 					Libm,
 					Libsystem,
 					bash,
 					bootstrap_cmds,
 					bsm,
 					cctools,
+					file,
 					file_cmds,
 					gcc,
 					gcc_select,
@@ -8667,6 +8673,12 @@
 			version = 32564;
 		};
 		libsecurity_cdsa_client = {
+			dependencies = {
+				build = (
+				      Libsyscall,
+				      Kerberos,
+				);
+			}; 
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -8753,6 +8765,22 @@
 			version = 28631;
 		};
 		libsecurity_keychain = {
+			dependencies = {
+				     build = (
+				     	   file_cmds,
+					   cctools,
+					   CF,
+					   xnu,
+					   Security,
+					   Libc_headers,
+					   architecture,
+					   libsecurity_utilities,
+					   libsecurity_cdsa_utilities,
+					   libsecurity_cdsa_client,
+					   CommonCrypto,
+					   CarbonHeaders,
+				     );
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -9172,6 +9200,7 @@
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
 			original = mDNSResponder;
+			target = SystemLibraries;
 		};
 		mail_cmds = {
 			dependencies = {
