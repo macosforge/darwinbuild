@@ -33,7 +33,7 @@ BINSYMLINKS=( \
     
 
 JAMFILES="/Developer/Makefiles/pbx_jamfiles"
-XCODERESOURCES="/Developer/Library/PrivateFrameworks/DevToolsCore.framework/Versions/A/Resources/"
+#XCODERESOURCES="/Developer/Library/PrivateFrameworks/DevToolsCore.framework/Versions/A/Resources/"
 
 RPATH=/Developer/Library/PrivateFrameworks
 
@@ -60,6 +60,19 @@ SymlinkBinaries() {
     done
 
     popd > /dev/null
+}
+
+###
+### Load opensource binaries if they dont exist so we can symlink to them
+###  
+LoadBinaries() {
+    echo "Loading binaries ..."
+    if [ ! -f "$BUILDROOT/usr/bin/gcc" ]; then
+	darwinbuild -load gcc
+    fi
+    if [ ! -f "$BUILDROOT/usr/bin/gcc-4.2" ]; then
+	darwinbuild -load gcc_42
+    fi
 }
 
 ###
@@ -154,8 +167,8 @@ CopyFiles() {
     ln -s loper/Library/PrivateFrameworks R
     popd > /dev/null
 
-    echo "Copying Jamfiles and Xcode Resources ..."
-    find ".$JAMFILES" ".$XCODERESOURCES" | cpio -o -c | \
+    echo "Copying Jamfiles ..."
+    find ".$JAMFILES" | cpio -o -c | \
         sed -e 's,$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks,/XCD/SY///////Library/PrivateFrameworks,g' \
         -e 's,/Developer/Makefiles/pbx_jamfiles,/XCD/loper/Makefiles/pbx_jamfiles,g' \
         -e 's,/Developer/Library/PrivateFrameworks/DevToolsCore.framework,/XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework,g' | \
@@ -222,6 +235,7 @@ RecurseLibs $XCODEBUILD
 AppendExtraFiles
 GenerateFileNames
 CopyFiles
+LoadBinaries
 SymlinkBinaries
 
 popd > /dev/null
