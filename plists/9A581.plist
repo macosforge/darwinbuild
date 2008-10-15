@@ -2673,6 +2673,12 @@
                         dependencies = {
                                 build = (
                                         bootstrap_cmds,
+					gcc_select,
+					Libc_headers,
+					IOHIDFamily,
+					IONetworkingFamily,
+					IOGraphics,
+					AppleRAID,
 					xnu,
 					system_cmds,
 					shell_cmds,
