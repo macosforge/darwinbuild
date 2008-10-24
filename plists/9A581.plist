@@ -4216,6 +4216,24 @@
 			version = 6;
 		};
 		Tokend = {
+			dependencies = {
+				build = (
+					file_cmds,
+					gnutar,
+					Security,
+					CarbonHeaders,
+					cctools,
+					libsecurity_utilities,
+					CF,
+					xnu,
+					Libc_headers,
+					architecture,
+					libsecurity_cssm,
+					libutil,
+					text_cmds,
+					libsecurity_cdsa_utilities,
+				);
+			};
 			version = 32432;
 		};
 		Twisted = {
