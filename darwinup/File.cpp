@@ -122,12 +122,13 @@ uint32_t File::compare(File* a, File* b) {
 
 
 void File::print(FILE* stream) {
-	char* dig = m_digest ? m_digest->string() : strdup("");
+	char* dig = m_digest ? m_digest->string() :
+		strdup("                                        ");
 	
 	char mode_str[12];
 	strmode(m_mode, mode_str);
 		
-	fprintf(stream, "%s % 4d % 4d % 40s %s\n", mode_str, m_uid, m_gid, dig, m_path);
+	fprintf(stream, "%s % 4d % 4d %s %s\n", mode_str, m_uid, m_gid, dig, m_path);
 	free(dig);
 }
 
