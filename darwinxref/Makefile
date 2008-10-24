@@ -4,7 +4,7 @@ include ../common.mk
 ### Variables for the 'install' phase
 ###
 DATDIR:=$(DATDIR)/darwinxref
-INCDIR:=$(INCDIR)/DarwinBuild
+INCDIR:=$(INCDIR)/darwinbuild
 
 SOURCES= \
 	DBDataStore.c \
@@ -84,10 +84,10 @@ darwinxref: $(SOURCES)
 		CMD="$(CC) $(CFLAGS) -c -o $(OBJROOT)/$${OFILE} $${CFILE}"; \
 		echo $$CMD ; $$CMD || exit 1 ; \
 	done
-	$(CC) $(LDFLAGS) -o $(SYMROOT)/darwinxref \
+	$(CC) $(LDFLAGS) -o $(OBJROOT)/darwinxref \
 		$(SQLITELIB) \
 		$(foreach OFILE, $(SOURCES:.c=.o), $(OBJROOT)/$(notdir $(OFILE)))
-	$(DSYMUTIL) --out $(SYMROOT)/darwinxref.dSYM $(SYMROOT)/darwinxref || true
+	$(DSYMUTIL) --out $(SYMROOT)/darwinxref.dSYM $(OBJROOT)/darwinxref || true
 
 plugins/register.so: plugins/register.c DBPlugin.h
 	@mkdir -p $(OBJROOT)/plugins
