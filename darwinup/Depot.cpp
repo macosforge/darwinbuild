@@ -45,6 +45,7 @@ Depot::Depot() {
 	m_database_path = NULL;
 	m_archives_path = NULL;
 	m_db = NULL;
+	m_lock_fd = -1;
 }
 
 Depot::Depot(const char* prefix) {
@@ -54,6 +55,8 @@ Depot::Depot(const char* prefix) {
 
 	mkdir(m_depot_path,    m_depot_mode);
 	mkdir(m_archives_path, m_depot_mode);
+
+	(void)this->lock(LOCK_SH);
 
 	int exists = is_regular_file(m_database_path);
 
@@ -73,6 +76,7 @@ Depot::Depot(const char* prefix) {
 }
 
 Depot::~Depot() {
+	if (m_lock_fd != -1)	this->unlock();
 	if (m_db)		sqlite3_close(m_db);
 	if (m_depot_path)	free(m_depot_path);
 	if (m_database_path)	free(m_database_path);
@@ -454,6 +458,8 @@ int Depot::install(Archive* archive) {
 //	res = this->check_consistency();
 //	if (res != 0) return res;
 
+	res = this->lock(LOCK_EX);
+	if (res != 0) return res;
 
 	//
 	// The fun starts here
@@ -530,6 +536,8 @@ int Depot::install(Archive* archive) {
 	if (rollback_path) free(rollback_path);
 	if (archive_path) free(archive_path);
 	
+	(void)this->lock(LOCK_SH);
+
 	return res;
 }
 
@@ -652,6 +660,9 @@ int Depot::uninstall(Archive* archive) {
 //	res = this->check_consistency();
 //	if (res != 0) return res;
 
+	res = this->lock(LOCK_EX);
+	if (res != 0) return res;
+
 	// XXX: this may be superfluous
 	// uninstall_file should be smart enough to do a mtime check...
 	if (res == 0) res = this->prune_directories();
@@ -681,6 +692,8 @@ int Depot::uninstall(Archive* archive) {
 	if (res == 0) res = this->prune_directories();
 
 	if (res == 0) res = prune_archives();
+
+	(void)this->lock(LOCK_SH);
 
 	return res;
 }
@@ -918,6 +931,33 @@ int Depot::rollback_transaction() {
 
 int Depot::commit_transaction() {
 	return this->SQL("COMMIT TRANSACTION");
+}
+
+int Depot::lock(int operation) {
+	int res = 0;
+	if (m_lock_fd == -1) {
+		m_lock_fd = open(m_depot_path, O_RDONLY);
+		if (m_lock_fd == -1) {
+			perror(m_depot_path);
+			res = -1;
+		}
+	}
+	res = flock(m_lock_fd, operation);
+	if (res == -1) {
+		perror(m_depot_path);
+	}
+	return res;
+}
+
+int Depot::unlock(void) {
+	int res = 0;
+	res = flock(m_lock_fd, LOCK_UN);
+	if (res == -1) {
+		perror(m_depot_path);
+	}
+	close(m_lock_fd);
+	m_lock_fd = -1;
+	return res;
 }
 
 int Depot::insert(Archive* archive) {

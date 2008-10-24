@@ -72,6 +72,10 @@ struct Depot {
 
 	protected:
 
+	// Serialize access to the Depot via flock(2).
+	int lock(int operation);
+	int unlock(void);
+
 	// Inserts an Archive into the database.
 	// This modifies the Archive's serial number.
 	// If the Archive already has a serial number, it cannot be inserted.
@@ -109,4 +113,5 @@ struct Depot {
 	char*		m_depot_path;
 	char*		m_database_path;
 	char*		m_archives_path;
+	int		m_lock_fd;
 };
