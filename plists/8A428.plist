@@ -5837,6 +5837,7 @@
 					file_cmds,
 					gcc_os,
 					gcc_select,
+					gnutar,
 					libsecurity_cdsa_client,
 					libsecurity_cdsa_utilities,
 					libsecurity_utilities,
