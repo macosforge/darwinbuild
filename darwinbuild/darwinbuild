@@ -528,7 +528,7 @@ if [ "$CHROOTED" == "YES" -a "$noload" != "YES" ]; then
 
 	### need dsymutil but it depends on libauto so disable for now
 	if [ ! -x "$BuildRoot/usr/bin/dsymutil" ]; then
-		cp "/usr/bin/true" "$BuildRoot/usr/bin/dsymutil"
+		cp "/usr/bin/dsymutil" "$BuildRoot/usr/bin/dsymutil"
 	fi
 
 	### CoreOSMakefiles 
