@@ -152,6 +152,7 @@ function Download() {
 				echo "Downloading $master_site/$filename ..."
 				curl $CURLARGS --fail \
 					--silent \
+					--location \
 					--continue-at - \
 					--output "$destination/.tmp.${filename}" \
 					--url "$master_site/$filename"
