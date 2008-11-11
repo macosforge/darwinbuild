@@ -4952,6 +4952,27 @@
 			};
 			version = 7;
 		};
+		autozone = {
+			dependencies = {
+				build = (
+					file_cmds,
+					xnu,
+					Libc_headers,
+					cctools,
+					Libsyscall,
+					CarbonHeaders,
+					CF,
+					architecture,
+					Libinfo,
+					libdyld,
+					cctools_ofiles,
+					ld64,
+					Csu,
+					SystemStubs,
+				);
+			};
+			version = 77.1;
+		}
 		awk = {
 			dependencies = {
 				build = (
