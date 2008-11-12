@@ -1272,6 +1272,10 @@
 					gcc_select,
 					cctools,
 					Libc_headers,
+					CarbonHeaders,
+					xnu,
+					architecture,
+					objc4,
 				);
 			};
 			environment = {
