@@ -2129,6 +2129,28 @@
 			version = 20;
 		};
 		ICU = {
+			dependencies = {
+				build = (
+					gnumake,
+					shell_cmds,
+					file_cmds,
+					text_cmds,
+					ld64,
+					CF,
+					objc4,
+					autozone,
+					gcc,
+					gcc_select,
+					cctools,
+					Csu,
+					grep,
+					xnu,
+					Libc_headers,
+					SystemStubs,
+					architecture,
+					CarbonHeaders,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
