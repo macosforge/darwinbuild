@@ -9836,6 +9836,7 @@
 				build = (
 					Libm,
 					Libsystem,
+					autozone,
 					cctools,
 					file_cmds,
 					gcc,
