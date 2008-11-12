@@ -4178,6 +4178,8 @@
 			dependencies = {
 				build = (
 					bash,
+					CarbonHeaders,
+					cctools,
 					distcc,
 					file_cmds,
 					gcc,
