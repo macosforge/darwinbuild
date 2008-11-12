@@ -9843,6 +9843,7 @@
 					gcc_select,
 					gnumake,
 					ld64,
+					libdyld,
 					libgcc,
 					shell_cmds,
 				);
