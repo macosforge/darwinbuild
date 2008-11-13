@@ -29,7 +29,8 @@ BINSYMLINKS=( \
     g++-4.2 \
     libtool \
     mig \
-    strip)
+    strip \
+    yacc)
     
 
 JAMFILES="/Developer/Makefiles/pbx_jamfiles"
