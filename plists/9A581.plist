@@ -8017,6 +8017,8 @@
 					configd,
 					zlib,
 					file_cmds,
+					bison,
+					shell_cmds,
 				);
 			};
                         version = 34;
