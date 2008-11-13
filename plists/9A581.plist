@@ -5008,6 +5008,9 @@
 					SystemStubs,
 				);
 			};
+			environment = {
+				RC_ARCHS = "i386 x86_64 ppc ppc64";
+			};
 			version = 77.1;
 		};
 		awk = {
