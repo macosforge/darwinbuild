@@ -28,7 +28,7 @@ TCL_LDFLAGS=-ltcl
 CFLAGS+=-g $(TCL_CFLAGS) -DVERSION=\"$(shell cat ../VERSION)\" $(SQLITEINC)
 LDFLAGS+=-framework CoreFoundation $(TCL_LDFLAGS)
 PLUGIN_CFLAGS=$(CFLAGS) -I.
-PLUGIN_LDFLAGS=$(LDFLAGS) -bundle -bundle_loader $(OBJROOT)/darwinxref
+PLUGIN_LDFLAGS=$(LDFLAGS) -bundle -bundle_loader $(SYMROOT)/darwinxref
 
 VERSION=$(shell uname -r | cut -f1 -d. )
 ifeq ($(VERSION),7)
@@ -54,11 +54,11 @@ all: \
 install: all install_apple_plugins
 	[ -d $(BINDIR) ] || \
 		$(INSTALL) -d $(INSTALL_DIR_FLAGS) $(BINDIR)
-	$(INSTALL) $(INSTALL_EXE_FLAGS) $(OBJROOT)/darwinxref $(BINDIR)
+	$(INSTALL) $(INSTALL_EXE_FLAGS) $(SYMROOT)/darwinxref $(BINDIR)
 
 	[ -d $(DATDIR)/plugins ] || \
 		$(INSTALL) -d $(INSTALL_DIR_FLAGS) $(DATDIR)/plugins
-	$(INSTALL) $(INSTALL_DOC_FLAGS) $(wildcard $(OBJROOT)/plugins/*.so) $(wildcard $(OBJROOT)/plugins/*.tcl) $(DATDIR)/plugins
+	$(INSTALL) $(INSTALL_DOC_FLAGS) $(wildcard $(OBJROOT)/plugins/*.so) $(wildcard plugins/*.tcl) $(DATDIR)/plugins
 
 	[ -d $(INCDIR) ] || \
 		$(INSTALL) -d $(INSTALL_DIR_FLAGS) $(INCDIR)
@@ -84,10 +84,10 @@ darwinxref: $(SOURCES)
 		CMD="$(CC) $(CFLAGS) -c -o $(OBJROOT)/$${OFILE} $${CFILE}"; \
 		echo $$CMD ; $$CMD || exit 1 ; \
 	done
-	$(CC) $(LDFLAGS) -o $(OBJROOT)/darwinxref \
+	$(CC) $(LDFLAGS) -o $(SYMROOT)/darwinxref \
 		$(SQLITELIB) \
 		$(foreach OFILE, $(SOURCES:.c=.o), $(OBJROOT)/$(notdir $(OFILE)))
-	$(DSYMUTIL) --out $(SYMROOT)/darwinxref.dSYM $(OBJROOT)/darwinxref || true
+	$(DSYMUTIL) --out $(SYMROOT)/darwinxref.dSYM $(SYMROOT)/darwinxref || true
 
 plugins/register.so: plugins/register.c DBPlugin.h
 	@mkdir -p $(OBJROOT)/plugins
