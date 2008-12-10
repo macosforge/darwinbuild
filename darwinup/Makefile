@@ -1,6 +1,6 @@
 include ../common.mk
 
-CXXFLAGS=-g -Wall -Werror
+CXXFLAGS=-g -Wall -Werror -Wno-non-virtual-dtor
 # libredo.o is generated from cctools_ofiles
 REDO=$(shell if [ -f /usr/local/lib/libredo_prebinding.a ]; then \
 		echo /usr/local/lib/libredo_prebinding.a ; else \
