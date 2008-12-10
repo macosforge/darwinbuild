@@ -33,14 +33,14 @@
 
 void usage(char* progname) {
 	char* pad = strdup(progname);
-	int i;
+	size_t i;
 	for (i = 0; i < strlen(pad); ++i) pad[i] = ' ';
 	
 	fprintf(stderr, "usage: %s install   <path>\n", progname);
-	fprintf(stderr, "       %s list\n", pad, progname);
-	fprintf(stderr, "       %s files     <uuid>\n", pad, progname);
-	fprintf(stderr, "       %s uninstall <uuid>\n", pad, progname);
-	fprintf(stderr, "       %s verify    <uuid>\n", pad, progname);
+	fprintf(stderr, "       %s list\n", pad);
+	fprintf(stderr, "       %s files     <uuid>\n", pad);
+	fprintf(stderr, "       %s uninstall <uuid>\n", pad);
+	fprintf(stderr, "       %s verify    <uuid>\n", pad);
 	exit(1);
 }
 

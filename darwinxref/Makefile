@@ -25,7 +25,7 @@ CFLAGS+= \
 TCL_CFLAGS=-DHAVE_TCL_PLUGINS=1
 TCL_LDFLAGS=-ltcl
 
-CFLAGS+=-g $(TCL_CFLAGS) -DVERSION=\"$(shell cat ../VERSION)\" $(SQLITEINC)
+CFLAGS+=-g -Wall -Werror $(TCL_CFLAGS) -DVERSION=\""$(shell cat ../VERSION)"\" $(SQLITEINC)
 LDFLAGS+=-framework CoreFoundation $(TCL_LDFLAGS)
 PLUGIN_CFLAGS=$(CFLAGS) -I.
 PLUGIN_LDFLAGS=$(LDFLAGS) -bundle -bundle_loader $(SYMROOT)/darwinxref

@@ -31,6 +31,7 @@
  */
 
 #include "DBPlugin.h"
+#include "DBDataStore.h"
 #include <sys/stat.h>
 #include <sys/types.h>
 
@@ -172,6 +173,8 @@ int resolve_project_dependencies( const char* build, const char* project, int* r
 	}
 
 	if (SQL("COMMIT")) { return -1; }
+
+	return 0;
 }
 
 int resolve_dependencies(const char* build, const char* project, int commit) {
@@ -201,4 +204,6 @@ int resolve_dependencies(const char* build, const char* project, int commit) {
 
 	CFRelease(builds);
 	CFRelease(projects);
+	
+	return 0;
 }

@@ -118,6 +118,13 @@ DBPlugin* _DBPluginInitialize() {
 	return plugin;
 }
 
+//////
+//
+// DBPluginLoadPlugins 
+//  returns -1 if the plugin dictionary cannot be 
+//   created, otherwise returns 0
+//
+/////
 int DBPluginLoadPlugins(const char* plugin_path) {
 	if (plugins == NULL) {
 		plugins = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks, &cfDictionaryPluginValueCallBacks);
@@ -188,6 +195,8 @@ int DBPluginLoadPlugins(const char* plugin_path) {
 		free(path_argv[i]);
 	}
 	free(path_argv);
+
+	return 0;
 }
 
 void print_usage(char* progname, int argc, char* argv[]) {
@@ -308,4 +317,5 @@ CFStringRef DBPluginPropertyDefaultUsage() {
 	if (plugin->type == kDBPluginProjectPropertyType) return CFRetain(CFSTR("<project>"));
 	if (plugin->type == kDBPluginBuildPropertyType) return CFRetain(CFSTR(""));
 	if (plugin->type == kDBPluginPropertyType) return CFRetain(CFSTR("[<project>]"));
+	return CFRetain(CFSTR("<unknown property type>"));
 }

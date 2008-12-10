@@ -142,7 +142,7 @@ int File::install(const char* prefix) {
 	const char* dstpath = this->path();
 	if (dirpath) {
 		ssize_t len = snprintf(srcpath, sizeof(srcpath), "%s/%s", dirpath, dstpath);
-		if (len > sizeof(srcpath)) {
+		if ((size_t)len > sizeof(srcpath)) {
 			fprintf(stderr, "ERROR: [install] path too long: %s/%s\n", dirpath, dstpath);
 			return -1;
 		}
@@ -257,7 +257,7 @@ int Symlink::remove() {
 int Symlink::install_info() {
 	int res = 0;
 	const char* path = this->path();
-	mode_t mode = this->mode() & ALLPERMS;
+	//mode_t mode = this->mode() & ALLPERMS;
 	uid_t uid = this->uid();
 	gid_t gid = this->gid();
 	IF_DEBUG("[install] lchown(%d, %d)\n", uid, gid);
@@ -348,7 +348,7 @@ File* FileFactory(Archive* archive, FTSENT* ent) {
 			break;
 		case FTS_DEFAULT:
 		case FTS_DNR:
-			fprintf(stderr, "%s:%d: could not read directory.  Run as root.\n", __FILE__, __LINE__, ent->fts_info);
+			fprintf(stderr, "%s:%d: could not read directory.  Run as root.\n", __FILE__, __LINE__);
 			break;
 		default:
 			fprintf(stderr, "%s:%d: unexpected fts_info type %d\n", __FILE__, __LINE__, ent->fts_info);

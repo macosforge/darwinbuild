@@ -31,6 +31,7 @@
  */
 
 #include "DBPlugin.h"
+#include "DBDataStore.h"
 #include <sys/stat.h>
 #include <stdio.h>
 #include <regex.h>

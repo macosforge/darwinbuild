@@ -35,7 +35,6 @@
 
 static int run(CFArrayRef argv) {
 	int res = 0;
-	CFStringRef project = NULL;
 	CFIndex count = CFArrayGetCount(argv);
 	if (count != 1)  return -1;
 	char* filename = strdup_cfstr(CFArrayGetValueAtIndex(argv, 0));

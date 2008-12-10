@@ -31,6 +31,7 @@
  */
 
 #include "DBPlugin.h"
+#include "DBDataStore.h"
 #include <sys/syslimits.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -679,10 +680,11 @@ static int prune_old_entries(const char* build, const char* project) {
 	SQL("DELETE FROM mach_o_objects WHERE build=%Q AND project=%Q", build, project);
 	
 	SQL("DELETE FROM mach_o_symbols WHERE mach_o_object NOT IN (SELECT serial FROM mach_o_objects)");
+
+	return 0;
 }
 
 int register_files(char* build, char* project, char* path) {
-	char* errmsg;
 	int res;
 	int loaded = 0;
 	
@@ -708,7 +710,6 @@ int register_files(char* build, char* project, char* path) {
 		char filename[MAXPATHLEN+1];
 		char symlink[MAXPATHLEN+1];
 		int len;
-		off_t size;
 		
 		// Filename
 		filename[0] = 0;
@@ -774,7 +775,6 @@ int register_files(char* build, char* project, char* path) {
 }
 
 int register_files_from_stdin(char* build, char* project, char* path) {
-	char* errmsg;
 	int res;
 	int loaded = 0;
 	char *line;

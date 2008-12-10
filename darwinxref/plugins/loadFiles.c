@@ -31,6 +31,7 @@
  */
 
 #include "DBPlugin.h"
+#include "DBDataStore.h"
 #include <sys/stat.h>
 #include <stdio.h>
 #include <regex.h>
@@ -39,7 +40,6 @@ static int loadFiles(const char* buildparam, const char* path);
 
 static int run(CFArrayRef argv) {
 	int res = 0;
-	CFStringRef project = NULL;
 	CFIndex count = CFArrayGetCount(argv);
 	if (count != 1)  return -1;
 	char* filename = strdup_cfstr(CFArrayGetValueAtIndex(argv, 0));
@@ -76,8 +76,6 @@ int loadFiles(const char* buildparam, const char* path) {
 	FILE* fp = fopen(path, "r");
 	int loaded = 0, total = 0;
 	if (fp) {
-		char* errmsg;
-		
 		//
 		// Create the projects table if it does not already exist
 		//

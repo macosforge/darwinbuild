@@ -42,7 +42,6 @@ static int run(CFArrayRef argv) {
 	int xml = 0, i;
 	CFMutableDictionaryRef dict, preplist;
 	CFDictionaryRef project;
-	char *cproj;
 	CFStringRef projname;
 	CFArrayRef builds;
 	const void *ssites, *bsites;

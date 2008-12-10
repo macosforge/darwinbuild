@@ -124,7 +124,6 @@ CFDataRef SQL_CFDATA(const char* fmt, ...) {
 	CFDataRef data = NULL;
 	sqlite3_stmt* stmt = NULL;
 	va_list args;
-	char* errmsg;
 	va_start(args, fmt);
 	sqlite3* db = _DBPluginGetDataStorePtr();
 	if (db) {
@@ -802,7 +801,6 @@ int DBSetPlist(CFStringRef buildParam, CFStringRef projectParam, CFPropertyListR
 		CFStringRef prop = CFArrayGetValueAtIndex(existingProps, i);
 		if (!CFArrayContainsValue(props, range, prop)) {
 			char* cbuild = strdup_cfstr(build);
-			char* cproj = strdup_cfstr(project);
 			char* cprop = strdup_cfstr(prop);
 			if (project) {
 				char* cproj = strdup_cfstr(project);

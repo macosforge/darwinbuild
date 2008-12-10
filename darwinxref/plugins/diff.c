@@ -53,7 +53,7 @@ void _print_remaining_projects(CFStringRef build, CFArrayRef nameArray, int inde
  * Diff two project files
  */
 int run(CFArrayRef argv) {
-  int res = 0;
+
   // ensure we have two and only two arguments
   CFIndex count = CFArrayGetCount(argv);
   if (count != 2)  return -1;

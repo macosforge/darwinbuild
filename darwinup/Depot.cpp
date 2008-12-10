@@ -28,6 +28,7 @@
 #include "Utils.h"
 
 #include <assert.h>
+#include <copyfile.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <libgen.h>
@@ -230,7 +231,7 @@ int Depot::iterate_files(Archive* archive, FileIteratorFunc func, void* context)
 				if (blobsize > 0) {
 					digest = new Digest();
 					digest->m_size = blobsize;
-					memcpy(digest->m_data, blob, (blobsize < sizeof(digest->m_data)) ? blobsize : sizeof(digest->m_data));
+					memcpy(digest->m_data, blob, ((size_t)blobsize < sizeof(digest->m_data)) ? blobsize : sizeof(digest->m_data));
 				}
 
 				File* file = FileFactory(serial, archive, info, (const char*)path, mode, uid, gid, size, digest);
@@ -421,8 +422,27 @@ int Depot::backup_file(File* file, void* ctx) {
 		++context->files_modified;
 
 		// XXX: res = file->backup()
-		IF_DEBUG("[backup] rename(%s, %s)\n", file->path(), dstpath);
-		res = rename(file->path(), dstpath);
+
+		// Copy libraries gnutar uses since we need to use gnutar before they are replaced		
+		int i = 0;
+		bool docopy = false;
+		const char* tarlibs[] = {"/usr/lib/libSystem.B.dylib",
+					 "/usr/lib/libiconv.2.dylib",
+					 "/usr/lib/libgcc_s.1.dylib"};
+		for (i = 0; i < 3; i++) {
+		  if (strncmp(tarlibs[i], file->path(), strlen(tarlibs[i])) == 0) {
+		    docopy = true;
+		    break;
+		  }
+		}
+		if (docopy) {
+		  IF_DEBUG("[backup] copyfile(%s, %s)\n", file->path(), dstpath);
+		  res = copyfile(file->path(), dstpath, NULL, COPYFILE_ALL);
+		} else {
+		  IF_DEBUG("[backup] rename(%s, %s)\n", file->path(), dstpath);
+		  res = rename(file->path(), dstpath);
+		}
+
 		if (res != 0) fprintf(stderr, "%s:%d: backup failed: %s: %s (%d)\n", __FILE__, __LINE__, dstpath, strerror(errno), errno);
 		free(dstpath);
 	}
@@ -676,7 +696,7 @@ int Depot::uninstall(Archive* archive) {
 	if (res == 0) res = this->iterate_files(archive, &Depot::uninstall_file, &context);
 	
 	if (res == 0) res = this->begin_transaction();
-	int i;
+	uint32_t i;
 	for (i = 0; i < context.files_to_remove->count; ++i) {
 		uint64_t serial = context.files_to_remove->values[i];
 		IF_DEBUG("deleting file %lld\n", serial);
@@ -819,7 +839,7 @@ File* Depot::file_star_eded_by(File* file, sqlite3_stmt* stmt) {
 				if (blobsize > 0) {
 					digest = new Digest();
 					digest->m_size = blobsize;
-					memcpy(digest->m_data, blob, (blobsize < sizeof(digest->m_data)) ? blobsize : sizeof(digest->m_data));
+					memcpy(digest->m_data, blob, ((size_t)blobsize < sizeof(digest->m_data)) ? blobsize : sizeof(digest->m_data));
 				}
 
 				Archive* archive = this->archive(archive_serial);

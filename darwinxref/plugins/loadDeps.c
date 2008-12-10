@@ -31,6 +31,7 @@
  */
 
 #include "DBPlugin.h"
+#include "DBDataStore.h"
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <sys/param.h>
@@ -132,4 +133,6 @@ int loadDeps(const char* build, const char* project, const char *root) {
 	if (SQL("COMMIT")) { return -1; }
 
 	fprintf(stderr, "loaded %d unresolved dependencies.\n", count);
+
+	return 0;
 }

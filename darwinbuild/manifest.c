@@ -56,8 +56,8 @@ static char* format_digest(const unsigned char* m) {
                 m[4], m[5], m[6], m[7],
                 m[8], m[9], m[10], m[11],
                 m[12], m[13], m[14], m[15],
-				m[16], m[17], m[18], m[19]
-				);
+		m[16], m[17], m[18], m[19]
+		);
         return result;
 }
 
@@ -139,7 +139,6 @@ int main(int argc, char* argv[]) {
 		char filename[MAXPATHLEN+1];
 		char symlink[MAXPATHLEN+1];
 		int len;
-		off_t size;
 
 		// Filename
 		filename[0] = 0;
@@ -182,4 +181,6 @@ int main(int argc, char* argv[]) {
 		free(checksum);
 	}
 	fts_close(fts);
+
+	return 0;
 }

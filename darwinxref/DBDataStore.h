@@ -30,58 +30,17 @@
  * @APPLE_BSD_LICENSE_HEADER_END@
  */
 
-#include "DBPlugin.h"
-#include "DBDataStore.h"
-#include <sys/stat.h>
-#include <stdio.h>
-#include <regex.h>
+#ifndef __DARWINBUILD_DATASTORE_H__
+#define __DARWINBUILD_DATASTORE_H__
 
-static int findFile(char* file, char* build);
+#include "sqlite3.h"
 
-static int run(CFArrayRef argv) {
-	int res = 0;
-	CFIndex count = CFArrayGetCount(argv);
-	if (count != 1)  return -1;
+int    SQL(const char* fmt, ...);
+int    SQL_BOOLEAN(const char* fmt, ...);
+int    SQL_CALLBACK(sqlite3_callback callback, void* context, const char* fmt, ...);
+void   SQL_NOERR(char* sql);
+char*  SQL_STRING(const char* fmt, ...);
 
-	char* file = strdup_cfstr(CFArrayGetValueAtIndex(argv, 0));	
-	char* build = strdup_cfstr(DBGetCurrentBuild());
-	
-	findFile(file, build);
+void* _DBPluginGetDataStorePtr();
 
-	if (file) free(file);
-	return res;
-}
-
-static CFStringRef usage() {
-	return CFRetain(CFSTR("<file>"));
-}
-
-int initialize(int version) {
-	//if ( version < kDBPluginCurrentVersion ) return -1;
-	
-	DBPluginSetType(kDBPluginBasicType);
-	DBPluginSetName(CFSTR("findFile"));
-	DBPluginSetRunFunc(&run);
-	DBPluginSetUsageFunc(&usage);
-	return 0;
-}
-
-int printFiles(void* pArg, int argc, char **argv, char** columnNames) {
-	char* project = (char*)pArg;
-	if (strcmp(project, argv[0]) != 0) {
-		strncpy(project, argv[0], BUFSIZ);
-		fprintf(stdout, "%s:\n", project);
-	}
-	fprintf(stdout, "\t%s\n", argv[1]);
-	return 0;
-}
-
-static int findFile(char* file, char* build) {
-	char project[BUFSIZ];
-	project[0] = 0;
-	asprintf(&file, "%%%s", file);
-	SQL_CALLBACK(&printFiles, project,
-		     "SELECT project,path FROM files WHERE build=%Q AND path LIKE %Q ORDER BY project, path",
-		     build, file);
-	return 0;
-}
+#endif

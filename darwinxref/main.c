@@ -37,6 +37,7 @@
 #include <fcntl.h>
 #include <dlfcn.h>
 #include <getopt.h>
+#include <libgen.h>
 
 #include "DBPluginPriv.h"
 
@@ -81,13 +82,16 @@ int main(int argc, char* argv[]) {
 		printf("%s/%s\n", basename(progname), "" VERSION "");
 		printf("\tcurrent build: %s\n", build);
 		printf("\tsqlite/%s (%s)\n", sqlite3_version, "UTF-8");
-		printf("\tCoreFoundation/%g%s\n", kCFCoreFoundationVersionNumber, NSIsSymbolNameDefined("_CFNotificationCenterGetTypeID") ? "" : " (CF-Lite)");
+		printf("\tCoreFoundation/%g %s\n", kCFCoreFoundationVersionNumber, 
+		       dlsym(RTLD_DEFAULT, "CFNotificationCenterGetTypeID") ? "" : "(CF-Lite)");
 		exit(1);
 	}
 
 	DBDataStoreInitialize(dbfile);
 	DBSetCurrentBuild(build);
-	DBPluginLoadPlugins(plugins);
+	if (DBPluginLoadPlugins(plugins) == -1) {
+	        fprintf(stderr, "Error: cannot allocate memory for plugins!\n");
+	}
 	if (run_plugin(argc, argv) == -1) {
 		print_usage(progname, argc, argv);
 		exit(1);

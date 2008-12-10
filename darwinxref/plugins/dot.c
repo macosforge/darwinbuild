@@ -63,6 +63,7 @@ static int run(CFArrayRef argv) {
 
   CFRelease(builds);
 
+  return 0;
 }
 
 static CFStringRef usage() {

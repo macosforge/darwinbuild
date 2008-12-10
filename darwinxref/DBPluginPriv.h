@@ -86,3 +86,6 @@ int DBPluginLoadPlugins(const char* path);
 int run_plugin(int argc, char* argv[]);
 int DBDataStoreInitialize(const char* datafile);
 void DBSetCurrentBuild(char* build);
+
+void print_usage(char* progname, int argc, char* argv[]);
+

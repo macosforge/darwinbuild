@@ -8,7 +8,7 @@ DATDIR:=$(DATDIR)/darwinbuild
 all: manifest
 
 manifest: manifest.c
-	cc -o $(OBJROOT)/$@ -lcrypto $^
+	cc -Wall -Werror -o $(OBJROOT)/$@ -lcrypto $^
 
 install: all
 	[ -d $(BINDIR) ] || $(INSTALL) -d $(INSTALL_DIR_FLAGS) $(BINDIR)

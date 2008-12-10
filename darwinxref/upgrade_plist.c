@@ -74,11 +74,7 @@ int convert_dependencies(CFMutableDictionaryRef newdict, CFStringRef oldkey, CFS
 
 
 int main(int argc, char* argv[]) {
-	int res = 0;
 	char* progname = argv[0];
-	char* errmsg;
-	char* command = "";
-	char* build = NULL;
 
 	char* path = (argc-- > 0) ? *++argv : NULL;
 
@@ -101,7 +97,7 @@ int main(int argc, char* argv[]) {
 		exit(1);
 	}
 	
-	CFIndex i,j;
+	CFIndex i;
 	CFIndex oldcount = CFArrayGetCount(oldprojs);
 	for(i = 0; i < oldcount; ++i) {
 		CFMutableDictionaryRef newdict = (CFMutableDictionaryRef)CFArrayGetValueAtIndex(oldprojs, i);
@@ -123,4 +119,6 @@ int main(int argc, char* argv[]) {
 //	CFDataRef data = CFPropertyListCreateXMLData(NULL, plist);
 //	fprintf(stdout, "%.*s", CFDataGetLength(data), CFDataGetBytePtr(data));
 	writePlist(stdout, plist, 0);
+
+	return 0;
 }

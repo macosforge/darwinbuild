@@ -21,7 +21,7 @@ ARCHS=$(shell lipo -info /usr/lib/libSystem.dylib | cut -d : -f 3 | sed 's/ppc74
 darwintrace.dylib: darwintrace.c
 	cc -o $(OBJROOT)/$@ \
 		$(ARCHS) \
-		-W -Wall -pedantic -std=c99 \
+		-Wall -Werror -pedantic -std=c99 \
 		-flat_namespace \
 		-fno-common \
 		$(CFLAGS) \
