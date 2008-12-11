@@ -4671,6 +4671,34 @@
 			version = 110;
 		};
 		apache = {
+			dependencies = {
+				build = (
+					architecture,
+					apr,
+					cctools,
+					cctools_ofiles,
+					expat,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnumake,
+					gnuzip,
+					grep,
+  					ld64,
+					libdyld,
+					libgcc,
+					shell_cmds,
+					text_cmds,
+					xnu,
+					zlib,
+					Csu,
+					Libc_headers,
+					Libinfo,
+					OpenSSL,
+					SQLite,
+					SystemStubs,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -6667,6 +6695,16 @@
 			version = 11.1;
 		};
 		expat = {
+			dependencies = {
+				build = (
+					CF,
+					ICU,
+					objc4,
+					autozone,
+					gnudiff,
+					libutil,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
