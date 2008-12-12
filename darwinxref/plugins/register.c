@@ -227,84 +227,6 @@ static char* calculate_unprebound_digest(const char* filename) {
 #include <mach-o/fat.h>
 #include <mach-o/swap.h>
 
-// We need these static swap functions until the following is fixed:
-// <radar://problem/4358209> libmacho needs 64-bit swap routines
-
-static void
-darwinxref_swap_mach_header_64(
-struct mach_header_64 *mh,
-enum NXByteOrder target_byte_sex)
-{
-	mh->magic = NXSwapLong(mh->magic);
-	mh->cputype = NXSwapLong(mh->cputype);
-	mh->cpusubtype = NXSwapLong(mh->cpusubtype);
-	mh->filetype = NXSwapLong(mh->filetype);
-	mh->ncmds = NXSwapLong(mh->ncmds);
-	mh->sizeofcmds = NXSwapLong(mh->sizeofcmds);
-	mh->flags = NXSwapLong(mh->flags);
-	mh->reserved = NXSwapLong(mh->reserved);
-}
-
-static void 
-darwinxref_swap_segment_command_64(
-struct segment_command_64* sg,
-enum NXByteOrder target_byte_sex)
-{
-	/* char segname[16] */
-	sg->cmd = NXSwapLong(sg->cmd);
-	sg->cmdsize = NXSwapLong(sg->cmdsize);
-	sg->vmaddr = NXSwapLongLong(sg->vmaddr);
-	sg->vmsize = NXSwapLongLong(sg->vmsize);
-	sg->fileoff = NXSwapLongLong(sg->fileoff);
-	sg->filesize = NXSwapLongLong(sg->filesize);
-	sg->maxprot = NXSwapLong(sg->maxprot);
-	sg->initprot = NXSwapLong(sg->initprot);
-	sg->nsects = NXSwapLong(sg->nsects);
-	sg->flags = NXSwapLong(sg->flags);
-}
-
-static void
-darwinxref_swap_section_64(
-struct section_64 *s,
-uint32_t nsects,
-enum NXByteOrder target_byte_sex)
-{
-    uint32_t i;
-
-	for(i = 0; i < nsects; i++){
-	    /* sectname[16] */
-	    /* segname[16] */
-	    s[i].addr = NXSwapLongLong(s[i].addr);
-	    s[i].size = NXSwapLongLong(s[i].size);
-	    s[i].offset = NXSwapLong(s[i].offset);
-	    s[i].align = NXSwapLong(s[i].align);
-	    s[i].reloff = NXSwapLong(s[i].reloff);
-	    s[i].nreloc = NXSwapLong(s[i].nreloc);
-	    s[i].flags = NXSwapLong(s[i].flags);
-	    s[i].reserved1 = NXSwapLong(s[i].reserved1);
-	    s[i].reserved2 = NXSwapLong(s[i].reserved2);
-	    s[i].reserved3 = NXSwapLong(s[i].reserved3);
-	}
-}
-
-static void
-darwinxref_swap_nlist_64(
-struct nlist_64 *symbols,
-uint32_t nsymbols,
-enum NXByteOrder target_byte_sex)
-{
-    uint32_t i;
-
-	for(i = 0; i < nsymbols; i++){
-	    symbols[i].n_un.n_strx = NXSwapLong(symbols[i].n_un.n_strx);
-	    /* n_type */
-	    /* n_sect */
-	    symbols[i].n_desc = NXSwapShort(symbols[i].n_desc);
-	    symbols[i].n_value = NXSwapLongLong(symbols[i].n_value);
-	}
-}
-
-
 static int register_mach_header(const char* build, const char* project, const char* path, struct fat_arch* fa, int fd, int* isMachO) {
 	int res;
 	uint32_t magic;
@@ -346,7 +268,7 @@ static int register_mach_header(const char* build, const char* project, const ch
 		if (res < sizeof(struct mach_header_64) - sizeof(uint32_t)) { return 0; }
 		if (magic == MH_CIGAM_64) {
 			swap = 1;
-			darwinxref_swap_mach_header_64(mh64, NXHostByteOrder());
+			swap_mach_header_64(mh64, NXHostByteOrder());
 		}
 	//
 	// Not a Mach-O
@@ -402,8 +324,8 @@ static int register_mach_header(const char* build, const char* project, const ch
 		int res = read(fd, &lctmp, sizeof(struct load_command));
 		if (res < sizeof(struct load_command)) { return 0; }
 
-		uint32_t cmd = swap ? NXSwapLong(lctmp.cmd) : lctmp.cmd;
-		uint32_t cmdsize = swap ? NXSwapLong(lctmp.cmdsize) : lctmp.cmdsize;
+		uint32_t cmd = swap ? OSSwapInt32(lctmp.cmd) : lctmp.cmd;
+		uint32_t cmdsize = swap ? OSSwapInt32(lctmp.cmdsize) : lctmp.cmdsize;
 		if (cmdsize == 0) continue;
 		
 		struct load_command* lc = malloc(cmdsize);
@@ -520,14 +442,14 @@ static int register_mach_header(const char* build, const char* project, const ch
 		//
 		} else if (lc->cmd == LC_SEGMENT_64) {
 			struct segment_command_64* seg = (struct segment_command_64*)lc;
-			if (swap) darwinxref_swap_segment_command_64(seg, NXHostByteOrder());
+			if (swap) swap_segment_command_64(seg, NXHostByteOrder());
 			
 			// sections immediately follow the segment_command structure, and are
 			// reflected in the cmdsize.
 			int k;
 			for (k = 0; k < seg->nsects; ++k) {
 				struct section_64* sect = (struct section_64*)((uint8_t*)seg + sizeof(struct segment_command_64) + k * sizeof(struct section_64));
-				if (swap) darwinxref_swap_section_64(sect, 1, NXHostByteOrder());
+				if (swap) swap_section_64(sect, 1, NXHostByteOrder());
 				if (strcmp(sect->sectname, SECT_TEXT) == 0 && strcmp(sect->segname, SEG_TEXT) == 0) {
 					text_nsect = ++count_nsect;
 				} else if (strcmp(sect->sectname, SECT_DATA) == 0 && strcmp(sect->segname, SEG_DATA) == 0) {
@@ -551,11 +473,11 @@ static int register_mach_header(const char* build, const char* project, const ch
 		struct nlist_64 symbol;
 		if (mh64) {
 			memcpy(&symbol, (symbols + j * sizeof(struct nlist_64)), sizeof(struct nlist_64));
-			if (swap) darwinxref_swap_nlist_64(&symbol, 1, NXHostByteOrder());
+			if (swap) swap_nlist_64(&symbol, 1, NXHostByteOrder());
 		} else {
 			symbol.n_value = 0;
 			memcpy(&symbol, (symbols + j * sizeof(struct nlist)), sizeof(struct nlist));
-			if (swap) darwinxref_swap_nlist_64(&symbol, 1, NXHostByteOrder());
+			if (swap) swap_nlist_64(&symbol, 1, NXHostByteOrder());
 			// we copied a 32-bit nlist into a 64-bit one, adjust the value accordingly
 			// all other fields are identical sizes
 			symbol.n_value >>= 32;
