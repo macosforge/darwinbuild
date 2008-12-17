@@ -248,14 +248,6 @@
 		system_cmds = {
 			version = 433.4;
 		};
-		tcl_ext = {
-			original = tcl;
-			target = install_tcl_ext;
-		};
-		tcl_tk = {
-			original = tcl;
-			target = install_tk;
-		};
 		top = {
 			version = 39;
 		};
