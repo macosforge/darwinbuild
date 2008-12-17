@@ -3,8 +3,10 @@
 	build = 9G55;
 	inherits = 9F33;
         darwin = "Darwin 9.6";
-        fcs_date = "2008-12-15";
         macosx = "Mac OS X 10.5.6";
+        binary_sites = (
+                "http://src.macosforge.org/Roots/9G55/",
+        );
 	projects = {
 		Apple16X50Serial = {
 			version = 19.3;
