@@ -86,7 +86,10 @@ static inline void __darwintrace_setup() {
 		__darwintrace_pid = getpid();
 		char** progname = _NSGetProgname();
 		if (progname && *progname) {
-			strcpy(__darwintrace_progname, *progname);
+		  if (strlcpy(__darwintrace_progname, *progname, sizeof(__darwintrace_progname)) 
+		      >= sizeof(__darwintrace_progname)) {
+		    dprintf("darwintrace: progname too long to copy: %s\n", *progname);
+		  }
 		}
 	}
 
@@ -99,13 +102,8 @@ static inline void __darwintrace_logpath(int fd, const char *procname, char *tag
   int size;
 
   size = snprintf(__darwintrace_buf, sizeof(__darwintrace_buf),
-
-		  "%s[%d]\t"
-
-		  "%s\t%s\n",
-
+		  "%s[%d]\t%s\t%s\n",
 		  procname ? procname : __darwintrace_progname, __darwintrace_pid,
-
 		  tag, path );
   
   write(fd, __darwintrace_buf, size);
@@ -124,8 +122,8 @@ static inline void __darwintrace_cleanup_path(char *path) {
   pathlen = strlen(path);
   rsrclen = strlen(_PATH_RSRCFORKSPEC);
   if(pathlen > rsrclen
-     && 0 == strcmp(path + pathlen - rsrclen,
-		    _PATH_RSRCFORKSPEC)) {
+     && 0 == strncmp(path + pathlen - rsrclen,
+		     _PATH_RSRCFORKSPEC, rsrclen)) {
     path[pathlen - rsrclen] = '\0';
     pathlen -= rsrclen;
   }
@@ -196,10 +194,14 @@ int open(const char* path, int flags, ...) {
 	      } else {
 		/* use original path */
 		dprintf("darwintrace: failed to resolve %s\n", path);
-		strcpy(realpath, path);
+		if (strlcpy(realpath, path, sizeof(realpath)) >= sizeof(realpath)) {
+		  dprintf("darwintrace: in open: original path too long to copy: %s\n", path);
+		}
 	      }
 	    } else {
-		strcpy(realpath, path);
+	      if (strlcpy(realpath, path, sizeof(realpath)) >= sizeof(realpath)) {
+		dprintf("darwintrace: in open (without getpath): path too long to copy: %s\n", path);
+	      }
 	    }
 
 	    __darwintrace_cleanup_path(realpath);
@@ -227,7 +229,9 @@ ssize_t  readlink(const char * path, char * buf, size_t bufsiz) {
 
 	    dprintf("darwintrace: original readlink path is %s\n", path);
 
-	    strcpy(realpath, path);
+	    if (strlcpy(realpath, path, sizeof(realpath)) >= sizeof(realpath)) {
+	      dprintf("darwintrace: in readlink: path too long to copy: %s\n", path);
+	    }
 	    
 	    __darwintrace_cleanup_path(realpath);
 
@@ -277,7 +281,10 @@ int execve(const char* path, char* const argv[], char* const envp[]) {
 	    }
 
 	    if(printorig) {
-	      strcpy(realpath, path);
+	      if (strlcpy(realpath, path, sizeof(realpath)) >= sizeof(realpath)) {
+		dprintf("darwintrace: in execve: path too long to copy: %s\n", path);
+	      }
+
 
 	      __darwintrace_cleanup_path(realpath);
 	      __darwintrace_logpath(__darwintrace_fd, NULL, "execve", realpath);
@@ -297,10 +304,14 @@ int execve(const char* path, char* const argv[], char* const envp[]) {
 		    dprintf("darwintrace: resolved execve path %s to %s\n", path, realpath);
 		  } else {
 		    dprintf("darwintrace: failed to resolve %s\n", path);
-		    strcpy(realpath, path);
+		    if (strlcpy(realpath, path, sizeof(realpath)) >= sizeof(realpath)) {
+		      dprintf("darwintrace: in execve: original path too long to copy: %s\n", path);
+		    }
 		  }
 		} else {
-		  strcpy(realpath, path);
+		  if (strlcpy(realpath, path, sizeof(realpath)) >= sizeof(realpath)) {
+		    dprintf("darwintrace: in execve (without getpath): path too long to copy: %s\n", path);
+		  }
 		}
 		__darwintrace_cleanup_path(realpath);
 
@@ -333,8 +344,15 @@ int execve(const char* path, char* const argv[], char* const envp[]) {
 		if (interp && interp[0] != '\0') {
 		  const char* procname = NULL;
 
-		  procname = strrchr(argv[0], '/') + 1;
-		  if (procname == NULL) procname = argv[0];
+		  /* look for slash to get the basename */
+		  procname = strrchr(argv[0], '/');
+		  if (procname == NULL) {
+		    /* no slash found, so assume whole string is basename */
+		    procname = argv[0];
+		  } else {
+		    /* advance pointer to just after slash */
+		    procname++;
+		  }
 
 		  __darwintrace_cleanup_path(interp);
 
