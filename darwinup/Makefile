@@ -11,6 +11,8 @@ install: all
 	[ -d $(BINDIR) ] || $(INSTALL) -d $(INSTALL_DIR_FLAGS) $(BINDIR)
 	$(INSTALL) $(INSTALL_EXE_FLAGS) darwinup $(BINDIR)
 
+uninstall:
+	rm -f $(BINDIR)/darwinup	
 
 all: darwinup
 

@@ -34,6 +34,7 @@ install: all
 
 uninstall:
 	rm -f $(BINDIR)/darwinbuild
+	rm -f $(BINDIR)/darwinmaster
 	rm -f $(DATDIR)/darwinbuild.common
 	rm -f $(DATDIR)/installXcode
 	rm -f $(DATDIR)/installXcode2
@@ -41,7 +42,14 @@ uninstall:
 	rm -f $(DATDIR)/installXcode31
 	rm -f $(DATDIR)/createChroot
 	rm -f $(DATDIR)/manifest
-	-rmdir $(DATDIR)
+	rm -f $(DATDIR)/ditto
+	rm -f $(DATDIR)/buildlist
+	rm -f $(DATDIR)/buildorder
+	rm -f $(DATDIR)/packageRoots
+	rm -f $(DATDIR)/synthfat
+	rm -f $(DATDIR)/thinFile
+	rm -f $(DATDIR)/thinPackages
+	
 
 clean:
 	rm -f manifest

@@ -67,7 +67,12 @@ install: all install_apple_plugins
 uninstall:
 	rm -f $(BINDIR)/darwinxref
 	[ ! -d $(DATDIR) ] || ( cd $(DATDIR) && rm -f $(PLUGIN_OBJECTS) )
+	-rmdir $(DATDIR)/plugins
 	-rmdir $(DATDIR)
+	
+	rm -f $(INCDIR)/DBPlugin.h
+	rm -f $(INCDIR)/cfutils.h
+	-rmdir $(INCDIR)
 
 clean:
 	rm -f darwinxref
