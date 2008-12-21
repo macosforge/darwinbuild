@@ -1,6 +1,7 @@
 #!/bin/bash
 
-BINDIR=/usr/local/share/darwinbuild
+PREFIX=%%PREFIX%%
+BINDIR=$PREFIX/share/darwinbuild
 
 BROOT=$1
 VER=$(/usr/bin/xcodebuild -version | grep version | cut -d "-" -f 2 | cut -d ";" -f 1 | cut -d "." -f 1)

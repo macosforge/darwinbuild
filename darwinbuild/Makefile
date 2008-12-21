@@ -8,7 +8,8 @@ DATDIR:=$(DATDIR)/darwinbuild
 PrefixReplacements = darwinbuild \
 		     darwinmaster.sh \
 		     packageRoots.sh \
-		     thinPackages.sh
+		     thinPackages.sh \
+		     installXcode
 
 all: manifest prefixes
 
