@@ -78,7 +78,7 @@
 ###
 ### 
 
-PREFIX=/usr/local
+PREFIX=%%PREFIX%%
 XREFDB=.build/xref.db
 DARWINXREF=$PREFIX/bin/darwinxref
 DATADIR=$PREFIX/share/darwinbuild

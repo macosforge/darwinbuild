@@ -32,52 +32,23 @@
 #
 # Kevin Van Vechten <kvv@apple.com>
 
-set -e
-
-PREFIX=/usr/local
+PREFIX=%%PREFIX%%
 XREFDB=.build/xref.db
 DARWINXREF=$PREFIX/bin/darwinxref
 DATADIR=$PREFIX/share/darwinbuild
 COMMONFILE=$DATADIR/darwinbuild.common
 
-NORUN=""
-VERBOSE="true"
-TOOL="tar"
+THINFILE="$DATADIR/thinFile"
 
 ###
 ### Interpret our arguments:
-###   -n  Don't actually package anything, just say what we would do.
-function PrintUsage() {
-	echo "usage: $(basename $0) [-n] [-x]" 1>&2
-	exit
-}
+###   the architecture to thin to
+ARCH="$1"
 
-args=`getopt nxv $*`
-if [ $? -ne 0 ]; then
-    PrintUsage
+if [ "$ARCH" != "ppc" -a "$ARCH" != "i386" ]; then
+        echo "usage: $(basename $0) <arch>" 1>&2
+        exit 1
 fi
-
-set -- $args
-
-for i; do
-    case "$i" in
-	-n)
-	NORUN="true"
-	shift
-	;;
-	-x)
-	TOOL="xar"
-	shift
-	;;
-	-v)
-	VERBOSE="echo"
-	shift
-	;;
-	--)
-	shift
-	;;
-    esac
-done
 
 ###
 ### Include some common subroutines
@@ -91,57 +62,22 @@ shopt -s nullglob
 ###
 CheckDarwinBuildRoot
 
-if [ ! -d "$DARWIN_BUILDROOT/Packages" ]; then
-    mkdir "$DARWIN_BUILDROOT/Packages"
-fi
+PKGDIR="$DARWIN_BUILDROOT/Packages"
+DESTDIR="${PKGDIR}_$ARCH"
 
-$TOOL --version > /dev/null
-echo "Archive tool: $($TOOL --version | head -1)"
-
-function PackageThem() {
-    local DIR="$1"
-    local SFX="$2"
-    echo "*** Packaging $DIR"
-    "$DARWINXREF" version '*' | while read PROJVERS; do
-	local PROJ="${PROJVERS/-*/}"
-	local FILE=""
-	local ARGS=""
-	local SRCARG=""
-	local build_version=$(GetBuildVersion $DARWIN_BUILDROOT/$DIR/$PROJ/$PROJVERS*)
-	local SOURCEDIR="$DARWIN_BUILDROOT/$DIR/$PROJ/$PROJVERS$SFX~$build_version"
-
-	case "$TOOL" in
-	    tar)
-		FILE="$DARWIN_BUILDROOT/Packages/$PROJ$SFX.tar.gz"
-		ARGS="zcf"
-		SRCARG="."
-		;;
-	    xar)
-		FILE="$DARWIN_BUILDROOT/Packages/$PROJ$SFX.xar"
-		ARGS="-s /tmp/$PROJ.$$.xml -n darwinbuild -c -f"
-		SRCARG="."
-		;;
-	    *)
-	    	FILE="$DARWIN_BUILDROOT/Packages/$PROJ$SFX.$TOOL"
-		ARGS=""
-		SRCARG="."
-		;;
-	esac
-
-	if [ -n "$build_version" -a \
-	    "$SOURCEDIR" -nt "$FILE" ]; then
-	    echo "$PROJVERS~$build_version"
-	    $VERBOSE cd "$DARWIN_BUILDROOT"
-	    cd "$DARWIN_BUILDROOT"
-	    $VERBOSE "$DARWINXREF" exportProject -xml $PROJ 
-	    "$DARWINXREF" exportProject -xml $PROJ > /tmp/$PROJ.$$.xml
-	    $VERBOSE cd "$SOURCEDIR"
-	    cd "$SOURCEDIR"
-	    $VERBOSE $TOOL $ARGS "$FILE" "$SRCARG"
-	    $NORUN $TOOL $ARGS "$FILE" "$SRCARG"
-	    rm -f /tmp/$PROJ.$$.xml
+for X in $PKGDIR/*-*.tar.gz ; do
+	Y=$(basename $X .gz).bz2
+	if [ $X -nt $DESTDIR/$Y ]; then
+		echo "Extracting $Y ..."
+		rm -rf "$DESTDIR/tmp"
+		mkdir -p "$DESTDIR/tmp"
+		tar xzf $X -C "$DESTDIR/tmp" .
+		echo "Thinning $Y ..."
+		find "$DESTDIR/tmp" -type f -exec "$THINFILE" "$ARCH" {} ';'
+		echo "Archiving $Y ..."
+		tar cjf "$DESTDIR/$Y" -C "$DESTDIR/tmp" .
+	#else
+	#	echo $Y is up to date
 	fi
-	done
-}
-PackageThem Headers .hdrs
-PackageThem Roots .root
+done
+rm -rf "$DESTDIR/tmp"

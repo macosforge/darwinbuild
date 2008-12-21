@@ -5,10 +5,19 @@ include ../common.mk
 ###
 DATDIR:=$(DATDIR)/darwinbuild
 
-all: manifest
+PrefixReplacements = darwinbuild \
+		     darwinmaster.sh \
+		     packageRoots.sh \
+		     thinPackages.sh
+
+all: manifest prefixes
 
 manifest: manifest.c
 	cc -Wall -Werror -o $(OBJROOT)/$@ -lcrypto $^
+
+prefixes:
+	@$(foreach SCRIPT,$(PrefixReplacements), \
+		$(SED) -e 's,%%PREFIX%%,$(PREFIX),' $(SCRIPT).in > $(SCRIPT) ;)
 
 install: all
 	[ -d $(BINDIR) ] || $(INSTALL) -d $(INSTALL_DIR_FLAGS) $(BINDIR)
@@ -53,3 +62,5 @@ uninstall:
 
 clean:
 	rm -f manifest
+	@$(foreach SCRIPT,$(PrefixReplacements), \
+		rm -f $(SCRIPT) ; )
