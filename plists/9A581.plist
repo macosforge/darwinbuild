@@ -12297,6 +12297,10 @@
 					system_cmds,
 					tcsh,
 					text_cmds,
+					CF,
+					ICU,
+					objc4,
+					autozone,
 				);
 				staticlib = (
 					cctools_ofiles,
