@@ -14,7 +14,7 @@ PrefixReplacements = darwinbuild \
 all: manifest prefixes
 
 manifest: manifest.c
-	cc -Wall -Werror -o $(OBJROOT)/$@ -lcrypto $^
+	cc $(RC_ARCHS) -Wall -Werror -o $(OBJROOT)/$@ -lcrypto $^
 
 prefixes:
 	@$(foreach SCRIPT,$(PrefixReplacements), \

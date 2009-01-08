@@ -1,6 +1,6 @@
 include ../common.mk
 
-CXXFLAGS=-g -Wall -Werror -Wno-non-virtual-dtor
+CXXFLAGS=-g -Wall -Werror -Wno-non-virtual-dtor $(RC_ARCHS)
 # libredo.o is generated from cctools_ofiles
 REDO=$(shell if [ -f /usr/local/lib/libredo_prebinding.a ]; then \
 		echo /usr/local/lib/libredo_prebinding.a ; else \
@@ -18,7 +18,7 @@ all: darwinup
 
 darwinup: Archive.o Depot.o Digest.o File.o SerialSet.o Utils.o main.o \
 	$(REDO)
-	g++ -lcrypto -lsqlite3 -o $@ $^
+	g++ $(RC_ARCHS) -lcrypto -lsqlite3 -o $@ $^
 
 Archive.o: Archive.cpp Archive.h Depot.h File.h Utils.h
 Depot.o: Depot.cpp Archive.h Depot.h File.h Utils.h

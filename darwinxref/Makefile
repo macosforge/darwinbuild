@@ -19,7 +19,8 @@ PLUGIN_OBJECTS=$(PLUGIN_SOURCES:.c=.so) $(wildcard plugins/*.tcl)
 ### todo: --with-plugin-path configuration
 CFLAGS+= \
 	-DDEFAULT_DB_FILE=\".build/xref.db\" \
-	-DDEFAULT_PLUGIN_PATH=\"$(subst $(DESTDIR),,$(DATDIR))/plugins\"
+	-DDEFAULT_PLUGIN_PATH=\"$(subst $(DESTDIR),,$(DATDIR))/plugins\" \
+	$(RC_ARCHS)
 
 ### todo: --with-tcl-plugins configuration
 TCL_CFLAGS=-DHAVE_TCL_PLUGINS=1
@@ -89,21 +90,21 @@ darwinxref: $(SOURCES)
 		CMD="$(CC) $(CFLAGS) -c -o $(OBJROOT)/$${OFILE} $${CFILE}"; \
 		echo $$CMD ; $$CMD || exit 1 ; \
 	done
-	$(CC) $(LDFLAGS) -o $(SYMROOT)/darwinxref \
+	$(CC) $(LDFLAGS) $(RC_ARCHS) -o $(SYMROOT)/darwinxref \
 		$(SQLITELIB) \
 		$(foreach OFILE, $(SOURCES:.c=.o), $(OBJROOT)/$(notdir $(OFILE)))
 	$(DSYMUTIL) --out $(SYMROOT)/darwinxref.dSYM $(SYMROOT)/darwinxref || true
 
 plugins/register.so: plugins/register.c DBPlugin.h
 	@mkdir -p $(OBJROOT)/plugins
-	cc -o $(OBJROOT)/$@ $(PLUGIN_CFLAGS) $(PLUGIN_LDFLAGS) $(SQLITEINC) $(SQLITELIB) -lcrypto $<
+	cc $(RC_ARCHS) -o $(OBJROOT)/$@ $(PLUGIN_CFLAGS) $(PLUGIN_LDFLAGS) $(SQLITEINC) $(SQLITELIB) -lcrypto $<
 
 plugins/%.so: plugins/%.c DBPlugin.h
 	@mkdir -p $(OBJROOT)/plugins
-	cc -o $(OBJROOT)/$@ $(PLUGIN_CFLAGS) $(PLUGIN_LDFLAGS) $<
+	cc $(RC_ARCHS) -o $(OBJROOT)/$@ $(PLUGIN_CFLAGS) $(PLUGIN_LDFLAGS) $<
 
 plugins-darwinports/%.so: plugins-darwinports/%.c DBPlugin.h
-	cc -o $(OBJROOT)/$@ $(PLUGIN_CFLAGS) $(PLUGIN_LDFLAGS) $<
+	cc $(RC_ARCHS) -o $(OBJROOT)/$@ $(PLUGIN_CFLAGS) $(PLUGIN_LDFLAGS) $<
 
 apple_plugins:
 	@if [ -d plugins-apple ]; then			\
@@ -116,4 +117,5 @@ install_apple_plugins:
 	fi
 
 upgrade_plist: upgrade_plist.c cfutils.c
-	cc -o $(OBJROOT)/$@ $(CFLAGS) $(LDFLAGS) $^
+	cc $(RC_ARCHS) -o $(OBJROOT)/$@ $(CFLAGS) $(LDFLAGS) $^
+

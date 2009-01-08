@@ -16,11 +16,9 @@ else
 CFLAGS = -nodefaultlibs
 endif
 
-ARCHS=$(shell lipo -info /usr/lib/libSystem.dylib | cut -d : -f 3 | sed 's/ppc7400/ppc/' | awk '{ ORS=" "; for(i=1;i<=NF;i++) print "-arch", $$i}') 
-
 darwintrace.dylib: darwintrace.c
 	cc -o $(OBJROOT)/$@ \
-		$(ARCHS) \
+		$(RC_ARCHS) \
 		-g -Wall -Werror -pedantic -std=c99 \
 		-flat_namespace \
 		-fno-common \
