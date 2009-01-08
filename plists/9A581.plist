@@ -6894,13 +6894,17 @@
 		files = {
 			dependencies = {
 				build = (
+					CF,
+					ICU,
 					TargetConfig,
+					autozone,
 					awk,
 					bash,
 					bootstrap_cmds,
 					file_cmds,
 					gnumake,
 					gnuzip,
+					objc4,
 					shell_cmds,
 					text_cmds,
 				);
