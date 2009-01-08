@@ -11,15 +11,15 @@ all: darwintrace.dylib
 
 VERSION=$(shell uname -r | cut -f1 -d. )
 ifeq ($(VERSION), 8)
-CFLAGS = -nostdlib
+CFLAGS += -nostdlib
 else
-CFLAGS = -nodefaultlibs
+CFLAGS += -nodefaultlibs
 endif
 
 darwintrace.dylib: darwintrace.c
 	cc -o $(OBJROOT)/$@ \
-		$(RC_ARCHS) \
-		-g -Wall -Werror -pedantic -std=c99 \
+		$(CFLAGS) \
+		-Wall -Werror -pedantic -std=c99 \
 		-flat_namespace \
 		-fno-common \
 		$(CFLAGS) \

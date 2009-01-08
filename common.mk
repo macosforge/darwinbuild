@@ -20,5 +20,6 @@ INSTALL_DOC_FLAGS=-m 0644 -o root -g wheel
 
 SED=/usr/bin/sed
 
-RC_ARCHS?=$(shell lipo -info /usr/lib/libSystem.dylib | cut -d : -f 3 | sed 's/ppc7400/ppc/' | awk '{ ORS=" "; for(i=1;i<=NF;i++) print "-arch", $$i}')
+RC_CFLAGS?=$(shell lipo -info /usr/lib/libSystem.dylib | cut -d : -f 3 | sed 's/ppc7400/ppc/' | awk '{ ORS=" "; for(i=1;i<=NF;i++) print "-arch", $$i}')
+CFLAGS+=$(RC_CFLAGS)
 
