@@ -6,14 +6,6 @@ REDO=$(shell if [ -f /usr/local/lib/libredo_prebinding.a ]; then \
 		echo /usr/local/lib/libredo_prebinding.a ; else \
 		echo libredo.o ; fi)
 
-
-install: all
-	[ -d $(BINDIR) ] || $(INSTALL) -d $(INSTALL_DIR_FLAGS) $(BINDIR)
-	$(INSTALL) $(INSTALL_EXE_FLAGS) darwinup $(BINDIR)
-
-uninstall:
-	rm -f $(BINDIR)/darwinup	
-
 all: darwinup
 
 darwinup: Archive.o Depot.o Digest.o File.o SerialSet.o Utils.o main.o \
@@ -26,6 +18,13 @@ Digest.o: Digest.cpp Digest.h
 File.o: File.cpp Archive.h Digest.h File.h Utils.h
 Utils.o: Utils.h
 main.o: main.cpp Depot.h Utils.h
+
+install: all
+	[ -d $(BINDIR) ] || $(INSTALL) -d $(INSTALL_DIR_FLAGS) $(BINDIR)
+	$(INSTALL) $(INSTALL_EXE_FLAGS) darwinup $(BINDIR)
+
+uninstall:
+	rm -f $(BINDIR)/darwinup	
 
 clean:
 	rm -f darwinup Archive.o Depot.o Digest.o File.o SerialSet.o Utils.o main.o
