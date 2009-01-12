@@ -27,8 +27,10 @@ BINSYMLINKS=( \
     g++ \
     g++-4.0 \
     g++-4.2 \
+    lex \
     libtool \
     mig \
+    ranlib \
     strip \
     yacc)
     
