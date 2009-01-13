@@ -35,6 +35,9 @@
 		BootCache = {
 			version = 43.10;
 		};
+                CarbonHeaders = {
+                        version = 9G55;
+                };
 		CF = {
 			version = 476.17;
 		};
