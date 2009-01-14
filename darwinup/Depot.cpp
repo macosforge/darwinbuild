@@ -50,6 +50,8 @@ Depot::Depot() {
 }
 
 Depot::Depot(const char* prefix) {
+	m_lock_fd = -1;
+
 	asprintf(&m_depot_path,    "%s/.DarwinDepot",  prefix);
 	asprintf(&m_database_path, "%s/Database-V100", m_depot_path);
 	asprintf(&m_archives_path, "%s/Archives",      m_depot_path);
