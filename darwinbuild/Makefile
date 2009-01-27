@@ -16,9 +16,10 @@ all: manifest prefixes
 manifest: manifest.c
 	cc $(CFLAGS) -Wall -Werror -o $(OBJROOT)/$@ -lcrypto $^
 
-prefixes:
-	@$(foreach SCRIPT,$(PrefixReplacements), \
-		$(SED) -e 's,%%PREFIX%%,$(PREFIX),' $(SCRIPT).in > $(SCRIPT) ;)
+prefixes: $(PrefixReplacements)
+
+$(PrefixReplacements): % : %.in
+	$(SED) -e 's,%%PREFIX%%,$(PREFIX),' $@.in > $@ ;			
 
 install: all
 	[ -d $(BINDIR) ] || $(INSTALL) -d $(INSTALL_DIR_FLAGS) $(BINDIR)
