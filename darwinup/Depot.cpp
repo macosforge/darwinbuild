@@ -425,7 +425,8 @@ int Depot::backup_file(File* file, void* ctx) {
 
 		// XXX: res = file->backup()
 
-		// Copy libraries gnutar uses since we need to use gnutar before they are replaced		
+		// copy files used by gnutar and libarchive instead of moving them
+		//  since we use tar during the archive process
 		size_t i = 0;
 		bool docopy = false;
 		const char* tarfiles[] = {"/usr/bin/tar",
@@ -437,7 +438,8 @@ int Depot::backup_file(File* file, void* ctx) {
 					  "/usr/lib/libSystem.B.dylib",
 					  "/usr/lib/libiconv.2.dylib",
 					  "/usr/lib/libgcc_s.1.dylib"};
-		for (i = 0; i < sizeof(tarfiles)/sizeof(*tarfiles); i++) {
+		size_t numfiles = sizeof(tarfiles)/sizeof(*tarfiles);
+		for (i = 0; i < numfiles; i++) {
 		  if (strncmp(tarfiles[i], file->path(), strlen(tarfiles[i])) == 0) {
 		    docopy = true;
 		    break;
