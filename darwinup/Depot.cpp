@@ -432,12 +432,12 @@ int Depot::backup_file(File* file, void* ctx) {
 		const char* tarfiles[] = {"/usr/bin/tar",
 					  "/usr/bin/gnutar",
 					  "/usr/bin/bsdtar",
-					  "/usr/lib/libarchive.2.dylib",
-					  "/usr/lib/libbz2.1.0.dylib",
-					  "/usr/lib/libz.1.dylib",
-					  "/usr/lib/libSystem.B.dylib",
-					  "/usr/lib/libiconv.2.dylib",
-					  "/usr/lib/libgcc_s.1.dylib"};
+					  "/usr/lib/libarchive",
+					  "/usr/lib/libbz2",
+					  "/usr/lib/libz",
+					  "/usr/lib/libSystem",
+					  "/usr/lib/libiconv",
+					  "/usr/lib/libgcc_s"};
 		size_t numfiles = sizeof(tarfiles)/sizeof(*tarfiles);
 		for (i = 0; i < numfiles; i++) {
 		  if (strncmp(tarfiles[i], file->path(), strlen(tarfiles[i])) == 0) {
