@@ -256,7 +256,8 @@ function InstallRoot() {
 	    exit 1
 	fi
 
-	# we had a receipt, so nothing was request
+	# we had a receipt, so no need to install
+	echo "$Project already loaded and no newer roots have been built."
 	return 0
 }
 

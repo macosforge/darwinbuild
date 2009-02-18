@@ -246,13 +246,16 @@
 		AppleFan = {
 			dependencies = {
 				build = (
+					AppleI2C,
 					bash,
+					cctools,
 					distcc,
 					file_cmds,
 					gcc,
 					gcc_os,
 					gcc_select,
 					jam,
+					ld64,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
