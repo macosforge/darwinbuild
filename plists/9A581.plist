@@ -247,6 +247,7 @@
 			dependencies = {
 				build = (
 					AppleI2C,
+					IOI2CFamily,
 					bash,
 					cctools,
 					distcc,
