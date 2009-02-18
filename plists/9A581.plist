@@ -383,13 +383,17 @@
 		AppleHWSensor = {
 			dependencies = {
 				build = (
+					CarbonHeaders,
+					IOI2CFamily,
 					bash,
+					cctools,
 					distcc,
 					file_cmds,
 					gcc,
 					gcc_os,
 					gcc_select,
 					jam,
+					ld64,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
