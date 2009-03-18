@@ -33,10 +33,10 @@
 #include <limits.h>
 
 void usage(char* progname) {
-	fprintf(stderr, "usage:    %s [-v] [-p PATH] [command] [args]       \n", progname);
+	fprintf(stderr, "usage:    %s [-v] [-p DIR] [command] [args]       \n", progname);
 	fprintf(stderr, "                                                             \n");
 	fprintf(stderr, "options:                                                     \n");
-	fprintf(stderr, "          -p PATH    install roots to partition (default: /) \n");
+	fprintf(stderr, "          -p DIR     install roots under DIR (default: /)    \n");
 	fprintf(stderr, "          -v         verbose (use -vv for extra verbosity)   \n");
 	fprintf(stderr, "                                                             \n");
 	fprintf(stderr, "commands:                                                    \n");
@@ -79,6 +79,13 @@ int main(int argc, char* argv[]) {
 
 	int res = 0;
 	Depot* depot = new Depot(partition);
+	if (!depot->is_locked()) {
+	        fprintf(stderr, 
+			"Error: unable to access and lock %s. " \
+			"The directory must exist and be writable.\n", depot->prefix());
+		exit(2);
+	}
+
 
 	if (argc == 2 && strcmp(argv[0], "install") == 0) {
 		char uuid[37];
