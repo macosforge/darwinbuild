@@ -132,20 +132,25 @@ void File::print(FILE* stream) {
 	free(dig);
 }
 
-int File::install(const char* prefix) {
+int File::install(const char* prefix, const char* dest) {
 	int res = 0;
 	Archive* archive = this->archive();
 	assert(archive != NULL);
 	char* dirpath = archive->directory_name(prefix);
+	IF_DEBUG("[install] dirpath is %s\n", dirpath);
 
 	char srcpath[PATH_MAX];
-	const char* dstpath = this->path();
+	const char* path = this->path();
+	char* dstpath;
+	asprintf(&dstpath, "%s/%s", dest, path);
+
 	if (dirpath) {
-		ssize_t len = snprintf(srcpath, sizeof(srcpath), "%s/%s", dirpath, dstpath);
+	        ssize_t len = snprintf(srcpath, sizeof(srcpath), "%s/%s", dirpath, path);
 		if ((size_t)len > sizeof(srcpath)) {
-			fprintf(stderr, "ERROR: [install] path too long: %s/%s\n", dirpath, dstpath);
+			fprintf(stderr, "ERROR: [install] path too long: %s/%s\n", dirpath, path);
 			return -1;
 		}
+		IF_DEBUG("[install] about to rename %s to %s\n", srcpath, dstpath);
 		res = rename(srcpath, dstpath);
 		if (res == -1) {
 			if (errno == ENOENT) {
@@ -153,7 +158,7 @@ int File::install(const char* prefix) {
 				// expansion of the archive that contains it.
 				if (is_directory(dirpath) == 0) {
 					res = archive->expand_directory(prefix);
-					if (res == 0) res = this->install(prefix);
+					if (res == 0) res = this->install(prefix, dest);
 				} else {
 					// archive was already expanded, so
 					// the file is truly missing (worry).
@@ -176,18 +181,20 @@ int File::install(const char* prefix) {
 	} else {
 		res = -1;
 	}
+	free(dstpath);
 	return res;
 }
 
-int File::remove() {
+int File::remove(const char* dest) {
 	// not implemented
 	fprintf(stderr, "%s:%d: call to abstract function File::remove\n", __FILE__, __LINE__);
 	return -1;
 }
 
-int File::install_info() {
+int File::install_info(const char* dest) {
 	int res = 0;
-	const char* path = this->path();
+	char* path;
+	asprintf(&path, "%s/%s", dest, this->path());
 	uid_t uid = this->uid();
 	gid_t gid = this->gid();
 	mode_t mode = this->mode() & ALLPERMS;
@@ -197,6 +204,7 @@ int File::install_info() {
 	IF_DEBUG("[install] chmod(%s, %04o)\n", path, mode);
 	if (res == 0) res = chmod(path, mode);
 
+	free(path);
 	return res;
 }
 
@@ -216,9 +224,10 @@ Regular::Regular(uint64_t serial, Archive* archive, uint32_t info, const char* p
 	}
 }
 
-int Regular::remove() {
+int Regular::remove(const char* dest) {
 	int res = 0;
-	const char* path = this->path();
+	char* path;
+	asprintf(&path, "%s/%s", dest, this->path());
 	res = unlink(path);
 	if (res == -1 && errno == ENOENT) {
 		// We can safely ignore this because we were going to
@@ -227,6 +236,8 @@ int Regular::remove() {
 	} else if (res != 0) {
 		fprintf(stderr, "%s:%d: %s: %s (%d)\n", __FILE__, __LINE__, m_path, strerror(errno), errno);
 	}
+
+	free(path);
 	return res;
 }
 
@@ -240,9 +251,10 @@ Symlink::Symlink(uint64_t serial, Archive* archive, uint32_t info, const char* p
 	}
 }
 
-int Symlink::remove() {
+int Symlink::remove(const char* dest) {
 	int res = 0;
-	const char* path = this->path();
+	char* path;
+	asprintf(&path, "%s/%s", dest, this->path());
 	res = unlink(path);
 	if (res == -1 && errno == ENOENT) {
 		// We can safely ignore this because we were going to
@@ -251,10 +263,12 @@ int Symlink::remove() {
 	} else if (res == -1) {
 		fprintf(stderr, "%s:%d: %s (%d)\n", __FILE__, __LINE__, strerror(errno), errno);
 	}
+
+	free(path);
 	return res;
 }
 
-int Symlink::install_info() {
+int Symlink::install_info(const char* dest) {
 	int res = 0;
 	const char* path = this->path();
 	//mode_t mode = this->mode() & ALLPERMS;
@@ -271,13 +285,15 @@ Directory::Directory(Archive* archive, FTSENT* ent) : File(archive, ent) {}
 
 Directory::Directory(uint64_t serial, Archive* archive, uint32_t info, const char* path, mode_t mode, uid_t uid, gid_t gid, off_t size, Digest* digest) : File(serial, archive, info, path, mode, uid, gid, size, digest) {};
 
-int Directory::install(const char* prefix) {
+int Directory::install(const char* prefix, const char* dest) {
 	// We create a new directory instead of renaming the
 	// existing one, since that would move the entire
 	// sub-tree, and lead to a lot of ENOENT errors.
 	int res = 0;
 	
-	const char* dstpath = this->path();
+	char* dstpath;
+	asprintf(&dstpath, "%s/%s", dest, this->path());
+	
 	mode_t mode = this->mode() & ALLPERMS;
 	uid_t uid = this->uid();
 	gid_t gid = this->gid();
@@ -287,12 +303,15 @@ int Directory::install(const char* prefix) {
 	if (res != 0) fprintf(stderr, "ERROR: %s:%d: %s: %s (%d)\n", __FILE__, __LINE__, dstpath, strerror(errno), errno);
 	if (res == 0) res = chown(dstpath, uid, gid);
 	if (res != 0) fprintf(stderr, "ERROR: %s:%d: %s: %s (%d)\n", __FILE__, __LINE__, dstpath, strerror(errno), errno);
+
+	free(dstpath);
 	return res;
 }
 
-int Directory::remove() {
+int Directory::remove(const char* dest) {
 	int res = 0;
-	const char* path = this->path();
+	char* path;
+	asprintf(&path, "%s/%s", dest, this->path());
 	res = rmdir(path);
 	if (res == -1 && errno == ENOENT) {
 		// We can safely ignore this because we were going to
@@ -303,6 +322,8 @@ int Directory::remove() {
 	} else if (res == -1) {
 		fprintf(stderr, "%s:%d: %s (%d)\n", __FILE__, __LINE__, strerror(errno), errno);
 	}
+
+	free(path);
 	return res;
 }
 

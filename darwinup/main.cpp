@@ -30,17 +30,21 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <limits.h>
 
 void usage(char* progname) {
-	char* pad = strdup(progname);
-	size_t i;
-	for (i = 0; i < strlen(pad); ++i) pad[i] = ' ';
-	
-	fprintf(stderr, "usage: %s install   <path>\n", progname);
-	fprintf(stderr, "       %s list\n", pad);
-	fprintf(stderr, "       %s files     <uuid>\n", pad);
-	fprintf(stderr, "       %s uninstall <uuid>\n", pad);
-	fprintf(stderr, "       %s verify    <uuid>\n", pad);
+	fprintf(stderr, "usage:    %s [-v] [-p PATH] [command] [args]       \n", progname);
+	fprintf(stderr, "                                                             \n");
+	fprintf(stderr, "options:                                                     \n");
+	fprintf(stderr, "          -p PATH    install roots to partition (default: /) \n");
+	fprintf(stderr, "          -v         verbose (use -vv for extra verbosity)   \n");
+	fprintf(stderr, "                                                             \n");
+	fprintf(stderr, "commands:                                                    \n");
+	fprintf(stderr, "          install    <path>                                  \n");
+	fprintf(stderr, "          list                                               \n");
+	fprintf(stderr, "          files      <uuid>                                  \n");
+	fprintf(stderr, "          uninstall  <uuid>                                  \n");
+	fprintf(stderr, "          verify     <uuid>                                  \n");
 	exit(1);
 }
 
@@ -48,17 +52,22 @@ void usage(char* progname) {
 uint32_t verbosity;
 
 int main(int argc, char* argv[]) {
-	int res = 0;
-	Depot* depot = new Depot("/");
-	
 	char* progname = strdup(basename(argv[0]));
 	
+	// the partition we are working on
+	char partition[PATH_MAX] = "/";
+
 	int ch;
-	while ((ch = getopt(argc, argv, "v")) != -1) {
+	while ((ch = getopt(argc, argv, "p:v")) != -1) {
 		switch (ch) {
 		case 'v':
 			verbosity <<= 1;
 			verbosity |= VERBOSE;
+			break;
+		case 'p':
+			int optlen = strlen(optarg);
+			int limitlen = (optlen < PATH_MAX ? optlen : PATH_MAX);
+			strncpy(partition, optarg, limitlen);
 			break;
 		case '?':
 		default:
@@ -67,6 +76,9 @@ int main(int argc, char* argv[]) {
 	}
 	argc -= optind;
 	argv += optind;
+
+	int res = 0;
+	Depot* depot = new Depot(partition);
 
 	if (argc == 2 && strcmp(argv[0], "install") == 0) {
 		char uuid[37];

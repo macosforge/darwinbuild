@@ -42,6 +42,7 @@
 #include <sqlite3.h>
 
 Depot::Depot() {
+        m_prefix = NULL;
 	m_depot_path = NULL;
 	m_database_path = NULL;
 	m_archives_path = NULL;
@@ -52,7 +53,8 @@ Depot::Depot() {
 Depot::Depot(const char* prefix) {
 	m_lock_fd = -1;
 
-	asprintf(&m_depot_path,    "%s/.DarwinDepot",  prefix);
+	asprintf(&m_prefix,        "%s",               prefix);
+	asprintf(&m_depot_path,    "%s/.DarwinDepot",  m_prefix);
 	asprintf(&m_database_path, "%s/Database-V100", m_depot_path);
 	asprintf(&m_archives_path, "%s/Archives",      m_depot_path);
 
@@ -81,12 +83,14 @@ Depot::Depot(const char* prefix) {
 Depot::~Depot() {
 	if (m_lock_fd != -1)	this->unlock();
 	if (m_db)		sqlite3_close(m_db);
+        if (m_prefix)           free(m_prefix);
 	if (m_depot_path)	free(m_depot_path);
 	if (m_database_path)	free(m_database_path);
 	if (m_archives_path)	free(m_archives_path);
 }
 
 const char*	Depot::archives_path()		{ return m_archives_path; }
+const char*     Depot::prefix()                 { return m_prefix; }
 
 // Unserialize an archive from the database.
 // Find the archive by UUID.
@@ -266,6 +270,8 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback, 
 
 	const char* path_argv[] = { path, NULL };
 	
+	IF_DEBUG("[analyze] analyzing path: %s\n", path);
+
 	FTS* fts = fts_open((char**)path_argv, FTS_PHYSICAL | FTS_COMFOLLOW | FTS_XDEV, fts_compare);
 	FTSENT* ent = fts_read(fts); // throw away the entry for path itself
 	while (res != -1 && (ent = fts_read(fts)) != NULL) {
@@ -279,7 +285,10 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback, 
 			// the file we last installed in this location (preceding),
 			// and the file that actually exists in this location (actual).
 		
-			File* actual = FileFactory(file->path());
+			char* actpath;
+			asprintf(&actpath, "%s/%s", this->prefix(), file->path());
+			File* actual = FileFactory(actpath);
+
 			File* preceding = this->file_preceded_by(file);
 			
 			if (actual == NULL) {
@@ -363,6 +372,7 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback, 
 				} else {
 					res = 0;
 				}
+				free(backup_dirpath);
 			}
 			
 			
@@ -379,6 +389,7 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback, 
 			assert(res == 0);
 			if (preceding && preceding != actual) delete preceding;
 			if (actual) delete actual;
+			free(actpath);
 			delete file;
 		}
 	}
@@ -467,9 +478,9 @@ int Depot::install_file(File* file, void* ctx) {
 	if (INFO_TEST(file->info(), FILE_INFO_INSTALL_DATA)) {
 		++context->files_modified;
 
-		res = file->install(context->depot->m_archives_path);
+		res = file->install(context->depot->m_archives_path, context->depot->m_prefix);
 	} else {
-		res = file->install_info();
+		res = file->install_info(context->depot->m_prefix);
 	}
 	if (res != 0) fprintf(stderr, "%s:%d: install failed: %s: %s (%d)\n", __FILE__, __LINE__, file->path(), strerror(errno), errno);
 	return res;
@@ -626,7 +637,9 @@ int Depot::uninstall_file(File* file, void* ctx) {
 		return 0;
 	}
 	
-	File* actual = FileFactory(file->path());
+	char* actpath;
+	asprintf(&actpath, "%s/%s", context->depot->m_prefix, file->path());
+	File* actual = FileFactory(actpath);
 	uint32_t flags = File::compare(file, actual);
 		
 	if (actual != NULL && flags != FILE_INFO_IDENTICAL) {
@@ -641,7 +654,7 @@ int Depot::uninstall_file(File* file, void* ctx) {
 			if (INFO_TEST(preceding->info(), FILE_INFO_NO_ENTRY)) {
 				state = 'R';
 				IF_DEBUG("[uninstall]    removing file\n");
-				if (actual && res == 0) res = actual->remove();
+				if (actual && res == 0) res = actual->remove(context->depot->m_prefix);
 			} else {
 				// copy the preceding file back out to the system
 				// if it's different from what's already there
@@ -649,11 +662,11 @@ int Depot::uninstall_file(File* file, void* ctx) {
 				if (INFO_TEST(flags, FILE_INFO_DATA_DIFFERS)) {
 					state = 'U';
 					IF_DEBUG("[uninstall]    restoring\n");
-					if (res == 0) res = preceding->install(context->depot->m_archives_path);
+					if (res == 0) res = preceding->install(context->depot->m_archives_path, context->depot->m_prefix);
 				} else if (INFO_TEST(flags, FILE_INFO_MODE_DIFFERS) ||
 					   INFO_TEST(flags, FILE_INFO_GID_DIFFERS) ||
 					   INFO_TEST(flags, FILE_INFO_UID_DIFFERS)) {
-					if (res == 0) res = preceding->install_info();
+					if (res == 0) res = preceding->install_info(context->depot->m_prefix);
 				} else {
 					IF_DEBUG("[uninstall]    no changes; leaving in place\n");
 				}
@@ -673,6 +686,8 @@ int Depot::uninstall_file(File* file, void* ctx) {
 	fprintf(stderr, "%c %s\n", state, file->path());
 
 	if (res != 0) fprintf(stderr, "%s:%d: uninstall failed: %s\n", __FILE__, __LINE__, file->path());
+
+	free(actpath);
 	return res;
 }
 

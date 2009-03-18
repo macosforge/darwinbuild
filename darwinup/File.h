@@ -130,18 +130,17 @@ struct File {
 	//  Member functions
 	////
 
-	// Installs the file at the given prefix onto the
-	// root volume.  i.e., for regular files:
-	// rename(prefix + this->archive()->uuid() + this->path(), this->path());
-	virtual int install(const char* prefix);
+	// Installs the file from the archive into the prefix
+	// i.e., for regular files:
+	// rename(prefix + this->archive()->uuid() + this->path(), dest + this->path());
+        virtual int install(const char* prefix, const char* dest);
 	
-	// Sets the mode, uid, and gid of the file on the
-	// root volume.
+	// Sets the mode, uid, and gid of the file in the dest path
 	// XXX: rename as repair()?
-	virtual int install_info();
+	virtual int install_info(const char* dest);
 	
-	// Removes the file from the root volume.
-	virtual int remove();
+	// Removes the file from the dest path
+	virtual int remove(const char* dest);
 
 	// Prints one line to the output stream indicating
 	// the file mode, ownership, digest and name.
@@ -182,7 +181,7 @@ struct NoEntry : File {
 struct Regular : File {
 	Regular(Archive* archive, FTSENT* ent);
 	Regular(uint64_t serial, Archive* archive, uint32_t info, const char* path, mode_t mode, uid_t uid, gid_t gid, off_t size, Digest* digest);
-	virtual int remove();
+	virtual int remove(const char* dest);
 };
 
 ////
@@ -192,8 +191,8 @@ struct Regular : File {
 struct Symlink : File {
 	Symlink(Archive* archive, FTSENT* ent);
 	Symlink(uint64_t serial, Archive* archive, uint32_t info, const char* path, mode_t mode, uid_t uid, gid_t gid, off_t size, Digest* digest);
-	virtual int install_info();
-	virtual int remove();
+	virtual int install_info(const char* dest);
+	virtual int remove(const char* dest);
 };
 
 ////
@@ -203,6 +202,6 @@ struct Symlink : File {
 struct Directory : File {
 	Directory(Archive* archive, FTSENT* ent);
 	Directory(uint64_t serial, Archive* archive, uint32_t info, const char* path, mode_t mode, uid_t uid, gid_t gid, off_t size, Digest* digest);
-	virtual int install(const char* prefix);
-	virtual int remove();
+	virtual int install(const char* prefix, const char* dest);
+	virtual int remove(const char* dest);
 };

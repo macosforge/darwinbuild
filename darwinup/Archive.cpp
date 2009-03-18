@@ -80,6 +80,7 @@ char* Archive::directory_name(const char* prefix) {
 char* Archive::create_directory(const char* prefix) {
 	int res = 0;
 	char* path = this->directory_name(prefix);
+	IF_DEBUG("creating directory: %s\n", path);
 	if (path && res == 0) res = mkdir(path, 0777);
 	if (res != 0) {
 		fprintf(stderr, "%s:%d: could not create directory: %s: %s (%d)\n", __FILE__, __LINE__, path, strerror(errno), errno);
@@ -96,6 +97,7 @@ int Archive::compact_directory(const char* prefix) {
 	char uuidstr[37];
 	uuid_unparse_upper(m_uuid, uuidstr);
 	asprintf(&tarpath, "%s/%s.tar.bz2", prefix, uuidstr);
+	IF_DEBUG("compacting %s/%s to %s\n", prefix, uuidstr, tarpath);
 	if (tarpath) {
 		const char* args[] = {
 			"/usr/bin/tar",
@@ -119,6 +121,7 @@ int Archive::expand_directory(const char* prefix) {
 	char uuidstr[37];
 	uuid_unparse_upper(m_uuid, uuidstr);
 	asprintf(&tarpath, "%s/%s.tar.bz2", prefix, uuidstr);
+	IF_DEBUG("expanding %s to %s\n", tarpath, prefix);
 	if (tarpath) {
 		const char* args[] = {
 			"/usr/bin/tar",
