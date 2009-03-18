@@ -53,7 +53,10 @@ uint32_t verbosity;
 
 int main(int argc, char* argv[]) {
 	char* progname = strdup(basename(argv[0]));      
+
 	char* path;
+	int custom_path = 0;
+
 	int ch;
 	while ((ch = getopt(argc, argv, "p:v")) != -1) {
 		switch (ch) {
@@ -67,6 +70,7 @@ int main(int argc, char* argv[]) {
 				exit(3);
 			}
 			path = optarg;
+			custom_path = 1;
 			break;
 		case '?':
 		default:
@@ -77,6 +81,10 @@ int main(int argc, char* argv[]) {
 	argv += optind;
 
 	int res = 0;
+
+	if (!custom_path) {
+		asprintf(&path, "/");
+	}
 	Depot* depot = new Depot(path);
 	if (!depot->is_locked()) {
 	        fprintf(stderr, 
@@ -142,6 +150,9 @@ int main(int argc, char* argv[]) {
 		}
 	} else {
 		usage(progname);
+	}
+	if (!custom_path) {
+		free(path);
 	}
 	exit(res);
 	return res;
