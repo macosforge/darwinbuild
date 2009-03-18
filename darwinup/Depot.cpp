@@ -62,10 +62,16 @@ Depot::Depot(const char* prefix) {
 	mkdir(m_depot_path,    m_depot_mode);
 	mkdir(m_archives_path, m_depot_mode);
 
-	(void)this->lock(LOCK_SH);
+	int res = 0;
+
+	res = this->lock(LOCK_SH);
+	if (res == 0) {
+	  m_is_locked = 1;
+	}
+
 	int exists = is_regular_file(m_database_path);
 
-	int res = sqlite3_open(m_database_path, &m_db);
+	res = sqlite3_open(m_database_path, &m_db);
 	if (res != 0) {
 		sqlite3_close(m_db);
 		m_db = NULL;
@@ -982,9 +988,6 @@ int Depot::is_locked() { return m_is_locked; }
 
 int Depot::lock(int operation) {
 	int res = 0;
-	if (m_is_locked) {
-	        fprintf(stderr, "Warning: attempt to over lock the depot\n");
-	}
 	if (m_lock_fd == -1) {
 		m_lock_fd = open(m_depot_path, O_RDONLY);
 		if (m_lock_fd == -1) {
@@ -995,22 +998,15 @@ int Depot::lock(int operation) {
 	res = flock(m_lock_fd, operation);
 	if (res == -1) {
 		perror(m_depot_path);
-	} else {
-	        m_is_locked = 1;
 	}
 	return res;
 }
 
 int Depot::unlock(void) {
 	int res = 0;
-	if (!m_is_locked) {
-	        fprintf(stderr, "Warning: attempt to over unlock the depot\n");
-	}
 	res = flock(m_lock_fd, LOCK_UN);
 	if (res == -1) {
 		perror(m_depot_path);
-	} else {
-	        m_is_locked = 0;
 	}
 	close(m_lock_fd);
 	m_lock_fd = -1;
