@@ -226,8 +226,9 @@ Regular::Regular(uint64_t serial, Archive* archive, uint32_t info, const char* p
 
 int Regular::remove() {
 	int res = 0;
-	res = unlink(this->path());
-	IF_DEBUG("[remove] unlink %s\n", this->path());
+	const char* path = this->path();
+	res = unlink(path);
+	IF_DEBUG("[remove] unlink %s\n", path);
 	if (res == -1 && errno == ENOENT) {
 		// We can safely ignore this because we were going to
 		// remove the file anyway
@@ -250,8 +251,9 @@ Symlink::Symlink(uint64_t serial, Archive* archive, uint32_t info, const char* p
 
 int Symlink::remove() {
 	int res = 0;
-	res = unlink(this->path());
-	IF_DEBUG("[remove] unlink %s", this->path());
+	const char* path = this->path();
+	res = unlink(path);
+	IF_DEBUG("[remove] unlink %s", path);
 	if (res == -1 && errno == ENOENT) {
 		// We can safely ignore this because we were going to
 		// remove the file anyway
@@ -304,14 +306,15 @@ int Directory::install(const char* prefix, const char* dest) {
 
 int Directory::remove() {
 	int res = 0;
-	res = rmdir(this->path());
-	IF_DEBUG("[remove] rmdir %s\n", this->path());
+	const char* path = this->path();
+	res = rmdir(path);
+	IF_DEBUG("[remove] rmdir %s\n", path);
 	if (res == -1 && errno == ENOENT) {
 		// We can safely ignore this because we were going to
 		// remove the directory anyway
 		res = 0;
 	} else if (res == -1 && errno == ENOTEMPTY) {
-	        res = remove_directory(this->path());
+	        res = remove_directory(path);
 	} else if (res == -1) {
 		fprintf(stderr, "%s:%d: %s (%d)\n", __FILE__, __LINE__, strerror(errno), errno);
 	}
