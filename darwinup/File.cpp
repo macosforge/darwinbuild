@@ -185,7 +185,7 @@ int File::install(const char* prefix, const char* dest) {
 	return res;
 }
 
-int File::remove(const char* dest) {
+int File::remove() {
 	// not implemented
 	fprintf(stderr, "%s:%d: call to abstract function File::remove\n", __FILE__, __LINE__);
 	return -1;
@@ -224,11 +224,10 @@ Regular::Regular(uint64_t serial, Archive* archive, uint32_t info, const char* p
 	}
 }
 
-int Regular::remove(const char* dest) {
+int Regular::remove() {
 	int res = 0;
-	char* path;
-	asprintf(&path, "%s/%s", dest, this->path());
-	res = unlink(path);
+	res = unlink(this->path());
+	IF_DEBUG("[remove] unlink %s\n", this->path());
 	if (res == -1 && errno == ENOENT) {
 		// We can safely ignore this because we were going to
 		// remove the file anyway
@@ -236,8 +235,6 @@ int Regular::remove(const char* dest) {
 	} else if (res != 0) {
 		fprintf(stderr, "%s:%d: %s: %s (%d)\n", __FILE__, __LINE__, m_path, strerror(errno), errno);
 	}
-
-	free(path);
 	return res;
 }
 
@@ -251,11 +248,10 @@ Symlink::Symlink(uint64_t serial, Archive* archive, uint32_t info, const char* p
 	}
 }
 
-int Symlink::remove(const char* dest) {
+int Symlink::remove() {
 	int res = 0;
-	char* path;
-	asprintf(&path, "%s/%s", dest, this->path());
-	res = unlink(path);
+	res = unlink(this->path());
+	IF_DEBUG("[remove] unlink %s", this->path());
 	if (res == -1 && errno == ENOENT) {
 		// We can safely ignore this because we were going to
 		// remove the file anyway
@@ -263,8 +259,6 @@ int Symlink::remove(const char* dest) {
 	} else if (res == -1) {
 		fprintf(stderr, "%s:%d: %s (%d)\n", __FILE__, __LINE__, strerror(errno), errno);
 	}
-
-	free(path);
 	return res;
 }
 
@@ -308,22 +302,19 @@ int Directory::install(const char* prefix, const char* dest) {
 	return res;
 }
 
-int Directory::remove(const char* dest) {
+int Directory::remove() {
 	int res = 0;
-	char* path;
-	asprintf(&path, "%s/%s", dest, this->path());
-	res = rmdir(path);
+	res = rmdir(this->path());
+	IF_DEBUG("[remove] rmdir %s\n", this->path());
 	if (res == -1 && errno == ENOENT) {
 		// We can safely ignore this because we were going to
 		// remove the directory anyway
 		res = 0;
 	} else if (res == -1 && errno == ENOTEMPTY) {
-		res = remove_directory(path);
+	        res = remove_directory(this->path());
 	} else if (res == -1) {
 		fprintf(stderr, "%s:%d: %s (%d)\n", __FILE__, __LINE__, strerror(errno), errno);
 	}
-
-	free(path);
 	return res;
 }
 

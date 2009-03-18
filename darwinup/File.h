@@ -139,8 +139,8 @@ struct File {
 	// XXX: rename as repair()?
 	virtual int install_info(const char* dest);
 	
-	// Removes the file from the dest path
-	virtual int remove(const char* dest);
+	// Removes the file
+	virtual int remove();
 
 	// Prints one line to the output stream indicating
 	// the file mode, ownership, digest and name.
@@ -181,7 +181,7 @@ struct NoEntry : File {
 struct Regular : File {
 	Regular(Archive* archive, FTSENT* ent);
 	Regular(uint64_t serial, Archive* archive, uint32_t info, const char* path, mode_t mode, uid_t uid, gid_t gid, off_t size, Digest* digest);
-	virtual int remove(const char* dest);
+	virtual int remove();
 };
 
 ////
@@ -192,7 +192,7 @@ struct Symlink : File {
 	Symlink(Archive* archive, FTSENT* ent);
 	Symlink(uint64_t serial, Archive* archive, uint32_t info, const char* path, mode_t mode, uid_t uid, gid_t gid, off_t size, Digest* digest);
 	virtual int install_info(const char* dest);
-	virtual int remove(const char* dest);
+	virtual int remove();
 };
 
 ////
@@ -203,5 +203,5 @@ struct Directory : File {
 	Directory(Archive* archive, FTSENT* ent);
 	Directory(uint64_t serial, Archive* archive, uint32_t info, const char* path, mode_t mode, uid_t uid, gid_t gid, off_t size, Digest* digest);
 	virtual int install(const char* prefix, const char* dest);
-	virtual int remove(const char* dest);
+	virtual int remove();
 };

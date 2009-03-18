@@ -654,7 +654,7 @@ int Depot::uninstall_file(File* file, void* ctx) {
 			if (INFO_TEST(preceding->info(), FILE_INFO_NO_ENTRY)) {
 				state = 'R';
 				IF_DEBUG("[uninstall]    removing file\n");
-				if (actual && res == 0) res = actual->remove(context->depot->m_prefix);
+				if (actual && res == 0) res = actual->remove();
 			} else {
 				// copy the preceding file back out to the system
 				// if it's different from what's already there
