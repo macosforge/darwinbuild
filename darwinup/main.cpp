@@ -33,18 +33,18 @@
 #include <limits.h>
 
 void usage(char* progname) {
-	fprintf(stderr, "usage:    %s [-v] [-p DIR] [command] [args]       \n", progname);
-	fprintf(stderr, "                                                             \n");
-	fprintf(stderr, "options:                                                     \n");
-	fprintf(stderr, "          -p DIR     install roots under DIR (default: /)    \n");
-	fprintf(stderr, "          -v         verbose (use -vv for extra verbosity)   \n");
-	fprintf(stderr, "                                                             \n");
-	fprintf(stderr, "commands:                                                    \n");
-	fprintf(stderr, "          install    <path>                                  \n");
-	fprintf(stderr, "          list                                               \n");
-	fprintf(stderr, "          files      <uuid>                                  \n");
-	fprintf(stderr, "          uninstall  <uuid>                                  \n");
-	fprintf(stderr, "          verify     <uuid>                                  \n");
+	fprintf(stderr, "usage:    %s [-v] [-p DIR] [command] [args]          \n", progname);
+	fprintf(stderr, "                                                               \n");
+	fprintf(stderr, "options:                                                       \n");
+	fprintf(stderr, "          -p DIR     operate on roots under DIR (default: /)   \n");
+	fprintf(stderr, "          -v         verbose (use -vv for extra verbosity)     \n");
+	fprintf(stderr, "                                                               \n");
+	fprintf(stderr, "commands:                                                      \n");
+	fprintf(stderr, "          install    <path>                                    \n");
+	fprintf(stderr, "          list                                                 \n");
+	fprintf(stderr, "          files      <uuid>                                    \n");
+	fprintf(stderr, "          uninstall  <uuid>                                    \n");
+	fprintf(stderr, "          verify     <uuid>                                    \n");
 	exit(1);
 }
 
@@ -52,11 +52,8 @@ void usage(char* progname) {
 uint32_t verbosity;
 
 int main(int argc, char* argv[]) {
-	char* progname = strdup(basename(argv[0]));
-	
-	// the partition we are working on
-	char partition[PATH_MAX] = "/";
-
+	char* progname = strdup(basename(argv[0]));      
+	char* path;
 	int ch;
 	while ((ch = getopt(argc, argv, "p:v")) != -1) {
 		switch (ch) {
@@ -65,9 +62,11 @@ int main(int argc, char* argv[]) {
 			verbosity |= VERBOSE;
 			break;
 		case 'p':
-			int optlen = strlen(optarg);
-			int limitlen = (optlen < PATH_MAX ? optlen : PATH_MAX);
-			strncpy(partition, optarg, limitlen);
+		        if (strlen(optarg) > (PATH_MAX - 1)) {
+			        fprintf(stderr, "Error: -p option value is too long \n");
+				exit(3);
+			}
+			path = optarg;
 			break;
 		case '?':
 		default:
@@ -78,7 +77,7 @@ int main(int argc, char* argv[]) {
 	argv += optind;
 
 	int res = 0;
-	Depot* depot = new Depot(partition);
+	Depot* depot = new Depot(path);
 	if (!depot->is_locked()) {
 	        fprintf(stderr, 
 			"Error: unable to access and lock %s. " \
