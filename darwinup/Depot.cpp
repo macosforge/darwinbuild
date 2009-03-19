@@ -360,9 +360,18 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback, 
 				char path[PATH_MAX];
 				char* backup_dirpath;
 
-				size_t len = strlcpy(path, actual->path(), sizeof(path));
+				// we need the path minus our destination path for moving to the archive
+				char *relpath = strstr(actual->path(), m_prefix);
+				if (relpath) {
+				  // advance to just past the destination path
+				  relpath += strlen(m_prefix);
+				} 
+
+				size_t len = strlcpy(path, (relpath ? relpath : actual->path()), 
+						     sizeof(path));
 				assert(len <= sizeof(path));
 				
+
 				const char* dir = dirname(path);
 				assert(dir != NULL);
 				
@@ -432,10 +441,17 @@ int Depot::backup_file(File* file, void* ctx) {
 	int res = 0;
 
 	if (INFO_TEST(file->info(), FILE_INFO_ROLLBACK_DATA)) {
-		char* dstpath;
+	        char *dstpath, *relpath;
 		char uuidstr[37];
+		// we need the path minus our destination path for moving to the archive
+		relpath = strstr(file->path(), context->depot->m_prefix);
+		if (relpath) {
+		  // advance to just past the destination path
+		  relpath += strlen(context->depot->m_prefix);
+		} 
 		uuid_unparse_upper(context->archive->uuid(), uuidstr);
-		asprintf(&dstpath, "%s/%s/%s", context->depot->m_archives_path, uuidstr, file->path());
+		asprintf(&dstpath, "%s/%s/%s", context->depot->m_archives_path, 
+			 uuidstr, (relpath ? relpath : file->path()));
 		assert(dstpath != NULL);
 
 		++context->files_modified;
@@ -645,6 +661,7 @@ int Depot::uninstall_file(File* file, void* ctx) {
 	
 	char* actpath;
 	asprintf(&actpath, "%s/%s", context->depot->m_prefix, file->path());
+	IF_DEBUG("[uninstall] actual path is %s\n", actpath);
 	File* actual = FileFactory(actpath);
 	uint32_t flags = File::compare(file, actual);
 		
