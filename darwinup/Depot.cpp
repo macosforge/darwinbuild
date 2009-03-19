@@ -363,8 +363,8 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback, 
 				// we need the path minus our destination path for moving to the archive
 				char *relpath = strstr(actual->path(), m_prefix);
 				if (relpath) {
-				  // advance to just past the destination path
-				  relpath += strlen(m_prefix);
+				        // advance to just past the destination path
+				        relpath += strlen(m_prefix);
 				} 
 
 				size_t len = strlcpy(path, (relpath ? relpath : actual->path()), 
@@ -446,8 +446,8 @@ int Depot::backup_file(File* file, void* ctx) {
 		// we need the path minus our destination path for moving to the archive
 		relpath = strstr(file->path(), context->depot->m_prefix);
 		if (relpath) {
-		  // advance to just past the destination path
-		  relpath += strlen(context->depot->m_prefix);
+		        // advance to just past the destination path
+		        relpath += strlen(context->depot->m_prefix);
 		} 
 		uuid_unparse_upper(context->archive->uuid(), uuidstr);
 		asprintf(&dstpath, "%s/%s/%s", context->depot->m_archives_path, 
@@ -473,17 +473,17 @@ int Depot::backup_file(File* file, void* ctx) {
 					  "/usr/lib/libgcc_s"};
 		size_t numfiles = sizeof(tarfiles)/sizeof(*tarfiles);
 		for (i = 0; i < numfiles; i++) {
-		  if (strncmp(tarfiles[i], file->path(), strlen(tarfiles[i])) == 0) {
-		    docopy = true;
-		    break;
-		  }
+		        if (strncmp(tarfiles[i], file->path(), strlen(tarfiles[i])) == 0) {
+			        docopy = true;
+				break;
+			}
 		}
 		if (docopy) {
-		  IF_DEBUG("[backup] copyfile(%s, %s)\n", file->path(), dstpath);
-		  res = copyfile(file->path(), dstpath, NULL, COPYFILE_ALL);
+		        IF_DEBUG("[backup] copyfile(%s, %s)\n", file->path(), dstpath);
+			res = copyfile(file->path(), dstpath, NULL, COPYFILE_ALL);
 		} else {
-		  IF_DEBUG("[backup] rename(%s, %s)\n", file->path(), dstpath);
-		  res = rename(file->path(), dstpath);
+		        IF_DEBUG("[backup] rename(%s, %s)\n", file->path(), dstpath);
+			res = rename(file->path(), dstpath);
 		}
 
 		if (res != 0) fprintf(stderr, "%s:%d: backup failed: %s: %s (%d)\n", __FILE__, __LINE__, dstpath, strerror(errno), errno);
@@ -518,8 +518,8 @@ int Depot::install(Archive* archive) {
 
 	// Check the consistency of the database before proceeding with the installation
 	// If this fails, abort the installation.
-//	res = this->check_consistency();
-//	if (res != 0) return res;
+	// res = this->check_consistency();
+	// if (res != 0) return res;
 
 	res = this->lock(LOCK_EX);
 	if (res != 0) return res;
