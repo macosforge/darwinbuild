@@ -54,10 +54,10 @@ Depot::Depot() {
 Depot::Depot(const char* prefix) {
 	m_lock_fd = -1;
 	m_is_locked = 0;
-	asprintf(&m_prefix,        "%s",               prefix);
-	asprintf(&m_depot_path,    "%s/.DarwinDepot",  m_prefix);
-	asprintf(&m_database_path, "%s/Database-V100", m_depot_path);
-	asprintf(&m_archives_path, "%s/Archives",      m_depot_path);
+	asprintf(&m_prefix, "%s", prefix);
+	join_path(&m_depot_path, m_prefix, "/.DarwinDepot");
+	join_path(&m_database_path, m_depot_path, "/Database-V100");
+	join_path(&m_archives_path, m_depot_path, "/Archives");
 
 	mkdir(m_depot_path,    m_depot_mode);
 	mkdir(m_archives_path, m_depot_mode);
@@ -66,7 +66,7 @@ Depot::Depot(const char* prefix) {
 
 	res = this->lock(LOCK_SH);
 	if (res == 0) {
-	  m_is_locked = 1;
+	        m_is_locked = 1;
 	}
 
 	int exists = is_regular_file(m_database_path);
@@ -292,7 +292,7 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback, 
 			// and the file that actually exists in this location (actual).
 		
 			char* actpath;
-			asprintf(&actpath, "%s/%s", this->prefix(), file->path());
+			join_path(&actpath, this->prefix(), file->path());
 			File* actual = FileFactory(actpath);
 
 			File* preceding = this->file_preceded_by(file);
@@ -375,10 +375,13 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback, 
 				const char* dir = dirname(path);
 				assert(dir != NULL);
 				
+				char *uuidpath;
 				char uuidstr[37];
 				uuid_unparse_upper(rollback->uuid(), uuidstr);
 				
-				asprintf(&backup_dirpath, "%s/%s/%s", m_archives_path, uuidstr, dir);
+				asprintf(&uuidpath, "%s/%s", m_archives_path, uuidstr);
+				assert(uuidpath != NULL);
+				join_path(&backup_dirpath, uuidpath, dir);
 				assert(backup_dirpath != NULL);
 				
 				res = mkdir_p(backup_dirpath);
@@ -388,6 +391,7 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback, 
 					res = 0;
 				}
 				free(backup_dirpath);
+				free(uuidpath);
 			}
 			
 			
@@ -441,7 +445,7 @@ int Depot::backup_file(File* file, void* ctx) {
 	int res = 0;
 
 	if (INFO_TEST(file->info(), FILE_INFO_ROLLBACK_DATA)) {
-	        char *dstpath, *relpath;
+	        char *dstpath, *relpath, *uuidpath;
 		char uuidstr[37];
 		// we need the path minus our destination path for moving to the archive
 		relpath = strstr(file->path(), context->depot->m_prefix);
@@ -449,9 +453,10 @@ int Depot::backup_file(File* file, void* ctx) {
 		        // advance to just past the destination path
 		        relpath += strlen(context->depot->m_prefix);
 		} 
-		uuid_unparse_upper(context->archive->uuid(), uuidstr);
-		asprintf(&dstpath, "%s/%s/%s", context->depot->m_archives_path, 
-			 uuidstr, (relpath ? relpath : file->path()));
+		uuid_unparse_upper(context->archive->uuid(), uuidstr);		
+		asprintf(&uuidpath, "%s/%s", context->depot->m_archives_path, uuidstr);
+		assert(uuidpath != NULL);
+		join_path(&dstpath, uuidpath, (relpath ? relpath : file->path()));
 		assert(dstpath != NULL);
 
 		++context->files_modified;
@@ -488,6 +493,7 @@ int Depot::backup_file(File* file, void* ctx) {
 
 		if (res != 0) fprintf(stderr, "%s:%d: backup failed: %s: %s (%d)\n", __FILE__, __LINE__, dstpath, strerror(errno), errno);
 		free(dstpath);
+		free(uuidpath);
 	}
 	return res;
 }
@@ -660,7 +666,7 @@ int Depot::uninstall_file(File* file, void* ctx) {
 	}
 	
 	char* actpath;
-	asprintf(&actpath, "%s/%s", context->depot->m_prefix, file->path());
+	join_path(&actpath, context->depot->m_prefix, file->path());
 	IF_DEBUG("[uninstall] actual path is %s\n", actpath);
 	File* actual = FileFactory(actpath);
 	uint32_t flags = File::compare(file, actual);

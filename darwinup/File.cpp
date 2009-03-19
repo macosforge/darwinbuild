@@ -142,7 +142,7 @@ int File::install(const char* prefix, const char* dest) {
 	char srcpath[PATH_MAX];
 	const char* path = this->path();
 	char* dstpath;
-	asprintf(&dstpath, "%s/%s", dest, path);
+	join_path(&dstpath, dest, path);
 
 	if (dirpath) {
 	        ssize_t len = snprintf(srcpath, sizeof(srcpath), "%s/%s", dirpath, path);
@@ -194,7 +194,7 @@ int File::remove() {
 int File::install_info(const char* dest) {
 	int res = 0;
 	char* path;
-	asprintf(&path, "%s/%s", dest, this->path());
+	join_path(&path, dest, this->path());
 	uid_t uid = this->uid();
 	gid_t gid = this->gid();
 	mode_t mode = this->mode() & ALLPERMS;
@@ -288,7 +288,7 @@ int Directory::install(const char* prefix, const char* dest) {
 	int res = 0;
 	
 	char* dstpath;
-	asprintf(&dstpath, "%s/%s", dest, this->path());
+	join_path(&dstpath, dest, this->path());
 	
 	mode_t mode = this->mode() & ALLPERMS;
 	uid_t uid = this->uid();
