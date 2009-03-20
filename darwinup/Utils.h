@@ -42,6 +42,9 @@ int is_regular_file(const char* path);
 int has_suffix(const char* str, const char* sfx);
 int exec_with_args(const char** args);
 
+int join_path(char** out, const char* p1, const char* p2);
+int compact_slashes(char* orig, int slashes);
+
 inline int INFO_TEST(uint32_t word, uint32_t flag) { return ((word & flag) != 0); }
 inline int INFO_SET(uint32_t word, uint32_t flag) { return (word | flag); }
 inline int INFO_CLR(uint32_t word, uint32_t flag) { return (word & (~flag)); }

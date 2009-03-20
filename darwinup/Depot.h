@@ -37,6 +37,7 @@ struct Depot {
 	
 	virtual ~Depot();
 
+        const char*     prefix();
 	const char*	database_path();
 	const char*	archives_path();
 
@@ -69,6 +70,9 @@ struct Depot {
 
 	int iterate_files(Archive* archive, FileIteratorFunc func, void* context);
 	int iterate_archives(ArchiveIteratorFunc func, void* context);
+
+        // test if the depot is currently locked 
+        int is_locked();
 
 	protected:
 
@@ -110,8 +114,10 @@ struct Depot {
 
 	sqlite3*	m_db;
 	mode_t		m_depot_mode;
+        char*           m_prefix;
 	char*		m_depot_path;
 	char*		m_database_path;
 	char*		m_archives_path;
 	int		m_lock_fd;
+        int             m_is_locked;
 };

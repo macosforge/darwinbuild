@@ -141,3 +141,38 @@ int exec_with_args(const char** args) {
 	}
 	return res;
 }
+
+#define compact_slashes(buf, count) do { memmove(buf - count + 1, buf, strlen(buf) + 1); buf -= count; } while (0)
+
+/**
+ * join_path joins two paths and removes any extra slashes,
+ *  even internal ones in p1 or p2. It allocates memory
+ *  for the string and the caller is responsible for freeing.
+ */
+int join_path(char **out, const char *p1, const char *p2) {
+	asprintf(out, "%s/%s", p1, p2);
+	if (!out) {
+	        fprintf(stderr, "Error: join_path is out of memory!\n");
+		return -1;
+	}
+	
+	int slashes = 0;
+	char *cur = *out;
+	while (*cur != '\0') {
+	        if (*cur == '/') {
+		        slashes++;
+		} else {
+		        // we found the next non-slash
+		        if (slashes > 1) {
+			  compact_slashes(cur, slashes);
+			} 
+			slashes = 0;
+		}
+		cur++;
+	}
+	// see if we had extra slashes at the very end of p2
+	if (slashes > 1) {
+	        compact_slashes(cur, slashes);
+	} 
+	return 0;
+}

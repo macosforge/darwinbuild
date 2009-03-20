@@ -30,17 +30,21 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <limits.h>
 
 void usage(char* progname) {
-	char* pad = strdup(progname);
-	size_t i;
-	for (i = 0; i < strlen(pad); ++i) pad[i] = ' ';
-	
-	fprintf(stderr, "usage: %s install   <path>\n", progname);
-	fprintf(stderr, "       %s list\n", pad);
-	fprintf(stderr, "       %s files     <uuid>\n", pad);
-	fprintf(stderr, "       %s uninstall <uuid>\n", pad);
-	fprintf(stderr, "       %s verify    <uuid>\n", pad);
+	fprintf(stderr, "usage:    %s [-v] [-p DIR] [command] [args]          \n", progname);
+	fprintf(stderr, "                                                               \n");
+	fprintf(stderr, "options:                                                       \n");
+	fprintf(stderr, "          -p DIR     operate on roots under DIR (default: /)   \n");
+	fprintf(stderr, "          -v         verbose (use -vv for extra verbosity)     \n");
+	fprintf(stderr, "                                                               \n");
+	fprintf(stderr, "commands:                                                      \n");
+	fprintf(stderr, "          install    <path>                                    \n");
+	fprintf(stderr, "          list                                                 \n");
+	fprintf(stderr, "          files      <uuid>                                    \n");
+	fprintf(stderr, "          uninstall  <uuid>                                    \n");
+	fprintf(stderr, "          verify     <uuid>                                    \n");
 	exit(1);
 }
 
@@ -48,17 +52,25 @@ void usage(char* progname) {
 uint32_t verbosity;
 
 int main(int argc, char* argv[]) {
-	int res = 0;
-	Depot* depot = new Depot("/");
-	
-	char* progname = strdup(basename(argv[0]));
-	
+	char* progname = strdup(basename(argv[0]));      
+
+	char* path;
+	int custom_path = 0;
+
 	int ch;
-	while ((ch = getopt(argc, argv, "v")) != -1) {
+	while ((ch = getopt(argc, argv, "p:v")) != -1) {
 		switch (ch) {
 		case 'v':
 			verbosity <<= 1;
 			verbosity |= VERBOSE;
+			break;
+		case 'p':
+		        if (strlen(optarg) > (PATH_MAX - 1)) {
+			        fprintf(stderr, "Error: -p option value is too long \n");
+				exit(3);
+			}
+			path = optarg;
+			custom_path = 1;
 			break;
 		case '?':
 		default:
@@ -67,6 +79,20 @@ int main(int argc, char* argv[]) {
 	}
 	argc -= optind;
 	argv += optind;
+
+	int res = 0;
+
+	if (!custom_path) {
+		asprintf(&path, "/");
+	}
+	Depot* depot = new Depot(path);
+	if (!depot->is_locked()) {
+	        fprintf(stderr, 
+			"Error: unable to access and lock %s. " \
+			"The directory must exist and be writable.\n", depot->prefix());
+		exit(2);
+	}
+
 
 	if (argc == 2 && strcmp(argv[0], "install") == 0) {
 		char uuid[37];
@@ -124,6 +150,9 @@ int main(int argc, char* argv[]) {
 		}
 	} else {
 		usage(progname);
+	}
+	if (!custom_path) {
+		free(path);
 	}
 	exit(res);
 	return res;

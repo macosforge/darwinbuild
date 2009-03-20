@@ -42,28 +42,36 @@
 #include <sqlite3.h>
 
 Depot::Depot() {
+        m_prefix = NULL;
 	m_depot_path = NULL;
 	m_database_path = NULL;
 	m_archives_path = NULL;
 	m_db = NULL;
 	m_lock_fd = -1;
+	m_is_locked = 0;
 }
 
 Depot::Depot(const char* prefix) {
 	m_lock_fd = -1;
-
-	asprintf(&m_depot_path,    "%s/.DarwinDepot",  prefix);
-	asprintf(&m_database_path, "%s/Database-V100", m_depot_path);
-	asprintf(&m_archives_path, "%s/Archives",      m_depot_path);
+	m_is_locked = 0;
+	asprintf(&m_prefix, "%s", prefix);
+	join_path(&m_depot_path, m_prefix, "/.DarwinDepot");
+	join_path(&m_database_path, m_depot_path, "/Database-V100");
+	join_path(&m_archives_path, m_depot_path, "/Archives");
 
 	mkdir(m_depot_path,    m_depot_mode);
 	mkdir(m_archives_path, m_depot_mode);
 
-	(void)this->lock(LOCK_SH);
+	int res = 0;
+
+	res = this->lock(LOCK_SH);
+	if (res == 0) {
+	        m_is_locked = 1;
+	}
 
 	int exists = is_regular_file(m_database_path);
 
-	int res = sqlite3_open(m_database_path, &m_db);
+	res = sqlite3_open(m_database_path, &m_db);
 	if (res != 0) {
 		sqlite3_close(m_db);
 		m_db = NULL;
@@ -81,12 +89,14 @@ Depot::Depot(const char* prefix) {
 Depot::~Depot() {
 	if (m_lock_fd != -1)	this->unlock();
 	if (m_db)		sqlite3_close(m_db);
+        if (m_prefix)           free(m_prefix);
 	if (m_depot_path)	free(m_depot_path);
 	if (m_database_path)	free(m_database_path);
 	if (m_archives_path)	free(m_archives_path);
 }
 
 const char*	Depot::archives_path()		{ return m_archives_path; }
+const char*     Depot::prefix()                 { return m_prefix; }
 
 // Unserialize an archive from the database.
 // Find the archive by UUID.
@@ -266,6 +276,8 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback, 
 
 	const char* path_argv[] = { path, NULL };
 	
+	IF_DEBUG("[analyze] analyzing path: %s\n", path);
+
 	FTS* fts = fts_open((char**)path_argv, FTS_PHYSICAL | FTS_COMFOLLOW | FTS_XDEV, fts_compare);
 	FTSENT* ent = fts_read(fts); // throw away the entry for path itself
 	while (res != -1 && (ent = fts_read(fts)) != NULL) {
@@ -279,7 +291,10 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback, 
 			// the file we last installed in this location (preceding),
 			// and the file that actually exists in this location (actual).
 		
-			File* actual = FileFactory(file->path());
+			char* actpath;
+			join_path(&actpath, this->prefix(), file->path());
+			File* actual = FileFactory(actpath);
+
 			File* preceding = this->file_preceded_by(file);
 			
 			if (actual == NULL) {
@@ -345,16 +360,28 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback, 
 				char path[PATH_MAX];
 				char* backup_dirpath;
 
-				size_t len = strlcpy(path, actual->path(), sizeof(path));
+				// we need the path minus our destination path for moving to the archive
+				char *relpath = strstr(actual->path(), m_prefix);
+				if (relpath) {
+				        // advance to just past the destination path
+				        relpath += strlen(m_prefix);
+				} 
+
+				size_t len = strlcpy(path, (relpath ? relpath : actual->path()), 
+						     sizeof(path));
 				assert(len <= sizeof(path));
 				
+
 				const char* dir = dirname(path);
 				assert(dir != NULL);
 				
+				char *uuidpath;
 				char uuidstr[37];
 				uuid_unparse_upper(rollback->uuid(), uuidstr);
 				
-				asprintf(&backup_dirpath, "%s/%s/%s", m_archives_path, uuidstr, dir);
+				asprintf(&uuidpath, "%s/%s", m_archives_path, uuidstr);
+				assert(uuidpath != NULL);
+				join_path(&backup_dirpath, uuidpath, dir);
 				assert(backup_dirpath != NULL);
 				
 				res = mkdir_p(backup_dirpath);
@@ -363,6 +390,8 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback, 
 				} else {
 					res = 0;
 				}
+				free(backup_dirpath);
+				free(uuidpath);
 			}
 			
 			
@@ -379,6 +408,7 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback, 
 			assert(res == 0);
 			if (preceding && preceding != actual) delete preceding;
 			if (actual) delete actual;
+			free(actpath);
 			delete file;
 		}
 	}
@@ -415,10 +445,18 @@ int Depot::backup_file(File* file, void* ctx) {
 	int res = 0;
 
 	if (INFO_TEST(file->info(), FILE_INFO_ROLLBACK_DATA)) {
-		char* dstpath;
+	        char *dstpath, *relpath, *uuidpath;
 		char uuidstr[37];
-		uuid_unparse_upper(context->archive->uuid(), uuidstr);
-		asprintf(&dstpath, "%s/%s/%s", context->depot->m_archives_path, uuidstr, file->path());
+		// we need the path minus our destination path for moving to the archive
+		relpath = strstr(file->path(), context->depot->m_prefix);
+		if (relpath) {
+		        // advance to just past the destination path
+		        relpath += strlen(context->depot->m_prefix);
+		} 
+		uuid_unparse_upper(context->archive->uuid(), uuidstr);		
+		asprintf(&uuidpath, "%s/%s", context->depot->m_archives_path, uuidstr);
+		assert(uuidpath != NULL);
+		join_path(&dstpath, uuidpath, (relpath ? relpath : file->path()));
 		assert(dstpath != NULL);
 
 		++context->files_modified;
@@ -440,21 +478,22 @@ int Depot::backup_file(File* file, void* ctx) {
 					  "/usr/lib/libgcc_s"};
 		size_t numfiles = sizeof(tarfiles)/sizeof(*tarfiles);
 		for (i = 0; i < numfiles; i++) {
-		  if (strncmp(tarfiles[i], file->path(), strlen(tarfiles[i])) == 0) {
-		    docopy = true;
-		    break;
-		  }
+		        if (strncmp(tarfiles[i], file->path(), strlen(tarfiles[i])) == 0) {
+			        docopy = true;
+				break;
+			}
 		}
 		if (docopy) {
-		  IF_DEBUG("[backup] copyfile(%s, %s)\n", file->path(), dstpath);
-		  res = copyfile(file->path(), dstpath, NULL, COPYFILE_ALL);
+		        IF_DEBUG("[backup] copyfile(%s, %s)\n", file->path(), dstpath);
+			res = copyfile(file->path(), dstpath, NULL, COPYFILE_ALL);
 		} else {
-		  IF_DEBUG("[backup] rename(%s, %s)\n", file->path(), dstpath);
-		  res = rename(file->path(), dstpath);
+		        IF_DEBUG("[backup] rename(%s, %s)\n", file->path(), dstpath);
+			res = rename(file->path(), dstpath);
 		}
 
 		if (res != 0) fprintf(stderr, "%s:%d: backup failed: %s: %s (%d)\n", __FILE__, __LINE__, dstpath, strerror(errno), errno);
 		free(dstpath);
+		free(uuidpath);
 	}
 	return res;
 }
@@ -467,9 +506,9 @@ int Depot::install_file(File* file, void* ctx) {
 	if (INFO_TEST(file->info(), FILE_INFO_INSTALL_DATA)) {
 		++context->files_modified;
 
-		res = file->install(context->depot->m_archives_path);
+		res = file->install(context->depot->m_archives_path, context->depot->m_prefix);
 	} else {
-		res = file->install_info();
+		res = file->install_info(context->depot->m_prefix);
 	}
 	if (res != 0) fprintf(stderr, "%s:%d: install failed: %s: %s (%d)\n", __FILE__, __LINE__, file->path(), strerror(errno), errno);
 	return res;
@@ -485,8 +524,8 @@ int Depot::install(Archive* archive) {
 
 	// Check the consistency of the database before proceeding with the installation
 	// If this fails, abort the installation.
-//	res = this->check_consistency();
-//	if (res != 0) return res;
+	// res = this->check_consistency();
+	// if (res != 0) return res;
 
 	res = this->lock(LOCK_EX);
 	if (res != 0) return res;
@@ -626,7 +665,10 @@ int Depot::uninstall_file(File* file, void* ctx) {
 		return 0;
 	}
 	
-	File* actual = FileFactory(file->path());
+	char* actpath;
+	join_path(&actpath, context->depot->m_prefix, file->path());
+	IF_DEBUG("[uninstall] actual path is %s\n", actpath);
+	File* actual = FileFactory(actpath);
 	uint32_t flags = File::compare(file, actual);
 		
 	if (actual != NULL && flags != FILE_INFO_IDENTICAL) {
@@ -649,11 +691,11 @@ int Depot::uninstall_file(File* file, void* ctx) {
 				if (INFO_TEST(flags, FILE_INFO_DATA_DIFFERS)) {
 					state = 'U';
 					IF_DEBUG("[uninstall]    restoring\n");
-					if (res == 0) res = preceding->install(context->depot->m_archives_path);
+					if (res == 0) res = preceding->install(context->depot->m_archives_path, context->depot->m_prefix);
 				} else if (INFO_TEST(flags, FILE_INFO_MODE_DIFFERS) ||
 					   INFO_TEST(flags, FILE_INFO_GID_DIFFERS) ||
 					   INFO_TEST(flags, FILE_INFO_UID_DIFFERS)) {
-					if (res == 0) res = preceding->install_info();
+					if (res == 0) res = preceding->install_info(context->depot->m_prefix);
 				} else {
 					IF_DEBUG("[uninstall]    no changes; leaving in place\n");
 				}
@@ -673,6 +715,8 @@ int Depot::uninstall_file(File* file, void* ctx) {
 	fprintf(stderr, "%c %s\n", state, file->path());
 
 	if (res != 0) fprintf(stderr, "%s:%d: uninstall failed: %s\n", __FILE__, __LINE__, file->path());
+
+	free(actpath);
 	return res;
 }
 
@@ -962,6 +1006,8 @@ int Depot::rollback_transaction() {
 int Depot::commit_transaction() {
 	return this->SQL("COMMIT TRANSACTION");
 }
+
+int Depot::is_locked() { return m_is_locked; }
 
 int Depot::lock(int operation) {
 	int res = 0;
