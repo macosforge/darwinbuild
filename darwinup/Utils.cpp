@@ -142,14 +142,14 @@ int exec_with_args(const char** args) {
 	return res;
 }
 
+#define compact_slashes(buf, count) do { memmove(buf - count + 1, buf, strlen(buf) + 1); buf -= count; } while (0)
+
 /**
  * join_path joins two paths and removes any extra slashes,
  *  even internal ones in p1 or p2. It allocates memory
  *  for the string and the caller is responsible for freeing.
  */
 int join_path(char **out, const char *p1, const char *p2) {
-        int res = 0;
-	
 	asprintf(out, "%s/%s", p1, p2);
 	if (!out) {
 	        fprintf(stderr, "Error: join_path is out of memory!\n");
@@ -164,36 +164,15 @@ int join_path(char **out, const char *p1, const char *p2) {
 		} else {
 		        // we found the next non-slash
 		        if (slashes > 1) {
-			        res = compact_slashes(cur, slashes);
-				if (res == -1) {
-				        fprintf(stderr, "Error: could not compact slashes\n");
-					return res;
-				}
+			  compact_slashes(cur, slashes);
 			} 
 			slashes = 0;
 		}
 		cur++;
 	}
-	
-	return 0;
-}
-
-/**
- * compact_slashes takes a pointer to the next non-slash
- * after a number of slashes, and shifts characters to the 
- * left in order to overwrite the extra slashes. It also
- * moves the null terminator.
- */
-int compact_slashes(char *orig, int slashes) {
-        char *right = orig;
-	char *left = orig - slashes + 1; // leave 1 slash
-
-	while (*right != '\0') {
-	        *(left++) = *(right++);
-	}
-
-	// one last assignment to set the new null terminator
-	*left = *right;
-	
+	// see if we had extra slashes at the very end of p2
+	if (slashes > 1) {
+	        compact_slashes(cur, slashes);
+	} 
 	return 0;
 }
