@@ -60,7 +60,7 @@ int mkdir_p(const char* path) {
 
                 if (res != 0 && errno == ENOENT) {
                         char tmp[PATH_MAX];
-                        strncpy(tmp, path, PATH_MAX);
+                        strlcpy(tmp, path, PATH_MAX);
                         char* slash = strrchr(tmp, '/');
                         if (slash) { *slash = 0; }
                         res = mkdir_p(tmp);

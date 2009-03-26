@@ -54,8 +54,7 @@ uint32_t verbosity;
 int main(int argc, char* argv[]) {
 	char* progname = strdup(basename(argv[0]));      
 
-	char* path;
-	int custom_path = 0;
+	char* path = NULL;
 
 	int ch;
 	while ((ch = getopt(argc, argv, "p:v")) != -1) {
@@ -69,8 +68,7 @@ int main(int argc, char* argv[]) {
 			        fprintf(stderr, "Error: -p option value is too long \n");
 				exit(3);
 			}
-			path = optarg;
-			custom_path = 1;
+			join_path(&path, optarg, "/");
 			break;
 		case '?':
 		default:
@@ -82,7 +80,7 @@ int main(int argc, char* argv[]) {
 
 	int res = 0;
 
-	if (!custom_path) {
+	if (!path) {
 		asprintf(&path, "/");
 	}
 	Depot* depot = new Depot(path);
@@ -151,9 +149,8 @@ int main(int argc, char* argv[]) {
 	} else {
 		usage(progname);
 	}
-	if (!custom_path) {
-		free(path);
-	}
+
+	free(path);
 	exit(res);
 	return res;
 }
