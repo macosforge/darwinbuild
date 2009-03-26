@@ -361,7 +361,7 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback, 
 				char* backup_dirpath;
 
 				// we need the path minus our destination prefix for moving to the archive
-				strncpy(path, actual->path() + strlen(m_prefix) - 1, PATH_MAX-1);
+				strncpy(path, actual->path() + strlen(m_prefix) - 1, sizeof(path));
 
 				const char* dir = dirname(path);
 				assert(dir != NULL);
