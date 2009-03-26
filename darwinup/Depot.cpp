@@ -360,17 +360,8 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback, 
 				char path[PATH_MAX];
 				char* backup_dirpath;
 
-				// we need the path minus our destination path for moving to the archive
-				char *relpath = strstr(actual->path(), m_prefix);
-				if (relpath) {
-				        // advance to just past the destination path
-				        relpath += strlen(m_prefix);
-				} 
-
-				size_t len = strlcpy(path, (relpath ? relpath : actual->path()), 
-						     sizeof(path));
-				assert(len <= sizeof(path));
-				
+				// we need the path minus our destination prefix for moving to the archive
+				strncpy(path, actual->path() + strlen(m_prefix) - 1, PATH_MAX-1);
 
 				const char* dir = dirname(path);
 				assert(dir != NULL);
@@ -444,20 +435,34 @@ int Depot::backup_file(File* file, void* ctx) {
 	InstallContext* context = (InstallContext*)ctx;
 	int res = 0;
 
+	IF_DEBUG("[DEBUG] backup_file: %s , %s \n", file->path(), context->archive->m_name);
+
 	if (INFO_TEST(file->info(), FILE_INFO_ROLLBACK_DATA)) {
-	        char *dstpath, *relpath, *uuidpath;
+	        char *path;        // the file's path
+		char *dstpath;     // the path inside the archives
+		char *relpath;     // the file's path minus the destination prefix
+		char *uuidpath;    // archives path plus the uuid
 		char uuidstr[37];
+
 		// we need the path minus our destination path for moving to the archive
-		relpath = strstr(file->path(), context->depot->m_prefix);
-		if (relpath) {
-		        // advance to just past the destination path
-		        relpath += strlen(context->depot->m_prefix);
-		} 
+		size_t prefixlen = strlen(context->depot->m_prefix);
+		if (strncmp(context->archive->m_name, "<Rollback>", strlen("<Rollback>")) == 0) {
+		  join_path(&path, context->depot->m_prefix, file->path());
+		} else {
+		  asprintf(&path, "%s", file->path());
+		}
+		relpath = path;
+		if (strncmp(path, context->depot->m_prefix, prefixlen) == 0) {
+		        relpath += prefixlen - 1;
+		}
+
 		uuid_unparse_upper(context->archive->uuid(), uuidstr);		
 		asprintf(&uuidpath, "%s/%s", context->depot->m_archives_path, uuidstr);
 		assert(uuidpath != NULL);
-		join_path(&dstpath, uuidpath, (relpath ? relpath : file->path()));
+		join_path(&dstpath, uuidpath, relpath);
 		assert(dstpath != NULL);
+
+		IF_DEBUG("[DEBUG] \npath = %s \nrelpath = %s \ndstpath = %s \nuuidpath = %s \n[/DEBUG]\n", path, relpath, dstpath, uuidpath); 
 
 		++context->files_modified;
 
@@ -478,20 +483,21 @@ int Depot::backup_file(File* file, void* ctx) {
 					  "/usr/lib/libgcc_s"};
 		size_t numfiles = sizeof(tarfiles)/sizeof(*tarfiles);
 		for (i = 0; i < numfiles; i++) {
-		        if (strncmp(tarfiles[i], file->path(), strlen(tarfiles[i])) == 0) {
+		        if (strncmp(tarfiles[i], relpath, strlen(tarfiles[i])) == 0) {
 			        docopy = true;
 				break;
 			}
 		}
 		if (docopy) {
-		        IF_DEBUG("[backup] copyfile(%s, %s)\n", file->path(), dstpath);
-			res = copyfile(file->path(), dstpath, NULL, COPYFILE_ALL);
+		        IF_DEBUG("[backup] copyfile(%s, %s)\n", path, dstpath);
+			res = copyfile(path, dstpath, NULL, COPYFILE_ALL);
 		} else {
-		        IF_DEBUG("[backup] rename(%s, %s)\n", file->path(), dstpath);
-			res = rename(file->path(), dstpath);
+		        IF_DEBUG("[backup] rename(%s, %s)\n", path, dstpath);
+			res = rename(path, dstpath);
 		}
 
 		if (res != 0) fprintf(stderr, "%s:%d: backup failed: %s: %s (%d)\n", __FILE__, __LINE__, dstpath, strerror(errno), errno);
+		free(path);
 		free(dstpath);
 		free(uuidpath);
 	}
@@ -1067,6 +1073,16 @@ int Depot::insert(Archive* archive) {
 
 int Depot::insert(Archive* archive, File* file) {
 	int res = 0;
+
+	// check for the destination prefix in file's path, remove if found
+	char *path, *relpath;
+	size_t prefixlen = strlen(this->prefix());
+	asprintf(&path, "%s", file->path());
+	relpath = path;
+	if (strncmp(file->path(), this->prefix(), prefixlen) == 0) {
+	        relpath += prefixlen - 1;
+	}
+
 	static sqlite3_stmt* stmt = NULL;
 	if (stmt == NULL && m_db) {
 		const char* query = "INSERT INTO files (archive, info, mode, uid, gid, digest, path) VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -1083,7 +1099,7 @@ int Depot::insert(Archive* archive, File* file) {
 		Digest* dig = file->digest();
 		if (res == 0 && dig) res = sqlite3_bind_blob(stmt, i++, dig->data(), dig->size(), SQLITE_STATIC);
 		else if (res == 0) res = sqlite3_bind_blob(stmt, i++, NULL, 0, SQLITE_STATIC);
-		if (res == 0) res = sqlite3_bind_text(stmt, i++, file->path(), -1, SQLITE_STATIC);
+		if (res == 0) res = sqlite3_bind_text(stmt, i++, relpath, -1, SQLITE_STATIC);
 		if (res == 0) res = sqlite3_step(stmt);
 		if (res == SQLITE_DONE) {
 			file->m_serial = (uint64_t)sqlite3_last_insert_rowid(m_db);
@@ -1093,6 +1109,7 @@ int Depot::insert(Archive* archive, File* file) {
 		}
 		sqlite3_reset(stmt);
 	}
+	free(path);
 	return res;
 }
 
