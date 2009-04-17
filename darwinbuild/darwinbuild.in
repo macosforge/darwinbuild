@@ -132,7 +132,7 @@ fi
 ###
 if [ "$1" == "-init" ]; then
 	if [ "$2" == "" ]; then
-		echo "usage: $(basename $0) -init <build>" 1>&2
+		echo "usage: $(basename $0) -init <build> [-nodmg | -nfs]" 1>&2
 		echo "" 1>&2
 		echo "\t-nodmg \t do not use a sparse image for build root (use a regular directory)" 1>&2
 		echo "\t-nfs   \t use NFS over loopback to mount the build root (implies -nodmg)" 1>&2
