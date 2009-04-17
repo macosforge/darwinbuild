@@ -5352,7 +5352,10 @@
 		bless = {
 			dependencies = {
 				build = (
+				      	CarbonHeaders,
+				      	CF,
 					DiskArbitration,
+					IOKitUser,
 					Libm,
 					Libsystem,
 					bash,
@@ -5896,6 +5899,7 @@
 				build = (
 					Libm,
 					Libsystem,
+					TargetConfig,
 					bash,
 					bootstrap_cmds,
 					bsdmake,
@@ -6921,6 +6925,15 @@
 			version = 520;
 		};
 		flex = {
+                        dependencies = {
+                                build = (
+					CarbonHeaders,
+					gnumake,
+                                        grep,
+					shell_cmds,
+					text_cmds,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
