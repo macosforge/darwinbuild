@@ -80,6 +80,7 @@
 
 PREFIX=%%PREFIX%%
 XREFDB=.build/xref.db
+DMGFILE=.build/buildroot.sparsebundle
 DARWINXREF=$PREFIX/bin/darwinxref
 DATADIR=$PREFIX/share/darwinbuild
 COMMONFILE=$DATADIR/darwinbuild.common
@@ -132,6 +133,9 @@ fi
 if [ "$1" == "-init" ]; then
 	if [ "$2" == "" ]; then
 		echo "usage: $(basename $0) -init <build>" 1>&2
+		echo "" 1>&2
+		echo "\t-nodmg \t do not use a sparse image for build root (use a regular directory)" 1>&2
+		echo "\t-nfs   \t use NFS over loopback to mount the build root (implies -nodmg)" 1>&2
 		exit 1
 	fi
 	build="$2"
@@ -154,12 +158,34 @@ if [ "$1" == "-init" ]; then
 
 	echo "$build" > .build/build
 
+        ###
+        ### Create the build root
+        ###
+	if [ "$3" == "-nfs" ]; then
+	    echo "NFS not implemented";
+	    exit 71;
+	elif [ "$3" == "-nodmg" ]; then
+	    mkdir -p BuildRoot
+	else
+	    echo "Creating build root disk image ..."
+	    stamp=$(date +'%Y%m%d%H%M%S')
+	    DMGVOLUME="BuildRoot_${build}_${stamp}"
+	    hdiutil create -size 1t -fs HFSX -quiet \
+		-volname $DMGVOLUME \
+		$DMGFILE
+	    ln -s "/Volumes/${DMGVOLUME}" BuildRoot
+	fi
+
+	###
+	### Download the build's plist and its parents
+	###
 	while [ "$build" != "" ]; do
 		Download .build "$build".plist "$sites ${DEFAULTPLISTSITE}"
 		$DARWINXREF "-f$XREFDB" "-b$build" loadIndex .build/"$build".plist
 		sites=$($DARWINXREF "-f$XREFDB" "-b$build" plist_sites | xargs echo)
 		build=$($DARWINXREF "-f$XREFDB" "-b$build" inherits)
 	done
+
 	echo "Initialization Complete"
 	exit 0
 fi
@@ -180,10 +206,20 @@ EOF
 ### Check that we're property situated in an initialized directory
 ###
 CheckDarwinBuildRoot
-
 BuildRoot="$DARWIN_BUILDROOT/BuildRoot"
-mkdir -p "$BuildRoot"
 export DARWINXREF_DB_FILE="$DARWIN_BUILDROOT/$XREFDB"
+
+###
+### See if we need to attach a disk image or mount an NFS share
+###
+stat -L $BuildRoot >> /dev/null 2>&1
+if [ $? -eq 1 ]; then
+    echo "*** Attaching build root disk image ..."
+    hdiutil attach $DMGFILE -readwrite 
+    if [ $? -ne 0 ]; then
+	echo "Error: Unable to attach sparse disk image";
+    fi
+fi
 
 ###
 ### Check and see wether there is a sources directory set in the
