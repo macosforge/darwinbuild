@@ -17,6 +17,7 @@ William Siegrist <wsiegrist@apple.com>
   5.1 Private Headers
   5.2 Build Tools
   5.3 Static Libraries
+  5.4 Alternate BuildRoot Storage
 Appendix
 A. darwinxref
 
@@ -74,22 +75,13 @@ to override this, set a list of -arch arguments in RC_CFLAGS.
 2.1 Creating the Build Directory
 
 After installation, you must initialize the build directory using darwinbuild. 
-In order to build Xcode-based projects, you need to use UFS to workaround a 
-bug. For Makefile-based projects, you can use any filesystem. You know you 
-have hit the bug when you get a build error about a missing project or 
-platform (depending on which version of Xcode you have). 
+Assuming you wanted to build projects from 9G55 in your home directory:
 
-To create a UFS disk image:
-
-  % hdiutil create -size 4g -type UDIF -fs UFS -volname dbufs -attach dbufs.dmg
-
-To initialize your build environment, assuming you used the step above:
-
-  # cd /Volumes/dbufs
-  # mkdir 9G55
-  # cd 9G55
+  # mkdir ~/9G55
+  # cd ~/9G55
   # sudo -s
   # darwinbuild -init 9G55
+  Creating build root disk image ...
   Attempting to download http://svn.macosforge.org/repository/darwinbuild/trunk/plists//9G55.plist ...
   Download complete
   Attempting to download http://svn.macosforge.org/repository/darwinbuild/trunk/plists//9F33.plist ...
@@ -97,6 +89,7 @@ To initialize your build environment, assuming you used the step above:
   ...
   Attempting to download http://svn.macosforge.org/repository/darwinbuild/trunk/plists//9A581.plist ...
   Download complete
+  Initialization Complete
   # ls
   .build  Headers Logs    Roots   Sources Symbols
 
@@ -271,6 +264,26 @@ are usually placed in /usr/local/lib/system.  The most notable examples are
 xnu's usage of libkld.a which is produced by cctools_ofiles, and Libsystem's
 use of many static libraries from Libc, Libinfo, and more.
 
+
+5.4 Alternate BuildRoot Storage
+
+By default, "darwinbuild -init" will setup your environment to use a HFSX
+sparsebundle to host your BuildRoot. A sparsebundle is used to work around
+problems with using xcodebuild inside of a chroot. There are two other
+storage methods to choose from: NFS Loopback and Legacy Directory. 
+
+  1. NFS Loopback      (ex: darwinbuild -init 9G55 -nfs)
+     The NFS loopback method places a directory under .build and adds that 
+     directory to /etc/exports. When you try to build a project, darwinbuild 
+     will mount the NFS export on localhost. The NFS mount also works around 
+     the xcodebuild problems. 
+
+  2. Legacy Directory  (ex: darwinbuild -init 9G55 -nodmg)
+     This is just the way darwinbuild worked before the sparsebundle and NFS
+     support was added. It just makes a directory for BuildRoot and builds 
+     on whatever filesystem you are on at the time. If you are on HFS or ZFS,
+     this storage will cause problems for Xcode-based projects. 
+  
 
 =============
 A. darwinxref
