@@ -79,8 +79,10 @@
 ### 
 
 PREFIX=%%PREFIX%%
+PWDP=$(pwd -P)
 XREFDB=.build/xref.db
 DMGFILE=.build/buildroot.sparsebundle
+NFSDIR=.build/buildroot.nfs
 DARWINXREF=$PREFIX/bin/darwinxref
 DATADIR=$PREFIX/share/darwinbuild
 COMMONFILE=$DATADIR/darwinbuild.common
@@ -161,14 +163,20 @@ if [ "$1" == "-init" ]; then
         ###
         ### Create the build root
         ###
+	stamp=$(date +'%Y%m%d%H%M%S')
 	if [ "$3" == "-nfs" ]; then
-	    echo "NFS not implemented";
-	    exit 71;
+	    echo "Adding build root to NFS exports file ..."
+	    mkdir -p $NFSDIR
+	    mkdir -p BuildRoot
+	    echo "# Added by darwinbuild on ${stamp}" >> /etc/exports
+	    echo "${PWDP}/${NFSDIR} -maproot=0:10" >> /etc/exports
+	    nfsd update	    
+	    echo "Checking exports file ..."
+	    nfsd checkexports
 	elif [ "$3" == "-nodmg" ]; then
 	    mkdir -p BuildRoot
 	else
 	    echo "Creating build root disk image ..."
-	    stamp=$(date +'%Y%m%d%H%M%S')
 	    DMGVOLUME="BuildRoot_${build}_${stamp}"
 	    hdiutil create -size 1t -fs HFSX -quiet \
 		-volname $DMGVOLUME \
@@ -212,12 +220,22 @@ export DARWINXREF_DB_FILE="$DARWIN_BUILDROOT/$XREFDB"
 ###
 ### See if we need to attach a disk image or mount an NFS share
 ###
-stat -L $BuildRoot >> /dev/null 2>&1
-if [ $? -eq 1 ]; then
-    echo "*** Attaching build root disk image ..."
-    hdiutil attach $DMGFILE -readwrite 
+if [ ! -d "$BuildRoot/var" -a -d $NFSDIR ]; then
+    echo "*** Mounting build root over NFS loopback ..."
+    mount -t nfs localhost:${PWDP}/${NFSDIR} BuildRoot
     if [ $? -ne 0 ]; then
-	echo "Error: Unable to attach sparse disk image";
+	echo "Error: Unable to mount build root";
+	exit 72
+    fi        
+elif [ -d $DMGFILE ]; then
+    stat -L $BuildRoot >> /dev/null 2>&1
+    if [ $? -eq 1 ]; then
+	echo "*** Attaching build root disk image ..."
+	hdiutil attach $DMGFILE -readwrite 
+	if [ $? -ne 0 ]; then
+	    echo "Error: Unable to attach sparse disk image";
+	    exit 70
+	fi    
     fi
 fi
 
