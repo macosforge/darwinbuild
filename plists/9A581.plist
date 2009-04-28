@@ -10538,10 +10538,13 @@
 		ppp = {
 			dependencies = {
 				build = (
+					CarbonHeaders,
+					CF,
 					DirectoryService,
 					Kerberos,
 					Libm,
 					Libsystem,
+					Security,
 					bash,
 					bsm,
 					cctools,
