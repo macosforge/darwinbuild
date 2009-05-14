@@ -1,0 +1,249 @@
+// !$*UTF8*$!
+{
+	build = 9J61;
+	darwin = "Darwin 9.7";
+	fcs_date = "2009-05-12";
+	inherits = 9G55;
+	macosx = "Mac OS X 10.5.7";
+	projects = {
+		AppleDisplays = {
+			version = 1140.0.5;
+		};
+		AppleHWSensor = {
+			version = 190;
+		};
+		AppleOnboardAudio = {
+			version = 258.3.1;
+		};
+		AppleSMBIOS = {
+			version = 38;
+		};
+		AppleUSBAudio = {
+			version = 264.2.10;
+		};
+		BootCache = {
+			version = 43.12;
+		};
+		CF = {
+			version = 476.18;
+		};
+		DSTools = {
+			version = 112.1;
+		};
+		DirectoryService = {
+			target = DirectoryServiceFW;
+			version = 514.25;
+		};
+		ICU = {
+			version = 8.11.4;
+		};
+		IOATAFamily = {
+			version = 201.0.1;
+		};
+		IOAudioFamily = {
+			version = 169.4.3;
+		};
+		IOFireWireFamily = {
+			version = 347.4.0;
+		};
+		IOFireWireIP = {
+			version = 177.4.0;
+		};
+		IOGraphics = {
+			version = 305.14;
+		};
+		IOHIDFamily = {
+			version = 258.10;
+		};
+		IOKitUser = {
+			version = 388.53.11;
+		};
+		IOPCIFamily = {
+			version = 110;
+		};
+		IOSCSIParallelFamily = {
+			version = 152.1.1;
+		};
+		IOSerialFamily = {
+			version = 32.2;
+		};
+		IOStorageFamily = {
+			version = 92.9;
+		};
+		IOUSBFamily = {
+			version = 343.4.3;
+		};
+		IOUSBMassStorageClass = {
+			version = 206.0.1;
+		};
+		JavaScriptCore = {
+			version = 5525.26.2;
+		};
+		JavaScriptGlue = {
+			version = 5525.26.2;
+		};
+		Kerberos = {
+			version = 75.10.11;
+		};
+		KerberosHelper = {
+			version = 31.5;
+		};
+		Libc = {
+			version = 498.1.7;
+		};
+		Libsystem = {
+			version = 111.1.4;
+		};
+		OpenSSL = {
+			version = 46.11;
+		};
+		PowerManagement = {
+			version = 158.10;
+		};
+		SQLite = {
+			version = 46.1;
+		};
+		Security = {
+			version = 36371;
+		};
+		SquirrelMail = {
+			version = 29;
+		};
+		WebCore = {
+			version = 5525.28.4;
+		};
+		X11apps = {
+			version = 14.3;
+		};
+		X11libs = {
+			version = 17.6;
+		};
+		X11proto = {
+			version = 15.5;
+		};
+		X11server = {
+			version = 48.7;
+		};
+		apache = {
+			version = 731.0.3;
+		};
+		apache_mod_php = {
+			version = 44.2;
+		};
+		autofs = {
+			version = 109.8;
+		};
+		bind9 = {
+			version = 26.1.5;
+		};
+		bless = {
+			version = 63.2;
+		};
+		clamav = {
+			version = 116.6;
+		};
+		cscope = {
+			version = 14;
+		};
+		cups = {
+			target = installfat;
+			version = 136.18;
+		};
+		diskdev_cmds = {
+			version = 421.8;
+		};
+		dtrace = {
+			version = 48.1;
+		};
+		enscript = {
+			version = 15;
+		};
+		fetchmail = {
+			version = 30;
+		};
+		files = {
+			version = 530.1.5;
+		};
+		ipsec = {
+			version = 34.0.3;
+		};
+		launchd = {
+			version = 258.22;
+		};
+		libsecurity_codesigning = {
+			version = 36591;
+		};
+		libsecurity_keychain = {
+			version = 36620;
+		};
+		libsecurity_ssl = {
+			version = 36371;
+		};
+		libsecurity_utilities = {
+			version = 36433;
+		};
+		libsecurityd = {
+			version = 36292;
+		};
+		libxml2 = {
+			version = 17.7.7;
+		};
+		msdosfs = {
+			version = 136.5;
+		};
+		net_snmp = {
+			version = 121;
+		};
+		network_cmds = {
+			version = 307.1.1;
+		};
+		ntp = {
+			version = 37.3;
+		};
+		pam_modules = {
+			version = 36.2;
+		};
+		perl = {
+			version = 51.1.4;
+		};
+		ppp = {
+			version = 314.0.2;
+		};
+		python = {
+			version = 30.1.3;
+		};
+		remote_cmds = {
+			version = 13.0.2;
+		};
+		ruby = {
+			version = 67.6;
+		};
+		ruby_libxml = {
+			version = 6.1;
+		};
+		security_certificates = {
+			version = 36075;
+		};
+		securityd = {
+			version = 36489;
+		};
+		smb = {
+			version = 348.7;
+		};
+		syslog = {
+			version = 69.0.4;
+		};
+		system_cmds = {
+			version = 433.8;
+		};
+		tidy = {
+			version = 15.2;
+		};
+		webdavfs = {
+			version = 252.8;
+		};
+		xnu = {
+			version = 1228.12.14;
+		};
+	};
+}
