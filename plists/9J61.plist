@@ -4,6 +4,9 @@
 	darwin = "Darwin 9.7";
 	inherits = 9G55;
 	macosx = "Mac OS X 10.5.7";
+	binary_sites = (
+		"http://src.macosforge.org/Roots/9J61/",
+	);
 	projects = {
 		AppleDisplays = {
 			version = 1140.0.5;
