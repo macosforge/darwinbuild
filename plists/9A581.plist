@@ -4266,6 +4266,7 @@
 					file_cmds,
 					gnutar,
 					Security,
+					SecurityTokend,
 					CarbonHeaders,
 					cctools,
 					libsecurity_utilities,
