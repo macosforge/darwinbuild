@@ -8895,6 +8895,20 @@
 			version = 32568;
 		};
 		libsecurity_cssm = {
+			dependencies = {
+				build = (
+					CF,
+					CarbonHeaders,
+					Libc_headers,
+					architecture,
+					cctools,
+					file_cmds,
+					libsecurity_utilities,
+					libutil,
+					text_cmds,
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
