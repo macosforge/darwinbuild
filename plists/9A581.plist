@@ -4267,6 +4267,7 @@
 					gnutar,
 					Security,
 					SecurityTokend,
+					SmartCardServices,
 					CarbonHeaders,
 					cctools,
 					libsecurity_utilities,
@@ -4279,6 +4280,9 @@
 					text_cmds,
 					libsecurity_cdsa_utilities,
 				);
+			};
+			environment = {
+				SYSTEM_LIBRARY_DIR = "/System/Library";
 			};
 			version = 32432;
 		};
