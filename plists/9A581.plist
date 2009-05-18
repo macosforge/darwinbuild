@@ -3200,6 +3200,7 @@
 					bsdmake,
 					cctools,
 					developer_cmds,
+					dtrace,
 					file_cmds,
 					gcc,
 					gcc_select,
@@ -3240,6 +3241,7 @@
 					bsdmake,
 					cctools,
 					developer_cmds,
+					dtrace,
 					file_cmds,
 					gcc,
 					gcc_select,
@@ -6457,6 +6459,27 @@
 			version = 104.2.2;
 		};
 		dtrace = {
+			dependencies = {
+				build = (
+					CF,
+					CarbonHeaders,
+					Libc_headers,
+					Libsyscall,
+					architecture,
+					bison,
+					cctools,
+					cctools_ofiles,
+					cxxfilt,
+					file_cmds,
+					flex,
+					gm4,
+					libdyld,
+					shell_cmds,
+					system_cmds, 
+					text_cmds,
+					xnu,
+				);
+			};
 			environment = {
 				RC_ARCHS = "ppc ppc64 i386 x86_64";
 			};
@@ -12483,5 +12506,6 @@
 	};
 	source_sites = (
 		"http://src.macosforge.org/Projects/",
+		"http://src.macosforge.org/Patches/",
 	);
 }

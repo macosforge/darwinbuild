@@ -147,6 +147,9 @@
 			version = 16;
 		};
 		Tokend = {
+			patchfiles = (
+				"Tokend-35209.MacTypes.patch",
+			);
 			version = 35209;
 		};
 		apache = {
