@@ -4288,6 +4288,7 @@
 					objc4,
 					text_cmds,
 					xnu,
+					zlib,
 				);
 			};
 			environment = {
