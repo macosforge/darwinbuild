@@ -4265,22 +4265,29 @@
 		Tokend = {
 			dependencies = {
 				build = (
-					file_cmds,
-					gnutar,
+					CF,
+					CarbonHeaders,
+					Csu,
+					ICU,
+					Libc_headers,
 					Security,
 					SecurityTokend,
 					SmartCardServices,
-					CarbonHeaders,
-					cctools,
-					libsecurity_utilities,
-					CF,
-					xnu,
-					Libc_headers,
+					SystemStubs,
 					architecture,
-					libsecurity_cssm,
-					libutil,
-					text_cmds,
+					autozone,
+					cctools,
+					file_cmds,
+					gnutar,
+					ld64,
+					libsecurity_cdsa_client,
 					libsecurity_cdsa_utilities,
+					libsecurity_cssm,
+					libsecurity_utilities,
+					libutil,
+					objc4,
+					text_cmds,
+					xnu,
 				);
 			};
 			environment = {
@@ -9034,6 +9041,7 @@
 			dependencies = {
 				build = (
 					bash,
+					cctools,
 					distcc,
 					file_cmds,
 					gcc,
@@ -9045,6 +9053,8 @@
 					text_cmds,
 				);
 				header = (
+					CF,
+					CarbonHeaders,
 					CommonCrypto,
 					IOUSBFamily,
 					Libc_headers,
