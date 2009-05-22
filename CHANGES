@@ -2,6 +2,7 @@ Darwin Build Scripts Change History
 -----------------------------------
 
 Release x.y.z [Now]
+	- darwinbuild: add -nosource option to skip staging source (dmaclach)
 	- darwinbuild: NFS loopback support
 	- darwinbuild: HFSX sparse image support
 	- all: build according to the archs of our dependencies if env does
