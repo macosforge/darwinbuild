@@ -104,6 +104,7 @@ CHROOTED="YES"
 logdeps=""
 nopatch=""
 noload=""
+nosource=""
 loadonly=""
 projnam=""
 action="install"
@@ -201,11 +202,12 @@ fi
 
 function PrintUsage() {
 	cat <<-EOF 1>&2
-	usage: $(basename $0) [flags] <project> [<version>]
-	usage: flags: [-headers] [-build=X] [-target=X] [-configuration=X]
-	              [-logdeps] [-nochroot] [-nopatch] [-noload | -loadonly]
-	              [-depsbuild=X [-depsbuild=Y]]
-	              [-fetch] [-source] [-load]
+	usage: $(basename $0) [action] [options] <project> [<version>]
+	actions: [-headers] [-fetch] [-source] [-load] [-loadonly] 
+	options: [-build=X] [-target=X] [-configuration=X]
+	         [-logdeps] [-nochroot] [-nopatch] [-noload]
+	         [-depsbuild=X [-depsbuild=Y]] [-nosource]
+	             
 EOF
 	exit 1
 }
@@ -264,21 +266,29 @@ fi
 
 ###
 ### Interpret our arguments:
+###
+###  Actions:
 ###   -headers  Do the installhdrs phase, instead of install
-###   -fetch    Download necessary source and patch files
+###   -fetch    Only download necessary source and patch files
 ###   -source   Extract, patch, and stage source
-###   -nochroot Do not chroot into the BuildRoot when building
 ###   -load     Populate the BuildRoot with one project
+###   -loadonly Only load dependencies into the chroot, but
+###              don't build.
+###
+###  Options:
+###   -nosource Do not fetch or stage source. This assumes that the 
+###              source is already in place in the BuildRoot. 
+###   -logdeps  Do magic to log the build-time dependencies
 ###   -nopatch  Don't patch sources before building.
 ###   -noload   Don't load dependencies into the chroot.
-###				Has no effect if -nochroot is specified.
-###   -loadonly Only load dependencies into the chroot, but
-###                             don't build.
-###   -logdeps  Do magic to log the build-time dependencies
+###		 Has no effect if -nochroot is specified.
+###   -nochroot Do not chroot into the BuildRoot when building
 ###   -target=X The makefile or xcode target to build
-###   -configuration=X The build configuration to use
-###   -build=X  X is the darwin build number to buld, e.g. 8B15
-###   -depsbuild=X X is the darwin build number to populate the BuildRoot 
+###   -configuration=X Specify the build configuration to use
+###   -build=X  Specify the darwin build number to buld, e.g. 8B15
+###   -depsbuild=X Specify the darwin build number to populate the BuildRoot 
+###
+###  Parameters:
 ###   <project> The name of the project to build
 ###   <version> If specified, the version of the project to build
 ###             this will default to the version associated with the
@@ -324,6 +334,9 @@ for ARG in "$@"; do
 			loadonly="YES"
 		elif [ "$ARG" == "-logdeps" ]; then
 			logdeps="YES"
+		elif [ "$ARG" == "-nosource" ]; then
+			nosource="YES"
+			nopatch="YES"
 		elif [ "${ARG:0:1}" != "-" ]; then
 			projnam="$ARG"
 		else
@@ -414,31 +427,29 @@ if [ "$project" == "" ]; then
 	exit 1
 fi
 
-
-
-
-
 ###
 ### Download the sources,
 ### and any applicable patches.
 ###
-echo "*** Fetching Sources ..."
-# project might be a build alias
-if [ "$alias" != "" ]; then
-	filename="$alias-$version.tar.gz"
-else
-	filename="$project.tar.gz"
-fi
-patchfilenames=$($DARWINXREF patchfiles $projnam)
-#echo "patchfiles are $patchfilenames"
-Download "$SourceCache" "$filename" "$($DARWINXREF source_sites $projnam)"
-for p in $patchfilenames; do
-    Download "$SourceCache" "$p" "$($DARWINXREF source_sites $projnam)"    
-done
+if [ "$nosource" != "YES" ]; then
+	echo "*** Fetching Sources ..."
+	# project might be a build alias
+	if [ "$alias" != "" ]; then
+		filename="$alias-$version.tar.gz"
+	else
+		filename="$project.tar.gz"
+	fi
+	patchfilenames=$($DARWINXREF patchfiles $projnam)
+	#echo "patchfiles are $patchfilenames"
+	Download "$SourceCache" "$filename" "$($DARWINXREF source_sites $projnam)"
+	for p in $patchfilenames; do
+	    Download "$SourceCache" "$p" "$($DARWINXREF source_sites $projnam)"    
+	done
 
-### If we are doing a -fetch, stop here.
-if [ "$action" == "fetch" ]; then
-	exit
+	### If we are doing a -fetch, stop here.
+	if [ "$action" == "fetch" ]; then
+		exit
+	fi
 fi
 
 ###
@@ -473,37 +484,39 @@ export OBJROOT="${REAL_OBJROOT/$prefix/}"
 export SYMROOT="${REAL_SYMROOT/$prefix/}"
 export DSTROOT="${REAL_DSTROOT/$prefix/}"
 
-###
-### Remove any pre-existing directories that might be in the way
-### and create new directories in their place.  Make sure the
-### directories have root:wheel ownership, otherwise things may
-### not build correctly.
-###
-rm -Rf "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT"
-mkdir -p "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT"
-chown root:wheel "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT"
-
-###
-### Install the sources and patches into the BuildRoot
-###
-cd "$REAL_SRCROOT/.."
-echo "*** Copying Sources ..."
-if [ -d "$SourceCache/$project" ]; then
-	tar c -C "$SourceCache" "$project" | tar xf - 
-elif [ "$alias" != "" -a -d "$SourceCache/$alias-$version" ]; then
-	tar c -C "$SourceCache" "$alias-$version" | tar xf -
-	rmdir "$REAL_SRCROOT"
-	ln -fhs "$alias-$version" "$project"
-elif [ "$alias" != "" ]; then
-	tar xzf "$SourceCache/$alias-$version.tar.gz"
-	rmdir "$REAL_SRCROOT"
-	ln -fhs "$alias-$version" "$project"
-else
-	tar xzf "$SourceCache/$filename"
+if [ "$nosource" != "YES" ]; then
+	###
+	### Remove any pre-existing directories that might be in the way
+	### and create new directories in their place.  Make sure the
+	### directories have root:wheel ownership, otherwise things may
+	### not build correctly.
+	###
+	rm -Rf "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT"
+	mkdir -p "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT"
+	chown root:wheel "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT"
+	
+	###
+	### Install the sources and patches into the BuildRoot
+	###
+	cd "$REAL_SRCROOT/.."
+	echo "*** Copying Sources ..."
+	if [ -d "$SourceCache/$project" ]; then
+		tar c -C "$SourceCache" "$project" | tar xf - 
+	elif [ "$alias" != "" -a -d "$SourceCache/$alias-$version" ]; then
+		tar c -C "$SourceCache" "$alias-$version" | tar xf -
+		rmdir "$REAL_SRCROOT"
+		ln -fhs "$alias-$version" "$project"
+	elif [ "$alias" != "" ]; then
+		tar xzf "$SourceCache/$alias-$version.tar.gz"
+		rmdir "$REAL_SRCROOT"
+		ln -fhs "$alias-$version" "$project"
+	else
+		tar xzf "$SourceCache/$filename"
+	fi
 fi
 
 # you can avoid registering patches in the DB by using "xnu-792--patches.tar.gz"
-if [ -r "$SourceCache/$project-patches.tar.gz" ]; then
+if [ -r "$SourceCache/$project-patches.tar.gz" -a "$nosource" != "YES" ]; then
 	tar xzf "$SourceCache/$project-patches.tar.gz"
 fi
 
