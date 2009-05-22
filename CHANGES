@@ -2,6 +2,26 @@ Darwin Build Scripts Change History
 -----------------------------------
 
 Release x.y.z [Now]
+	- darwinbuild: NFS loopback support
+	- darwinbuild: HFSX sparse image support
+	- all: build according to the archs of our dependencies if env does
+	  not force a set of archs
+	- darwinup: add -p option so roots can be installed at arbitrary paths
+	- darwinbuild: print a message when we skip loading a root on purpose
+	- darwinup: fix "bad file descriptor" error
+	- darwinup: build libredo.o 4-way fat
+	- all: honor PREFIX and ARCHS environment when compiling 
+	- all: fix uninstall make target
+	- darwintrace: fix a /bin/sh crash when trying to print with a bad 
+	  char pointer
+	- darwinxref: use OSSwap instead of NXSwap APIs
+	- darwinup: copy dependencies of darwinup instead of move
+	- darwinbuild: add -configuration option (Ben Huntsman)
+	- darwinbuild: allow for redirections when fetching sources
+	- darwinup: use flock(2) to serialize Depot access
+	- darwinbuild: Xcode 3.x compatibility 
+	- darwinbuild: allow projects to have their own binary_sites
+	- darwinxref: new plugins for generating dot graphs and diffing builds
 	- darwinbuild: store download cache in Roots directory, not
 	  /usr/local/share/darwinbuild/cache
 	- darwinbuild: special case file:/// URLs for downloads
