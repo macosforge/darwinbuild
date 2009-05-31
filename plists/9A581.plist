@@ -5468,8 +5468,12 @@
 		bootstrap_cmds = {
 			dependencies = {
 				build = (
+					CarbonHeaders,
+					CF,
+					ICU,
 					Libm,
 					Libsystem,
+					autozone,
 					bash,
 					bison,
 					cctools,
@@ -5480,8 +5484,10 @@
 					gm4,
 					gnumake,
 					gnutar,
+					gnuzip,
 					ld64,
 					libgcc,
+					objc4,
 					pb_makefiles,
 					shell_cmds,
 					text_cmds,
@@ -11598,8 +11604,11 @@
 					xnu,
 				);
 				lib = (
+					CPAN,
+					CarbonHeaders,
 					Libsystem,
 					libgcc,
+					subversion,
 				);
 				staticlib = (
 					Csu,
