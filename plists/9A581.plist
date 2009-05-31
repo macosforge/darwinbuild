@@ -5473,6 +5473,7 @@
 					ICU,
 					Libm,
 					Libsystem,
+					TargetConfig,
 					autozone,
 					bash,
 					bison,
