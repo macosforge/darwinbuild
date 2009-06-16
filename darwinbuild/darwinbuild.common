@@ -356,7 +356,7 @@ function InstallHeader() {
 	elif [ $InstallPreBuiltRoot -eq 1 ]; then
 	    # install a pre-built root, in inheritance order
 		while [ "$dbuild" != "" ]; do
-	    	sites=$($DARWINXREF $dbfile -b $dbuild binary_sites "$X")
+	    	sites=$($DARWINXREF $dbfile -b $dbuild binary_sites "$Project")
 			Download "$CACHEDIR" \
 				"$Project.hdrs.tar.gz" \
 					"$sites"
@@ -402,7 +402,7 @@ function InstallHeader() {
 		# if we didn't find the root for this build, keep looking in the next build	     
 	    done
 	    # we look through all inherited builds and couldn't actually install anything
-		echo "ERROR: could not find root: $X" 1>&2
+		echo "ERROR: could not find root: $Project" 1>&2
 	    exit 1
 	fi
 
