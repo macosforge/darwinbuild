@@ -166,11 +166,15 @@ if [ "$1" == "-init" ]; then
         ###
 	stamp=$(date +'%Y%m%d%H%M%S')
 	if [ "$3" == "-nfs" ]; then
-	    echo "Adding build root to NFS exports file ..."
 	    mkdir -p $NFSDIR
 	    mkdir -p BuildRoot
-	    echo "# Added by darwinbuild on ${stamp}" >> /etc/exports
-	    echo "${PWDP}/${NFSDIR} -maproot=0:10" >> /etc/exports
+	    exportline="${PWDP}/${NFSDIR} -maproot=0:10"
+	    grep "$exportline" /etc/exports >> /dev/null 2>&1
+	    if [ ! $? -eq 0 ]; then
+		echo "Adding build root to NFS exports file ..."
+		echo "# Added by darwinbuild on ${stamp}" >> /etc/exports
+		echo $exportline >> /etc/exports
+	    fi
 	    nfsd update	    
 	    echo "Checking exports file ..."
 	    nfsd checkexports
