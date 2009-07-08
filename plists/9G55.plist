@@ -135,6 +135,9 @@
 			version = 158.5.2;
 		};
 		SmartCardServices = {
+			patchfiles = (
+				"SmartCardServices-34733.MacTypes.patch",
+			);
 			version = 34733;
 		};
 		TargetConfig = {
