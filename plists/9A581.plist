@@ -4138,6 +4138,51 @@
 			version = 32482;
 		};
 		SmartCardServices = {
+			dependencies = {
+				build = (
+					CF,
+					CarbonHeaders,
+					CoreOSMakefiles,
+					Csu,
+					Libc_headers,
+					Libm,
+					Libsyscall,
+					Libsystem,
+					PowerManagement,
+					Security,
+					SystemStubs,
+					adv_cmds,
+					architecture,
+					basic_cmds,
+					bootstrap_cmds,
+					cctools,
+					developer_cmds,
+					dyld,
+					file_cmds,
+					files,
+					gcc,
+					gcc_42,
+					launchd_libs,
+					ld64,
+					libgcc,
+					libiconv,
+					libsecurityd,
+					libsecurity_cdsa_utilities,
+					libsecurity_cssm,
+					libsecurity_utilities,
+					libstdcxx,
+					misc_cmds,
+					ncurses,
+					perl,
+					shell_cmds,
+					system_cmds,
+					text_cmds,
+					xnu,
+				);
+				header = (
+					IOKitUser,
+				);
+			};
 			version = 32672;
 		};
 		SpamAssassin = {
