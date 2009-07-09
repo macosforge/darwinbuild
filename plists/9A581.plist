@@ -4144,11 +4144,13 @@
 					CarbonHeaders,
 					CoreOSMakefiles,
 					Csu,
+					IOKitUser,
 					IOUSBFamily,
 					Libc_headers,
 					Libm,
 					Libsyscall,
 					Libsystem,
+					OpenSSL,
 					PowerManagement,
 					Security,
 					SystemStubs,
@@ -4164,6 +4166,7 @@
 					flex,
 					gcc,
 					gcc_42,
+					gnumake,
 					launchd_libs,
 					ld64,
 					libgcc,
@@ -4181,9 +4184,6 @@
 					system_cmds,
 					text_cmds,
 					xnu,
-				);
-				header = (
-					IOKitUser,
 				);
 			};
 			version = 32672;
