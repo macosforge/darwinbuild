@@ -7651,9 +7651,14 @@
 		gnumake = {
 			dependencies = {
 				build = (
+					CarbonHeaders,
+					CF,
+					ICU,
 					Libm,
 					Libsystem,
+					TargetConfig,
 					autoconf,
+					autozone,
 					bash,
 					bootstrap_cmds,
 					cctools,
@@ -7667,6 +7672,7 @@
 					grep,
 					ld64,
 					libgcc,
+					objc4,
 					shell_cmds,
 					system_cmds,
 					texi2html,
