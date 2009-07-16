@@ -34,6 +34,8 @@ BINSYMLINKS=( \
     strip \
     yacc)
     
+LIBEXECLINKS=( \
+    migcom)
 
 JAMFILES="/Developer/Makefiles/pbx_jamfiles"
 #XCODERESOURCES="/Developer/Library/PrivateFrameworks/DevToolsCore.framework/Versions/A/Resources/"
@@ -54,15 +56,24 @@ mkdir -p "$BUILDROOT"
 ###
 SymlinkBinaries() {
     echo "Creating symlinks for binaries ..."
+	
     BIN_DIR="$BUILDROOT/XCD/loper/usr/bin/"
     mkdir -p $BIN_DIR
     pushd $BIN_DIR > /dev/null
-    
     for B in "${BINSYMLINKS[@]}"; do
 	ln -s "/usr/bin/$B" "$B"
     done
-
     popd > /dev/null
+
+    LIBEXEC_DIR="$BUILDROOT/XCD/loper/usr/libexec/"
+    mkdir -p $LIBEXEC_DIR
+    pushd $LIBEXEC_DIR > /dev/null
+    for L in "${LIBEXECLINKS[@]}"; do
+	ln -s "/usr/libexec/$L" "$L"
+    done
+    popd > /dev/null
+	
+
 }
 
 ###
