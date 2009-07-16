@@ -11763,13 +11763,16 @@
 		system_cmds = {
 			dependencies = {
 				build = (
+					CF,
 					CFOpenDirectory,
 					DirectoryService,
+					ICU,
 					Libc_headers,
 					Libm,
 					Libsystem,
 					TargetConfig,
 					TimeZoneData,
+					autozone,
 					awk,
 					bash,
 					bootstrap_cmds,
@@ -11784,6 +11787,7 @@
 					ld64,
 					libgcc,
 					libsecurity_authorization,
+					objc4,
 					pam,
 					pb_makefiles,
 					shell_cmds,
