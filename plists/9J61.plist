@@ -170,6 +170,9 @@
 			version = 34.0.3;
 		};
 		launchd = {
+			patchfiles = (
+				"launchd-258.22.CFNotification.patch",
+			);
 			version = 258.22;
 		};
 		libsecurity_codesigning = {
