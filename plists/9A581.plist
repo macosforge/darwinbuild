@@ -8444,9 +8444,12 @@
 		launchd = {
 			dependencies = {
 				build = (
+					ICU,
 					IOKitUser,
 					Libm,
 					Libsystem,
+					TargetConfig,
+					autozone,
 					bash,
 					bootstrap_cmds,
 					bsm,
@@ -8459,8 +8462,11 @@
 					gnumake,
 					gnuzip,
 					grep,
+					launchd_libs,
 					ld64,
 					libgcc,
+					mDNSResponderLibraries,
+					objc4,
 					shell_cmds,
 					system_cmds,
 					text_cmds,
