@@ -8448,6 +8448,7 @@
 					IOKitUser,
 					Libm,
 					Libsystem,
+					Security,
 					TargetConfig,
 					autozone,
 					bash,
@@ -8465,6 +8466,7 @@
 					launchd_libs,
 					ld64,
 					libgcc,
+					mDNSResponderSystemLibraries,
 					objc4,
 					shell_cmds,
 					system_cmds,
@@ -8487,7 +8489,6 @@
 					launchd,
 					libdyld,
 					libedit,
-					mDNSResponderSystemLibraries,
 					xnu,
 				);
 				lib = (
