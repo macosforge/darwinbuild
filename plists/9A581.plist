@@ -11783,6 +11783,7 @@
 					gnuzip,
 					ld64,
 					libgcc,
+					libsecurity_authorization,
 					pam,
 					pb_makefiles,
 					shell_cmds,

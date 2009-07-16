@@ -236,6 +236,9 @@
 			version = 69.0.4;
 		};
 		system_cmds = {
+			patchfiles = (
+				"system_cmds-433.8.patch",
+			);
 			version = 433.8;
 		};
 		tidy = {
