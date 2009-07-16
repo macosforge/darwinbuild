@@ -8465,7 +8465,6 @@
 					launchd_libs,
 					ld64,
 					libgcc,
-					mDNSResponderLibraries,
 					objc4,
 					shell_cmds,
 					system_cmds,
