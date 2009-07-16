@@ -11765,8 +11765,10 @@
 				build = (
 					CF,
 					CFOpenDirectory,
+					CarbonHeaders,
 					DirectoryService,
 					ICU,
+					IOKitUser,
 					Libc_headers,
 					Libm,
 					Libsystem,
@@ -11784,6 +11786,7 @@
 					gnumake,
 					gnutar,
 					gnuzip,
+					launchd_libs,
 					ld64,
 					libgcc,
 					libsecurity_authorization,
