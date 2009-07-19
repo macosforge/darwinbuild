@@ -6203,8 +6203,13 @@
 		cxxfilt = {
 			dependencies = {
 				build = (
+					CF,
+					CarbonHeaders,
+					ICU,
 					Libm,
 					Libsystem,
+					TargetConfig,
+					autozone,
 					bash,
 					bison,
 					bootstrap_cmds,
@@ -6219,6 +6224,7 @@
 					grep,
 					ld64,
 					libgcc,
+					objc4,
 					shell_cmds,
 					system_cmds,
 					texinfo,
