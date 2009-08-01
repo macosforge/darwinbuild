@@ -137,6 +137,10 @@ if [ "$1" == "-init" ]; then
 	if [ "$2" == "" ]; then
 		echo "usage: $(basename $0) -init <build> [-nodmg | -nfs]" 1>&2
 		echo "" 1>&2
+		echo "\t<build>\t can be a standard build number or a path to a plist." 1>&2
+		echo "\t\t supported paths: /dir/file.plist, " 1>&2
+		echo "\t\t\t\t  http://host/dir/file.plist, " 1>&2
+		echo "\t\t\t\t  user@host:/dir/file.plist" 1>&2
 		echo "\t-nodmg \t do not use a sparse image for build root (use a regular directory)" 1>&2
 		echo "\t-nfs   \t use NFS over loopback to mount the build root (implies -nodmg)" 1>&2
 		exit 1
@@ -150,16 +154,26 @@ if [ "$1" == "-init" ]; then
 	[ -d Logs ] || mkdir Logs
 	[ -d .build ] || mkdir .build
 
-	# check if there's a plist locally by this name
 	if [ -f "$build" ]; then
+	    # user gave a local path to a plist
 	    filepath="$build"
 	    filename=$(basename "$filepath")
 	    build=$(echo "$filename" | sed 's/.plist$//')
 	    # since we don't want to download this, copy it
 	    cp "$filepath" ".build/$build.plist"
+	elif [ $(echo $build | grep 'http://') ]; then
+	    # user gave a URL to a webserver
+	    host=$(dirname $build)
+	    filename=$(basename $build)
+	    Download .build $filename $host
+	elif [ $(echo $build | grep '\w@\w') ]; then
+	    # user provided user@host:/path/file.plist
+	    filename=$(basename $build)
+	    scp $build .build/
+	    build=$(echo "$filename" | sed 's/.plist$//')
 	fi
 
-	echo "$build" > .build/build
+	echo "$build" > .build/build 
 
         ###
         ### Create the build root
