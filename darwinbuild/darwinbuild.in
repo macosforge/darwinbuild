@@ -445,6 +445,13 @@ if [ "$project" == "" ]; then
 	exit 1
 fi
 
+# check for the project being subversion based
+branch=$($DARWINXREF branch $projnam)
+if [ "$branch" != "" ]; then
+	# using subversion implies nosource
+	nosource="YES"
+fi
+
 ###
 ### Download the sources,
 ### and any applicable patches.
@@ -459,11 +466,11 @@ if [ "$nosource" != "YES" ]; then
 		filename="$project.tar.gz"
 	fi
 
-	Download "$SourceCache" "$filename" "$($DARWINXREF source_sites $projnam)"
+	Download "$SourceCache" "$filename" "$($DARWINXREF source_sites $projnam)"	    
 
 	patchfilenames=$($DARWINXREF patchfiles $projnam)
 	for p in $patchfilenames; do
-	    Download "$SourceCache" "$p" "$($DARWINXREF source_sites $projnam)"    
+		Download "$SourceCache" "$p" "$($DARWINXREF source_sites $projnam)"    
 	done
 
 	### If we are doing a -fetch, stop here.
@@ -533,6 +540,11 @@ if [ "$nosource" != "YES" ]; then
 	else
 		tar xzf "$SourceCache/$filename"
 	fi
+fi
+
+if [ "$branch" != "" ]; then
+	mkdir -p "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT"
+	CheckoutOrUpdate "$REAL_SRCROOT" "$branch" "$($DARWINXREF source_sites $projnam)"
 fi
 
 # you can avoid registering patches in the DB by using "xnu-792--patches.tar.gz"

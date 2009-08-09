@@ -1,0 +1,3 @@
+DBPluginSetName branch
+DBPluginSetType property.project
+DBPluginSetDatatype string
