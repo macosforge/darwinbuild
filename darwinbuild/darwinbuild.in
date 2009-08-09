@@ -155,51 +155,51 @@ if [ "$1" == "-init" ]; then
 	[ -d .build ] || mkdir .build
 
 	if [ -f "$build" ]; then
-	    # user gave a local path to a plist
-	    filepath="$build"
-	    filename=$(basename "$filepath")
-	    # since we don't want to download this, copy it
-	    cp "$filepath" ".build/$filename"
+		# user gave a local path to a plist
+		filepath="$build"
+		filename=$(basename "$filepath")
+		# since we don't want to download this, copy it
+		cp "$filepath" ".build/$filename"
 	elif [ $(echo $build | grep 'http://') ]; then
-	    # user gave a URL to a webserver
-	    host=$(dirname $build)
-	    filename=$(basename $build)
-	    Download .build $filename $host
+		# user gave a URL to a webserver
+		host=$(dirname $build)
+		filename=$(basename $build)
+		Download .build $filename $host
 	elif [ $(echo $build | grep '\w@\w') ]; then
-	    # user provided user@host:/path/file.plist
-	    filename=$(basename $build)
-	    scp $build .build/
+		# user provided user@host:/path/file.plist
+		filename=$(basename $build)
+		scp $build .build/
 	fi
 	build=$(echo "$filename" | sed 's/.plist$//')
 
 	echo "$build" > .build/build 
 
-        ###
-        ### Create the build root
-        ###
+	###
+	### Create the build root
+	###
 	stamp=$(date +'%Y%m%d%H%M%S')
 	if [ "$3" == "-nfs" ]; then
-	    mkdir -p $NFSDIR
-	    mkdir -p BuildRoot
-	    exportline="${PWDP}/${NFSDIR} -maproot=0:10"
-	    grep "$exportline" /etc/exports >> /dev/null 2>&1
-	    if [ ! $? -eq 0 ]; then
-		echo "Adding build root to NFS exports file ..."
-		echo "# Added by darwinbuild on ${stamp}" >> /etc/exports
-		echo $exportline >> /etc/exports
-	    fi
-	    nfsd update	    
-	    echo "Checking exports file ..."
-	    nfsd checkexports
+		mkdir -p $NFSDIR
+		mkdir -p BuildRoot
+		exportline="${PWDP}/${NFSDIR} -maproot=0:10"
+		grep "$exportline" /etc/exports >> /dev/null 2>&1
+		if [ ! $? -eq 0 ]; then
+			echo "Adding build root to NFS exports file ..."
+			echo "# Added by darwinbuild on ${stamp}" >> /etc/exports
+			echo $exportline >> /etc/exports
+		fi
+		nfsd update	    
+		echo "Checking exports file ..."
+		nfsd checkexports
 	elif [ "$3" == "-nodmg" ]; then
-	    mkdir -p BuildRoot
+		mkdir -p BuildRoot
 	else
-	    echo "Creating build root disk image ..."
-	    DMGVOLUME="BuildRoot_${build}_${stamp}"
-	    hdiutil create -size 1t -fs HFSX -quiet \
-		-volname $DMGVOLUME \
-		$DMGFILE
-	    ln -s "/Volumes/${DMGVOLUME}" BuildRoot
+		echo "Creating build root disk image ..."
+		DMGVOLUME="BuildRoot_${build}_${stamp}"
+		hdiutil create -size 1t -fs HFSX -quiet \
+			-volname $DMGVOLUME \
+			$DMGFILE
+		ln -s "/Volumes/${DMGVOLUME}" BuildRoot
 	fi
 
 	###
