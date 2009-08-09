@@ -451,15 +451,17 @@ fi
 ###
 if [ "$nosource" != "YES" ]; then
 	echo "*** Fetching Sources ..."
+
 	# project might be a build alias
 	if [ "$alias" != "" ]; then
 		filename="$alias-$version.tar.gz"
 	else
 		filename="$project.tar.gz"
 	fi
-	patchfilenames=$($DARWINXREF patchfiles $projnam)
-	#echo "patchfiles are $patchfilenames"
+
 	Download "$SourceCache" "$filename" "$($DARWINXREF source_sites $projnam)"
+
+	patchfilenames=$($DARWINXREF patchfiles $projnam)
 	for p in $patchfilenames; do
 	    Download "$SourceCache" "$p" "$($DARWINXREF source_sites $projnam)"    
 	done
