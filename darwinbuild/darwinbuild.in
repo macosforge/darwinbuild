@@ -158,9 +158,8 @@ if [ "$1" == "-init" ]; then
 	    # user gave a local path to a plist
 	    filepath="$build"
 	    filename=$(basename "$filepath")
-	    build=$(echo "$filename" | sed 's/.plist$//')
 	    # since we don't want to download this, copy it
-	    cp "$filepath" ".build/$build.plist"
+	    cp "$filepath" ".build/$filename"
 	elif [ $(echo $build | grep 'http://') ]; then
 	    # user gave a URL to a webserver
 	    host=$(dirname $build)
@@ -170,8 +169,8 @@ if [ "$1" == "-init" ]; then
 	    # user provided user@host:/path/file.plist
 	    filename=$(basename $build)
 	    scp $build .build/
-	    build=$(echo "$filename" | sed 's/.plist$//')
 	fi
+	build=$(echo "$filename" | sed 's/.plist$//')
 
 	echo "$build" > .build/build 
 
