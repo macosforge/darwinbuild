@@ -1,0 +1,99 @@
+// !$*UTF8*$!
+{
+	build = 9L30;
+        darwin = "Darwin 9.8";
+        macosx = "Mac OS X 10.5.8";
+        binary_sites = (
+                "http://src.macosforge.org/Roots/9L30/",
+        );
+	inherits = 9J61;
+	projects = {
+		AppleDisplays = {
+			version = 1151.0.0;
+		};
+		AppleGMACEthernet = {
+			version = 159.3.1;
+		};
+		AppleIntelPIIXATA = {
+			version = 201.0.2;
+		};
+		AppleUSBAudio = {
+			version = 264.2.17;
+		};
+		AppleUSBCDCDriver = {
+			version = 3213.4.1;
+		};
+		CF = {
+			version = 476.19;
+		};
+		DSPasswordServerPlugin = {
+			version = 208.6;
+		};
+		IOATAFamily = {
+			version = 202.0.1;
+		};
+		IOATAPIProtocolTransport = {
+			version = 153.0.1;
+		};
+		IOAudioFamily = {
+			version = 169.4.5;
+		};
+		IOFireWireFamily = {
+			version = 349.4.0;
+		};
+		IOHIDFamily = {
+			version = 258.14;
+		};
+		IOKitUser = {
+			version = 388.53.30;
+		};
+		IOUSBFamily = {
+			version = 349.4.3;
+		};
+		IOUSBMassStorageClass = {
+			version = 208.0.1;
+		};
+		JavaScriptCore = {
+			version = 5530.19;
+		};
+		JavaScriptGlue = {
+			version = 5530.19;
+		};
+		PowerManagement = {
+			version = 158.10.9;
+		};
+		SecurityTool = {
+			version = 36956;
+		};
+		TimeZoneData = {
+			version = 19;
+		};
+		WebCore = {
+			version = 5530.19;
+		};
+		bzip2 = {
+			version = 16.5;
+		};
+		eap8021x = {
+			version = 49.9;
+		};
+		launchd = {
+			version = 258.25;
+		};
+		libsecurity_codesigning = {
+			version = 36924;
+		};
+		libxml2 = {
+			version = 17.7.8;
+		};
+		msdosfs = {
+			version = 136.6;
+		};
+		security_certificates = {
+			version = 36946;
+		};
+		xnu = {
+			version = 1228.15.4;
+		};
+	};
+}
