@@ -158,7 +158,7 @@ if [ "$1" == "-init" ]; then
 	if [ -f "$build" ]; then
 		# user gave a local path to a plist
 		# since we don't want to download this, copy it
-		cp "$filepath" ".build/$filename"
+		cp "$filename" ".build/$filename"
 	elif [ $(echo $build | grep 'http://') ]; then
 		# user gave a URL to a webserver
 		host=$(dirname $build)
