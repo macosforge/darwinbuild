@@ -94,15 +94,15 @@ darwinxref: $(SOURCES)
 		$(foreach OFILE, $(SOURCES:.c=.o), $(OBJROOT)/$(notdir $(OFILE)))
 	$(DSYMUTIL) --out $(SYMROOT)/darwinxref.dSYM $(SYMROOT)/darwinxref || true
 
-plugins/register.so: plugins/register.c DBPlugin.h
+plugins/register.so: plugins/register.c DBPlugin.h darwinxref
 	@mkdir -p $(OBJROOT)/plugins
 	cc $(CFLAGS) -o $(OBJROOT)/$@ $(PLUGIN_CFLAGS) $(PLUGIN_LDFLAGS) $(SQLITEINC) $(SQLITELIB) -lcrypto $<
 
-plugins/%.so: plugins/%.c DBPlugin.h
+plugins/%.so: plugins/%.c DBPlugin.h darwinxref
 	@mkdir -p $(OBJROOT)/plugins
 	cc $(CFLAGS) -o $(OBJROOT)/$@ $(PLUGIN_CFLAGS) $(PLUGIN_LDFLAGS) $<
 
-plugins-darwinports/%.so: plugins-darwinports/%.c DBPlugin.h
+plugins-darwinports/%.so: plugins-darwinports/%.c DBPlugin.h darwinxref
 	cc $(CFLAGS) -o $(OBJROOT)/$@ $(PLUGIN_CFLAGS) $(PLUGIN_LDFLAGS) $<
 
 apple_plugins:
