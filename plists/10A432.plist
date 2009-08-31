@@ -1,0 +1,2207 @@
+// !$*UTF8*$!
+{
+	binary_sites = (
+		"http://src.macosforge.org/Roots/10A432/",
+	);
+	build = 10A432;
+	darwin = "Darwin 10.0";
+	environment = {
+		INSTALLED_PRODUCT_ASIDES = YES;
+		MACOSX_DEPLOYMENT_TARGET = 10.6;
+		NEXT_ROOT = "";
+		RC_ARCHS = "i386 x86_64";
+		RC_JASPER = YES;
+		RC_NONARCH_CFLAGS = "-pipe";
+		RC_OS = macos;
+		RC_PRIVATE = /private;
+		RC_RELEASE = SnowLeopard;
+		RC_XBS = YES;
+		SEPARATE_STRIP = YES;
+		UNAME_RELEASE = 10.0;
+		UNAME_SYSNAME = Darwin;
+	};
+	macosx = "Mac OS X 10.6";
+	projects = {
+		Apple16X50Serial = {
+			version = 24;
+		};
+		AppleAPIC = {
+			version = 13;
+		};
+		AppleDisplays = {
+			version = 1160.0.1;
+		};
+		AppleFileSystemDriver = {
+			version = 13;
+		};
+		AppleHWSensor = {
+			target = AppleHWSensorSL;
+			version = 192;
+		};
+		AppleIntelPIIXATA = {
+			version = 250.0.4;
+		};
+		AppleKeyswitch = {
+			version = 105.3.4;
+		};
+		AppleRAID = {
+			version = 4.0.6;
+		};
+		AppleRTL8139Ethernet = {
+			version = 153;
+		};
+		AppleSMBIOS = {
+			version = 38;
+		};
+		AppleTalk = {
+			version = 95;
+		};
+		AppleUSBAudio = {
+			version = 264.2.15;
+		};
+		AppleUSBCDCDriver = {
+			version = 4002.4.1;
+		};
+		AppleUSBIrDA = {
+			version = 145.2.4;
+		};
+		BerkeleyDB = {
+			version = 18;
+		};
+		BootCache = {
+			version = 64;
+		};
+		CF = {
+			version = 550;
+		};
+		CFOpenDirectory = {
+			original = OpenDirectory;
+			target = CFOpenDirectory;
+		};
+		CPAN = {
+			version = 27;
+		};
+		CPANInternal = {
+			version = 62;
+		};
+		ChatServer = {
+			version = 326;
+		};
+		Chess = {
+			version = 110.0.6;
+		};
+		CommonCrypto = {
+			version = 36064;
+		};
+		CoreOSMakefiles = {
+			version = 61;
+		};
+		CrackLib = {
+			version = 36064;
+		};
+		Csu = {
+			version = 79;
+		};
+		CyrusIMAP = {
+			version = 188;
+		};
+		DSPasswordServerFramework = {
+			original = DSPasswordServerPlugin;
+			target = PasswordServerFramework;
+		};
+		DSPasswordServerPlugin = {
+			dependencies = {
+				lib = (
+					DSPasswordServerFramework,
+				);
+			};
+			version = 281;
+		};
+		DSTools = {
+			dependencies = {
+				lib = (
+					DSPasswordServerFramework,
+					DSTools,
+				);
+			};
+			version = 134;
+		};
+		DirectoryService = {
+			target = DirectoryServiceFW;
+			version = 621;
+		};
+		DirectoryServiceDaemon = {
+			dependencies = {
+				lib = (
+					DSPasswordServerFramework,
+					DirectoryService,
+				);
+			};
+			original = DirectoryService;
+			target = DirectoryServiceDaemon;
+		};
+		DirectoryServiceMIG = {
+			original = DirectoryService;
+			target = DirectoryServiceMIG;
+		};
+		DiskArbitration = {
+			dependencies = {
+				lib = (
+					DiskArbitration,
+				);
+			};
+			version = 213;
+		};
+		FastCGI = {
+			dependencies = {
+				lib = (
+					FastCGI,
+				);
+			};
+			version = 4;
+		};
+		ICU = {
+			version = 400.37;
+		};
+		ICU_debug = {
+			original = ICU;
+			target = install_debug;
+		};
+		ICU_profile = {
+			original = ICU;
+			target = install_profile;
+		};
+		IOACPIFamily = {
+			version = 8;
+		};
+		IOATAFamily = {
+			version = 250.0.6;
+		};
+		IOATAPIProtocolTransport = {
+			version = 250.0.6;
+		};
+		IOAudioFamily = {
+			version = 170.4.16;
+		};
+		IOBDStorageFamily = {
+			version = 10;
+		};
+		IOCDStorageFamily = {
+			version = 47;
+		};
+		IODVDStorageFamily = {
+			version = 30;
+		};
+		IOFWDVComponents = {
+			version = 199.4.1;
+		};
+		IOFireWireAVC = {
+			version = 406.4.0;
+		};
+		IOFireWireFamily = {
+			version = 417.4.0;
+		};
+		IOFireWireIP = {
+			version = 203.4.0;
+		};
+		IOFireWireSBP2 = {
+			version = 405.4.0;
+		};
+		IOFireWireSerialBusProtocolTransport = {
+			version = 200.0.11;
+		};
+		IOGraphics = {
+			version = 330;
+		};
+		IOHIDFamily = {
+			version = 301.2;
+		};
+		IOKitTools = {
+			version = 78;
+		};
+		IOKitUser = {
+			version = 502;
+		};
+		IONetworkingFamily = {
+			version = 62;
+		};
+		IOPCIFamily = {
+			version = 113;
+		};
+		IOSCSIParallelFamily = {
+			version = 200.1.1;
+		};
+		IOSerialFamily = {
+			version = 55;
+		};
+		IOStorageFamily = {
+			version = 116;
+		};
+		IOUSBFamily = {
+			version = 378.4.3;
+		};
+		IOUSBMassStorageClass = {
+			version = 250.1.9;
+		};
+		JavaScriptCore = {
+			dependencies = {
+				lib = (
+					ICU,
+					JavaScriptCore,
+				);
+			};
+			version = 6531.5;
+		};
+		JavaScriptGlue = {
+			dependencies = {
+				lib = (
+					JavaScriptCore,
+				);
+			};
+			version = 6531.5;
+		};
+		KerberosHelper = {
+			dependencies = {
+				lib = (
+					DiskArbitration,
+					KerberosHelper,
+				);
+			};
+			version = 62;
+		};
+		LDAPFramework = {
+			original = OpenLDAP;
+		};
+		Libc = {
+			version = 583;
+		};
+		Libc_debug = {
+			original = Libc;
+			target = install;
+		};
+		Libc_headers = {
+			original = Libc;
+			target = install;
+		};
+		Libc_man = {
+			original = Libc;
+			target = install;
+		};
+		Libc_profile = {
+			original = Libc;
+			target = install;
+		};
+		Libcpp_kext = {
+			version = 8;
+		};
+		Libinfo = {
+			version = 324;
+		};
+		Libm = {
+			target = libm;
+			version = 315;
+		};
+		Libmx = {
+			original = Libm;
+			target = libmx;
+		};
+		Libnotify = {
+			version = 53;
+		};
+		Librpcsvc = {
+			version = 18;
+		};
+		Libsyscall = {
+			original = xnu;
+		};
+		Libsystem = {
+			version = 123;
+		};
+		Liby = {
+			version = 16;
+		};
+		MySQL = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 49;
+		};
+		NFS = {
+			dependencies = {
+				lib = (
+					DiskArbitration,
+					Libsystem,
+				);
+			};
+			version = 42;
+		};
+		OpenAL = {
+			version = 37;
+		};
+		OpenDirectory = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 57;
+		};
+		OpenLDAP = {
+			dependencies = {
+				lib = (
+					DSPasswordServerFramework,
+					Libsystem,
+					OpenDirectory,
+				);
+			};
+			version = 143;
+		};
+		OpenSSH = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					OpenDirectory,
+				);
+			};
+			version = 142;
+		};
+		OpenSSL096 = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					OpenSSL096,
+				);
+			};
+			version = 15;
+		};
+		OpenSSL097 = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					OpenSSL097,
+				);
+			};
+			version = 16;
+		};
+		OpenSSL098 = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					OpenSSL098,
+				);
+			};
+			version = 27;
+		};
+		PowerManagement = {
+			version = 209.1;
+		};
+		PyRSS2Gen = {
+			version = 5;
+		};
+		RubyCocoa = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					RubyCocoa,
+				);
+			};
+			version = 67;
+		};
+		RubyGems = {
+			version = 17;
+		};
+		RubyOnRails = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 28;
+		};
+		SQLite = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					SQLite,
+				);
+			};
+			version = 74;
+		};
+		SQLite_tcl = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					SQLite,
+				);
+			};
+			original = SQLite;
+			target = SQLite_tcl;
+		};
+		Security = {
+			version = 36910;
+		};
+		SecurityTokend = {
+			version = 36808;
+		};
+		SecurityTool = {
+			version = 36576;
+		};
+		SmartCardServices = {
+			version = 36160;
+		};
+		SpamAssassin = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 144;
+		};
+		SquirrelMail = {
+			version = 32;
+		};
+		SystemStubs = {
+			version = 6;
+		};
+		TargetConfig = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 12.1;
+		};
+		TargetConfig_headers = {
+			original = TargetConfig;
+		};
+		TimeZoneData = {
+			version = 19;
+		};
+		Tokend = {
+			version = 36720;
+		};
+		Twisted = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 9;
+		};
+		UserNotification = {
+			version = 22;
+		};
+		WebCore = {
+			dependencies = {
+				lib = (
+					ICU,
+					JavaScriptCore,
+					Libsystem,
+					SQLite,
+				);
+			};
+			version = 6531.9;
+		};
+		X11apps = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 30;
+		};
+		X11fonts = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 10.1;
+		};
+		X11libs = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					X11libs,
+				);
+			};
+			version = 40;
+		};
+		X11misc = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 10.1;
+		};
+		X11proto = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					X11proto,
+				);
+			};
+			version = 40;
+		};
+		X11server = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					OpenSSL098,
+					X11libs,
+					X11server,
+				);
+			};
+			version = 85;
+		};
+		adv_cmds = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 138.1;
+		};
+		amavisd = {
+			version = 114;
+		};
+		apache = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					OpenSSL098,
+					SQLite,
+				);
+			};
+			version = 746;
+		};
+		apache_mod_bonjour = {
+			dependencies = {
+				lib = (
+					DirectoryService,
+					Libsystem,
+				);
+			};
+			version = 12;
+		};
+		apache_mod_fastcgi = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 4;
+		};
+		apache_mod_hfs_apple = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 9;
+		};
+		apache_mod_perl = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					SQLite,
+				);
+			};
+			version = 103;
+		};
+		apache_mod_php = {
+			dependencies = {
+				lib = (
+					ICU,
+					LDAPFramework,
+					Libsystem,
+					OpenSSL098,
+					SQLite,
+				);
+			};
+			version = 53;
+		};
+		apr = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					SQLite,
+					apr,
+				);
+			};
+			version = 23;
+		};
+		architecture = {
+			version = 258;
+		};
+		autoconf = {
+			version = 15;
+		};
+		autofs = {
+			dependencies = {
+				lib = (
+					DirectoryService,
+					Libsystem,
+				);
+			};
+			version = 154;
+		};
+		automake = {
+			version = 8;
+		};
+		autozone = {
+			version = 141;
+		};
+		awk = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 14;
+		};
+		bash = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 80;
+		};
+		basic_cmds = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 49;
+		};
+		bc = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 21;
+		};
+		bind9 = {
+			dependencies = {
+				lib = (
+					ICU,
+					Libsystem,
+					OpenSSL098,
+				);
+			};
+			version = 31;
+		};
+		bison = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 13;
+		};
+		bison1 = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 1;
+		};
+		bless = {
+			dependencies = {
+				lib = (
+					DiskArbitration,
+					Libsystem,
+				);
+			};
+			version = 70;
+		};
+		bootp = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					OpenDirectory,
+					bootp,
+				);
+			};
+			version = 198;
+		};
+		bootstrap_cmds = {
+			version = 72;
+		};
+		bsdmake = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 24;
+		};
+		bzip2 = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					bzip2,
+				);
+			};
+			version = 20;
+		};
+		cctools = {
+			version = 750;
+		};
+		cctools_ofiles = {
+			original = cctools;
+			target = ofiles_install;
+		};
+		cddafs = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 240.0.9;
+		};
+		clamav = {
+			version = 125;
+		};
+		configd = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					configd,
+				);
+			};
+			target = configd_base;
+			version = 289;
+		};
+		configd_executables = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					configd,
+				);
+			};
+			original = configd;
+			target = configd_executables;
+		};
+		configd_libSystem = {
+			original = configd;
+			target = configd_libSystem;
+		};
+		configd_plugins = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					configd,
+				);
+			};
+			original = configd;
+			target = configd_plugins;
+		};
+		copyfile = {
+			version = 66;
+		};
+		cron = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					OpenSSL098,
+				);
+			};
+			version = 35;
+		};
+		crontabs = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 43;
+		};
+		cscope = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 15;
+		};
+		cups = {
+			dependencies = {
+				lib = (
+					LDAPFramework,
+					Libsystem,
+					configd,
+				);
+			};
+			version = 218;
+		};
+		cups_libs = {
+			dependencies = {
+				lib = (
+					LDAPFramework,
+					Libsystem,
+					configd,
+					cups_libs,
+				);
+			};
+			original = cups;
+			target = "install-libs";
+		};
+		curl = {
+			dependencies = {
+				lib = (
+					LDAPFramework,
+					Libsystem,
+					OpenSSL098,
+					curl,
+				);
+			};
+			version = 57;
+		};
+		cvs = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					OpenSSL098,
+				);
+			};
+			version = 42;
+		};
+		cvs_wrapped = {
+			version = 15;
+		};
+		cxxfilt = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 9;
+		};
+		developer_cmds = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 52.1;
+		};
+		diffstat = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 5;
+		};
+		diskdev_cmds = {
+			dependencies = {
+				lib = (
+					DiskArbitration,
+					Libsystem,
+				);
+			};
+			version = 491;
+		};
+		disklabel = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 2;
+		};
+		distcc = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					OpenSSL098,
+				);
+			};
+			version = 1607;
+		};
+		doc_cmds = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 47;
+		};
+		dtrace = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					dtrace,
+				);
+			};
+			version = 78;
+		};
+		dyld = {
+			target = dyld;
+			version = 132.13;
+		};
+		eap8021x = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					configd,
+					eap8021x,
+				);
+			};
+			version = 100;
+		};
+		efax = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 35;
+		};
+		emacs = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 78.2;
+		};
+		enscript = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 15;
+		};
+		expat = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					expat,
+				);
+			};
+			version = 9;
+		};
+		fetchmail = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					OpenSSL098,
+				);
+			};
+			version = 30;
+		};
+		file = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 36;
+		};
+		file_cmds = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 202.2;
+		};
+		files = {
+			version = 553;
+		};
+		flex = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 24.1;
+		};
+		freeradius = {
+			dependencies = {
+				lib = (
+					DirectoryService,
+					LDAPFramework,
+					Libsystem,
+					OpenSSL098,
+					SQLite,
+					freeradius,
+				);
+			};
+			version = 25;
+		};
+		gcc = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 5646;
+		};
+		gcc_select = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 70;
+		};
+		gdb = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					SQLite,
+				);
+			};
+			version = 1344;
+		};
+		glibtool = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 14;
+		};
+		gm4 = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 13;
+		};
+		gnudiff = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 13;
+		};
+		gnumake = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 126.2;
+		};
+		gnuserv = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 7;
+		};
+		gnutar = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 450;
+		};
+		gnuzip = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 28;
+		};
+		gperf = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 6;
+		};
+		gpt = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 7;
+		};
+		graphviz = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					expat,
+					graphviz,
+				);
+			};
+			version = 1009;
+		};
+		grep = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 26;
+		};
+		groff = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 32;
+		};
+		gssd = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 31;
+		};
+		headerdoc = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 8.7.15;
+		};
+		hfs = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 183;
+		};
+		iodbc = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 36;
+		};
+		ipsec = {
+			target = "IPSec (Aggregate)";
+			version = 92;
+		};
+		ipv6configuration = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					configd,
+				);
+			};
+			version = 31;
+		};
+		kext_tools = {
+			dependencies = {
+				lib = (
+					DiskArbitration,
+					Libsystem,
+					configd,
+				);
+			};
+			version = 177;
+		};
+		keymgr = {
+			version = 22;
+		};
+		ksh = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 16.1;
+		};
+		launchd = {
+			dependencies = {
+				lib = (
+					DiskArbitration,
+					Libsystem,
+				);
+			};
+			version = 328;
+		};
+		launchd_libs = {
+			original = launchd;
+			target = launchd_libs;
+		};
+		ld64 = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 95.2.12;
+		};
+		less = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 21.3;
+		};
+		libdyld = {
+			original = dyld;
+			target = libdyld;
+		};
+		libedit = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 12.1;
+		};
+		libffi = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 15;
+		};
+		libfs = {
+			version = 9;
+		};
+		libgcc = {
+			version = 13;
+		};
+		libiconv = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libiconv,
+				);
+			};
+			version = 26;
+		};
+		libkxld = {
+			original = xnu;
+		};
+		libmd = {
+			version = 3;
+		};
+		libpcap = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 20;
+		};
+		libresolv = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libresolv,
+				);
+			};
+			version = 38;
+		};
+		libsecurity_agent = {
+			version = 36399;
+		};
+		libsecurity_apple_csp = {
+			version = 36859;
+		};
+		libsecurity_apple_cspdl = {
+			version = 36064;
+		};
+		libsecurity_apple_file_dl = {
+			version = 36064;
+		};
+		libsecurity_apple_x509_cl = {
+			version = 36064;
+		};
+		libsecurity_apple_x509_tp = {
+			version = 36737;
+		};
+		libsecurity_asn1 = {
+			version = 36064;
+		};
+		libsecurity_authorization = {
+			version = 36329;
+		};
+		libsecurity_cdsa_client = {
+			version = 36213;
+		};
+		libsecurity_cdsa_plugin = {
+			version = 36327;
+		};
+		libsecurity_cdsa_utilities = {
+			version = 36658;
+		};
+		libsecurity_cdsa_utils = {
+			version = 36064;
+		};
+		libsecurity_checkpw = {
+			version = 36064;
+		};
+		libsecurity_cms = {
+			version = 36064;
+		};
+		libsecurity_codesigning = {
+			version = 36885;
+		};
+		libsecurity_cssm = {
+			version = 36064;
+		};
+		libsecurity_dotmacdl = {
+			version = 36606;
+		};
+		libsecurity_filedb = {
+			version = 36725;
+		};
+		libsecurity_filevault = {
+			version = 36064;
+		};
+		libsecurity_keychain = {
+			version = 36940;
+		};
+		libsecurity_ldap_dl = {
+			version = 36927;
+		};
+		libsecurity_manifest = {
+			version = 36064;
+		};
+		libsecurity_mds = {
+			version = 36495;
+		};
+		libsecurity_ocspd = {
+			version = 35752;
+		};
+		libsecurity_pkcs12 = {
+			version = 35752;
+		};
+		libsecurity_sd_cspdl = {
+			version = 35752;
+		};
+		libsecurity_smime = {
+			version = 36873;
+		};
+		libsecurity_ssl = {
+			version = 36800;
+		};
+		libsecurity_utilities = {
+			version = 36984;
+		};
+		libsecurityd = {
+			version = 36988;
+		};
+		libstdcxx = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 39;
+		};
+		libstdcxx_40 = {
+			version = 5;
+		};
+		libtelnet = {
+			version = 8;
+		};
+		libutil = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libstdcxx,
+				);
+			};
+			version = 20;
+		};
+		libxml2 = {
+			dependencies = {
+				lib = (
+					ICU,
+					Libsystem,
+					libxml2,
+				);
+			};
+			version = 21;
+		};
+		libxslt = {
+			dependencies = {
+				lib = (
+					ICU,
+					Libsystem,
+					libxml2,
+					libxslt,
+				);
+			};
+			version = 10.1;
+		};
+		lsof = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 41;
+		};
+		lukemftp = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libedit,
+				);
+			};
+			version = 12;
+		};
+		lukemftpd = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 41;
+		};
+		mDNSResponder = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					configd,
+					libgcc,
+				);
+			};
+			version = 212.1;
+		};
+		mDNSResponderSystemLibraries = {
+			original = mDNSResponder;
+			target = SystemLibraries;
+		};
+		mail_cmds = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 24;
+		};
+		mailman = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 132;
+		};
+		man = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 14;
+		};
+		misc_cmds = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 27;
+		};
+		modemccl = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					configd,
+				);
+			};
+			version = 24;
+		};
+		msdosfs = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libutil,
+				);
+			};
+			version = 163;
+		};
+		nano = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 5;
+		};
+		nasm = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 13;
+		};
+		ncurses = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					ncurses,
+				);
+			};
+			version = 27;
+		};
+		neon = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					OpenSSL098,
+					expat,
+					libresolv,
+				);
+			};
+			version = 11;
+		};
+		net_snmp = {
+			dependencies = {
+				lib = (
+					DiskArbitration,
+					Libsystem,
+					OpenSSL098,
+					libgcc,
+					net_snmp,
+				);
+			};
+			version = 127;
+		};
+		netcat = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 7;
+		};
+		netinfo = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 382;
+		};
+		network_cmds = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					network_cmds,
+				);
+			};
+			version = 325;
+		};
+		notify = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 23;
+		};
+		ntfs = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libutil,
+				);
+			};
+			version = 64;
+		};
+		ntp = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					OpenSSL098,
+					libedit,
+					libresolv,
+				);
+			};
+			version = 45.1;
+		};
+		objc4 = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libstdcxx,
+				);
+			};
+			version = 437;
+		};
+		openmpi = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libstdcxx,
+					objc4,
+					openmpi,
+				);
+			};
+			version = 8;
+		};
+		pam_modules = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					OpenDirectory,
+				);
+			};
+			version = 76;
+		};
+		passwordserver_sasl = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					OpenSSL098,
+				);
+			};
+			target = SecondaryTargets;
+			version = 159;
+		};
+		passwordserver_saslextra = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					OpenSSL098,
+					passwordserver_sasl,
+				);
+			};
+			original = passwordserver_sasl;
+			target = TertiaryTargets;
+		};
+		passwordserver_saslkerberos = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					OpenSSL098,
+				);
+			};
+			original = passwordserver_sasl;
+			target = KerberosTargets;
+		};
+		patch_cmds = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 11;
+		};
+		pb_makefiles = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 1001;
+		};
+		pdisk = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 7;
+		};
+		perl = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libutil,
+					perl,
+				);
+			};
+			version = 63;
+		};
+		portmap = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 39;
+		};
+		postfix = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					OpenDirectory,
+					OpenSSL098,
+					passwordserver_sasl,
+				);
+			};
+			version = 197;
+		};
+		ppp = {
+			version = 412;
+		};
+		procmail = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 12;
+		};
+		pyOpenSSL = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					OpenSSL098,
+				);
+			};
+			version = 3;
+		};
+		pyobjc = {
+			dependencies = {
+				lib = (
+					ICU,
+					Libsystem,
+					libffi,
+					libxml2,
+					objc4,
+				);
+			};
+			version = 26;
+		};
+		python = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					OpenSSL098,
+					SQLite,
+					bzip2,
+					expat,
+					libedit,
+					libffi,
+					ncurses,
+					objc4,
+					python,
+				);
+			};
+			version = 44;
+		};
+		python23 = {
+			version = 18;
+		};
+		python_dateutil = {
+			version = 2;
+		};
+		python_modules = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					objc4,
+				);
+			};
+			version = 21;
+		};
+		rcs = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 14;
+		};
+		remote_cmds = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libedit,
+					ncurses,
+				);
+			};
+			version = 22;
+		};
+		removefile = {
+			version = 17;
+		};
+		rsync = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 37.3;
+		};
+		ruby = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					OpenSSL098,
+					libedit,
+					libiconv,
+					libutil,
+					ncurses,
+					ruby,
+				);
+			};
+			version = 75;
+		};
+		ruby_dnssd = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					ruby,
+				);
+			};
+			version = 6;
+		};
+		ruby_libxml = {
+			dependencies = {
+				lib = (
+					ICU,
+					Libsystem,
+					libiconv,
+					libxml2,
+					ruby,
+				);
+			};
+			version = 8;
+		};
+		samba = {
+			dependencies = {
+				lib = (
+					DirectoryService,
+					LDAPFramework,
+					Libsystem,
+					OpenDirectory,
+					configd,
+					cups_libs,
+					libiconv,
+					libresolv,
+					libstdcxx,
+				);
+			};
+			version = 235;
+		};
+		screen = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					ncurses,
+				);
+			};
+			version = 16;
+		};
+		security_authtrampoline = {
+			version = 36090;
+		};
+		security_certificates = {
+			version = 36878;
+		};
+		security_certtool = {
+			version = 36090;
+		};
+		security_crlrefresh = {
+			version = 36090;
+		};
+		security_dotmac_tp = {
+			version = 36564;
+		};
+		security_ocspd = {
+			version = 36090;
+		};
+		security_systemkeychain = {
+			version = 36515;
+		};
+		securityd = {
+			version = 36975;
+		};
+		shell_cmds = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libresolv,
+				);
+			};
+			version = 149;
+		};
+		smb = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libutil,
+				);
+			};
+			version = 431;
+		};
+		srm = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 6;
+		};
+		subversion = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					OpenSSL098,
+					SQLite,
+					apr,
+					expat,
+					libiconv,
+					neon,
+					ruby,
+					subversion,
+				);
+			};
+			version = 33;
+		};
+		sudo = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 46;
+		};
+		svk = {
+			version = 13;
+		};
+		swig = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libstdcxx,
+				);
+			};
+			version = 4;
+		};
+		syslog = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 97.1;
+		};
+		system_cmds = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					OpenDirectory,
+					libutil,
+					ncurses,
+					objc4,
+				);
+			};
+			version = 496;
+		};
+		system_config = {
+			version = 49;
+		};
+		tcl = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					OpenSSL098,
+					libffi,
+					libstdcxx,
+					libxml2,
+					libxslt,
+					objc4,
+					tcl,
+				);
+			};
+			target = install;
+			version = 87;
+		};
+		tcp_wrappers = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 19;
+		};
+		tcpdump = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					OpenSSL098,
+					libpcap,
+				);
+			};
+			version = 27;
+		};
+		tcsh = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libiconv,
+					ncurses,
+				);
+			};
+			version = 63.1;
+		};
+		texi2html = {
+			version = 5;
+		};
+		texinfo = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libiconv,
+					ncurses,
+				);
+			};
+			version = 17.1;
+		};
+		text_cmds = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					OpenSSL098,
+					ncurses,
+				);
+			};
+			version = 71;
+		};
+		tidy = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					tidy,
+				);
+			};
+			version = 15.3;
+		};
+		top = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libutil,
+					ncurses,
+				);
+			};
+			version = 67;
+		};
+		update_dyld_shared_cache = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libstdcxx,
+				);
+			};
+			original = dyld;
+			target = update_dyld_shared_cache;
+		};
+		usertemplate = {
+			version = 71;
+		};
+		uucp = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 11;
+		};
+		vim = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libiconv,
+					ncurses,
+				);
+			};
+			version = 43;
+		};
+		webdavfs = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					OpenSSL098,
+					configd,
+					libutil,
+					objc4,
+				);
+			};
+			version = 291;
+		};
+		wxWidgets = {
+			version = 13;
+		};
+		xar = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					OpenSSL098,
+					bzip2,
+					libxml2,
+					xar,
+				);
+			};
+			version = 36;
+		};
+		xelf = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 1;
+		};
+		xnu = {
+			version = 1456.1.25;
+		};
+		xnu_debug = {
+			original = xnu;
+		};
+		zip = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 11.1;
+		};
+		zlib = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			version = 22;
+		};
+		zsh = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libiconv,
+					ncurses,
+				);
+			};
+			version = 53;
+		};
+	};
+	source_sites = (
+		"http://src.macosforge.org/Projects/",
+		"http://src.macosforge.org/Patches/",
+	);
+}
