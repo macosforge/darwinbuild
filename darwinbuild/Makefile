@@ -32,6 +32,7 @@ install: all
 	$(INSTALL) $(INSTALL_EXE_FLAGS) installXcode2 $(DATDIR)
 	$(INSTALL) $(INSTALL_EXE_FLAGS) installXcode3 $(DATDIR)
 	$(INSTALL) $(INSTALL_EXE_FLAGS) installXcode31 $(DATDIR)
+	$(INSTALL) $(INSTALL_EXE_FLAGS) installXcode32 $(DATDIR)
 
 	$(INSTALL) $(INSTALL_EXE_FLAGS) createChroot $(DATDIR)
 	$(INSTALL) $(INSTALL_EXE_FLAGS) $(OBJROOT)/manifest $(DATDIR)
@@ -51,6 +52,7 @@ uninstall:
 	rm -f $(DATDIR)/installXcode2
 	rm -f $(DATDIR)/installXcode3
 	rm -f $(DATDIR)/installXcode31
+	rm -f $(DATDIR)/installXcode32
 	rm -f $(DATDIR)/createChroot
 	rm -f $(DATDIR)/manifest
 	rm -f $(DATDIR)/ditto
