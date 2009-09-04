@@ -15,6 +15,10 @@ echo $PLATFORM > "${DBROOT}/.build/platform"
 echo "Installing Platform/SDK $PLATFORM for Xcode 3.2" 
 
 mkdir -p "${PLATFORMDIR}/Developer/SDKs"
+mkdir -p "${PLATFORMDIR}/Developer/Library/Xcode"
+
+rsync -a "/Developer/Platforms/MacOSX.platform/Developer/Library/Xcode/" \
+         "${PLATFORMDIR}/Developer/Library/Xcode"
 
 sed -e "s,%%PLATFORM%%,${PLATFORM}," $INFOPLIST > "${PLATFORMDIR}/Info.plist"
 sed -e "s,%%PLATFORM%%,${PLATFORM}," $SDKPLIST > "${BUILDROOT}/SDKSettings.plist"
@@ -30,6 +34,8 @@ popd > /dev/null
 pushd "/Developer/Platforms" > /dev/null
 ln -s "$PLATFORMDIR" "${PLATFORM}.platform"
 popd > /dev/null
+
+
 
 echo "Completed Platform/SDK install"
 
