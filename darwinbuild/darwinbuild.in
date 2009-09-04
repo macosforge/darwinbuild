@@ -655,7 +655,6 @@ if [ $chroot_or_xcode == "YES" -a "$noload" != "YES" ]; then
 	if [ "$buildtool" == "xcodebuild" -a ! -f "$receipts/xcodebuild" ]; then
 		echo "*** Installing Xcode Tools ..."
 		"$DATADIR/installXcode" "$BuildRoot"
-		platform=$(cat "${DARWIN_BUILDROOT}/.build/platform")
 		touch "$receipts/xcodebuild"
 	fi
 
@@ -663,6 +662,10 @@ if [ $chroot_or_xcode == "YES" -a "$noload" != "YES" ]; then
 	    exit
 	fi
 
+fi
+
+if [ "$buildtool" == "xcodebuild" ]; then
+	platform=$(cat "${DARWIN_BUILDROOT}/.build/platform")
 fi
 
 ###
