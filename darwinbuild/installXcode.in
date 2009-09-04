@@ -10,7 +10,12 @@ if [ "$VER" -gt "920" ];
 then
 	if [ "$VER" -gt "1000" ];
 	then
-		"$BINDIR/installXcode31" "$BROOT";	
+		if [ "$VER" -gt "1600" ];
+		then
+			"$BINDIR/installXcode32" "$BROOT";
+		else
+			"$BINDIR/installXcode31" "$BROOT";	
+		fi
 	else
 		"$BINDIR/installXcode3" "$BROOT";	
 	fi

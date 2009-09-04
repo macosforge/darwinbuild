@@ -497,15 +497,6 @@ REAL_SRCROOT="$BuildRoot/SourceCache/$projnam/$project"
 REAL_OBJROOT="$BuildRoot/$vartmp/$projnam/$project.obj"
 REAL_SYMROOT="$BuildRoot/$vartmp/$projnam/$project.sym"
 REAL_DSTROOT="$BuildRoot/$vartmp/$projnam/$project.root"
-if [ "$CHROOTED" == "YES" ]; then
-	prefix="$BuildRoot"
-else
-	prefix=""
-fi
-export SRCROOT="${REAL_SRCROOT/$prefix/}"
-export OBJROOT="${REAL_OBJROOT/$prefix/}"
-export SYMROOT="${REAL_SYMROOT/$prefix/}"
-export DSTROOT="${REAL_DSTROOT/$prefix/}"
 
 if [ "$nosource" != "YES" ]; then
 	###
@@ -600,10 +591,11 @@ fi
 ###
 ### Look for the build tool: make, xcodebuild
 ###
-
 numfiles=$(echo *.pbxproj *.pbproj *.xcode *.xcodeproj 2> /dev/null )
 if [ -n "$numfiles" ]; then
 	buildtool="xcodebuild"
+	# we use a platform/sdk instead of chrooting for Xcode projects
+	export CHROOTED="NO"
 else
 	buildtool="make"
 fi
@@ -616,7 +608,11 @@ fi
 ###
 ### Also install CoreOSMakefiles and Perl for make based projects
 ###
-if [ "$CHROOTED" == "YES" -a "$noload" != "YES" ]; then
+if [ "$CHROOTED" == "YES" -o $buildtool == "xcodebuild" ]; then
+	chroot_or_xcode="YES"
+fi
+
+if [ $chroot_or_xcode == "YES" -a "$noload" != "YES" ]; then
 	echo "*** Installing Roots ..."
 	receipts="$BuildRoot/usr/local/darwinbuild/receipts"
 	mkdir -p "$receipts"
@@ -659,6 +655,7 @@ if [ "$CHROOTED" == "YES" -a "$noload" != "YES" ]; then
 	if [ "$buildtool" == "xcodebuild" -a ! -f "$receipts/xcodebuild" ]; then
 		echo "*** Installing Xcode Tools ..."
 		"$DATADIR/installXcode" "$BuildRoot"
+		platform=$(cat "${DARWIN_BUILDROOT}/.build/platform")
 		touch "$receipts/xcodebuild"
 	fi
 
@@ -678,6 +675,16 @@ build_version=$(($(GetBuildVersion $DARWIN_BUILDROOT/{Logs,Symbols,Headers,Roots
 LOG="$DARWIN_BUILDROOT/Logs/$projnam/$project.log~$build_version"
 TRACELOG="$BuildRoot/private/var/tmp/$projnam/$project.trace~$build_version"
 mkdir -p "$DARWIN_BUILDROOT/Logs/$projnam"
+
+if [ "$CHROOTED" == "YES" ]; then
+	prefix="$BuildRoot"
+else
+	prefix=""
+fi
+export SRCROOT="${REAL_SRCROOT/$prefix/}"
+export OBJROOT="${REAL_OBJROOT/$prefix/}"
+export SYMROOT="${REAL_SYMROOT/$prefix/}"
+export DSTROOT="${REAL_DSTROOT/$prefix/}"
 
 # Hide this variable from the unset
 export -n SRCROOT OBJROOT SYMROOT DSTROOT
@@ -699,12 +706,6 @@ export DARWIN_BUILDROOT DARWINBUILD_BUILD DARWINXREF_DB_FILE
 export CHROOTED
 
 export PATH=/bin:/sbin:/usr/bin:/usr/sbin/:/usr/local/bin:/usr/local/sbin
-
-# sets the install path to xcode tools if we're chrooted
-if [ "$CHROOTED" == "YES" ]; then
-	export DEVELOPER_DIR="/XCD/loper"
-fi
-
 export SHELL="/bin/sh"
 export HOME="/var/root"
 export LOGNAME="root"
@@ -713,7 +714,7 @@ export GROUP="wheel"
 
 build_string=""
 if [ "$buildtool" == "xcodebuild" -a "$target" != "" ]; then
-	build_string="-target $target"
+	build_string="-sdk $platform -target $target"
 elif [ "$target" != "" ]; then
 	action="$target"
 fi
@@ -923,9 +924,8 @@ if [ "$CHROOTED" == "YES" ] ; then
 	###
 	### Actually invoke the build tool here
 	###
-	chroot -u root -g wheel $BuildRoot $vartmp/$projnam/build-$project~$build_version.sh 2>&1 | tee -a "$LOG"
+	chroot -u root -g wheel $BuildRoot $vartmp/$projnam/build-$project~$build_version.sh 2>&1 | tee -a "$LOG";
 	EXIT_STATUS="${PIPESTATUS[0]}"
-
 else
 	###
 	### Actually invoke the build tool here

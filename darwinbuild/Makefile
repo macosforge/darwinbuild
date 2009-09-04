@@ -9,7 +9,8 @@ PrefixReplacements = darwinbuild \
 		     darwinmaster.sh \
 		     packageRoots.sh \
 		     thinPackages.sh \
-		     installXcode
+		     installXcode \
+		     installXcode32
 
 all: manifest prefixes
 
@@ -33,6 +34,8 @@ install: all
 	$(INSTALL) $(INSTALL_EXE_FLAGS) installXcode3 $(DATDIR)
 	$(INSTALL) $(INSTALL_EXE_FLAGS) installXcode31 $(DATDIR)
 	$(INSTALL) $(INSTALL_EXE_FLAGS) installXcode32 $(DATDIR)
+	$(INSTALL) $(INSTALL_DOC_FLAGS) Info.plist $(DATDIR)
+	$(INSTALL) $(INSTALL_DOC_FLAGS) SDKSettings.plist $(DATDIR)
 
 	$(INSTALL) $(INSTALL_EXE_FLAGS) createChroot $(DATDIR)
 	$(INSTALL) $(INSTALL_EXE_FLAGS) $(OBJROOT)/manifest $(DATDIR)
@@ -53,6 +56,8 @@ uninstall:
 	rm -f $(DATDIR)/installXcode3
 	rm -f $(DATDIR)/installXcode31
 	rm -f $(DATDIR)/installXcode32
+	rm -f $(DATDIR)/Info.plist
+	rm -f $(DATDIR)/SDKSettings.plist
 	rm -f $(DATDIR)/createChroot
 	rm -f $(DATDIR)/manifest
 	rm -f $(DATDIR)/ditto
