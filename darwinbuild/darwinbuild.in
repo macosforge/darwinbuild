@@ -608,6 +608,7 @@ fi
 ###
 ### Also install CoreOSMakefiles and Perl for make based projects
 ###
+chroot_or_xcode="NO"
 if [ "$CHROOTED" == "YES" -o $buildtool == "xcodebuild" ]; then
 	chroot_or_xcode="YES"
 fi
