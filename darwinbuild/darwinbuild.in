@@ -101,6 +101,7 @@ DEFAULTPLISTSITE=http://svn.macosforge.org/repository/darwinbuild/trunk/plists/
 build=""
 depsbuild=""
 CHROOTED="YES"
+USESDK="YES"
 logdeps=""
 nopatch=""
 noload=""
@@ -333,6 +334,7 @@ for ARG in "$@"; do
 		elif [ "${ARG/=*/}" == "-depsbuild" ]; then
 			depsbuild="${depsbuild} ${ARG/*=/}"
 		elif [ "$ARG" == "-nochroot" ]; then
+			USESDK="NO"
 			export CHROOTED="NO"
 		elif [ "$ARG" == "-nopatch" ]; then
 			nopatch="YES"
@@ -717,8 +719,11 @@ export USER="root"
 export GROUP="wheel"
 
 build_string=""
+if [ $USESDK == "YES" ]; then
+	build_string="-sdk $platform"
+fi
 if [ "$buildtool" == "xcodebuild" -a "$target" != "" ]; then
-	build_string="-sdk $platform -target $target"
+	build_string="$build_string -target \"$target\""
 elif [ "$target" != "" ]; then
 	action="$target"
 fi
@@ -728,7 +733,7 @@ fi
 # this is only applicable to xcodebuild
 #
 if [ "$buildtool" == "xcodebuild" -a "$configuration" != "" ]; then
-	build_string="$build_string -configuration $configuration"
+	build_string="$build_string -configuration \"$configuration\""
 fi
 
 ###
