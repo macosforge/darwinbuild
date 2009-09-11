@@ -220,6 +220,15 @@
 			version = 78;
 		};
 		IOKitUser = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					zlib,
+				);
+			};
+			patchfiles = (
+				"IOKitUser-502.nohidevent.patch",
+			);
 			version = 502;
 		};
 		IONetworkingFamily = {
@@ -395,6 +404,16 @@
 			version = 27;
 		};
 		PowerManagement = {
+			dependencies = {
+				lib = (
+					IOKitUser,
+					Libsystem,
+					configd,
+				);
+			};
+			patchfiles = (
+				"PowerManagement-209.1.unused_symbols.patch",
+			);
 			version = 209.1;
 		};
 		PyRSS2Gen = {
@@ -440,15 +459,47 @@
 			target = SQLite_tcl;
 		};
 		Security = {
+			configuration = Darwin;
+			dependencies = {
+				lib = (
+					Libsystem,
+					SQLite,
+					Security,
+					libstdcxx,
+				);
+			};
 			version = 36910;
 		};
 		SecurityTokend = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					Security,
+					libstdcxx,
+				);
+			};
 			version = 36808;
 		};
 		SecurityTool = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					Security,
+					libstdcxx,
+				);
+			};
 			version = 36576;
 		};
 		SmartCardServices = {
+			dependencies = {
+				lib = (
+					IOKitUser,
+					Libsystem,
+					Security,
+					SmartCardServices,
+					libstdcxx,
+				);
+			};
 			version = 36160;
 		};
 		SpamAssassin = {
@@ -480,6 +531,13 @@
 			version = 19;
 		};
 		Tokend = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libstdcxx,
+					zlib,
+				);
+			};
 			version = 36720;
 		};
 		Twisted = {
@@ -733,6 +791,14 @@
 			version = 198;
 		};
 		bootstrap_cmds = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
+			environment = {
+				RC_ARCHS = i386;
+			};
 			version = 72;
 		};
 		bsdmake = {
@@ -753,6 +819,12 @@
 			version = 20;
 		};
 		cctools = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libstdcxx,
+				);
+			};
 			version = 750;
 		};
 		cctools_ofiles = {
@@ -873,9 +945,6 @@
 				);
 			};
 			version = 42;
-		};
-		cvs_wrapped = {
-			version = 15;
 		};
 		cxxfilt = {
 			dependencies = {
@@ -1044,6 +1113,7 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					libiconv,
 				);
 			};
 			version = 5646;
@@ -1196,6 +1266,19 @@
 			version = 36;
 		};
 		ipsec = {
+			dependencies = {
+				lib = (
+					DirectoryService,
+					LDAPFramework,
+					Libsystem,
+					OpenSSL098,
+					Security,
+					configd,
+					ipsec,
+					libiconv,
+					libresolv,
+				);
+			};
 			target = "IPSec (Aggregate)";
 			version = 92;
 		};
@@ -1320,6 +1403,7 @@
 			version = 36399;
 		};
 		libsecurity_apple_csp = {
+			configuration = Darwin;
 			version = 36859;
 		};
 		libsecurity_apple_cspdl = {
@@ -1365,6 +1449,13 @@
 			version = 36064;
 		};
 		libsecurity_dotmacdl = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					configd,
+					libstdcxx,
+				);
+			};
 			version = 36606;
 		};
 		libsecurity_filedb = {
@@ -1377,6 +1468,13 @@
 			version = 36940;
 		};
 		libsecurity_ldap_dl = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					OpenDirectory,
+					libstdcxx,
+				);
+			};
 			version = 36927;
 		};
 		libsecurity_manifest = {
@@ -1754,6 +1852,22 @@
 			version = 197;
 		};
 		ppp = {
+			dependencies = {
+				lib = (
+					DirectoryService,
+					IOKitUser,
+					Libsystem,
+					OpenSSL098,
+					Security,
+					configd,
+					eap8021x,
+					ipsec,
+					objc4,
+				);
+			};
+			patchfiles = (
+				"ppp-412.xauthvendor.patch",
+			);
 			version = 412;
 		};
 		procmail = {
@@ -1907,27 +2021,77 @@
 			version = 16;
 		};
 		security_authtrampoline = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libstdcxx,
+				);
+			};
 			version = 36090;
 		};
 		security_certificates = {
 			version = 36878;
 		};
 		security_certtool = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libstdcxx,
+				);
+			};
 			version = 36090;
 		};
 		security_crlrefresh = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libstdcxx,
+				);
+			};
 			version = 36090;
 		};
 		security_dotmac_tp = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					configd,
+					libstdcxx,
+				);
+			};
 			version = 36564;
 		};
 		security_ocspd = {
+			dependencies = {
+				lib = (
+					IOKitUser,
+					LDAPFramework,
+					Libsystem,
+					configd,
+					libstdcxx,
+				);
+			};
 			version = 36090;
 		};
 		security_systemkeychain = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libstdcxx,
+					objc4,
+				);
+			};
 			version = 36515;
 		};
 		securityd = {
+			dependencies = {
+				lib = (
+					IOKitUser,
+					Libsystem,
+					Security,
+					SmartCardServices,
+					libstdcxx,
+				);
+			};
 			version = 36975;
 		};
 		shell_cmds = {
@@ -2168,7 +2332,7 @@
 			version = 1;
 		};
 		xnu = {
-			version = 1456.1.25;
+			version = 1456.1.26;
 		};
 		xnu_debug = {
 			original = xnu;
