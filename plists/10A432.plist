@@ -48,6 +48,9 @@
 			version = 4.0.6;
 		};
 		AppleRTL8139Ethernet = {
+			environment = {
+				RC_ARCHS = i386;
+			};
 			version = 153;
 		};
 		AppleSMBIOS = {
@@ -63,6 +66,13 @@
 			version = 4002.4.1;
 		};
 		AppleUSBIrDA = {
+			dependencies = {
+				lib = (
+					IOKitUser,
+					Libsystem,
+					objc4,
+				);
+			};
 			version = 145.2.4;
 		};
 		BerkeleyDB = {
@@ -72,6 +82,13 @@
 			version = 64;
 		};
 		CF = {
+			dependencies = {
+				lib = (
+					ICU,
+					Libsystem,
+					objc4,
+				);
+			};
 			version = 550;
 		};
 		CFOpenDirectory = {
@@ -247,6 +264,17 @@
 			version = 116;
 		};
 		IOUSBFamily = {
+			dependencies = {
+				lib = (
+					CF,
+					IOKitUser,
+					Libsystem,
+					dyld,
+					libstdcxx,
+					libutil,
+					objc4,
+				);
+			};
 			version = 378.4.3;
 		};
 		IOUSBMassStorageClass = {
@@ -711,6 +739,12 @@
 			version = 8;
 		};
 		autozone = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					libstdcxx,
+				);
+			};
 			version = 141;
 		};
 		awk = {
@@ -840,6 +874,18 @@
 			version = 240.0.9;
 		};
 		clamav = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					bzip2,
+					dyld,
+					libresolv,
+					zlib,
+				);
+			};
+			patchfiles = (
+				"clamav-125.noupdate.patch",
+			);
 			version = 125;
 		};
 		configd = {
@@ -1377,6 +1423,11 @@
 			version = 26;
 		};
 		libkxld = {
+			dependencies = {
+				lib = (
+					Libsystem,
+				);
+			};
 			original = xnu;
 		};
 		libmd = {
