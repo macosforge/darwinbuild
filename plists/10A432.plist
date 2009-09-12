@@ -101,6 +101,9 @@
 		CPANInternal = {
 			version = 62;
 		};
+		CarbonHeaders = {
+			version = 18.1;
+		};
 		ChatServer = {
 			version = 326;
 		};
