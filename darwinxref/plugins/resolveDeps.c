@@ -187,14 +187,17 @@ int resolve_dependencies(const char* build, const char* project, int commit) {
 	int resolvedCount = 0, unresolvedCount = 0;
 	CFMutableArrayRef params[2] = { builds, projects };
 
+	// if committing, use all projects, otherwise use unresolved projects
+	char *table = ( commit ? "properties" : "unresolved_dependencies" );
+
 	//
 	// If no project, version specified, resolve everything.
 	// Otherwise, resolve only that project or version.
 	//
 	if (project == NULL) {
-		SQL_CALLBACK(&addToCStrArrays, params, "SELECT DISTINCT build,project FROM unresolved_dependencies");
+		SQL_CALLBACK(&addToCStrArrays, params, "SELECT DISTINCT build,project FROM %Q WHERE project IS NOT NULL", table);
 	} else {
-		SQL_CALLBACK(&addToCStrArrays, params, "SELECT DISTINCT build,project FROM unresolved_dependencies WHERE project=%Q", project);
+		SQL_CALLBACK(&addToCStrArrays, params, "SELECT DISTINCT build,project FROM %Q WHERE project=%Q", table, project);
 	}
 	CFIndex i, count = CFArrayGetCount(projects);
 	for (i = 0; i < count; ++i) {
