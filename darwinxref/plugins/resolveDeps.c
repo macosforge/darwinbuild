@@ -43,13 +43,17 @@ static int run(CFArrayRef argv) {
 	if (count > 2)  return -1;
 	char* project = NULL;
 	int commit = 0;
-
-	if (count == 1) {
-	  project = strdup_cfstr(CFArrayGetValueAtIndex(argv, 0));
-	} else if (count > 1) {
-	  project = strdup_cfstr(CFArrayGetValueAtIndex(argv, 1));
-	  if (CFEqual(CFSTR("-commit"), CFArrayGetValueAtIndex(argv, 0)))
+	
+	if (count > 0) {	  
+	  if (CFEqual(CFSTR("-commit"), CFArrayGetValueAtIndex(argv, 0))) {
 	    commit = 1;
+	  } else {
+	    project = strdup_cfstr(CFArrayGetValueAtIndex(argv, 0));
+	  }
+	}
+
+	if (count > 1) {
+	  project = strdup_cfstr(CFArrayGetValueAtIndex(argv, 1));	  
 	}
 
 	char* build = strdup_cfstr(DBGetCurrentBuild());
