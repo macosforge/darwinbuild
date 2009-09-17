@@ -14,6 +14,9 @@
 		cups = {
 			version = 218.1;
 		};
+		libdispatch = {
+			version = 84.5.1;
+		};
 	};
 }
 
