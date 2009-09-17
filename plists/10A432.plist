@@ -1975,8 +1975,18 @@
 		};
 		libdispatch = {
 			dependencies = {
-				header = (
+				build = (
+					gcc,
+					gcc_select,
+				);
+				lib = (
+					Libsystem,
 					xnu,
+				);
+				headers = (
+					CarbonHeaders,
+					Libc_headers,
+					Libsyscall,
 				);
 			};
 			version = 84.5;
