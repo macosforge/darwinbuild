@@ -45,6 +45,14 @@
 			version = 105.3.4;
 		};
 		AppleRAID = {
+			dependencies = {
+				lib = (
+					CF,
+					IOKitUser,
+					Libsystem,
+					dyld,
+				);
+			};
 			version = 4.0.6;
 		};
 		AppleRTL8139Ethernet = {
@@ -92,22 +100,87 @@
 			version = 550;
 		};
 		CFOpenDirectory = {
+			dependencies = {
+				lib = (
+					CF,
+					DSPasswordServerFramework,
+					DirectoryService,
+					Libsystem,
+					objc4,
+				);
+			};
 			original = OpenDirectory;
 			target = CFOpenDirectory;
 		};
 		CPAN = {
+			dependencies = {
+				lib = (
+					CF,
+					ICU,
+					Libsystem,
+					OpenSSL098,
+					SQLite,
+					bzip2,
+					dyld,
+					expat,
+					libresolv,
+					libstdcxx,
+					libutil,
+					libxml2,
+					perl,
+					wxWidgets,
+					zlib,
+				);
+			};
 			version = 27;
 		};
 		CPANInternal = {
+			dependencies = {
+				lib = (
+					Libsystem,
+					OpenSSL098,
+					libresolv,
+				);
+			};
 			version = 62;
 		};
 		CarbonHeaders = {
 			version = 18.1;
 		};
 		ChatServer = {
+			dependencies = {
+				lib = (
+					CF,
+					DSPasswordServerFramework,
+					DirectoryService,
+					Libsystem,
+					OpenDirectory,
+					OpenSSL098,
+					SQLite,
+					Security,
+					configd,
+					dyld,
+					expat,
+					libiconv,
+					libresolv,
+					libutil,
+					objc4,
+					passwordserver_sasl,
+					zlib,
+				);
+			};
 			version = 326;
 		};
 		Chess = {
+			dependencies = {
+				lib = (
+					CF,
+					Libsystem,
+					dyld,
+					libstdcxx,
+					objc4,
+				);
+			};
 			version = 110.0.6;
 		};
 		CommonCrypto = {
@@ -123,16 +196,51 @@
 			version = 79;
 		};
 		CyrusIMAP = {
+			dependencies = {
+				lib = (
+					CF,
+					DirectoryService,
+					Libsystem,
+					OpenSSL098,
+					Security,
+					dyld,
+					libresolv,
+					passwordserver_sasl,
+					tcp_wrappers,
+				);
+			};
 			version = 188;
 		};
 		DSPasswordServerFramework = {
+			dependencies = {
+				lib = (
+					CF,
+					DSPasswordServerFramework,
+					Libsystem,
+					OpenSSL098,
+					configd,
+					libstdcxx,
+					objc4,
+					passwordserver_sasl,
+				);
+			};
 			original = DSPasswordServerPlugin;
 			target = PasswordServerFramework;
 		};
 		DSPasswordServerPlugin = {
 			dependencies = {
 				lib = (
+					CF,
 					DSPasswordServerFramework,
+					DirectoryService,
+					LDAPFramework,
+					Libsystem,
+					OpenSSL098,
+					Security,
+					configd,
+					libstdcxx,
+					objc4,
+					passwordserver_sasl,
 				);
 			};
 			version = 281;
@@ -140,21 +248,57 @@
 		DSTools = {
 			dependencies = {
 				lib = (
+					CF,
 					DSPasswordServerFramework,
 					DSTools,
+					DirectoryService,
+					Libsystem,
+					OpenDirectory,
+					OpenSSL098,
+					Security,
+					configd,
+					dyld,
+					libedit,
+					libstdcxx,
+					objc4,
 				);
 			};
 			version = 134;
 		};
 		DirectoryService = {
+			dependencies = {
+				lib = (
+					CF,
+					IOKitUser,
+					Libsystem,
+					Security,
+					configd,
+					libresolv,
+					libstdcxx,
+					passwordserver_sasl,
+				);
+			};
 			target = DirectoryServiceFW;
 			version = 621;
 		};
 		DirectoryServiceDaemon = {
 			dependencies = {
 				lib = (
+					CF,
 					DSPasswordServerFramework,
 					DirectoryService,
+					ICU,
+					IOKitUser,
+					LDAPFramework,
+					Libsystem,
+					OpenSSL098,
+					SQLite,
+					Security,
+					configd,
+					dyld,
+					libresolv,
+					libstdcxx,
+					passwordserver_sasl,
 				);
 			};
 			original = DirectoryService;
@@ -242,7 +386,9 @@
 		IOKitUser = {
 			dependencies = {
 				lib = (
+					CF,
 					Libsystem,
+					libkxld,
 					zlib,
 				);
 			};
@@ -272,6 +418,7 @@
 					CF,
 					IOKitUser,
 					Libsystem,
+					Security,
 					dyld,
 					libstdcxx,
 					libutil,
@@ -286,8 +433,13 @@
 		JavaScriptCore = {
 			dependencies = {
 				lib = (
+					CF,
 					ICU,
 					JavaScriptCore,
+					Libsystem,
+					dyld,
+					libedit,
+					libstdcxx,
 				);
 			};
 			version = 6531.5;
@@ -295,7 +447,10 @@
 		JavaScriptGlue = {
 			dependencies = {
 				lib = (
+					CF,
 					JavaScriptCore,
+					Libsystem,
+					libstdcxx,
 				);
 			};
 			version = 6531.5;
@@ -303,8 +458,13 @@
 		KerberosHelper = {
 			dependencies = {
 				lib = (
+					CF,
 					DiskArbitration,
 					KerberosHelper,
+					Libsystem,
+					OpenDirectory,
+					Security,
+					dyld,
 				);
 			};
 			version = 62;
@@ -371,8 +531,11 @@
 		NFS = {
 			dependencies = {
 				lib = (
+					CF,
 					DiskArbitration,
 					Libsystem,
+					dyld,
+					libutil,
 				);
 			};
 			version = 42;
@@ -383,7 +546,9 @@
 		OpenDirectory = {
 			dependencies = {
 				lib = (
+					CF,
 					Libsystem,
+					objc4,
 				);
 			};
 			version = 57;
@@ -401,8 +566,15 @@
 		OpenSSH = {
 			dependencies = {
 				lib = (
+					CF,
 					Libsystem,
 					OpenDirectory,
+					OpenSSL098,
+					Security,
+					dyld,
+					libresolv,
+					tcp_wrappers,
+					zlib,
 				);
 			};
 			version = 142;
@@ -430,6 +602,8 @@
 				lib = (
 					Libsystem,
 					OpenSSL098,
+					dyld,
+					zlib,
 				);
 			};
 			version = 27;
@@ -455,6 +629,9 @@
 				lib = (
 					Libsystem,
 					RubyCocoa,
+					libffi,
+					libxml2,
+					ruby,
 				);
 			};
 			version = 67;
@@ -504,8 +681,10 @@
 		SecurityTokend = {
 			dependencies = {
 				lib = (
+					CF,
 					Libsystem,
 					Security,
+					SmartCardServices,
 					libstdcxx,
 				);
 			};
@@ -514,8 +693,10 @@
 		SecurityTool = {
 			dependencies = {
 				lib = (
+					CF,
 					Libsystem,
 					Security,
+					dyld,
 					libstdcxx,
 				);
 			};
@@ -524,10 +705,12 @@
 		SmartCardServices = {
 			dependencies = {
 				lib = (
+					CF,
 					IOKitUser,
 					Libsystem,
 					Security,
 					SmartCardServices,
+					dyld,
 					libstdcxx,
 				);
 			};
@@ -564,7 +747,12 @@
 		Tokend = {
 			dependencies = {
 				lib = (
+					CF,
 					Libsystem,
+					Security,
+					SecurityTokend,
+					SmartCardServices,
+					dyld,
 					libstdcxx,
 					zlib,
 				);
@@ -574,6 +762,7 @@
 		Twisted = {
 			dependencies = {
 				lib = (
+					CF,
 					Libsystem,
 				);
 			};
@@ -585,10 +774,14 @@
 		WebCore = {
 			dependencies = {
 				lib = (
+					CF,
 					ICU,
 					JavaScriptCore,
 					Libsystem,
 					SQLite,
+					configd,
+					libstdcxx,
+					libxml2,
 				);
 			};
 			version = 6531.9;
@@ -597,6 +790,13 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					X11libs,
+					X11proto,
+					bzip2,
+					dyld,
+					libiconv,
+					ncurses,
+					zlib,
 				);
 			};
 			version = 30;
@@ -614,6 +814,10 @@
 				lib = (
 					Libsystem,
 					X11libs,
+					X11proto,
+					bzip2,
+					dyld,
+					zlib,
 				);
 			};
 			version = 40;
@@ -629,8 +833,13 @@
 		X11proto = {
 			dependencies = {
 				lib = (
+					CF,
 					Libsystem,
 					X11proto,
+					dyld,
+					expat,
+					libiconv,
+					zlib,
 				);
 			};
 			version = 40;
@@ -638,10 +847,16 @@
 		X11server = {
 			dependencies = {
 				lib = (
+					CF,
+					IOKitUser,
 					Libsystem,
 					OpenSSL098,
 					X11libs,
 					X11server,
+					dyld,
+					libstdcxx,
+					objc4,
+					zlib,
 				);
 			};
 			version = 85;
@@ -663,6 +878,11 @@
 					Libsystem,
 					OpenSSL098,
 					SQLite,
+					apr,
+					dyld,
+					expat,
+					libiconv,
+					zlib,
 				);
 			};
 			version = 746;
@@ -709,6 +929,18 @@
 					Libsystem,
 					OpenSSL098,
 					SQLite,
+					apr,
+					bzip2,
+					curl,
+					dyld,
+					expat,
+					iodbc,
+					libiconv,
+					libresolv,
+					libxml2,
+					libxslt,
+					net_snmp,
+					zlib,
 				);
 			};
 			version = 53;
@@ -732,8 +964,12 @@
 		autofs = {
 			dependencies = {
 				lib = (
+					CF,
 					DirectoryService,
 					Libsystem,
+					configd,
+					dyld,
+					libutil,
 				);
 			};
 			version = 154;
@@ -811,8 +1047,11 @@
 		bless = {
 			dependencies = {
 				lib = (
+					CF,
 					DiskArbitration,
+					IOKitUser,
 					Libsystem,
+					dyld,
 				);
 			};
 			version = 70;
@@ -820,9 +1059,14 @@
 		bootp = {
 			dependencies = {
 				lib = (
+					CF,
+					IOKitUser,
 					Libsystem,
 					OpenDirectory,
 					bootp,
+					configd,
+					dyld,
+					libresolv,
 				);
 			};
 			version = 198;
@@ -904,8 +1148,13 @@
 		configd_executables = {
 			dependencies = {
 				lib = (
+					CF,
+					IOKitUser,
 					Libsystem,
+					Security,
 					configd,
+					dyld,
+					libedit,
 				);
 			};
 			original = configd;
@@ -956,9 +1205,17 @@
 		cups = {
 			dependencies = {
 				lib = (
+					CF,
+					IOKitUser,
 					LDAPFramework,
 					Libsystem,
+					Security,
 					configd,
+					cups_libs,
+					dyld,
+					libresolv,
+					libstdcxx,
+					zlib,
 				);
 			};
 			version = 218;
@@ -966,10 +1223,15 @@
 		cups_libs = {
 			dependencies = {
 				lib = (
+					CF,
 					LDAPFramework,
 					Libsystem,
+					Security,
 					configd,
 					cups_libs,
+					libresolv,
+					libstdcxx,
+					zlib,
 				);
 			};
 			original = cups;
@@ -982,6 +1244,9 @@
 					Libsystem,
 					OpenSSL098,
 					curl,
+					dyld,
+					libresolv,
+					zlib,
 				);
 			};
 			version = 57;
@@ -991,6 +1256,8 @@
 				lib = (
 					Libsystem,
 					OpenSSL098,
+					dyld,
+					zlib,
 				);
 			};
 			version = 42;
@@ -1056,8 +1323,13 @@
 		dtrace = {
 			dependencies = {
 				lib = (
+					CF,
 					Libsystem,
 					dtrace,
+					dyld,
+					libstdcxx,
+					objc4,
+					zlib,
 				);
 			};
 			version = 78;
@@ -1069,8 +1341,12 @@
 		eap8021x = {
 			dependencies = {
 				lib = (
+					CF,
+					IOKitUser,
 					Libsystem,
+					Security,
 					configd,
+					dyld,
 					eap8021x,
 				);
 			};
@@ -1114,6 +1390,8 @@
 				lib = (
 					Libsystem,
 					OpenSSL098,
+					dyld,
+					libresolv,
 				);
 			};
 			version = 30;
@@ -1153,7 +1431,13 @@
 					Libsystem,
 					OpenSSL098,
 					SQLite,
+					dyld,
 					freeradius,
+					iodbc,
+					libedit,
+					libpcap,
+					libresolv,
+					python,
 				);
 			};
 			version = 25;
@@ -1178,8 +1462,13 @@
 		gdb = {
 			dependencies = {
 				lib = (
+					CF,
 					Libsystem,
 					SQLite,
+					Security,
+					dyld,
+					libiconv,
+					ncurses,
 				);
 			};
 			version = 1344;
@@ -1270,6 +1559,7 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					dyld,
 				);
 			};
 			version = 26;
@@ -1286,6 +1576,7 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					dyld,
 				);
 			};
 			version = 31;
@@ -1309,7 +1600,9 @@
 		iodbc = {
 			dependencies = {
 				lib = (
+					CF,
 					Libsystem,
+					dyld,
 				);
 			};
 			version = 36;
@@ -1317,12 +1610,14 @@
 		ipsec = {
 			dependencies = {
 				lib = (
+					CF,
 					DirectoryService,
 					LDAPFramework,
 					Libsystem,
 					OpenSSL098,
 					Security,
 					configd,
+					dyld,
 					ipsec,
 					libiconv,
 					libresolv,
@@ -1343,9 +1638,14 @@
 		kext_tools = {
 			dependencies = {
 				lib = (
+					CF,
 					DiskArbitration,
+					IOKitUser,
 					Libsystem,
 					configd,
+					dyld,
+					libstdcxx,
+					zlib,
 				);
 			};
 			version = 177;
@@ -1364,8 +1664,13 @@
 		launchd = {
 			dependencies = {
 				lib = (
+					CF,
 					DiskArbitration,
+					IOKitUser,
 					Libsystem,
+					Security,
+					dyld,
+					libedit,
 				);
 			};
 			version = 328;
@@ -1389,6 +1694,14 @@
 				);
 			};
 			version = 21.3;
+		};
+		libdispatch = {
+			dependencies = {
+				header = (
+					xnu,
+				);
+			};
+			version = 84.5;
 		};
 		libdyld = {
 			original = dyld;
@@ -1505,7 +1818,9 @@
 		libsecurity_dotmacdl = {
 			dependencies = {
 				lib = (
+					CF,
 					Libsystem,
+					Security,
 					configd,
 					libstdcxx,
 				);
@@ -1623,6 +1938,7 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					dyld,
 				);
 			};
 			version = 41;
@@ -1630,9 +1946,15 @@
 		mDNSResponder = {
 			dependencies = {
 				lib = (
+					CF,
+					IOKitUser,
 					Libsystem,
+					Security,
 					configd,
+					dyld,
+					ipsec,
 					libgcc,
+					objc4,
 				);
 			};
 			version = 212.1;
@@ -1723,6 +2045,7 @@
 					OpenSSL098,
 					expat,
 					libresolv,
+					zlib,
 				);
 			};
 			version = 11;
@@ -1730,9 +2053,12 @@
 		net_snmp = {
 			dependencies = {
 				lib = (
+					CF,
 					DiskArbitration,
+					IOKitUser,
 					Libsystem,
 					OpenSSL098,
+					dyld,
 					libgcc,
 					net_snmp,
 				);
@@ -1768,6 +2094,7 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					dyld,
 				);
 			};
 			version = 23;
@@ -1804,7 +2131,9 @@
 		openmpi = {
 			dependencies = {
 				lib = (
+					CF,
 					Libsystem,
+					dyld,
 					libstdcxx,
 					objc4,
 					openmpi,
@@ -1815,8 +2144,11 @@
 		pam_modules = {
 			dependencies = {
 				lib = (
+					CF,
+					IOKitUser,
 					Libsystem,
 					OpenDirectory,
+					Security,
 				);
 			};
 			version = 76;
@@ -1836,6 +2168,7 @@
 				lib = (
 					Libsystem,
 					OpenSSL098,
+					dyld,
 					passwordserver_sasl,
 				);
 			};
@@ -1900,6 +2233,7 @@
 					Libsystem,
 					OpenDirectory,
 					OpenSSL098,
+					dyld,
 					passwordserver_sasl,
 				);
 			};
@@ -1908,12 +2242,14 @@
 		ppp = {
 			dependencies = {
 				lib = (
+					CF,
 					DirectoryService,
 					IOKitUser,
 					Libsystem,
 					OpenSSL098,
 					Security,
 					configd,
+					dyld,
 					eap8021x,
 					ipsec,
 					objc4,
@@ -1944,11 +2280,13 @@
 		pyobjc = {
 			dependencies = {
 				lib = (
+					CF,
 					ICU,
 					Libsystem,
 					libffi,
 					libxml2,
 					objc4,
+					zlib,
 				);
 			};
 			version = 26;
@@ -1956,21 +2294,39 @@
 		python = {
 			dependencies = {
 				lib = (
+					CF,
 					Libsystem,
 					OpenSSL098,
 					SQLite,
 					bzip2,
+					dyld,
 					expat,
 					libedit,
 					libffi,
 					ncurses,
 					objc4,
 					python,
+					tcl,
+					zlib,
 				);
 			};
 			version = 44;
 		};
 		python23 = {
+			dependencies = {
+				lib = (
+					CF,
+					Libsystem,
+					OpenSSL098,
+					bzip2,
+					ncurses,
+					tcl,
+					zlib,
+				);
+			};
+			environment = {
+				RC_ARCHS = i386;
+			};
 			version = 18;
 		};
 		python_dateutil = {
@@ -1979,7 +2335,9 @@
 		python_modules = {
 			dependencies = {
 				lib = (
+					CF,
 					Libsystem,
+					dyld,
 					objc4,
 				);
 			};
@@ -1997,6 +2355,8 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					dyld,
+					ipsec,
 					libedit,
 					ncurses,
 				);
@@ -2052,15 +2412,19 @@
 		samba = {
 			dependencies = {
 				lib = (
+					CF,
 					DirectoryService,
 					LDAPFramework,
 					Libsystem,
 					OpenDirectory,
+					Security,
 					configd,
 					cups_libs,
+					dyld,
 					libiconv,
 					libresolv,
 					libstdcxx,
+					zlib,
 				);
 			};
 			version = 235;
@@ -2078,6 +2442,8 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					Security,
+					dyld,
 					libstdcxx,
 				);
 			};
@@ -2089,7 +2455,10 @@
 		security_certtool = {
 			dependencies = {
 				lib = (
+					CF,
 					Libsystem,
+					Security,
+					dyld,
 					libstdcxx,
 				);
 			};
@@ -2098,7 +2467,10 @@
 		security_crlrefresh = {
 			dependencies = {
 				lib = (
+					CF,
 					Libsystem,
+					Security,
+					dyld,
 					libstdcxx,
 				);
 			};
@@ -2107,7 +2479,9 @@
 		security_dotmac_tp = {
 			dependencies = {
 				lib = (
+					CF,
 					Libsystem,
+					Security,
 					configd,
 					libstdcxx,
 				);
@@ -2117,10 +2491,13 @@
 		security_ocspd = {
 			dependencies = {
 				lib = (
+					CF,
 					IOKitUser,
 					LDAPFramework,
 					Libsystem,
+					Security,
 					configd,
+					dyld,
 					libstdcxx,
 				);
 			};
@@ -2129,7 +2506,10 @@
 		security_systemkeychain = {
 			dependencies = {
 				lib = (
+					CF,
 					Libsystem,
+					Security,
+					dyld,
 					libstdcxx,
 					objc4,
 				);
@@ -2139,10 +2519,12 @@
 		securityd = {
 			dependencies = {
 				lib = (
+					CF,
 					IOKitUser,
 					Libsystem,
 					Security,
 					SmartCardServices,
+					dyld,
 					libstdcxx,
 				);
 			};
@@ -2152,6 +2534,7 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					dyld,
 					libresolv,
 				);
 			};
@@ -2160,7 +2543,10 @@
 		smb = {
 			dependencies = {
 				lib = (
+					CF,
 					Libsystem,
+					Security,
+					dyld,
 					libutil,
 				);
 			};
@@ -2177,15 +2563,19 @@
 		subversion = {
 			dependencies = {
 				lib = (
+					CF,
 					Libsystem,
 					OpenSSL098,
 					SQLite,
+					Security,
 					apr,
+					dyld,
 					expat,
 					libiconv,
 					neon,
 					ruby,
 					subversion,
+					zlib,
 				);
 			};
 			version = 33;
@@ -2194,6 +2584,7 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					dyld,
 				);
 			};
 			version = 46;
@@ -2214,6 +2605,7 @@
 			dependencies = {
 				lib = (
 					Libsystem,
+					dyld,
 				);
 			};
 			version = 97.1;
@@ -2221,8 +2613,11 @@
 		system_cmds = {
 			dependencies = {
 				lib = (
+					CF,
+					IOKitUser,
 					Libsystem,
 					OpenDirectory,
+					dyld,
 					libutil,
 					ncurses,
 					objc4,
@@ -2236,14 +2631,18 @@
 		tcl = {
 			dependencies = {
 				lib = (
+					CF,
+					IOKitUser,
 					Libsystem,
 					OpenSSL098,
+					dyld,
 					libffi,
 					libstdcxx,
 					libxml2,
 					libxslt,
 					objc4,
 					tcl,
+					zlib,
 				);
 			};
 			target = install;
@@ -2353,9 +2752,13 @@
 		webdavfs = {
 			dependencies = {
 				lib = (
+					CF,
+					IOKitUser,
 					Libsystem,
 					OpenSSL098,
+					Security,
 					configd,
+					dyld,
 					libutil,
 					objc4,
 				);
@@ -2363,6 +2766,23 @@
 			version = 291;
 		};
 		wxWidgets = {
+			dependencies = {
+				lib = (
+					CF,
+					IOKitUser,
+					Libsystem,
+					dyld,
+					expat,
+					libiconv,
+					libstdcxx,
+					objc4,
+					wxWidgets,
+					zlib,
+				);
+			};
+			environment = {
+				RC_ARCHS = i386;
+			};
 			version = 13;
 		};
 		xar = {
