@@ -1,0 +1,19 @@
+// !$*UTF8*$!
+{
+        binary_sites = (
+                "http://src.macosforge.org/Roots/10B504/",
+        );
+	build = 10B504;
+	darwin = "Darwin 10.0";
+	inherits = 10A432;
+	macosx = "Mac OS X 10.6.1";
+	projects = {
+		Libsystem = {
+			version = 124.1.1;
+		};
+		cups = {
+			version = 218.1;
+		};
+	};
+}
+
