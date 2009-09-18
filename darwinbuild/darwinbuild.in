@@ -32,15 +32,16 @@
 ###
 ### This script sets up the proper environment to build Darwin projects
 ###
-### Building takes place in the BuildRoot, this should be an HFSX (or UFS)
-### volume (Disk images work well).  The BuildRoot location can by specified by
+### Building takes place in the BuildRoot, which by default is backed by
+### a sparse disk image, but can also be mounted over NFS loopback (see
+### -init options). The BuildRoot location can by specified by
 ### the DARWIN_BUILDROOT environment variable.  If not set, it will default
 ### to the current working directory.  However, if the current working directory
 ### does not contain a Sources, Roots, Logs, and other necessary directories
 ### the script will exit with an error.
 ###
-### This script has the ability to build in a changed root.  This allows
-### slightly projects to be built for targets that differ from the host
+### This script has the ability to build in a changed root. This allows
+### projects to be built for targets that differ from the host
 ### system, and also helps prevent against pollution of the host system
 ### with intermediate build tools and headers.  Unfortunately there are
 ### limitations on just how much the changed root can vary from the host
@@ -58,23 +59,18 @@
 ### The script checks its source cache (BuildRoot/Sources) for a .tar.gz archive
 ### of the given project-version.  If one exists, it is used.  If it does not
 ### exist, then this script will attempt to use curl(1) to fetch the sources
-### from the darwinsource.opendarwin.org and www.opensource.apple.com sites.
+### from the source sites specified in the plist. 
 ###
 ### If the -chroot option is specified, the script will use the darwinxref tool
 ### to populate the build root with the "Roots" necessary to build the project
 ### (Roots are pre-compiled projects ready for installation).  This script
 ### will look for an existing root in the root cache (BuildRoot/Roots).  If a
 ### root is missing, then this script will attempt to use curl(1) to fetch the 
-### roots from the darwinsource.opendarwin.org and www.opensource.apple.com sites.
+### roots from the binary sites specified in the build plist. 
 ###
 ### If the specified project requires Xcode to build (i.e. it does not use
-### a makefile, but instead has a .pbproj or .xcode project file), then it
-### must be built on a Mac OS X system, and cannot be built on a Darwin system.
-### Furthermore, because Xcode and many of the frameworks it uses are not open
-### source, it is not distributed on the www.opensource.apple.com or
-### darwinsource.opendarwin.org sites.  This script will look for a special
-### Xcode root in the local root cache, and if it doesn't exist, it will attempt
-### to create the root using the Xcode installation on the host system.
+### a makefile, but instead has a .pbproj or .xcodeproj file), then an SDK
+### will be synthesized and chroot will not be used. 
 ###
 ### 
 
@@ -655,10 +651,12 @@ if [ $chroot_or_xcode == "YES" -a "$noload" != "YES" ]; then
 
 	### xcodebuild is a special case because it is not open source
 	### we try to install it from the host Mac OS X system if it is required
-	if [ "$buildtool" == "xcodebuild" -a ! -f "$receipts/xcodebuild" ]; then
-		echo "*** Installing Xcode Tools ..."
-		"$DATADIR/installXcode" "$BuildRoot"
-		touch "$receipts/xcodebuild"
+	if [ $CHROOTED == "YES" ]; then
+		if [ "$buildtool" == "xcodebuild" -a ! -f "$receipts/xcodebuild" ]; then
+			echo "*** Installing Xcode Tools ..."
+			"$DATADIR/installXcode" "$BuildRoot"
+			touch "$receipts/xcodebuild"
+		fi
 	fi
 
 	if [ "$loadonly" = "YES" ]; then
@@ -994,18 +992,24 @@ if [ "$EXIT_STATUS" == "0" ]; then
 		ditto "$REAL_SYMROOT" "$DARWIN_BUILDROOT/Symbols/$projnam/$project.sym~$build_version"
 		ditto "$REAL_DSTROOT" "$DARWIN_BUILDROOT/Roots/$projnam/$project.root~$build_version"
 
-		if [ "$logdeps" = "YES" ]; then
+		if [ "$logdeps" == "YES" ]; then
 			### Log dependencies, but filter out duplicates, relative paths, and temporary files
+			# BuildRoot might be a symlink
+			REALPATH="$(readlink $DARWIN_BUILDROOT/BuildRoot)"
 			TRACE_TYPES='\(execve\|open\|readlink\)[[:space:]]\+'
+			# remove procname and pid in case darwintrace printed it
+			PROCPATTERN='^[][:alnum:][]+[[:space:]]+'
 			cat "$TRACELOG" | sort -u | \
 			sed "s|$DARWIN_BUILDROOT/BuildRoot||" | \
-        		grep -i  "^$TRACE_TYPES/" | \
+			sed "s|$REALPATH||" | \
+			sed "s|/Developer||" | \
+			sed -E "s|$PROCPATTERN||" | \
+        		grep -i "^$TRACE_TYPES/" | \
 			grep -v "^$TRACE_TYPES/SourceCache/" | \
         		grep -vi "^$TRACE_TYPES\(/private\)\?\(/var\)\?/tmp/" | \
-        		grep -vi  "^$TRACE_TYPES/XCD/" | \
-        		grep -vi  "^$TRACE_TYPES/dev/" | \
+        		grep -vi "^$TRACE_TYPES/dev/" | \
 			sort -u | \
-			"$DARWINXREF" loadDeps "$projnam" "$DARWIN_BUILDROOT/BuildRoot"
+			"$DARWINXREF" loadDeps "$projnam" "$prefix"
 			"$DARWINXREF" resolveDeps -commit "$projnam"
 			cp "$TRACELOG" $DARWIN_BUILDROOT/Logs/$projnam/$project.trace~$build_version
 		fi
