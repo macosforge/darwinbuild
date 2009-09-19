@@ -651,7 +651,7 @@ if [ $chroot_or_xcode == "YES" -a "$noload" != "YES" ]; then
 
 	### xcodebuild is a special case because it is not open source
 	### we try to install it from the host Mac OS X system if it is required
-	if [ $CHROOTED == "YES" ]; then
+	if [ $USESDK == "YES" ]; then
 		if [ "$buildtool" == "xcodebuild" -a ! -f "$receipts/xcodebuild" ]; then
 			echo "*** Installing Xcode Tools ..."
 			"$DATADIR/installXcode" "$BuildRoot"
