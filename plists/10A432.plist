@@ -4013,6 +4013,7 @@
 			configuration = Darwin;
 			dependencies = {
 				lib = (
+					CF,
 					Libsystem,
 					SQLite,
 					Security,
@@ -5525,6 +5526,13 @@
 					xnu,
 				);
 				lib = (
+					Libsystem,
+					dyld,
+					libiconv,
+					ncurses,
+				);
+				run = (
+					Libm,
 					Libsystem,
 					dyld,
 					libiconv,
