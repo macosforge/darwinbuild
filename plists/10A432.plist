@@ -3242,6 +3242,9 @@
 				header = (
 					xnu,
 				);
+				lib = (
+					Libm,
+				);
 				staticlib = (
 					CommonCrypto,
 					Libc,
@@ -5526,13 +5529,6 @@
 					xnu,
 				);
 				lib = (
-					Libsystem,
-					dyld,
-					libiconv,
-					ncurses,
-				);
-				run = (
-					Libm,
 					Libsystem,
 					dyld,
 					libiconv,
