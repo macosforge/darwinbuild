@@ -96,8 +96,6 @@ DEFAULTPLISTSITE=http://svn.macosforge.org/repository/darwinbuild/trunk/plists/
 
 build=""
 depsbuild=""
-CHROOTED="YES"
-USESDK="YES"
 logdeps=""
 nopatch=""
 noload=""
@@ -108,6 +106,9 @@ action="install"
 target=""
 configuration=""
 version=""
+
+USE_CHROOT="YES"
+INSTALL_XCODE="NO"
 
 ###
 ### Include some common subroutines
@@ -330,8 +331,8 @@ for ARG in "$@"; do
 		elif [ "${ARG/=*/}" == "-depsbuild" ]; then
 			depsbuild="${depsbuild} ${ARG/*=/}"
 		elif [ "$ARG" == "-nochroot" ]; then
-			USESDK="NO"
-			export CHROOTED="NO"
+			export INSTALL_XCODE="NO"
+			export USE_CHROOT="NO"
 		elif [ "$ARG" == "-nopatch" ]; then
 			nopatch="YES"
 		elif [ "$ARG" == "-load" ]; then
@@ -487,7 +488,7 @@ chmod 1777 "$BuildRoot/$vartmp"
 ### Define the SRCROOT, OBJROOT, SYMROOT, and DSTROOT.
 ### This script refers to the absolute paths of the build
 ### directory, and should use REAL_SRCROOT, etc.
-### If CHROOTED, then the environment variables will have
+### If USE_CHROOT, then the environment variables will have
 ### the BuildRoot prefix omitted because the chroot
 ### will make all paths relative to that point.
 ###
@@ -591,27 +592,41 @@ fi
 ###
 numfiles=$(echo *.pbxproj *.pbproj *.xcode *.xcodeproj 2> /dev/null )
 if [ -n "$numfiles" ]; then
-	buildtool="xcodebuild"
+    	buildtool="xcodebuild"
 	# we use a platform/sdk instead of chrooting for Xcode projects
-	export CHROOTED="NO"
+	export USE_CHROOT="NO"
+	export INSTALL_XCODE="YES"
 else
 	buildtool="make"
+
+	# test for hybrid make-xcode project
+	uses_xcrun=$(grep -lir 'xcrun' .)
+	if [ -n "$uses_xcrun" ]; then
+		export USE_CHROOT="NO"
+		export INSTALL_XCODE="YES"
+	fi
+fi
+
+### xcodebuild is a special case because it is not open source
+### we try to integrate the host copy of Xcode if required
+if [ $INSTALL_XCODE == "YES" ]; then
+	if [ ! -f "$receipts/xcodebuild" ]; then
+		echo "*** Installing Xcode Tools ..."
+		"$DATADIR/installXcode" "$BuildRoot"
+		touch "$receipts/xcodebuild"
+	fi
 fi
 
 ###
-### If we are CHROOTED, then
-### Install the roots into the BuildRoot
+### If we are going to build in a chroot, 
+### install the roots into the BuildRoot.
 ### Make sure we have at least a minimally functioning root
 ### by installing bash and its dependencies.
 ###
 ### Also install CoreOSMakefiles and Perl for make based projects
 ###
-chroot_or_xcode="NO"
-if [ "$CHROOTED" == "YES" -o $buildtool == "xcodebuild" ]; then
-	chroot_or_xcode="YES"
-fi
 
-if [ $chroot_or_xcode == "YES" -a "$noload" != "YES" ]; then
+if [ $USE_CHROOT == "YES" -a "$noload" != "YES" ]; then
 	echo "*** Installing Roots ..."
 	receipts="$BuildRoot/usr/local/darwinbuild/receipts"
 	mkdir -p "$receipts"
@@ -649,24 +664,10 @@ if [ $chroot_or_xcode == "YES" -a "$noload" != "YES" ]; then
 #		InstallRoot "$BuildRoot" "$X" "$depsbuild"
 	done
 
-	### xcodebuild is a special case because it is not open source
-	### we try to install it from the host Mac OS X system if it is required
-	if [ $USESDK == "YES" ]; then
-		if [ "$buildtool" == "xcodebuild" -a ! -f "$receipts/xcodebuild" ]; then
-			echo "*** Installing Xcode Tools ..."
-			"$DATADIR/installXcode" "$BuildRoot"
-			touch "$receipts/xcodebuild"
-		fi
-	fi
-
 	if [ "$loadonly" = "YES" ]; then
 	    exit
 	fi
 
-fi
-
-if [ "$buildtool" == "xcodebuild" ]; then
-	platform=$(cat "${DARWIN_BUILDROOT}/.build/platform")
 fi
 
 ###
@@ -680,7 +681,7 @@ LOG="$DARWIN_BUILDROOT/Logs/$projnam/$project.log~$build_version"
 TRACELOG="$BuildRoot/private/var/tmp/$projnam/$project.trace~$build_version"
 mkdir -p "$DARWIN_BUILDROOT/Logs/$projnam"
 
-if [ "$CHROOTED" == "YES" ]; then
+if [ "$USE_CHROOT" == "YES" ]; then
 	prefix="$BuildRoot"
 else
 	prefix=""
@@ -690,10 +691,12 @@ export OBJROOT="${REAL_OBJROOT/$prefix/}"
 export SYMROOT="${REAL_SYMROOT/$prefix/}"
 export DSTROOT="${REAL_DSTROOT/$prefix/}"
 
+
+
 # Hide this variable from the unset
 export -n SRCROOT OBJROOT SYMROOT DSTROOT
 export -n DARWIN_BUILDROOT DARWINBUILD_BUILD DARWINXREF_DB_FILE
-export -n CHROOTED
+export -n USE_CHROOT INSTALL_XCODE
 
 # Screen sets this to a multi-line value which causes trouble
 unset TERMCAP
@@ -707,7 +710,7 @@ IFS="$OLDIFS"
 
 export SRCROOT OBJROOT SYMROOT DSTROOT
 export DARWIN_BUILDROOT DARWINBUILD_BUILD DARWINXREF_DB_FILE
-export CHROOTED
+export USE_CHROOT INSTALL_XCODE
 
 export PATH=/bin:/sbin:/usr/bin:/usr/sbin/:/usr/local/bin:/usr/local/sbin
 export SHELL="/bin/sh"
@@ -716,8 +719,15 @@ export LOGNAME="root"
 export USER="root"
 export GROUP="wheel"
 
+# read the platform data installed by installXcode
+if [ $INSTALL_XCODE ]; then
+	platform=$(cat "${DARWIN_BUILDROOT}/.build/platform")
+	# set SDKROOT for Makefiles that use xcrun
+	export SDKROOT="$BuildRoot"
+fi
+
 build_string=""
-if [ $USESDK == "YES" ]; then
+if [ "$buildtool" == "xcodebuild" -a $INSTALL_XCODE == "YES" ]; then
 	build_string="-sdk $platform"
 fi
 if [ "$buildtool" == "xcodebuild" -a "$target" != "" ]; then
@@ -759,7 +769,7 @@ cat <<-EOF > $SCRIPT
 	echo "    cctools version:      \$(as -v -o /.devnull < /dev/null 2>&1 | cut -c 22- 2>/dev/null)"
 EOF
 if [ "$logdeps" == "YES" ]; then
-	if [ "$CHROOTED" == "YES" ]; then
+	if [ "$USE_CHROOT" == "YES" ]; then
 		if [ "$DARWINTRACE" -nt "$BuildRoot/usr/lib/darwintrace.dylib" ]; then
 			mkdir -p "$BuildRoot/usr/lib"
 			cp "$DARWINTRACE" \
@@ -890,7 +900,7 @@ ExitHandler() {
 }
 
 
-if [ "$CHROOTED" == "YES" ] ; then
+if [ "$USE_CHROOT" == "YES" ] ; then
 	###
 	### Mount devfs in the chroot
 	### We'll make /dev/null our de-facto test for the existence of devfs
