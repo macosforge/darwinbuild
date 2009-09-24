@@ -15,6 +15,7 @@
 		RC_OS = macos;
 		RC_PRIVATE = /private;
 		RC_RELEASE = SnowLeopard;
+		RC_TARGET_CONFIG = MacOSX;
 		RC_XBS = YES;
 		SEPARATE_STRIP = YES;
 		UNAME_RELEASE = 10.0;
