@@ -86,14 +86,6 @@ DARWINTRACE=$DATADIR/darwintrace.dylib
 DITTO=$DATADIR/ditto
 DEFAULTPLISTSITE=http://svn.macosforge.org/repository/darwinbuild/trunk/plists/
 
-# PREFIX=/Volumes/HD/ltmp/build/darwinbuild
-# DARWINXREF=$PREFIX/darwinxref/darwinxref
-# DATADIR=$PREFIX/darwinbuild
-# COMMONFILE=$DATADIR/darwinbuild.common
-# DARWINTRACE=$PREFIX/darwintrace/darwintrace.dylib
-# DITTO=$DATADIR/ditto.sh
-# DEFAULTPLISTSITE=file:///Volumes/HD/ltmp/build/darwinbuild/plists/
-
 build=""
 depsbuild=""
 logdeps=""
@@ -644,7 +636,7 @@ if [ \( $USE_CHROOT=="YES" -o $INSTALL_XCODE=="YES" \) -a "$noload" != "YES" ]; 
 		cp "$DITTO" "$BuildRoot/usr/bin/ditto"
 	fi
 
-	### need dsymutil but it depends on libauto so disable for now
+	### need dsymutil 
 	if [ ! -x "$BuildRoot/usr/bin/dsymutil" ]; then
 		cp "/usr/bin/dsymutil" "$BuildRoot/usr/bin/dsymutil"
 	fi
@@ -663,7 +655,6 @@ if [ \( $USE_CHROOT=="YES" -o $INSTALL_XCODE=="YES" \) -a "$noload" != "YES" ]; 
 	deps=$($DARWINXREF dependencies -header "$projnam")
 	for X in $deps ; do
 		InstallHeader "$BuildRoot" "$X" "$depsbuild"
-#		InstallRoot "$BuildRoot" "$X" "$depsbuild"
 	done
 
 	if [ "$loadonly" = "YES" ]; then
@@ -1027,8 +1018,5 @@ if [ "$EXIT_STATUS" == "0" ]; then
 		fi
 	fi
 fi
-
-#ExitHandler
-#rm -Rf "${BuildRoot}"/*
 
 exit $EXIT_STATUS
