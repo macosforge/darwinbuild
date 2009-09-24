@@ -607,6 +607,10 @@ else
 	fi
 fi
 
+
+receipts="$BuildRoot/usr/local/darwinbuild/receipts"
+mkdir -p "$receipts"
+
 ### xcodebuild is a special case because it is not open source
 ### we try to integrate the host copy of Xcode if required
 if [ $INSTALL_XCODE == "YES" ]; then
@@ -626,10 +630,8 @@ fi
 ### Also install CoreOSMakefiles and Perl for make based projects
 ###
 
-if [ $USE_CHROOT == "YES" -a "$noload" != "YES" ]; then
+if [ \( $USE_CHROOT=="YES" -o $INSTALL_XCODE=="YES" \) -a "$noload" != "YES" ]; then
 	echo "*** Installing Roots ..."
-	receipts="$BuildRoot/usr/local/darwinbuild/receipts"
-	mkdir -p "$receipts"
 	bash_deps=$($DARWINXREF dependencies -run "bash")
 	deps=$($DARWINXREF dependencies -build "$projnam")
 
