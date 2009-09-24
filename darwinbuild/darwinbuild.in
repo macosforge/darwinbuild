@@ -713,7 +713,7 @@ export USER="root"
 export GROUP="wheel"
 
 # read the platform data installed by installXcode
-if [ $INSTALL_XCODE ]; then
+if [ $INSTALL_XCODE == "YES" ]; then
 	platform=$(cat "${DARWIN_BUILDROOT}/.build/platform")
 	# set SDKROOT for Makefiles that use xcrun
 	export SDKROOT="$BuildRoot"
