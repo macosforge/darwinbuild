@@ -1,0 +1,32 @@
+Only in ./IOKitUser.xcodeproj: local.pbxuser
+diff -ru ../IOKitUser-502.orig/IOKitUser.xcodeproj/project.pbxproj ./IOKitUser.xcodeproj/project.pbxproj
+--- ../IOKitUser-502.orig/IOKitUser.xcodeproj/project.pbxproj	2009-09-08 15:09:09.000000000 -0700
++++ ./IOKitUser.xcodeproj/project.pbxproj	2009-09-08 15:12:01.000000000 -0700
+@@ -349,9 +349,6 @@
+ 		8472D5770CFA183F003111DE /* IOUSBDeviceDataPrivate.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8472D46E0CFA0E38003111DE /* IOUSBDeviceDataPrivate.h */; };
+ 		8472D57B0CFA1888003111DE /* IOUSBDeviceData.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8472D46D0CFA0E38003111DE /* IOUSBDeviceData.h */; };
+ 		8473A6B60D06351300DD8515 /* IOHIDEventSystemPrivate.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 847A12500C07C3A400F3CCDB /* IOHIDEventSystemPrivate.h */; };
+-		847A125C0C07C3A400F3CCDB /* IOHIDEventSystem.c in Sources */ = {isa = PBXBuildFile; fileRef = 847A124A0C07C3A400F3CCDB /* IOHIDEventSystem.c */; };
+-		847A125D0C07C3A400F3CCDB /* IOHIDEventSystem.defs in Sources */ = {isa = PBXBuildFile; fileRef = 847A124B0C07C3A400F3CCDB /* IOHIDEventSystem.defs */; settings = {ATTRIBUTES = (Client, Server, ); }; };
+-		847A125E0C07C3A400F3CCDB /* IOHIDEventSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 847A124C0C07C3A400F3CCDB /* IOHIDEventSystem.h */; };
+ 		847A125F0C07C3A400F3CCDB /* IOHIDEventSystemClient.c in Sources */ = {isa = PBXBuildFile; fileRef = 847A124D0C07C3A400F3CCDB /* IOHIDEventSystemClient.c */; };
+ 		847A12600C07C3A400F3CCDB /* IOHIDEventSystemClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 847A124E0C07C3A400F3CCDB /* IOHIDEventSystemClient.h */; };
+ 		847A12610C07C3A400F3CCDB /* IOHIDEventSystemKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = 847A124F0C07C3A400F3CCDB /* IOHIDEventSystemKeys.h */; };
+@@ -2042,7 +2039,6 @@
+ 				843C1FF00C0790410009057F /* IOHIDEvent.h in Headers */,
+ 				843C1FF90C0792DB0009057F /* IOHIDServicePlugIn.h in Headers */,
+ 				843C1FFC0C0792FA0009057F /* IOHIDServiceKeys.h in Headers */,
+-				847A125E0C07C3A400F3CCDB /* IOHIDEventSystem.h in Headers */,
+ 				847A12600C07C3A400F3CCDB /* IOHIDEventSystemClient.h in Headers */,
+ 				847A12610C07C3A400F3CCDB /* IOHIDEventSystemKeys.h in Headers */,
+ 				847A12620C07C3A400F3CCDB /* IOHIDEventSystemPrivate.h in Headers */,
+@@ -2457,8 +2453,6 @@
+ 				844A55E50A54A92E00FAE0BC /* IOHIDQueue.c in Sources */,
+ 				844A55E60A54A92E00FAE0BC /* IOHIDTransaction.c in Sources */,
+ 				843C1FEF0C0790410009057F /* IOHIDEvent.c in Sources */,
+-				847A125C0C07C3A400F3CCDB /* IOHIDEventSystem.c in Sources */,
+-				847A125D0C07C3A400F3CCDB /* IOHIDEventSystem.defs in Sources */,
+ 				847A125F0C07C3A400F3CCDB /* IOHIDEventSystemClient.c in Sources */,
+ 				847A12630C07C3A400F3CCDB /* IOHIDNotification.c in Sources */,
+ 				847A12650C07C3A400F3CCDB /* IOHIDService.c in Sources */,
+Only in ./: build

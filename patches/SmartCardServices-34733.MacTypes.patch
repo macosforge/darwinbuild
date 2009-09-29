@@ -1,0 +1,88 @@
+diff -ru ../SmartCardServices-34733.orig/src/PCSC/PCSCDevice.h ./src/PCSC/PCSCDevice.h
+--- ../SmartCardServices-34733.orig/src/PCSC/PCSCDevice.h	2009-07-08 14:40:32.000000000 -0700
++++ ./src/PCSC/PCSCDevice.h	2009-07-08 15:39:08.000000000 -0700
+@@ -30,6 +30,7 @@
+ #ifndef _H_PCSCDEVICE
+ #define _H_PCSCDEVICE
+ 
++#include <CoreServices/../Frameworks/CarbonCore.framework/Headers/MacTypes.h>
+ #include <security_utilities/iodevices.h>
+ #include <security_utilities/refcount.h>
+ 
+diff -ru ../SmartCardServices-34733.orig/src/PCSC/PCSCDriverBundle.h ./src/PCSC/PCSCDriverBundle.h
+--- ../SmartCardServices-34733.orig/src/PCSC/PCSCDriverBundle.h	2009-07-08 14:40:32.000000000 -0700
++++ ./src/PCSC/PCSCDriverBundle.h	2009-07-08 15:41:29.000000000 -0700
+@@ -31,6 +31,7 @@
+ 
+ #include <string>
+ #include <vector>
++#include <CoreServices/../Frameworks/CarbonCore.framework/Headers/MacTypes.h>
+ #include <security_utilities/refcount.h>
+ #include <security_utilities/osxcode.h>
+ #include "PCSCDevice.h"
+diff -ru ../SmartCardServices-34733.orig/src/PCSC/hotplug_macosx.cpp ./src/PCSC/hotplug_macosx.cpp
+--- ../SmartCardServices-34733.orig/src/PCSC/hotplug_macosx.cpp	2009-07-08 14:40:32.000000000 -0700
++++ ./src/PCSC/hotplug_macosx.cpp	2009-07-08 15:38:14.000000000 -0700
+@@ -29,6 +29,7 @@
+ 	            
+ ********************************************************************/
+ 
++#include <CoreServices/../Frameworks/CarbonCore.framework/Headers/MacTypes.h>
+ #include "wintypes.h"
+ 
+ #include "hotplug.h"
+diff -ru ../SmartCardServices-34733.orig/src/PCSC/pcscdmonitor.h ./src/PCSC/pcscdmonitor.h
+--- ../SmartCardServices-34733.orig/src/PCSC/pcscdmonitor.h	2009-07-08 14:40:32.000000000 -0700
++++ ./src/PCSC/pcscdmonitor.h	2009-07-08 15:40:40.000000000 -0700
+@@ -28,6 +28,7 @@
+ #ifndef _H_PCSCDMONITOR
+ #define _H_PCSCDMONITOR
+ 
++#include <CoreServices/../Frameworks/CarbonCore.framework/Headers/MacTypes.h>
+ #include <security_utilities/powerwatch.h>
+ #include <security_utilities/pcsc++.h>
+ #include <security_utilities/refcount.h>
+diff -ru ../SmartCardServices-34733.orig/src/PCSC/pcscdserver.h ./src/PCSC/pcscdserver.h
+--- ../SmartCardServices-34733.orig/src/PCSC/pcscdserver.h	2009-07-08 14:40:32.000000000 -0700
++++ ./src/PCSC/pcscdserver.h	2009-07-08 15:39:59.000000000 -0700
+@@ -27,6 +27,7 @@
+ #ifndef _H_PCSCDSERVER
+ #define _H_PCSCDSERVER
+ 
++#include <CoreServices/../Frameworks/CarbonCore.framework/Headers/MacTypes.h>
+ #include <security_utilities/machserver.h>
+ #include <security_utilities/powerwatch.h>
+ #include <map>
+diff -ru ../SmartCardServices-34733.orig/src/PCSC/reader.h ./src/PCSC/reader.h
+--- ../SmartCardServices-34733.orig/src/PCSC/reader.h	2009-07-08 14:40:32.000000000 -0700
++++ ./src/PCSC/reader.h	2009-07-08 15:40:55.000000000 -0700
+@@ -29,6 +29,7 @@
+ #ifndef _H_PCSCD_READER
+ #define _H_PCSCD_READER
+ 
++#include <CoreServices/../Frameworks/CarbonCore.framework/Headers/MacTypes.h>
+ #include "wintypes.h"
+ #include "pcsclite.h"
+ #include "readerfactory.h"
+diff -ru ../SmartCardServices-34733.orig/src/PCSC/readerstate.h ./src/PCSC/readerstate.h
+--- ../SmartCardServices-34733.orig/src/PCSC/readerstate.h	2009-07-08 14:40:32.000000000 -0700
++++ ./src/PCSC/readerstate.h	2009-07-08 14:41:10.000000000 -0700
+@@ -33,6 +33,7 @@
+ #include "pcsclite.h"
+ #include "readerfactory.h"
+ #include "eventhandler.h"
++#include <CoreServices/../Frameworks/CarbonCore.framework/Headers/MacTypes.h>
+ 
+ #ifdef __cplusplus
+ extern "C"
+diff -ru ../SmartCardServices-34733.orig/src/PCSC/sys_macosx.cpp ./src/PCSC/sys_macosx.cpp
+--- ../SmartCardServices-34733.orig/src/PCSC/sys_macosx.cpp	2009-07-08 14:40:32.000000000 -0700
++++ ./src/PCSC/sys_macosx.cpp	2009-07-08 15:36:59.000000000 -0700
+@@ -44,6 +44,7 @@
+ #include <stdlib.h>
+ #include <signal.h>
+ #include <time.h>
++#include <CoreServices/../Frameworks/CarbonCore.framework/Headers/MacTypes.h>
+ #include "pcscexport.h"
+ #include "debug.h"
+ 

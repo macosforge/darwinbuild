@@ -1,0 +1,11 @@
+diff -ru ../ppp-412.orig/Controller/ipsec_manager.c ./Controller/ipsec_manager.c
+--- ../ppp-412.orig/Controller/ipsec_manager.c	2009-09-09 18:46:52.000000000 -0700
++++ ./Controller/ipsec_manager.c	2009-09-09 18:48:10.000000000 -0700
+@@ -308,7 +308,6 @@
+ 		case XAUTH_STATUS: return "XAUTH_STATUS";
+ 		case XAUTH_NEXT_PIN: return "XAUTH_NEXT_PIN";
+ 		case XAUTH_ANSWER: return "XAUTH_ANSWER";
+-		case XAUTH_VENDOR: return "XAUTH_VENDOR";
+ 	}
+ 	return "XAUTH_TYPE unknown type";
+ }

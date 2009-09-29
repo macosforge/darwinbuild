@@ -1,0 +1,112 @@
+diff -ru ../PowerManagement-209.1.orig/AppleSmartBatteryManager/AppleSmartBattery.cpp ./AppleSmartBatteryManager/AppleSmartBattery.cpp
+--- ../PowerManagement-209.1.orig/AppleSmartBatteryManager/AppleSmartBattery.cpp	2009-09-08 18:52:54.000000000 -0700
++++ ./AppleSmartBatteryManager/AppleSmartBattery.cpp	2009-09-08 18:53:54.000000000 -0700
+@@ -601,8 +601,6 @@
+     // scratch variables
+     int16_t     my_signed_16;
+     uint16_t    my_unsigned_16;
+-    OSNumber    *writeNum;
+-    unsigned long long writeByte;
+     OSNumber    *cell_volt_num = NULL;
+     OSNumber    *pfstatus_num = NULL;
+     
+diff -ru ../PowerManagement-209.1.orig/pmconfigd/PrivateLib.c ./pmconfigd/PrivateLib.c
+--- ../PowerManagement-209.1.orig/pmconfigd/PrivateLib.c	2009-09-08 18:52:55.000000000 -0700
++++ ./pmconfigd/PrivateLib.c	2009-09-08 19:08:53.000000000 -0700
+@@ -337,12 +337,6 @@
+     return found;
+ }
+ 
+-
+-static int _designCycleCountForBattery(IOPMBattery *b)
+-{
+-    return 300;
+-}
+-
+ static void _unpackBatteryState(IOPMBattery *b, CFDictionaryRef prop)    
+ {
+     CFBooleanRef    boo;
+diff -ru ../PowerManagement-209.1.orig/pmconfigd/pmconfigd.c ./pmconfigd/pmconfigd.c
+--- ../PowerManagement-209.1.orig/pmconfigd/pmconfigd.c	2009-09-08 18:52:55.000000000 -0700
++++ ./pmconfigd/pmconfigd.c	2009-09-08 19:08:29.000000000 -0700
+@@ -140,9 +140,6 @@
+ 
+ static void pushNewSleepWakeUUID(void);
+ static void persistentlyStoreCurrentUUID(void);
+-static IOReturn copyPersistentlyStoredUUID(
+-                CFStringRef *outUUID, 
+-                CFDateRef *outTimestamp);
+ 
+ static void calendarRTCDidResync(
+                 CFMachPortRef port, 
+@@ -901,59 +898,6 @@
+     return;
+ }
+ 
+-/* copyPersistentlyStoredUUID
+- *
+- * Returns kIOReturn on success. If successful, both arguments are pointers to CF objects, and
+- * it is the caller's responsibility to release them.
+- * If an IO error is returned, both pointers will be set to NULL and should not be released.
+- */
+-static IOReturn copyPersistentlyStoredUUID(CFStringRef *outUUID, CFDateRef *outTimestamp)
+-{
+-    CFDictionaryRef         lastKnownDictionary = NULL;
+-    CFStringRef             lastKnownUUID = NULL;
+-    CFDateRef               lastKnownDate = NULL;
+-    SCPreferencesRef        prefs = NULL;
+-    IOReturn                ret = kIOReturnSuccess;
+-    
+-    if (NULL == outUUID || NULL == outTimestamp) {
+-        ret = kIOReturnBadArgument;
+-        goto exit;
+-    }
+-        
+-    *outUUID = NULL;
+-    *outTimestamp = NULL;
+-
+-    prefs = SCPreferencesCreate(0, CFSTR("PowerManagement UUID Temp Storage"),
+-                                    CFSTR("com.apple.PowerManagement.plist"));
+-    if (!prefs) {
+-        ret = kIOReturnError;
+-        goto exit;
+-    }
+-    lastKnownDictionary = isA_CFDictionary(SCPreferencesGetValue(prefs, CFSTR(kPMSettingsCachedUUIDKey)));
+-    if (!lastKnownDictionary) {
+-        ret = kIOReturnNotFound;
+-        goto exit;    
+-    }
+-    
+-    lastKnownUUID = isA_CFString(CFDictionaryGetValue(lastKnownDictionary, 
+-                                        CFSTR(kPMSettingsDictionaryUUIDKey)));
+-    lastKnownDate = isA_CFDate(CFDictionaryGetValue(lastKnownDictionary, 
+-                                        CFSTR(kPMSettingsDictionaryDateKey)));
+-
+-    if (lastKnownUUID && lastKnownDate)
+-    {
+-        *outUUID = CFRetain(lastKnownUUID);
+-        *outTimestamp = CFRetain(lastKnownDate);
+-    } else {
+-        ret = kIOReturnInternalError;
+-    }
+-
+-exit:
+-    if (prefs)
+-        CFRelease(prefs);
+-    return ret;
+-}
+-
+ static boolean_t 
+ pm_mig_demux(
+     mach_msg_header_t * request,
+diff -ru ../PowerManagement-209.1.orig/pmset/pmset.c ./pmset/pmset.c
+--- ../PowerManagement-209.1.orig/pmset/pmset.c	2009-09-08 18:52:55.000000000 -0700
++++ ./pmset/pmset.c	2009-09-08 19:10:45.000000000 -0700
+@@ -2272,7 +2272,6 @@
+     int                     cur_cap = -1;
+     int                     max_cap = -1;
+     int                     cur_cycles = -1;
+-    int                     max_cycles = -1;
+     CFMutableDictionaryRef  prop = NULL;
+     IOReturn                ret;
+     

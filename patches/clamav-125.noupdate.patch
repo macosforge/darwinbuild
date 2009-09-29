@@ -1,0 +1,14 @@
+diff -ru ../clamav-125.orig/Makefile ../clamav-125/Makefile
+--- ../clamav-125.orig/Makefile	2009-09-11 18:30:19.000000000 -0700
++++ ../clamav-125/Makefile	2009-09-11 18:31:00.000000000 -0700
+@@ -128,9 +128,6 @@
+ 	fi
+ 	$(SILENT) ($(CD) "$(SRCROOT)$(CLAMAV_BUILD_DIR)" && make CFLAGS="$(CFLAGS)")
+ 	$(SILENT) ($(CD) "$(SRCROOT)$(CLAMAV_BUILD_DIR)" && make "DESTDIR=$(SRCROOT)/$(TEMP_DIR)" CFLAGS="$(CFLAGS)" install)
+-	install -m 0755 "$(DSTROOT)/System/Library/ServerSetup/MigrationExtras/UpgradeClamAV" \
+-			"$(DSTROOT)/System/Library/ServerSetup/MigrationExtras/66_clamav_migrator"
+-	$(SILENT) ($(RM) -rf "$(DSTROOT)/System/Library/ServerSetup/MigrationExtras/UpgradeClamAV")
+ 
+ 	# Create install directories
+ 	install -d -m 0755 "$(DSTROOT)$(ETC_DIR)"
+
