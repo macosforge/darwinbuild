@@ -4220,8 +4220,9 @@
 		Tokend = {
 			dependencies = {
 				lib = (
-					CarbonHeaders,
 					CF,
+					Csu,
+					CarbonHeaders,
 					Libc,
 					Libc_headers,
 					Libsyscall,
@@ -4229,10 +4230,12 @@
 					Security,
 					SecurityTokend,
 					SmartCardServices,
+					cctools,
 					dyld,
 					gcc,
 					gcc_select,
 					libdispatch,
+					libsecurity_cdsa_client,
 					libsecurity_cdsa_utilities,
 					libsecurity_utilities,
 					libstdcxx,
