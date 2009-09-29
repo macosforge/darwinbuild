@@ -787,6 +787,9 @@
 					text_cmds,
 				);
 			};
+			patchfiles = (
+				"CarbonHeaders-18.1.ccdest.patch",
+			);
 			version = 18.1;
 		};
 		ChatServer = {
@@ -4217,16 +4220,29 @@
 		Tokend = {
 			dependencies = {
 				lib = (
+					CarbonHeaders,
 					CF,
+					Libc,
+					Libc_headers,
+					Libsyscall,
 					Libsystem,
 					Security,
 					SecurityTokend,
 					SmartCardServices,
 					dyld,
+					gcc,
+					gcc_select,
+					libdispatch,
+					libsecurity_cdsa_utilities,
+					libsecurity_utilities,
 					libstdcxx,
+					xnu,
 					zlib,
 				);
 			};
+			patchfiles = (
+				"Tokend-35209.MacTypes.patch",
+			);
 			version = 36720;
 		};
 		Twisted = {
