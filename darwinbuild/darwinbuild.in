@@ -779,8 +779,23 @@ if [ "$logdeps" == "YES" ]; then
 		echo "export DARWINTRACE_LOG=\"${TRACELOG}\"" >> $SCRIPT
 		echo "export DYLD_INSERT_LIBRARIES=$DARWINTRACE" >> $SCRIPT
 	fi
+
 	echo "export DYLD_FORCE_FLAT_NAMESPACE=1" >> $SCRIPT
 fi
+
+if [ "$INSTALL_XCODE" == "YES" ]; then
+	echo "*** Redirecting ..."
+	echo "DARWINTRACE_REDIRECT=\"${BuildRoot}\""
+	echo "DARWINTRACE_LOG=\"${TRACELOG}\""
+	echo "DYLD_INSERT_LIBRARIES=$DARWINTRACE"
+	echo "DYLD_FORCE_FLAT_NAMESPACE=1"
+	echo ""
+	echo "export DARWINTRACE_REDIRECT=\"${BuildRoot}\"" >> $SCRIPT
+	echo "export DARWINTRACE_LOG=\"${TRACELOG}\"" >> $SCRIPT
+	echo "export DYLD_INSERT_LIBRARIES=$DARWINTRACE" >> $SCRIPT
+	echo "export DYLD_FORCE_FLAT_NAMESPACE=1" >> $SCRIPT
+fi
+
 if [ "$buildtool" == "xcodebuild" ]; then
 cat <<-EOF >> $SCRIPT
 	echo "    xcode version:        \$(sh -c \\\"$buildtool -version\\\")"
