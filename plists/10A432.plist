@@ -3409,6 +3409,9 @@
 		OpenAL = {
 			version = 37;
 		};
+		OpenBSM = {
+			version = 21;
+		};
 		OpenDirectory = {
 			dependencies = {
 				build = (
@@ -13706,6 +13709,9 @@
 					gcc,
 				);
 			};
+			patchfiles = (
+				"top-67.kNilOptions.patch",
+			);
 			version = 67;
 		};
 		update_dyld_shared_cache = {

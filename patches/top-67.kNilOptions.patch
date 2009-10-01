@@ -1,0 +1,12 @@
+diff -ru ../top-67.orig/libtop.c ./libtop.c
+--- ../top-67.orig/libtop.c	2009-10-01 11:06:25.000000000 -0700
++++ ./libtop.c	2009-10-01 11:07:15.000000000 -0700
+@@ -1150,7 +1150,7 @@
+ 		/* Obtain the properties for this drive object. */
+ 		if (IORegistryEntryCreateCFProperties(drive,
+ 		    (CFMutableDictionaryRef *)&properties, kCFAllocatorDefault,
+-		    kNilOptions)) {
++		    0)) {
+ 			libtop_print(libtop_user_data,
+ 			    "Error in IORegistryEntryCreateCFProperties()");
+ 			retval = -1;
