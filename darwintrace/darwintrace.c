@@ -73,6 +73,7 @@ static const char *__redirect_exceptions[] = {"/Developer/Library/PrivateFramewo
 					      "/Volumes/BuildRoot_",
 					      "/usr/bin/xcrun",
 					      "/usr/bin/xcode",
+					      "/usr/share/xcode",
 					      "/var/folders/",
 					      "/var/tmp/",
 					      "/.vol/",
