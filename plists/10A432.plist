@@ -13217,7 +13217,6 @@
 					IOKitUser,
 					IOStorageFamily,
 					Libc_headers,
-					Libinfo,
 					Libm,
 					Librpcsvc,
 					Libsyscall,
@@ -13236,6 +13235,7 @@
 				lib = (
 					CF,
 					IOKitUser,
+					Libinfo,
 					Libsystem,
 					OpenDirectory,
 					dyld,
