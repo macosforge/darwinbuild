@@ -35,7 +35,10 @@ pushd "/Developer/Platforms" > /dev/null
 ln -s "$PLATFORMDIR" "${PLATFORM}.platform"
 popd > /dev/null
 
-
+mkdir -p "${DBROOT}/BuildRoot/Developer/"
+pushd "${DBROOT}/BuildRoot/Developer/" > /dev/null
+ln -s ../usr usr
+popd > /dev/null
 
 echo "Completed Platform/SDK install"
 
