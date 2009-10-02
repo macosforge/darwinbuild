@@ -9840,6 +9840,9 @@
 					xnu,
 				);
 			};
+			patchfiles = (
+				"libsecurity_utilities-36984.MacTypes.patch",
+			);
 			version = 36984;
 		};
 		libsecurityd = {
@@ -12776,6 +12779,11 @@
 		};
 		securityd = {
 			dependencies = {
+				header = (
+					libsecurity_agent,
+					libsecurity_utilities,
+					libsecurityd,
+				);
 				lib = (
 					CF,
 					IOKitUser,
@@ -13157,6 +13165,7 @@
 					Libinfo,
 					Libnotify,
 					Libsyscall,
+					OpenBSM,
 					gcc,
 					launchd_libs,
 					libdispatch,
@@ -13220,6 +13229,7 @@
 					Libm,
 					Librpcsvc,
 					Libsyscall,
+					OpenBSM,
 					OpenDirectory,
 					Security,
 					architecture,

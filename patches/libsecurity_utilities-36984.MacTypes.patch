@@ -1,0 +1,11 @@
+diff -ru ../libsecurity_utilities-36984.orig/lib/errors.h ./lib/errors.h
+--- ../libsecurity_utilities-36984.orig/lib/errors.h	2009-10-01 17:23:50.000000000 -0700
++++ ./lib/errors.h	2009-10-01 17:24:30.000000000 -0700
+@@ -30,6 +30,7 @@
+ 
+ #include <security_utilities/utilities.h>
+ #include <exception>
++#include <CoreServices/../Frameworks/CarbonCore.framework/Headers/MacTypes.h>
+ 
+ #undef check
+ 
