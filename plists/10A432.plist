@@ -12717,10 +12717,24 @@
 			dependencies = {
 				lib = (
 					CF,
+					CarbonHeaders,
+					Csu,
+					Libc_headers,
+					Libsyscall,
 					Libsystem,
 					Security,
+					cctools,
 					dyld,
+					gcc,
+					gcc_select,
+					libdispatch,
+					libsecurity_cdsa_client,
+					libsecurity_cdsa_utilities,
+					libsecurity_cdsa_utils,
+					libsecurity_ocspd,
+					libsecurity_utilities,
 					libstdcxx,
+					xnu,
 				);
 			};
 			version = 36090;
@@ -12729,10 +12743,24 @@
 			dependencies = {
 				lib = (
 					CF,
+					CarbonHeaders,
+					Csu,
+					Libc_headers,
+					Libsyscall,
 					Libsystem,
 					Security,
+					cctools,
 					dyld,
+					gcc,
+					gcc_select,
+					libdispatch,
+					libsecurity_cdsa_client,
+					libsecurity_cdsa_utilities,
+					libsecurity_cdsa_utils,
+					libsecurity_ocspd,
+					libsecurity_utilities,
 					libstdcxx,
+					xnu,
 				);
 			};
 			version = 36090;
@@ -12744,6 +12772,8 @@
 					Libsystem,
 					Security,
 					configd,
+					libsecurity_asn1,
+					libsecurity_cdsa_plugin,
 					libstdcxx,
 				);
 			};
@@ -12759,6 +12789,8 @@
 					Security,
 					configd,
 					dyld,
+					libsecurity_cdsa_utils,
+					libsecurity_ocspd,
 					libstdcxx,
 				);
 			};
@@ -12775,6 +12807,9 @@
 					objc4,
 				);
 			};
+			patchfiles = (
+				"security_systemkeychain-36515.kCFDateFormatterIsLenientKey.patch",
+			);
 			version = 36515;
 		};
 		securityd = {

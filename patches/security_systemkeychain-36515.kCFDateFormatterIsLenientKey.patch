@@ -1,0 +1,23 @@
+diff -ru ../security_systemkeychain-36515.orig/src/cs_utils.cpp ./src/cs_utils.cpp
+--- ../security_systemkeychain-36515.orig/src/cs_utils.cpp	2009-10-02 16:47:29.000000000 -0700
++++ ./src/cs_utils.cpp	2009-10-02 18:14:28.000000000 -0700
+@@ -301,7 +301,7 @@
+ 	CFRef<CFLocaleRef> userLocale = CFLocaleCopyCurrent();
+ 	CFRef<CFDateFormatterRef> formatter = CFDateFormatterCreate(NULL, userLocale,
+ 		kCFDateFormatterMediumStyle, kCFDateFormatterMediumStyle);
+-	CFDateFormatterSetProperty(formatter, kCFDateFormatterIsLenient, kCFBooleanTrue);
++	CFDateFormatterSetProperty(formatter, kCFDateFormatterIsLenientKey, kCFBooleanTrue);
+ 	CFRef<CFDateRef> date = CFDateFormatterCreateDateFromString(NULL, formatter, CFTempString(string), NULL);
+ 	if (!date)
+ 		fail("%s: invalid date/time", string);
+diff -ru ../security_systemkeychain-36515.orig/src/cs_utils.h ./src/cs_utils.h
+--- ../security_systemkeychain-36515.orig/src/cs_utils.h	2009-10-02 16:47:29.000000000 -0700
++++ ./src/cs_utils.h	2009-10-02 18:27:32.000000000 -0700
+@@ -38,6 +38,7 @@
+ #include <security_utilities/hashing.h>
+ #include <security_utilities/cfutilities.h>
+ 
++CF_EXPORT CFStringRef const kCFDateFormatterIsLenientKey;
+ 
+ //
+ // Exit codes
