@@ -4065,7 +4065,7 @@
 					IOKitUser,
 					IOUSBFamily,
 					Libc_headers,
-					Libsyscall
+					Libsyscall,
 					Libsystem,
 					Security,
 					SmartCardServices,
