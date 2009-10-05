@@ -4060,12 +4060,30 @@
 			dependencies = {
 				lib = (
 					CF,
+					CarbonHeaders, 
+					Csu,
 					IOKitUser,
+					IOUSBFamily,
+					Libc_headers,
+					Libsyscall
 					Libsystem,
 					Security,
 					SmartCardServices,
+					cctools,
 					dyld,
+					file_cmds,
+					flex,
+					gcc,
+					gcc_select,
+					launchd_libs,
+					libdispatch,
+					libsecurityd,
+					libsecurity_cdsa_client,
+					libsecurity_cdsa_utilities,
+					libsecurity_cdsa_utils,
+					libsecurity_utilities,
 					libstdcxx,
+					xnu,
 				);
 			};
 			version = 36160;
