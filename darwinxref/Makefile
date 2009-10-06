@@ -47,7 +47,7 @@ DSYMUTIL = dsymutil
 
 all: \
 	darwinxref \
-	$(PLUGIN_SOURCES:c=so) \
+	$(PLUGIN_SOURCES:.c=.so) \
 	upgrade_plist \
 	apple_plugins
 
@@ -58,7 +58,7 @@ install: all install_apple_plugins
 
 	[ -d $(DATDIR)/plugins ] || \
 		$(INSTALL) -d $(INSTALL_DIR_FLAGS) $(DATDIR)/plugins
-	$(INSTALL) $(INSTALL_DOC_FLAGS) $(wildcard $(OBJROOT)/plugins/*.so) $(wildcard plugins/*.tcl) $(DATDIR)/plugins
+	$(INSTALL) $(INSTALL_DOC_FLAGS) $(OBJROOT)/plugins/*.so plugins/*.tcl $(DATDIR)/plugins
 
 	[ -d $(INCDIR) ] || \
 		$(INSTALL) -d $(INSTALL_DIR_FLAGS) $(INCDIR)
