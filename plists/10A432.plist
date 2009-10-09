@@ -11838,6 +11838,7 @@
 					DirectoryService,
 					IOKitUser,
 					Libsystem,
+					OpenBSM,
 					OpenSSL098,
 					Security,
 					configd,
@@ -12818,11 +12819,28 @@
 			dependencies = {
 				lib = (
 					CF,
+					CarbonHeaders,
+					CommonCrypto,
+					Csu,
+					Libc_headers,
+					Libsyscall,
 					Libsystem,
 					Security,
+					cctools,
 					dyld,
+					gcc,
+					gcc_select,
+					launchd_libs,
+					libdispatch,
+					libsecurity_cdsa_client,
+					libsecurity_cdsa_utilities,
+					libsecurity_cdsa_utils,
+					libsecurity_codesigning,
+					libsecurity_utilities,
+					libsecurityd,
 					libstdcxx,
 					objc4,
+					xnu,
 				);
 			};
 			patchfiles = (
