@@ -77,7 +77,7 @@ static char* calculate_digest(int fd) {
 
 	EVP_DigestInit(&ctx, md);
 
-	unsigned int len;
+	ssize_t len;
 	const unsigned int blocklen = 8192;
 	static unsigned char* block = NULL;
 	if (block == NULL) {
@@ -88,10 +88,10 @@ static char* calculate_digest(int fd) {
 		if (len == 0) { close(fd); break; }
 		if ((len < 0) && (errno == EINTR)) continue;
 		if (len < 0) { close(fd); return NULL; }
-		EVP_DigestUpdate(&ctx, block, len);
+		EVP_DigestUpdate(&ctx, block, (size_t)len);
 	}
 
-	EVP_DigestFinal(&ctx, digstr, &len);
+	EVP_DigestFinal(&ctx, digstr, NULL);
 	return format_digest(digstr);
 }
 
