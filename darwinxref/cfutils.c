@@ -54,8 +54,9 @@ char* strdup_cfstr(CFStringRef str) {
                 CFIndex size = CFStringGetMaximumSizeForEncoding(length, kCFStringEncodingUTF8);
                 result = malloc(size+1);
                 if (result != NULL) {
-                        length = CFStringGetBytes(str, CFRangeMake(0, length), kCFStringEncodingUTF8, '?', 0, (UInt8*)result, size, NULL);
-                        result[length] = 0;
+			CFIndex numbytes;
+                        length = CFStringGetBytes(str, CFRangeMake(0, length), kCFStringEncodingUTF8, '?', 0, (UInt8*)result, size, &numbytes);
+                        result[numbytes] = 0;
                 }
         }
         return result;
