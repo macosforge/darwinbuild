@@ -11677,7 +11677,6 @@
 				header = (
 					CarbonHeaders,
 					Libc_headers,
-					Libinfo,
 					Librpcsvc,
 					Libsyscall,
 					gcc,
@@ -11685,6 +11684,7 @@
 					xnu,
 				);
 				lib = (
+					Libinfo,
 					Libsystem,
 					dyld,
 					tcp_wrappers,
