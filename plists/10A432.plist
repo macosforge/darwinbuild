@@ -11651,6 +11651,9 @@
 					gcc,
 				);
 			};
+			patchfiles = (
+				"perl-63.pldtrace.patch",
+			);
 			version = 63;
 		};
 		portmap = {
