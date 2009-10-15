@@ -1,0 +1,312 @@
+diff -ru ../ppp-412.orig/Dialogs/Dialogs.c ./Dialogs/Dialogs.c
+--- ../ppp-412.orig/Dialogs/Dialogs.c	2009-10-05 17:11:45.000000000 -0700
++++ ./Dialogs/Dialogs.c	2009-10-14 17:53:50.000000000 -0700
+@@ -191,7 +191,7 @@
+     int status, timeout;
+ 
+     status = pthread_detach(pthread_self());
+-    if (status == noErr) {
++    if (status == 0) {
+         
+         // use an adaptative timeout
+         if (reminder < (60 * 5)) timeout = 30;
+@@ -243,7 +243,7 @@
+ 
+     reminderresult = -1;
+     status = pthread_create(&reminderthread, NULL, dialog_reminder_thread, NULL);
+-    if (status == noErr) {
++    if (status == 0) {
+         // install a reminder watch dog every 2 seconds
+         TIMEOUT(dialog_reminder_watch, 0, 2);
+     }
+diff -ru ../ppp-412.orig/ppp.xcodeproj/project.pbxproj ./ppp.xcodeproj/project.pbxproj
+--- ../ppp-412.orig/ppp.xcodeproj/project.pbxproj	2009-10-05 17:11:45.000000000 -0700
++++ ./ppp.xcodeproj/project.pbxproj	2009-10-14 17:51:46.000000000 -0700
+@@ -60,7 +60,6 @@
+ 			dependencies = (
+ 				230560F205E1808C00EAB16F /* PBXTargetDependency */,
+ 				230560F405E1808C00EAB16F /* PBXTargetDependency */,
+-				230560F605E1808C00EAB16F /* PBXTargetDependency */,
+ 				230560FA05E1808C00EAB16F /* PBXTargetDependency */,
+ 			);
+ 			name = "Helpers (Aggregate)";
+@@ -186,14 +185,6 @@
+ 		23055F4F05E1808000EAB16F /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA86267E03F42E5604CA2DDA /* CoreFoundation.framework */; };
+ 		23055F5005E1808000EAB16F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 838BE5EF053C9D9A00F0D0CB /* SystemConfiguration.framework */; };
+ 		23055F5E05E1808000EAB16F /* PPP_VERSION.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 23A7DF9005DAD1A100A3589A /* PPP_VERSION.h */; };
+-		23055F6F05E1808100EAB16F /* MiniTerm.h in Headers */ = {isa = PBXBuildFile; fileRef = 013F974C001901697F000001 /* MiniTerm.h */; };
+-		23055F7005E1808100EAB16F /* PPP_VERSION.h in Headers */ = {isa = PBXBuildFile; fileRef = 23A7DF9005DAD1A100A3589A /* PPP_VERSION.h */; };
+-		23055F7205E1808100EAB16F /* MiniTerm.nib in Resources */ = {isa = PBXBuildFile; fileRef = 013F9735001901697F000001 /* MiniTerm.nib */; };
+-		23055F7305E1808100EAB16F /* MiniTerm.iconheader in Resources */ = {isa = PBXBuildFile; fileRef = 013F974D001901697F000001 /* MiniTerm.iconheader */; };
+-		23055F7505E1808100EAB16F /* MiniTerm.m in Sources */ = {isa = PBXBuildFile; fileRef = 013F974E001901697F000001 /* MiniTerm.m */; };
+-		23055F7605E1808100EAB16F /* MiniTerm_main.m in Sources */ = {isa = PBXBuildFile; fileRef = 013F9752001901697F000001 /* MiniTerm_main.m */; };
+-		23055F7805E1808100EAB16F /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 013F977D001904737F000001 /* AppKit.framework */; };
+-		23055F7905E1808100EAB16F /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F540B7FD0298B01601CA2D7A /* Carbon.framework */; };
+ 		23055F8105E1808100EAB16F /* PPP_VERSION.h in Headers */ = {isa = PBXBuildFile; fileRef = 23A7DF9005DAD1A100A3589A /* PPP_VERSION.h */; };
+ 		23055F8305E1808100EAB16F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 071EC566009889367F000001 /* Localizable.strings */; };
+ 		23055F8405E1808100EAB16F /* NetworkConnect.icns in Resources */ = {isa = PBXBuildFile; fileRef = 018CF39F00BDC8447F000001 /* NetworkConnect.icns */; };
+@@ -715,13 +706,6 @@
+ 			remoteGlobalIDString = 2305601A05E1808300EAB16F;
+ 			remoteInfo = "vpnd (Tool) (Upgraded)";
+ 		};
+-		230560F505E1808C00EAB16F /* PBXContainerItemProxy */ = {
+-			isa = PBXContainerItemProxy;
+-			containerPortal = 7129A431FFF956F311CA2CDC /* Project object */;
+-			proxyType = 1;
+-			remoteGlobalIDString = 23055F6D05E1808100EAB16F;
+-			remoteInfo = "MiniTerm (Application) (Upgraded)";
+-		};
+ 		230560F905E1808C00EAB16F /* PBXContainerItemProxy */ = {
+ 			isa = PBXContainerItemProxy;
+ 			containerPortal = 7129A431FFF956F311CA2CDC /* Project object */;
+@@ -1144,7 +1128,6 @@
+ 		23055F5305E1808000EAB16F /* PPPoE-vpn-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = "PPPoE-vpn-Info.plist"; path = "Drivers/PPPoE/PPPoE-vpn/PPPoE-vpn-Info.plist"; sourceTree = "<group>"; };
+ 		23055F5405E1808000EAB16F /* PPPoE.vpn */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PPPoE.vpn; sourceTree = BUILT_PRODUCTS_DIR; };
+ 		23055F7C05E1808100EAB16F /* MiniTerm-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = "MiniTerm-Info.plist"; path = "Helpers/MiniTerm/MiniTerm-Info.plist"; sourceTree = SOURCE_ROOT; };
+-		23055F7D05E1808100EAB16F /* MiniTerm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MiniTerm.app; sourceTree = BUILT_PRODUCTS_DIR; };
+ 		23055F8B05E1808100EAB16F /* PPPDialogs-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = "PPPDialogs-Info.plist"; path = "Dialogs/PPPDialogs-Info.plist"; sourceTree = SOURCE_ROOT; };
+ 		23055F8C05E1808100EAB16F /* PPPDialogs.ppp */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PPPDialogs.ppp; sourceTree = BUILT_PRODUCTS_DIR; };
+ 		23055FA105E1808100EAB16F /* PPTP-ppp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = "PPTP-ppp-Info.plist"; path = "Drivers/PPTP/PPTP-plugin/PPTP-ppp-Info.plist"; sourceTree = "<group>"; };
+@@ -1426,15 +1409,6 @@
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 		};
+-		23055F7705E1808100EAB16F /* Frameworks */ = {
+-			isa = PBXFrameworksBuildPhase;
+-			buildActionMask = 2147483647;
+-			files = (
+-				23055F7805E1808100EAB16F /* AppKit.framework in Frameworks */,
+-				23055F7905E1808100EAB16F /* Carbon.framework in Frameworks */,
+-			);
+-			runOnlyForDeploymentPostprocessing = 0;
+-		};
+ 		23055F8705E1808100EAB16F /* Frameworks */ = {
+ 			isa = PBXFrameworksBuildPhase;
+ 			buildActionMask = 2147483647;
+@@ -2074,7 +2048,6 @@
+ 				23055F3105E1808000EAB16F /* PPPoE.ppp */,
+ 				23055F4705E1808000EAB16F /* PPPoE.kext */,
+ 				23055F5405E1808000EAB16F /* PPPoE.vpn */,
+-				23055F7D05E1808100EAB16F /* MiniTerm.app */,
+ 				23055F8C05E1808100EAB16F /* PPPDialogs.ppp */,
+ 				23055FA205E1808200EAB16F /* PPTP.ppp */,
+ 				23055FB905E1808200EAB16F /* PPTP.kext */,
+@@ -2499,15 +2472,6 @@
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 		};
+-		23055F6E05E1808100EAB16F /* Headers */ = {
+-			isa = PBXHeadersBuildPhase;
+-			buildActionMask = 2147483647;
+-			files = (
+-				23055F6F05E1808100EAB16F /* MiniTerm.h in Headers */,
+-				23055F7005E1808100EAB16F /* PPP_VERSION.h in Headers */,
+-			);
+-			runOnlyForDeploymentPostprocessing = 0;
+-		};
+ 		23055F8005E1808100EAB16F /* Headers */ = {
+ 			isa = PBXHeadersBuildPhase;
+ 			buildActionMask = 2147483647;
+@@ -2937,26 +2901,6 @@
+ 			productReference = 23055F5405E1808000EAB16F /* PPPoE.vpn */;
+ 			productType = "com.apple.product-type.bundle";
+ 		};
+-		23055F6D05E1808100EAB16F /* MiniTerm (Application) */ = {
+-			isa = PBXNativeTarget;
+-			buildConfigurationList = 72DD7974091AA0ED00EE4DEA /* Build configuration list for PBXNativeTarget "MiniTerm (Application)" */;
+-			buildPhases = (
+-				23055F6E05E1808100EAB16F /* Headers */,
+-				23055F7105E1808100EAB16F /* Resources */,
+-				23055F7405E1808100EAB16F /* Sources */,
+-				23055F7705E1808100EAB16F /* Frameworks */,
+-				23055F7A05E1808100EAB16F /* Rez */,
+-			);
+-			buildRules = (
+-			);
+-			dependencies = (
+-			);
+-			name = "MiniTerm (Application)";
+-			productInstallPath = /usr/libexec;
+-			productName = MiniTerm;
+-			productReference = 23055F7D05E1808100EAB16F /* MiniTerm.app */;
+-			productType = "com.apple.product-type.application";
+-		};
+ 		23055F7F05E1808100EAB16F /* PPPDialogs (Plugin) */ = {
+ 			isa = PBXNativeTarget;
+ 			buildConfigurationList = 72DD7980091AA0ED00EE4DEA /* Build configuration list for PBXNativeTarget "PPPDialogs (Plugin)" */;
+@@ -3553,7 +3497,6 @@
+ 				23055F4805E1808000EAB16F /* PPPoE (VPN Plugin) */,
+ 				23055F5505E1808000EAB16F /* SampleCode (Aggregate) */,
+ 				23055F5605E1808000EAB16F /* Helpers (Aggregate) */,
+-				23055F6D05E1808100EAB16F /* MiniTerm (Application) */,
+ 				23055F7F05E1808100EAB16F /* PPPDialogs (Plugin) */,
+ 				23055F8D05E1808100EAB16F /* PPTP (Plugin) */,
+ 				23055FA305E1808200EAB16F /* PPTP (Kernel Extension) */,
+@@ -3628,15 +3571,6 @@
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 		};
+-		23055F7105E1808100EAB16F /* Resources */ = {
+-			isa = PBXResourcesBuildPhase;
+-			buildActionMask = 2147483647;
+-			files = (
+-				23055F7205E1808100EAB16F /* MiniTerm.nib in Resources */,
+-				23055F7305E1808100EAB16F /* MiniTerm.iconheader in Resources */,
+-			);
+-			runOnlyForDeploymentPostprocessing = 0;
+-		};
+ 		23055F8205E1808100EAB16F /* Resources */ = {
+ 			isa = PBXResourcesBuildPhase;
+ 			buildActionMask = 2147483647;
+@@ -3829,13 +3763,6 @@
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 		};
+-		23055F7A05E1808100EAB16F /* Rez */ = {
+-			isa = PBXRezBuildPhase;
+-			buildActionMask = 2147483647;
+-			files = (
+-			);
+-			runOnlyForDeploymentPostprocessing = 0;
+-		};
+ 		23055F8905E1808100EAB16F /* Rez */ = {
+ 			isa = PBXRezBuildPhase;
+ 			buildActionMask = 2147483647;
+@@ -4234,15 +4161,6 @@
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 		};
+-		23055F7405E1808100EAB16F /* Sources */ = {
+-			isa = PBXSourcesBuildPhase;
+-			buildActionMask = 2147483647;
+-			files = (
+-				23055F7505E1808100EAB16F /* MiniTerm.m in Sources */,
+-				23055F7605E1808100EAB16F /* MiniTerm_main.m in Sources */,
+-			);
+-			runOnlyForDeploymentPostprocessing = 0;
+-		};
+ 		23055F8505E1808100EAB16F /* Sources */ = {
+ 			isa = PBXSourcesBuildPhase;
+ 			buildActionMask = 2147483647;
+@@ -4657,11 +4575,6 @@
+ 			target = 2305601A05E1808300EAB16F /* vpnd (Tool) */;
+ 			targetProxy = 230560F305E1808C00EAB16F /* PBXContainerItemProxy */;
+ 		};
+-		230560F605E1808C00EAB16F /* PBXTargetDependency */ = {
+-			isa = PBXTargetDependency;
+-			target = 23055F6D05E1808100EAB16F /* MiniTerm (Application) */;
+-			targetProxy = 230560F505E1808C00EAB16F /* PBXContainerItemProxy */;
+-		};
+ 		230560FA05E1808C00EAB16F /* PBXTargetDependency */ = {
+ 			isa = PBXTargetDependency;
+ 			target = 230560C805E1808B00EAB16F /* chat (Tool) */;
+@@ -5957,92 +5870,6 @@
+ 			};
+ 			name = Default;
+ 		};
+-		72DD7975091AA0ED00EE4DEA /* Development */ = {
+-			isa = XCBuildConfiguration;
+-			buildSettings = {
+-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+-				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
+-				COPY_PHASE_STRIP = NO;
+-				GCC_DYNAMIC_NO_PIC = NO;
+-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+-				GCC_OPTIMIZATION_LEVEL = 0;
+-				GCC_WARN_ABOUT_POINTER_SIGNEDNESS = NO;
+-				HEADER_SEARCH_PATHS = "$(SYSTEM_LIBRARY_DIR)/Frameworks/System.framework/PrivateHeaders/";
+-				INFOPLIST_FILE = "Helpers/MiniTerm/MiniTerm-Info.plist";
+-				INSTALL_MODE_FLAG = "u+w,go-w,a+rX";
+-				INSTALL_PATH = /usr/libexec;
+-				MACOSX_DEPLOYMENT_TARGET = "";
+-				OTHER_CFLAGS = "";
+-				OTHER_LDFLAGS = "";
+-				OTHER_REZFLAGS = "";
+-				PPP_DEVELOPMENT = 1;
+-				PRODUCT_NAME = MiniTerm;
+-				SECTORDER_FLAGS = "";
+-				WARNING_CFLAGS = (
+-					"-Wmost",
+-					"-Wno-four-char-constants",
+-					"-Wno-unknown-pragmas",
+-				);
+-				WRAPPER_EXTENSION = app;
+-				ZERO_LINK = NO;
+-			};
+-			name = Development;
+-		};
+-		72DD7976091AA0ED00EE4DEA /* Deployment */ = {
+-			isa = XCBuildConfiguration;
+-			buildSettings = {
+-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+-				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
+-				COPY_PHASE_STRIP = YES;
+-				GCC_DYNAMIC_NO_PIC = YES;
+-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+-				GCC_WARN_ABOUT_POINTER_SIGNEDNESS = NO;
+-				HEADER_SEARCH_PATHS = "$(SYSTEM_LIBRARY_DIR)/Frameworks/System.framework/PrivateHeaders/";
+-				INFOPLIST_FILE = "Helpers/MiniTerm/MiniTerm-Info.plist";
+-				INSTALL_MODE_FLAG = "u+w,go-w,a+rX";
+-				INSTALL_PATH = /usr/libexec;
+-				MACOSX_DEPLOYMENT_TARGET = "";
+-				OTHER_CFLAGS = "";
+-				OTHER_LDFLAGS = "";
+-				OTHER_REZFLAGS = "";
+-				PRODUCT_NAME = MiniTerm;
+-				SECTORDER_FLAGS = "";
+-				WARNING_CFLAGS = (
+-					"-Wmost",
+-					"-Wno-four-char-constants",
+-					"-Wno-unknown-pragmas",
+-				);
+-				WRAPPER_EXTENSION = app;
+-				ZERO_LINK = NO;
+-			};
+-			name = Deployment;
+-		};
+-		72DD7977091AA0ED00EE4DEA /* Default */ = {
+-			isa = XCBuildConfiguration;
+-			buildSettings = {
+-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+-				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
+-				GCC_DYNAMIC_NO_PIC = YES;
+-				HEADER_SEARCH_PATHS = "$(SYSTEM_LIBRARY_DIR)/Frameworks/System.framework/PrivateHeaders/";
+-				INFOPLIST_FILE = "Helpers/MiniTerm/MiniTerm-Info.plist";
+-				INSTALL_MODE_FLAG = "u+w,go-w,a+rX";
+-				INSTALL_PATH = /usr/libexec;
+-				MACOSX_DEPLOYMENT_TARGET = "";
+-				OTHER_CFLAGS = "";
+-				OTHER_LDFLAGS = "";
+-				OTHER_REZFLAGS = "";
+-				PRODUCT_NAME = MiniTerm;
+-				SECTORDER_FLAGS = "";
+-				WARNING_CFLAGS = (
+-					"-Wmost",
+-					"-Wno-four-char-constants",
+-					"-Wno-unknown-pragmas",
+-				);
+-				WRAPPER_EXTENSION = app;
+-			};
+-			name = Default;
+-		};
+ 		72DD7979091AA0ED00EE4DEA /* Development */ = {
+ 			isa = XCBuildConfiguration;
+ 			buildSettings = {
+@@ -8950,16 +8777,6 @@
+ 			defaultConfigurationIsVisible = 0;
+ 			defaultConfigurationName = Default;
+ 		};
+-		72DD7974091AA0ED00EE4DEA /* Build configuration list for PBXNativeTarget "MiniTerm (Application)" */ = {
+-			isa = XCConfigurationList;
+-			buildConfigurations = (
+-				72DD7975091AA0ED00EE4DEA /* Development */,
+-				72DD7976091AA0ED00EE4DEA /* Deployment */,
+-				72DD7977091AA0ED00EE4DEA /* Default */,
+-			);
+-			defaultConfigurationIsVisible = 0;
+-			defaultConfigurationName = Default;
+-		};
+ 		72DD7978091AA0ED00EE4DEA /* Build configuration list for PBXNativeTarget "chat (Tool)" */ = {
+ 			isa = XCConfigurationList;
+ 			buildConfigurations = (

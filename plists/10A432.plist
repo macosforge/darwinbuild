@@ -11859,6 +11859,7 @@
 			};
 			patchfiles = (
 				"ppp-412.xauthvendor.patch",
+				"ppp-412.miniterm_and_noerr.patch",
 			);
 			version = 412;
 		};
