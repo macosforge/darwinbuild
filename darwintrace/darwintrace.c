@@ -65,11 +65,14 @@ static pid_t __darwintrace_pid = -1;
  */
 static char *__darwintrace_redirect = NULL; 
 static char *__darwintrace_buildroot = NULL;
-static const char *__redirect_exceptions[] = {"/Developer/Library/PrivateFrameworks",
-					      "/Developer/usr/bin/../../Library/PrivateFrameworks",
+static const char *__redirect_exceptions[] = {"/Developer/Library/Private",
+					      "/Developer/Library/Frameworks",
+					      "/Developer/usr/bin/../../Library/Private",
+					      "/Developer/usr/bin/../../Library/Frameworks",
 					      "/Developer/Library/Xcode",
 					      "/Developer/Platforms/",
 					      "/Developer/usr/bin/xcode",
+					      "/System/Library/Frameworks/Carbon",
 					      "/Volumes/BuildRoot_",
 					      "/usr/bin/xcrun",
 					      "/usr/bin/xcode",
