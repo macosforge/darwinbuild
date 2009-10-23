@@ -5,6 +5,8 @@ include ../common.mk
 ###
 DATDIR:=$(DATDIR)/darwinbuild
 
+override OBJROOT:=$(OBJROOT)/darwinbuild~obj
+
 PrefixReplacements = darwinbuild \
 		     darwinmaster.sh \
 		     packageRoots.sh \
@@ -15,25 +17,27 @@ PrefixReplacements = darwinbuild \
 all: manifest prefixes
 
 manifest: manifest.c
+	@mkdir -p $(OBJROOT)
 	cc $(CFLAGS) -Wall -Werror -o $(OBJROOT)/$@ -lcrypto $^
 
 prefixes: $(PrefixReplacements)
 
 $(PrefixReplacements): % : %.in
-	$(SED) -e 's,%%PREFIX%%,$(PREFIX),' $@.in > $@ ;			
+	@mkdir -p $(OBJROOT)
+	$(SED) -e 's,%%PREFIX%%,$(PREFIX),' $@.in > $(OBJROOT)/$@ ;
 
 install: all
 	[ -d $(BINDIR) ] || $(INSTALL) -d $(INSTALL_DIR_FLAGS) $(BINDIR)
-	$(INSTALL) $(INSTALL_EXE_FLAGS) darwinbuild $(BINDIR)
-	$(INSTALL) $(INSTALL_EXE_FLAGS) darwinmaster.sh $(BINDIR)/darwinmaster
+	$(INSTALL) $(INSTALL_EXE_FLAGS) $(OBJROOT)/darwinbuild $(BINDIR)
+	$(INSTALL) $(INSTALL_EXE_FLAGS) $(OBJROOT)/darwinmaster.sh $(BINDIR)/darwinmaster
 
 	[ -d $(DATDIR) ] || $(INSTALL) -d $(INSTALL_DIR_FLAGS) $(DATDIR)
 	$(INSTALL) $(INSTALL_DOC_FLAGS) darwinbuild.common $(DATDIR)
-	$(INSTALL) $(INSTALL_EXE_FLAGS) installXcode $(DATDIR)
+	$(INSTALL) $(INSTALL_EXE_FLAGS) $(OBJROOT)/installXcode $(DATDIR)
 	$(INSTALL) $(INSTALL_EXE_FLAGS) installXcode2 $(DATDIR)
 	$(INSTALL) $(INSTALL_EXE_FLAGS) installXcode3 $(DATDIR)
 	$(INSTALL) $(INSTALL_EXE_FLAGS) installXcode31 $(DATDIR)
-	$(INSTALL) $(INSTALL_EXE_FLAGS) installXcode32 $(DATDIR)
+	$(INSTALL) $(INSTALL_EXE_FLAGS) $(OBJROOT)/installXcode32 $(DATDIR)
 	$(INSTALL) $(INSTALL_DOC_FLAGS) Info.plist $(DATDIR)
 	$(INSTALL) $(INSTALL_DOC_FLAGS) SDKSettings.plist $(DATDIR)
 
@@ -42,10 +46,10 @@ install: all
 	$(INSTALL) $(INSTALL_EXE_FLAGS) ditto.sh $(DATDIR)/ditto
 	$(INSTALL) $(INSTALL_EXE_FLAGS) buildlist.sh $(DATDIR)/buildlist
 	$(INSTALL) $(INSTALL_EXE_FLAGS) buildorder.pl $(DATDIR)/buildorder
-	$(INSTALL) $(INSTALL_EXE_FLAGS) packageRoots.sh $(DATDIR)/packageRoots
+	$(INSTALL) $(INSTALL_EXE_FLAGS) $(OBJROOT)/packageRoots.sh $(DATDIR)/packageRoots
 	$(INSTALL) $(INSTALL_EXE_FLAGS) synthfat.sh $(DATDIR)/synthfat
 	$(INSTALL) $(INSTALL_EXE_FLAGS) thinFile.sh $(DATDIR)/thinFile
-	$(INSTALL) $(INSTALL_EXE_FLAGS) thinPackages.sh $(DATDIR)/thinPackages
+	$(INSTALL) $(INSTALL_EXE_FLAGS) $(OBJROOT)/thinPackages.sh $(DATDIR)/thinPackages
 
 uninstall:
 	rm -f $(BINDIR)/darwinbuild
@@ -70,6 +74,5 @@ uninstall:
 	
 
 clean:
-	rm -f manifest
-	@$(foreach SCRIPT,$(PrefixReplacements), \
-		rm -f $(SCRIPT) ; )
+	rm -rf $(OBJROOT) 
+

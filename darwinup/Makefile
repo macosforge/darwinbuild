@@ -1,5 +1,7 @@
 include ../common.mk
 
+override OBJROOT:=$(OBJROOT)/darwinup~obj
+
 CXXFLAGS=-g -Wall -Werror -Wno-non-virtual-dtor $(CFLAGS)
 # libredo.o is generated from cctools_ofiles
 REDO=$(shell if [ -f /usr/local/lib/libredo_prebinding.a ]; then \
@@ -27,4 +29,5 @@ uninstall:
 	rm -f $(BINDIR)/darwinup	
 
 clean:
-	rm -f darwinup Archive.o Depot.o Digest.o File.o SerialSet.o Utils.o main.o
+	rm -rf $(OBJROOT)
+ 
