@@ -583,7 +583,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 7227AC7E1098EF6400BE33D7 /* libredo_prebinding.a */;
+			remoteGlobalIDString = 7227AC7E1098EF6400BE33D7;
 			remoteInfo = libredo_prebinding.a;
 		};
 /* End PBXContainerItemProxy section */
