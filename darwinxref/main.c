@@ -79,7 +79,7 @@ int main(int argc, char* argv[]) {
 
 	// special built-in command
 	if (argc == 1 && strcmp(argv[0], "info") == 0) {
-		printf("%s/%s\n", basename(progname), "" VERSION "");
+		printf("%s\n", basename(progname));
 		printf("\tcurrent build: %s\n", build);
 		printf("\tsqlite/%s (%s)\n", sqlite3_version, "UTF-8");
 		printf("\tCoreFoundation/%g %s\n", kCFCoreFoundationVersionNumber, 

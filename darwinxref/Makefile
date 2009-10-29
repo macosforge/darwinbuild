@@ -25,22 +25,10 @@ CFLAGS+= \
 TCL_CFLAGS=-DHAVE_TCL_PLUGINS=1
 TCL_LDFLAGS=-ltcl
 
-CFLAGS+=-g -Wall -Werror $(TCL_CFLAGS) -DVERSION=\""$(shell cat ../VERSION)"\" $(SQLITEINC)
+CFLAGS+=-g -Wall -Werror $(TCL_CFLAGS) $(SQLITEINC)
 LDFLAGS+=-framework CoreFoundation $(TCL_LDFLAGS)
 PLUGIN_CFLAGS=$(CFLAGS) -I.
 PLUGIN_LDFLAGS=$(LDFLAGS) -bundle -bundle_loader $(SYMROOT)/darwinxref
-
-VERSION=$(shell uname -r | cut -f1 -d. )
-ifeq ($(VERSION),7)
-SQLITEINC = -I../sqlite
-SQLITELIB = ../sqlite/sqlite3.o
-else
-SQLITEINC =
-SQLITELIB = -lsqlite3
-endif
-#ifeq ($(VERSION),9)
-#CFLAGS += -mmacosx-version-min=10.5
-#endif
 
 CC = cc
 DSYMUTIL = dsymutil

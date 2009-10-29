@@ -25,7 +25,7 @@ $(PrefixReplacements): % : %.in
 install: all
 	[ -d $(BINDIR) ] || $(INSTALL) -d $(INSTALL_DIR_FLAGS) $(BINDIR)
 	$(INSTALL) $(INSTALL_EXE_FLAGS) darwinbuild $(BINDIR)
-	$(INSTALL) $(INSTALL_EXE_FLAGS) darwinmaster.sh $(BINDIR)/darwinmaster
+	$(INSTALL) $(INSTALL_EXE_FLAGS) darwinmaster $(BINDIR)
 
 	[ -d $(DATDIR) ] || $(INSTALL) -d $(INSTALL_DIR_FLAGS) $(DATDIR)
 	$(INSTALL) $(INSTALL_DOC_FLAGS) darwinbuild.common $(DATDIR)
@@ -39,13 +39,13 @@ install: all
 
 	$(INSTALL) $(INSTALL_EXE_FLAGS) createChroot $(DATDIR)
 	$(INSTALL) $(INSTALL_EXE_FLAGS) $(OBJROOT)/manifest $(DATDIR)
-	$(INSTALL) $(INSTALL_EXE_FLAGS) ditto.sh $(DATDIR)/ditto
-	$(INSTALL) $(INSTALL_EXE_FLAGS) buildlist.sh $(DATDIR)/buildlist
-	$(INSTALL) $(INSTALL_EXE_FLAGS) buildorder.pl $(DATDIR)/buildorder
-	$(INSTALL) $(INSTALL_EXE_FLAGS) packageRoots.sh $(DATDIR)/packageRoots
-	$(INSTALL) $(INSTALL_EXE_FLAGS) synthfat.sh $(DATDIR)/synthfat
-	$(INSTALL) $(INSTALL_EXE_FLAGS) thinFile.sh $(DATDIR)/thinFile
-	$(INSTALL) $(INSTALL_EXE_FLAGS) thinPackages.sh $(DATDIR)/thinPackages
+	$(INSTALL) $(INSTALL_EXE_FLAGS) ditto $(DATDIR)
+	$(INSTALL) $(INSTALL_EXE_FLAGS) buildlist $(DATDIR)
+	$(INSTALL) $(INSTALL_EXE_FLAGS) buildorder $(DATDIR)
+	$(INSTALL) $(INSTALL_EXE_FLAGS) packageRoots $(DATDIR)
+	$(INSTALL) $(INSTALL_EXE_FLAGS) synthfat $(DATDIR)
+	$(INSTALL) $(INSTALL_EXE_FLAGS) thinFile $(DATDIR)
+	$(INSTALL) $(INSTALL_EXE_FLAGS) thinPackages $(DATDIR)
 
 uninstall:
 	rm -f $(BINDIR)/darwinbuild
