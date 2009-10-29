@@ -62,15 +62,17 @@ You can install the latest version of darwinbuild using MacPorts.
   % port install darwinbuild
 
 Or, you can also install by checking out the source and building 
-darwinbuild yourself. The included Makefile will compile the tools and install 
-them into the location specified by the DESTDIR parameter.  If the 
-DESTDIR parameter is not specified, the files will be installed into /usr/local.
+darwinbuild yourself. The included Xcode project will compile the tools and install 
+them into the location specified by the PREFIX environment parameter.  If the 
+PREFIX parameter is not specified, the files will be installed into /usr/local.
 
-By default, darwinbuild will match the architectures of libSystem. If you want 
-to override this, set a list of -arch arguments in RC_CFLAGS.
+By default, darwinbuild will build for x86_64 and i386. You can override this with
+the ARCHS environment variable. 
 
-  % make
-  % sudo make install
+To build and install darwinbuild to the boot partition:
+
+  % cd <path to top of source>
+  % sudo xcodebuild install DSTROOT=/
 
 2.1 Creating the Build Directory
 
