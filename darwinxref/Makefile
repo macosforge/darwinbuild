@@ -6,8 +6,6 @@ include ../common.mk
 DATDIR:=$(DATDIR)/darwinxref
 INCDIR:=$(INCDIR)/darwinbuild
 
-override OBJROOT:=$(OBJROOT)/darwinxref~obj
-
 SOURCES= \
 	DBDataStore.c \
 	DBPlugin.c \
@@ -77,10 +75,15 @@ uninstall:
 	-rmdir $(INCDIR)
 
 clean:
-	rm -rf $(OBJROOT)
+	rm -f darwinxref
+	rm -rf darwinxref.dSYM
+	rm -f $(SOURCES:.c=.o)
+	rm -f $(PLUGIN_SOURCES:.c=.so)
+	rm -rf $(PLUGIN_SOURCES:.c=.so.dSYM)
+	rm -f upgrade_plist
+	rm -rf upgrade_plist.dSYM
 
 darwinxref: $(SOURCES)
-	@mkdir -p $(OBJROOT)
 	@for CFILE in $(SOURCES); do \
 		OFILE=$$(echo $$(basename $${CFILE}) | sed -e 's,\.[^.]*$$,.o,') ; \
 		CMD="$(CC) $(CFLAGS) -c -o $(OBJROOT)/$${OFILE} $${CFILE}"; \
@@ -100,7 +103,6 @@ plugins/%.so: plugins/%.c DBPlugin.h darwinxref
 	cc $(CFLAGS) -o $(OBJROOT)/$@ $(PLUGIN_CFLAGS) $(PLUGIN_LDFLAGS) $<
 
 plugins-darwinports/%.so: plugins-darwinports/%.c DBPlugin.h darwinxref
-	@mkdir -p $(OBJROOT)/plugins-darwinports
 	cc $(CFLAGS) -o $(OBJROOT)/$@ $(PLUGIN_CFLAGS) $(PLUGIN_LDFLAGS) $<
 
 apple_plugins:
@@ -114,6 +116,5 @@ install_apple_plugins:
 	fi
 
 upgrade_plist: upgrade_plist.c cfutils.c
-	@mkdir -p $(OBJROOT)
 	cc $(CFLAGS) -o $(OBJROOT)/$@ $(CFLAGS) $(LDFLAGS) $^
 

@@ -7,8 +7,6 @@ LIBS=$(shell if [ -e /usr/lib/libSystemStubs.a ]; then echo -lSystemStubs; fi)
 ###
 DATDIR:=$(DATDIR)/darwinbuild
 
-override OBJROOT:=$(OBJROOT)/darwintrace~obj
-
 all: darwintrace.dylib
 
 VERSION=$(shell uname -r | cut -f1 -d. )
@@ -19,7 +17,6 @@ CFLAGS += -nodefaultlibs
 endif
 
 darwintrace.dylib: darwintrace.c
-	@mkdir -p $(OBJROOT)
 	cc -o $(OBJROOT)/$@ \
 		$(CFLAGS) \
 		-Wall -Werror -pedantic -std=c99 \
@@ -30,7 +27,7 @@ darwintrace.dylib: darwintrace.c
 		-dynamiclib \
 		$^ $(LIBS)
 clean:
-	rm -rf $(OBJROOT) 
+	rm -f darwintrace.dylib
 
 install: all
 	[ -d $(DATDIR) ] || \
