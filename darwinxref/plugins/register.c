@@ -607,7 +607,7 @@ static int prune_old_entries(const char* build, const char* project) {
 }
 
 int register_files(char* build, char* project, char* path) {
-	int res;
+	int res = 0;
 	int loaded = 0;
 	
 	create_tables();
@@ -697,7 +697,7 @@ int register_files(char* build, char* project, char* path) {
 }
 
 int register_files_from_stdin(char* build, char* project, char* path) {
-	int res;
+	int res = 0;
 	int loaded = 0;
 	char *line;
 	size_t size;

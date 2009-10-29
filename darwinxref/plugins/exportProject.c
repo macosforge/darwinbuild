@@ -41,7 +41,7 @@ static int run(CFArrayRef argv) {
 	if (count > 2)  return -1;
 	int xml = 0, i;
 	CFMutableDictionaryRef dict, preplist;
-	CFDictionaryRef project;
+	CFDictionaryRef project = NULL;
 	CFStringRef projname;
 	CFArrayRef builds;
 	const void *ssites, *bsites;
