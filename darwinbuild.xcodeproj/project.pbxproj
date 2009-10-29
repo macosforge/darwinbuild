@@ -170,231 +170,231 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 725740981097B051008AD4D7 /* darwinxref_plugins */;
+			remoteGlobalIDString = 725740981097B051008AD4D7;
 			remoteInfo = darwinxref_plugins;
 		};
 		7227AB47109897E000BE33D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 7227AB3D1098977C00BE33D7 /* tcl_plugins */;
+			remoteGlobalIDString = 7227AB3D1098977C00BE33D7;
 			remoteInfo = tcl_plugins;
 		};
 		7227AC351098DC6A00BE33D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 7227AC271098DBDF00BE33D7 /* installXcode32 */;
+			remoteGlobalIDString = 7227AC271098DBDF00BE33D7;
 			remoteInfo = installXcode32;
 		};
 		7227AC371098DC6A00BE33D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 7227AC1E1098DB9200BE33D7 /* installXcode */;
+			remoteGlobalIDString = 7227AC1E1098DB9200BE33D7;
 			remoteInfo = installXcode;
 		};
 		7227AC391098DC6A00BE33D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 7227AC151098D8DB00BE33D7 /* thinPackages */;
+			remoteGlobalIDString = 7227AC151098D8DB00BE33D7;
 			remoteInfo = thinPackages;
 		};
 		7227AC3B1098DC6A00BE33D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 7227AC0C1098D84600BE33D7 /* packageRoots */;
+			remoteGlobalIDString = 7227AC0C1098D84600BE33D7;
 			remoteInfo = packageRoots;
 		};
 		7227AC3D1098DC6A00BE33D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 7227ABFF1098D78C00BE33D7 /* darwinmaster */;
+			remoteGlobalIDString = 7227ABFF1098D78C00BE33D7;
 			remoteInfo = darwinmaster;
 		};
 		7227AC3F1098DC6A00BE33D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 7227AB6C10989A9900BE33D7 /* manifest */;
+			remoteGlobalIDString = 7227AB6C10989A9900BE33D7;
 			remoteInfo = manifest;
 		};
 		7227AC411098DC6A00BE33D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 72C86C371096607900C66E90 /* darwinbuild */;
+			remoteGlobalIDString = 72C86C371096607900C66E90;
 			remoteInfo = darwinbuild;
 		};
 		7227AC431098DC7B00BE33D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 7227AC311098DC4E00BE33D7 /* darwinbuild_scripts */;
+			remoteGlobalIDString = 7227AC311098DC4E00BE33D7;
 			remoteInfo = darwinbuild_scripts;
 		};
 		7227AC461098DD1700BE33D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 7257499F1097697300B13BC3 /* darwinxref */;
+			remoteGlobalIDString = 7257499F1097697300B13BC3;
 			remoteInfo = darwinxref;
 		};
 		7227AC481098DD1900BE33D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 7257499F1097697300B13BC3 /* darwinxref */;
+			remoteGlobalIDString = 7257499F1097697300B13BC3;
 			remoteInfo = darwinxref;
 		};
 		7227AC4A1098DD1C00BE33D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 7257499F1097697300B13BC3 /* darwinxref */;
+			remoteGlobalIDString = 7257499F1097697300B13BC3;
 			remoteInfo = darwinxref;
 		};
 		7227AC4C1098DD2000BE33D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 7257499F1097697300B13BC3 /* darwinxref */;
+			remoteGlobalIDString = 7257499F1097697300B13BC3;
 			remoteInfo = darwinxref;
 		};
 		7227AC4E1098DD2300BE33D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 7257499F1097697300B13BC3 /* darwinxref */;
+			remoteGlobalIDString = 7257499F1097697300B13BC3;
 			remoteInfo = darwinxref;
 		};
 		7227AC501098DD2700BE33D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 7257499F1097697300B13BC3 /* darwinxref */;
+			remoteGlobalIDString = 7257499F1097697300B13BC3;
 			remoteInfo = darwinxref;
 		};
 		7227AC521098DD2B00BE33D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 7257499F1097697300B13BC3 /* darwinxref */;
+			remoteGlobalIDString = 7257499F1097697300B13BC3;
 			remoteInfo = darwinxref;
 		};
 		7227AC541098DD2E00BE33D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 7257499F1097697300B13BC3 /* darwinxref */;
+			remoteGlobalIDString = 7257499F1097697300B13BC3;
 			remoteInfo = darwinxref;
 		};
 		7227AC561098DD3200BE33D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 7257499F1097697300B13BC3 /* darwinxref */;
+			remoteGlobalIDString = 7257499F1097697300B13BC3;
 			remoteInfo = darwinxref;
 		};
 		7227AC581098DD3600BE33D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 7257499F1097697300B13BC3 /* darwinxref */;
+			remoteGlobalIDString = 7257499F1097697300B13BC3;
 			remoteInfo = darwinxref;
 		};
 		7227AC5A1098DD3C00BE33D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 7257499F1097697300B13BC3 /* darwinxref */;
+			remoteGlobalIDString = 7257499F1097697300B13BC3;
 			remoteInfo = darwinxref;
 		};
 		7227AC5C1098DD4B00BE33D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 7257499F1097697300B13BC3 /* darwinxref */;
+			remoteGlobalIDString = 7257499F1097697300B13BC3;
 			remoteInfo = darwinxref;
 		};
 		7227AC5E1098DD5000BE33D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 7257499F1097697300B13BC3 /* darwinxref */;
+			remoteGlobalIDString = 7257499F1097697300B13BC3;
 			remoteInfo = darwinxref;
 		};
 		7227AC601098DD9F00BE33D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 7257499F1097697300B13BC3 /* darwinxref */;
+			remoteGlobalIDString = 7257499F1097697300B13BC3;
 			remoteInfo = darwinxref;
 		};
 		7227AC621098DDA100BE33D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 7257499F1097697300B13BC3 /* darwinxref */;
+			remoteGlobalIDString = 7257499F1097697300B13BC3;
 			remoteInfo = darwinxref;
 		};
 		7227AC641098DDA400BE33D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 7257499F1097697300B13BC3 /* darwinxref */;
+			remoteGlobalIDString = 7257499F1097697300B13BC3;
 			remoteInfo = darwinxref;
 		};
 		7227AC661098DDA800BE33D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 7257499F1097697300B13BC3 /* darwinxref */;
+			remoteGlobalIDString = 7257499F1097697300B13BC3;
 			remoteInfo = darwinxref;
 		};
 		7227AC681098DDAB00BE33D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 7257499F1097697300B13BC3 /* darwinxref */;
+			remoteGlobalIDString = 7257499F1097697300B13BC3;
 			remoteInfo = darwinxref;
 		};
 		7227AC6A1098DDAE00BE33D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 7257499F1097697300B13BC3 /* darwinxref */;
+			remoteGlobalIDString = 7257499F1097697300B13BC3;
 			remoteInfo = darwinxref;
 		};
 		7227AC6C1098DDBC00BE33D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 7257499F1097697300B13BC3 /* darwinxref */;
+			remoteGlobalIDString = 7257499F1097697300B13BC3;
 			remoteInfo = darwinxref;
 		};
 		7227AC6E1098DDBE00BE33D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 7257499F1097697300B13BC3 /* darwinxref */;
+			remoteGlobalIDString = 7257499F1097697300B13BC3;
 			remoteInfo = darwinxref;
 		};
 		7227AC701098DDC200BE33D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 7257499F1097697300B13BC3 /* darwinxref */;
+			remoteGlobalIDString = 7257499F1097697300B13BC3;
 			remoteInfo = darwinxref;
 		};
 		7227AC721098DDC500BE33D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 7257499F1097697300B13BC3 /* darwinxref */;
+			remoteGlobalIDString = 7257499F1097697300B13BC3;
 			remoteInfo = darwinxref;
 		};
 		725740961097B03D008AD4D7 /* PBXContainerItemProxy */ = {
@@ -578,6 +578,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 72C86C51109660CA00C66E90;
 			remoteInfo = darwintrace;
+		};
+		DFCB82D9109A2F9A00D2DB2F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7227AC7E1098EF6400BE33D7 /* libredo_prebinding.a */;
+			remoteInfo = libredo_prebinding.a;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -1656,6 +1663,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				DFCB82DA109A2F9A00D2DB2F /* PBXTargetDependency */,
 			);
 			name = darwinup;
 			productName = darwinup;
@@ -1927,11 +1935,10 @@
 			inputPaths = (
 			);
 			outputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/libredo_prebinding.a",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -x\nBUILD=10A432\nHOST=src.macosforge.org\n\n# make sure we only run when needed\nif [ -f /usr/local/lib/libredo_prebinding.a ]; then\n\texit 0;\nfi\n\n/usr/bin/curl -kL http://$HOST/Roots/$BUILD/cctools_ofiles.root.tar.gz | /usr/bin/tar zxO ./usr/local/lib/libredo_prebinding.a > $BUILT_PRODUCTS_DIR/libredo_prebinding.a\n";
+			shellScript = "set -x\nBUILD=10A432\nHOST=src.macosforge.org\n\n# make sure we only run when needed\nif [ -f /usr/local/lib/libredo_prebinding.a ]; then\n\texit 0;\nfi\n\n/usr/bin/curl -kL http://$HOST/Roots/$BUILD/cctools_ofiles.root.tar.gz > $CONFIGURATION_TEMP_DIR/cctools_ofiles.root.tar.gz\n\n/bin/mkdir -p $BUILT_PRODUCTS_DIR\n\n/usr/bin/tar zxOf $CONFIGURATION_TEMP_DIR/cctools_ofiles.root.tar.gz ./usr/local/lib/libredo_prebinding.a > $BUILT_PRODUCTS_DIR/libredo_prebinding.a\n\n/bin/mkdir -p $DSTROOT/$PREFIX/lib/\n\n/bin/cp $BUILT_PRODUCTS_DIR/libredo_prebinding.a $DSTROOT/$PREFIX/lib/\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2459,6 +2466,11 @@
 			isa = PBXTargetDependency;
 			target = 72C86C51109660CA00C66E90 /* darwintrace */;
 			targetProxy = 72C86C601096617500C66E90 /* PBXContainerItemProxy */;
+		};
+		DFCB82DA109A2F9A00D2DB2F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7227AC7E1098EF6400BE33D7 /* libredo_prebinding.a */;
+			targetProxy = DFCB82D9109A2F9A00D2DB2F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
