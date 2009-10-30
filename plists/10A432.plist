@@ -1973,6 +1973,60 @@
 			version = 30;
 		};
 		IOFWDVComponents = {
+			dependencies = {
+				build = (
+					CF,
+					CarbonHeaders,
+					DiskArbitration,
+					ICU,
+					IOKitUser,
+					Libm,
+					Libsystem,
+					Security,
+					bash,
+					cctools,
+					configd,
+					distcc,
+					file_cmds,
+					gcc,
+					gcc_select,
+					grep,
+					ld64,
+					libiconv,
+					objc4,
+					ruby,
+					text_cmds,
+				);
+				header = (
+					CF,
+					CarbonHeaders,
+					DiskArbitration,
+					IOFireWireAVC,
+					IOFireWireFamily,
+					IOGraphics,
+					IOHIDFamily,
+					IOKitUser,
+					Libc_headers,
+					Libm,
+					Libsyscall,
+					Security,
+					gcc,
+					libdispatch,
+					libdyld,
+					xnu,
+				);
+				lib = (
+					CF,
+					IOKitUser,
+					Libsystem,
+				);
+				staticlib = (
+					gcc,
+				);
+			};
+			environment = {
+				RC_ARCHS = i386;
+			};
 			version = 199.4.1;
 		};
 		IOFireWireAVC = {
