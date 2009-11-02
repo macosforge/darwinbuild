@@ -133,6 +133,11 @@ fi
 if [ "$1" == "-init" ]; then
 	if [ "$2" == "" ]; then
 		echo "usage: $(basename $0) -init <build>" 1>&2
+		echo "" 1>&2
+		echo "    <build>      can be a standard build number or a path to a plist." 1>&2
+		echo "                 supported paths: /dir/file.plist, " 1>&2
+		echo "                                  http://host/dir/file.plist, " 1>&2
+		echo "                                  user@host:/dir/file.plist" 1>&2
 		exit 1
 	fi
 	build="$2"
@@ -144,16 +149,22 @@ if [ "$1" == "-init" ]; then
 	[ -d Logs ] || mkdir Logs
 	[ -d .build ] || mkdir .build
 
-	# check if there's a plist locally by this name
+	filename=$(basename "$build")
 	if [ -f "$build" ]; then
-	    filepath="$build"
-	    filename=$(basename "$filepath")
-	    build=$(echo "$filename" | sed 's/.plist$//')
-	    # since we don't want to download this, copy it
-	    cp "$filepath" ".build/$build.plist"
+		# user gave a local path to a plist
+		# since we don't want to download this, copy it
+		cp "$build" ".build/$filename"
+	elif [ $(echo $build | grep 'http://') ]; then
+		# user gave a URL to a webserver
+		host=$(dirname $build)
+		Download .build $filename $host
+	elif [ $(echo $build | grep '\w@\w') ]; then
+		# user provided user@host:/path/file.plist
+		scp $build .build/
 	fi
+	build=$(echo "$filename" | sed 's/.plist$//')
 
-	echo "$build" > .build/build
+	echo "$build" > .build/build 
 
 	while [ "$build" != "" ]; do
 		Download .build "$build".plist "$sites ${DEFAULTPLISTSITE}"
@@ -379,15 +390,17 @@ fi
 ###
 if [ "$nosource" != "YES" ]; then
 	echo "*** Fetching Sources ..."
+
 	# project might be a build alias
 	if [ "$alias" != "" ]; then
 		filename="$alias-$version.tar.gz"
 	else
 		filename="$project.tar.gz"
 	fi
-	patchfilenames=$($DARWINXREF patchfiles $projnam)
-	#echo "patchfiles are $patchfilenames"
+
 	Download "$SourceCache" "$filename" "$($DARWINXREF source_sites $projnam)"
+
+	patchfilenames=$($DARWINXREF patchfiles $projnam)
 	for p in $patchfilenames; do
 	    Download "$SourceCache" "$p" "$($DARWINXREF source_sites $projnam)"    
 	done
