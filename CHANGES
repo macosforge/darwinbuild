@@ -1,7 +1,26 @@
 Darwin Build Scripts Change History
 -----------------------------------
 
-Release x.y.z [Now]
+Release 11 [29-Oct-2009]
+	- fetch libredo_prebinding from src.macosforge.org if not found
+	  at build time
+	- convert build system to Xcode
+
+Release 0.8.0 [29-Oct-2009]
+	- darwinup: add dyld to dependency copy list
+	- darwinxref: fix strdup_cfstr to work with unicode paths
+	- darwintrace: support redirecting file access as a pseudo-chroot
+	- darwinbuild: support hybrid make-xcrun based projects
+	- darwinbuild: fix -logdeps post-processing to account for BuildRoot 
+	  symlink and /Developer
+	- darwinxref: fix resolveDeps plugin -commit option to work when no project 
+	  is given
+	- darwinbuild: installXcode for Xcode v3.2
+	- darwinbuild: add support for subversion working copies in SourceCache
+	- darwinbuild: add support for http and scp fetching of plists
+	- darwinbuild: fix bug where duplicate NFS exports were added 
+	  (aladin@puredarwin)
+	- darwinbuild: fix bug where project-level binary_sites values were ignored
 	- darwinbuild: add -nosource option to skip staging source (dmaclach)
 	- darwinbuild: NFS loopback support
 	- darwinbuild: HFSX sparse image support
