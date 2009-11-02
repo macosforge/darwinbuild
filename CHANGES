@@ -1,7 +1,25 @@
 Darwin Build Scripts Change History
 -----------------------------------
 
-Release x.y.z [Now]
+Release Darwin8 [Now]
+	- darwinbuild: add support for http and scp fetching of plists
+	- darwinbuild: add -nosource option to skip staging source (dmaclach)
+	- all: build according to the archs of our dependencies if env does
+	  not force a set of archs
+
+Release 0.8.0 [29-Oct-2009]
+	- all: honor PREFIX and ARCHS environment when compiling
+	- all: fix uninstall make target
+	- darwintrace: fix a /bin/sh crash when trying to print with a bad
+	  char pointer
+	- darwinxref: use OSSwap instead of NXSwap APIs
+	- darwinup: copy dependencies of darwinup instead of move
+	- darwinbuild: add -configuration option (Ben Huntsman)
+	- darwinbuild: allow for redirections when fetching sources
+	- darwinup: use flock(2) to serialize Depot access
+	- darwinbuild: Xcode 3.x compatibility
+	- darwinbuild: allow projects to have their own binary_sites
+	- darwinxref: new plugins for generating dot graphs and diffing builds
 	- darwinbuild: store download cache in Roots directory, not
 	  /usr/local/share/darwinbuild/cache
 	- darwinbuild: special case file:/// URLs for downloads
