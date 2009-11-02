@@ -475,6 +475,7 @@ int Depot::backup_file(File* file, void* ctx) {
 		const char* tarfiles[] = {"/usr/bin/tar",
 					  "/usr/bin/gnutar",
 					  "/usr/bin/bsdtar",
+					  "/usr/lib/dyld",
 					  "/usr/lib/libarchive",
 					  "/usr/lib/libbz2",
 					  "/usr/lib/libz",
