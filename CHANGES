@@ -1,7 +1,15 @@
 Darwin Build Scripts Change History
 -----------------------------------
 
-Release x.y.z [Now]
+Release Darwin9 [Now]
+	- darwinup: add dyld to dependency copy list
+
+Release 0.8.0 [29-Oct-2009]
+	- darwinbuild: add support for subversion working copies in SourceCache
+	- darwinbuild: add support for http and scp fetching of plists
+	- darwinbuild: fix bug where duplicate NFS exports were added 
+	  (aladin@puredarwin)
+	- darwinbuild: fix bug where project-level binary_sites values were ignored
 	- darwinbuild: add -nosource option to skip staging source (dmaclach)
 	- darwinbuild: NFS loopback support
 	- darwinbuild: HFSX sparse image support
