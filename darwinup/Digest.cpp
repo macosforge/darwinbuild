@@ -90,7 +90,7 @@ uint32_t	Digest::size() { return m_size; }
 char* Digest::string() {
 	static const char* hexabet = "0123456789abcdef";
 	char* result = (char*)malloc(2*m_size+1);
-	uint32_t i, j;
+	int i, j;
 	
 	for (i = 0, j = 0; i < m_size; ++i) {
 		result[j++] = hexabet[(m_data[i] & 0xF0) >> 4];
@@ -105,7 +105,7 @@ int Digest::equal(Digest* a, Digest* b) {
 	if (a == b) return 1;
 	if (a == NULL) return 0;
 	if (b == NULL) return 0;
-	uint32_t a_size = a->size();
+	int a_size = a->size();
 	if (a_size != b->size()) {
 		return 0;
 	} 
@@ -153,6 +153,7 @@ SHA1Digest::SHA1Digest(uint8_t* data, uint32_t size) {
 
 
 SHA1DigestMachO::SHA1DigestMachO(const char* filename) {
+	char* res = NULL;
 	char* error = NULL;
 	
 	// Check for Mach-O
