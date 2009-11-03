@@ -3271,7 +3271,7 @@
 				INSTALL_PATH = "$(BINDIR)";
 				OTHER_CFLAGS = (
 					"-DHAVE_TCL_PLUGINS=1",
-					"-DDEFAULT_PLUGIN_PATH=\\\"/usr/local/share/darwinxref/plugins\\\"",
+					"-DDEFAULT_PLUGIN_PATH=\\\"$(DATDIR)/darwinxref/plugins\\\"",
 					"-DDEFAULT_DB_FILE=\\\".build/xref.db\\\"",
 				);
 				PRODUCT_NAME = darwinxref;
@@ -3287,7 +3287,7 @@
 				INSTALL_PATH = "$(BINDIR)";
 				OTHER_CFLAGS = (
 					"-DHAVE_TCL_PLUGINS=1",
-					"-DDEFAULT_PLUGIN_PATH=\\\"/usr/local/share/darwinxref/plugins\\\"",
+					"-DDEFAULT_PLUGIN_PATH=\\\"$(DATDIR)/darwinxref/plugins\\\"",
 					"-DDEFAULT_DB_FILE=\\\".build/xref.db\\\"",
 				);
 				PRODUCT_NAME = darwinxref;
@@ -3303,7 +3303,7 @@
 				INSTALL_PATH = "$(BINDIR)";
 				OTHER_CFLAGS = (
 					"-DHAVE_TCL_PLUGINS=1",
-					"-DDEFAULT_PLUGIN_PATH=\\\"/usr/local/share/darwinxref/plugins\\\"",
+					"-DDEFAULT_PLUGIN_PATH=\\\"$(DATDIR)/darwinxref/plugins\\\"",
 					"-DDEFAULT_DB_FILE=\\\".build/xref.db\\\"",
 				);
 				PRODUCT_NAME = darwinxref;
