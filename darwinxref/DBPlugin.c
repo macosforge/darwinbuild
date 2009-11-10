@@ -157,11 +157,19 @@ int DBPluginLoadPlugins(const char* plugin_path) {
 	while ((ent = fts_read(dir)) != NULL) {
 		DBPlugin* plugin = NULL;
 		if (strstr(ent->fts_name, ".so")) {
-	//		fprintf(stderr, "plugin: loading %s\n", ent->fts_accpath);
+			//fprintf(stderr, "plugin: loading %s\n", ent->fts_accpath);
 			void* handle = dlopen(ent->fts_accpath, RTLD_LAZY | RTLD_LOCAL);
 			if (handle) {
 				DBPluginInitializeFunc func = dlsym(handle, "initialize");
+				if (!func) {
+					fprintf(stderr, "plugin: cannot find initialize for: %s\n%s\n", ent->fts_accpath, dlerror());
+					return -1;
+				}
 				plugin = _DBPluginInitialize();
+				if (!plugin) {
+					fprintf(stderr, "plugin: failed to initialize %s\n", ent->fts_accpath);
+					return -1;
+				}
 				_DBPluginSetCurrentPlugin(plugin);
 				(*func)(kDBPluginCurrentVersion);	// Call out to C plugin
 				// XXX: check for error?
@@ -181,6 +189,13 @@ int DBPluginLoadPlugins(const char* plugin_path) {
 			} else if (plugin->type == kDBPluginNullType) {
 				fprintf(stderr, "warning: plugin has no type (skipping): %s\n", ent->fts_name);
 			} else {
+				if (CFDictionaryContainsKey(plugins, plugin->name)) {
+					fprintf(stderr,
+							"Error: already have a plugin loaded with name '%s' when "
+							"trying to load %s\n",
+							strdup_cfstr(plugin->name), ent->fts_accpath);
+					return -1;
+				}
 				CFDictionarySetValue(plugins, plugin->name, plugin);
 			}
 		}

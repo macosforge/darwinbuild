@@ -90,7 +90,8 @@ int main(int argc, char* argv[]) {
 	DBDataStoreInitialize(dbfile);
 	DBSetCurrentBuild(build);
 	if (DBPluginLoadPlugins(plugins) == -1) {
-	        fprintf(stderr, "Error: cannot allocate memory for plugins!\n");
+	        fprintf(stderr, "Error: cannot load plugins!\n");
+		exit(2);
 	}
 	if (run_plugin(argc, argv) == -1) {
 		print_usage(progname, argc, argv);

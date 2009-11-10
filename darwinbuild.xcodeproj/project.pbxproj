@@ -99,6 +99,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		61E0A6BD10A8DCC700DA7EBC /* exportIndex.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86BFF10965EEA00C66E90 /* exportIndex.c */; };
 		7227AB41109897D500BE33D7 /* binary_sites.tcl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 72C86BF310965EEA00C66E90 /* binary_sites.tcl */; };
 		7227AB42109897D500BE33D7 /* branch.tcl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 72C86BF410965EEA00C66E90 /* branch.tcl */; };
 		7227AB43109897D500BE33D7 /* currentBuild.tcl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 72C86BF610965EEA00C66E90 /* currentBuild.tcl */; };
@@ -128,7 +129,6 @@
 		72573FFA1097A659008AD4D7 /* edit.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86BFC10965EEA00C66E90 /* edit.c */; };
 		72573FFB1097A67C008AD4D7 /* environment.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86BFD10965EEA00C66E90 /* environment.c */; };
 		72573FFC1097A689008AD4D7 /* exportFiles.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86BFE10965EEA00C66E90 /* exportFiles.c */; };
-		72573FFF1097A6CC008AD4D7 /* exportFiles.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86BFE10965EEA00C66E90 /* exportFiles.c */; };
 		725740871097AF54008AD4D7 /* exportProject.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86C0010965EEA00C66E90 /* exportProject.c */; };
 		725740881097AF5C008AD4D7 /* findFile.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86C0110965EEA00C66E90 /* findFile.c */; };
 		725740891097AF65008AD4D7 /* inherits.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86C0310965EEA00C66E90 /* inherits.c */; };
@@ -2003,7 +2003,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				72573FFF1097A6CC008AD4D7 /* exportFiles.c in Sources */,
+				61E0A6BD10A8DCC700DA7EBC /* exportIndex.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
