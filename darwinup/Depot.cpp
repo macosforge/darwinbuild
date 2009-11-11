@@ -467,35 +467,8 @@ int Depot::backup_file(File* file, void* ctx) {
 		++context->files_modified;
 
 		// XXX: res = file->backup()
-
-		// copy files used by gnutar and libarchive instead of moving them
-		//  since we use tar during the archive process
-		size_t i = 0;
-		bool docopy = false;
-		const char* tarfiles[] = {"/usr/bin/tar",
-					  "/usr/bin/gnutar",
-					  "/usr/bin/bsdtar",
-					  "/usr/lib/dyld",
-					  "/usr/lib/libarchive",
-					  "/usr/lib/libbz2",
-					  "/usr/lib/libz",
-					  "/usr/lib/libSystem",
-					  "/usr/lib/libiconv",
-					  "/usr/lib/libgcc_s"};
-		size_t numfiles = sizeof(tarfiles)/sizeof(*tarfiles);
-		for (i = 0; i < numfiles; i++) {
-		        if (strncmp(tarfiles[i], relpath, strlen(tarfiles[i])) == 0) {
-			        docopy = true;
-				break;
-			}
-		}
-		if (docopy) {
-		        IF_DEBUG("[backup] copyfile(%s, %s)\n", path, dstpath);
-			res = copyfile(path, dstpath, NULL, COPYFILE_ALL);
-		} else {
-		        IF_DEBUG("[backup] rename(%s, %s)\n", path, dstpath);
-			res = rename(path, dstpath);
-		}
+		IF_DEBUG("[backup] copyfile(%s, %s)\n", path, dstpath);
+		res = copyfile(path, dstpath, NULL, COPYFILE_ALL);
 
 		if (res != 0) fprintf(stderr, "%s:%d: backup failed: %s: %s (%d)\n", __FILE__, __LINE__, dstpath, strerror(errno), errno);
 		free(path);
