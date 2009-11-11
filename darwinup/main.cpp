@@ -64,10 +64,14 @@ int main(int argc, char* argv[]) {
 			verbosity |= VERBOSE;
 			break;
 		case 'p':
-		        if (strlen(optarg) > (PATH_MAX - 1)) {
-			        fprintf(stderr, "Error: -p option value is too long \n");
-				exit(3);
-			}
+				if (optarg[0] != '/') {
+					fprintf(stderr, "Error: -p option must be an absolute path\n");
+					exit(4);
+				}
+				if (strlen(optarg) > (PATH_MAX - 1)) {
+					fprintf(stderr, "Error: -p option value is too long \n");
+					exit(4);
+				}
 			join_path(&path, optarg, "/");
 			break;
 		case '?':
@@ -101,7 +105,14 @@ int main(int argc, char* argv[]) {
 				uuid_unparse_upper(archive->uuid(), uuid);
 				fprintf(stdout, "%s\n", uuid);
 			} else {
-				fprintf(stderr, "An error occurred.\n");
+				fprintf(stderr, "Error: Install failed. Rolling back installation.\n");
+				res = depot->uninstall(archive);
+				if (res) {
+					fprintf(stderr, "Error: Unable to rollback installation. "
+							"Your system is in an inconsistent state! File a bug!\n");
+				} else {
+					fprintf(stderr, "Rollback successful.\n");
+				}
 				res = 1;
 			}
 		} else {

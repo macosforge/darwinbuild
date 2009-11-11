@@ -296,6 +296,7 @@ int Directory::install(const char* prefix, const char* dest) {
 	
 	IF_DEBUG("[install] mkdir(%s, %04o)\n", dstpath, mode);
 	if (res == 0) res = mkdir(dstpath, mode);
+	if (res && errno == EEXIST) res = 0;
 	if (res != 0) fprintf(stderr, "ERROR: %s:%d: %s: %s (%d)\n", __FILE__, __LINE__, dstpath, strerror(errno), errno);
 	if (res == 0) res = chown(dstpath, uid, gid);
 	if (res != 0) fprintf(stderr, "ERROR: %s:%d: %s: %s (%d)\n", __FILE__, __LINE__, dstpath, strerror(errno), errno);
