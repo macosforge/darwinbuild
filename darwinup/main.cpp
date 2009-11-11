@@ -57,7 +57,7 @@ int main(int argc, char* argv[]) {
 	char* path = NULL;
 
 	int ch;
-	while ((ch = getopt(argc, argv, "p:v")) != -1) {
+	while ((ch = getopt(argc, argv, "p:vh")) != -1) {
 		switch (ch) {
 		case 'v':
 			verbosity <<= 1;
@@ -71,6 +71,7 @@ int main(int argc, char* argv[]) {
 			join_path(&path, optarg, "/");
 			break;
 		case '?':
+		case 'h':
 		default:
 			usage(progname);
 		}
@@ -78,20 +79,26 @@ int main(int argc, char* argv[]) {
 	argc -= optind;
 	argv += optind;
 
+	// you must be root
+	uid_t uid = getuid();
+	if (uid) {
+		fprintf(stderr, "You must be root to run this tool.\n");
+		exit(3);
+	}
+	
 	int res = 0;
 
 	if (!path) {
 		asprintf(&path, "/");
 	}
+		
 	Depot* depot = new Depot(path);
-	if (!depot->is_locked()) {
-	        fprintf(stderr, 
-			"Error: unable to access and lock %s. " \
-			"The directory must exist and be writable.\n", depot->prefix());
+	res = depot->initialize();
+	if (res) {
+		fprintf(stderr, "Error: unable to initialize storage.\n");
 		exit(2);
 	}
-
-
+	
 	if (argc == 2 && strcmp(argv[0], "install") == 0) {
 		char uuid[37];
 		Archive* archive = ArchiveFactory(argv[1]);

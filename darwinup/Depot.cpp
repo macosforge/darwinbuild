@@ -42,54 +42,31 @@
 #include <sqlite3.h>
 
 Depot::Depot() {
-        m_prefix = NULL;
+	m_prefix = NULL;
 	m_depot_path = NULL;
 	m_database_path = NULL;
 	m_archives_path = NULL;
 	m_db = NULL;
 	m_lock_fd = -1;
 	m_is_locked = 0;
+	m_depot_mode = 0750;
 }
 
 Depot::Depot(const char* prefix) {
 	m_lock_fd = -1;
 	m_is_locked = 0;
+	m_depot_mode = 0750;
+
 	asprintf(&m_prefix, "%s", prefix);
 	join_path(&m_depot_path, m_prefix, "/.DarwinDepot");
 	join_path(&m_database_path, m_depot_path, "/Database-V100");
 	join_path(&m_archives_path, m_depot_path, "/Archives");
-
-	mkdir(m_depot_path,    m_depot_mode);
-	mkdir(m_archives_path, m_depot_mode);
-
-	int res = 0;
-
-	res = this->lock(LOCK_SH);
-	if (res == 0) {
-	        m_is_locked = 1;
-	}
-
-	int exists = is_regular_file(m_database_path);
-
-	res = sqlite3_open(m_database_path, &m_db);
-	if (res != 0) {
-		sqlite3_close(m_db);
-		m_db = NULL;
-	}
-
-	if (m_db && !exists) {
-		this->SQL("CREATE TABLE archives (serial INTEGER PRIMARY KEY AUTOINCREMENT, uuid BLOB UNIQUE, name TEXT, date_added INTEGER, active INTEGER, info INTEGER)");
-		this->SQL("CREATE TABLE files (serial INTEGER PRIMARY KEY AUTOINCREMENT, archive INTEGER, info INTEGER, mode INTEGER, uid INTEGER, gid INTEGER, size INTEGER, digest BLOB, path TEXT)");
-
-		this->SQL("CREATE INDEX archives_uuid ON archives (uuid)");
-		this->SQL("CREATE INDEX files_path ON files (path)");
-	}
 }
 
 Depot::~Depot() {
 	if (m_lock_fd != -1)	this->unlock();
 	if (m_db)		sqlite3_close(m_db);
-        if (m_prefix)           free(m_prefix);
+	if (m_prefix)           free(m_prefix);
 	if (m_depot_path)	free(m_depot_path);
 	if (m_database_path)	free(m_database_path);
 	if (m_archives_path)	free(m_archives_path);
@@ -97,6 +74,52 @@ Depot::~Depot() {
 
 const char*	Depot::archives_path()		{ return m_archives_path; }
 const char*     Depot::prefix()                 { return m_prefix; }
+
+// Initialize the depot storage on disk
+int Depot::initialize() {
+	int res = 0;
+	
+	// initialization requires all these paths to be set
+	if (!(m_prefix && m_depot_path && m_database_path && m_archives_path)) {
+		return -1;
+	}
+	
+	res = mkdir(m_depot_path, m_depot_mode);
+	if (res && errno != EEXIST) {
+		perror(m_depot_path);
+		return res;
+	}
+	res = mkdir(m_archives_path, m_depot_mode);
+	if (res && errno != EEXIST) {
+		perror(m_archives_path);
+		return res;
+	}
+	
+	res = this->lock(LOCK_SH);
+	if (res) return res;
+	m_is_locked = 1;
+	
+	int exists = is_regular_file(m_database_path);
+	
+	res = sqlite3_open(m_database_path, &m_db);
+	if (res) {
+		sqlite3_close(m_db);
+		m_db = NULL;
+	}
+	
+	if (m_db && !exists) {
+		this->SQL("CREATE TABLE archives (serial INTEGER PRIMARY KEY AUTOINCREMENT, uuid BLOB UNIQUE, name TEXT, date_added INTEGER, active INTEGER, info INTEGER)");
+		this->SQL("CREATE TABLE files (serial INTEGER PRIMARY KEY AUTOINCREMENT, archive INTEGER, info INTEGER, mode INTEGER, uid INTEGER, gid INTEGER, size INTEGER, digest BLOB, path TEXT)");
+		this->SQL("CREATE INDEX archives_uuid ON archives (uuid)");
+		this->SQL("CREATE INDEX files_path ON files (path)");
+	}
+	
+	return res;
+}
+
+int Depot::is_initialized() {
+	return (m_db != NULL);
+}
 
 // Unserialize an archive from the database.
 // Find the archive by UUID.
@@ -1022,9 +1045,10 @@ int Depot::lock(int operation) {
 		m_lock_fd = open(m_depot_path, O_RDONLY);
 		if (m_lock_fd == -1) {
 			perror(m_depot_path);
-			res = -1;
+			res = m_lock_fd;
 		}
 	}
+	if (res) return res;
 	res = flock(m_lock_fd, operation);
 	if (res == -1) {
 		perror(m_depot_path);
