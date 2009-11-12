@@ -595,7 +595,7 @@ else
 	buildtool="make"
 
 	# test for hybrid make-xcode project
-	uses_xcrun=$(grep -Elir 'xcrun|Commands.make|BSDCommon.make|Standard.make' .)
+	uses_xcrun=$(grep -Elir 'xcrun|Commands.make|BSDCommon.make|Standard.make|Common.make' .)
 	if [ -n "$uses_xcrun" -a $USE_CHROOT == "YES" ]; then
 		export USE_CHROOT="NO"
 		export INSTALL_XCODE="YES"
