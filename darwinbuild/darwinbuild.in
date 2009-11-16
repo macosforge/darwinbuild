@@ -193,7 +193,7 @@ if [ "$1" == "-init" ]; then
 	else
 		echo "Creating build root disk image ..."
 		DMGVOLUME="BuildRoot_${build}_${stamp}"
-		hdiutil create -size 1t -fs HFSX -quiet \
+		hdiutil create -size 1t -fs HFSX -quiet -uid 0 -gid 0 \
 			-volname $DMGVOLUME \
 			$DMGFILE
 		ln -s "/Volumes/${DMGVOLUME}" BuildRoot
@@ -247,7 +247,7 @@ elif [ -d $DMGFILE ]; then
     stat -L $BuildRoot >> /dev/null 2>&1
     if [ $? -eq 1 ]; then
 	echo "*** Attaching build root disk image ..."
-	hdiutil attach $DMGFILE -readwrite 
+	hdiutil attach $DMGFILE -readwrite -owners on
 	if [ $? -ne 0 ]; then
 	    echo "Error: Unable to attach sparse disk image";
 	    exit 70

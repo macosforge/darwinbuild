@@ -2,6 +2,8 @@ Darwin Build Scripts Change History
 -----------------------------------
 
 Release Darwin9 [Now]
+	- darwinbuild: create buildroot images with root/wheel ownership and
+	  attach them with owners on (Ben Huntsman)
 	- darwinup: add dyld to dependency copy list
 
 Release 0.8.0 [29-Oct-2009]
