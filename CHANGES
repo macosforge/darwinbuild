@@ -1,6 +1,10 @@
 Darwin Build Scripts Change History
 -----------------------------------
 
+Release 12 [Now]
+	- darwinbuild: create buildroot images with root/wheel ownership and 
+	  attach them with owners on (Ben Huntsman)
+	  
 Release 11 [29-Oct-2009]
 	- fetch libredo_prebinding from src.macosforge.org if not found
 	  at build time
