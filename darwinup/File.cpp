@@ -133,6 +133,7 @@ void File::print(FILE* stream) {
 }
 
 int File::install(const char* prefix, const char* dest) {
+	extern uint32_t force;
 	int res = 0;
 	Archive* archive = this->archive();
 	assert(archive != NULL);
@@ -157,22 +158,31 @@ int File::install(const char* prefix, const char* dest) {
 				// the file wasn't found, try to do on-demand
 				// expansion of the archive that contains it.
 				if (is_directory(dirpath) == 0) {
+					IF_DEBUG("[install] File::install on-demand archive expansion");
 					res = archive->expand_directory(prefix);
 					if (res == 0) res = this->install(prefix, dest);
 				} else {
 					// archive was already expanded, so
 					// the file is truly missing (worry).
+					IF_DEBUG("[install] File::install missing file in archive");
 					fprintf(stderr, "%s:%d: %s: %s (%d)\n", __FILE__, __LINE__, srcpath, strerror(errno), errno);
 				}
-			//} else if (errno == ENOTDIR) {
+			} else if (force && errno == ENOTDIR) {
 				// a) some part of destination path does not exist
 				// b) from is a directory, but to is not
-			//} else if (errno == EISDIR) {
+				IF_DEBUG("[install] File::install ENOTDIR\n");
+			} else if (force && errno == EISDIR) {
 				// to is a directory, but from is not
-			//} else if (errno == ENOTEMPTY) {
+				IF_DEBUG("[install] File::install EISDIR\n");
+			} else if (force && errno == ENOTEMPTY) {
 				// to is a directory and is not empty
+				IF_DEBUG("[install] File::install ENOTEMPTY\n");
 			} else {
+				if (!force) {
+					fprintf(stderr, "ERROR: darwinup cannot handle what you are trying to do. You can use the force option to allow more potentially-unsafe operations.\n");
+				}
 				fprintf(stderr, "%s:%d: %s: %s (%d)\n", __FILE__, __LINE__, dstpath, strerror(errno), errno);
+				fprintf(stderr, "ERROR: fatal error during File::install. Cannot continue.\n");
 			}
 		} else {
 			IF_DEBUG("[install] rename(%s, %s)\n", srcpath, dstpath);
@@ -286,7 +296,7 @@ int Directory::install(const char* prefix, const char* dest) {
 	// existing one, since that would move the entire
 	// sub-tree, and lead to a lot of ENOENT errors.
 	int res = 0;
-	
+	extern uint32_t force;
 	char* dstpath;
 	join_path(&dstpath, dest, this->path());
 	
@@ -297,9 +307,22 @@ int Directory::install(const char* prefix, const char* dest) {
 	IF_DEBUG("[install] mkdir(%s, %04o)\n", dstpath, mode);
 	if (res == 0) res = mkdir(dstpath, mode);
 	if (res && errno == EEXIST) res = 0;
-	if (res != 0) fprintf(stderr, "ERROR: %s:%d: %s: %s (%d)\n", __FILE__, __LINE__, dstpath, strerror(errno), errno);
-	if (res == 0) res = chown(dstpath, uid, gid);
-	if (res != 0) fprintf(stderr, "ERROR: %s:%d: %s: %s (%d)\n", __FILE__, __LINE__, dstpath, strerror(errno), errno);
+
+	if (force && res == -1 && errno == ENOTDIR) {
+		// some part of destination path is not a directory
+		IF_DEBUG("[install] Directory::install ENOTDIR1\n");
+	} else if (res == -1) {
+		fprintf(stderr, "ERROR: %s:%d: %s: %s (%d)\n", __FILE__, __LINE__, dstpath, strerror(errno), errno);
+		fprintf(stderr, "ERROR: unable to create %s \n", dstpath);
+	}
+	
+	if (res == 0) {
+		res = chown(dstpath, uid, gid);
+		if (res != 0) {
+			fprintf(stderr, "ERROR: %s:%d: %s: %s (%d)\n", __FILE__, __LINE__, dstpath, strerror(errno), errno);
+			fprintf(stderr, "ERROR: unable to change ownership of %s \n", dstpath);
+		}
+	}
 
 	free(dstpath);
 	return res;
@@ -377,12 +400,20 @@ File* FileFactory(const char* path) {
 	File* file = NULL;
 	struct stat sb;
 	int res = 0;
+	extern uint32_t force;
 	
 	res = lstat(path, &sb);
 	if (res == -1 && errno == ENOENT) {
+		// destination does not have a matching node
 		return NULL;
-	} else if (res == -1) {
+	} else if (force && res == -1 && errno == ENOTDIR) {
+		// some part of destination path does not exist
+		IF_DEBUG("[       ] FileFactory ENOTDIR\n");
+		return NULL;
+	}	
+	if (res == -1) {
 		fprintf(stderr, "%s:%d: %s: %s (%d)\n", __FILE__, __LINE__, path, strerror(errno), errno);
+		fprintf(stderr, "ERROR: unable to stat %s \n", path);
 		return NULL;
 	}
 	
