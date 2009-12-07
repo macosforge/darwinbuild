@@ -36,6 +36,7 @@ void usage(char* progname) {
 	fprintf(stderr, "usage:    %s [-v] [-p DIR] [command] [args]          \n", progname);
 	fprintf(stderr, "                                                               \n");
 	fprintf(stderr, "options:                                                       \n");
+	fprintf(stderr, "          -f         force operation to succeed at all costs   \n");
 	fprintf(stderr, "          -p DIR     operate on roots under DIR (default: /)   \n");
 	fprintf(stderr, "          -v         verbose (use -vv for extra verbosity)     \n");
 	fprintf(stderr, "                                                               \n");
@@ -50,6 +51,7 @@ void usage(char* progname) {
 
 // our globals
 uint32_t verbosity;
+uint32_t force;
 
 int main(int argc, char* argv[]) {
 	char* progname = strdup(basename(argv[0]));      
@@ -57,12 +59,12 @@ int main(int argc, char* argv[]) {
 	char* path = NULL;
 
 	int ch;
-	while ((ch = getopt(argc, argv, "p:v")) != -1) {
+	while ((ch = getopt(argc, argv, "fp:v")) != -1) {
 		switch (ch) {
-		case 'v':
-			verbosity <<= 1;
-			verbosity |= VERBOSE;
-			break;
+		case 'f':
+				fprintf(stderr, "DEBUG: forcing operations\n");
+				force = 1;
+				break;
 		case 'p':
 				if (optarg[0] != '/') {
 					fprintf(stderr, "Error: -p option must be an absolute path\n");
@@ -72,11 +74,15 @@ int main(int argc, char* argv[]) {
 					fprintf(stderr, "Error: -p option value is too long \n");
 					exit(4);
 				}
-			join_path(&path, optarg, "/");
-			break;
+				join_path(&path, optarg, "/");
+				break;
+		case 'v':
+				verbosity <<= 1;
+				verbosity |= VERBOSE;
+				break;
 		case '?':
 		default:
-			usage(progname);
+				usage(progname);
 		}
 	}
 	argc -= optind;
