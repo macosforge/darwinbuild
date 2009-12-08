@@ -435,7 +435,7 @@ int Depot::backup_file(File* file, void* ctx) {
 	InstallContext* context = (InstallContext*)ctx;
 	int res = 0;
 
-	IF_DEBUG("[DEBUG] backup_file: %s , %s \n", file->path(), context->archive->m_name);
+	IF_DEBUG("[backup] backup_file: %s , %s \n", file->path(), context->archive->m_name);
 
 	if (INFO_TEST(file->info(), FILE_INFO_ROLLBACK_DATA)) {
 	        char *path;        // the file's path
@@ -462,7 +462,10 @@ int Depot::backup_file(File* file, void* ctx) {
 		join_path(&dstpath, uuidpath, relpath);
 		assert(dstpath != NULL);
 
-		IF_DEBUG("[DEBUG] \npath = %s \nrelpath = %s \ndstpath = %s \nuuidpath = %s \n[/DEBUG]\n", path, relpath, dstpath, uuidpath); 
+		IF_DEBUG("[backup] path = %s \n", path);
+		IF_DEBUG("[backup] relpath = %s \n", relpath);
+		IF_DEBUG("[backup] dstpath = %s \n", dstpath);
+		IF_DEBUG("[backup] uuidpath = %s \n", uuidpath);
 
 		++context->files_modified;
 

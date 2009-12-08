@@ -32,6 +32,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <removefile.h>
 
 File::File() {
 	m_serial = 0;
@@ -151,35 +152,54 @@ int File::install(const char* prefix, const char* dest) {
 			fprintf(stderr, "ERROR: [install] path too long: %s/%s\n", dirpath, path);
 			return -1;
 		}
-		IF_DEBUG("[install] about to rename %s to %s\n", srcpath, dstpath);
+		IF_DEBUG("[install] rename(%s, %s)\n", srcpath, dstpath);
 		res = rename(srcpath, dstpath);
 		if (res == -1) {
 			if (errno == ENOENT) {
 				// the file wasn't found, try to do on-demand
 				// expansion of the archive that contains it.
 				if (is_directory(dirpath) == 0) {
-					IF_DEBUG("[install] File::install on-demand archive expansion");
+					IF_DEBUG("[install] File::install on-demand archive expansion \n");
 					res = archive->expand_directory(prefix);
 					if (res == 0) res = this->install(prefix, dest);
 				} else {
 					// archive was already expanded, so
 					// the file is truly missing (worry).
-					IF_DEBUG("[install] File::install missing file in archive");
+					IF_DEBUG("[install] File::install missing file in archive \n");
 					fprintf(stderr, "%s:%d: %s: %s (%d)\n", __FILE__, __LINE__, srcpath, strerror(errno), errno);
 				}
 			} else if (force && errno == ENOTDIR) {
 				// a) some part of destination path does not exist
 				// b) from is a directory, but to is not
 				IF_DEBUG("[install] File::install ENOTDIR\n");
+				fprintf(stderr, "%s:%d: %s: %s (%d)\n", __FILE__, __LINE__, dstpath, strerror(errno), errno);
 			} else if (force && errno == EISDIR) {
 				// to is a directory, but from is not
-				IF_DEBUG("[install] File::install EISDIR\n");
+				IF_DEBUG("[install] replacing directory with a file\n");
+				IF_DEBUG("[install] removefile(%s)\n", dstpath);
+				removefile_state_t rmstate;
+				rmstate = removefile_state_alloc();
+				res = removefile(dstpath, rmstate, REMOVEFILE_RECURSIVE);
+				removefile_state_free(rmstate);
+				if (res == -1) fprintf(stderr, "%s:%d: %s: %s (%d)\n", __FILE__, __LINE__, dstpath, strerror(errno), errno);
+				IF_DEBUG("[install] rename(%s, %s)\n", srcpath, dstpath);
+				res = rename(srcpath, dstpath);
+				if (res == -1) fprintf(stderr, "%s:%d: %s: %s (%d)\n", __FILE__, __LINE__, dstpath, strerror(errno), errno);
 			} else if (force && errno == ENOTEMPTY) {
 				// to is a directory and is not empty
 				IF_DEBUG("[install] File::install ENOTEMPTY\n");
+				fprintf(stderr, "%s:%d: %s: %s (%d)\n", __FILE__, __LINE__, dstpath, strerror(errno), errno);
 			} else {
 				if (!force) {
-					fprintf(stderr, "ERROR: darwinup cannot handle what you are trying to do. You can use the force option to allow more potentially-unsafe operations.\n");
+					fprintf(stderr,
+							"-------------------------------------------------------------------------------\n"
+							"darwinup has encountered a potentially unsafe mismatch between the root and    \n"
+							"destination. For example, you may be trying to install a file where a directory\n" 
+							"currently exists. darwinup will not install this root by default since it could\n"
+							"cause damage to your system. You can use the force (-f) option to allow        \n"
+							"darwinup to attempt the install anyway.                                        \n"
+							"-------------------------------------------------------------------------------\n"
+							);
 				}
 				fprintf(stderr, "%s:%d: %s: %s (%d)\n", __FILE__, __LINE__, dstpath, strerror(errno), errno);
 				fprintf(stderr, "ERROR: fatal error during File::install. Cannot continue.\n");
@@ -306,11 +326,25 @@ int Directory::install(const char* prefix, const char* dest) {
 	
 	IF_DEBUG("[install] mkdir(%s, %04o)\n", dstpath, mode);
 	if (res == 0) res = mkdir(dstpath, mode);
-	if (res && errno == EEXIST) res = 0;
 
-	if (force && res == -1 && errno == ENOTDIR) {
+	if (res && errno == EEXIST) {
+		if (is_directory(dstpath)) {
+			// this is expected in normal cases, so no need to force
+			IF_DEBUG("[install] directory already exists, setting mode \n");
+			res = chmod(dstpath, mode);
+			if (res == -1) fprintf(stderr, "%s:%d: %s: %s (%d)\n", __FILE__, __LINE__, dstpath, strerror(errno), errno);
+		} else if (force) {
+			// this could be bad, so require the force option
+			IF_DEBUG("[install] original node is a file, we need to replace with a directory \n");
+			IF_DEBUG("[install] unlink(%s)\n", dstpath);
+			res = unlink(dstpath);
+			IF_DEBUG("[install] mkdir(%s, %04o)\n", dstpath, mode);
+			res = mkdir(dstpath, mode);
+			if (res == -1) fprintf(stderr, "%s:%d: %s: %s (%d)\n", __FILE__, __LINE__, dstpath, strerror(errno), errno);
+		}
+	} else if (force && res == -1 && errno == ENOTDIR) {
 		// some part of destination path is not a directory
-		IF_DEBUG("[install] Directory::install ENOTDIR1\n");
+		IF_DEBUG("[install] Directory::install ENOTDIR \n");
 	} else if (res == -1) {
 		fprintf(stderr, "ERROR: %s:%d: %s: %s (%d)\n", __FILE__, __LINE__, dstpath, strerror(errno), errno);
 		fprintf(stderr, "ERROR: unable to create %s \n", dstpath);
@@ -408,7 +442,9 @@ File* FileFactory(const char* path) {
 		return NULL;
 	} else if (force && res == -1 && errno == ENOTDIR) {
 		// some part of destination path does not exist
-		IF_DEBUG("[       ] FileFactory ENOTDIR\n");
+		// or is a file. This gets handled by Directory::install 
+		// eventually
+		IF_DEBUG("[factory]    parents do not exist or contain a file\n");
 		return NULL;
 	}	
 	if (res == -1) {

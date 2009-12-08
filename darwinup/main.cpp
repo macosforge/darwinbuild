@@ -62,7 +62,7 @@ int main(int argc, char* argv[]) {
 	while ((ch = getopt(argc, argv, "fp:v")) != -1) {
 		switch (ch) {
 		case 'f':
-				fprintf(stderr, "DEBUG: forcing operations\n");
+				IF_DEBUG("forcing operations\n");
 				force = 1;
 				break;
 		case 'p':
