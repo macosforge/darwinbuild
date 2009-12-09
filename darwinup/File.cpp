@@ -296,14 +296,17 @@ int Symlink::remove() {
 
 int Symlink::install_info(const char* dest) {
 	int res = 0;
-	const char* path = this->path();
+	char* path;
+	join_path(&path, dest, this->path());
 	//mode_t mode = this->mode() & ALLPERMS;
 	uid_t uid = this->uid();
 	gid_t gid = this->gid();
 	IF_DEBUG("[install] lchown(%d, %d)\n", uid, gid);
 	if (res == 0) res = lchown(path, uid, gid);
+	if (res == -1) fprintf(stderr, "%s:%d: %s: %s (%d)\n", __FILE__, __LINE__, path, strerror(errno), errno);
 	//IF_DEBUG("[install] lchmod(%o)\n", mode);
 	//if (res == 0) res = lchmod(path, mode);
+	free(path);
 	return res;
 }
 
