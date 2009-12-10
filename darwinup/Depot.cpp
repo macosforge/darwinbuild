@@ -42,54 +42,31 @@
 #include <sqlite3.h>
 
 Depot::Depot() {
-        m_prefix = NULL;
+	m_prefix = NULL;
 	m_depot_path = NULL;
 	m_database_path = NULL;
 	m_archives_path = NULL;
 	m_db = NULL;
 	m_lock_fd = -1;
 	m_is_locked = 0;
+	m_depot_mode = 0750;
 }
 
 Depot::Depot(const char* prefix) {
 	m_lock_fd = -1;
 	m_is_locked = 0;
+	m_depot_mode = 0750;
+
 	asprintf(&m_prefix, "%s", prefix);
 	join_path(&m_depot_path, m_prefix, "/.DarwinDepot");
 	join_path(&m_database_path, m_depot_path, "/Database-V100");
 	join_path(&m_archives_path, m_depot_path, "/Archives");
-
-	mkdir(m_depot_path,    m_depot_mode);
-	mkdir(m_archives_path, m_depot_mode);
-
-	int res = 0;
-
-	res = this->lock(LOCK_SH);
-	if (res == 0) {
-	        m_is_locked = 1;
-	}
-
-	int exists = is_regular_file(m_database_path);
-
-	res = sqlite3_open(m_database_path, &m_db);
-	if (res != 0) {
-		sqlite3_close(m_db);
-		m_db = NULL;
-	}
-
-	if (m_db && !exists) {
-		this->SQL("CREATE TABLE archives (serial INTEGER PRIMARY KEY AUTOINCREMENT, uuid BLOB UNIQUE, name TEXT, date_added INTEGER, active INTEGER, info INTEGER)");
-		this->SQL("CREATE TABLE files (serial INTEGER PRIMARY KEY AUTOINCREMENT, archive INTEGER, info INTEGER, mode INTEGER, uid INTEGER, gid INTEGER, size INTEGER, digest BLOB, path TEXT)");
-
-		this->SQL("CREATE INDEX archives_uuid ON archives (uuid)");
-		this->SQL("CREATE INDEX files_path ON files (path)");
-	}
 }
 
 Depot::~Depot() {
 	if (m_lock_fd != -1)	this->unlock();
 	if (m_db)		sqlite3_close(m_db);
-        if (m_prefix)           free(m_prefix);
+	if (m_prefix)           free(m_prefix);
 	if (m_depot_path)	free(m_depot_path);
 	if (m_database_path)	free(m_database_path);
 	if (m_archives_path)	free(m_archives_path);
@@ -97,6 +74,52 @@ Depot::~Depot() {
 
 const char*	Depot::archives_path()		{ return m_archives_path; }
 const char*     Depot::prefix()                 { return m_prefix; }
+
+// Initialize the depot storage on disk
+int Depot::initialize() {
+	int res = 0;
+	
+	// initialization requires all these paths to be set
+	if (!(m_prefix && m_depot_path && m_database_path && m_archives_path)) {
+		return -1;
+	}
+	
+	res = mkdir(m_depot_path, m_depot_mode);
+	if (res && errno != EEXIST) {
+		perror(m_depot_path);
+		return res;
+	}
+	res = mkdir(m_archives_path, m_depot_mode);
+	if (res && errno != EEXIST) {
+		perror(m_archives_path);
+		return res;
+	}
+	
+	res = this->lock(LOCK_SH);
+	if (res) return res;
+	m_is_locked = 1;
+	
+	int exists = is_regular_file(m_database_path);
+	
+	res = sqlite3_open(m_database_path, &m_db);
+	if (res) {
+		sqlite3_close(m_db);
+		m_db = NULL;
+	}
+	
+	if (m_db && !exists) {
+		this->SQL("CREATE TABLE archives (serial INTEGER PRIMARY KEY AUTOINCREMENT, uuid BLOB UNIQUE, name TEXT, date_added INTEGER, active INTEGER, info INTEGER)");
+		this->SQL("CREATE TABLE files (serial INTEGER PRIMARY KEY AUTOINCREMENT, archive INTEGER, info INTEGER, mode INTEGER, uid INTEGER, gid INTEGER, size INTEGER, digest BLOB, path TEXT)");
+		this->SQL("CREATE INDEX archives_uuid ON archives (uuid)");
+		this->SQL("CREATE INDEX files_path ON files (path)");
+	}
+	
+	return res;
+}
+
+int Depot::is_initialized() {
+	return (m_db != NULL);
+}
 
 // Unserialize an archive from the database.
 // Find the archive by UUID.
@@ -435,7 +458,7 @@ int Depot::backup_file(File* file, void* ctx) {
 	InstallContext* context = (InstallContext*)ctx;
 	int res = 0;
 
-	IF_DEBUG("[DEBUG] backup_file: %s , %s \n", file->path(), context->archive->m_name);
+	IF_DEBUG("[backup] backup_file: %s , %s \n", file->path(), context->archive->m_name);
 
 	if (INFO_TEST(file->info(), FILE_INFO_ROLLBACK_DATA)) {
 	        char *path;        // the file's path
@@ -462,40 +485,16 @@ int Depot::backup_file(File* file, void* ctx) {
 		join_path(&dstpath, uuidpath, relpath);
 		assert(dstpath != NULL);
 
-		IF_DEBUG("[DEBUG] \npath = %s \nrelpath = %s \ndstpath = %s \nuuidpath = %s \n[/DEBUG]\n", path, relpath, dstpath, uuidpath); 
+		IF_DEBUG("[backup] path = %s \n", path);
+		IF_DEBUG("[backup] relpath = %s \n", relpath);
+		IF_DEBUG("[backup] dstpath = %s \n", dstpath);
+		IF_DEBUG("[backup] uuidpath = %s \n", uuidpath);
 
 		++context->files_modified;
 
 		// XXX: res = file->backup()
-
-		// copy files used by gnutar and libarchive instead of moving them
-		//  since we use tar during the archive process
-		size_t i = 0;
-		bool docopy = false;
-		const char* tarfiles[] = {"/usr/bin/tar",
-					  "/usr/bin/gnutar",
-					  "/usr/bin/bsdtar",
-					  "/usr/lib/dyld",
-					  "/usr/lib/libarchive",
-					  "/usr/lib/libbz2",
-					  "/usr/lib/libz",
-					  "/usr/lib/libSystem",
-					  "/usr/lib/libiconv",
-					  "/usr/lib/libgcc_s"};
-		size_t numfiles = sizeof(tarfiles)/sizeof(*tarfiles);
-		for (i = 0; i < numfiles; i++) {
-		        if (strncmp(tarfiles[i], relpath, strlen(tarfiles[i])) == 0) {
-			        docopy = true;
-				break;
-			}
-		}
-		if (docopy) {
-		        IF_DEBUG("[backup] copyfile(%s, %s)\n", path, dstpath);
-			res = copyfile(path, dstpath, NULL, COPYFILE_ALL);
-		} else {
-		        IF_DEBUG("[backup] rename(%s, %s)\n", path, dstpath);
-			res = rename(path, dstpath);
-		}
+		IF_DEBUG("[backup] copyfile(%s, %s)\n", path, dstpath);
+		res = copyfile(path, dstpath, NULL, COPYFILE_ALL);
 
 		if (res != 0) fprintf(stderr, "%s:%d: backup failed: %s: %s (%d)\n", __FILE__, __LINE__, dstpath, strerror(errno), errno);
 		free(path);
@@ -1022,9 +1021,10 @@ int Depot::lock(int operation) {
 		m_lock_fd = open(m_depot_path, O_RDONLY);
 		if (m_lock_fd == -1) {
 			perror(m_depot_path);
-			res = -1;
+			res = m_lock_fd;
 		}
 	}
+	if (res) return res;
 	res = flock(m_lock_fd, operation);
 	if (res == -1) {
 		perror(m_depot_path);

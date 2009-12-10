@@ -36,6 +36,7 @@ void usage(char* progname) {
 	fprintf(stderr, "usage:    %s [-v] [-p DIR] [command] [args]          \n", progname);
 	fprintf(stderr, "                                                               \n");
 	fprintf(stderr, "options:                                                       \n");
+	fprintf(stderr, "          -f         force operation to succeed at all costs   \n");
 	fprintf(stderr, "          -p DIR     operate on roots under DIR (default: /)   \n");
 	fprintf(stderr, "          -v         verbose (use -vv for extra verbosity)     \n");
 	fprintf(stderr, "                                                               \n");
@@ -50,6 +51,7 @@ void usage(char* progname) {
 
 // our globals
 uint32_t verbosity;
+uint32_t force;
 
 int main(int argc, char* argv[]) {
 	char* progname = strdup(basename(argv[0]));      
@@ -57,41 +59,56 @@ int main(int argc, char* argv[]) {
 	char* path = NULL;
 
 	int ch;
-	while ((ch = getopt(argc, argv, "p:v")) != -1) {
+	while ((ch = getopt(argc, argv, "fp:vh")) != -1) {
 		switch (ch) {
-		case 'v':
-			verbosity <<= 1;
-			verbosity |= VERBOSE;
-			break;
+		case 'f':
+				IF_DEBUG("forcing operations\n");
+				force = 1;
+				break;
 		case 'p':
-		        if (strlen(optarg) > (PATH_MAX - 1)) {
-			        fprintf(stderr, "Error: -p option value is too long \n");
-				exit(3);
-			}
-			join_path(&path, optarg, "/");
-			break;
+				if (optarg[0] != '/') {
+					fprintf(stderr, "Error: -p option must be an absolute path\n");
+					exit(4);
+				}
+				if (strlen(optarg) > (PATH_MAX - 1)) {
+					fprintf(stderr, "Error: -p option value is too long \n");
+					exit(4);
+				}
+				join_path(&path, optarg, "/");
+				break;
+		case 'v':
+				verbosity <<= 1;
+				verbosity |= VERBOSE;
+				break;
 		case '?':
+		case 'h':
 		default:
-			usage(progname);
+				usage(progname);
 		}
 	}
 	argc -= optind;
 	argv += optind;
 
+	// you must be root
+	uid_t uid = getuid();
+	if (uid) {
+		fprintf(stderr, "You must be root to run this tool.\n");
+		exit(3);
+	}
+	
 	int res = 0;
 
 	if (!path) {
 		asprintf(&path, "/");
 	}
+		
 	Depot* depot = new Depot(path);
-	if (!depot->is_locked()) {
-	        fprintf(stderr, 
-			"Error: unable to access and lock %s. " \
-			"The directory must exist and be writable.\n", depot->prefix());
+	res = depot->initialize();
+	if (res) {
+		fprintf(stderr, "Error: unable to initialize storage.\n");
 		exit(2);
 	}
-
-
+	
 	if (argc == 2 && strcmp(argv[0], "install") == 0) {
 		char uuid[37];
 		Archive* archive = ArchiveFactory(argv[1]);
@@ -101,7 +118,14 @@ int main(int argc, char* argv[]) {
 				uuid_unparse_upper(archive->uuid(), uuid);
 				fprintf(stdout, "%s\n", uuid);
 			} else {
-				fprintf(stderr, "An error occurred.\n");
+				fprintf(stderr, "Error: Install failed. Rolling back installation.\n");
+				res = depot->uninstall(archive);
+				if (res) {
+					fprintf(stderr, "Error: Unable to rollback installation. "
+							"Your system is in an inconsistent state! File a bug!\n");
+				} else {
+					fprintf(stderr, "Rollback successful.\n");
+				}
 				res = 1;
 			}
 		} else {

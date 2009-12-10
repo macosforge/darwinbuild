@@ -37,6 +37,9 @@ struct Depot {
 	
 	virtual ~Depot();
 
+	int initialize();
+	int is_initialized();
+	
         const char*     prefix();
 	const char*	database_path();
 	const char*	archives_path();

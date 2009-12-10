@@ -22,6 +22,7 @@ for R in $ROOTS;
 do
 	tar zxvf $R.tar.gz -C $PREFIX
 done;
+tar zxvf root4.tar.gz -C $PREFIX
 
 mkdir -p $ORIG
 cp -R $DEST/* $ORIG/
@@ -108,6 +109,11 @@ done
 echo "DIFF: diffing original test files to dest (should be no diffs) ..."
 diff -qru $ORIG $DEST 2>&1 | grep -v \\.DarwinDepot
 
+echo "TEST: Trying a root that will fail due to object change ..."
+darwinup -vv -p $DEST install $PREFIX/root4
+if [ $? -ne 1 ]; then exit 1; fi
+echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+diff -qru $ORIG $DEST 2>&1 | grep -v \\.DarwinDepot
 
 echo "INFO: Done testing!"
 
