@@ -29,6 +29,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <spawn.h>
 #include <sys/stat.h>
 
 extern char** environ;
@@ -123,12 +124,13 @@ int exec_with_args(const char** args) {
 	pid_t pid;
 	int status;
 	
-	pid = fork();
-	assert(pid != -1);
-	if (pid == 0) {
-		assert(execve(args[0], (char**)args, environ) != -1);
-		// NOT REACHED
-	}
+	IF_DEBUG("Spawning %s \n", args[0]);
+		
+	res = posix_spawn(&pid, args[0], NULL, NULL, (char**)args, environ);
+	if (res != 0) fprintf(stderr, "Error: Failed to spawn %s: %s (%d)\n", args[0], strerror(res), res);
+	
+	IF_DEBUG("Running %s on pid %d \n", args[0], (int)pid);
+
 	do {
 		res = waitpid(pid, &status, 0);
 	} while (res == -1 && errno == EINTR);
@@ -139,6 +141,9 @@ int exec_with_args(const char** args) {
 			res = -1;
 		}
 	}
+	
+	IF_DEBUG("Done running %s \n", args[0]);
+	
 	return res;
 }
 
