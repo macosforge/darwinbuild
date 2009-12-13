@@ -197,3 +197,85 @@ struct TarBZ2Archive : public Archive {
 	TarBZ2Archive(const char* path);
 	virtual int extract(const char* destdir);
 };
+
+
+////
+//  CpioArchive
+//
+//  Corresponds to the cpio(1) file format.  This handles uncompressed cpio
+//  archives by using the cpio(1) command line tool.
+////
+struct CpioArchive : public Archive {
+	CpioArchive(const char* path);
+	virtual int extract(const char* destdir);
+};
+
+////
+//  CpioGZArchive
+//
+//  Corresponds to the cpio(1) file format, compressed with gzip(1).
+//  This inherits from CpioArchive and relies on ditto(1) automated
+//  handling of compressed cpio archives. 
+////
+struct CpioGZArchive : public CpioArchive {
+	CpioGZArchive(const char* path);
+};
+
+////
+//  CpioBZ2Archive
+//
+//  Corresponds to the cpio(1) file format, compressed with bzip2(1).
+//  This inherits from CpioArchive and relies on ditto(1) automated
+//  handling of compressed cpio archives. 
+////
+struct CpioBZ2Archive : public CpioArchive {
+	CpioBZ2Archive(const char* path);
+};
+
+
+////
+//  XarArchive
+//
+//  Corresponds to the xar(1) file format.  This handles uncompressed cpio
+//  archives by using the xar(1) command line tool.
+////
+struct XarArchive : public Archive {
+	XarArchive(const char* path);
+	virtual int extract(const char* destdir);
+};
+
+////
+//  XarGZArchive
+//
+//  Corresponds to the xar(1) file format, compressed with gzip(1).
+//  This installs archives using the xar(1) command line tool with
+//  the -z option.
+////
+struct XarGZArchive : public Archive {
+	XarGZArchive(const char* path);
+	virtual int extract(const char* destdir);
+};
+
+////
+//  XarBZ2Archive
+//
+//  Corresponds to the xar(1) file format, compressed with bzip2(1).
+//  This installs archives using the xar(1) command line tool with
+//  the -j option.
+////
+struct XarBZ2Archive : public Archive {
+	XarBZ2Archive(const char* path);
+	virtual int extract(const char* destdir);
+};
+
+
+////
+//  ZipArchive
+//
+//  Corresponds to a zip archive. We use the -k option to ditto(1)
+//  to handle it. 
+////
+struct ZipArchive : public Archive {
+	ZipArchive(const char* path);
+	virtual int extract(const char* destdir);
+};

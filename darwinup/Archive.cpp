@@ -204,6 +204,75 @@ int TarBZ2Archive::extract(const char* destdir) {
 }
 
 
+CpioArchive::CpioArchive(const char* path) : Archive(path) {}
+
+int CpioArchive::extract(const char* destdir) {
+	const char* args[] = {
+		"/usr/bin/ditto",
+		"-x", m_path,
+		destdir,
+		NULL
+	};
+	return exec_with_args(args);
+}
+
+CpioGZArchive::CpioGZArchive(const char* path) : CpioArchive(path) {}
+
+CpioBZ2Archive::CpioBZ2Archive(const char* path) : CpioArchive(path) {}
+
+
+XarArchive::XarArchive(const char* path) : Archive(path) {}
+
+int XarArchive::extract(const char* destdir) {
+	const char* args[] = {
+		"/usr/bin/xar",
+		"-xf", m_path,
+		"-C", destdir,
+		NULL
+	};
+	return exec_with_args(args);
+}
+
+
+XarGZArchive::XarGZArchive(const char* path) : Archive(path) {}
+
+int XarGZArchive::extract(const char* destdir) {
+	const char* args[] = {
+		"/usr/bin/xar",
+		"-xzf", m_path,
+		"-C", destdir,
+		NULL
+	};
+	return exec_with_args(args);
+}
+
+
+XarBZ2Archive::XarBZ2Archive(const char* path) : Archive(path) {}
+
+int XarBZ2Archive::extract(const char* destdir) {
+	const char* args[] = {
+		"/usr/bin/xar",
+		"-xjf", m_path,
+		"-C", destdir,
+		NULL
+	};
+	return exec_with_args(args);
+}
+
+
+ZipArchive::ZipArchive(const char* path) : Archive(path) {}
+
+int ZipArchive::extract(const char* destdir) {
+	const char* args[] = {
+		"/usr/bin/ditto",
+		"-xk", m_path,
+		destdir,
+		NULL
+	};
+	return exec_with_args(args);
+}
+
+
 Archive* ArchiveFactory(const char* path) {
 	Archive* archive = NULL;
 
@@ -222,6 +291,20 @@ Archive* ArchiveFactory(const char* path) {
 		archive = new TarGZArchive(path);
 	} else if (has_suffix(path, ".tar.bz2") || has_suffix(path, ".tbz2")) {
 		archive = new TarBZ2Archive(path);
+	} else if (has_suffix(path, ".cpio")) {
+		archive = new CpioArchive(path);
+	} else if (has_suffix(path, ".cpio.gz") || has_suffix(path, ".cpgz")) {
+		archive = new CpioGZArchive(path);
+	} else if (has_suffix(path, ".cpio.bz2") || has_suffix(path, ".cpbz2")) {
+		archive = new CpioBZ2Archive(path);
+	} else if (has_suffix(path, ".xar")) {
+		archive = new XarArchive(path);
+	} else if (has_suffix(path, ".xar.gz") || has_suffix(path, ".xgz")) {
+		archive = new XarGZArchive(path);
+	} else if (has_suffix(path, ".xar.bz2") || has_suffix(path, ".xbz2")) {
+		archive = new XarBZ2Archive(path);		
+	} else if (has_suffix(path, ".zip")) {
+		archive = new ZipArchive(path);
 	} else {
 		fprintf(stderr, "Error: unknown archive type: %s\n", path);
 	}
