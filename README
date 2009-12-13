@@ -67,7 +67,9 @@ them into the location specified by the PREFIX environment parameter.  If the
 PREFIX parameter is not specified, the files will be installed into /usr/local.
 
 By default, darwinbuild will build for x86_64 and i386. You can override this with
-the ARCHS environment variable. 
+the ARCHS environment variable. However, building trunk for ppc is not supported
+since trunk is targeted for Darwin 10. The release branches for Darwin 8 and 9 do
+support building for ppc. 
 
 To build and install darwinbuild to the boot partition:
 
