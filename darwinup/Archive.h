@@ -48,10 +48,12 @@ struct Depot;
 //  ArchiveFactory exists to return the correct
 //  concrete subclass for a given archive to be
 //  installed.  Currently this is determined
-//  by the file's suffix.
+//  by the file's suffix. The tmppath parameter
+//  is the path where files can be stored during
+//  processing, such as fetching remote archives. 
 ////
 
-Archive* ArchiveFactory(const char* path);
+Archive* ArchiveFactory(const char* path, const char* tmppath);
 
 struct Archive {
 	Archive(const char* path);

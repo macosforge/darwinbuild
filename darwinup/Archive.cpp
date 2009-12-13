@@ -273,40 +273,64 @@ int ZipArchive::extract(const char* destdir) {
 }
 
 
-Archive* ArchiveFactory(const char* path) {
+Archive* ArchiveFactory(const char* path, const char* tmppath) {
 	Archive* archive = NULL;
 
+	// actual path to archive
+	char* actpath = NULL; 
+	
+	// fetch remote archives if needed
+	if (is_url_path(path)) {
+		actpath = fetch_url(path, tmppath);
+		if (!actpath) {
+			fprintf(stderr, "Error: could not fetch remote URL: %s \n", path);
+			return NULL;
+		}
+	} else if (is_userhost_path(path)) {
+		actpath = fetch_userhost(path, tmppath);
+		if (!actpath) {
+			fprintf(stderr, "Error: could not fetch remote file from: %s \n", path);
+			return NULL;
+		}
+	} else {
+		actpath = (char *)path;
+	}
+
+	
 	// make sure the archive exists
 	struct stat sb;
-	int res = stat(path, &sb);
+	int res = stat(actpath, &sb);
 	if (res == -1 && errno == ENOENT) {
 		return NULL;
 	}
-
-	if (is_directory(path)) {
-		archive = new DittoArchive(path);
-	} else if (has_suffix(path, ".tar")) {
-		archive = new TarArchive(path);
-	} else if (has_suffix(path, ".tar.gz") || has_suffix(path, ".tgz")) {
-		archive = new TarGZArchive(path);
-	} else if (has_suffix(path, ".tar.bz2") || has_suffix(path, ".tbz2")) {
-		archive = new TarBZ2Archive(path);
-	} else if (has_suffix(path, ".cpio")) {
-		archive = new CpioArchive(path);
-	} else if (has_suffix(path, ".cpio.gz") || has_suffix(path, ".cpgz")) {
-		archive = new CpioGZArchive(path);
-	} else if (has_suffix(path, ".cpio.bz2") || has_suffix(path, ".cpbz2")) {
-		archive = new CpioBZ2Archive(path);
-	} else if (has_suffix(path, ".xar")) {
-		archive = new XarArchive(path);
-	} else if (has_suffix(path, ".xar.gz") || has_suffix(path, ".xgz")) {
-		archive = new XarGZArchive(path);
-	} else if (has_suffix(path, ".xar.bz2") || has_suffix(path, ".xbz2")) {
-		archive = new XarBZ2Archive(path);		
-	} else if (has_suffix(path, ".zip")) {
-		archive = new ZipArchive(path);
+	
+	// use file extension to guess archive format
+	if (is_directory(actpath)) {
+		archive = new DittoArchive(actpath);
+	} else if (has_suffix(actpath, ".tar")) {
+		archive = new TarArchive(actpath);
+	} else if (has_suffix(actpath, ".tar.gz") || has_suffix(actpath, ".tgz")) {
+		archive = new TarGZArchive(actpath);
+	} else if (has_suffix(actpath, ".tar.bz2") || has_suffix(actpath, ".tbz2")) {
+		archive = new TarBZ2Archive(actpath);
+	} else if (has_suffix(actpath, ".cpio")) {
+		archive = new CpioArchive(actpath);
+	} else if (has_suffix(actpath, ".cpio.gz") || has_suffix(actpath, ".cpgz")) {
+		archive = new CpioGZArchive(actpath);
+	} else if (has_suffix(actpath, ".cpio.bz2") || has_suffix(actpath, ".cpbz2")) {
+		archive = new CpioBZ2Archive(actpath);
+	} else if (has_suffix(actpath, ".xar")) {
+		archive = new XarArchive(actpath);
+	} else if (has_suffix(actpath, ".xar.gz") || has_suffix(actpath, ".xgz")) {
+		archive = new XarGZArchive(actpath);
+	} else if (has_suffix(actpath, ".xar.bz2") || has_suffix(actpath, ".xbz2")) {
+		archive = new XarBZ2Archive(actpath);		
+	} else if (has_suffix(actpath, ".zip")) {
+		archive = new ZipArchive(actpath);
 	} else {
 		fprintf(stderr, "Error: unknown archive type: %s\n", path);
 	}
+	
+	if (actpath && actpath != path) free(actpath);
 	return archive;
 }

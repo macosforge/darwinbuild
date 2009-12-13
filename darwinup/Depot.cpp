@@ -46,6 +46,7 @@ Depot::Depot() {
 	m_depot_path = NULL;
 	m_database_path = NULL;
 	m_archives_path = NULL;
+	m_downloads_path = NULL;
 	m_db = NULL;
 	m_lock_fd = -1;
 	m_is_locked = 0;
@@ -61,6 +62,7 @@ Depot::Depot(const char* prefix) {
 	join_path(&m_depot_path, m_prefix, "/.DarwinDepot");
 	join_path(&m_database_path, m_depot_path, "/Database-V100");
 	join_path(&m_archives_path, m_depot_path, "/Archives");
+	join_path(&m_downloads_path, m_depot_path, "/Downloads");
 }
 
 Depot::~Depot() {
@@ -70,9 +72,11 @@ Depot::~Depot() {
 	if (m_depot_path)	free(m_depot_path);
 	if (m_database_path)	free(m_database_path);
 	if (m_archives_path)	free(m_archives_path);
+	if (m_downloads_path)	free(m_downloads_path);
 }
 
 const char*	Depot::archives_path()		{ return m_archives_path; }
+const char*	Depot::downloads_path()		{ return m_downloads_path; }
 const char*     Depot::prefix()                 { return m_prefix; }
 
 // Initialize the depot storage on disk
@@ -80,7 +84,7 @@ int Depot::initialize() {
 	int res = 0;
 	
 	// initialization requires all these paths to be set
-	if (!(m_prefix && m_depot_path && m_database_path && m_archives_path)) {
+	if (!(m_prefix && m_depot_path && m_database_path && m_archives_path && m_downloads_path)) {
 		return -1;
 	}
 	
@@ -95,6 +99,12 @@ int Depot::initialize() {
 		return res;
 	}
 	
+	res = mkdir(m_downloads_path, m_depot_mode);
+	if (res && errno != EEXIST) {
+		perror(m_downloads_path);
+		return res;
+	}
+
 	res = this->lock(LOCK_SH);
 	if (res) return res;
 	m_is_locked = 1;

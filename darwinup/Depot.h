@@ -43,6 +43,7 @@ struct Depot {
         const char*     prefix();
 	const char*	database_path();
 	const char*	archives_path();
+	const char*	downloads_path();
 
 	virtual int	begin_transaction();
 	virtual int	commit_transaction();
@@ -121,6 +122,7 @@ struct Depot {
 	char*		m_depot_path;
 	char*		m_database_path;
 	char*		m_archives_path;
+	char*		m_downloads_path;
 	int		m_lock_fd;
         int             m_is_locked;
 };

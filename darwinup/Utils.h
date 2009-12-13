@@ -39,11 +39,16 @@ int mkdir_p(const char* path);
 int remove_directory(const char* path);
 int is_directory(const char* path);
 int is_regular_file(const char* path);
+int is_url_path(const char* path);
+int is_userhost_path(const char* path);
 int has_suffix(const char* str, const char* sfx);
 int exec_with_args(const char** args);
 
 int join_path(char** out, const char* p1, const char* p2);
 int compact_slashes(char* orig, int slashes);
+
+char* fetch_url(const char* srcpath, const char* dstpath);
+char* fetch_userhost(const char* srcpath, const char* dstpath);
 
 inline int INFO_TEST(uint32_t word, uint32_t flag) { return ((word & flag) != 0); }
 inline int INFO_SET(uint32_t word, uint32_t flag) { return (word | flag); }

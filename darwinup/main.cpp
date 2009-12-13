@@ -111,7 +111,7 @@ int main(int argc, char* argv[]) {
 	
 	if (argc == 2 && strcmp(argv[0], "install") == 0) {
 		char uuid[37];
-		Archive* archive = ArchiveFactory(argv[1]);
+		Archive* archive = ArchiveFactory(argv[1], depot->downloads_path());
 		if (archive) {
 			res = depot->install(archive);
 			if (res == 0) {
