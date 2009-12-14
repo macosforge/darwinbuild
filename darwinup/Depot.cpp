@@ -262,7 +262,7 @@ Archive* Depot::archive(archive_keyword_t keyword) {
 //   keyword (either "newest" for the most recent root installed
 //            or     "oldest" for the oldest installed root)
 //   
-Archive* Depot::archive(const char* arg) {
+Archive* Depot::get_archive(const char* arg) {
 	uuid_t uuid;
 	uint64_t serial; 
 	if (uuid_parse(arg, uuid) == 0) {

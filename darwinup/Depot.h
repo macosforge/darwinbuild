@@ -68,7 +68,7 @@ struct Depot {
 	Archive*	archive(uuid_t uuid);
 	Archive*	archive(archive_name_t name);
 	Archive*	archive(archive_keyword_t keyword);
-	Archive*	archive(const char* arg);
+	Archive*	get_archive(const char* arg);
 
 	int dump();
 	static int dump_archive(Archive* archive, void* context);

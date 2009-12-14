@@ -154,7 +154,7 @@ int main(int argc, char* argv[]) {
 	} else if (argc == 1 && strcmp(argv[0], "dump") == 0) {
 		depot->dump();
 	} else if (argc == 2 && strcmp(argv[0], "files") == 0) {
-		Archive* archive = depot->archive(argv[1]);
+		Archive* archive = depot->get_archive(argv[1]);
 		if (archive) {
 			res = depot->files(archive);
 			delete archive;
@@ -163,7 +163,7 @@ int main(int argc, char* argv[]) {
 			res = 1;
 		}
 	} else if (argc == 2 && strcmp(argv[0], "uninstall") == 0) {
-		Archive* archive = depot->archive(argv[1]);
+		Archive* archive = depot->get_archive(argv[1]);
 		if (archive) {
 			if (verbosity & VERBOSE_DEBUG) {
 				char uuid[37];
@@ -181,7 +181,7 @@ int main(int argc, char* argv[]) {
 			res = 1;
 		}
 	} else if (argc == 2 && strcmp(argv[0], "verify") == 0) {
-		Archive* archive = depot->archive(argv[1]);
+		Archive* archive = depot->get_archive(argv[1]);
 		if (archive) {
 			if (verbosity & VERBOSE_DEBUG) {
 				char uuid[37];
