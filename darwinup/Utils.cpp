@@ -196,12 +196,14 @@ int join_path(char **out, const char *p1, const char *p2) {
 }
 
 char* fetch_url(const char* srcpath, const char* dstpath) {
+	extern uint32_t verbosity;
 	char* localfile;
 	int res = join_path(&localfile, dstpath, basename((char*)srcpath));
 	if (res || !localfile) return NULL;
 	
 	const char* args[] = {
 		"/usr/bin/curl",
+		(verbosity ? "-v" : "-s"),
 		"-L", srcpath,
 		"-o", localfile,
 		NULL
@@ -212,13 +214,15 @@ char* fetch_url(const char* srcpath, const char* dstpath) {
 }
 
 char* fetch_userhost(const char* srcpath, const char* dstpath) {
+	extern uint32_t verbosity;
 	char* localfile;
 	int res = join_path(&localfile, dstpath, basename((char*)srcpath));
 	if (!localfile) return NULL;
 		
 	const char* args[] = {
 		"/usr/bin/rsync",
-		"-av", srcpath,
+		(verbosity ? "-v" : "-q"),
+		"-a", srcpath,
 		localfile,
 		NULL
 	};
