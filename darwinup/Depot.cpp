@@ -192,13 +192,60 @@ Archive* Depot::archive(uint64_t serial) {
 	return archive;
 }
 
-Archive* Depot::archive(const char* uuid) {
-	uuid_t uu;
-	if (uuid_parse(uuid, uu) == 0) {
-		return Depot::archive(uu);
-	} else {
-		return NULL;
+Archive* Depot::archive(archive_keyword_t keyword) {
+	int res = 0;
+	Archive* archive = NULL;
+	static sqlite3_stmt* stmt = NULL;
+	const char* query = NULL;
+	if (stmt == NULL && m_db) {
+		if (keyword == DEPOT_ARCHIVE_NEWEST) {
+			query = "SELECT serial FROM archives WHERE name != '<Rollback>' ORDER BY date_added DESC LIMIT 1";
+		} else if (keyword == DEPOT_ARCHIVE_OLDEST) {
+			query = "SELECT serial FROM archives WHERE name != '<Rollback>' ORDER BY date_added ASC LIMIT 1";
+		} else {
+			fprintf(stderr, "Error: unknown archive keyword.\n");
+			res = -1;
+		}
+		if (res == 0) res = sqlite3_prepare(m_db, query, -1, &stmt, NULL);
+		if (res != 0) fprintf(stderr, "%s:%d: sqlite3_prepare: %s: %s (%d)\n", __FILE__, __LINE__, query, sqlite3_errmsg(m_db), res);
 	}
+	if (stmt && res == 0) {
+		res = sqlite3_step(stmt);
+		if (res == SQLITE_ROW) {
+			uint64_t serial = sqlite3_column_int64(stmt, 0);
+			archive = Depot::archive(serial);
+		}
+		sqlite3_reset(stmt);
+	}
+	return archive;	
+}
+
+// Return Archive from database matching arg, which is one of:
+//
+//   uuid (ex: 22969F32-9C4F-4370-82C8-DD3609736D8D)
+//   serial (ex: 12)
+//   keyword (either "newest" for the most recent root installed
+//            or     "oldest" for the oldest installed root)
+//   
+Archive* Depot::archive(const char* arg) {
+	uuid_t uuid;
+	uint64_t serial; 
+	if (uuid_parse(arg, uuid) == 0) {
+		return Depot::archive(uuid);
+	}
+	serial = strtoull(arg, NULL, 0);
+	if (serial) {
+		return Depot::archive(serial);
+	}
+	if (strncasecmp("oldest", arg, 6) == 0) {
+		IF_DEBUG("looking for oldest\n");
+		return Depot::archive(DEPOT_ARCHIVE_OLDEST);
+	}
+	if (strncasecmp("newest", arg, 6) == 0) {
+		IF_DEBUG("looking for newest\n");
+		return Depot::archive(DEPOT_ARCHIVE_NEWEST);
+	}
+	return NULL;
 }
 
 int Depot::iterate_archives(ArchiveIteratorFunc func, void* context) {
@@ -812,6 +859,9 @@ int Depot::verify(Archive* archive) {
 
 int Depot::list_archive(Archive* archive, void* context) {
 	extern uint32_t verbosity;
+	
+	uint64_t serial = archive->serial();
+	
 	char uuid[37];
 	uuid_unparse_upper(archive->uuid(), uuid);
 
@@ -823,7 +873,7 @@ int Depot::list_archive(Archive* archive, void* context) {
 
 	if (!INFO_TEST(archive->info(), ARCHIVE_INFO_ROLLBACK) ||
 	    (verbosity & VERBOSE_DEBUG)) {
-		fprintf((FILE*)context, "%-36s  %-23s  %s\n", uuid, date, archive->name());
+		fprintf((FILE*)context, "%-6llu %-36s  %-23s  %s\n", serial, uuid, date, archive->name());
 	}
 	
 	return 0;
@@ -831,8 +881,8 @@ int Depot::list_archive(Archive* archive, void* context) {
 
 int Depot::list() {
 	int res = 0;
-	fprintf(stdout, "%-36s  %-23s  %s\n", "UUID", "Date Installed", "Name");
-	fprintf(stdout, "====================================  =======================  =================\n");
+	fprintf(stdout, "%-6s %-36s  %-23s  %s\n", "Serial", "UUID", "Date Installed", "Name");
+	fprintf(stdout, "====== ====================================  =======================  =================\n");
 	if (res == 0) res = this->iterate_archives(&Depot::list_archive, stdout);
 	return res;
 }

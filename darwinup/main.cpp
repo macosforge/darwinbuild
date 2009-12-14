@@ -52,9 +52,9 @@ void usage(char* progname) {
 	fprintf(stderr, "commands:                                                      \n");
 	fprintf(stderr, "          install    <path>                                    \n");
 	fprintf(stderr, "          list                                                 \n");
-	fprintf(stderr, "          files      <uuid>                                    \n");
-	fprintf(stderr, "          uninstall  <uuid>                                    \n");
-	fprintf(stderr, "          verify     <uuid>                                    \n");
+	fprintf(stderr, "          files      <uuid>|<serial>|newest|oldest             \n");
+	fprintf(stderr, "          uninstall  <uuid>|<serial>|newest|oldest             \n");
+	fprintf(stderr, "          verify     <uuid>|<serial>|newest|oldest             \n");
 	exit(1);
 }
 
@@ -156,6 +156,11 @@ int main(int argc, char* argv[]) {
 	} else if (argc == 2 && strcmp(argv[0], "uninstall") == 0) {
 		Archive* archive = depot->archive(argv[1]);
 		if (archive) {
+			if (verbosity & VERBOSE_DEBUG) {
+				char uuid[37];
+				uuid_unparse_upper(archive->uuid(), uuid);
+				fprintf(stderr, "[uninstall] found archive: %s\n", uuid);
+			}
 			res = depot->uninstall(archive);
 			if (res != 0) {
 				fprintf(stderr, "An error occurred.\n");
@@ -169,6 +174,11 @@ int main(int argc, char* argv[]) {
 	} else if (argc == 2 && strcmp(argv[0], "verify") == 0) {
 		Archive* archive = depot->archive(argv[1]);
 		if (archive) {
+			if (verbosity & VERBOSE_DEBUG) {
+				char uuid[37];
+				uuid_unparse_upper(archive->uuid(), uuid);
+				fprintf(stderr, "[uninstall] found archive: %s\n", uuid);
+			}			
 			res = depot->verify(archive);
 			if (res != 0) {
 				fprintf(stderr, "An error occurred.\n");
