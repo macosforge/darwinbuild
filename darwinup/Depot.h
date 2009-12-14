@@ -40,6 +40,8 @@ struct File;
 typedef int (*ArchiveIteratorFunc)(Archive* archive, void* context);
 typedef int (*FileIteratorFunc)(File* file, void* context);
 
+typedef char* archive_name_t;
+
 enum archive_keyword_t {
 		DEPOT_ARCHIVE_NEWEST,
 		DEPOT_ARCHIVE_OLDEST
@@ -64,6 +66,7 @@ struct Depot {
 
 	Archive*	archive(uint64_t serial);
 	Archive*	archive(uuid_t uuid);
+	Archive*	archive(archive_name_t name);
 	Archive*	archive(archive_keyword_t keyword);
 	Archive*	archive(const char* arg);
 

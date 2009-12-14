@@ -52,9 +52,18 @@ void usage(char* progname) {
 	fprintf(stderr, "commands:                                                      \n");
 	fprintf(stderr, "          install    <path>                                    \n");
 	fprintf(stderr, "          list                                                 \n");
-	fprintf(stderr, "          files      <uuid>|<serial>|newest|oldest             \n");
-	fprintf(stderr, "          uninstall  <uuid>|<serial>|newest|oldest             \n");
-	fprintf(stderr, "          verify     <uuid>|<serial>|newest|oldest             \n");
+	fprintf(stderr, "          files      <archive>                                 \n");
+	fprintf(stderr, "          uninstall  <archive>                                 \n");
+	fprintf(stderr, "          verify     <archive>                                 \n");
+	fprintf(stderr, "                                                               \n");
+	fprintf(stderr, "<archive> is one of:                                           \n");
+	fprintf(stderr, "          <serial>   the Serial number                         \n");
+	fprintf(stderr, "          <uuid>     the UUID                                  \n");
+	fprintf(stderr, "          <name>     the last root installed with that name    \n");
+	fprintf(stderr, "          newest     the newest (last) root installed          \n");
+	fprintf(stderr, "          oldest     the oldest root installed                 \n");
+	fprintf(stderr, "          all        all installed roots                       \n");
+	fprintf(stderr, "                                                               \n");
 	exit(1);
 }
 

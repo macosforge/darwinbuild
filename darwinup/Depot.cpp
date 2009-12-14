@@ -192,6 +192,40 @@ Archive* Depot::archive(uint64_t serial) {
 	return archive;
 }
 
+// Unserialize an archive from the database.
+// Find the last archive installed with this name
+Archive* Depot::archive(archive_name_t name) {
+	int res = 0;
+	Archive* archive = NULL;
+	static sqlite3_stmt* stmt = NULL;
+	if (stmt == NULL && m_db) {
+		const char* query = "SELECT serial, uuid, info, date_added FROM archives WHERE name=? ORDER BY date_added DESC LIMIT 1";
+		res = sqlite3_prepare(m_db, query, -1, &stmt, NULL);
+		if (res != 0) fprintf(stderr, "%s:%d: sqlite3_prepare: %s: %s (%d)\n", __FILE__, __LINE__, query, sqlite3_errmsg(m_db), res);
+	}
+	if (stmt && res == 0) {
+		res = sqlite3_bind_text(stmt, 1, name, -1, SQLITE_STATIC);
+		if (res == 0) res = sqlite3_step(stmt);
+		if (res == SQLITE_ROW) {
+			uuid_t uuid;
+			const void* blob = sqlite3_column_blob(stmt, 1);
+			int blobsize = sqlite3_column_bytes(stmt, 1);
+			if (blobsize > 0) {
+				assert(blobsize == sizeof(uuid_t));
+				memcpy(uuid, blob, sizeof(uuid_t));
+			} else {
+				uuid_clear(uuid);
+			}
+			uint64_t serial = sqlite3_column_int64(stmt, 0);
+			uint64_t info = sqlite3_column_int64(stmt, 2);
+			time_t date_added = sqlite3_column_int(stmt, 3);
+			archive = new Archive(serial, uuid, (const char*)name, NULL, info, date_added);
+		}
+		sqlite3_reset(stmt);
+	}
+	return archive;
+}
+
 Archive* Depot::archive(archive_keyword_t keyword) {
 	int res = 0;
 	Archive* archive = NULL;
@@ -224,6 +258,7 @@ Archive* Depot::archive(archive_keyword_t keyword) {
 //
 //   uuid (ex: 22969F32-9C4F-4370-82C8-DD3609736D8D)
 //   serial (ex: 12)
+//   name  (ex root.tar.gz)
 //   keyword (either "newest" for the most recent root installed
 //            or     "oldest" for the oldest installed root)
 //   
@@ -245,7 +280,7 @@ Archive* Depot::archive(const char* arg) {
 		IF_DEBUG("looking for newest\n");
 		return Depot::archive(DEPOT_ARCHIVE_NEWEST);
 	}
-	return NULL;
+	return Depot::archive((archive_name_t)arg);
 }
 
 int Depot::iterate_archives(ArchiveIteratorFunc func, void* context) {
