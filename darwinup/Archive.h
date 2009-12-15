@@ -120,7 +120,7 @@ struct Archive {
 
 	// Constructor for subclasses and Depot to use when unserializing an archive from the database.
 	Archive(uint64_t serial, uuid_t uuid, const char* name, const char* path, uint64_t info, time_t date_installed);
-
+	
 	uint64_t	m_serial;
 	uuid_t		m_uuid;
 	char*		m_name;
