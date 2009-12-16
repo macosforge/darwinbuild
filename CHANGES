@@ -1,7 +1,11 @@
 Darwin Build Scripts Change History
 -----------------------------------
 
-Release 12 [Now]
+Release 12 [10-Dec-2009]
+	- darwinup: rollback installations that fail
+	- darwinup: add force (-f) option to allow potentially unsafe operations
+	- darwinup: require being root, print more meaningful error when not
+	- darwinxref: detect plugins with duplicate names
 	- darwinbuild: create buildroot images with root/wheel ownership and 
 	  attach them with owners on (Ben Huntsman)
 	  
