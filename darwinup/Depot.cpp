@@ -55,6 +55,7 @@ Depot::Depot() {
 	m_depot_path = NULL;
 	m_database_path = NULL;
 	m_archives_path = NULL;
+	m_downloads_path = NULL;
 	m_db = NULL;
 	m_lock_fd = -1;
 	m_is_locked = 0;
@@ -70,6 +71,7 @@ Depot::Depot(const char* prefix) {
 	join_path(&m_depot_path, m_prefix, "/.DarwinDepot");
 	join_path(&m_database_path, m_depot_path, "/Database-V100");
 	join_path(&m_archives_path, m_depot_path, "/Archives");
+	join_path(&m_downloads_path, m_depot_path, "/Downloads");
 }
 
 Depot::~Depot() {
@@ -79,9 +81,11 @@ Depot::~Depot() {
 	if (m_depot_path)	free(m_depot_path);
 	if (m_database_path)	free(m_database_path);
 	if (m_archives_path)	free(m_archives_path);
+	if (m_downloads_path)	free(m_downloads_path);
 }
 
 const char*	Depot::archives_path()		{ return m_archives_path; }
+const char*	Depot::downloads_path()		{ return m_downloads_path; }
 const char*     Depot::prefix()                 { return m_prefix; }
 
 // Initialize the depot storage on disk
@@ -89,7 +93,7 @@ int Depot::initialize() {
 	int res = 0;
 	
 	// initialization requires all these paths to be set
-	if (!(m_prefix && m_depot_path && m_database_path && m_archives_path)) {
+	if (!(m_prefix && m_depot_path && m_database_path && m_archives_path && m_downloads_path)) {
 		return -1;
 	}
 	
@@ -104,6 +108,12 @@ int Depot::initialize() {
 		return res;
 	}
 	
+	res = mkdir(m_downloads_path, m_depot_mode);
+	if (res && errno != EEXIST) {
+		perror(m_downloads_path);
+		return res;
+	}
+
 	res = this->lock(LOCK_SH);
 	if (res) return res;
 	m_is_locked = 1;
@@ -192,56 +202,180 @@ Archive* Depot::archive(uint64_t serial) {
 	return archive;
 }
 
-Archive* Depot::archive(const char* uuid) {
-	uuid_t uu;
-	if (uuid_parse(uuid, uu) == 0) {
-		return Depot::archive(uu);
-	} else {
-		return NULL;
-	}
-}
-
-int Depot::iterate_archives(ArchiveIteratorFunc func, void* context) {
+// Unserialize an archive from the database.
+// Find the last archive installed with this name
+Archive* Depot::archive(archive_name_t name) {
 	int res = 0;
+	Archive* archive = NULL;
 	static sqlite3_stmt* stmt = NULL;
 	if (stmt == NULL && m_db) {
-		const char* query = "SELECT serial, uuid, name, info, date_added FROM archives ORDER BY serial DESC";
+		const char* query = "SELECT serial, uuid, info, date_added FROM archives WHERE name=? ORDER BY date_added DESC LIMIT 1";
 		res = sqlite3_prepare(m_db, query, -1, &stmt, NULL);
 		if (res != 0) fprintf(stderr, "%s:%d: sqlite3_prepare: %s: %s (%d)\n", __FILE__, __LINE__, query, sqlite3_errmsg(m_db), res);
 	}
 	if (stmt && res == 0) {
-		while (res == 0) {
-			res = sqlite3_step(stmt);
-			if (res == SQLITE_ROW) {
-				res = 0;
-				uuid_t uuid;
-				uint64_t serial = sqlite3_column_int64(stmt, 0);
-				const void* blob = sqlite3_column_blob(stmt, 1);
-				int blobsize = sqlite3_column_bytes(stmt, 1);
-				const unsigned char* name = sqlite3_column_text(stmt, 2);
-				uint64_t info = sqlite3_column_int64(stmt, 3);
-				time_t date_added = sqlite3_column_int(stmt, 4);
-				if (blobsize > 0) {
-					assert(blobsize == sizeof(uuid_t));
-					memcpy(uuid, blob, sizeof(uuid_t));
-				} else {
-					uuid_clear(uuid);
-				}
-				Archive* archive = new Archive(serial, uuid, (const char*)name, NULL, info, date_added);
-				if (archive) {
-					res = func(archive, context);
-					delete archive;
-				} else {
-					fprintf(stderr, "%s:%d: new Archive returned NULL\n", __FILE__, __LINE__);
-					res = -1;
-					break;
-				}
-			} else if (res == SQLITE_DONE) {
-				res = 0;
-				break;
+		res = sqlite3_bind_text(stmt, 1, name, -1, SQLITE_STATIC);
+		if (res == 0) res = sqlite3_step(stmt);
+		if (res == SQLITE_ROW) {
+			uuid_t uuid;
+			const void* blob = sqlite3_column_blob(stmt, 1);
+			int blobsize = sqlite3_column_bytes(stmt, 1);
+			if (blobsize > 0) {
+				assert(blobsize == sizeof(uuid_t));
+				memcpy(uuid, blob, sizeof(uuid_t));
+			} else {
+				uuid_clear(uuid);
 			}
+			uint64_t serial = sqlite3_column_int64(stmt, 0);
+			uint64_t info = sqlite3_column_int64(stmt, 2);
+			time_t date_added = sqlite3_column_int(stmt, 3);
+			archive = new Archive(serial, uuid, (const char*)name, NULL, info, date_added);
 		}
 		sqlite3_reset(stmt);
+	}
+	return archive;
+}
+
+Archive* Depot::archive(archive_keyword_t keyword) {
+	int res = 0;
+	Archive* archive = NULL;
+	static sqlite3_stmt* stmt = NULL;
+	const char* query = NULL;
+	if (stmt == NULL && m_db) {
+		if (keyword == DEPOT_ARCHIVE_NEWEST) {
+			query = "SELECT serial FROM archives WHERE name != '<Rollback>' ORDER BY date_added DESC LIMIT 1";
+		} else if (keyword == DEPOT_ARCHIVE_OLDEST) {
+			query = "SELECT serial FROM archives WHERE name != '<Rollback>' ORDER BY date_added ASC LIMIT 1";
+		} else {
+			fprintf(stderr, "Error: unknown archive keyword.\n");
+			res = -1;
+		}
+		if (res == 0) res = sqlite3_prepare(m_db, query, -1, &stmt, NULL);
+		if (res != 0) fprintf(stderr, "%s:%d: sqlite3_prepare: %s: %s (%d)\n", __FILE__, __LINE__, query, sqlite3_errmsg(m_db), res);
+	}
+	if (stmt && res == 0) {
+		res = sqlite3_step(stmt);
+		if (res == SQLITE_ROW) {
+			uint64_t serial = sqlite3_column_int64(stmt, 0);
+			archive = Depot::archive(serial);
+		}
+		sqlite3_reset(stmt);
+	}
+	return archive;	
+}
+
+// create a new Archive from a database row
+Archive* Depot::archive(sqlite3_stmt* stmt) {
+	uuid_t uuid;
+	uint64_t serial = sqlite3_column_int64(stmt, 0);
+	const void* blob = sqlite3_column_blob(stmt, 1);
+	int blobsize = sqlite3_column_bytes(stmt, 1);
+	const unsigned char* name = sqlite3_column_text(stmt, 2);
+	uint64_t info = sqlite3_column_int64(stmt, 3);
+	time_t date_added = sqlite3_column_int(stmt, 4);
+	if (blobsize > 0) {
+		assert(blobsize == sizeof(uuid_t));
+		memcpy(uuid, blob, sizeof(uuid_t));
+	} else {
+		uuid_clear(uuid);
+	}
+	return new Archive(serial, uuid, (const char*)name, NULL, info, date_added);	
+}
+
+
+// Return Archive from database matching arg, which is one of:
+//
+//   uuid (ex: 22969F32-9C4F-4370-82C8-DD3609736D8D)
+//   serial (ex: 12)
+//   name  (ex root.tar.gz)
+//   keyword (either "newest" for the most recent root installed
+//            or     "oldest" for the oldest installed root)
+//   
+Archive* Depot::get_archive(const char* arg) {
+	uuid_t uuid;
+	uint64_t serial; 
+	if (uuid_parse(arg, uuid) == 0) {
+		return Depot::archive(uuid);
+	}
+	serial = strtoull(arg, NULL, 0);
+	if (serial) {
+		return Depot::archive(serial);
+	}
+	if (strncasecmp("oldest", arg, 6) == 0) {
+		IF_DEBUG("looking for oldest\n");
+		return Depot::archive(DEPOT_ARCHIVE_OLDEST);
+	}
+	if (strncasecmp("newest", arg, 6) == 0) {
+		IF_DEBUG("looking for newest\n");
+		return Depot::archive(DEPOT_ARCHIVE_NEWEST);
+	}
+	return Depot::archive((archive_name_t)arg);
+}
+
+Archive** Depot::get_all_archives(size_t* count) {
+	extern uint32_t verbosity;
+	int res = 0;
+	*count = this->count_archives();
+	//fprintf(stderr, "DEBUG: get_all_archives got count = %d \n", (int)*count);
+	Archive** list = (Archive**)malloc(*count * sizeof(Archive*));
+	static sqlite3_stmt* stmt = NULL;
+	if (stmt == NULL && m_db) {
+		const char* query = "SELECT serial, uuid, name, info, date_added FROM archives WHERE name != '<Rollback>' ORDER BY serial DESC";
+		if (verbosity & VERBOSE_DEBUG) {
+			query = "SELECT serial, uuid, name, info, date_added FROM archives ORDER BY serial DESC";
+		}
+		res = sqlite3_prepare(m_db, query, -1, &stmt, NULL);
+		if (res != 0) fprintf(stderr, "%s:%d: sqlite3_prepare: %s: %s (%d)\n", __FILE__, __LINE__, query, sqlite3_errmsg(m_db), res);
+	}
+	if (stmt && res == 0) {
+		size_t i = 0;
+		while (res != SQLITE_DONE) {
+			res = sqlite3_step(stmt);
+			if (res == SQLITE_ROW) {
+				//fprintf(stderr, "DEBUG: making %d-th archive \n", (int)i);
+				list[i++] = this->archive(stmt);
+				//fprintf(stderr, "DEBUG: archive = %p \n", list[i-1]);
+			} 
+		}
+		sqlite3_reset(stmt);
+	}
+	return list;	
+}
+
+size_t Depot::count_archives() {
+	extern uint32_t verbosity;
+	int res = 0;
+	size_t count = 0;
+	static sqlite3_stmt* stmt = NULL;
+	if (stmt == NULL && m_db) {
+		const char* query = "SELECT count(*) FROM archives WHERE name != '<Rollback>'";
+		if (verbosity & VERBOSE_DEBUG) {
+			query = "SELECT count(*) FROM archives";
+		}
+		res = sqlite3_prepare(m_db, query, -1, &stmt, NULL);
+		if (res != 0) fprintf(stderr, "%s:%d: sqlite3_prepare: %s: %s (%d)\n", __FILE__, __LINE__, query, sqlite3_errmsg(m_db), res);
+	}
+	if (stmt && res == 0) {
+		res = sqlite3_step(stmt);
+		if (res == SQLITE_ROW) {
+			count = sqlite3_column_int64(stmt, 0);
+		}
+		sqlite3_reset(stmt);
+	}
+	return count;
+}
+
+int Depot::iterate_archives(ArchiveIteratorFunc func, void* context) {
+	int res = 0;
+	size_t count = 0;
+	Archive** list = this->get_all_archives(&count);
+	//fprintf(stderr, "DEBUG: iterate got: %p %d \n", *list, (int)count);
+	for (size_t i = 0; i < count; i++) {
+		//fprintf(stderr, "DEBUG: iterating on i = %d list[i] = %p \n", (int)i, list[i]);
+		if (list[i]) {
+			res = func(list[i], context);
+			delete list[i];
+		}
 	}
 	return res;
 }
@@ -736,12 +870,18 @@ int Depot::uninstall_file(File* file, void* ctx) {
 }
 
 int Depot::uninstall(Archive* archive) {
+	extern uint32_t verbosity;
 	int res = 0;
 
 	assert(archive != NULL);
 	uint64_t serial = archive->serial();
 
 	if (INFO_TEST(archive->info(), ARCHIVE_INFO_ROLLBACK)) {
+		// if in debug mode, get_all_archives returns rollbacks too, so just ignore
+		if (verbosity & VERBOSE_DEBUG) {
+			fprintf(stderr, "[uninstall] skipping uninstall since archive is a rollback.\n");
+			return 0;
+		}
 		fprintf(stderr, "%s:%d: cannot uninstall a rollback archive.\n", __FILE__, __LINE__);
 		return -1;
 	}
@@ -806,12 +946,18 @@ int Depot::verify_file(File* file, void* context) {
 
 int Depot::verify(Archive* archive) {
 	int res = 0;
+	fprintf(stdout, "%-6s %-36s  %-23s  %s\n", "Serial", "UUID", "Date Installed", "Name");
+	fprintf(stdout, "====== ====================================  =======================  =================\n");
+	list_archive(archive, stdout);	
+	fprintf(stdout, "=======================================================================================\n");
 	if (res == 0) res = this->iterate_files(archive, &Depot::verify_file, NULL);
+	fprintf(stdout, "=======================================================================================\n\n");
 	return res;
 }
 
-int Depot::list_archive(Archive* archive, void* context) {
-	extern uint32_t verbosity;
+int Depot::list_archive(Archive* archive, void* context) {	
+	uint64_t serial = archive->serial();
+	
 	char uuid[37];
 	uuid_unparse_upper(archive->uuid(), uuid);
 
@@ -821,18 +967,15 @@ int Depot::list_archive(Archive* archive, void* context) {
 	localtime_r(&seconds, &local);
 	strftime(date, sizeof(date), "%F %T %Z", &local);
 
-	if (!INFO_TEST(archive->info(), ARCHIVE_INFO_ROLLBACK) ||
-	    (verbosity & VERBOSE_DEBUG)) {
-		fprintf((FILE*)context, "%-36s  %-23s  %s\n", uuid, date, archive->name());
-	}
+	fprintf((FILE*)context, "%-6llu %-36s  %-23s  %s\n", serial, uuid, date, archive->name());
 	
 	return 0;
 }
 
 int Depot::list() {
 	int res = 0;
-	fprintf(stdout, "%-36s  %-23s  %s\n", "UUID", "Date Installed", "Name");
-	fprintf(stdout, "====================================  =======================  =================\n");
+	fprintf(stdout, "%-6s %-36s  %-23s  %s\n", "Serial", "UUID", "Date Installed", "Name");
+	fprintf(stdout, "====== ====================================  =======================  =================\n");
 	if (res == 0) res = this->iterate_archives(&Depot::list_archive, stdout);
 	return res;
 }
@@ -846,11 +989,12 @@ int Depot::print_file(File* file, void* context) {
 
 int Depot::files(Archive* archive) {
 	int res = 0;
-	fprintf(stdout, "%-36s  %-23s  %s\n", "UUID", "Date Installed", "Name");
-	fprintf(stdout, "====================================  =======================  =================\n");
+	fprintf(stdout, "%-6s %-36s  %-23s  %s\n", "Serial", "UUID", "Date Installed", "Name");
+	fprintf(stdout, "====== ====================================  =======================  =================\n");
 	list_archive(archive, stdout);
-	fprintf(stdout, "================================================================================\n");
+	fprintf(stdout, "=======================================================================================\n");
 	if (res == 0) res = this->iterate_files(archive, &Depot::print_file, stdout);
+	fprintf(stdout, "=======================================================================================\n\n");
 	return res;
 }
 
@@ -858,9 +1002,9 @@ int Depot::dump_archive(Archive* archive, void* context) {
 	Depot* depot = (Depot*)context;
 	int res = 0;
 	list_archive(archive, stdout);
-	fprintf(stdout, "================================================================================\n");
+	fprintf(stdout, "=======================================================================================\n");
 	if (res == 0) res = depot->iterate_files(archive, &Depot::print_file, stdout);
-	fprintf(stdout, "================================================================================\n\n\n");
+	fprintf(stdout, "=======================================================================================\n\n");
 	return res;
 }
 
@@ -868,8 +1012,8 @@ int Depot::dump() {
 	extern uint32_t verbosity;
 	verbosity = 0xFFFFFFFF; // dump is intrinsically a debug command
 	int res = 0;
-	fprintf(stdout, "%-36s  %-23s  %s\n", "UUID", "Date Installed", "Name");
-	fprintf(stdout, "====================================  =======================  =================\n");
+	fprintf(stdout, "%-6s %-36s  %-23s  %s\n", "Serial", "UUID", "Date Installed", "Name");
+	fprintf(stdout, "====== ====================================  =======================  =================\n");
 	if (res == 0) res = this->iterate_archives(&Depot::dump_archive, this);
 	return res;
 }
@@ -1135,6 +1279,62 @@ int Depot::remove(File* file) {
 	int res = 0;
 	uint64_t serial = file->serial();
 	if (res == 0) res = SQL("DELETE FROM files WHERE serial=%lld", serial);
+	return res;
+}
+
+// helper to dispatch the actual command for process_archive()
+int Depot::dispatch_command(Archive* archive, const char* command) {
+	int res = 0;
+
+	if (strncasecmp((char*)command, "files", 5) == 0) {
+		res = this->files(archive);
+	} else if (strncasecmp((char*)command, "uninstall", 9) == 0) {
+		res = this->uninstall(archive);
+	} else if (strncasecmp((char*)command, "verify", 6) == 0) {
+		res = this->verify(archive);
+	} else {
+		fprintf(stderr, "Error: unknown command given to dispatch_command.\n");
+	}
+	if (res != 0) {
+		fprintf(stderr, "An error occurred.\n");
+	}
+	return res;
+}
+
+// perform a command on an archive specification
+int Depot::process_archive(const char* command, const char* arg) {
+	extern uint32_t verbosity;
+	int res = 0;
+	size_t count = 0;
+	Archive** list = NULL;
+	
+	if (strncasecmp(arg, "all", 3) == 0) {
+		list = this->get_all_archives(&count);
+	} else {
+		// make a list of 1 Archive
+		list = (Archive**)malloc(sizeof(Archive*));
+		list[0] = this->get_archive(arg);
+		count = 1;
+	}
+	
+	//fprintf(stderr, "DEBUG: count = %d \n", (int)count);
+	
+	for (size_t i = 0; i < count; i++) {
+		//fprintf(stderr, "DEBUG: i = %d \n", (int)i);
+		if (!list[i]) {
+			fprintf(stderr, "Archive not found: %s\n", arg);
+			return -1;
+		}
+		if (verbosity & VERBOSE_DEBUG) {
+			char uuid[37];
+			uuid_unparse_upper(list[i]->uuid(), uuid);
+			fprintf(stderr, "Found archive: %s\n", uuid);
+		}
+		//fprintf(stderr, "DEBUG: dispatching %p %s \n", list[i], command);
+		res = this->dispatch_command(list[i], command);
+		delete list[i];
+	} 
+	free(list);
 	return res;
 }
 

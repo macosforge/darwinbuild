@@ -40,6 +40,13 @@ struct File;
 typedef int (*ArchiveIteratorFunc)(Archive* archive, void* context);
 typedef int (*FileIteratorFunc)(File* file, void* context);
 
+typedef char* archive_name_t;
+
+enum archive_keyword_t {
+		DEPOT_ARCHIVE_NEWEST,
+		DEPOT_ARCHIVE_OLDEST
+};
+
 struct Depot {
 	Depot();
 	Depot(const char* prefix);
@@ -49,18 +56,26 @@ struct Depot {
 	int initialize();
 	int is_initialized();
 	
-        const char*     prefix();
+	const char* prefix();
 	const char*	database_path();
 	const char*	archives_path();
+	const char*	downloads_path();
 
 	virtual int	begin_transaction();
 	virtual int	commit_transaction();
 	virtual int	rollback_transaction();
 
-	Archive*	archive(uint64_t serial);
-	Archive*	archive(uuid_t uuid);
-	Archive*	archive(const char* uuid);
+	Archive* archive(uint64_t serial);
+	Archive* archive(uuid_t uuid);
+	Archive* archive(archive_name_t name);
+	Archive* archive(archive_keyword_t keyword);
+	Archive* archive(sqlite3_stmt* stmt);
+	Archive* get_archive(const char* arg);
 
+	// returns a list of Archive*. Caller must free the list. 
+	Archive** get_all_archives(size_t *count);
+	size_t count_archives();
+	
 	int dump();
 	static int dump_archive(Archive* archive, void* context);
 	
@@ -83,8 +98,13 @@ struct Depot {
 	int iterate_files(Archive* archive, FileIteratorFunc func, void* context);
 	int iterate_archives(ArchiveIteratorFunc func, void* context);
 
-        // test if the depot is currently locked 
-        int is_locked();
+	// processes an archive according to command
+	//  arg is an archive identifier, such as serial or uuid
+	int dispatch_command(Archive* archive, const char* command);
+	int process_archive(const char* command, const char* arg);
+	
+	// test if the depot is currently locked 
+	int is_locked();
 
 	protected:
 
@@ -114,7 +134,7 @@ struct Depot {
 	
 	// Removes all archive entries which have no corresponding files entries.
 	int		prune_archives();
-
+	
 	File*		file_superseded_by(File* file);
 	File*		file_preceded_by(File* file);
 	File*		file_star_eded_by(File* file, sqlite3_stmt* stmt);
@@ -130,6 +150,7 @@ struct Depot {
 	char*		m_depot_path;
 	char*		m_database_path;
 	char*		m_archives_path;
+	char*		m_downloads_path;
 	int		m_lock_fd;
         int             m_is_locked;
 };

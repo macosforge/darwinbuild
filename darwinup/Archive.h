@@ -57,10 +57,12 @@ struct Depot;
 //  ArchiveFactory exists to return the correct
 //  concrete subclass for a given archive to be
 //  installed.  Currently this is determined
-//  by the file's suffix.
+//  by the file's suffix. The tmppath parameter
+//  is the path where files can be stored during
+//  processing, such as fetching remote archives. 
 ////
 
-Archive* ArchiveFactory(const char* path);
+Archive* ArchiveFactory(const char* path, const char* tmppath);
 
 struct Archive {
 	Archive(const char* path);
@@ -120,7 +122,7 @@ struct Archive {
 
 	// Constructor for subclasses and Depot to use when unserializing an archive from the database.
 	Archive(uint64_t serial, uuid_t uuid, const char* name, const char* path, uint64_t info, time_t date_installed);
-
+	
 	uint64_t	m_serial;
 	uuid_t		m_uuid;
 	char*		m_name;
@@ -158,17 +160,86 @@ struct DittoArchive : public Archive {
 
 
 ////
-//  PkgArchive
+//  DittoXArchive
 //
-//  Corresponds to the Mac OS X installer's .pkg bundle format.
-//  Installs the archive using the pax(1) command line tool.
-//  NOTE: this does not make any attempt to perform any of the
-//  volume checks or run any preflight or postflight actions.
+//  Handles any file that `ditto -x` can handle. Intended to be the parent
+//  of suffix-specific archive objects. 
 ////
-struct PkgArchive : public Archive {
-	PkgArchive(const char* path);
+struct DittoXArchive : public Archive {
+	DittoXArchive(const char* path);
 	virtual int extract(const char* destdir);
 };
+
+
+////
+//  CpioArchive
+//
+//  Corresponds to the cpio(1) file format.  
+//  This installs archives using the ditto(1) command line tool with
+//  the -x option.
+////
+struct CpioArchive : public DittoXArchive {
+	CpioArchive(const char* path);
+};
+
+////
+//  CpioGZArchive
+//
+//  Corresponds to the cpio(1) file format, compressed with gzip(1).
+//  This installs archives using the ditto(1) command line tool with
+//  the -x option.
+////
+struct CpioGZArchive : public DittoXArchive {
+	CpioGZArchive(const char* path);
+};
+
+////
+//  CpioBZ2Archive
+//
+//  Corresponds to the cpio(1) file format, compressed with bzip2(1).
+//  This installs archives using the ditto(1) command line tool with
+//  the -x option.
+////
+struct CpioBZ2Archive : public DittoXArchive {
+	CpioBZ2Archive(const char* path);
+};
+
+
+////
+//  PaxArchive
+//
+//  Corresponds to the pax(1) file format.  
+//  This installs archives using the ditto(1) command line tool with
+//  the -x option.
+////
+struct PaxArchive : public DittoXArchive {
+	PaxArchive(const char* path);
+};
+
+
+////
+//  PaxGZArchive
+//
+//  Corresponds to the pax(1) file format, compressed with gzip(1).
+//  This installs archives using the ditto(1) command line tool with
+//  the -x option.
+////
+struct PaxGZArchive : public DittoXArchive {
+	PaxGZArchive(const char* path);
+};
+
+
+////
+//  PaxBZ2Archive
+//
+//  Corresponds to the pax(1) file format, compressed with bzip2(1).
+//  This installs archives using the ditto(1) command line tool with
+//  the -x option.
+////
+struct PaxBZ2Archive : public DittoXArchive {
+	PaxBZ2Archive(const char* path);
+};
+
 
 ////
 //  TarArchive
@@ -177,8 +248,8 @@ struct PkgArchive : public Archive {
 //  archives by using the tar(1) command line tool.
 ////
 struct TarArchive : public Archive {
-	TarArchive(const char* path);
-	virtual int extract(const char* destdir);
+        TarArchive(const char* path);
+        virtual int extract(const char* destdir);
 };
 
 
@@ -190,8 +261,8 @@ struct TarArchive : public Archive {
 //  the -z option.
 ////
 struct TarGZArchive : public Archive {
-	TarGZArchive(const char* path);
-	virtual int extract(const char* destdir);
+        TarGZArchive(const char* path);
+        virtual int extract(const char* destdir);
 };
 
 
@@ -203,6 +274,30 @@ struct TarGZArchive : public Archive {
 //  the -j option.
 ////
 struct TarBZ2Archive : public Archive {
-	TarBZ2Archive(const char* path);
+        TarBZ2Archive(const char* path);
+        virtual int extract(const char* destdir);
+};
+
+
+////
+//  XarArchive
+//
+//  Corresponds to the xar(1) file format.  This handles uncompressed cpio
+//  archives by using the xar(1) command line tool.
+////
+struct XarArchive : public Archive {
+	XarArchive(const char* path);
+	virtual int extract(const char* destdir);
+};
+
+
+////
+//  ZipArchive
+//
+//  Corresponds to a zip archive. We use the -k option to ditto(1)
+//  to handle it. 
+////
+struct ZipArchive : public Archive {
+	ZipArchive(const char* path);
 	virtual int extract(const char* destdir);
 };

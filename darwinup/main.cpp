@@ -52,9 +52,29 @@ void usage(char* progname) {
 	fprintf(stderr, "commands:                                                      \n");
 	fprintf(stderr, "          install    <path>                                    \n");
 	fprintf(stderr, "          list                                                 \n");
-	fprintf(stderr, "          files      <uuid>                                    \n");
-	fprintf(stderr, "          uninstall  <uuid>                                    \n");
-	fprintf(stderr, "          verify     <uuid>                                    \n");
+	fprintf(stderr, "          files      <archive>                                 \n");
+	fprintf(stderr, "          uninstall  <archive>                                 \n");
+	fprintf(stderr, "          verify     <archive>                                 \n");
+	fprintf(stderr, "                                                               \n");
+	fprintf(stderr, "<path> is one of:                                              \n");
+	fprintf(stderr, "          /path/to/local/dir-or-file                           \n");
+	fprintf(stderr, "          user@host:/path/to/remote/dir-or-file                \n");
+	fprintf(stderr, "          http[s]://host/path/to/remote/file                   \n");
+	fprintf(stderr, "                                                               \n");
+	fprintf(stderr, "Files must be in one of the supported archive formats:         \n");
+	fprintf(stderr, "          cpio, cpio.gz, cpio.bz2                              \n");
+	fprintf(stderr, "          pax, pax.gz, pax.bz2                                 \n");
+	fprintf(stderr, "          tar, tar.gz, tar.bz2                                 \n");
+	fprintf(stderr, "          xar, zip                                             \n");
+	fprintf(stderr, "                                                               \n");
+	fprintf(stderr, "<archive> is one of:                                           \n");
+	fprintf(stderr, "          <serial>   the Serial number                         \n");
+	fprintf(stderr, "          <uuid>     the UUID                                  \n");
+	fprintf(stderr, "          <name>     the last root installed with that name    \n");
+	fprintf(stderr, "          newest     the newest (last) root installed          \n");
+	fprintf(stderr, "          oldest     the oldest root installed                 \n");
+	fprintf(stderr, "          all        all installed roots                       \n");
+	fprintf(stderr, "                                                               \n");
 	exit(1);
 }
 
@@ -120,7 +140,7 @@ int main(int argc, char* argv[]) {
 	
 	if (argc == 2 && strcmp(argv[0], "install") == 0) {
 		char uuid[37];
-		Archive* archive = ArchiveFactory(argv[1]);
+		Archive* archive = ArchiveFactory(argv[1], depot->downloads_path());
 		if (archive) {
 			res = depot->install(archive);
 			if (res == 0) {
@@ -145,40 +165,11 @@ int main(int argc, char* argv[]) {
 	} else if (argc == 1 && strcmp(argv[0], "dump") == 0) {
 		depot->dump();
 	} else if (argc == 2 && strcmp(argv[0], "files") == 0) {
-		Archive* archive = depot->archive(argv[1]);
-		if (archive) {
-			res = depot->files(archive);
-			delete archive;
-		} else {
-			fprintf(stderr, "Archive not found: %s\n", argv[1]);
-			res = 1;
-		}
+		res = depot->process_archive(argv[0], argv[1]);
 	} else if (argc == 2 && strcmp(argv[0], "uninstall") == 0) {
-		Archive* archive = depot->archive(argv[1]);
-		if (archive) {
-			res = depot->uninstall(archive);
-			if (res != 0) {
-				fprintf(stderr, "An error occurred.\n");
-				res = 1;
-			}
-			delete archive;
-		} else {
-			fprintf(stderr, "Archive not found: %s\n", argv[1]);
-			res = 1;
-		}
+		res = depot->process_archive(argv[0], argv[1]);
 	} else if (argc == 2 && strcmp(argv[0], "verify") == 0) {
-		Archive* archive = depot->archive(argv[1]);
-		if (archive) {
-			res = depot->verify(archive);
-			if (res != 0) {
-				fprintf(stderr, "An error occurred.\n");
-				res = 1;
-			}
-			delete archive;
-		} else {
-			fprintf(stderr, "Archive not found: %s\n", argv[1]);
-			res = 1;
-		}
+		res = depot->process_archive(argv[0], argv[1]);
 	} else {
 		usage(progname);
 	}

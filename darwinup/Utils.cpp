@@ -33,11 +33,13 @@
 #include "Utils.h"
 #include <assert.h>
 #include <errno.h>
+#include <libgen.h>
 #include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <spawn.h>
 #include <sys/stat.h>
 
 extern char** environ;
@@ -122,6 +124,23 @@ int is_regular_file(const char* path) {
 	return (res == 0 && S_ISREG(sb.st_mode));
 }
 
+int is_url_path(const char* path) {
+	if (strncmp("http://", path, 7) == 0) {
+		return 1;
+	}
+	if (strncmp("https://", path, 8) == 0) {
+		return 1;
+	}
+	return 0;
+}
+
+int is_userhost_path(const char* path) {
+	// look for user@host:path
+	char *at = strchr(path, '@');
+	char *colon = strchr(path, ':');
+	return at && colon && at < colon;	
+}
+
 int has_suffix(const char* str, const char* sfx) {
 	str = strstr(str, sfx);
 	return (str && strcmp(str, sfx) == 0);
@@ -132,12 +151,13 @@ int exec_with_args(const char** args) {
 	pid_t pid;
 	int status;
 	
-	pid = fork();
-	assert(pid != -1);
-	if (pid == 0) {
-		assert(execve(args[0], (char**)args, environ) != -1);
-		// NOT REACHED
-	}
+	IF_DEBUG("Spawning %s \n", args[0]);
+		
+	res = posix_spawn(&pid, args[0], NULL, NULL, (char**)args, environ);
+	if (res != 0) fprintf(stderr, "Error: Failed to spawn %s: %s (%d)\n", args[0], strerror(res), res);
+	
+	IF_DEBUG("Running %s on pid %d \n", args[0], (int)pid);
+
 	do {
 		res = waitpid(pid, &status, 0);
 	} while (res == -1 && errno == EINTR);
@@ -148,6 +168,9 @@ int exec_with_args(const char** args) {
 			res = -1;
 		}
 	}
+	
+	IF_DEBUG("Done running %s \n", args[0]);
+	
 	return res;
 }
 
@@ -184,4 +207,41 @@ int join_path(char **out, const char *p1, const char *p2) {
 	        compact_slashes(cur, slashes);
 	} 
 	return 0;
+}
+
+char* fetch_url(const char* srcpath, const char* dstpath) {
+	extern uint32_t verbosity;
+	char* localfile;
+	int res = join_path(&localfile, dstpath, basename((char*)srcpath));
+	if (res || !localfile) return NULL;
+	
+	const char* args[] = {
+		"/usr/bin/curl",
+		(verbosity ? "-v" : "-s"),
+		"-L", srcpath,
+		"-o", localfile,
+		NULL
+	};
+	if (res == 0) res = exec_with_args(args);
+	if (res == 0) return localfile;
+	return NULL;
+}
+
+char* fetch_userhost(const char* srcpath, const char* dstpath) {
+	extern uint32_t verbosity;
+	char* localfile;
+	int res = join_path(&localfile, dstpath, basename((char*)srcpath));
+	if (!localfile) return NULL;
+		
+	const char* args[] = {
+		"/usr/bin/rsync",
+		(verbosity ? "-v" : "-q"),
+		"-a", srcpath,
+		localfile,
+		NULL
+	};
+
+	if (res == 0) res = exec_with_args(args);
+	if (res == 0) return localfile;
+	return NULL;	
 }

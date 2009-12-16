@@ -1,6 +1,13 @@
 Darwin Build Scripts Change History
 -----------------------------------
 
+Release 13 [16-Dec-2009]
+	- darwinup: convert use of fork()/exec() to posix_spawn()
+	- darwinup: add Serial to archive list, allow use of serial, name, 
+	  and keywords to identify archives on the command line
+	- darwinup: support fetching archives via rsync and curl
+	- darwinup: support cpio, xar, zip and pax archives
+
 Release 12 [10-Dec-2009]
 	- darwinup: rollback installations that fail
 	- darwinup: add force (-f) option to allow potentially unsafe operations
