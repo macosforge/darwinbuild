@@ -156,7 +156,7 @@ int File::install(const char* prefix, const char* dest) {
 	join_path(&dstpath, dest, path);
 
 	if (dirpath) {
-	        ssize_t len = snprintf(srcpath, sizeof(srcpath), "%s/%s", dirpath, path);
+		ssize_t len = snprintf(srcpath, sizeof(srcpath), "%s/%s", dirpath, path);
 		if ((size_t)len > sizeof(srcpath)) {
 			fprintf(stderr, "ERROR: [install] path too long: %s/%s\n", dirpath, path);
 			return -1;
