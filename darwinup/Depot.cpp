@@ -316,7 +316,6 @@ Archive** Depot::get_all_archives(size_t* count) {
 	extern uint32_t verbosity;
 	int res = 0;
 	*count = this->count_archives();
-	//fprintf(stderr, "DEBUG: get_all_archives got count = %d \n", (int)*count);
 	Archive** list = (Archive**)malloc(*count * sizeof(Archive*));
 	static sqlite3_stmt* stmt = NULL;
 	if (stmt == NULL && m_db) {
@@ -332,9 +331,7 @@ Archive** Depot::get_all_archives(size_t* count) {
 		while (res != SQLITE_DONE) {
 			res = sqlite3_step(stmt);
 			if (res == SQLITE_ROW) {
-				//fprintf(stderr, "DEBUG: making %d-th archive \n", (int)i);
 				list[i++] = this->archive(stmt);
-				//fprintf(stderr, "DEBUG: archive = %p \n", list[i-1]);
 			} 
 		}
 		sqlite3_reset(stmt);
@@ -369,9 +366,7 @@ int Depot::iterate_archives(ArchiveIteratorFunc func, void* context) {
 	int res = 0;
 	size_t count = 0;
 	Archive** list = this->get_all_archives(&count);
-	//fprintf(stderr, "DEBUG: iterate got: %p %d \n", *list, (int)count);
 	for (size_t i = 0; i < count; i++) {
-		//fprintf(stderr, "DEBUG: iterating on i = %d list[i] = %p \n", (int)i, list[i]);
 		if (list[i]) {
 			res = func(list[i], context);
 			delete list[i];
@@ -558,6 +553,30 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback, 
 				IF_DEBUG("[analyze]    insert rollback\n");
 				res = this->insert(rollback, actual);
 				assert(res == 0);
+				// need to save parent directories as well
+				char *ppath;
+				char *pathbuf;
+				pathbuf = strdup(actual->path());
+				ppath = dirname(pathbuf);
+				free(pathbuf);
+				// while we have a valid path that is below the prefix
+				while (ppath 
+					   && strncmp(ppath, this->prefix(), strlen(this->prefix())) == 0
+					   && strncmp(ppath, this->prefix(), strlen(ppath)) > 0) {
+					File* parent = FileFactory(ppath);
+					// if parent dir does not exist, we are
+					//  generating a rollback of base system
+					//  which does not have matching directories,
+					//  so we can just move on.
+					if (!parent) {
+						IF_DEBUG("[analyze]      parent path not found, skipping parents\n");
+						break;
+					}
+					IF_DEBUG("[analyze]      adding parent to rollback: %s \n", parent->path());
+					res = this->insert(rollback, parent);
+					assert(res == 0);
+					ppath = dirname(ppath);
+				}
 			}
 
 			fprintf(stderr, "%c %s\n", state, file->path());
@@ -1227,7 +1246,7 @@ int Depot::insert(Archive* archive) {
 
 int Depot::insert(Archive* archive, File* file) {
 	int res = 0;
-
+	int do_update = 0;
 	// check for the destination prefix in file's path, remove if found
 	char *path, *relpath;
 	size_t prefixlen = strlen(this->prefix());
@@ -1237,15 +1256,21 @@ int Depot::insert(Archive* archive, File* file) {
 	        relpath += prefixlen - 1;
 	}
 
-	static sqlite3_stmt* stmt = NULL;
-	if (stmt == NULL && m_db) {
-		const char* query = "INSERT INTO files (archive, info, mode, uid, gid, digest, path) VALUES (?, ?, ?, ?, ?, ?, ?)";
+	const char* query = NULL;
+	if (this->has_file(archive, file)) {
+		do_update = 1;
+		IF_DEBUG("archive(%llu) already has %s, updating instead \n", archive->serial(), relpath);
+		query = "UPDATE files SET info=?, mode=?, uid=?, gid=?, digest=? WHERE archive=? and path=?";
+	} else {
+		query = "INSERT INTO files (info, mode, uid, gid, digest, archive, path) VALUES (?, ?, ?, ?, ?, ?, ?)";	
+	}
+	sqlite3_stmt* stmt = NULL;
+	if (m_db) {
 		res = sqlite3_prepare(m_db, query, -1, &stmt, NULL);
 		if (res != 0) fprintf(stderr, "%s:%d: sqlite3_prepare: %s: %s (%d)\n", __FILE__, __LINE__, query, sqlite3_errmsg(m_db), res);
 	}
 	if (stmt && res == 0) {
 		int i = 1;
-		if (res == 0) res = sqlite3_bind_int64(stmt, i++, archive->serial());
 		if (res == 0) res = sqlite3_bind_int(stmt, i++, file->info());
 		if (res == 0) res = sqlite3_bind_int(stmt, i++, file->mode());
 		if (res == 0) res = sqlite3_bind_int(stmt, i++, file->uid());
@@ -1253,10 +1278,14 @@ int Depot::insert(Archive* archive, File* file) {
 		Digest* dig = file->digest();
 		if (res == 0 && dig) res = sqlite3_bind_blob(stmt, i++, dig->data(), dig->size(), SQLITE_STATIC);
 		else if (res == 0) res = sqlite3_bind_blob(stmt, i++, NULL, 0, SQLITE_STATIC);
+		if (res == 0) res = sqlite3_bind_int64(stmt, i++, archive->serial());
 		if (res == 0) res = sqlite3_bind_text(stmt, i++, relpath, -1, SQLITE_STATIC);
 		if (res == 0) res = sqlite3_step(stmt);
 		if (res == SQLITE_DONE) {
-			file->m_serial = (uint64_t)sqlite3_last_insert_rowid(m_db);
+			// if we did an insert, update the file serial
+			if (!do_update) {
+				file->m_serial = (uint64_t)sqlite3_last_insert_rowid(m_db);
+			}
 			res = 0;
 		} else {
 			fprintf(stderr, "%s:%d: Could not add file to database: %s (%d)\n", __FILE__, __LINE__, sqlite3_errmsg(m_db), res);
@@ -1265,6 +1294,42 @@ int Depot::insert(Archive* archive, File* file) {
 	}
 	free(path);
 	return res;
+}
+
+int Depot::has_file(Archive* archive, File* file) {
+	int res = 0;
+	size_t count = 0;
+	// check for the destination prefix in file's path, remove if found
+	char *path, *relpath;
+	size_t prefixlen = strlen(this->prefix());
+	asprintf(&path, "%s", file->path());
+	relpath = path;
+	if (strncmp(file->path(), this->prefix(), prefixlen) == 0) {
+		relpath += prefixlen - 1;
+	}
+	
+	static sqlite3_stmt* stmt = NULL;
+	if (stmt == NULL && m_db) {
+		const char* query = "SELECT count(*) FROM files WHERE archive=? and path=?";
+		res = sqlite3_prepare(m_db, query, -1, &stmt, NULL);
+		if (res != 0) fprintf(stderr, "%s:%d: sqlite3_prepare: %s: %s (%d)\n", __FILE__, __LINE__, query, sqlite3_errmsg(m_db), res);
+	}
+	if (stmt && res == 0) {
+		int i = 1;
+		if (res == 0) res = sqlite3_bind_int64(stmt, i++, archive->serial());
+		if (res == 0) res = sqlite3_bind_text(stmt, i++, relpath, -1, SQLITE_STATIC);
+		if (res == 0) res = sqlite3_step(stmt);
+		if (res == SQLITE_ROW) {
+			count = sqlite3_column_int64(stmt, 0);
+			IF_DEBUG("has_file(%llu, %s) got count = %u \n", archive->serial(), relpath, (unsigned int)count);
+		} else {
+			res = -1;
+			fprintf(stderr, "%s:%d: Could not query for file in archive: %s (%d)\n", __FILE__, __LINE__, sqlite3_errmsg(m_db), res);
+		}
+		sqlite3_reset(stmt);
+	}
+	free(path);
+	return count > 0;
 }
 
 int Depot::remove(Archive* archive) {
@@ -1317,10 +1382,7 @@ int Depot::process_archive(const char* command, const char* arg) {
 		count = 1;
 	}
 	
-	//fprintf(stderr, "DEBUG: count = %d \n", (int)count);
-	
 	for (size_t i = 0; i < count; i++) {
-		//fprintf(stderr, "DEBUG: i = %d \n", (int)i);
 		if (!list[i]) {
 			fprintf(stderr, "Archive not found: %s\n", arg);
 			return -1;
@@ -1330,7 +1392,6 @@ int Depot::process_archive(const char* command, const char* arg) {
 			uuid_unparse_upper(list[i]->uuid(), uuid);
 			fprintf(stderr, "Found archive: %s\n", uuid);
 		}
-		//fprintf(stderr, "DEBUG: dispatching %p %s \n", list[i], command);
 		res = this->dispatch_command(list[i], command);
 		delete list[i];
 	} 

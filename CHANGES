@@ -1,6 +1,11 @@
 Darwin Build Scripts Change History
 -----------------------------------
 
+Release 13.1 [22-Dec-2009]
+	- darwinup: fix bug where rollback archives for user modifications
+	  did not contain parent directories and thus certain
+	  install/modify/uninstall patterns would result in data loss. 
+
 Release 13 [16-Dec-2009]
 	- darwinup: convert use of fork()/exec() to posix_spawn()
 	- darwinup: add Serial to archive list, allow use of serial, name, 
