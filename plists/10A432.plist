@@ -3595,6 +3595,9 @@
 			};
 			version = 143;
 		};
+		OpenPAM = {
+			version = 11;
+		};
 		OpenSSH = {
 			dependencies = {
 				build = (
@@ -6325,6 +6328,9 @@
 			);
 			version = 125;
 		};
+		clang = {
+			version = 23;
+		};
 		configd = {
 			dependencies = {
 				build = (
@@ -8815,6 +8821,9 @@
 			};
 			version = 183;
 		};
+		hunspell = {
+			version = 4;
+		};
 		iodbc = {
 			dependencies = {
 				build = (
@@ -9348,6 +9357,12 @@
 			};
 			version = 21.3;
 		};
+		libarchive = {
+			version = 13.1;
+		};
+		libclosure = {
+			version = 38;
+		};
 		libdispatch = {
 			dependencies = {
 				build = (
@@ -9478,6 +9493,9 @@
 				);
 			};
 			version = 12.1;
+		};
+		libevent = {
+			version = 1;
 		};
 		libffi = {
 			dependencies = {
@@ -10182,6 +10200,12 @@
 			};
 			version = 10.1;
 		};
+		llvmCore = {
+			version = 2118;
+		};
+		llvmgcc42 = {
+			version = 2118;
+		};
 		lsof = {
 			dependencies = {
 				build = (
@@ -10564,6 +10588,9 @@
 				);
 			};
 			version = 14;
+		};
+		memcached = {
+			version = 6;
 		};
 		misc_cmds = {
 			dependencies = {
@@ -11602,6 +11629,9 @@
 				);
 			};
 			version = 1001;
+		};
+		pcre = {
+			version = 4.1;
 		};
 		pdisk = {
 			dependencies = {
