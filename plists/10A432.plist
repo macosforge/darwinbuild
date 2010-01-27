@@ -3596,6 +3596,39 @@
 			version = 143;
 		};
 		OpenPAM = {
+			dependencies = {
+				build = (
+					ICU,
+					Libm,
+					Libsystem,
+					bash,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnumake,
+					grep,
+					ld64,
+					perl,
+					shell_cmds,
+					text_cmds,
+				);
+				header = (
+					CarbonHeaders,
+					Libc_headers,
+					OpenPAM,
+					gcc,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					OpenPAM,
+				);
+				staticlib = (
+					Csu,
+					gcc,
+				);
+			};
 			version = 11;
 		};
 		OpenSSH = {
@@ -4117,7 +4150,7 @@
 			dependencies = {
 				lib = (
 					CF,
-					CarbonHeaders, 
+					CarbonHeaders,
 					Csu,
 					IOKitUser,
 					IOUSBFamily,
@@ -4134,11 +4167,11 @@
 					gcc_select,
 					launchd_libs,
 					libdispatch,
-					libsecurityd,
 					libsecurity_cdsa_client,
 					libsecurity_cdsa_utilities,
 					libsecurity_cdsa_utils,
 					libsecurity_utilities,
+					libsecurityd,
 					libstdcxx,
 					xnu,
 				);
@@ -4299,8 +4332,8 @@
 			dependencies = {
 				lib = (
 					CF,
-					Csu,
 					CarbonHeaders,
+					Csu,
 					Libc,
 					Libc_headers,
 					Libsyscall,
@@ -6329,6 +6362,42 @@
 			version = 125;
 		};
 		clang = {
+			dependencies = {
+				build = (
+					Libm,
+					Libsystem,
+					bash,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnumake,
+					grep,
+					ld64,
+					libstdcxx,
+					perl,
+					shell_cmds,
+					text_cmds,
+				);
+				header = (
+					CarbonHeaders,
+					Libc_headers,
+					Libm,
+					Libsyscall,
+					gcc,
+					libstdcxx,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					dyld,
+					libstdcxx,
+				);
+				staticlib = (
+					Csu,
+					gcc,
+				);
+			};
 			version = 23;
 		};
 		configd = {
@@ -8822,6 +8891,44 @@
 			version = 183;
 		};
 		hunspell = {
+			dependencies = {
+				build = (
+					Libm,
+					Libsystem,
+					bash,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnumake,
+					grep,
+					ld64,
+					libiconv,
+					libstdcxx,
+					perl,
+					shell_cmds,
+					text_cmds,
+				);
+				header = (
+					CarbonHeaders,
+					Libc_headers,
+					gcc,
+					libiconv,
+					libstdcxx,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					dyld,
+					hunspell,
+					libiconv,
+					libstdcxx,
+				);
+				staticlib = (
+					Csu,
+					gcc,
+				);
+			};
 			version = 4;
 		};
 		iodbc = {
@@ -9358,9 +9465,63 @@
 			version = 21.3;
 		};
 		libarchive = {
+			dependencies = {
+				build = (
+					Libm,
+					Libsystem,
+					bash,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gm4,
+					gnumake,
+					grep,
+					ld64,
+					perl,
+					shell_cmds,
+					text_cmds,
+					zlib,
+				);
+				header = (
+					CarbonHeaders,
+					Libc_headers,
+					gcc,
+					xnu,
+					zlib,
+				);
+				lib = (
+					Libsystem,
+					dyld,
+					libarchive,
+					zlib,
+				);
+				staticlib = (
+					Csu,
+					gcc,
+				);
+			};
 			version = 13.1;
 		};
 		libclosure = {
+			dependencies = {
+				build = (
+					bash,
+					cctools,
+					gcc,
+					gcc_select,
+					gnumake,
+					perl,
+					shell_cmds,
+					text_cmds,
+				);
+				header = (
+					CarbonHeaders,
+					Libc_headers,
+					gcc,
+					xnu,
+				);
+			};
 			version = 38;
 		};
 		libdispatch = {
@@ -9495,6 +9656,39 @@
 			version = 12.1;
 		};
 		libevent = {
+			dependencies = {
+				build = (
+					Libm,
+					Libsystem,
+					bash,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnumake,
+					grep,
+					ld64,
+					libarchive,
+					libresolv,
+					perl,
+					shell_cmds,
+					text_cmds,
+				);
+				header = (
+					CarbonHeaders,
+					Libc_headers,
+					gcc,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					libresolv,
+				);
+				staticlib = (
+					Csu,
+					gcc,
+				);
+			};
 			version = 1;
 		};
 		libffi = {
@@ -10201,9 +10395,97 @@
 			version = 10.1;
 		};
 		llvmCore = {
+			dependencies = {
+				build = (
+					Libm,
+					Libsystem,
+					bash,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnumake,
+					grep,
+					ld64,
+					libarchive,
+					libstdcxx,
+					perl,
+					shell_cmds,
+					text_cmds,
+				);
+				header = (
+					CarbonHeaders,
+					Libc_headers,
+					Libm,
+					Libsyscall,
+					gcc,
+					libstdcxx,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					dyld,
+					libstdcxx,
+				);
+				staticlib = (
+					Csu,
+					gcc,
+				);
+			};
 			version = 2118;
 		};
 		llvmgcc42 = {
+			dependencies = {
+				build = (
+					Libm,
+					Libsystem,
+					bash,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gm4,
+					gnumake,
+					grep,
+					ld64,
+					libarchive,
+					libiconv,
+					libstdcxx,
+					perl,
+					shell_cmds,
+					text_cmds,
+				);
+				header = (
+					CarbonHeaders,
+					Libc_headers,
+					Libm,
+					Libsyscall,
+					OpenPAM,
+					OpenSSL098,
+					flex,
+					gcc,
+					libclosure,
+					libdispatch,
+					libedit,
+					libiconv,
+					libresolv,
+					libstdcxx,
+					ncurses,
+					objc4,
+					xnu,
+					zlib,
+				);
+				lib = (
+					Libsystem,
+					dyld,
+					libiconv,
+					libstdcxx,
+				);
+				staticlib = (
+					Csu,
+					gcc,
+				);
+			};
 			version = 2118;
 		};
 		lsof = {
@@ -10590,6 +10872,41 @@
 			version = 14;
 		};
 		memcached = {
+			dependencies = {
+				build = (
+					Libm,
+					Libsystem,
+					bash,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnumake,
+					grep,
+					ld64,
+					libarchive,
+					libevent,
+					perl,
+					shell_cmds,
+					text_cmds,
+				);
+				header = (
+					CarbonHeaders,
+					Libc_headers,
+					gcc,
+					libevent,
+					xnu,
+				);
+				lib = (
+					Libsystem,
+					dyld,
+				);
+				staticlib = (
+					Csu,
+					gcc,
+					libevent,
+				);
+			};
 			version = 6;
 		};
 		misc_cmds = {
@@ -11631,6 +11948,43 @@
 			version = 1001;
 		};
 		pcre = {
+			dependencies = {
+				build = (
+					Libm,
+					Libsystem,
+					bash,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gm4,
+					gnumake,
+					grep,
+					ld64,
+					libedit,
+					perl,
+					shell_cmds,
+					text_cmds,
+					zlib,
+				);
+				header = (
+					CarbonHeaders,
+					Libc_headers,
+					gcc,
+					libedit,
+					xnu,
+					zlib,
+				);
+				lib = (
+					Libsystem,
+					dyld,
+					pcre,
+				);
+				staticlib = (
+					Csu,
+					gcc,
+				);
+			};
 			version = 4.1;
 		};
 		pdisk = {
