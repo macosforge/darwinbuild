@@ -62,7 +62,7 @@ struct Database {
 	
 protected:
 	
-	boot sql(const char* query, ...);
+	bool sql(const char* query, ...);
 	
 	char*         m_path;
 	sqlite3*      m_db;

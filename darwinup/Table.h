@@ -42,8 +42,16 @@ struct Table {
 	const char* name();
 	const Column** columns();
 	
-	const char* create();  // returns SQL query to create table
-	const char* drop();    // returns SQL query to drop table
+	// return SQL statements for this table
+	const char* create();  
+	const char* drop();    
+	const char* count(const char* where);
+	const char* select(const char* where);
+	const char* select_column(const char* column, const char* where);		
+	const char* update(const char* set, const char* where, int &count);
+	const char* del(const char* where, int &count);
+	const char* insert(const char* columns, const char* values);
+	
 	
 protected:
 	
