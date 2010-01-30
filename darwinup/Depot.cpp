@@ -683,6 +683,34 @@ int Depot::install_file(File* file, void* ctx) {
 }
 
 
+int Depot::install(const char* path) {
+	int res = 0;
+	char uuid[37];
+	Archive* archive = ArchiveFactory(path, this->downloads_path());
+	if (archive) {
+		res = this->install(archive);
+		if (res == 0) {
+			uuid_unparse_upper(archive->uuid(), uuid);
+			fprintf(stdout, "%s\n", uuid);
+		} else {
+			fprintf(stderr, "Error: Install failed. Rolling back installation.\n");
+			res = this->uninstall(archive);
+			if (res) {
+				fprintf(stderr, "Error: Unable to rollback installation. "
+						"Your system is in an inconsistent state! File a bug!\n");
+			} else {
+				fprintf(stderr, "Rollback successful.\n");
+			}
+			res = 1;
+		}
+	} else {
+		fprintf(stderr, "Archive not found: %s\n", path);
+	}
+
+	return res;
+}
+
+
 int Depot::install(Archive* archive) {
 	int res = 0;
 	Archive* rollback = new RollbackArchive();
