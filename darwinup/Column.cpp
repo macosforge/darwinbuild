@@ -30,5 +30,47 @@
  * @APPLE_BSD_LICENSE_HEADER_END@
  */
 
+#include <string.h>
+#include <stdlib.h>
 #include "Column.h"
+
+Column::Column() {
+	Column("unnamed_column", SQLITE_INTEGER);
+}
+
+Column::Column(const char* name, uint32_t type) {
+	Column(name, type, false, false, false);
+}
+
+Column::Column(const char* name, uint32_t type, bool is_index, bool is_pk, bool is_unique) {
+	m_name      = strdup(name);
+	m_type      = type;
+	m_is_index  = is_index;
+	m_is_pk     = is_pk;
+	m_is_unique = is_unique;
+}
+
+Column::~Column() {
+	free(m_name);
+}
+
+const char* Column::name() {
+	return m_name;
+}
+
+const int Column::type() {
+	return m_type;
+}
+
+const bool Column::is_index() {
+	return m_is_index;
+}
+
+const bool Column::is_pk() {
+	return m_is_pk;
+}
+
+const bool Column::is_unique() {
+	return m_is_unique;
+}
 

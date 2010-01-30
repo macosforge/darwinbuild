@@ -30,25 +30,26 @@
  * @APPLE_BSD_LICENSE_HEADER_END@
  */
 
+#include <stdint.h>
 #include <sqlite3.h>
 
 
 struct Column {
 	Column();
-	Column(const char* name, int type);
-	Column(const char* name, int type, bool is_index, bool is_pk, bool is_unique);
+	Column(const char* name, uint32_t type);
+	Column(const char* name, uint32_t type, bool is_index, bool is_pk, bool is_unique);
 	virtual ~Column();
 	
-	const char* name();
-	const int type();
+	const char*    name();
+	const int      type();
 		
-	bool is_index();
-	bool is_pk();
-	bool is_unique();
+	const bool     is_index();
+	const bool     is_pk();
+	const bool     is_unique();
 	
 protected:
 	char*          m_name;
-	int            m_type;   // SQLITE_* type definition
+	uint32_t       m_type;   // SQLITE_* type definition
 	bool           m_is_index;
 	bool           m_is_pk;
 	bool           m_is_unique;

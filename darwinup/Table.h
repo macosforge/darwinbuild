@@ -30,32 +30,36 @@
  * @APPLE_BSD_LICENSE_HEADER_END@
  */
 
+#include <stdint.h>
 #include <sqlite3.h>
+#include "Column.h"
 
-struct Column;
-
-struct Table {
+struct Table {	
 	Table();
 	Table(const char* name);
 	virtual ~Table();
 	
-	const char* name();
+	const char*    name();
 	const Column** columns();
 	
 	// return SQL statements for this table
-	const char* create();  
-	const char* drop();    
-	const char* count(const char* where);
-	const char* select(const char* where);
-	const char* select_column(const char* column, const char* where);		
-	const char* update(const char* set, const char* where, int &count);
-	const char* del(const char* where, int &count);
-	const char* insert(const char* columns, const char* values);
+	const char*    create();  
+	const char*    drop();    
+	const char*    count(const char* where);
+	const char*    select(const char* where);
+	const char*    select_column(const char* column, const char* where);		
+	const char*    update(const char* set, const char* where, uint32_t &count);
+	const char*    del(const char* where, uint32_t &count);
+	const char*    insert(const char* columns, const char* values);
 	
+	bool           add_column(Column*);
 	
 protected:
 	
-	char*         m_name;
-	Column**      m_columns;
 
+	
+	char*          m_name;
+	Column**       m_columns;
+	uint32_t       m_column_count;
+	uint32_t       m_column_max;
 };

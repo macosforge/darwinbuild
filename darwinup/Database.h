@@ -30,7 +30,9 @@
  * @APPLE_BSD_LICENSE_HEADER_END@
  */
 
+#include <stdint.h>
 #include <sqlite3.h>
+#include "Table.h"
 
 /**
  * 
@@ -50,15 +52,17 @@ struct Database {
 	const char* get_column(const char* table, const char* column, const char* where);
 	const char* get_all(const char* table, const char* where);
 	
-	int count(const char* table, const char* where);
+	uint32_t count(const char* table, const char* where);
 	
-	bool update(const char* table, const char* set, const char* where, int &count);
-	bool del(const char* table, const char* where, int &count);
+	bool update(const char* table, const char* set, const char* where, uint32_t &count);
+	bool del(const char* table, const char* where, uint32_t &count);
 	bool insert(const char* table, const char* columns, const char* values);
 	
 	bool begin_transaction();
 	bool rollback_transaction();
 	bool commit_transaction();
+
+	bool add_table(Table*);
 	
 protected:
 	
@@ -67,6 +71,8 @@ protected:
 	char*         m_path;
 	sqlite3*      m_db;
 	Table**       m_tables;
+	uint32_t      m_table_count;
+	uint32_t      m_table_max;
 
 };
 

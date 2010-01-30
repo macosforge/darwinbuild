@@ -30,5 +30,83 @@
  * @APPLE_BSD_LICENSE_HEADER_END@
  */
 
+#include <assert.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 #include "Database.h"
+
+Database::Database() {
+	// XXX: make the initial allocation for 2 to tailor to darwinup usage
+	m_table_max = 1;
+	m_table_count = 0;
+	m_tables = (Table**)malloc(sizeof(Table*) * m_table_max);
+	m_db = NULL;	
+	m_path = NULL;
+}
+
+Database::Database(const char* path) {
+	m_table_max = 1;
+	m_table_count = 0;
+	m_tables = (Table**)malloc(sizeof(Table*) * m_table_max);
+	m_db = NULL;		
+	m_path = strdup(path);
+}
+
+Database::~Database() {
+	for (uint32_t i = 0; i < m_table_count; i++) {
+		delete m_tables[i];
+	}
+	free(m_tables);
+	free(m_path);
+}
+
+
+bool Database::add_table(Table* t) {
+	if (m_table_count >= m_table_max) {
+		m_tables = (Table**)realloc(m_tables, m_table_max * sizeof(Table*) * 4);
+		if (!m_tables) {
+			fprintf(stderr, "Error: unable to reallocate memory to add a table\n");
+			return false;
+		}
+		m_table_max *= 4;
+	}
+	m_tables[m_table_count++] = t;
+	
+	return true;
+}
+
+
+DarwinupDatabase::DarwinupDatabase() {
+	m_path = strdup("");
+}
+
+DarwinupDatabase::DarwinupDatabase(const char* path) {
+	m_path = strdup(path);
+	
+	Table* archives = new Table("archives");
+	assert(archives->add_column(new Column("serial", SQLITE_INTEGER, false, true, false)));
+	assert(archives->add_column(new Column("uuid", SQLITE_BLOB, true, false, true)));
+	assert(archives->add_column(new Column("name", SQLITE3_TEXT)));
+	assert(archives->add_column(new Column("date_added", SQLITE_INTEGER)));
+	assert(archives->add_column(new Column("active", SQLITE_INTEGER)));
+	assert(archives->add_column(new Column("info", SQLITE_INTEGER)));
+	assert(add_table(archives));
+
+	Table* files = new Table("files");
+	assert(files->add_column(new Column("serial", SQLITE_INTEGER, false, true, false)));
+	assert(files->add_column(new Column("archive", SQLITE_INTEGER)));
+	assert(files->add_column(new Column("info", SQLITE_INTEGER)));
+	assert(files->add_column(new Column("mode", SQLITE_INTEGER)));
+	assert(files->add_column(new Column("uid", SQLITE_INTEGER)));
+	assert(files->add_column(new Column("gid", SQLITE_INTEGER)));
+	assert(files->add_column(new Column("size", SQLITE_INTEGER)));
+	assert(files->add_column(new Column("digest", SQLITE_BLOB)));
+	assert(files->add_column(new Column("path", SQLITE3_TEXT)));
+	assert(add_table(files));
+}
+
+DarwinupDatabase::~DarwinupDatabase() {
+}
+
 

@@ -30,5 +30,44 @@
  * @APPLE_BSD_LICENSE_HEADER_END@
  */
 
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 #include "Table.h"
+
+
+Table::Table() {
+	m_column_max    = 1;
+	m_column_count  = 0;
+	m_columns       = (Column**)malloc(sizeof(Column*) * m_column_max);
+	m_name          = NULL;
+}
+
+Table::Table(const char* name) {
+	Table();
+	m_name = strdup(name);
+}
+
+Table::~Table() {
+	for (uint32_t i = 0; i < m_column_count; i++) {
+		delete m_columns[i];
+	}
+	free(m_columns);
+	free(m_name);
+}
+
+
+bool Table::add_column(Column* c) {
+	if (m_column_count >= m_column_max) {
+		m_columns = (Column**)realloc(m_columns, m_column_max * sizeof(Column*) * 4);
+		if (!m_columns) {
+			fprintf(stderr, "Error: unable to reallocate memory to add a column\n");
+			return false;
+		}
+		m_column_max *= 4;
+	}
+	m_columns[m_column_count++] = c;
+	
+	return true;
+}
 
