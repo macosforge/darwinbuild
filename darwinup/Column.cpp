@@ -35,11 +35,19 @@
 #include "Column.h"
 
 Column::Column() {
-	Column("unnamed_column", SQLITE_INTEGER);
+	m_name      = strdup("unnamed_column");
+	m_type      = SQLITE_INTEGER;
+	m_is_index  = false;
+	m_is_pk     = false;
+	m_is_unique = false;
 }
 
 Column::Column(const char* name, uint32_t type) {
-	Column(name, type, false, false, false);
+	m_name      = strdup(name);
+	m_type      = type;
+	m_is_index  = false;
+	m_is_pk     = false;
+	m_is_unique = false;
 }
 
 Column::Column(const char* name, uint32_t type, bool is_index, bool is_pk, bool is_unique) {

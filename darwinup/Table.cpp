@@ -40,12 +40,14 @@ Table::Table() {
 	m_column_max    = 1;
 	m_column_count  = 0;
 	m_columns       = (Column**)malloc(sizeof(Column*) * m_column_max);
-	m_name          = NULL;
+	m_name          = strdup("unnamed_table");
 }
 
 Table::Table(const char* name) {
-	Table();
-	m_name = strdup(name);
+	m_column_max    = 1;
+	m_column_count  = 0;
+	m_columns       = (Column**)malloc(sizeof(Column*) * m_column_max);
+	m_name          = strdup(name);
 }
 
 Table::~Table() {
