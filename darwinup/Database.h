@@ -45,6 +45,7 @@ struct Database {
 	virtual ~Database();
 
 	const char* path();
+	bool connect();
 	bool connect(const char* path);
 	
 	const char* get_value(const char* table, const char* column, const char* where);
@@ -76,17 +77,20 @@ protected:
 
 };
 
+
+
 /**
  *
  * Darwinup database abstraction. This class is responsible
  *  for generating the Table and Column objects that make
- *  up the darwinup database schema. 
+ *  up the darwinup database schema, but the parent handles
+ *  deallocation. 
  *
  */
 struct DarwinupDatabase : Database {
 	DarwinupDatabase();
 	DarwinupDatabase(const char* path);
 	virtual ~DarwinupDatabase();
-	
+	void init();
 };
 

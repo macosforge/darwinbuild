@@ -41,6 +41,7 @@ Table::Table() {
 	m_column_count  = 0;
 	m_columns       = (Column**)malloc(sizeof(Column*) * m_column_max);
 	m_name          = strdup("unnamed_table");
+	m_create_sql    = NULL;
 }
 
 Table::Table(const char* name) {
@@ -48,6 +49,7 @@ Table::Table(const char* name) {
 	m_column_count  = 0;
 	m_columns       = (Column**)malloc(sizeof(Column*) * m_column_max);
 	m_name          = strdup(name);
+	m_create_sql    = NULL;
 }
 
 Table::~Table() {
@@ -56,6 +58,16 @@ Table::~Table() {
 	}
 	free(m_columns);
 	free(m_name);
+	free(m_create_sql);
+}
+
+
+const char* Table::name() {
+	return m_name;
+}
+
+const Column** Table::columns() {
+	return (const Column**)m_columns;
 }
 
 
@@ -72,4 +84,28 @@ bool Table::add_column(Column* c) {
 	
 	return true;
 }
+
+
+const char* Table::create() {
+	if (!m_create_sql) {
+		// get creation sql for each column
+		const char* cols[m_column_count];
+		const char* indexes[m_column_count];
+		for (uint32_t i=0; i<m_column_count; i++) {
+			cols[i] = m_columns[i]->create();
+			// get creation sql for any indexes
+			if (m_columns[i]->is_index()) {
+				indexes[i] = m_columns[i]->create();
+			} else {
+				indexes[i] = NULL;
+			}			
+		}
+
+		asprintf(&m_create_sql, "CREATE TABLE %s ( );", m_name);
+	}
+	
+	return m_create_sql;
+}
+
+
 

@@ -51,6 +51,9 @@ Database::Database(const char* path) {
 	m_tables = (Table**)malloc(sizeof(Table*) * m_table_max);
 	m_db = NULL;		
 	m_path = strdup(path);
+	if (!m_path) {
+		fprintf(stderr, "Error: ran out of memory when constructing database object.\n");
+	}
 }
 
 Database::~Database() {
@@ -59,6 +62,29 @@ Database::~Database() {
 	}
 	free(m_tables);
 	free(m_path);
+}
+
+
+const char* Database::path() {
+	return m_path;
+}
+
+bool Database::connect() {
+	int res = 0;
+	res = sqlite3_open(m_path, &m_db);
+	if (res) {
+		sqlite3_close(m_db);
+		m_db = NULL;
+		fprintf(stderr, "Error: unable to connect to database at: %s \n", m_path);
+		return false;
+	}	
+	return true;	
+}
+
+bool Database::connect(const char* path) {
+	this->m_path = strdup(path);
+	if (!m_path) fprintf(stderr, "Error: ran out of memory when trying to connect to database.\n");
+	return m_path && this->connect();
 }
 
 
@@ -77,36 +103,50 @@ bool Database::add_table(Table* t) {
 }
 
 
+
+/**
+ *
+ * Darwinup database abstraction. This class is responsible
+ *  for generating the Table and Column objects that make
+ *  up the darwinup database schema, but the parent handles
+ *  deallocation.
+ *
+ */
 DarwinupDatabase::DarwinupDatabase() {
 	m_path = strdup("");
+	this->init();
 }
 
 DarwinupDatabase::DarwinupDatabase(const char* path) {
 	m_path = strdup(path);
-	
-	Table* archives = new Table("archives");
-	assert(archives->add_column(new Column("serial", SQLITE_INTEGER, false, true, false)));
-	assert(archives->add_column(new Column("uuid", SQLITE_BLOB, true, false, true)));
-	assert(archives->add_column(new Column("name", SQLITE3_TEXT)));
-	assert(archives->add_column(new Column("date_added", SQLITE_INTEGER)));
-	assert(archives->add_column(new Column("active", SQLITE_INTEGER)));
-	assert(archives->add_column(new Column("info", SQLITE_INTEGER)));
-	assert(add_table(archives));
-
-	Table* files = new Table("files");
-	assert(files->add_column(new Column("serial", SQLITE_INTEGER, false, true, false)));
-	assert(files->add_column(new Column("archive", SQLITE_INTEGER)));
-	assert(files->add_column(new Column("info", SQLITE_INTEGER)));
-	assert(files->add_column(new Column("mode", SQLITE_INTEGER)));
-	assert(files->add_column(new Column("uid", SQLITE_INTEGER)));
-	assert(files->add_column(new Column("gid", SQLITE_INTEGER)));
-	assert(files->add_column(new Column("size", SQLITE_INTEGER)));
-	assert(files->add_column(new Column("digest", SQLITE_BLOB)));
-	assert(files->add_column(new Column("path", SQLITE3_TEXT)));
-	assert(add_table(files));
+	this->init();
 }
 
 DarwinupDatabase::~DarwinupDatabase() {
+	// Database (parent) automatically deallocates schema objects
 }
 
-
+void DarwinupDatabase::init() {
+	Table* archives = new Table("archives");
+	//                                                                   index  pk     unique
+	assert(archives->add_column(new Column("serial",     SQLITE_INTEGER, false, true,  false)));
+	assert(archives->add_column(new Column("uuid",       SQLITE_BLOB,    true,  false, true)));
+	assert(archives->add_column(new Column("name",       SQLITE3_TEXT)));
+	assert(archives->add_column(new Column("date_added", SQLITE_INTEGER)));
+	assert(archives->add_column(new Column("active",     SQLITE_INTEGER)));
+	assert(archives->add_column(new Column("info",       SQLITE_INTEGER)));
+	assert(add_table(archives));
+	
+	Table* files = new Table("files");
+	//                                                                   index  pk     unique
+	assert(files->add_column(new Column("serial",  SQLITE_INTEGER,       false, true,  false)));
+	assert(files->add_column(new Column("archive", SQLITE_INTEGER)));
+	assert(files->add_column(new Column("info",    SQLITE_INTEGER)));
+	assert(files->add_column(new Column("mode",    SQLITE_INTEGER)));
+	assert(files->add_column(new Column("uid",     SQLITE_INTEGER)));
+	assert(files->add_column(new Column("gid",     SQLITE_INTEGER)));
+	assert(files->add_column(new Column("size",    SQLITE_INTEGER)));
+	assert(files->add_column(new Column("digest",  SQLITE_BLOB)));
+	assert(files->add_column(new Column("path",    SQLITE3_TEXT)));
+	assert(add_table(files));	
+}

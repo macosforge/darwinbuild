@@ -42,14 +42,17 @@ struct Column {
 	
 	const char*    name();
 	const int      type();
-		
+	const char*    typestr();
+	const char*    create();
+	
 	const bool     is_index();
 	const bool     is_pk();
 	const bool     is_unique();
 	
 protected:
 	char*          m_name;
-	uint32_t       m_type;   // SQLITE_* type definition
+	char*          m_create_sql;
+	uint32_t       m_type; // SQLITE_* type definition
 	bool           m_is_index;
 	bool           m_is_pk;
 	bool           m_is_unique;

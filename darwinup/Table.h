@@ -41,6 +41,7 @@ struct Table {
 	
 	const char*    name();
 	const Column** columns();
+	bool           add_column(Column*);
 	
 	// return SQL statements for this table
 	const char*    create();  
@@ -51,14 +52,12 @@ struct Table {
 	const char*    update(const char* set, const char* where, uint32_t &count);
 	const char*    del(const char* where, uint32_t &count);
 	const char*    insert(const char* columns, const char* values);
-	
-	bool           add_column(Column*);
-	
-protected:
-	
 
 	
+protected:
+		
 	char*          m_name;
+	char*          m_create_sql;
 	Column**       m_columns;
 	uint32_t       m_column_count;
 	uint32_t       m_column_max;
