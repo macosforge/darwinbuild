@@ -145,7 +145,7 @@ int main(int argc, char* argv[]) {
 		// find most recent matching archive by name
 		Archive* old = depot->get_archive(basename(argv[1]));
 		if (!old) {
-			fprintf(stderr, "Error: unable to find a matching root to upgrade.");
+			fprintf(stderr, "Error: unable to find a matching root to upgrade.\n");
 			res = 5;
 		}
 		// install new archive
