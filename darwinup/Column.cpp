@@ -104,11 +104,17 @@ const bool Column::is_unique() {
 	return m_is_unique;
 }
 
+/**
+ * Returns string of sql.
+ * Columns will deallocate the string in dtor.
+ *
+ */
 const char* Column::create() {
 	if (!m_create_sql) {
-		asprintf(&m_create_sql, " %s %s %s %s ", m_name, this->typestr(),
-				(this->is_pk() ? "PRIMARY KEY AUTOINCREMENT" : ""),
-				(this->is_unique() ? "UNIQUE" : ""));
+		asprintf(&m_create_sql, "%s %s%s%s", m_name, this->typestr(),
+				(this->is_pk() ? " PRIMARY KEY AUTOINCREMENT" : ""),
+				(this->is_unique() ? " UNIQUE" : ""));
 	}
+	IF_DEBUG("[COLUMN] create(): %s \n", m_create_sql);
 	return (const char*)m_create_sql;
 }

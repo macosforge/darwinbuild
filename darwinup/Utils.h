@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005 Apple Computer, Inc. All rights reserved.
+ * Copyright (c) 2010 Apple Computer, Inc. All rights reserved.
  *
  * @APPLE_BSD_LICENSE_HEADER_START@
  *
@@ -29,6 +29,9 @@
  *
  * @APPLE_BSD_LICENSE_HEADER_END@
  */
+
+#ifndef _UTILS_H
+#define _UTILS_H
 
 #include <stdint.h>
 #include <sys/types.h>
@@ -63,3 +66,4 @@ inline int INFO_TEST(uint32_t word, uint32_t flag) { return ((word & flag) != 0)
 inline int INFO_SET(uint32_t word, uint32_t flag) { return (word | flag); }
 inline int INFO_CLR(uint32_t word, uint32_t flag) { return (word & (~flag)); }
 
+#endif

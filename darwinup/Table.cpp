@@ -85,25 +85,58 @@ bool Table::add_column(Column* c) {
 	return true;
 }
 
+char* Table::count(const char* where) {
+	IF_DEBUG("[TABLE] entering count of %s with where: %s \n", m_name, where);
+	char* buf;
+	if (where) {
+		IF_DEBUG("[TABLE] counting %s with where %s \n", m_name, where);
+		asprintf(&buf, "SELECT count(*) FROM %s %s ;", m_name, where);
+	} else {
+		IF_DEBUG("[TABLE] counting %s \n", m_name);
+		asprintf(&buf, "SELECT count(*) FROM %s ;", m_name);
+	}
+	IF_DEBUG("[TABLE] count() returning: %s \n", buf);
+	return buf;
+}
 
-const char* Table::create() {
+char* Table::create() {
 	if (!m_create_sql) {
-		// get creation sql for each column
-		const char* cols[m_column_count];
-		const char* indexes[m_column_count];
-		for (uint32_t i=0; i<m_column_count; i++) {
-			cols[i] = m_columns[i]->create();
-			// get creation sql for any indexes
-			if (m_columns[i]->is_index()) {
-				indexes[i] = m_columns[i]->create();
-			} else {
-				indexes[i] = NULL;
-			}			
-		}
+		uint32_t i = 0;
 
-		asprintf(&m_create_sql, "CREATE TABLE %s ( );", m_name);
+		// size of "create table ( );" plus table name, plus 1 for each column to separate
+		size_t size = strlen(m_name) + 22 + m_column_count;
+		for (i=0; i<m_column_count; i++) {		
+			// size for column spec
+			size += strlen(m_columns[i]->create());
+			// size for create index query
+			size += 26 + 2*strlen(m_columns[i]->name()) + 2*strlen(m_name);
+		}
+				
+		// create creation sql
+		m_create_sql = (char*)malloc(size);
+		strlcpy(m_create_sql, "CREATE TABLE ", size);
+		strlcat(m_create_sql, m_name, size);
+		strlcat(m_create_sql, " (", size);
+		// get creation sql for each column
+		for (i=0; i<m_column_count; i++) {
+			if (i) strlcat(m_create_sql, ", ", size); // comma separate after 0th column
+			strlcat(m_create_sql, m_columns[i]->create(), size);
+		}
+		strlcat(m_create_sql, "); ", size);
+
+		for (i=0; i<m_column_count; i++) {
+			if (m_columns[i]->is_index()) {
+				char* buf;
+				asprintf(&buf, "CREATE INDEX %s_%s ON %s (%s);", 
+						 m_name, m_columns[i]->name(), m_name, m_columns[i]->name());
+				strlcat(m_create_sql, buf, size);
+				free(buf);
+			}
+		}
 	}
 	
+	IF_DEBUG("[TABLE] create(): %s \n", m_create_sql);
+		
 	return m_create_sql;
 }
 

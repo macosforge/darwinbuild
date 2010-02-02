@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005 Apple Computer, Inc. All rights reserved.
+ * Copyright (c) 2010 Apple Computer, Inc. All rights reserved.
  *
  * @APPLE_BSD_LICENSE_HEADER_START@
  *
@@ -33,6 +33,7 @@
 #include "Archive.h"
 #include "Depot.h"
 #include "Utils.h"
+#include "Database.h"
 
 #include <libgen.h>
 #include <stdio.h>
@@ -137,6 +138,8 @@ int main(int argc, char* argv[]) {
 		fprintf(stderr, "Error: unable to initialize storage.\n");
 		exit(2);
 	}
+	
+	DarwinupDatabase testdb = DarwinupDatabase("/.DarwinDepot/Database-V200");
 	
 	if (argc == 2 && strcmp(argv[0], "install") == 0) {
 		char uuid[37];

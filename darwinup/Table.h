@@ -30,6 +30,10 @@
  * @APPLE_BSD_LICENSE_HEADER_END@
  */
 
+#ifndef _TABLE_H
+#define _TABLE_H
+
+
 #include <stdint.h>
 #include <sqlite3.h>
 #include "Column.h"
@@ -44,15 +48,15 @@ struct Table {
 	bool           add_column(Column*);
 	
 	// return SQL statements for this table
-	const char*    create();  
-	const char*    drop();    
-	const char*    count(const char* where);
-	const char*    select(const char* where);
-	const char*    select_column(const char* column, const char* where);		
-	const char*    update(const char* set, const char* where, uint32_t &count);
-	const char*    del(const char* where, uint32_t &count);
-	const char*    insert(const char* columns, const char* values);
-
+	char*    create();  
+	char*    drop();    
+	char*    count(const char* where);
+	char*    select(const char* where);
+	char*    select_column(const char* column, const char* where);		
+	char*    update(const char* set, const char* where, uint32_t &count);
+	char*    del(const char* where, uint32_t &count);
+	char*    insert(const char* columns, const char* values);
+	
 	
 protected:
 		
@@ -62,3 +66,5 @@ protected:
 	uint32_t       m_column_count;
 	uint32_t       m_column_max;
 };
+
+#endif

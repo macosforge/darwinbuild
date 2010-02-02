@@ -30,9 +30,12 @@
  * @APPLE_BSD_LICENSE_HEADER_END@
  */
 
+#ifndef _COLUMNS_H
+#define _COLUMNS_H
+
 #include <stdint.h>
 #include <sqlite3.h>
-
+#include "Utils.h"
 
 struct Column {
 	Column();
@@ -44,6 +47,7 @@ struct Column {
 	const int      type();
 	const char*    typestr();
 	const char*    create();
+	const char*    index();
 	
 	const bool     is_index();
 	const bool     is_pk();
@@ -58,3 +62,5 @@ protected:
 	bool           m_is_unique;
 	
 };
+
+#endif

@@ -30,6 +30,10 @@
  * @APPLE_BSD_LICENSE_HEADER_END@
  */
 
+#ifndef _DATABASE_H
+#define _DATABASE_H
+
+
 #include <stdint.h>
 #include <sqlite3.h>
 #include "Table.h"
@@ -44,7 +48,9 @@ struct Database {
 	Database(const char* path);
 	virtual ~Database();
 
+	virtual void init_schema();
 	const char* path();
+	const char* error();
 	bool connect();
 	bool connect(const char* path);
 	
@@ -67,14 +73,20 @@ struct Database {
 	
 protected:
 	
-	bool sql(const char* query, ...);
+	bool empty();
+	bool create_tables();
+	int sql(const char* fmt, ...);
 	
 	char*         m_path;
 	sqlite3*      m_db;
+
 	Table**       m_tables;
 	uint32_t      m_table_count;
 	uint32_t      m_table_max;
 
+	char*         m_error;
+	size_t        m_error_size;
+	
 };
 
 
@@ -91,6 +103,7 @@ struct DarwinupDatabase : Database {
 	DarwinupDatabase();
 	DarwinupDatabase(const char* path);
 	virtual ~DarwinupDatabase();
-	void init();
+	void init_schema();
 };
 
+#endif
