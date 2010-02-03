@@ -35,6 +35,8 @@
 
 #include <stdint.h>
 #include <assert.h>
+#include <uuid/uuid.h>
+#include <time.h>
 #include "Database.h"
 #include "Table.h"
 #include "Archive.h"
@@ -55,7 +57,8 @@ struct DarwinupDatabase : Database {
 	virtual ~DarwinupDatabase();
 	void init_schema();
 	
-	// inserts into file table, returns serial from primary key
+	// inserts into tables, returns serial from primary key
+	uint64_t insert_archive(uuid_t uuid, uint32_t info, const char* name, time_t date);
 	uint64_t insert_file(uint32_t info, mode_t mode, uid_t uid, gid_t gid, 
 						 Digest* digest, Archive* archive, const char* path);
 	

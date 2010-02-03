@@ -70,15 +70,31 @@ void DarwinupDatabase::init_schema() {
 	assert(this->add_table(this->m_files_table));	
 }
 
+uint64_t DarwinupDatabase::insert_archive(uuid_t uuid, uint32_t info, const char* name, time_t date_added) {
 
+	bool res = this->insert(this->m_archives_table,
+							(uint8_t*)uuid,
+							(uint32_t)sizeof(uuid),
+							name,
+							(uint64_t)date_added,
+							(uint64_t)0,
+							(uint64_t)info);
+	if (!res) {
+		fprintf(stderr, "Error: unable to insert archive %s: %s \n",
+				name, this->error());
+		return 0;
+	}
+	
+	return this->last_insert_id();
+}
+										  
+										  
+										  
 uint64_t DarwinupDatabase::insert_file(uint32_t info, mode_t mode, uid_t uid, gid_t gid, 
 									   Digest* digest, Archive* archive, const char* path) {
 	
-	// must provide arguments in the same order as calls to add_column
-	// blobs need 2 args, the data and the size
-	// Database::insert() requires uint64_t integers
 	bool res = this->insert(this->m_files_table,
-							archive->serial(),
+							(uint64_t)archive->serial(),
 							(uint64_t)info,
 							(uint64_t)mode,
 							(uint64_t)uid,

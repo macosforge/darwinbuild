@@ -145,9 +145,12 @@ int main(int argc, char* argv[]) {
 	
 	// XXX: test area for new database... remove me
 	DarwinupDatabase* testdb = new DarwinupDatabase("/.DarwinDepot/Database-V200");
-	File* f = FileFactory("/etc/services");
+
 	Archive* a = new Archive("/.DarwinDepot/Archives/56E93DEE-E6BB-44B2-80A4-32E961751DD8.tar.bz2");
-	const char* mypath = "/path/to/file";
+	uint64_t s = testdb->insert_archive(a->uuid(), a->info(), a->name(), a->date_installed());
+	
+	const char* mypath = "/etc/services";
+	File* f = FileFactory(mypath);	
 	testdb->insert_file(1, 2, 3, 4, f->digest(), a, mypath);
 	exit(0);
 	// XXX
