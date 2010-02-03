@@ -37,6 +37,8 @@
 #include <stdint.h>
 #include <sqlite3.h>
 #include "Table.h"
+#include "Digest.h"
+#include "Archive.h"
 
 /**
  * 
@@ -48,62 +50,55 @@ struct Database {
 	Database(const char* path);
 	virtual ~Database();
 
+	static const int TYPE_INTEGER = SQLITE_INTEGER;
+	static const int TYPE_TEXT    = SQLITE3_TEXT;
+	static const int TYPE_BLOB    = SQLITE_BLOB;
+	
 	virtual void init_schema();
 	const char* path();
 	const char* error();
 	bool connect();
 	bool connect(const char* path);
 	
-	const char* get_value(const char* table, const char* column, const char* where);
-	const char* get_row(const char* table, const char* where);
-	const char* get_column(const char* table, const char* column, const char* where);
-	const char* get_all(const char* table, const char* where);
+	uint64_t last_insert_id();
 	
-	uint32_t count(const char* table, const char* where);
+	const char* get_value(Table* table, Column* column, const char* where);
+	const char* get_row(Table* table, const char* where);
+	const char* get_column(Table* table, Column* column, const char* where);
+	const char* get_all(Table* table, const char* where);
 	
-	bool update(const char* table, const char* set, const char* where, uint32_t &count);
-	bool del(const char* table, const char* where, uint32_t &count);
-	bool insert(const char* table, const char* columns, const char* values);
+	uint32_t count(Table* table, const char* where);
+	
+	bool update(Table* table, Column* column, const char* value, const char* where,
+				uint32_t &count);
+	bool del(Table* table, const char* where, uint32_t &count);
+	bool insert(Table* table, ...);
 	
 	bool begin_transaction();
 	bool rollback_transaction();
 	bool commit_transaction();
-
+	
 	bool add_table(Table*);
 	
+
 protected:
 	
 	bool empty();
 	bool create_tables();
 	int sql(const char* fmt, ...);
 	
-	char*         m_path;
-	sqlite3*      m_db;
+	char*            m_path;
+	sqlite3*         m_db;
 
-	Table**       m_tables;
-	uint32_t      m_table_count;
-	uint32_t      m_table_max;
+	Table**          m_tables;
+	uint32_t         m_table_count;
+	uint32_t         m_table_max;
 
-	char*         m_error;
-	size_t        m_error_size;
+	char*            m_error;
+	size_t           m_error_size;
 	
-};
-
-
-
-/**
- *
- * Darwinup database abstraction. This class is responsible
- *  for generating the Table and Column objects that make
- *  up the darwinup database schema, but the parent handles
- *  deallocation. 
- *
- */
-struct DarwinupDatabase : Database {
-	DarwinupDatabase();
-	DarwinupDatabase(const char* path);
-	virtual ~DarwinupDatabase();
-	void init_schema();
+	sqlite3_stmt**   m_statements;
+	
 };
 
 #endif

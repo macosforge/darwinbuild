@@ -33,9 +33,16 @@
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdarg.h>
 #include <stdlib.h>
 #include "Database.h"
 
+/**
+ * sqlite3_trace callback for debugging
+ */
+void dbtrace(void* context, const char* sql) {
+	fprintf(stderr, "[TRACE] %s \n", sql);
+}
 
 Database::Database() {
 	// XXX: make the initial allocation for 2 to tailor to darwinup usage
@@ -146,6 +153,14 @@ bool Database::create_tables() {
 }
 
 
+bool Database::update(Table* table, Column* column, const char* value, const char* where, 
+					  uint32_t &count) {
+	// not implemented
+	assert(false);
+	return false;
+}
+
+
 #define __SQL(callback, context, fmt) \
     va_list args; \
     va_start(args, fmt); \
@@ -176,46 +191,76 @@ int Database::sql(const char* fmt, ...) {
 
 
 /**
+ * Given a table and an arg list in the same order as table->add_column() calls,
+ * binds and executes a sql insertion. The Table is responsible for preparing the
+ * statement in Table::insert()
  *
- * Darwinup database abstraction. This class is responsible
- *  for generating the Table and Column objects that make
- *  up the darwinup database schema, but the parent handles
- *  deallocation.
+ * All integer args must be cast to uint64_t
+ * All blob columns must provide 2 args in the list. The first arg is a uint8_t* of data
+ * and then the uint32_t value for size of the data. 
  *
  */
-DarwinupDatabase::DarwinupDatabase() {
-	this->connect();
-}
+bool Database::insert(Table* table, ...) {
+	int res = SQLITE_OK;
+	va_list args;
+	va_start(args, table);
 
-DarwinupDatabase::DarwinupDatabase(const char* path) : Database(path) {
-	this->connect();
-}
-
-DarwinupDatabase::~DarwinupDatabase() {
-	// parent automatically deallocates schema objects
-}
-
-void DarwinupDatabase::init_schema() {
-	Table* archives = new Table("archives");
-	//                                                                   index  pk     unique
-	assert(archives->add_column(new Column("serial",     SQLITE_INTEGER, false, true,  false)));
-	assert(archives->add_column(new Column("uuid",       SQLITE_BLOB,    true,  false, true)));
-	assert(archives->add_column(new Column("name",       SQLITE3_TEXT)));
-	assert(archives->add_column(new Column("date_added", SQLITE_INTEGER)));
-	assert(archives->add_column(new Column("active",     SQLITE_INTEGER)));
-	assert(archives->add_column(new Column("info",       SQLITE_INTEGER)));
-	assert(this->add_table(archives));
+	// get the prepared statement
+	sqlite3_stmt* stmt = table->insert(m_db);
+	if (!stmt) {
+		fprintf(stderr, "Error: %s table gave a NULL statement when trying to insert.\n", table->name());
+		return false;
+	}
 	
-	Table* files = new Table("files");
-	//                                                                   index  pk     unique
-	assert(files->add_column(new Column("serial",  SQLITE_INTEGER,       false, true,  false)));
-	assert(files->add_column(new Column("archive", SQLITE_INTEGER)));
-	assert(files->add_column(new Column("info",    SQLITE_INTEGER)));
-	assert(files->add_column(new Column("mode",    SQLITE_INTEGER)));
-	assert(files->add_column(new Column("uid",     SQLITE_INTEGER)));
-	assert(files->add_column(new Column("gid",     SQLITE_INTEGER)));
-	assert(files->add_column(new Column("size",    SQLITE_INTEGER)));
-	assert(files->add_column(new Column("digest",  SQLITE_BLOB)));
-	assert(files->add_column(new Column("path",    SQLITE3_TEXT,         true,  false, false)));
-	assert(this->add_table(files));	
+	uint32_t param = 1; // counter to track placeholders in sql statement
+	
+	for (uint32_t i=0; i<table->column_count(); i++) {
+		Column* col = table->column(i);
+		
+		// primary keys do not get inserted
+		if (col->is_pk()) continue;
+
+		// temp variable for blob columns
+		uint8_t* bdata = NULL;
+		uint32_t bsize = 0;
+		
+		switch(col->type()) {
+			case SQLITE_INTEGER:
+				res = sqlite3_bind_int64(stmt, param++, va_arg(args, uint64_t));
+				break;
+			case SQLITE_TEXT:
+				res = sqlite3_bind_text(stmt, param++, va_arg(args, char*), -1, SQLITE_STATIC);
+				break;
+			case SQLITE_BLOB:
+				bdata = va_arg(args, uint8_t*);
+				bsize = va_arg(args, uint32_t);
+				res = sqlite3_bind_blob(stmt, param++, 
+										bdata, 
+										bsize, 
+										SQLITE_STATIC);
+				break;
+				
+		}
+		if (res != SQLITE_OK) {
+			fprintf(stderr, "Error: failed to bind parameter #%d with column #%d of type %d when inserting "
+					        "to table %s \n",
+					param, i, col->type(), table->name());
+			return false;
+		}
+	}
+
+	sqlite3_trace(m_db, dbtrace, NULL);
+	
+	res = sqlite3_step(stmt);
+	if (res == SQLITE_DONE) res = SQLITE_OK;
+	sqlite3_reset(stmt);
+	
+	va_end(args);
+	return res == SQLITE_OK;
 }
+
+uint64_t Database::last_insert_id() {
+	return (uint64_t)sqlite3_last_insert_rowid(m_db);
+}
+
+

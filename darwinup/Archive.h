@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005 Apple Computer, Inc. All rights reserved.
+ * Copyright (c) 2010 Apple Computer, Inc. All rights reserved.
  *
  * @APPLE_BSD_LICENSE_HEADER_START@
  *
@@ -29,6 +29,9 @@
  *
  * @APPLE_BSD_LICENSE_HEADER_END@
  */
+
+#ifndef _ARCHIVE_H
+#define _ARCHIVE_H
 
 #include <stdint.h>
 #include <stdio.h>
@@ -301,3 +304,6 @@ struct ZipArchive : public Archive {
 	ZipArchive(const char* path);
 	virtual int extract(const char* destdir);
 };
+
+#endif
+

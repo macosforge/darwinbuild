@@ -33,7 +33,11 @@
 #include "Archive.h"
 #include "Depot.h"
 #include "Utils.h"
-#include "Database.h"
+#include "DB.h"
+
+//XXX: remove me
+#include "File.h"
+#include "Digest.h"
 
 #include <libgen.h>
 #include <stdio.h>
@@ -139,7 +143,15 @@ int main(int argc, char* argv[]) {
 		exit(2);
 	}
 	
-	DarwinupDatabase testdb = DarwinupDatabase("/.DarwinDepot/Database-V200");
+	// XXX: test area for new database... remove me
+	DarwinupDatabase* testdb = new DarwinupDatabase("/.DarwinDepot/Database-V200");
+	File* f = FileFactory("/etc/services");
+	Archive* a = new Archive("/.DarwinDepot/Archives/56E93DEE-E6BB-44B2-80A4-32E961751DD8.tar.bz2");
+	const char* mypath = "/path/to/file";
+	testdb->insert_file(1, 2, 3, 4, f->digest(), a, mypath);
+	exit(0);
+	// XXX
+	
 	
 	if (argc == 2 && strcmp(argv[0], "install") == 0) {
 		char uuid[37];

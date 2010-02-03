@@ -59,6 +59,8 @@ Table::~Table() {
 	free(m_columns);
 	free(m_name);
 	free(m_create_sql);
+	free(m_insert_sql);
+	sqlite3_finalize(m_prepared_insert);
 }
 
 
@@ -141,4 +143,67 @@ char* Table::create() {
 }
 
 
+sqlite3_stmt* Table::insert(sqlite3* db) {
+	// we only need to prepare once, return if we already have it
+	if (m_prepared_insert) return m_prepared_insert;
+	
+	uint32_t i = 0;
+	bool comma = false;  // flag we set to start adding commas
+	
+	// calculate the length of the sql statement
+	size_t size = 27 + 5*m_column_count;
+	for (i=0; i<m_column_count; i++) {
+		size += strlen(m_columns[i]->name());
+	}
+	
+	// generate the sql query
+	m_insert_sql = (char*)malloc(size);
+	strlcpy(m_insert_sql, "INSERT INTO ", size);
+	strlcat(m_insert_sql, m_name, size);
+	strlcat(m_insert_sql, " (", size);
+	for (i=0; i<m_column_count; i++) {
+		// comma separate after 0th column
+		if (comma) strlcat(m_insert_sql, ", ", size);
+		// primary keys do not get inserted
+		if (!m_columns[i]->is_pk()) {
+			strlcat(m_insert_sql, m_columns[i]->name(), size);
+			comma = true;
+		}
+	}
+	comma = false;
+	strlcat(m_insert_sql, ") VALUES (", size);
+	for (i=0; i<m_column_count; i++) {
+		// comma separate after 0th column
+		if (comma) strlcat(m_insert_sql, ", ", size); 
+		// primary keys do not get inserted
+		if (!m_columns[i]->is_pk()) {
+			strlcat(m_insert_sql, "?", size);
+			comma = true;
+		}
+	}
+	strlcat(m_insert_sql, ");", size);
+	
+	IF_DEBUG("[TABLE] prepared insert: %s \n", m_insert_sql);
+	
+	// prepare
+	int res = sqlite3_prepare_v2(db, m_insert_sql, strlen(m_insert_sql), &m_prepared_insert, NULL);
+	if (res != SQLITE_OK) {
+		fprintf(stderr, "Error: unable to prepare insert statement for table: %s \n", m_name);
+		return NULL;
+	}
+	return m_prepared_insert;
+}
+
+
+Column* Table::column(uint32_t index) {
+	if (index < m_column_count) {
+		return this->m_columns[index];
+	} else {
+		return NULL;
+	}
+}
+
+uint32_t Table::column_count() {
+	return this->m_column_count;
+}
 

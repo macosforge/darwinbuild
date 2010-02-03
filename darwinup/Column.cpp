@@ -115,6 +115,5 @@ const char* Column::create() {
 				(this->is_pk() ? " PRIMARY KEY AUTOINCREMENT" : ""),
 				(this->is_unique() ? " UNIQUE" : ""));
 	}
-	IF_DEBUG("[COLUMN] create(): %s \n", m_create_sql);
 	return (const char*)m_create_sql;
 }

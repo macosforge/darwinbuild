@@ -30,50 +30,41 @@
  * @APPLE_BSD_LICENSE_HEADER_END@
  */
 
-#ifndef _TABLE_H
-#define _TABLE_H
-
+#ifndef _DB_H
+#define _DB_H
 
 #include <stdint.h>
-#include <sqlite3.h>
-#include "Column.h"
+#include <assert.h>
+#include "Database.h"
+#include "Table.h"
+#include "Archive.h"
+#include "Digest.h"
 
-struct Table {	
-	Table();
-	Table(const char* name);
-	virtual ~Table();
-	
-	const char*    name();
-	const Column** columns();
-	Column*        column(uint32_t index);
-	uint32_t       column_count();
-	bool           add_column(Column*);
-		
-	// return SQL statements for this table
-	char*    create();  
-	char*    drop();    
-	char*    count(const char* where);
-	char*    select(const char* where);
-	char*    select_column(const char* column, const char* where);		
-	char*    update(const char* set, const char* where, uint32_t &count);
-	char*    del(const char* where, uint32_t &count);
 
-	sqlite3_stmt*    insert(sqlite3* db);
+/**
+ *
+ * Darwinup database abstraction. This class is responsible
+ *  for generating the Table and Column objects that make
+ *  up the darwinup database schema, but the parent handles
+ *  deallocation. 
+ *
+ */
+struct DarwinupDatabase : Database {
+	DarwinupDatabase();
+	DarwinupDatabase(const char* path);
+	virtual ~DarwinupDatabase();
+	void init_schema();
 	
+	// inserts into file table, returns serial from primary key
+	uint64_t insert_file(uint32_t info, mode_t mode, uid_t uid, gid_t gid, 
+						 Digest* digest, Archive* archive, const char* path);
 	
 protected:
-		
-	char*          m_name;
 	
-	char*          m_create_sql;
-	char*          m_insert_sql;
-	
-	Column**       m_columns;
-	uint32_t       m_column_count;
-	uint32_t       m_column_max;
-	
-	sqlite3_stmt*  m_prepared_insert;
+	Table*        m_archives_table;
+	Table*        m_files_table;
 	
 };
 
 #endif
+

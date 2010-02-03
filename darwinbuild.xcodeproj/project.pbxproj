@@ -163,6 +163,7 @@
 		72C86C9F109745BC00C66E90 /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72C86BE610965E4F00C66E90 /* Utils.cpp */; };
 		72C86CE210974CC800C66E90 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 72C86CE110974CC700C66E90 /* libcrypto.dylib */; };
 		72C86CE410974CC800C66E90 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 72C86CE310974CC800C66E90 /* libsqlite3.dylib */; };
+		DF12E2821119E2B0007587C1 /* DB.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF12E2811119E2B0007587C1 /* DB.cpp */; };
 		DFC9772D11138F9400CAE084 /* Column.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DFC9772711138F9400CAE084 /* Column.cpp */; };
 		DFC9772E11138F9400CAE084 /* Database.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DFC9772911138F9400CAE084 /* Database.cpp */; };
 		DFC9772F11138F9400CAE084 /* Table.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DFC9772B11138F9400CAE084 /* Table.cpp */; };
@@ -744,6 +745,8 @@
 		72C86CDD10974C3A00C66E90 /* libredo_prebinding.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libredo_prebinding.a; path = /usr/local/lib/libredo_prebinding.a; sourceTree = "<absolute>"; };
 		72C86CE110974CC700C66E90 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = /usr/lib/libcrypto.dylib; sourceTree = "<absolute>"; };
 		72C86CE310974CC800C66E90 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = /usr/lib/libsqlite3.dylib; sourceTree = "<absolute>"; };
+		DF12E2801119E2B0007587C1 /* DB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DB.h; path = darwinup/DB.h; sourceTree = "<group>"; };
+		DF12E2811119E2B0007587C1 /* DB.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DB.cpp; path = darwinup/DB.cpp; sourceTree = "<group>"; };
 		DFC9772711138F9400CAE084 /* Column.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Column.cpp; path = darwinup/Column.cpp; sourceTree = "<group>"; };
 		DFC9772811138F9400CAE084 /* Column.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Column.h; path = darwinup/Column.h; sourceTree = "<group>"; };
 		DFC9772911138F9400CAE084 /* Database.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Database.cpp; path = darwinup/Database.cpp; sourceTree = "<group>"; };
@@ -1035,6 +1038,8 @@
 				72C86BE510965E4F00C66E90 /* SerialSet.h */,
 				72C86BE610965E4F00C66E90 /* Utils.cpp */,
 				72C86BE710965E4F00C66E90 /* Utils.h */,
+				DF12E2801119E2B0007587C1 /* DB.h */,
+				DF12E2811119E2B0007587C1 /* DB.cpp */,
 			);
 			name = darwinup;
 			sourceTree = "<group>";
@@ -2176,6 +2181,7 @@
 				DFC9772D11138F9400CAE084 /* Column.cpp in Sources */,
 				DFC9772E11138F9400CAE084 /* Database.cpp in Sources */,
 				DFC9772F11138F9400CAE084 /* Table.cpp in Sources */,
+				DF12E2821119E2B0007587C1 /* DB.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
