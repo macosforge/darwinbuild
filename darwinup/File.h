@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005 Apple Computer, Inc. All rights reserved.
+ * Copyright (c) 2005-2010 Apple Computer, Inc. All rights reserved.
  *
  * @APPLE_BSD_LICENSE_HEADER_START@
  *
@@ -29,6 +29,9 @@
  *
  * @APPLE_BSD_LICENSE_HEADER_END@
  */
+
+#ifndef _FILE_H
+#define _FILE_H
 
 #include "Digest.h"
 
@@ -214,3 +217,5 @@ struct Directory : File {
 	virtual int install(const char* prefix, const char* dest);
 	virtual int remove();
 };
+
+#endif

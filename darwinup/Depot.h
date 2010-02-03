@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005 Apple Computer, Inc. All rights reserved.
+ * Copyright (c) 2005-2010 Apple Computer, Inc. All rights reserved.
  *
  * @APPLE_BSD_LICENSE_HEADER_START@
  *
@@ -29,6 +29,9 @@
  *
  * @APPLE_BSD_LICENSE_HEADER_END@
  */
+
+#ifndef _DEPOT_H
+#define _DEPOT_H
 
 #include <sys/types.h>
 #include <uuid/uuid.h>
@@ -156,3 +159,5 @@ struct Depot {
 	int		m_lock_fd;
         int             m_is_locked;
 };
+
+#endif

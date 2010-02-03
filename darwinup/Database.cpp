@@ -191,7 +191,7 @@ int Database::sql(const char* fmt, ...) {
 
 
 /**
- * Given a table and an arg list in the same order as table->add_column() calls,
+ * Given a table and an arg list in the same order as Table::add_column() calls,
  * binds and executes a sql insertion. The Table is responsible for preparing the
  * statement in Table::insert()
  *

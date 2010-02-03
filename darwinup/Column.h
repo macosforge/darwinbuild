@@ -30,8 +30,8 @@
  * @APPLE_BSD_LICENSE_HEADER_END@
  */
 
-#ifndef _COLUMNS_H
-#define _COLUMNS_H
+#ifndef _COLUMN_H
+#define _COLUMN_H
 
 #include <stdint.h>
 #include <sqlite3.h>
