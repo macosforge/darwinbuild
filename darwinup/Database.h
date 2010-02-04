@@ -33,12 +33,26 @@
 #ifndef _DATABASE_H
 #define _DATABASE_H
 
-
-#include <stdint.h>
+#include <assert.h>
+#include <cache.h>
+#include <cache_callbacks.h>
 #include <sqlite3.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdarg.h>
+#include <stdlib.h>
+
 #include "Table.h"
 #include "Digest.h"
 #include "Archive.h"
+
+// libcache callbacks
+void cache_key_retain(void* key_in, void** key_out, void* user_data);
+void cache_key_release(void* key, void* user_data);
+void cache_value_retain(void* value, void* user_data);
+void cache_value_release(void* value, void* user_data);
+
 
 /**
  * 
@@ -60,25 +74,42 @@ struct Database {
 	bool connect();
 	bool connect(const char* path);
 	
-	uint64_t last_insert_id();
 	
-	const char* get_value(Table* table, Column* column, const char* where);
+	bool begin_transaction();
+	bool rollback_transaction();
+	bool commit_transaction();
+	
+
 	const char* get_row(Table* table, const char* where);
 	const char* get_column(Table* table, Column* column, const char* where);
 	const char* get_all(Table* table, const char* where);
 	
 	uint32_t count(Table* table, const char* where);
 	
-	bool update(Table* table, Column* column, const char* value, const char* where,
-				uint32_t &count);
 	bool del(Table* table, const char* where, uint32_t &count);
+	
+	bool get_value(void* value, Table* table, Column* value_column, ...);
+	
+	
+	
+	/**
+	 * SELECT statement caching and execution
+	 *
+	 *  name is a string key that labels the query for caching purposes (63 char max)
+	 *  output is where we will store the value requested
+	 *  table and value_column are what value we'll give back
+	 *
+	 *  everything else are Column*,value pairs for making a WHERE clause
+	 *
+	 */
+	bool get_value(const char* name, void** output, Table* table, Column* value_column, uint32_t count, ...);
+
+	
+	bool update(Table* table, uint64_t pkvalue, ...);
 	bool insert(Table* table, ...);
-	
-	bool begin_transaction();
-	bool rollback_transaction();
-	bool commit_transaction();
-	
+
 	bool add_table(Table*);
+	uint64_t last_insert_id();
 	
 
 protected:
@@ -87,6 +118,12 @@ protected:
 	bool create_tables();
 	int sql(const char* fmt, ...);
 	
+	int execute(sqlite3_stmt* stmt);
+	
+	// libcache
+	void init_cache();
+	void destroy_cache();
+	
 	char*            m_path;
 	sqlite3*         m_db;
 
@@ -94,11 +131,11 @@ protected:
 	uint32_t         m_table_count;
 	uint32_t         m_table_max;
 
+	cache_t*         m_statement_cache;
+	
 	char*            m_error;
 	size_t           m_error_size;
-	
-	sqlite3_stmt**   m_statements;
-	
+
 };
 
 #endif

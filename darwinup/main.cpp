@@ -147,11 +147,16 @@ int main(int argc, char* argv[]) {
 	DarwinupDatabase* testdb = new DarwinupDatabase("/.DarwinDepot/Database-V200");
 
 	Archive* a = new Archive("/.DarwinDepot/Archives/56E93DEE-E6BB-44B2-80A4-32E961751DD8.tar.bz2");
-	uint64_t s = testdb->insert_archive(a->uuid(), a->info(), a->name(), a->date_installed());
+	//uint64_t s = testdb->insert_archive(a->uuid(), a->info(), a->name(), a->date_installed());
 	
 	const char* mypath = "/etc/services";
 	File* f = FileFactory(mypath);	
 	testdb->insert_file(1, 2, 3, 4, f->digest(), a, mypath);
+	testdb->update_file(a, mypath, 5, 6, 7, 8, f->digest());
+	testdb->update_file(a, mypath, 6, 7, 8, 9, f->digest());
+	testdb->update_file(a, mypath, 7, 8, 9, 0, f->digest());
+	testdb->update_file(a, mypath, 8, 9, 0, 1, f->digest());
+	testdb->update_file(a, mypath, 9, 0, 1, 2, f->digest());
 	exit(0);
 	// XXX
 	

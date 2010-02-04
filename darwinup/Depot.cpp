@@ -76,6 +76,7 @@ Depot::Depot(const char* prefix) {
 
 Depot::~Depot() {
 	if (m_lock_fd != -1)	this->unlock();
+	delete m_db2;
 	if (m_db)		sqlite3_close(m_db);
 	if (m_prefix)           free(m_prefix);
 	if (m_depot_path)	free(m_depot_path);
@@ -132,6 +133,8 @@ int Depot::initialize() {
 		this->SQL("CREATE INDEX archives_uuid ON archives (uuid)");
 		this->SQL("CREATE INDEX files_path ON files (path)");
 	}
+	
+	m_db2 = new DarwinupDatabase(m_database_path);
 	
 	return res;
 }
@@ -1218,30 +1221,11 @@ int Depot::unlock(void) {
 int Depot::insert(Archive* archive) {
 	// Don't insert an archive that is already in the database
 	assert(archive->serial() == 0);
-	
-	int res = 0;
-	static sqlite3_stmt* stmt = NULL;
-	if (stmt == NULL && m_db) {
-		const char* query = "INSERT INTO archives (uuid, info, name, date_added) VALUES (?, ?, ?, ?)";
-		res = sqlite3_prepare(m_db, query, -1, &stmt, NULL);
-		if (res != 0) fprintf(stderr, "%s:%d: sqlite3_prepare: %s: %s (%d)\n", __FILE__, __LINE__, query, sqlite3_errmsg(m_db), res);
-	}
-	if (stmt && res == 0) {
-		int i = 1;
-		if (res == 0) res = sqlite3_bind_blob(stmt, i++, archive->uuid(), sizeof(uuid_t), SQLITE_STATIC);
-		if (res == 0) res = sqlite3_bind_int(stmt, i++, archive->info());
-		if (res == 0) res = sqlite3_bind_text(stmt, i++, archive->name(), -1, SQLITE_STATIC);
-		if (res == 0) res = sqlite3_bind_int(stmt, i++, archive->date_installed());
-		if (res == 0) res = sqlite3_step(stmt);
-		if (res == SQLITE_DONE) {
-			archive->m_serial = (uint64_t)sqlite3_last_insert_rowid(m_db);
-			res = 0;
-		} else {
-			fprintf(stderr, "%s:%d: Could not add archive to database: %s (%d)\n", __FILE__, __LINE__, sqlite3_errmsg(m_db), res);
-		}
-		sqlite3_reset(stmt);
-	}
-	return res;
+	archive->m_serial = m_db2->insert_archive(archive->uuid(),
+											  archive->info(),
+											  archive->name(),
+											  archive->date_installed());
+	return archive->m_serial == 0;
 }
 
 int Depot::insert(Archive* archive, File* file) {

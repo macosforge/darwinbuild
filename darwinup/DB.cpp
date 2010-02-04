@@ -46,6 +46,8 @@ DarwinupDatabase::~DarwinupDatabase() {
 }
 
 void DarwinupDatabase::init_schema() {
+	// XXX: use macros to make this cleaner
+	
 	this->m_archives_table = new Table("archives");
 	//                                                                           index  pk     unique
 	assert(m_archives_table->add_column(new Column("serial",     TYPE_INTEGER,   false, true,  false)));
@@ -70,6 +72,8 @@ void DarwinupDatabase::init_schema() {
 	assert(this->add_table(this->m_files_table));	
 }
 
+
+
 uint64_t DarwinupDatabase::insert_archive(uuid_t uuid, uint32_t info, const char* name, time_t date_added) {
 
 	bool res = this->insert(this->m_archives_table,
@@ -88,7 +92,41 @@ uint64_t DarwinupDatabase::insert_archive(uuid_t uuid, uint32_t info, const char
 	return this->last_insert_id();
 }
 										  
-										  
+bool DarwinupDatabase::update_file(Archive* archive, const char* path, uint32_t info, mode_t mode, 
+								   uid_t uid, gid_t gid, Digest* digest) {
+
+	bool res = false;
+	
+	// get the serial for the file where archive and path match
+	uint64_t serial;
+	res = this->get_value("file_serial__archive_path",
+						  (void**)&serial,
+						  this->m_files_table,
+						  this->m_files_table->column(0), // serial
+						  2,                              // number of where conditions
+						  this->m_files_table->column(1), // archive
+						  (uint64_t)archive->serial(),
+						  this->m_files_table->column(8), // path
+						  path);
+									  
+	// update the information
+	res = this->update(this->m_files_table, serial,
+					   (uint64_t)archive->serial(),
+					   (uint64_t)info,
+					   (uint64_t)mode,
+					   (uint64_t)uid,
+					   (uint64_t)gid,
+					   (uint64_t)0, 
+					   (uint8_t*)(digest ? digest->data() : NULL), 
+					   (uint32_t)(digest ? digest->size() : 0), 
+					   path);
+	if (!res) {
+		fprintf(stderr, "Error: unable to update file with serial %llu and path %s: %s \n",
+				serial, path, this->error());
+	}
+	
+	return res;
+}
 										  
 uint64_t DarwinupDatabase::insert_file(uint32_t info, mode_t mode, uid_t uid, gid_t gid, 
 									   Digest* digest, Archive* archive, const char* path) {

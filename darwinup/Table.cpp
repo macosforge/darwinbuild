@@ -56,11 +56,16 @@ Table::~Table() {
 	for (uint32_t i = 0; i < m_column_count; i++) {
 		delete m_columns[i];
 	}
+
 	free(m_columns);
 	free(m_name);
+
 	free(m_create_sql);
 	free(m_insert_sql);
+	free(m_update_sql);
+	
 	sqlite3_finalize(m_prepared_insert);
+	sqlite3_finalize(m_prepared_update);
 }
 
 
@@ -140,6 +145,114 @@ char* Table::create() {
 	IF_DEBUG("[TABLE] create(): %s \n", m_create_sql);
 		
 	return m_create_sql;
+}
+
+#define __check_size \
+    if (used >= size-1) { \
+        size *= 4; \
+        query = (char*)realloc(query, size); \
+        if (!query) { \
+			fprintf(stderr, "Error: ran out of memory!\n"); \
+            return NULL; \
+        } \
+    }
+
+sqlite3_stmt* Table::get_value(sqlite3* db, Column* value_column, uint32_t count, va_list args) {
+	size_t size = 256;
+	size_t used = 0;
+	char* query = (char*)malloc(size);
+	sqlite3_stmt* stmt = (sqlite3_stmt*)malloc(sizeof(sqlite3_stmt*));
+	
+	strlcpy(query, "SELECT ", size);
+	used = strlcat(query, value_column->name(), size);
+	__check_size;
+	used = strlcat(query, " FROM ", size);
+	__check_size;
+	used = strlcat(query, m_name, size);
+	__check_size;
+	used = strlcat(query, " WHERE 1", size);
+	__check_size;
+
+	char tmpstr[256];
+	int len;
+	for (uint32_t i=0; i < count; i++) {
+		Column* col = va_arg(args, Column*);
+		va_arg(args, void*); // pop off the value which we do not need this time around
+		len = snprintf(tmpstr, 256, " AND %s=?", col->name()); 
+		if (len >= 255) {
+			fprintf(stderr, "Error: column name is too big (limit: 248): %s\n", col->name());
+			return NULL;
+		}
+		used = strlcat(query, tmpstr, size);
+		__check_size;
+	}
+	strlcat(query, ";", size);
+
+	IF_DEBUG("[TABLE] get_value query: %s \n", query);
+
+	int res = sqlite3_prepare_v2(db, query, size, &stmt, NULL);
+	free(query);
+	if (res != SQLITE_OK) {
+		fprintf(stderr, "Error: unable to prepare statement for get_value.\n");
+		return NULL;
+	}
+
+	return stmt;
+}
+
+/**
+ * Prepare and cache the update statement. 
+ * Assumes table only has 1 primary key
+ */
+sqlite3_stmt* Table::update(sqlite3* db) {
+	// we only need to prepare once, return if we already have it
+	if (m_prepared_update) return m_prepared_update;
+	
+	uint32_t i = 0;
+	bool comma = false;  // flag we set to start adding commas
+	
+	// calculate the length of the sql statement
+	size_t size = 27 + 5*m_column_count;
+	for (i=0; i<m_column_count; i++) {
+		size += strlen(m_columns[i]->name());
+	}
+	
+	// generate the sql query
+	m_update_sql = (char*)malloc(size);
+	strlcpy(m_update_sql, "UPDATE ", size);
+	strlcat(m_update_sql, m_name, size);
+	strlcat(m_update_sql, " SET ", size);
+	for (i=0; i<m_column_count; i++) {
+		// comma separate after 0th column
+		if (comma) strlcat(m_update_sql, ", ", size);
+		// primary keys do not get inserted
+		if (!m_columns[i]->is_pk()) {
+			strlcat(m_update_sql, m_columns[i]->name(), size);
+			strlcat(m_update_sql, "=?", size);
+			comma = true;
+		}
+	}
+	
+	// WHERE statement using primary keys
+	strlcat(m_update_sql, " WHERE ", size);
+	for (i=0; i<m_column_count; i++) {
+		if (m_columns[i]->is_pk()) {
+			strlcat(m_update_sql, m_columns[i]->name(), size);
+			strlcat(m_update_sql, "=?", size);
+			break;
+		}
+	}
+	strlcat(m_update_sql, ";", size);
+	
+	IF_DEBUG("[TABLE] prepared update: %s \n", m_update_sql);
+	
+	// prepare
+	int res = sqlite3_prepare_v2(db, m_update_sql, strlen(m_update_sql), &m_prepared_update, NULL);
+	if (res != SQLITE_OK) {
+		fprintf(stderr, "Error: unable to prepare update statement for table: %s \n", m_name);
+		return NULL;
+	}
+	return m_prepared_update;
 }
 
 

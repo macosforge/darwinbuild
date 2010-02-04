@@ -30,18 +30,13 @@
  * @APPLE_BSD_LICENSE_HEADER_END@
  */
 
-#include <assert.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdarg.h>
-#include <stdlib.h>
 #include "Database.h"
 
 /**
  * sqlite3_trace callback for debugging
  */
 void dbtrace(void* context, const char* sql) {
-	fprintf(stderr, "[TRACE] %s \n", sql);
+	IF_DEBUG("[TRACE] %s \n", sql);
 }
 
 Database::Database() {
@@ -49,6 +44,7 @@ Database::Database() {
 	m_table_max = 1;
 	m_table_count = 0;
 	m_tables = (Table**)malloc(sizeof(Table*) * m_table_max);
+	this->init_cache();
 	m_db = NULL;	
 	m_path = NULL;
 	m_error_size = 1024;
@@ -59,6 +55,7 @@ Database::Database(const char* path) {
 	m_table_max = 1;
 	m_table_count = 0;
 	m_tables = (Table**)malloc(sizeof(Table*) * m_table_max);
+	this->init_cache();
 	m_db = NULL;		
 	m_path = strdup(path);
 	if (!m_path) {
@@ -72,14 +69,54 @@ Database::~Database() {
 	for (uint32_t i = 0; i < m_table_count; i++) {
 		delete m_tables[i];
 	}
+	this->destroy_cache();
 	free(m_tables);
 	free(m_path);
 	free(m_error);
 }
 
+
 void Database::init_schema() {
 	// do nothing... children should implement this
 }
+
+
+void Database::init_cache() {
+	cache_attributes_t attrs;
+	attrs.version = CACHE_ATTRIBUTES_VERSION_2;
+	attrs.key_hash_cb = cache_key_hash_cb_cstring;
+	attrs.key_is_equal_cb = cache_key_is_equal_cb_cstring;
+	attrs.key_retain_cb = cache_key_retain;
+	attrs.key_release_cb = cache_key_release;
+	attrs.value_release_cb = cache_value_release;
+	attrs.value_retain_cb = cache_value_retain;
+	cache_create("org.macosforge.darwinbuild.darwinup.statements", &attrs, &m_statement_cache);
+}
+
+void Database::destroy_cache() {
+	cache_destroy(m_statement_cache);
+}
+
+void cache_key_retain(void* key_in, void** key_out, void* user_data) {
+	fprintf(stderr, "CACHE: key_retain %s\n", (char*)key_in);
+	*key_out = strdup((char*)key_in);
+}
+
+void cache_key_release(void* key, void* user_data) {
+	fprintf(stderr, "CACHE: key_release %s\n", (char*)key);
+	free(key);
+}
+
+void cache_value_retain(void* value, void* user_data) {
+	fprintf(stderr, "CACHE: value_retain %p\n", value);
+	// do nothing
+}
+
+void cache_value_release(void* value, void* user_data) {
+	fprintf(stderr, "CACHE: value_release %p\n", value);
+	sqlite3_finalize((sqlite3_stmt*)value);
+}
+
 
 const char* Database::path() {
 	return m_path;
@@ -99,6 +136,7 @@ bool Database::connect() {
 		fprintf(stderr, "Error: unable to connect to database at: %s \n", m_path);
 		return false;
 	}	
+	sqlite3_trace(m_db, dbtrace, NULL);
 	if (this->empty()) {
 		assert(this->create_tables());
 	}	
@@ -152,15 +190,6 @@ bool Database::create_tables() {
 	return res==SQLITE_OK;
 }
 
-
-bool Database::update(Table* table, Column* column, const char* value, const char* where, 
-					  uint32_t &count) {
-	// not implemented
-	assert(false);
-	return false;
-}
-
-
 #define __SQL(callback, context, fmt) \
     va_list args; \
     va_start(args, fmt); \
@@ -190,6 +219,155 @@ int Database::sql(const char* fmt, ...) {
 #undef __SQL
 
 
+#define __bind_all_columns(_lastarg) \
+    va_list args; \
+    va_start(args, _lastarg); \
+	for (uint32_t i=0; i<table->column_count(); i++) { \
+		Column* col = table->column(i); \
+		if (col->is_pk()) continue; \
+		uint8_t* bdata = NULL; \
+		uint32_t bsize = 0; \
+		switch(col->type()) { \
+			case TYPE_INTEGER: \
+				res = sqlite3_bind_int64(stmt, param++, va_arg(args, uint64_t)); \
+				break; \
+			case TYPE_TEXT: \
+				res = sqlite3_bind_text(stmt, param++, va_arg(args, char*), -1, SQLITE_STATIC); \
+				break; \
+			case TYPE_BLOB: \
+				bdata = va_arg(args, uint8_t*); \
+				bsize = va_arg(args, uint32_t); \
+				res = sqlite3_bind_blob(stmt, param++, \
+										bdata, \
+										bsize, \
+										SQLITE_STATIC); \
+				break; \
+		} \
+		if (res != SQLITE_OK) { \
+			fprintf(stderr, "Error: failed to bind parameter #%d with column #%d of type %d " \
+					"table %s \n", \
+					param, i, col->type(), table->name()); \
+			return false; \
+		} \
+	} \
+    va_end(args);
+
+#define __bind_va_columns(_lastarg) \
+    va_list args; \
+    va_start(args, _lastarg); \
+    for (uint32_t i=0; i<count; i++) { \
+        Column* col = va_arg(args, Column*); \
+        fprintf(stderr, "DEBUG: got a column from va_arg: %p \n", col); \
+        uint8_t* bdata = NULL; \
+        uint32_t bsize = 0; \
+        switch(col->type()) { \
+            case TYPE_INTEGER: \
+                fprintf(stderr, "DEBUG: param %d is integer\n", param); \
+                res = sqlite3_bind_int64(stmt, param++, va_arg(args, uint64_t)); \
+                break; \
+            case TYPE_TEXT: \
+                fprintf(stderr, "DEBUG: param %d is text\n", param); \
+                res = sqlite3_bind_text(stmt, param++, va_arg(args, char*), -1, SQLITE_STATIC); \
+                break; \
+            case TYPE_BLOB: \
+                fprintf(stderr, "DEBUG: param %d is blob\n", param); \
+                bdata = va_arg(args, uint8_t*); \
+                bsize = va_arg(args, uint32_t); \
+                res = sqlite3_bind_blob(stmt, param++, \
+                                        bdata, \
+										bsize, \
+                                        SQLITE_STATIC); \
+                break; \
+		} \
+        if (res != SQLITE_OK) { \
+            fprintf(stderr, "Error: failed to bind parameter #%d with column #%d of type %d " \
+                            "table %s \n", \
+							param, i, col->type(), table->name()); \
+            return false; \
+        } \
+    } \
+    va_end(args);
+
+int Database::execute(sqlite3_stmt* stmt) {
+	int res = sqlite3_step(stmt);
+	if (res == SQLITE_DONE) res = SQLITE_OK;
+	sqlite3_reset(stmt);
+	return res;
+}
+
+
+bool Database::get_value(const char* name, void** output, Table* table, Column* value_column, 
+						 uint32_t count, ...) {
+	sqlite3_stmt* stmt;
+	char* key = strdup(name);
+	cache_get_and_retain(m_statement_cache, key, (void**)&stmt);
+	if (!stmt) {
+		// did not have stmt cached, so we need to generate it
+		fprintf(stderr, "DEBUG: get_value is generating query for %s \n", key);
+		va_list args;
+		va_start(args, count);
+		stmt = table->get_value(m_db, value_column, count, args);
+		va_end(args);
+		cache_set_and_retain(m_statement_cache, key, stmt, sizeof(stmt));
+	} else {
+		fprintf(stderr, "DEBUG: found get_value query for %s in cache: %p \n", key, stmt);
+		fprintf(stderr, "DEBUG: query is: %s \n", sqlite3_sql(stmt));
+	}
+	
+	int res = SQLITE_OK;
+	uint32_t param = 1;
+	__bind_va_columns(count);
+	
+	res = sqlite3_step(stmt);
+	if (res == SQLITE_ROW) {
+		switch(value_column->type()) {
+			case TYPE_INTEGER:
+				*(uint64_t*)output = sqlite3_column_int64(stmt, 0);
+				break;
+			case TYPE_TEXT:
+				*(const unsigned char**)output = sqlite3_column_text(stmt, 0);
+				break;
+			case TYPE_BLOB:
+				*(const void**)output = sqlite3_column_blob(stmt, 0);
+				break;
+		}
+	}
+	sqlite3_reset(stmt);
+	cache_release_value(m_statement_cache, &stmt);
+	free(key);
+	return output != NULL;
+}
+
+/**
+ * Given a table and an arg list in the same order as Table::add_column() calls,
+ * binds and executes a sql update. The Table is responsible for preparing the
+ * statement in Table::update()
+ *
+ * All integer args must be cast to uint64_t
+ * All blob columns must provide 2 args in the list. The first arg is a uint8_t* of data
+ * and then the uint32_t value for size of the data. 
+ *
+ */
+bool Database::update(Table* table, uint64_t pkvalue, ...) {
+	int res = SQLITE_OK;
+	
+	// get the prepared statement
+	sqlite3_stmt* stmt = table->update(m_db);
+	if (!stmt) {
+		fprintf(stderr, "Error: %s table gave a NULL statement when trying to update.\n", table->name());
+		return false;
+	}
+	
+	uint32_t param = 1; // counter to track placeholders in sql statement
+	__bind_all_columns(pkvalue);
+	
+	// bind the primary key in the WHERE clause
+	res = sqlite3_bind_int64(stmt, param++, pkvalue);
+	res = this->execute(stmt);
+	return res == SQLITE_OK;
+}
+
+
 /**
  * Given a table and an arg list in the same order as Table::add_column() calls,
  * binds and executes a sql insertion. The Table is responsible for preparing the
@@ -202,8 +380,6 @@ int Database::sql(const char* fmt, ...) {
  */
 bool Database::insert(Table* table, ...) {
 	int res = SQLITE_OK;
-	va_list args;
-	va_start(args, table);
 
 	// get the prepared statement
 	sqlite3_stmt* stmt = table->insert(m_db);
@@ -213,51 +389,12 @@ bool Database::insert(Table* table, ...) {
 	}
 	
 	uint32_t param = 1; // counter to track placeholders in sql statement
-	
-	for (uint32_t i=0; i<table->column_count(); i++) {
-		Column* col = table->column(i);
-		
-		// primary keys do not get inserted
-		if (col->is_pk()) continue;
-
-		// temp variable for blob columns
-		uint8_t* bdata = NULL;
-		uint32_t bsize = 0;
-		
-		switch(col->type()) {
-			case SQLITE_INTEGER:
-				res = sqlite3_bind_int64(stmt, param++, va_arg(args, uint64_t));
-				break;
-			case SQLITE_TEXT:
-				res = sqlite3_bind_text(stmt, param++, va_arg(args, char*), -1, SQLITE_STATIC);
-				break;
-			case SQLITE_BLOB:
-				bdata = va_arg(args, uint8_t*);
-				bsize = va_arg(args, uint32_t);
-				res = sqlite3_bind_blob(stmt, param++, 
-										bdata, 
-										bsize, 
-										SQLITE_STATIC);
-				break;
-				
-		}
-		if (res != SQLITE_OK) {
-			fprintf(stderr, "Error: failed to bind parameter #%d with column #%d of type %d when inserting "
-					        "to table %s \n",
-					param, i, col->type(), table->name());
-			return false;
-		}
-	}
-
-	sqlite3_trace(m_db, dbtrace, NULL);
-	
-	res = sqlite3_step(stmt);
-	if (res == SQLITE_DONE) res = SQLITE_OK;
-	sqlite3_reset(stmt);
-	
-	va_end(args);
+	__bind_all_columns(table);
+	res = this->execute(stmt);
 	return res == SQLITE_OK;
 }
+
+#undef __bind_params
 
 uint64_t Database::last_insert_id() {
 	return (uint64_t)sqlite3_last_insert_rowid(m_db);

@@ -36,6 +36,7 @@
 #include <sys/types.h>
 #include <uuid/uuid.h>
 #include <sqlite3.h>
+#include "DB.h"
 
 struct Archive;
 struct File;
@@ -149,15 +150,17 @@ struct Depot {
 
 	virtual int	SQL(const char* fmt, ...);
 
-	sqlite3*	m_db;
+	sqlite3*	      m_db;
+	DarwinupDatabase* m_db2;
+	
 	mode_t		m_depot_mode;
-        char*           m_prefix;
+	char*       m_prefix;
 	char*		m_depot_path;
 	char*		m_database_path;
 	char*		m_archives_path;
 	char*		m_downloads_path;
-	int		m_lock_fd;
-        int             m_is_locked;
+	int		    m_lock_fd;
+	int         m_is_locked;
 };
 
 #endif
