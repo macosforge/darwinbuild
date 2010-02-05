@@ -656,7 +656,7 @@ int Depot::backup_file(File* file, void* ctx) {
 
 		// XXX: res = file->backup()
 		IF_DEBUG("[backup] copyfile(%s, %s)\n", path, dstpath);
-		res = copyfile(path, dstpath, NULL, COPYFILE_ALL);
+		res = copyfile(path, dstpath, NULL, COPYFILE_ALL|COPYFILE_NOFOLLOW);
 
 		if (res != 0) fprintf(stderr, "%s:%d: backup failed: %s: %s (%d)\n", __FILE__, __LINE__, dstpath, strerror(errno), errno);
 		free(path);
@@ -679,6 +679,34 @@ int Depot::install_file(File* file, void* ctx) {
 		res = file->install_info(context->depot->m_prefix);
 	}
 	if (res != 0) fprintf(stderr, "%s:%d: install failed: %s: %s (%d)\n", __FILE__, __LINE__, file->path(), strerror(errno), errno);
+	return res;
+}
+
+
+int Depot::install(const char* path) {
+	int res = 0;
+	char uuid[37];
+	Archive* archive = ArchiveFactory(path, this->downloads_path());
+	if (archive) {
+		res = this->install(archive);
+		if (res == 0) {
+			uuid_unparse_upper(archive->uuid(), uuid);
+			fprintf(stdout, "%s\n", uuid);
+		} else {
+			fprintf(stderr, "Error: Install failed. Rolling back installation.\n");
+			res = this->uninstall(archive);
+			if (res) {
+				fprintf(stderr, "Error: Unable to rollback installation. "
+						"Your system is in an inconsistent state! File a bug!\n");
+			} else {
+				fprintf(stderr, "Rollback successful.\n");
+			}
+			res = 1;
+		}
+	} else {
+		fprintf(stderr, "Archive not found: %s\n", path);
+	}
+
 	return res;
 }
 
@@ -733,7 +761,7 @@ int Depot::install(Archive* archive) {
 	if (res == 0 && rollback_files == 0) {
 		res = this->remove(rollback);
 	}
-	
+
 	// Commit the archive and its list of files to the database.
 	// Note that the archive's "active" flag is still not set.
 	if (res == 0) {
@@ -770,8 +798,9 @@ int Depot::install(Archive* archive) {
 	// Remove the stage and rollback directories (save disk space)
 	remove_directory(archive_path);
 	remove_directory(rollback_path);
-	if (rollback_path) free(rollback_path);
-	if (archive_path) free(archive_path);
+
+	free(rollback_path);
+	free(archive_path);
 	
 	(void)this->lock(LOCK_SH);
 

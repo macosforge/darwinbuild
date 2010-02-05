@@ -50,10 +50,11 @@ void usage(char* progname) {
 	fprintf(stderr, "          -v         verbose (use -vv for extra verbosity)     \n");
 	fprintf(stderr, "                                                               \n");
 	fprintf(stderr, "commands:                                                      \n");
+	fprintf(stderr, "          files      <archive>                                 \n");
 	fprintf(stderr, "          install    <path>                                    \n");
 	fprintf(stderr, "          list                                                 \n");
-	fprintf(stderr, "          files      <archive>                                 \n");
 	fprintf(stderr, "          uninstall  <archive>                                 \n");
+	fprintf(stderr, "          upgrade    <path>                                    \n");
 	fprintf(stderr, "          verify     <archive>                                 \n");
 	fprintf(stderr, "                                                               \n");
 	fprintf(stderr, "<path> is one of:                                              \n");
@@ -139,27 +140,18 @@ int main(int argc, char* argv[]) {
 	}
 	
 	if (argc == 2 && strcmp(argv[0], "install") == 0) {
-		char uuid[37];
-		Archive* archive = ArchiveFactory(argv[1], depot->downloads_path());
-		if (archive) {
-			res = depot->install(archive);
-			if (res == 0) {
-				uuid_unparse_upper(archive->uuid(), uuid);
-				fprintf(stdout, "%s\n", uuid);
-			} else {
-				fprintf(stderr, "Error: Install failed. Rolling back installation.\n");
-				res = depot->uninstall(archive);
-				if (res) {
-					fprintf(stderr, "Error: Unable to rollback installation. "
-							"Your system is in an inconsistent state! File a bug!\n");
-				} else {
-					fprintf(stderr, "Rollback successful.\n");
-				}
-				res = 1;
-			}
-		} else {
-			fprintf(stderr, "Archive not found: %s\n", argv[1]);
+		res = depot->install(argv[1]);
+	} else if (argc == 2 && strcmp(argv[0], "upgrade") == 0) {
+		// find most recent matching archive by name
+		Archive* old = depot->get_archive(basename(argv[1]));
+		if (!old) {
+			fprintf(stderr, "Error: unable to find a matching root to upgrade.\n");
+			res = 5;
 		}
+		// install new archive
+		if (res == 0) res = depot->install(argv[1]);
+		// uninstall old archive
+		if (res == 0) res = depot->uninstall(old);
 	} else if (argc == 1 && strcmp(argv[0], "list") == 0) {
 		depot->list();
 	} else if (argc == 1 && strcmp(argv[0], "dump") == 0) {

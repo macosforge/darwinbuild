@@ -82,6 +82,7 @@ struct Depot {
 	int list();
 	static int list_archive(Archive* archive, void* context);
 
+	int install(const char* path);
 	int install(Archive* archive);
 	static int install_file(File* file, void* context);
 	static int backup_file(File* file, void* context);
