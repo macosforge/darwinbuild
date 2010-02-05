@@ -27,7 +27,7 @@ do
 	tar zxvf $R.tar.gz -C $PREFIX
 done;
 
-for R in root4 root5 root6 root7 symlinks;
+for R in root4 root5 root6 root7 symlinks symlink_update;
 do
 	tar zxvf $R.tar.gz -C $PREFIX
 done;
@@ -125,6 +125,12 @@ darwinup -vv -p $DEST install $PREFIX/symlinks
 darwinup -vv -p $DEST uninstall symlinks
 echo "DIFF: diffing original test files to dest (should be no diffs) ..."
 $DIFF $ORIG $DEST 2>&1
+darwinup -vv -p $DEST install $PREFIX/symlink_update
+stat -L $DEST/broken
+darwinup -vv -p $DEST uninstall newest
+echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+$DIFF $ORIG $DEST 2>&1
+
  
 # expected failures
 set +e
