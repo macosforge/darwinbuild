@@ -110,6 +110,8 @@ struct Depot {
 	// test if the depot is currently locked 
 	int is_locked();
 
+	int has_file(Archive* archive, File* file);
+	
 	protected:
 
 	// Serialize access to the Depot via flock(2).
@@ -127,7 +129,7 @@ struct Depot {
 	// If the File already has a serial number, it cannot be inserted.
 	int insert(Archive* archive, File* file);
 
-	int has_file(Archive* archive, File* file);
+	
 	
 	// Removes an Archive from the database.
 	int remove(Archive* archive);

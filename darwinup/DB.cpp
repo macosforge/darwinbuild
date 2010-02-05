@@ -150,4 +150,19 @@ uint64_t DarwinupDatabase::insert_file(uint32_t info, mode_t mode, uid_t uid, gi
 	return this->last_insert_id();
 }
 
+uint64_t DarwinupDatabase::count_files(Archive* archive, const char* path) {
+
+	bool res = false;
+	uint64_t c = 1234;
+	res = this->count("count_files",
+					  (void**)&c,
+					  this->m_files_table,
+					  2,                              // number of where conditions
+					  this->m_files_table->column(1), // archive
+					  (uint64_t)archive->serial(),
+					  this->m_files_table->column(8), // path
+					  path);
+	fprintf(stderr, "COUNT: Database::count() gave us %llu\n", c);
+	return c;
+}
 

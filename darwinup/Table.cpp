@@ -92,19 +92,6 @@ bool Table::add_column(Column* c) {
 	return true;
 }
 
-char* Table::count(const char* where) {
-	IF_DEBUG("[TABLE] entering count of %s with where: %s \n", m_name, where);
-	char* buf;
-	if (where) {
-		IF_DEBUG("[TABLE] counting %s with where %s \n", m_name, where);
-		asprintf(&buf, "SELECT count(*) FROM %s %s ;", m_name, where);
-	} else {
-		IF_DEBUG("[TABLE] counting %s \n", m_name);
-		asprintf(&buf, "SELECT count(*) FROM %s ;", m_name);
-	}
-	IF_DEBUG("[TABLE] count() returning: %s \n", buf);
-	return buf;
-}
 
 char* Table::create() {
 	if (!m_create_sql) {
@@ -147,7 +134,15 @@ char* Table::create() {
 	return m_create_sql;
 }
 
-#define __check_size \
+#define __alloc_stmt_query \
+	size_t size = 256; \
+	size_t used = 0; \
+	char* query = (char*)malloc(size); \
+	sqlite3_stmt* stmt = (sqlite3_stmt*)malloc(sizeof(sqlite3_stmt*));
+
+
+#define __check_and_cat(text) \
+	used = strlcat(query, text, size); \
     if (used >= size-1) { \
         size *= 4; \
         query = (char*)realloc(query, size); \
@@ -155,48 +150,83 @@ char* Table::create() {
 			fprintf(stderr, "Error: ran out of memory!\n"); \
             return NULL; \
         } \
+        used = strlcat(query, text, size); \
     }
 
-sqlite3_stmt* Table::get_value(sqlite3* db, Column* value_column, uint32_t count, va_list args) {
-	size_t size = 256;
-	size_t used = 0;
-	char* query = (char*)malloc(size);
-	sqlite3_stmt* stmt = (sqlite3_stmt*)malloc(sizeof(sqlite3_stmt*));
-	
-	strlcpy(query, "SELECT ", size);
-	used = strlcat(query, value_column->name(), size);
-	__check_size;
-	used = strlcat(query, " FROM ", size);
-	__check_size;
-	used = strlcat(query, m_name, size);
-	__check_size;
-	used = strlcat(query, " WHERE 1", size);
-	__check_size;
-
-	char tmpstr[256];
-	int len;
-	for (uint32_t i=0; i < count; i++) {
-		Column* col = va_arg(args, Column*);
-		va_arg(args, void*); // pop off the value which we do not need this time around
-		len = snprintf(tmpstr, 256, " AND %s=?", col->name()); 
-		if (len >= 255) {
-			fprintf(stderr, "Error: column name is too big (limit: 248): %s\n", col->name());
-			return NULL;
-		}
-		used = strlcat(query, tmpstr, size);
-		__check_size;
+#define __where_va_columns \
+	char tmpstr[256]; \
+	int len; \
+	for (uint32_t i=0; i < count; i++) { \
+		Column* col = va_arg(args, Column*); \
+		va_arg(args, void*); \
+		len = snprintf(tmpstr, 256, " AND %s=?", col->name()); \
+		if (len >= 255) { \
+			fprintf(stderr, "Error: column name is too big (limit: 248): %s\n", col->name()); \
+			return NULL; \
+		} \
+		used = strlcat(query, tmpstr, size); \
+		if (used >= size-1) { \
+			size *= 4; \
+			query = (char*)realloc(query, size); \
+			if (!query) { \
+				fprintf(stderr, "Error: ran out of memory!\n"); \
+				return NULL; \
+			} \
+			used = strlcat(query, tmpstr, size); \
+		} \
 	}
+
+#define __prepare_stmt \
+	int res = sqlite3_prepare_v2(db, query, size, &stmt, NULL); \
+	free(query); \
+	if (res != SQLITE_OK) { \
+		fprintf(stderr, "Error: unable to prepare statement.\n"); \
+		return NULL; \
+	}
+
+
+sqlite3_stmt* Table::count(sqlite3* db) {
+	IF_DEBUG("[TABLE] entering count of %s \n", m_name);
+	sqlite3_stmt* stmt = (sqlite3_stmt*)malloc(sizeof(sqlite3_stmt*));
+	char* query;
+	int size = asprintf(&query, "SELECT count(*) FROM %s ;", m_name) + 1;
+	__prepare_stmt;
+	return stmt;
+}
+
+sqlite3_stmt* Table::count(sqlite3* db, uint32_t count, va_list args) {
+	__alloc_stmt_query;
+	strlcpy(query, "SELECT count(*) FROM ", size);
+	__check_and_cat(m_name);
+	__check_and_cat(" WHERE 1");
+	
+	__where_va_columns;
+	
+	strlcat(query, ";", size);
+	
+	IF_DEBUG("[TABLE] count query: %s \n", query);
+
+	__prepare_stmt;
+
+	return stmt;	
+}
+
+sqlite3_stmt* Table::get_value(sqlite3* db, Column* value_column, uint32_t count, va_list args) {
+	__alloc_stmt_query;
+	strlcpy(query, "SELECT ", size);
+	__check_and_cat(value_column->name());
+	__check_and_cat(" FROM ");
+	__check_and_cat(m_name);
+	__check_and_cat(" WHERE 1");
+
+	__where_va_columns;
+	
 	strlcat(query, ";", size);
 
 	IF_DEBUG("[TABLE] get_value query: %s \n", query);
 
-	int res = sqlite3_prepare_v2(db, query, size, &stmt, NULL);
-	free(query);
-	if (res != SQLITE_OK) {
-		fprintf(stderr, "Error: unable to prepare statement for get_value.\n");
-		return NULL;
-	}
-
+	__prepare_stmt;
+	
 	return stmt;
 }
 

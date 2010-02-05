@@ -154,9 +154,17 @@ int main(int argc, char* argv[]) {
 	testdb->insert_file(1, 2, 3, 4, f->digest(), a, mypath);
 	testdb->update_file(a, mypath, 5, 6, 7, 8, f->digest());
 	testdb->update_file(a, mypath, 6, 7, 8, 9, f->digest());
-	testdb->update_file(a, mypath, 7, 8, 9, 0, f->digest());
-	testdb->update_file(a, mypath, 8, 9, 0, 1, f->digest());
-	testdb->update_file(a, mypath, 9, 0, 1, 2, f->digest());
+
+	if (depot->has_file(a, f)) {
+		fprintf(stderr, "HASFILE: true\n");
+	}
+	if (depot->has_file(a, f)) {
+		fprintf(stderr, "HASFILE: true\n");
+	}
+	if (depot->has_file(a, f)) {
+		fprintf(stderr, "HASFILE: true\n");
+	}
+	
 	exit(0);
 	// XXX
 	

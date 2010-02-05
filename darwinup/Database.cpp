@@ -170,10 +170,10 @@ bool Database::empty() {
 		fprintf(stderr, "Error: Database has not had a schema initialized.\n");
 		return false;
 	}
-	char* sqlstr = m_tables[0]->count(NULL);
-	int res = this->sql(sqlstr);
-	free(sqlstr);
-	return res!=SQLITE_OK;
+	sqlite3_stmt* stmt = m_tables[0]->count(m_db);
+	int res = sqlite3_step(stmt);
+	sqlite3_finalize(stmt);
+	return res!=SQLITE_ROW;
 }
 
 bool Database::create_tables() {
@@ -295,46 +295,63 @@ int Database::execute(sqlite3_stmt* stmt) {
 	return res;
 }
 
+#define __get_stmt(expr) \
+	sqlite3_stmt* stmt; \
+	char* key = strdup(name); \
+	cache_get_and_retain(m_statement_cache, key, (void**)&stmt); \
+	if (!stmt) { \
+		fprintf(stderr, "DEBUG: generating query for %s \n", key); \
+		va_list args; \
+		va_start(args, count); \
+		stmt = expr; \
+		va_end(args); \
+		cache_set_and_retain(m_statement_cache, key, stmt, sizeof(stmt)); \
+	} else { \
+		fprintf(stderr, "DEBUG: found query for %s in cache: %p \n", key, stmt); \
+		fprintf(stderr, "DEBUG: query is: %s \n", sqlite3_sql(stmt)); \
+	} \
+	free(key);
 
-bool Database::get_value(const char* name, void** output, Table* table, Column* value_column, 
-						 uint32_t count, ...) {
-	sqlite3_stmt* stmt;
-	char* key = strdup(name);
-	cache_get_and_retain(m_statement_cache, key, (void**)&stmt);
-	if (!stmt) {
-		// did not have stmt cached, so we need to generate it
-		fprintf(stderr, "DEBUG: get_value is generating query for %s \n", key);
-		va_list args;
-		va_start(args, count);
-		stmt = table->get_value(m_db, value_column, count, args);
-		va_end(args);
-		cache_set_and_retain(m_statement_cache, key, stmt, sizeof(stmt));
-	} else {
-		fprintf(stderr, "DEBUG: found get_value query for %s in cache: %p \n", key, stmt);
-		fprintf(stderr, "DEBUG: query is: %s \n", sqlite3_sql(stmt));
-	}
-	
+#define __step_and_store(stmt, type, output) \
+    res = sqlite3_step(stmt); \
+    if (res == SQLITE_ROW) { \
+	    switch(type) { \
+		    case TYPE_INTEGER: \
+				fprintf(stderr, "DEBUG: step and store : integer\n"); \
+			    *(uint64_t*)output = sqlite3_column_int64(stmt, 0); \
+				fprintf(stderr, "DEBUG: step and store : %llu\n", *(uint64_t*)output); \
+			    break; \
+		    case TYPE_TEXT: \
+				fprintf(stderr, "DEBUG: step and store : text\n"); \
+			    *(const unsigned char**)output = sqlite3_column_text(stmt, 0); \
+				fprintf(stderr, "DEBUG: step and store : %s\n", *(char**)output); \
+			    break; \
+    		case TYPE_BLOB: \
+				fprintf(stderr, "DEBUG: step and store : blob\n"); \
+	    		*(const void**)output = sqlite3_column_blob(stmt, 0); \
+		    	break; \
+    	} \
+    } \
+    sqlite3_reset(stmt); \
+	cache_release_value(m_statement_cache, &stmt);
+
+bool Database::count(const char* name, void** output, Table* table, uint32_t count, ...) {
+	__get_stmt(table->count(m_db, count, args))
 	int res = SQLITE_OK;
 	uint32_t param = 1;
 	__bind_va_columns(count);
-	
-	res = sqlite3_step(stmt);
-	if (res == SQLITE_ROW) {
-		switch(value_column->type()) {
-			case TYPE_INTEGER:
-				*(uint64_t*)output = sqlite3_column_int64(stmt, 0);
-				break;
-			case TYPE_TEXT:
-				*(const unsigned char**)output = sqlite3_column_text(stmt, 0);
-				break;
-			case TYPE_BLOB:
-				*(const void**)output = sqlite3_column_blob(stmt, 0);
-				break;
-		}
-	}
-	sqlite3_reset(stmt);
-	cache_release_value(m_statement_cache, &stmt);
-	free(key);
+	int type = TYPE_INTEGER;
+	__step_and_store(stmt, type, output)
+	return output != NULL;
+}
+
+bool Database::get_value(const char* name, void** output, Table* table, Column* value_column, 
+						 uint32_t count, ...) {
+	__get_stmt(table->get_value(m_db, value_column, count, args));
+	int res = SQLITE_OK;
+	uint32_t param = 1;
+	__bind_va_columns(count);
+	__step_and_store(stmt, value_column->type(), output)
 	return output != NULL;
 }
 

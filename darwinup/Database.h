@@ -83,13 +83,8 @@ struct Database {
 	const char* get_row(Table* table, const char* where);
 	const char* get_column(Table* table, Column* column, const char* where);
 	const char* get_all(Table* table, const char* where);
-	
-	uint32_t count(Table* table, const char* where);
-	
+		
 	bool del(Table* table, const char* where, uint32_t &count);
-	
-	bool get_value(void* value, Table* table, Column* value_column, ...);
-	
 	
 	
 	/**
@@ -102,6 +97,7 @@ struct Database {
 	 *  everything else are Column*,value pairs for making a WHERE clause
 	 *
 	 */
+	bool count(const char* name, void** output, Table* table, uint32_t count, ...);
 	bool get_value(const char* name, void** output, Table* table, Column* value_column, uint32_t count, ...);
 
 	

@@ -1229,8 +1229,9 @@ int Depot::insert(Archive* archive) {
 }
 
 int Depot::insert(Archive* archive, File* file) {
-	int res = 0;
+	bool res = true;
 	int do_update = 0;
+
 	// check for the destination prefix in file's path, remove if found
 	char *path, *relpath;
 	size_t prefixlen = strlen(this->prefix());
@@ -1240,49 +1241,24 @@ int Depot::insert(Archive* archive, File* file) {
 	        relpath += prefixlen - 1;
 	}
 
-	const char* query = NULL;
 	if (this->has_file(archive, file)) {
 		do_update = 1;
-		IF_DEBUG("archive(%llu) already has %s, updating instead \n", archive->serial(), relpath);
-		query = "UPDATE files SET info=?, mode=?, uid=?, gid=?, digest=? WHERE archive=? and path=?";
+		res = m_db2->update_file(archive, relpath, file->info(), file->mode(), file->uid(), file->gid(),
+								 file->digest());		
 	} else {
-		query = "INSERT INTO files (info, mode, uid, gid, digest, archive, path) VALUES (?, ?, ?, ?, ?, ?, ?)";	
-	}
-	sqlite3_stmt* stmt = NULL;
-	if (m_db) {
-		res = sqlite3_prepare(m_db, query, -1, &stmt, NULL);
-		if (res != 0) fprintf(stderr, "%s:%d: sqlite3_prepare: %s: %s (%d)\n", __FILE__, __LINE__, query, sqlite3_errmsg(m_db), res);
-	}
-	if (stmt && res == 0) {
-		int i = 1;
-		if (res == 0) res = sqlite3_bind_int(stmt, i++, file->info());
-		if (res == 0) res = sqlite3_bind_int(stmt, i++, file->mode());
-		if (res == 0) res = sqlite3_bind_int(stmt, i++, file->uid());
-		if (res == 0) res = sqlite3_bind_int(stmt, i++, file->gid());
-		Digest* dig = file->digest();
-		if (res == 0 && dig) res = sqlite3_bind_blob(stmt, i++, dig->data(), dig->size(), SQLITE_STATIC);
-		else if (res == 0) res = sqlite3_bind_blob(stmt, i++, NULL, 0, SQLITE_STATIC);
-		if (res == 0) res = sqlite3_bind_int64(stmt, i++, archive->serial());
-		if (res == 0) res = sqlite3_bind_text(stmt, i++, relpath, -1, SQLITE_STATIC);
-		if (res == 0) res = sqlite3_step(stmt);
-		if (res == SQLITE_DONE) {
-			// if we did an insert, update the file serial
-			if (!do_update) {
-				file->m_serial = (uint64_t)sqlite3_last_insert_rowid(m_db);
-			}
-			res = 0;
-		} else {
-			fprintf(stderr, "%s:%d: Could not add file to database: %s (%d)\n", __FILE__, __LINE__, sqlite3_errmsg(m_db), res);
+		file->m_serial = m_db2->insert_file(file->info(), file->mode(), file->uid(), file->gid(), 
+								 file->digest(), archive, relpath);
+		if (!file->m_serial) {
+			fprintf(stderr, "%s:%d: Could not add file to database: %s (%d)\n", 
+					__FILE__, __LINE__, sqlite3_errmsg(m_db), res);
 		}
-		sqlite3_reset(stmt);
 	}
+
 	free(path);
 	return res;
 }
 
 int Depot::has_file(Archive* archive, File* file) {
-	int res = 0;
-	size_t count = 0;
 	// check for the destination prefix in file's path, remove if found
 	char *path, *relpath;
 	size_t prefixlen = strlen(this->prefix());
@@ -1292,26 +1268,10 @@ int Depot::has_file(Archive* archive, File* file) {
 		relpath += prefixlen - 1;
 	}
 	
-	static sqlite3_stmt* stmt = NULL;
-	if (stmt == NULL && m_db) {
-		const char* query = "SELECT count(*) FROM files WHERE archive=? and path=?";
-		res = sqlite3_prepare(m_db, query, -1, &stmt, NULL);
-		if (res != 0) fprintf(stderr, "%s:%d: sqlite3_prepare: %s: %s (%d)\n", __FILE__, __LINE__, query, sqlite3_errmsg(m_db), res);
-	}
-	if (stmt && res == 0) {
-		int i = 1;
-		if (res == 0) res = sqlite3_bind_int64(stmt, i++, archive->serial());
-		if (res == 0) res = sqlite3_bind_text(stmt, i++, relpath, -1, SQLITE_STATIC);
-		if (res == 0) res = sqlite3_step(stmt);
-		if (res == SQLITE_ROW) {
-			count = sqlite3_column_int64(stmt, 0);
-			IF_DEBUG("has_file(%llu, %s) got count = %u \n", archive->serial(), relpath, (unsigned int)count);
-		} else {
-			res = -1;
-			fprintf(stderr, "%s:%d: Could not query for file in archive: %s (%d)\n", __FILE__, __LINE__, sqlite3_errmsg(m_db), res);
-		}
-		sqlite3_reset(stmt);
-	}
+	uint64_t count = m_db2->count_files(archive, relpath);
+	
+	fprintf(stderr, "COUNT=%llu\n", count);
+	
 	free(path);
 	return count > 0;
 }

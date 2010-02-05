@@ -57,6 +57,8 @@ struct DarwinupDatabase : Database {
 	virtual ~DarwinupDatabase();
 	void init_schema();
 	
+	uint64_t count_files(Archive* archive, const char* path);
+	
 	// inserts into tables, returns serial from primary key
 	uint64_t insert_archive(uuid_t uuid, uint32_t info, const char* name, time_t date);
 	bool update_file(Archive* archive, const char* path, uint32_t info, mode_t mode, 
