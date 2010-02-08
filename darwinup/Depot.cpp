@@ -143,6 +143,11 @@ int Depot::is_initialized() {
 	return (m_db != NULL);
 }
 
+
+DarwinupDatabase* Depot::get_db2() {
+	return m_db2;
+}
+
 // Unserialize an archive from the database.
 // Find the archive by UUID.
 // XXX: should be memoized
@@ -931,7 +936,7 @@ int Depot::uninstall(Archive* archive) {
 	for (i = 0; i < context.files_to_remove->count; ++i) {
 		uint64_t serial = context.files_to_remove->values[i];
 		IF_DEBUG("deleting file %lld\n", serial);
-		if (res == 0) res = SQL("DELETE FROM files WHERE serial=%lld;", serial);
+		if (res == 0) res = m_db2->delete_file(serial);
 	}
 	if (res == 0) res = this->commit_transaction();
 
@@ -1255,7 +1260,7 @@ int Depot::insert(Archive* archive, File* file) {
 	}
 
 	free(path);
-	return res;
+	return res != true;
 }
 
 int Depot::has_file(Archive* archive, File* file) {
@@ -1270,25 +1275,27 @@ int Depot::has_file(Archive* archive, File* file) {
 	
 	uint64_t count = m_db2->count_files(archive, relpath);
 	
-	fprintf(stderr, "COUNT=%llu\n", count);
-	
 	free(path);
 	return count > 0;
 }
 
 int Depot::remove(Archive* archive) {
-	int res = 0;
-	uint64_t serial = archive->serial();
-	if (res == 0) res = SQL("DELETE FROM files WHERE archive=%lld", serial);
-	if (res == 0) res = SQL("DELETE FROM archives WHERE serial=%lld", serial);
-	return res;
+	bool res = true;
+	res = m_db2->delete_files(archive);
+	if (!res) {
+		fprintf(stderr, "Error: unable to delete files for archive %llu \n", archive->serial());
+		return false;
+	}
+	res = m_db2->delete_archive(archive);
+	if (!res) {
+		fprintf(stderr, "Error: unable to delete archive %llu \n", archive->serial());
+		return false;
+	}
+	return res == true;
 }
 
 int Depot::remove(File* file) {
-	int res = 0;
-	uint64_t serial = file->serial();
-	if (res == 0) res = SQL("DELETE FROM files WHERE serial=%lld", serial);
-	return res;
+	return m_db2->delete_file(file) != true;
 }
 
 // helper to dispatch the actual command for process_archive()

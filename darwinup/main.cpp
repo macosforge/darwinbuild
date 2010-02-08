@@ -48,6 +48,7 @@
 
 void usage(char* progname) {
 	fprintf(stderr, "usage:    %s [-v] [-p DIR] [command] [args]          \n", progname);
+	fprintf(stderr, "version: 15                                                    \n");
 	fprintf(stderr, "                                                               \n");
 	fprintf(stderr, "options:                                                       \n");
 	fprintf(stderr, "          -f         force operation to succeed at all costs   \n");
@@ -86,6 +87,7 @@ void usage(char* progname) {
 // our globals
 uint32_t verbosity;
 uint32_t force;
+
 
 int main(int argc, char* argv[]) {
 	char* progname = strdup(basename(argv[0]));      
@@ -144,9 +146,9 @@ int main(int argc, char* argv[]) {
 	}
 	
 	// XXX: test area for new database... remove me
-	DarwinupDatabase* testdb = new DarwinupDatabase("/.DarwinDepot/Database-V200");
+	DarwinupDatabase* testdb = depot->get_db2();
 
-	Archive* a = new Archive("/.DarwinDepot/Archives/56E93DEE-E6BB-44B2-80A4-32E961751DD8.tar.bz2");
+	Archive* a = new Archive("/.DarwinDepot/Archives/21BDC360-726B-436E-B426-B06B57F8A0CC.tar.bz2");
 	//uint64_t s = testdb->insert_archive(a->uuid(), a->info(), a->name(), a->date_installed());
 	
 	const char* mypath = "/etc/services";

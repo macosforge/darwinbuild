@@ -82,10 +82,11 @@ void Database::init_schema() {
 
 
 void Database::init_cache() {
+	fprintf(stderr, "CACHE: init_cache \n");
 	cache_attributes_t attrs;
 	attrs.version = CACHE_ATTRIBUTES_VERSION_2;
 	attrs.key_hash_cb = cache_key_hash_cb_cstring;
-	attrs.key_is_equal_cb = cache_key_is_equal_cb_cstring;
+	attrs.key_is_equal_cb = cache_key_is_equal;
 	attrs.key_retain_cb = cache_key_retain;
 	attrs.key_release_cb = cache_key_release;
 	attrs.value_release_cb = cache_value_release;
@@ -94,7 +95,15 @@ void Database::init_cache() {
 }
 
 void Database::destroy_cache() {
+	fprintf(stderr, "CACHE: destroy_cache \n");
 	cache_destroy(m_statement_cache);
+}
+
+bool cache_key_is_equal(void* key1, void* key2, void* user) {
+	fprintf(stderr, "CACHE: key1: %s key2: %s \n", (char*)key1, (char*)key2);
+	bool res = (strcmp((char*)key1, (char*)key2) == 0);
+	fprintf(stderr, "CACHE: key_is_equal returning %d \n", res);
+	return res;
 }
 
 void cache_key_retain(void* key_in, void** key_out, void* user_data) {
@@ -298,6 +307,7 @@ int Database::execute(sqlite3_stmt* stmt) {
 #define __get_stmt(expr) \
 	sqlite3_stmt* stmt; \
 	char* key = strdup(name); \
+    fprintf(stderr, "CACHE: statement cache at %p \n", m_statement_cache); \
 	cache_get_and_retain(m_statement_cache, key, (void**)&stmt); \
 	if (!stmt) { \
 		fprintf(stderr, "DEBUG: generating query for %s \n", key); \
@@ -312,36 +322,41 @@ int Database::execute(sqlite3_stmt* stmt) {
 	} \
 	free(key);
 
-#define __step_and_store(stmt, type, output) \
-    res = sqlite3_step(stmt); \
+#define __step_and_store(_stmt, _type, _output) \
+    fprintf(stderr, "DEBUG: _stmt = %p \n", _stmt); \
+    fprintf(stderr, "DEBUG: _output = %p \n", _output); \
+    fprintf(stderr, "DEBUG: query = -%s- \n", sqlite3_sql(_stmt)); \
+    fprintf(stderr, "DEBUG: col count: %d \n", sqlite3_column_count(_stmt)); \
+    res = sqlite3_step(_stmt); \
     if (res == SQLITE_ROW) { \
-	    switch(type) { \
+	    switch(_type) { \
 		    case TYPE_INTEGER: \
 				fprintf(stderr, "DEBUG: step and store : integer\n"); \
-			    *(uint64_t*)output = sqlite3_column_int64(stmt, 0); \
-				fprintf(stderr, "DEBUG: step and store : %llu\n", *(uint64_t*)output); \
+			    *(uint64_t*)_output = (uint64_t)sqlite3_column_int64(_stmt, 0); \
+				fprintf(stderr, "DEBUG: step and store : %p %llu\n", (uint64_t*)_output, *(uint64_t*)_output); \
 			    break; \
 		    case TYPE_TEXT: \
 				fprintf(stderr, "DEBUG: step and store : text\n"); \
-			    *(const unsigned char**)output = sqlite3_column_text(stmt, 0); \
-				fprintf(stderr, "DEBUG: step and store : %s\n", *(char**)output); \
+			    *(const unsigned char**)_output = sqlite3_column_text(_stmt, 0); \
+				fprintf(stderr, "DEBUG: step and store : %s\n", *(char**)_output); \
 			    break; \
     		case TYPE_BLOB: \
 				fprintf(stderr, "DEBUG: step and store : blob\n"); \
-	    		*(const void**)output = sqlite3_column_blob(stmt, 0); \
+	    		*(const void**)_output = sqlite3_column_blob(_stmt, 0); \
 		    	break; \
     	} \
+    } else { \
+        fprintf(stderr, "ERROR: %d \n", res); \
     } \
-    sqlite3_reset(stmt); \
-	cache_release_value(m_statement_cache, &stmt);
+    sqlite3_reset(_stmt); \
+    cache_release_value(m_statement_cache, &_stmt);
 
 bool Database::count(const char* name, void** output, Table* table, uint32_t count, ...) {
-	__get_stmt(table->count(m_db, count, args))
+	__get_stmt(table->count(m_db, count, args));
 	int res = SQLITE_OK;
 	uint32_t param = 1;
 	__bind_va_columns(count);
-	int type = TYPE_INTEGER;
-	__step_and_store(stmt, type, output)
+	__step_and_store(stmt, TYPE_INTEGER, output);
 	return output != NULL;
 }
 
@@ -351,7 +366,7 @@ bool Database::get_value(const char* name, void** output, Table* table, Column* 
 	int res = SQLITE_OK;
 	uint32_t param = 1;
 	__bind_va_columns(count);
-	__step_and_store(stmt, value_column->type(), output)
+	__step_and_store(stmt, value_column->type(), output);
 	return output != NULL;
 }
 
@@ -411,7 +426,32 @@ bool Database::insert(Table* table, ...) {
 	return res == SQLITE_OK;
 }
 
-#undef __bind_params
+
+bool Database::del(Table* table, uint64_t serial) {
+	int res = SQLITE_OK;
+	sqlite3_stmt* stmt = table->del(m_db);
+	if (!stmt) {
+		fprintf(stderr, "Error: %s table gave a NULL statement when trying to delete.\n", table->name());
+		return false;
+	}
+	res = sqlite3_bind_int64(stmt, 1, serial);
+	res = this->execute(stmt);
+	return res == SQLITE_OK;
+}
+
+bool Database::del(const char* name, Table* table, uint32_t count, ...) {
+	__get_stmt(table->del(m_db, count, args));
+	int res = SQLITE_OK;
+	uint32_t param = 1;
+	__bind_va_columns(count);
+	res = this->execute(stmt);
+	return res == SQLITE_OK;
+	
+}
+
+#undef __bind_all_columns
+#undef __get_stmt
+#undef __step_and_store
 
 uint64_t Database::last_insert_id() {
 	return (uint64_t)sqlite3_last_insert_rowid(m_db);

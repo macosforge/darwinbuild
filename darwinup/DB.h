@@ -41,6 +41,7 @@
 #include "Table.h"
 #include "Archive.h"
 #include "Digest.h"
+#include "File.h"
 
 
 /**
@@ -59,13 +60,21 @@ struct DarwinupDatabase : Database {
 	
 	uint64_t count_files(Archive* archive, const char* path);
 	
-	// inserts into tables, returns serial from primary key
+	// Archives table modifications
 	uint64_t insert_archive(uuid_t uuid, uint32_t info, const char* name, time_t date);
-	bool update_file(Archive* archive, const char* path, uint32_t info, mode_t mode, 
-					 uid_t uid, gid_t gid, Digest* digest);
+	bool     delete_archive(Archive* archive);
+	bool     delete_archive(uint64_t serial);
+
+	// Files table modifications
+	bool     update_file(Archive* archive, const char* path, uint32_t info, mode_t mode, 
+						 uid_t uid, gid_t gid, Digest* digest);
 	uint64_t insert_file(uint32_t info, mode_t mode, uid_t uid, gid_t gid, 
 						 Digest* digest, Archive* archive, const char* path);
+	bool     delete_file(uint64_t serial);
+	bool     delete_file(File* file);
+	bool     delete_files(Archive* archive);
 	
+
 protected:
 	
 	Table*        m_archives_table;

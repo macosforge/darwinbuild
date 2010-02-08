@@ -96,9 +96,9 @@ bool DarwinupDatabase::update_file(Archive* archive, const char* path, uint32_t 
 								   uid_t uid, gid_t gid, Digest* digest) {
 
 	bool res = false;
-	
 	// get the serial for the file where archive and path match
 	uint64_t serial;
+	
 	res = this->get_value("file_serial__archive_path",
 						  (void**)&serial,
 						  this->m_files_table,
@@ -108,7 +108,7 @@ bool DarwinupDatabase::update_file(Archive* archive, const char* path, uint32_t 
 						  (uint64_t)archive->serial(),
 						  this->m_files_table->column(8), // path
 						  path);
-									  
+								  
 	// update the information
 	res = this->update(this->m_files_table, serial,
 					   (uint64_t)archive->serial(),
@@ -120,6 +120,7 @@ bool DarwinupDatabase::update_file(Archive* archive, const char* path, uint32_t 
 					   (uint8_t*)(digest ? digest->data() : NULL), 
 					   (uint32_t)(digest ? digest->size() : 0), 
 					   path);
+
 	if (!res) {
 		fprintf(stderr, "Error: unable to update file with serial %llu and path %s: %s \n",
 				serial, path, this->error());
@@ -153,16 +154,41 @@ uint64_t DarwinupDatabase::insert_file(uint32_t info, mode_t mode, uid_t uid, gi
 uint64_t DarwinupDatabase::count_files(Archive* archive, const char* path) {
 
 	bool res = false;
-	uint64_t c = 1234;
+	uint64_t* c = (uint64_t*)malloc(sizeof(uint64_t));
 	res = this->count("count_files",
-					  (void**)&c,
+					  (void**)c,
 					  this->m_files_table,
-					  2,                              // number of where conditions
+					  2, // number of where conditions
 					  this->m_files_table->column(1), // archive
 					  (uint64_t)archive->serial(),
 					  this->m_files_table->column(8), // path
 					  path);
-	fprintf(stderr, "COUNT: Database::count() gave us %llu\n", c);
-	return c;
+	return *c;
 }
+
+
+bool DarwinupDatabase::delete_archive(Archive* archive) {
+	return this->del(this->m_archives_table, archive->serial());
+}
+
+bool DarwinupDatabase::delete_archive(uint64_t serial) {
+	return this->del(this->m_archives_table, serial);
+}
+
+bool DarwinupDatabase::delete_file(File* file) {
+	return this->del(this->m_files_table, file->serial());
+}
+
+bool DarwinupDatabase::delete_file(uint64_t serial) {
+	return this->del(this->m_files_table, serial);
+}
+
+bool DarwinupDatabase::delete_files(Archive* archive) {
+	return this->del("delete_files__archive",
+					 this->m_files_table,
+					 1,
+					 this->m_files_table->column(1),  // archive
+					 (uint64_t)archive->serial());
+}
+
 

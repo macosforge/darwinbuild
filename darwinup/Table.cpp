@@ -36,6 +36,17 @@
 #include "Table.h"
 
 
+// XXX
+void __hex_str(const char* s) {
+	int len = strlen(s);
+	fprintf(stderr, "HEXSTR: %d \n", len);
+	for (int i=0; i <= len; i++) {
+		fprintf(stderr, "%02x", (unsigned int)s[i]);
+	}
+	fprintf(stderr, "\n");
+}
+
+
 Table::Table() {
 	m_column_max    = 1;
 	m_column_count  = 0;
@@ -63,9 +74,12 @@ Table::~Table() {
 	free(m_create_sql);
 	free(m_insert_sql);
 	free(m_update_sql);
+	free(m_delete_sql);
 	
 	sqlite3_finalize(m_prepared_insert);
 	sqlite3_finalize(m_prepared_update);
+	sqlite3_finalize(m_prepared_delete);
+	
 }
 
 
@@ -199,13 +213,9 @@ sqlite3_stmt* Table::count(sqlite3* db, uint32_t count, va_list args) {
 	strlcpy(query, "SELECT count(*) FROM ", size);
 	__check_and_cat(m_name);
 	__check_and_cat(" WHERE 1");
-	
 	__where_va_columns;
-	
 	strlcat(query, ";", size);
-	
-	IF_DEBUG("[TABLE] count query: %s \n", query);
-
+	IF_DEBUG("[TABLE] count query: %s \n", query);	
 	__prepare_stmt;
 
 	return stmt;	
@@ -218,13 +228,9 @@ sqlite3_stmt* Table::get_value(sqlite3* db, Column* value_column, uint32_t count
 	__check_and_cat(" FROM ");
 	__check_and_cat(m_name);
 	__check_and_cat(" WHERE 1");
-
 	__where_va_columns;
-	
 	strlcat(query, ";", size);
-
 	IF_DEBUG("[TABLE] get_value query: %s \n", query);
-
 	__prepare_stmt;
 	
 	return stmt;
@@ -348,5 +354,60 @@ Column* Table::column(uint32_t index) {
 
 uint32_t Table::column_count() {
 	return this->m_column_count;
+}
+
+
+sqlite3_stmt* Table::del(sqlite3* db) {
+	// we only need to prepare once, return if we already have it
+	if (m_prepared_delete) return m_prepared_delete;
+
+	uint32_t i = 0;
+	
+	// generate the sql query
+	size_t size = 22 + strlen(m_name);
+	for (i=0; i<m_column_count; i++) {
+		if (m_columns[i]->is_pk()) {
+			size += strlen(m_columns[i]->name()) + 2;
+			break;
+		}
+	}
+	m_delete_sql = (char*)malloc(size);
+	strlcpy(m_delete_sql, "DELETE FROM ", size);
+	strlcat(m_delete_sql, m_name, size);
+	
+	// WHERE statement using primary keys
+	strlcat(m_delete_sql, " WHERE ", size);
+	for (i=0; i<m_column_count; i++) {
+		if (m_columns[i]->is_pk()) {
+			strlcat(m_delete_sql, m_columns[i]->name(), size);
+			strlcat(m_delete_sql, "=?", size);
+			break;
+		}
+	}
+	strlcat(m_delete_sql, ";", size);
+	
+	IF_DEBUG("[TABLE] prepared delete: %s \n", m_delete_sql);
+	
+	// prepare
+	int res = sqlite3_prepare_v2(db, m_delete_sql, strlen(m_delete_sql), &m_prepared_delete, NULL);
+	if (res != SQLITE_OK) {
+		fprintf(stderr, "Error: unable to prepare delete statement for table: %s \n", m_name);
+		return NULL;
+	}
+	return m_prepared_delete;
+	
+}
+
+sqlite3_stmt* Table::del(sqlite3* db, uint32_t count, va_list args) {
+	__alloc_stmt_query;
+	strlcpy(query, "DELETE FROM ", size);
+	__check_and_cat(m_name);
+	__check_and_cat(" WHERE 1");
+	__where_va_columns;
+	strlcat(query, ";", size);
+	IF_DEBUG("[TABLE] delete query: %s \n", query);	
+	__prepare_stmt;
+	
+	return stmt;
 }
 

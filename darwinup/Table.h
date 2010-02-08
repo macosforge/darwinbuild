@@ -54,14 +54,15 @@ struct Table {
 	char*    drop();    
 	char*    select(const char* where);
 	char*    select_column(const char* column, const char* where);		
-	char*    del(const char* where, uint32_t &count);
+
 
 	sqlite3_stmt*    count(sqlite3* db);
 	sqlite3_stmt*    count(sqlite3* db, uint32_t count, va_list args);
 	sqlite3_stmt*    get_value(sqlite3* db, Column* value_column, uint32_t count, va_list args);
 	sqlite3_stmt*    insert(sqlite3* db);
 	sqlite3_stmt*    update(sqlite3* db);
-	
+	sqlite3_stmt*    del(sqlite3* db);
+	sqlite3_stmt*    del(sqlite3* db, uint32_t count, va_list args);
 	
 protected:
 		
@@ -70,6 +71,7 @@ protected:
 	char*          m_create_sql;
 	char*          m_insert_sql;
 	char*          m_update_sql;
+	char*          m_delete_sql;
 	
 	Column**       m_columns;
 	uint32_t       m_column_count;
@@ -77,6 +79,8 @@ protected:
 	
 	sqlite3_stmt*  m_prepared_insert;
 	sqlite3_stmt*  m_prepared_update;
+	sqlite3_stmt*  m_prepared_delete;
+	
 };
 
 #endif

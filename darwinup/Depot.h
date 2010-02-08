@@ -111,6 +111,9 @@ struct Depot {
 	int is_locked();
 
 	int has_file(Archive* archive, File* file);
+
+	// XXX: remove me
+	DarwinupDatabase* get_db2();
 	
 	protected:
 

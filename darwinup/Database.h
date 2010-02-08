@@ -48,6 +48,7 @@
 #include "Archive.h"
 
 // libcache callbacks
+bool cache_key_is_equal(void* key1, void* key2, void* user);
 void cache_key_retain(void* key_in, void** key_out, void* user_data);
 void cache_key_release(void* key, void* user_data);
 void cache_value_retain(void* value, void* user_data);
@@ -84,7 +85,6 @@ struct Database {
 	const char* get_column(Table* table, Column* column, const char* where);
 	const char* get_all(Table* table, const char* where);
 		
-	bool del(Table* table, const char* where, uint32_t &count);
 	
 	
 	/**
@@ -104,6 +104,9 @@ struct Database {
 	bool update(Table* table, uint64_t pkvalue, ...);
 	bool insert(Table* table, ...);
 
+	bool del(Table* table, uint64_t serial);
+	bool del(const char* name, Table* table, uint32_t count, ...);
+	
 	bool add_table(Table*);
 	uint64_t last_insert_id();
 	
