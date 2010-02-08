@@ -39,6 +39,16 @@ void dbtrace(void* context, const char* sql) {
 	IF_DEBUG("[TRACE] %s \n", sql);
 }
 
+// XXX
+void __blob_hex(uint8_t* data, uint32_t size) {
+	if (!size) return;
+	for (uint32_t i=0; i < size; i++) {
+		fprintf(stderr, "%02x", data[i]);
+	}
+	fprintf(stderr, "\n");
+}
+
+
 Database::Database() {
 	// XXX: make the initial allocation for 2 to tailor to darwinup usage
 	m_table_max = 1;
@@ -174,15 +184,18 @@ bool Database::add_table(Table* t) {
 }
 
 
+/**
+ * attempt to get a row count of the first table to detect if the schema
+ * needs to be initialized
+ */
 bool Database::empty() {
 	if (!m_tables[0]) {
 		fprintf(stderr, "Error: Database has not had a schema initialized.\n");
 		return false;
 	}
-	sqlite3_stmt* stmt = m_tables[0]->count(m_db);
-	int res = sqlite3_step(stmt);
-	sqlite3_finalize(stmt);
-	return res!=SQLITE_ROW;
+	int res = this->sql("SELECT count(*) FROM %s;", m_tables[0]->name());
+	fprintf(stderr, "Debug: empty() res = %d \n", res);
+	return res != 0;
 }
 
 bool Database::create_tables() {
@@ -219,34 +232,52 @@ int Database::sql(const char* fmt, ...) {
 	__SQL(NULL, NULL, fmt);
 	if (error) {
 		strlcpy(m_error, error, m_error_size);
+		fprintf(stderr, "Error: sql(): %s \n", m_error);
+		fprintf(stderr, "Error: fmt: %s \n", fmt);
 		sqlite3_free(error);
 	}
-	IF_DEBUG("[DATABASE] __SQL set res = %d \n", res);
+	return res;
+}
+
+int Database::execute(sqlite3_stmt* stmt) {
+	int res = sqlite3_step(stmt);
+	if (res == SQLITE_DONE) {
+		res = SQLITE_OK;
+	} else {
+		strlcpy(m_error, sqlite3_errmsg(m_db), m_error_size);
+		fprintf(stderr, "Error: execute() error: %s \n", m_error);
+	}
+	sqlite3_reset(stmt);
 	return res;
 }
 
 #undef __SQL
-
 
 #define __bind_all_columns(_lastarg) \
     va_list args; \
     va_start(args, _lastarg); \
 	for (uint32_t i=0; i<table->column_count(); i++) { \
 		Column* col = table->column(i); \
+        fprintf(stderr, "DEBUG: got a column from va_arg: %p \n", col); \
 		if (col->is_pk()) continue; \
 		uint8_t* bdata = NULL; \
 		uint32_t bsize = 0; \
+        uint64_t val = 1234; \
 		switch(col->type()) { \
 			case TYPE_INTEGER: \
-				res = sqlite3_bind_int64(stmt, param++, va_arg(args, uint64_t)); \
+                val = va_arg(args, uint64_t); \
+                fprintf(stderr, "DEBUG: param %d is integer: %llu \n", param, val); \
+				res = sqlite3_bind_int64(stmt, param++, val); \
 				break; \
 			case TYPE_TEXT: \
+                fprintf(stderr, "DEBUG: param %d is text\n", param); \
 				res = sqlite3_bind_text(stmt, param++, va_arg(args, char*), -1, SQLITE_STATIC); \
 				break; \
 			case TYPE_BLOB: \
+                fprintf(stderr, "DEBUG: param %d is blob\n", param); \
 				bdata = va_arg(args, uint8_t*); \
 				bsize = va_arg(args, uint32_t); \
-				res = sqlite3_bind_blob(stmt, param++, \
+                res = sqlite3_bind_blob(stmt, param++, \
 										bdata, \
 										bsize, \
 										SQLITE_STATIC); \
@@ -297,13 +328,6 @@ int Database::sql(const char* fmt, ...) {
     } \
     va_end(args);
 
-int Database::execute(sqlite3_stmt* stmt) {
-	int res = sqlite3_step(stmt);
-	if (res == SQLITE_DONE) res = SQLITE_OK;
-	sqlite3_reset(stmt);
-	return res;
-}
-
 #define __get_stmt(expr) \
 	sqlite3_stmt* stmt; \
 	char* key = strdup(name); \
@@ -325,7 +349,7 @@ int Database::execute(sqlite3_stmt* stmt) {
 #define __step_and_store(_stmt, _type, _output) \
     fprintf(stderr, "DEBUG: _stmt = %p \n", _stmt); \
     fprintf(stderr, "DEBUG: _output = %p \n", _output); \
-    fprintf(stderr, "DEBUG: query = -%s- \n", sqlite3_sql(_stmt)); \
+    fprintf(stderr, "DEBUG: query = %s \n", sqlite3_sql(_stmt)); \
     fprintf(stderr, "DEBUG: col count: %d \n", sqlite3_column_count(_stmt)); \
     res = sqlite3_step(_stmt); \
     if (res == SQLITE_ROW) { \
@@ -402,6 +426,7 @@ bool Database::update(Table* table, uint64_t pkvalue, ...) {
 
 /**
  * Given a table and an arg list in the same order as Table::add_column() calls,
+ * minus any primary key columns, 
  * binds and executes a sql insertion. The Table is responsible for preparing the
  * statement in Table::insert()
  *
@@ -419,10 +444,11 @@ bool Database::insert(Table* table, ...) {
 		fprintf(stderr, "Error: %s table gave a NULL statement when trying to insert.\n", table->name());
 		return false;
 	}
-	
+
 	uint32_t param = 1; // counter to track placeholders in sql statement
 	__bind_all_columns(table);
 	res = this->execute(stmt);
+	
 	return res == SQLITE_OK;
 }
 

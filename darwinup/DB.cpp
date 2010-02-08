@@ -75,10 +75,10 @@ void DarwinupDatabase::init_schema() {
 
 
 uint64_t DarwinupDatabase::insert_archive(uuid_t uuid, uint32_t info, const char* name, time_t date_added) {
-
+	
 	bool res = this->insert(this->m_archives_table,
 							(uint8_t*)uuid,
-							(uint32_t)sizeof(uuid),
+							(uint32_t)sizeof(uuid_t),
 							name,
 							(uint64_t)date_added,
 							(uint64_t)0,

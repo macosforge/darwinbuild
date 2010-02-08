@@ -110,12 +110,13 @@ struct Database {
 	bool add_table(Table*);
 	uint64_t last_insert_id();
 	
-
+	int sql(const char* fmt, ...);
+	
 protected:
 	
 	bool empty();
 	bool create_tables();
-	int sql(const char* fmt, ...);
+
 	
 	int execute(sqlite3_stmt* stmt);
 	

@@ -145,6 +145,7 @@ int main(int argc, char* argv[]) {
 		exit(2);
 	}
 	
+	/*
 	// XXX: test area for new database... remove me
 	DarwinupDatabase* testdb = depot->get_db2();
 
@@ -169,7 +170,7 @@ int main(int argc, char* argv[]) {
 	
 	exit(0);
 	// XXX
-	
+	*/
 	
 	if (argc == 2 && strcmp(argv[0], "install") == 0) {
 		char uuid[37];

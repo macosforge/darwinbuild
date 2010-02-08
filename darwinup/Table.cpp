@@ -53,6 +53,13 @@ Table::Table() {
 	m_columns       = (Column**)malloc(sizeof(Column*) * m_column_max);
 	m_name          = strdup("unnamed_table");
 	m_create_sql    = NULL;
+	m_insert_sql    = NULL;
+	m_update_sql    = NULL;
+	m_delete_sql    = NULL;
+	m_prepared_insert = NULL;
+	m_prepared_update = NULL;
+	m_prepared_delete = NULL;
+
 }
 
 Table::Table(const char* name) {
@@ -61,6 +68,12 @@ Table::Table(const char* name) {
 	m_columns       = (Column**)malloc(sizeof(Column*) * m_column_max);
 	m_name          = strdup(name);
 	m_create_sql    = NULL;
+	m_insert_sql    = NULL;
+	m_update_sql    = NULL;
+	m_delete_sql    = NULL;
+	m_prepared_insert = NULL;
+	m_prepared_update = NULL;
+	m_prepared_delete = NULL;	
 }
 
 Table::~Table() {
@@ -194,7 +207,7 @@ char* Table::create() {
 	int res = sqlite3_prepare_v2(db, query, size, &stmt, NULL); \
 	free(query); \
 	if (res != SQLITE_OK) { \
-		fprintf(stderr, "Error: unable to prepare statement.\n"); \
+		fprintf(stderr, "Error: unable to prepare statement: %s\n", sqlite3_errmsg(db)); \
 		return NULL; \
 	}
 
@@ -242,7 +255,13 @@ sqlite3_stmt* Table::get_value(sqlite3* db, Column* value_column, uint32_t count
  */
 sqlite3_stmt* Table::update(sqlite3* db) {
 	// we only need to prepare once, return if we already have it
-	if (m_prepared_update) return m_prepared_update;
+	if (m_prepared_update) {
+		fprintf(stderr, "[TABLE] %s table found cached update statement at %p \n",
+				m_name, m_prepared_update);
+		return m_prepared_update;
+	}
+	
+	fprintf(stderr, "[TABLE] %s is generating an update statement \n", m_name);
 	
 	uint32_t i = 0;
 	bool comma = false;  // flag we set to start adding commas
@@ -294,7 +313,13 @@ sqlite3_stmt* Table::update(sqlite3* db) {
 
 sqlite3_stmt* Table::insert(sqlite3* db) {
 	// we only need to prepare once, return if we already have it
-	if (m_prepared_insert) return m_prepared_insert;
+	if (m_prepared_insert) {
+		fprintf(stderr, "[TABLE] %s table found cached insert statement at %p \n",
+				m_name, m_prepared_insert);
+		return m_prepared_insert;
+	}
+	
+	fprintf(stderr, "[TABLE] %s is generating an insert statement \n", m_name);
 	
 	uint32_t i = 0;
 	bool comma = false;  // flag we set to start adding commas

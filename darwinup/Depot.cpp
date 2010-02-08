@@ -118,20 +118,11 @@ int Depot::initialize() {
 	res = this->lock(LOCK_SH);
 	if (res) return res;
 	m_is_locked = 1;
-	
-	int exists = is_regular_file(m_database_path);
-	
+		
 	res = sqlite3_open(m_database_path, &m_db);
 	if (res) {
 		sqlite3_close(m_db);
 		m_db = NULL;
-	}
-	
-	if (m_db && !exists) {
-		this->SQL("CREATE TABLE archives (serial INTEGER PRIMARY KEY AUTOINCREMENT, uuid BLOB UNIQUE, name TEXT, date_added INTEGER, active INTEGER, info INTEGER)");
-		this->SQL("CREATE TABLE files (serial INTEGER PRIMARY KEY AUTOINCREMENT, archive INTEGER, info INTEGER, mode INTEGER, uid INTEGER, gid INTEGER, size INTEGER, digest BLOB, path TEXT)");
-		this->SQL("CREATE INDEX archives_uuid ON archives (uuid)");
-		this->SQL("CREATE INDEX files_path ON files (path)");
 	}
 	
 	m_db2 = new DarwinupDatabase(m_database_path);
@@ -771,8 +762,8 @@ int Depot::install(Archive* archive) {
 
 	// Installation is complete.  Activate the archive in the database.
 	if (res == 0) res = this->begin_transaction();
-	if (res == 0) res = SQL("UPDATE archives SET active=1 WHERE serial=%lld;", rollback->serial());
-	if (res == 0) res = SQL("UPDATE archives SET active=1 WHERE serial=%lld;", archive->serial());
+	if (res == 0) res = this->m_db2->sql("UPDATE archives SET active=1 WHERE serial=%lld;", rollback->serial());
+	if (res == 0) res = this->m_db2->sql("UPDATE archives SET active=1 WHERE serial=%lld;", archive->serial());
 	if (res == 0) res = this->commit_transaction();
 
 	// Remove the stage and rollback directories (save disk space)
@@ -925,7 +916,7 @@ int Depot::uninstall(Archive* archive) {
 
 	// We do this here to get an exclusive lock on the database.
 	if (res == 0) res = this->begin_transaction();
-	if (res == 0) res = SQL("UPDATE archives SET active=0 WHERE serial=%lld;", serial);
+	if (res == 0) res = m_db2->sql("UPDATE archives SET active=0 WHERE serial=%lld;", serial);
 	if (res == 0) res = this->commit_transaction();
 
 	InstallContext context(this, archive);
@@ -936,7 +927,7 @@ int Depot::uninstall(Archive* archive) {
 	for (i = 0; i < context.files_to_remove->count; ++i) {
 		uint64_t serial = context.files_to_remove->values[i];
 		IF_DEBUG("deleting file %lld\n", serial);
-		if (res == 0) res = m_db2->delete_file(serial);
+		if (res == 0) res = m_db2->delete_file(serial) != true;
 	}
 	if (res == 0) res = this->commit_transaction();
 
@@ -1182,15 +1173,15 @@ int Depot::check_consistency() {
 
 
 int Depot::begin_transaction() {
-	return this->SQL("BEGIN TRANSACTION");
+	return this->m_db2->sql("BEGIN TRANSACTION");
 }
 
 int Depot::rollback_transaction() {
-	return this->SQL("ROLLBACK TRANSACTION");
+	return this->m_db2->sql("ROLLBACK TRANSACTION");
 }
 
 int Depot::commit_transaction() {
-	return this->SQL("COMMIT TRANSACTION");
+	return this->m_db2->sql("COMMIT TRANSACTION");
 }
 
 int Depot::is_locked() { return m_is_locked; }
@@ -1291,7 +1282,7 @@ int Depot::remove(Archive* archive) {
 		fprintf(stderr, "Error: unable to delete archive %llu \n", archive->serial());
 		return false;
 	}
-	return res == true;
+	return res != true;
 }
 
 int Depot::remove(File* file) {
@@ -1370,6 +1361,8 @@ int Depot::process_archive(const char* command, const char* arg) {
 
 int Depot::SQL(const char* fmt, ...) {
 	int res;
+	fprintf(stderr, "Depot::SQL() called!\n");
+	assert(false);
 	__SQL(NULL, NULL, fmt);
 	return res;
 }
