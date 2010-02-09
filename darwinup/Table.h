@@ -47,7 +47,7 @@ struct Table {
 	const Column** columns();
 	Column*        column(uint32_t index);
 	uint32_t       column_count();
-	bool           add_column(Column*);
+	int            add_column(Column*);
 		
 	// return SQL statements for this table
 	char*    create();  
@@ -58,7 +58,10 @@ struct Table {
 
 	sqlite3_stmt*    count(sqlite3* db);
 	sqlite3_stmt*    count(sqlite3* db, uint32_t count, va_list args);
-	sqlite3_stmt*    get_value(sqlite3* db, Column* value_column, uint32_t count, va_list args);
+	sqlite3_stmt*    get_value(sqlite3* db, Column* value_column, uint32_t count, 
+							   va_list args);
+	sqlite3_stmt*    update_value(sqlite3* db, Column* value_column, uint32_t count,
+								  va_list args);
 	sqlite3_stmt*    insert(sqlite3* db);
 	sqlite3_stmt*    update(sqlite3* db);
 	sqlite3_stmt*    del(sqlite3* db);

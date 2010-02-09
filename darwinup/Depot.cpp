@@ -762,15 +762,21 @@ int Depot::install(Archive* archive) {
 
 	// Installation is complete.  Activate the archive in the database.
 	if (res == 0) res = this->begin_transaction();
-	if (res == 0) res = this->m_db2->sql("UPDATE archives SET active=1 WHERE serial=%lld;", rollback->serial());
-	if (res == 0) res = this->m_db2->sql("UPDATE archives SET active=1 WHERE serial=%lld;", archive->serial());
+	if (res == 0) {
+		res = this->m_db2->activate_archive(rollback->serial());
+		if (res) this->rollback_transaction();
+	}
+	if (res == 0) {
+		res = this->m_db2->activate_archive(archive->serial());
+		if (res) this->rollback_transaction();
+	}
 	if (res == 0) res = this->commit_transaction();
 
 	// Remove the stage and rollback directories (save disk space)
 	remove_directory(archive_path);
 	remove_directory(rollback_path);
-	if (rollback_path) free(rollback_path);
-	if (archive_path) free(archive_path);
+	free(rollback_path);
+	free(archive_path);
 	
 	(void)this->lock(LOCK_SH);
 
@@ -916,7 +922,7 @@ int Depot::uninstall(Archive* archive) {
 
 	// We do this here to get an exclusive lock on the database.
 	if (res == 0) res = this->begin_transaction();
-	if (res == 0) res = m_db2->sql("UPDATE archives SET active=0 WHERE serial=%lld;", serial);
+	if (res == 0) res = m_db2->deactivate_archive(serial);
 	if (res == 0) res = this->commit_transaction();
 
 	InstallContext context(this, archive);
@@ -927,7 +933,7 @@ int Depot::uninstall(Archive* archive) {
 	for (i = 0; i < context.files_to_remove->count; ++i) {
 		uint64_t serial = context.files_to_remove->values[i];
 		IF_DEBUG("deleting file %lld\n", serial);
-		if (res == 0) res = m_db2->delete_file(serial) != true;
+		if (res == 0) res = m_db2->delete_file(serial);
 	}
 	if (res == 0) res = this->commit_transaction();
 
@@ -1173,15 +1179,15 @@ int Depot::check_consistency() {
 
 
 int Depot::begin_transaction() {
-	return this->m_db2->sql("BEGIN TRANSACTION");
+	return this->m_db2->begin_transaction();
 }
 
 int Depot::rollback_transaction() {
-	return this->m_db2->sql("ROLLBACK TRANSACTION");
+	return this->m_db2->rollback_transaction();
 }
 
 int Depot::commit_transaction() {
-	return this->m_db2->sql("COMMIT TRANSACTION");
+	return this->m_db2->commit_transaction();
 }
 
 int Depot::is_locked() { return m_is_locked; }
@@ -1225,7 +1231,7 @@ int Depot::insert(Archive* archive) {
 }
 
 int Depot::insert(Archive* archive, File* file) {
-	bool res = true;
+	int res = 0;
 	int do_update = 0;
 
 	// check for the destination prefix in file's path, remove if found
@@ -1239,19 +1245,26 @@ int Depot::insert(Archive* archive, File* file) {
 
 	if (this->has_file(archive, file)) {
 		do_update = 1;
-		res = m_db2->update_file(archive, relpath, file->info(), file->mode(), file->uid(), file->gid(),
-								 file->digest());		
+		uint64_t serial = this->m_db2->get_file_serial_from_archive(archive, relpath);
+		if (!serial) {
+			fprintf(stderr, "Error: unable to find file from archive %llu at path %s \n", 
+					archive->serial(), relpath);
+			return 1;
+		}
+		res = m_db2->update_file(serial, archive, file->info(), file->mode(), file->uid(), file->gid(),
+								 file->digest(), relpath);		
 	} else {
 		file->m_serial = m_db2->insert_file(file->info(), file->mode(), file->uid(), file->gid(), 
-								 file->digest(), archive, relpath);
+											file->digest(), archive, relpath);
 		if (!file->m_serial) {
 			fprintf(stderr, "%s:%d: Could not add file to database: %s (%d)\n", 
 					__FILE__, __LINE__, sqlite3_errmsg(m_db), res);
+			return 2;
 		}
 	}
 
 	free(path);
-	return res != true;
+	return res;
 }
 
 int Depot::has_file(Archive* archive, File* file) {
@@ -1271,22 +1284,22 @@ int Depot::has_file(Archive* archive, File* file) {
 }
 
 int Depot::remove(Archive* archive) {
-	bool res = true;
+	int res = 0;
 	res = m_db2->delete_files(archive);
-	if (!res) {
+	if (res) {
 		fprintf(stderr, "Error: unable to delete files for archive %llu \n", archive->serial());
-		return false;
+		return res;
 	}
 	res = m_db2->delete_archive(archive);
-	if (!res) {
+	if (res) {
 		fprintf(stderr, "Error: unable to delete archive %llu \n", archive->serial());
-		return false;
+		return res;
 	}
-	return res != true;
+	return res;
 }
 
 int Depot::remove(File* file) {
-	return m_db2->delete_file(file) != true;
+	return m_db2->delete_file(file);
 }
 
 // helper to dispatch the actual command for process_archive()

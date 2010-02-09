@@ -70,22 +70,15 @@ struct Database {
 	static const int TYPE_BLOB    = SQLITE_BLOB;
 	
 	virtual void init_schema();
-	const char* path();
-	const char* error();
-	bool connect();
-	bool connect(const char* path);
+	const char*  path();
+	const char*  error();
+	int          connect();
+	int          connect(const char* path);
 	
 	
-	bool begin_transaction();
-	bool rollback_transaction();
-	bool commit_transaction();
-	
-
-	const char* get_row(Table* table, const char* where);
-	const char* get_column(Table* table, Column* column, const char* where);
-	const char* get_all(Table* table, const char* where);
-		
-	
+	int          begin_transaction();
+	int          rollback_transaction();
+	int          commit_transaction();
 	
 	/**
 	 * SELECT statement caching and execution
@@ -97,25 +90,26 @@ struct Database {
 	 *  everything else are Column*,value pairs for making a WHERE clause
 	 *
 	 */
-	bool count(const char* name, void** output, Table* table, uint32_t count, ...);
-	bool get_value(const char* name, void** output, Table* table, Column* value_column, uint32_t count, ...);
+	int  count(const char* name, void** output, Table* table, uint32_t count, ...);
+	int  get_value(const char* name, void** output, Table* table, Column* value_column, 
+				   uint32_t count, ...);
+	int  update_value(const char* name, Table* table, Column* value_column, void** value, 
+					  uint32_t count, ...);
+	int  update(Table* table, uint64_t pkvalue, ...);
+	int  insert(Table* table, ...);
 
-	
-	bool update(Table* table, uint64_t pkvalue, ...);
-	bool insert(Table* table, ...);
-
-	bool del(Table* table, uint64_t serial);
-	bool del(const char* name, Table* table, uint32_t count, ...);
-	
-	bool add_table(Table*);
+	int  del(Table* table, uint64_t serial);
+	int  del(const char* name, Table* table, uint32_t count, ...);
+		
+	int  add_table(Table*);
 	uint64_t last_insert_id();
 	
 	int sql(const char* fmt, ...);
 	
 protected:
 	
-	bool empty();
-	bool create_tables();
+	bool  is_empty();
+	int   create_tables();
 
 	
 	int execute(sqlite3_stmt* stmt);

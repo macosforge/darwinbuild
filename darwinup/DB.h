@@ -61,21 +61,28 @@ struct DarwinupDatabase : Database {
 	uint64_t count_files(Archive* archive, const char* path);
 	
 	// Archives table modifications
+	int      activate_archive(uint64_t serial);
+	int      deactivate_archive(uint64_t serial);
+	int      update_archive(uint64_t serial, uuid_t uuid, const char* name,
+							time_t date_added, uint32_t active, uint32_t info);
 	uint64_t insert_archive(uuid_t uuid, uint32_t info, const char* name, time_t date);
-	bool     delete_archive(Archive* archive);
-	bool     delete_archive(uint64_t serial);
+	int      delete_archive(Archive* archive);
+	int      delete_archive(uint64_t serial);
 
 	// Files table modifications
-	bool     update_file(Archive* archive, const char* path, uint32_t info, mode_t mode, 
-						 uid_t uid, gid_t gid, Digest* digest);
+	uint64_t get_file_serial_from_archive(Archive* archive, const char* path);
+	int      update_file(uint64_t serial, Archive* archive, uint32_t info, mode_t mode, 
+						 uid_t uid, gid_t gid, Digest* digest, const char* path);
 	uint64_t insert_file(uint32_t info, mode_t mode, uid_t uid, gid_t gid, 
 						 Digest* digest, Archive* archive, const char* path);
-	bool     delete_file(uint64_t serial);
-	bool     delete_file(File* file);
-	bool     delete_files(Archive* archive);
+	int      delete_file(uint64_t serial);
+	int      delete_file(File* file);
+	int      delete_files(Archive* archive);
 	
 
 protected:
+	
+	int      set_archive_active(uint64_t serial, uint64_t* active);
 	
 	Table*        m_archives_table;
 	Table*        m_files_table;

@@ -39,11 +39,11 @@
 // XXX
 void __hex_str(const char* s) {
 	int len = strlen(s);
-	fprintf(stderr, "HEXSTR: %d \n", len);
+	IF_DEBUG("HEXSTR: %d \n", len);
 	for (int i=0; i <= len; i++) {
-		fprintf(stderr, "%02x", (unsigned int)s[i]);
+		IF_DEBUG("%02x", (unsigned int)s[i]);
 	}
-	fprintf(stderr, "\n");
+	IF_DEBUG("\n");
 }
 
 
@@ -105,18 +105,18 @@ const Column** Table::columns() {
 }
 
 
-bool Table::add_column(Column* c) {
+int Table::add_column(Column* c) {
 	if (m_column_count >= m_column_max) {
 		m_columns = (Column**)realloc(m_columns, m_column_max * sizeof(Column*) * 4);
 		if (!m_columns) {
 			fprintf(stderr, "Error: unable to reallocate memory to add a column\n");
-			return false;
+			return 1;
 		}
 		m_column_max *= 4;
 	}
 	m_columns[m_column_count++] = c;
 	
-	return true;
+	return 0;
 }
 
 
@@ -249,6 +249,21 @@ sqlite3_stmt* Table::get_value(sqlite3* db, Column* value_column, uint32_t count
 	return stmt;
 }
 
+sqlite3_stmt* Table::update_value(sqlite3* db, Column* value_column, uint32_t count, va_list args) {
+	__alloc_stmt_query;
+	strlcpy(query, "UPDATE ", size);
+	__check_and_cat(m_name);
+	__check_and_cat(" SET ");
+	__check_and_cat(value_column->name());
+	__check_and_cat("=? WHERE 1");
+	__where_va_columns;
+	strlcat(query, ";", size);
+	IF_DEBUG("[TABLE] update_value query: %s \n", query);
+	__prepare_stmt;
+	
+	return stmt;
+}
+
 /**
  * Prepare and cache the update statement. 
  * Assumes table only has 1 primary key
@@ -256,12 +271,11 @@ sqlite3_stmt* Table::get_value(sqlite3* db, Column* value_column, uint32_t count
 sqlite3_stmt* Table::update(sqlite3* db) {
 	// we only need to prepare once, return if we already have it
 	if (m_prepared_update) {
-		fprintf(stderr, "[TABLE] %s table found cached update statement at %p \n",
-				m_name, m_prepared_update);
+		IF_DEBUG("[TABLE] %s table found cached update statement at %p \n", m_name, m_prepared_update);
 		return m_prepared_update;
 	}
 	
-	fprintf(stderr, "[TABLE] %s is generating an update statement \n", m_name);
+	IF_DEBUG("[TABLE] %s is generating an update statement \n", m_name);
 	
 	uint32_t i = 0;
 	bool comma = false;  // flag we set to start adding commas
@@ -314,12 +328,12 @@ sqlite3_stmt* Table::update(sqlite3* db) {
 sqlite3_stmt* Table::insert(sqlite3* db) {
 	// we only need to prepare once, return if we already have it
 	if (m_prepared_insert) {
-		fprintf(stderr, "[TABLE] %s table found cached insert statement at %p \n",
-				m_name, m_prepared_insert);
+		IF_DEBUG("[TABLE] %s table found cached insert statement at %p \n",
+				 m_name, m_prepared_insert);
 		return m_prepared_insert;
 	}
 	
-	fprintf(stderr, "[TABLE] %s is generating an insert statement \n", m_name);
+	IF_DEBUG("[TABLE] %s is generating an insert statement \n", m_name);
 	
 	uint32_t i = 0;
 	bool comma = false;  // flag we set to start adding commas
