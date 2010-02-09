@@ -188,7 +188,7 @@ int Database::create_tables() {
 	int res = SQLITE_OK;
 	for (uint32_t i=0; i<m_table_count; i++) {
 		IF_DEBUG("[DATABASE] creating table #%u \n", i);
-		res = this->sql(m_tables[i]->create());
+		res = this->sql_once(m_tables[i]->create());
 		if (res!=SQLITE_OK) {
 			fprintf(stderr, "Error: sql error trying to create table: %s: %s\n", 
 					m_tables[i]->name(), m_error);
@@ -215,25 +215,21 @@ bool Database::is_empty() {
 	return res != SQLITE_OK;
 }
 
-
-#define __SQL(callback, context, fmt) \
-    va_list args; \
-    va_start(args, fmt); \
-    char* error; \
-    if (this->m_db) { \
-        char *query = sqlite3_vmprintf(fmt, args); \
-        IF_DEBUG("[DATABASE] SQL: %s \n", query); \
-        res = sqlite3_exec(this->m_db, query, callback, context, &error); \
-        sqlite3_free(query); \
-    } else { \
-        fprintf(stderr, "Error: database not open.\n"); \
-        res = SQLITE_ERROR; \
-    } \
-    va_end(args);
-
-int Database::sql(const char* fmt, ...) {
+int Database::sql_once(const char* fmt, ...) {
 	int res = 0;
-	__SQL(NULL, NULL, fmt);
+    va_list args;
+    va_start(args, fmt);
+    char* error;
+    if (this->m_db) {
+        char *query = sqlite3_vmprintf(fmt, args);
+        IF_DEBUG("[DATABASE] SQL(): %s \n", query);
+        res = sqlite3_exec(this->m_db, query, NULL, NULL, &error);
+        sqlite3_free(query);
+    } else {
+        fprintf(stderr, "Error: database not open.\n");
+        res = SQLITE_ERROR;
+    }
+    va_end(args);
 	if (error) {
 		strlcpy(m_error, error, m_error_size);
 		fprintf(stderr, "Error: sql(): %s \n", m_error);
@@ -255,7 +251,6 @@ int Database::execute(sqlite3_stmt* stmt) {
 	return res;
 }
 
-#undef __SQL
 
 #define __bind_all_columns(_lastarg) \
     va_list args; \
@@ -357,6 +352,28 @@ int Database::execute(sqlite3_stmt* stmt) {
     } \
     sqlite3_reset(_stmt); \
     cache_release_value(m_statement_cache, &_stmt);
+
+int Database::sql(const char* name, const char* fmt, ...) {
+	sqlite3_stmt* stmt;
+	char* key = strdup(name);
+	cache_get_and_retain(m_statement_cache, key, (void**)&stmt);
+	if (!stmt) {
+		va_list args;
+		va_start(args, fmt);
+		char* query = sqlite3_vmprintf(fmt, args);
+		int res = sqlite3_prepare_v2(m_db, query, strlen(query), &stmt, NULL);
+		va_end(args);
+		if (res != SQLITE_OK) {
+			fprintf(stderr, "Error: unable to prepare statement for query: %s\nError: %s\n",
+					query, sqlite3_errmsg(m_db));
+			free(key);
+			return res;
+		}
+		cache_set_and_retain(m_statement_cache, key, stmt, sizeof(stmt)); \
+		free(key);
+	}
+	return this->execute(stmt);
+}
 
 int Database::count(const char* name, void** output, Table* table, uint32_t count, ...) {
 	__get_stmt(table->count(m_db, count, args));
@@ -498,14 +515,14 @@ uint64_t Database::last_insert_id() {
 
 
 int Database::begin_transaction() {
-	return this->sql("BEGIN TRANSACTION");
+	return this->sql_once("BEGIN TRANSACTION");
 }
 
 int Database::rollback_transaction() {
-	return this->sql("ROLLBACK TRANSACTION");
+	return this->sql_once("ROLLBACK TRANSACTION");
 }
 
 int Database::commit_transaction() {
-	return this->sql("COMMIT TRANSACTION");
+	return this->sql_once("COMMIT TRANSACTION");
 }
 

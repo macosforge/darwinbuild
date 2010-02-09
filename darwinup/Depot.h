@@ -152,9 +152,6 @@ struct Depot {
 
 	int		check_consistency();
 
-
-	virtual int	SQL(const char* fmt, ...);
-
 	sqlite3*	      m_db;
 	DarwinupDatabase* m_db2;
 	

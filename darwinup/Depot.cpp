@@ -807,21 +807,7 @@ int Depot::prune_directories() {
 
 int Depot::prune_archives() {
 	int res = 0;
-	static sqlite3_stmt* stmt = NULL;
-	if (stmt == NULL && m_db) {
-		const char* query = "DELETE FROM archives WHERE serial IN (SELECT serial FROM archives WHERE serial NOT IN (SELECT DISTINCT archive FROM files));";
-		res = sqlite3_prepare(m_db, query, -1, &stmt, NULL);
-		if (res != 0) fprintf(stderr, "%s:%d: sqlite3_prepare: %s: %s (%d)\n", __FILE__, __LINE__, query, sqlite3_errmsg(m_db), res);
-	}
-	if (stmt && res == 0) {
-		if (res == 0) res = sqlite3_step(stmt);
-		if (res == SQLITE_DONE) {
-			res = 0;
-		} else {
-			fprintf(stderr, "%s:%d: Could not prune archives in database: %s (%d)\n", __FILE__, __LINE__, sqlite3_errmsg(m_db), res);
-		}
-		sqlite3_reset(stmt);
-	}
+	res = this->m_db2->delete_empty_archives();
 	return res;
 }
 
@@ -1353,31 +1339,3 @@ int Depot::process_archive(const char* command, const char* arg) {
 	free(list);
 	return res;
 }
-
-
-#define __SQL(callback, context, fmt) \
-	va_list args; \
-	char* errmsg; \
-	va_start(args, fmt); \
-	if (this->m_db) { \
-		char *query = sqlite3_vmprintf(fmt, args); \
-		res = sqlite3_exec(this->m_db, query, callback, context, &errmsg); \
-		if (res != SQLITE_OK) { \
-			fprintf(stderr, "Error: %s (%d)\n  SQL: %s\n", errmsg, res, query); \
-		} \
-		sqlite3_free(query); \
-	} else { \
-		fprintf(stderr, "Error: database not open.\n"); \
-		res = SQLITE_ERROR; \
-	} \
-	va_end(args);
-
-int Depot::SQL(const char* fmt, ...) {
-	int res;
-	fprintf(stderr, "Depot::SQL() called!\n");
-	assert(false);
-	__SQL(NULL, NULL, fmt);
-	return res;
-}
-
-#undef __SQL

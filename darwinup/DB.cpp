@@ -208,6 +208,15 @@ int DarwinupDatabase::delete_archive(uint64_t serial) {
 	return this->del(this->m_archives_table, serial) ;
 }
 
+int DarwinupDatabase::delete_empty_archives() {
+	return this->sql("delete_empty_archives", 
+					 "DELETE FROM archives "
+					 "WHERE serial IN "
+					 " (SELECT serial FROM archives "
+					 "  WHERE serial NOT IN "
+					 "   (SELECT DISTINCT archive FROM files));");	
+}
+
 int DarwinupDatabase::delete_file(File* file) {
 	return this->del(this->m_files_table, file->serial());
 }
