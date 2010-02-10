@@ -79,6 +79,11 @@ Database::~Database() {
 		delete m_tables[i];
 	}
 	this->destroy_cache();
+	
+	sqlite3_finalize(m_begin_transaction);
+	sqlite3_finalize(m_rollback_transaction);
+	sqlite3_finalize(m_commit_transaction);
+
 	free(m_tables);
 	free(m_path);
 	free(m_error);
@@ -144,7 +149,7 @@ const char* Database::error() {
 }
 
 int Database::connect() {
-	int res = 0;
+	int res = SQLITE_OK;
 	this->init_schema();
 	res = sqlite3_open(m_path, &m_db);
 	if (res) {
@@ -156,7 +161,16 @@ int Database::connect() {
 	sqlite3_trace(m_db, dbtrace, NULL);
 	if (this->is_empty()) {
 		assert(this->create_tables() == 0);
-	}	
+	}
+	
+	// prepare transaction statements
+	if (res == SQLITE_OK) res = sqlite3_prepare_v2(m_db, "BEGIN TRANSACTION", 18,
+												   &m_begin_transaction, NULL);
+	if (res == SQLITE_OK) res = sqlite3_prepare_v2(m_db, "ROLLBACK TRANSACTION", 21,
+												   &m_rollback_transaction, NULL);
+	if (res == SQLITE_OK) res = sqlite3_prepare_v2(m_db, "COMMIT TRANSACTION", 19,
+												   &m_commit_transaction, NULL);
+	
 	return res;	
 }
 
@@ -515,14 +529,14 @@ uint64_t Database::last_insert_id() {
 
 
 int Database::begin_transaction() {
-	return this->sql_once("BEGIN TRANSACTION");
+	return this->execute(m_begin_transaction);
 }
 
 int Database::rollback_transaction() {
-	return this->sql_once("ROLLBACK TRANSACTION");
+	return this->execute(m_rollback_transaction);
 }
 
 int Database::commit_transaction() {
-	return this->sql_once("COMMIT TRANSACTION");
+	return this->execute(m_commit_transaction);
 }
 

@@ -128,6 +128,10 @@ protected:
 
 	cache_t*         m_statement_cache;
 	
+	sqlite3_stmt*    m_begin_transaction;
+	sqlite3_stmt*    m_rollback_transaction;
+	sqlite3_stmt*    m_commit_transaction;
+	
 	char*            m_error;
 	size_t           m_error_size;
 
