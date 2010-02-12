@@ -53,7 +53,15 @@ struct Depot {
 	
 	virtual ~Depot();
 
-	int initialize();
+	// establish database connection
+	int connect();
+
+	// create directories we need for storage
+	int create_storage();
+	
+	// use initialize() to connect to database 
+	//  and (optionally) create the storage directories
+	int initialize(bool writable);
 	int is_initialized();
 	
 	const char* prefix();

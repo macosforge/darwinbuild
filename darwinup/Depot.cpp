@@ -88,16 +88,18 @@ const char*	Depot::archives_path()		{ return m_archives_path; }
 const char*	Depot::downloads_path()		{ return m_downloads_path; }
 const char*     Depot::prefix()                 { return m_prefix; }
 
-// Initialize the depot storage on disk
-int Depot::initialize() {
-	int res = 0;
-	
-	// initialization requires all these paths to be set
-	if (!(m_prefix && m_depot_path && m_database_path && m_archives_path && m_downloads_path)) {
-		return -1;
+int Depot::connect() {
+	int res = sqlite3_open(m_database_path, &m_db);
+	if (res) {
+		sqlite3_close(m_db);
+		m_db = NULL;
 	}
-	
-	res = mkdir(m_depot_path, m_depot_mode);
+
+	return res;
+}
+
+int Depot::create_storage() {
+	int res = mkdir(m_depot_path, m_depot_mode);
 	if (res && errno != EEXIST) {
 		perror(m_depot_path);
 		return res;
@@ -113,26 +115,44 @@ int Depot::initialize() {
 		perror(m_downloads_path);
 		return res;
 	}
+	return 0;
+}
 
-	res = this->lock(LOCK_SH);
-	if (res) return res;
-	m_is_locked = 1;
+// Initialize the depot
+int Depot::initialize(bool writable) {
+	int res = 0;
 	
-	int exists = is_regular_file(m_database_path);
-	
-	res = sqlite3_open(m_database_path, &m_db);
-	if (res) {
-		sqlite3_close(m_db);
-		m_db = NULL;
+	// initialization requires all these paths to be set
+	if (!(m_prefix && m_depot_path && m_database_path && m_archives_path && m_downloads_path)) {
+		return -1;
 	}
 	
+	if (writable) {
+		uid_t uid = getuid();
+		if (uid) {
+			fprintf(stderr, "You must be root to perform that operation.\n");
+			exit(3);
+		}			
+		res = this->create_storage();
+		if (res) return res;
+		res = this->lock(LOCK_SH);
+		if (res) return res;
+		m_is_locked = 1;		
+	}
+
+	int exists = is_regular_file(m_database_path);
+	if (!exists && !writable) {
+		// read-only mode requested but we have no database
+		return -2;
+	}
+	res = this->connect();
 	if (m_db && !exists) {
 		this->SQL("CREATE TABLE archives (serial INTEGER PRIMARY KEY AUTOINCREMENT, uuid BLOB UNIQUE, name TEXT, date_added INTEGER, active INTEGER, info INTEGER)");
 		this->SQL("CREATE TABLE files (serial INTEGER PRIMARY KEY AUTOINCREMENT, archive INTEGER, info INTEGER, mode INTEGER, uid INTEGER, gid INTEGER, size INTEGER, digest BLOB, path TEXT)");
 		this->SQL("CREATE INDEX archives_uuid ON archives (uuid)");
 		this->SQL("CREATE INDEX files_path ON files (path)");
 	}
-	
+
 	return res;
 }
 
