@@ -119,7 +119,8 @@ int main(int argc, char* argv[]) {
 	}
 	argc -= optind;
 	argv += optind;
-
+	if (argc == 0) usage(progname);
+	
 	int res = 0;
 
 	if (!path) {
@@ -128,44 +129,54 @@ int main(int argc, char* argv[]) {
 		
 	Depot* depot = new Depot(path);
 		
-	if (argc == 2 && strcmp(argv[0], "install") == 0) {
-		if (depot->initialize(true)) exit(13);
-		res = depot->install(argv[1]);
-	} else if (argc == 2 && strcmp(argv[0], "upgrade") == 0) {
-		if (depot->initialize(true)) exit(14);
-		// find most recent matching archive by name
-		Archive* old = depot->get_archive(basename(argv[1]));
-		if (!old) {
-			fprintf(stderr, "Error: unable to find a matching root to upgrade.\n");
-			res = 5;
+	// commands with no arguments
+	if (argc == 1) {
+		if (strcmp(argv[0], "list") == 0) {
+			res = depot->initialize(false);
+			if (res == -2) {
+				fprintf(stdout, "Nothing has been installed yet.\n");
+				exit(0);
+			}
+			if (res == 0) depot->list();
+		} else if (strcmp(argv[0], "dump") == 0) {
+			if (depot->initialize(false)) exit(11);
+			depot->dump();
+		} else {
+			usage(progname);
 		}
-		// install new archive
-		if (res == 0) res = depot->install(argv[1]);
-		// uninstall old archive
-		if (res == 0) res = depot->uninstall(old);
-	} else if (argc == 1 && strcmp(argv[0], "list") == 0) {
-		res = depot->initialize(false);
-		if (res == -2) {
-			fprintf(stdout, "Nothing has been installed yet.\n");
-			exit(0);
-		}
-		if (res == 0) depot->list();
-	} else if (argc == 1 && strcmp(argv[0], "dump") == 0) {
-		if (depot->initialize(false)) exit(11);
-		depot->dump();
-	} else if (argc == 2 && strcmp(argv[0], "files") == 0) {
-		if (depot->initialize(false)) exit(12);
-		res = depot->process_archive(argv[0], argv[1]);
-	} else if (argc == 2 && strcmp(argv[0], "uninstall") == 0) {
-		if (depot->initialize(true)) exit(15);
-		res = depot->process_archive(argv[0], argv[1]);
-	} else if (argc == 2 && strcmp(argv[0], "verify") == 0) {
-		if (depot->initialize(true)) exit(16);
-		res = depot->process_archive(argv[0], argv[1]);
-	} else {
-		usage(progname);
 	}
-
+	
+	// loop over arguments
+	for (int i = 1; i < argc; i++) {
+		if (strcmp(argv[0], "install") == 0) {
+			if (i==1 && depot->initialize(true)) exit(13);
+			res = depot->install(argv[i]);
+		} else if (strcmp(argv[0], "upgrade") == 0) {
+			if (i==1 && depot->initialize(true)) exit(14);
+			// find most recent matching archive by name
+			Archive* old = depot->get_archive(basename(argv[i]));
+			if (!old) {
+				fprintf(stderr, "Error: unable to find a matching root to upgrade.\n");
+				res = 5;
+			}
+			// install new archive
+			if (res == 0) res = depot->install(argv[i]);
+			// uninstall old archive
+			if (res == 0) res = depot->uninstall(old);
+		} else if (strcmp(argv[0], "files") == 0) {
+			if (i==1 && depot->initialize(false)) exit(12);
+			res = depot->process_archive(argv[0], argv[i]);
+		} else if (strcmp(argv[0], "uninstall") == 0) {
+			if (i==1 && depot->initialize(true)) exit(15);
+			res = depot->process_archive(argv[0], argv[i]);
+		} else if (strcmp(argv[0], "verify") == 0) {
+			if (i==1 && depot->initialize(true)) exit(16);
+			res = depot->process_archive(argv[0], argv[i]);
+		} else {
+			usage(progname);
+		}
+	}
+	
 	free(path);
 	exit(res);
 	return res;

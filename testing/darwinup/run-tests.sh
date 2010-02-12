@@ -47,6 +47,18 @@ do
 	$DIFF $ORIG $DEST 2>&1
 done
 
+echo "========== TEST: Multiple argument test ==========";
+darwinup -vv -p $DEST install $PREFIX/root{,2,3}
+LINES=$(darwinup -p $DEST list | wc -l)
+if [ $LINES -lt 5 ]; then
+	echo "Failed multiple argument test."
+	exit 1;
+fi
+darwinup -vv -p $DEST uninstall all
+echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+$DIFF $ORIG $DEST 2>&1
+
+
 echo "========== TEST: Trying all roots at once, uninstall in reverse ==========";
 for R in $ROOTS;
 do
