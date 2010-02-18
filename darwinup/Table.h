@@ -38,6 +38,7 @@
 #include <sqlite3.h>
 #include "Column.h"
 
+
 struct Table {	
 	Table();
 	Table(const char* name);
@@ -47,19 +48,22 @@ struct Table {
 	const Column** columns();
 	Column*        column(uint32_t index);
 	uint32_t       column_count();
+
+	uint8_t*       alloc_result();
+	int            free_result(uint8_t* result);
+
 	int            add_column(Column*);
-		
+	uint32_t       row_size();	
+	
 	// return SQL statements for this table
 	char*    create();  
-	char*    drop();    
-	char*    select(const char* where);
-	char*    select_column(const char* column, const char* where);		
-
+	char*    drop();   // XXX: implement this 
 
 	sqlite3_stmt*    count(sqlite3* db);
 	sqlite3_stmt*    count(sqlite3* db, uint32_t count, va_list args);
-	sqlite3_stmt*    get_value(sqlite3* db, Column* value_column, uint32_t count, 
-							   va_list args);
+	sqlite3_stmt*    get_column(sqlite3* db, Column* value_column, uint32_t count, 
+								va_list args);
+	sqlite3_stmt*    get_row(sqlite3* db, uint32_t count, va_list args);
 	sqlite3_stmt*    update_value(sqlite3* db, Column* value_column, uint32_t count,
 								  va_list args);
 	sqlite3_stmt*    insert(sqlite3* db);
@@ -69,6 +73,8 @@ struct Table {
 	
 protected:
 		
+	int            free_row(uint8_t* row);
+	
 	char*          m_name;
 	
 	char*          m_create_sql;
@@ -84,6 +90,10 @@ protected:
 	sqlite3_stmt*  m_prepared_update;
 	sqlite3_stmt*  m_prepared_delete;
 	
+	uint8_t**      m_results;
+	uint32_t       m_result_count;
+	uint32_t       m_result_max;
+
 };
 
 #endif

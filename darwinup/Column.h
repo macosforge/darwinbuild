@@ -40,12 +40,14 @@
 struct Column {
 	Column();
 	Column(const char* name, uint32_t type);
-	Column(const char* name, uint32_t type, bool is_index, bool is_pk, bool is_unique);
+	Column(const char* name, uint32_t type,
+		   bool is_index, bool is_pk, bool is_unique);
 	virtual ~Column();
 	
 	const char*    name();
-	const int      type();
+	uint32_t       type();
 	const char*    typestr();
+	uint32_t       size();
 	const char*    create();
 	const char*    index();
 	
@@ -60,7 +62,6 @@ protected:
 	bool           m_is_index;
 	bool           m_is_pk;
 	bool           m_is_unique;
-	
 };
 
 #endif

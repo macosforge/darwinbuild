@@ -32,6 +32,13 @@
 
 #include "Database.h"
 
+// initial number of rows we allocate for when querying
+#define INITIAL_ROWS   8
+
+// how much we grow by when we need more space
+#define REALLOC_FACTOR 4
+#define ERROR_BUF_SIZE 1024
+
 /**
  * sqlite3_trace callback for debugging
  */
@@ -56,7 +63,7 @@ Database::Database() {
 	this->init_cache();
 	m_db = NULL;	
 	m_path = NULL;
-	m_error_size = 1024;
+	m_error_size = ERROR_BUF_SIZE;
 	m_error = (char*)malloc(m_error_size);
 }
 
@@ -70,7 +77,7 @@ Database::Database(const char* path) {
 	if (!m_path) {
 		fprintf(stderr, "Error: ran out of memory when constructing database object.\n");
 	}
-	m_error_size = 1024;
+	m_error_size = ERROR_BUF_SIZE;
 	m_error = (char*)malloc(m_error_size);
 }
 
@@ -186,12 +193,12 @@ int Database::connect(const char* path) {
 
 int Database::add_table(Table* t) {
 	if (m_table_count >= m_table_max) {
-		m_tables = (Table**)realloc(m_tables, m_table_max * sizeof(Table*) * 4);
+		m_tables = (Table**)realloc(m_tables, m_table_max * sizeof(Table*) * REALLOC_FACTOR);
 		if (!m_tables) {
 			fprintf(stderr, "Error: unable to reallocate memory to add a table\n");
 			return 1;
 		}
-		m_table_max *= 4;
+		m_table_max *= REALLOC_FACTOR;
 	}
 	m_tables[m_table_count++] = t;
 	
@@ -274,11 +281,9 @@ int Database::execute(sqlite3_stmt* stmt) {
 		if (col->is_pk()) continue; \
 		uint8_t* bdata = NULL; \
 		uint32_t bsize = 0; \
-        uint64_t val = 1234; \
 		switch(col->type()) { \
 			case TYPE_INTEGER: \
-                val = va_arg(args, uint64_t); \
-				res = sqlite3_bind_int64(stmt, param++, val); \
+				res = sqlite3_bind_int64(stmt, param++, va_arg(args, uint64_t)); \
 				break; \
 			case TYPE_TEXT: \
 				res = sqlite3_bind_text(stmt, param++, va_arg(args, char*), -1, SQLITE_STATIC); \
@@ -304,16 +309,21 @@ int Database::execute(sqlite3_stmt* stmt) {
 #define __bind_va_columns(_lastarg) \
     va_list args; \
     va_start(args, _lastarg); \
+    fprintf(stderr, "DEBUG: sql: %s \n", sqlite3_sql(stmt)); \
     for (uint32_t i=0; i<count; i++) { \
         Column* col = va_arg(args, Column*); \
         uint8_t* bdata = NULL; \
         uint32_t bsize = 0; \
+        uint64_t val; \
         switch(col->type()) { \
             case TYPE_INTEGER: \
-                res = sqlite3_bind_int64(stmt, param++, va_arg(args, uint64_t)); \
+                val = va_arg(args, uint64_t); \
+                res = sqlite3_bind_int64(stmt, param++, val); \
+                fprintf(stderr, "DEBUG: bind int: %llu \n", val); \
                 break; \
             case TYPE_TEXT: \
                 res = sqlite3_bind_text(stmt, param++, va_arg(args, char*), -1, SQLITE_STATIC); \
+                fprintf(stderr, "DEBUG: bind text \n"); \
                 break; \
             case TYPE_BLOB: \
                 bdata = va_arg(args, uint8_t*); \
@@ -322,12 +332,13 @@ int Database::execute(sqlite3_stmt* stmt) {
                                         bdata, \
 										bsize, \
                                         SQLITE_STATIC); \
+                fprintf(stderr, "DEBUG: bind blob \n"); \
                 break; \
 		} \
         if (res != SQLITE_OK) { \
             fprintf(stderr, "Error: failed to bind parameter #%d with column #%d of type %d " \
-                            "table %s \n", \
-							param, i, col->type(), table->name()); \
+                            "table %s res %d: %s  \n", \
+							param-1, i, col->type(), table->name(), res, sqlite3_errmsg(m_db)); \
             return res; \
         } \
     } \
@@ -346,26 +357,152 @@ int Database::execute(sqlite3_stmt* stmt) {
 	} \
 	free(key);
 
-#define __step_and_store(_stmt, _type, _output) \
-    res = sqlite3_step(_stmt); \
-    if (res == SQLITE_ROW) { \
-	    switch(_type) { \
-		    case TYPE_INTEGER: \
-			    *(uint64_t*)_output = (uint64_t)sqlite3_column_int64(_stmt, 0); \
-			    break; \
-		    case TYPE_TEXT: \
-			    *(const unsigned char**)_output = sqlite3_column_text(_stmt, 0); \
-			    break; \
-    		case TYPE_BLOB: \
-	    		*(const void**)_output = sqlite3_column_blob(_stmt, 0); \
-		    	break; \
-    	} \
-    } else { \
-        fprintf(stderr, "ERROR: __step_and_store(_stmt, _type_output) = %d \n", res); \
-		return res; \
-    } \
-    sqlite3_reset(_stmt); \
-    cache_release_value(m_statement_cache, &_stmt);
+size_t Database::store_column(sqlite3_stmt* stmt, int column, uint8_t* output) {
+	IF_DEBUG("store_column: column = %d  output = %p \n", column, output);
+	size_t used;
+	int type = sqlite3_column_type(stmt, column);
+	const void* blob;
+	int blobsize;
+	IF_DEBUG("column type = %d \n", type);
+	switch(type) {
+		case SQLITE_INTEGER:
+			*(uint64_t*)output = (uint64_t)sqlite3_column_int64(stmt, column);
+			used = sizeof(uint64_t);
+			IF_DEBUG("store_column used=%u output(%p) = %llu \n", 
+					 (uint32_t)used, output, *(uint64_t*)output);
+			break;
+		case SQLITE_TEXT:
+			*(const char**)output = strdup((const char*)sqlite3_column_text(stmt, column));
+			IF_DEBUG("store text: %p %s \n", (char*)output, (char*)output);
+			used = sizeof(char*);
+			IF_DEBUG("store_column used=%u output(%p) = %s \n", 
+					 (uint32_t)used, output, *(char**)output);
+			break;
+		case SQLITE_BLOB:
+			blob = sqlite3_column_blob(stmt, column);
+			blobsize = sqlite3_column_bytes(stmt, column);
+			IF_DEBUG("blob(%p) size=%d \n", blob, blobsize);
+			*(void**)output = malloc(blobsize);
+			if (*output && blobsize) memcpy(*(void**)output, blob, blobsize);
+			used = sizeof(void*);
+			IF_DEBUG("store_column used=%u output(%p) = %s \n", 
+					 (uint32_t)used, output, *(char**)output);
+			break;
+		default:
+			fprintf(stderr, "Error: unhandled column type in Database::store_column(): %d \n", 
+					type);
+			return 0;
+	}
+
+	return used;
+}
+
+/**
+ *
+ *
+ *   will not realloc memory for output since caller should know how
+ *   much to alloc in the first place. Sets used to be how many bytes
+ *   were written to output
+ */
+int Database::step_once(sqlite3_stmt* stmt, uint8_t* output, uint32_t* used) {
+	int res = sqlite3_step(stmt);
+	uint8_t* current = output;
+	IF_DEBUG("output = %p current = %p \n", output, current);
+	if (used) *used = 0;
+	if (used) IF_DEBUG("step_once used(%p) = %u \n", used, *used);
+
+	if (res == SQLITE_ROW) {
+		int count = sqlite3_column_count(stmt);
+		for (int i = 0; i < count; i++) {
+			IF_DEBUG("loop current ptr before = %p \n", current);
+			current += this->store_column(stmt, i, current);
+			IF_DEBUG("loop current ptr after = %p \n", current);
+		}
+		if (used) {
+			*used = current - output;
+			IF_DEBUG("step_once after store used(%p) = %u \n", used, *used);
+		}
+		res = SQLITE_OK;
+	}
+
+	return res;
+}
+
+int Database::step_column(sqlite3_stmt* stmt, void** output, uint32_t size, uint32_t* count) {
+	uint32_t used = 0;
+	uint32_t total_used = used;
+	uint32_t rowsize = size / INITIAL_ROWS;
+	uint8_t* current = *(uint8_t**)output;
+	*count = 0;
+	IF_DEBUG("rowsize = %u \n", rowsize);
+	int res = SQLITE_OK;
+	while (res == SQLITE_OK) {
+		current = *(uint8_t**)output + total_used;
+		IF_DEBUG("calling step_once with current(%p) \n", current);
+		res = this->step_once(stmt, current, &used);
+		if (res == SQLITE_OK) (*count)++;
+		total_used += used;
+		IF_DEBUG("stepped: used = %u total_used = %u size = %u \n", used, total_used, size);
+		if (total_used >= (size - rowsize)) {
+			size *= REALLOC_FACTOR;
+			*output = realloc(*output, size);
+			IF_DEBUG("reallocating: output = %p  size = %u \n", *output, size);
+			if (!*output) {
+				fprintf(stderr, "Error: ran out of memory in Database::step_once \n");
+				return SQLITE_ERROR;
+			}
+		}		
+	}
+    sqlite3_reset(stmt);
+	return res;
+}
+
+int Database::get_value(const char* name, void** output, Table* table, Column* value_column, 
+						uint32_t count, ...) {
+	__get_stmt(table->get_column(m_db, value_column, count, args));
+	int res = SQLITE_OK;
+	uint32_t param = 1;
+	__bind_va_columns(count);
+	uint32_t size = value_column->size();
+	*output = malloc(size);
+	res = this->step_once(stmt, (uint8_t*)*output, NULL);
+	IF_DEBUG("get_value output(%p) = %llu \n", *output, **(uint64_t**)output);
+	sqlite3_reset(stmt);
+	cache_release_value(m_statement_cache, &stmt);
+	return res;
+}
+
+int Database::get_column(const char* name, void** output, uint32_t* result_count, 
+						 Table* table, Column* column, uint32_t count, ...) {
+	__get_stmt(table->get_column(m_db, column, count, args));
+	IF_DEBUG("stmt = %s \n", sqlite3_sql(stmt));
+	int res = SQLITE_OK;
+	uint32_t param = 1;
+	__bind_va_columns(count);
+	uint32_t size = INITIAL_ROWS * column->size();
+	*output = malloc(size);
+	IF_DEBUG("get_column output = %p  size = %u \n", *output, size);
+	res = this->step_column(stmt, output, size, result_count);
+	IF_DEBUG("get_colu output(%p) = %llu \n", *output, **(uint64_t**)output);
+	sqlite3_reset(stmt);
+	cache_release_value(m_statement_cache, &stmt);
+	return res;
+}
+
+int Database::get_row(const char* name, uint8_t** output, Table* table, uint32_t count, ...) {
+	__get_stmt(table->get_row(m_db, count, args));
+	IF_DEBUG("stmt = %s \n", sqlite3_sql(stmt));
+	int res = SQLITE_OK;
+	uint32_t param = 1;
+	__bind_va_columns(count);
+	*output = table->alloc_result();
+	IF_DEBUG("Table::alloc_result = %p \n", *output);
+	res = this->step_once(stmt, *output, NULL);
+	IF_DEBUG("get_row output(%p) = %llu \n", *output, **(uint64_t**)output);
+	sqlite3_reset(stmt);
+	cache_release_value(m_statement_cache, &stmt);
+	return output == NULL;
+}
 
 int Database::sql(const char* name, const char* fmt, ...) {
 	sqlite3_stmt* stmt;
@@ -394,17 +531,10 @@ int Database::count(const char* name, void** output, Table* table, uint32_t coun
 	int res = SQLITE_OK;
 	uint32_t param = 1;
 	__bind_va_columns(count);
-	__step_and_store(stmt, TYPE_INTEGER, output);
-	return output == NULL;
-}
-
-int Database::get_value(const char* name, void** output, Table* table, Column* value_column, 
-						 uint32_t count, ...) {
-	__get_stmt(table->get_value(m_db, value_column, count, args));
-	int res = SQLITE_OK;
-	uint32_t param = 1;
-	__bind_va_columns(count);
-	__step_and_store(stmt, value_column->type(), output);
+	*output = malloc(sizeof(uint64_t));
+	res = this->step_once(stmt, *(uint8_t**)output, NULL);
+	sqlite3_reset(stmt);
+	cache_release_value(m_statement_cache, &stmt);	
 	return output == NULL;
 }
 
@@ -521,7 +651,6 @@ int Database::del(const char* name, Table* table, uint32_t count, ...) {
 
 #undef __bind_all_columns
 #undef __get_stmt
-#undef __step_and_store
 
 uint64_t Database::last_insert_id() {
 	return (uint64_t)sqlite3_last_insert_rowid(m_db);

@@ -67,7 +67,7 @@ void DarwinupDatabase::init_schema() {
 	assert(m_files_table->add_column(new Column("uid",     TYPE_INTEGER))==0);
 	assert(m_files_table->add_column(new Column("gid",     TYPE_INTEGER))==0);
 	assert(m_files_table->add_column(new Column("size",    TYPE_INTEGER))==0);
-	assert(m_files_table->add_column(new Column("digest",  TYPE_BLOB))==0);
+	assert(m_files_table->add_column(new Column("digest",  TYPE_BLOB))==0); 
 	assert(m_files_table->add_column(new Column("path",    TYPE_TEXT,            true,  false, false))==0);
 	assert(this->add_table(this->m_files_table)==0);	
 }
@@ -87,9 +87,9 @@ int DarwinupDatabase::set_archive_active(uint64_t serial, uint64_t* active) {
 							  this->m_archives_table,
 							  this->m_archives_table->column(4), // active
 							  (void**)active,
-							  1,
+							  1,                                 // number of where conditions
 							  this->m_archives_table->column(0), // serial
-							  serial); // convert from bool to int	
+							  serial);
 }
 
 int DarwinupDatabase::update_archive(uint64_t serial, uuid_t uuid, const char* name,
@@ -122,18 +122,16 @@ uint64_t DarwinupDatabase::insert_archive(uuid_t uuid, uint32_t info, const char
 	return this->last_insert_id();
 }
 
-uint64_t DarwinupDatabase::get_file_serial_from_archive(Archive* archive, const char* path) {
-	uint64_t serial = 0;
-	this->get_value("file_serial__archive_path",
-					(void**)&serial,
-					this->m_files_table,
-					this->m_files_table->column(0), // serial
-					2,                              // number of where conditions
-					this->m_files_table->column(1), // archive
-					(uint64_t)archive->serial(),
-					this->m_files_table->column(8), // path
-					path);
-	return serial;
+int DarwinupDatabase::get_file_serial_from_archive(Archive* archive, const char* path, uint64_t** serial) {
+	return this->get_value("file_serial__archive_path",
+						   (void**)serial,
+						   this->m_files_table,
+						   this->m_files_table->column(0), // serial
+						   2,                              // number of where conditions
+						   this->m_files_table->column(1), // archive
+						   (uint64_t)archive->serial(),
+						   this->m_files_table->column(8), // path
+						   path);
 }
 
 int DarwinupDatabase::update_file(uint64_t serial, Archive* archive, uint32_t info, mode_t mode, 
@@ -186,12 +184,12 @@ uint64_t DarwinupDatabase::insert_file(uint32_t info, mode_t mode, uid_t uid, gi
 uint64_t DarwinupDatabase::count_files(Archive* archive, const char* path) {
 
 	int res = SQLITE_OK;
-	uint64_t* c = (uint64_t*)malloc(sizeof(uint64_t));
+	uint64_t* c;
 	if (!c) fprintf(stderr, "Error: ran out of memory in DarwinupDatabase::count_files().\n");
 	res = this->count("count_files",
-					  (void**)c,
+					  (void**)&c,
 					  this->m_files_table,
-					  2, // number of where conditions
+					  2,                              // number of where conditions
 					  this->m_files_table->column(1), // archive
 					  (uint64_t)archive->serial(),
 					  this->m_files_table->column(8), // path
@@ -228,9 +226,92 @@ int DarwinupDatabase::delete_file(uint64_t serial) {
 int DarwinupDatabase::delete_files(Archive* archive) {
 	return this->del("delete_files__archive",
 					 this->m_files_table,
-					 1,
+					 1,                               // number of where conditions
 					 this->m_files_table->column(1),  // archive
 					 (uint64_t)archive->serial());
 }
+
+
+int DarwinupDatabase::get_inactive_archive_serials(uint64_t** serials, uint32_t* count) {
+	int res = this->get_column("inactive_archive_serials",
+							   (void**)serials, count,
+							   this->m_archives_table,
+							   this->m_archives_table->column(0), // serial
+							   1,
+							   this->m_archives_table->column(4), // active
+							   (uint64_t)0);
+	return res;
+}
+
+int DarwinupDatabase::get_file_serials(uint64_t** serials, uint32_t* count) {
+	return this->get_column("file_serials", (void**)serials, count, 
+							this->m_files_table,
+							this->m_files_table->column(0),
+							0);
+}
+
+
+// serial uuid name date_added active info
+
+/*
+int DarwinupDatabase::process_archive_results() {
+	const unsigned char* name = sqlite3_column_text(stmt, 1);
+	uuid_t uuid;
+	const void* blob = sqlite3_column_blob(stmt, 1);
+	int blobsize = sqlite3_column_bytes(stmt, 1);
+	if (blobsize > 0) {
+		assert(blobsize == sizeof(uuid_t));
+		memcpy(uuid, blob, sizeof(uuid_t));
+	} else {
+		uuid_clear(uuid);
+	}
+	uint64_t serial = sqlite3_column_int64(stmt, 0);
+	uint64_t info = sqlite3_column_int64(stmt, 2);
+	time_t date_added = sqlite3_column_int(stmt, 3);	
+	return 0;
+}
+*/
+
+int DarwinupDatabase::get_archive(uint8_t** data, uuid_t uuid) {
+	return this->get_row("archive__uuid",
+						 data,
+						 this->m_archives_table,
+						 1,
+						 this->m_archives_table->column(1), // uuid
+						 uuid, sizeof(uuid_t));
+}
+
+int DarwinupDatabase::get_archive(uint8_t** data, uint64_t serial) {
+	return this->get_row("archive__serial",
+						 data,
+						 this->m_archives_table,
+						 1,
+						 this->m_archives_table->column(0), // serial
+						 serial);
+}
+
+int DarwinupDatabase::get_archive(uint8_t** data, const char* name) {
+	return this->get_row("archive__name",
+						 data,
+						 this->m_archives_table,
+						 1,
+						 this->m_archives_table->column(2), // name
+						 name);
+}
+
+int DarwinupDatabase::archive_offset(int column) {
+	return column*8;
+}
+
+
+/*
+get_all_archives(include_rollbacks?)
+
+count_archives(include_rollbacks?)
+ 
+get_files(archive)
+
+
+*/
 
 

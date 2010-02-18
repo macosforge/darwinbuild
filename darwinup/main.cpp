@@ -46,6 +46,32 @@
 #include <unistd.h>
 #include <limits.h>
 
+void __data_hex(uint8_t* data, uint32_t size) {
+	if (!size) return;
+	for (uint32_t i=0; i < size; i++) {
+		if (!(i%8)) {
+			if (i<10) fprintf(stderr, " ");
+			fprintf(stderr, "%d", i);
+		} else {
+			fprintf(stderr, "  ");
+		}
+	}
+	fprintf(stderr, "\n");
+	for (uint32_t i=0; i < size; i++) {
+		fprintf(stderr, "%02x", data[i]);
+	}
+	fprintf(stderr, "\n");
+}
+
+void __str_hex(const char* str) {
+	int i = 0;
+	while (str[i]) {
+		fprintf(stderr, "%02x", str[i++]);
+	}
+	fprintf(stderr, "\n");
+}
+
+
 void usage(char* progname) {
 	fprintf(stderr, "usage:    %s [-v] [-p DIR] [command] [args]          \n", progname);
 	fprintf(stderr, "version: 15                                                    \n");
@@ -145,12 +171,72 @@ int main(int argc, char* argv[]) {
 		exit(2);
 	}
 	
-	/*
+	
 	// XXX: test area for new database... remove me
 	DarwinupDatabase* testdb = depot->get_db2();
 
+	uuid_t uuid;
+	uuid_parse("5A41995B-CA3F-4BF3-84AC-2F5A42357769", uuid);
+	uint8_t* data;
+	fprintf(stderr, "main: data %p uuid %14s \n", &data, uuid);
+	testdb->get_archive(&data, uuid);
+	fprintf(stderr, "RESULT: %llu \n", (uint64_t)data[0]);
+	free(data);
+	uuid_clear(uuid);
+
+	testdb->get_archive(&data, 42);
+	fprintf(stderr, "DATA: %p \n", data);
+	__data_hex(data, 48);
+	char* p;
+	memcpy(&p, &data[16], 8);
+	uint64_t ss = 0;
+	memcpy(&ss, &data[0], 8);
+	time_t t = 0;
+	memcpy(&t, &data[24], 8);
+
+	fprintf(stderr, "RESULT: %llu \n", ss);
+	fprintf(stderr, "RESULT: %p -> %s \n", p, p);
+	fprintf(stderr, "RESULT: %llu \n", (uint64_t)t);
+	
+
+	
+	testdb->get_archive(&data, "root2");
+	char ustr[37];
+	uuid_t* up;
+	memcpy(&up, &data[8], sizeof(uuid_t*));
+	uuid_unparse_upper(*up, ustr);
+	fprintf(stderr, "RESULT: %s \n", ustr);
+
+	
+	
+	
+	uint64_t* s;
+	uint64_t a_serial = 3;
+	Archive* a = depot->archive(a_serial);
+	res = testdb->get_file_serial_from_archive(a, "/e/ee/e_data.txt", &s);
+	if (!res) {
+		IF_DEBUG("s = %llu \n", *s);
+	} else {
+		IF_DEBUG("DID NOT FIND SERIAL\n");
+	}
+	
+	uint64_t* serials;
+	uint32_t sc;
+	testdb->get_file_serials(&serials, &sc);
+	IF_DEBUG("serials(%p) = %llu sc = %u \n", serials, serials[0], sc);
+	for (uint32_t i=0; i < sc; i++) {
+		fprintf(stderr, "TEST: %d = %llu \n", i, serials[i]);
+	}
+
+	testdb->get_inactive_archive_serials(&serials, &sc);
+	IF_DEBUG("serials(%p) = %llu sc = %u \n", serials, serials[0], sc);
+	for (uint32_t i=0; i < sc; i++) {
+		fprintf(stderr, "INACTIVE: %d = %llu \n", i, serials[i]);
+	}
+
+	/*
 	Archive* a = new Archive("/.DarwinDepot/Archives/21BDC360-726B-436E-B426-B06B57F8A0CC.tar.bz2");
-	//uint64_t s = testdb->insert_archive(a->uuid(), a->info(), a->name(), a->date_installed());
+	uint64_t s = testdb->insert_archive(a->uuid(), a->info(), a->name(), a->date_installed());
 	
 	const char* mypath = "/etc/services";
 	File* f = FileFactory(mypath);	
@@ -167,10 +253,10 @@ int main(int argc, char* argv[]) {
 	if (depot->has_file(a, f)) {
 		fprintf(stderr, "HASFILE: true\n");
 	}
+	*/
 	
 	exit(0);
 	// XXX
-	*/
 	
 	if (argc == 2 && strcmp(argv[0], "install") == 0) {
 		char uuid[37];

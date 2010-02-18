@@ -75,6 +75,10 @@ Depot::Depot(const char* prefix) {
 }
 
 Depot::~Depot() {
+	
+	// XXX: this is expensive, but is it necessary?
+	//this->check_consistency();
+
 	if (m_lock_fd != -1)	this->unlock();
 	delete m_db2;
 	if (m_db)		sqlite3_close(m_db);
@@ -126,7 +130,7 @@ int Depot::initialize() {
 	}
 	
 	m_db2 = new DarwinupDatabase(m_database_path);
-	
+		
 	return res;
 }
 
@@ -689,11 +693,6 @@ int Depot::install(Archive* archive) {
 	assert(rollback != NULL);
 	assert(archive != NULL);
 
-	// Check the consistency of the database before proceeding with the installation
-	// If this fails, abort the installation.
-	// res = this->check_consistency();
-	// if (res != 0) return res;
-
 	res = this->lock(LOCK_EX);
 	if (res != 0) return res;
 
@@ -895,9 +894,6 @@ int Depot::uninstall(Archive* archive) {
 		fprintf(stderr, "%s:%d: cannot uninstall a rollback archive.\n", __FILE__, __LINE__);
 		return -1;
 	}
-
-//	res = this->check_consistency();
-//	if (res != 0) return res;
 
 	res = this->lock(LOCK_EX);
 	if (res != 0) return res;
@@ -1110,34 +1106,22 @@ int Depot::check_consistency() {
 	SerialSet* inactive = new SerialSet();
 	assert(inactive != NULL);
 	
-	static sqlite3_stmt* stmt = NULL;
-	if (stmt == NULL && m_db) {
-		const char* query = "SELECT serial FROM archives WHERE active=0 ORDER BY serial DESC";
-		res = sqlite3_prepare(m_db, query, -1, &stmt, NULL);
-		if (res != 0) fprintf(stderr, "%s:%d: sqlite3_prepare: %s: %s (%d)\n", __FILE__, __LINE__, query, sqlite3_errmsg(m_db), res);
+	// get inactive archives serials from the database
+	uint64_t* serials;
+	uint32_t  count;
+	this->m_db2->get_inactive_archive_serials(&serials, &count);
+	for (uint32_t i=0; i < count; i++) {
+		inactive->add(serials[i]);
 	}
-	if (stmt && res == 0) {
-		while (res == 0) {
-			res = sqlite3_step(stmt);
-			if (res == SQLITE_ROW) {
-				res = 0;
-				uint64_t serial = sqlite3_column_int64(stmt, 0);
-				inactive->add(serial);
-			} else if (res == SQLITE_DONE) {
-				res = 0;
-				break;
-			} else {
-				fprintf(stderr, "%s:%d: unexpected SQL error: %d\n", __FILE__, __LINE__, res);
-			}
-		}
-		sqlite3_reset(stmt);
-	}
+	free(serials);
 	
+	// print a list of inactive archives
 	if (res == 0 && inactive && inactive->count > 0) {
-		fprintf(stderr, "The following archive%s in an inconsistent state and must be uninstalled before proceeding:\n\n", inactive->count > 1 ? "s are" : " is");
+		fprintf(stderr, "The following archive%s in an inconsistent state and must be uninstalled "
+						"before proceeding:\n\n", inactive->count > 1 ? "s are" : " is");
 		uint32_t i;
-		fprintf(stderr, "%-36s %-23s %s\n", "UUID", "Date Installed", "Name");
-		fprintf(stderr, "====================================  =======================  =================\n");
+		fprintf(stderr, "%-6s %-36s  %-23s  %s\n", "Serial", "UUID", "Date Installed", "Name");
+		fprintf(stderr, "====== ====================================  =======================  =================\n");
 		for (i = 0; i < inactive->count; ++i) {
 			Archive* archive = this->archive(inactive->values[i]);
 			if (archive) {
@@ -1219,7 +1203,8 @@ int Depot::insert(Archive* archive) {
 int Depot::insert(Archive* archive, File* file) {
 	int res = 0;
 	int do_update = 0;
-
+	uint64_t* serial;
+	
 	// check for the destination prefix in file's path, remove if found
 	char *path, *relpath;
 	size_t prefixlen = strlen(this->prefix());
@@ -1231,14 +1216,16 @@ int Depot::insert(Archive* archive, File* file) {
 
 	if (this->has_file(archive, file)) {
 		do_update = 1;
-		uint64_t serial = this->m_db2->get_file_serial_from_archive(archive, relpath);
+		res = this->m_db2->get_file_serial_from_archive(archive, relpath, &serial);
 		if (!serial) {
 			fprintf(stderr, "Error: unable to find file from archive %llu at path %s \n", 
 					archive->serial(), relpath);
 			return 1;
 		}
-		res = m_db2->update_file(serial, archive, file->info(), file->mode(), file->uid(), file->gid(),
-								 file->digest(), relpath);		
+		if (res == SQLITE_OK) {
+			res = m_db2->update_file(*serial, archive, file->info(), file->mode(), file->uid(), file->gid(),
+									 file->digest(), relpath);
+		}
 	} else {
 		file->m_serial = m_db2->insert_file(file->info(), file->mode(), file->uid(), file->gid(), 
 											file->digest(), archive, relpath);

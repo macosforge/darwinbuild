@@ -93,6 +93,9 @@ struct Database {
 	int  count(const char* name, void** output, Table* table, uint32_t count, ...);
 	int  get_value(const char* name, void** output, Table* table, Column* value_column, 
 				   uint32_t count, ...);
+	int  get_column(const char* name, void** output, uint32_t* result_count, 
+					Table* table, Column* column, uint32_t count, ...);
+	int  get_row(const char* name, uint8_t** output, Table* table, uint32_t count, ...);
 	int  update_value(const char* name, Table* table, Column* value_column, void** value, 
 					  uint32_t count, ...);
 	int  update(Table* table, uint64_t pkvalue, ...);
@@ -114,6 +117,10 @@ protected:
 
 	
 	int execute(sqlite3_stmt* stmt);
+	
+	size_t store_column(sqlite3_stmt* stmt, int column, uint8_t* output);
+	int step_once(sqlite3_stmt* stmt, uint8_t* output, uint32_t* used);
+	int step_column(sqlite3_stmt* stmt, void** output, uint32_t size, uint32_t* count);
 	
 	// libcache
 	void init_cache();

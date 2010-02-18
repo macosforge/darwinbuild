@@ -51,6 +51,9 @@ Table::Table() {
 	m_column_max    = 1;
 	m_column_count  = 0;
 	m_columns       = (Column**)malloc(sizeof(Column*) * m_column_max);
+	m_result_max    = 1;
+	m_result_count  = 0;
+	m_results       = (uint8_t**)malloc(sizeof(uint8_t*) * m_result_max);
 	m_name          = strdup("unnamed_table");
 	m_create_sql    = NULL;
 	m_insert_sql    = NULL;
@@ -66,6 +69,9 @@ Table::Table(const char* name) {
 	m_column_max    = 1;
 	m_column_count  = 0;
 	m_columns       = (Column**)malloc(sizeof(Column*) * m_column_max);
+	m_result_max    = 1;
+	m_result_count  = 0;
+	m_results       = (uint8_t**)malloc(sizeof(uint8_t*) * m_result_max);
 	m_name          = strdup(name);
 	m_create_sql    = NULL;
 	m_insert_sql    = NULL;
@@ -80,8 +86,14 @@ Table::~Table() {
 	for (uint32_t i = 0; i < m_column_count; i++) {
 		delete m_columns[i];
 	}
-
 	free(m_columns);
+	
+	for (uint32_t i=0; i < m_result_count; i++) {
+		this->free_row(m_results[i]);
+		free(m_results[i]);
+	}
+	free(m_results);
+	
 	free(m_name);
 
 	free(m_create_sql);
@@ -100,6 +112,10 @@ const char* Table::name() {
 	return m_name;
 }
 
+uint32_t Table::row_size() {
+	return m_column_count*8;
+}
+
 const Column** Table::columns() {
 	return (const Column**)m_columns;
 }
@@ -116,6 +132,54 @@ int Table::add_column(Column* c) {
 	}
 	m_columns[m_column_count++] = c;
 	
+	return 0;
+}
+
+
+uint8_t* Table::alloc_result() {
+	if (m_result_count >= m_result_max) {
+		m_results = (uint8_t**)realloc(m_results, m_result_max * sizeof(uint8_t*) * 4);
+		if (!m_results) {
+			fprintf(stderr, "Error: unable to reallocate memory to add a result row\n");
+			return NULL;
+		}
+		m_result_max *= 4;
+	}
+	m_result_count++;
+	m_results[m_result_count-1] = (uint8_t*)calloc(1, this->row_size());
+	return m_results[m_result_count-1];
+}
+
+int Table::free_row(uint8_t* row) {
+	uint8_t* current = row;
+	for (uint32_t i=0; i < m_column_count; i++) {
+		switch (m_columns[i]->type()) {
+			case SQLITE_INTEGER:
+				current += sizeof(uint64_t);
+				// nothing to free
+				break;
+			default:
+				free(current);
+				current += sizeof(void*);
+		}
+	}
+	return 0;
+}
+
+int Table::free_result(uint8_t* result) {
+	for (uint32_t i=0; i < m_result_count; i++) {
+		// look for matching result
+		if (result == m_results[i]) {
+			this->free_row((uint8_t*)m_results[i]);
+			free(m_results[i]);
+			// if we did not free the last result,
+			// move last result to the empty slot
+			if (i != (m_result_count - 1)) {
+				m_results[i] = m_results[m_column_count-1];
+				m_results[m_column_count-1] = NULL;
+			}
+		}
+	}
 	return 0;
 }
 
@@ -234,7 +298,7 @@ sqlite3_stmt* Table::count(sqlite3* db, uint32_t count, va_list args) {
 	return stmt;	
 }
 
-sqlite3_stmt* Table::get_value(sqlite3* db, Column* value_column, uint32_t count, va_list args) {
+sqlite3_stmt* Table::get_column(sqlite3* db, Column* value_column, uint32_t count, va_list args) {
 	__alloc_stmt_query;
 	strlcpy(query, "SELECT ", size);
 	__check_and_cat(value_column->name());
@@ -243,10 +307,23 @@ sqlite3_stmt* Table::get_value(sqlite3* db, Column* value_column, uint32_t count
 	__check_and_cat(" WHERE 1");
 	__where_va_columns;
 	strlcat(query, ";", size);
-	IF_DEBUG("[TABLE] get_value query: %s \n", query);
+	IF_DEBUG("[TABLE] get_column query: %s \n", query);
 	__prepare_stmt;
 	
 	return stmt;
+}
+
+sqlite3_stmt* Table::get_row(sqlite3* db, uint32_t count, va_list args) {
+	__alloc_stmt_query;
+	strlcpy(query, "SELECT * FROM ", size);
+	__check_and_cat(m_name);
+	__check_and_cat(" WHERE 1");
+	__where_va_columns;
+	strlcat(query, ";", size);
+	IF_DEBUG("[TABLE] get_row query: %s \n", query);
+	__prepare_stmt;
+	
+	return stmt;	
 }
 
 sqlite3_stmt* Table::update_value(sqlite3* db, Column* value_column, uint32_t count, va_list args) {

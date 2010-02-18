@@ -53,7 +53,8 @@ Column::Column(const char* name, uint32_t type) {
 	m_is_unique  = false;
 }
 
-Column::Column(const char* name, uint32_t type, bool is_index, bool is_pk, bool is_unique) {
+Column::Column(const char* name, uint32_t type, 
+			   bool is_index, bool is_pk, bool is_unique) {
 	m_name       = strdup(name);
 	m_create_sql = NULL;
 	m_type       = type;
@@ -71,7 +72,7 @@ const char* Column::name() {
 	return m_name;
 }
 
-const int Column::type() {
+uint32_t Column::type() {
 	return m_type;
 }
 
@@ -90,6 +91,13 @@ const char* Column::typestr() {
 			fprintf(stderr, "Error: unknown column type: %d \n", m_type);
 			return "UNKNOWN";
 	}
+}
+
+uint32_t Column::size() {
+	// integers are stored inband in the record
+	if (m_type == SQLITE_INTEGER) return sizeof(uint64_t);
+	// everything else is stored out of band
+	return sizeof(void*);
 }
 
 const bool Column::is_index() {
