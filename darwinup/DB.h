@@ -44,6 +44,7 @@
 #include "File.h"
 
 
+
 /**
  *
  * Darwinup database abstraction. This class is responsible
@@ -65,6 +66,7 @@ struct DarwinupDatabase : Database {
 	int      get_archive(uint8_t** data, uuid_t uuid);
 	int      get_archive(uint8_t** data, uint64_t serial);
 	int      get_archive(uint8_t** data, const char* name);
+	int      get_archive(uint8_t** data, archive_keyword_t keyword);
 	int      get_inactive_archive_serials(uint64_t** serials, uint32_t* count);
 	int      archive_offset(int column);
 	int      activate_archive(uint64_t serial);

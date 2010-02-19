@@ -47,6 +47,19 @@
 #include "Digest.h"
 #include "Archive.h"
 
+#define ORDER_BY_DESC 0
+#define ORDER_BY_ASC  1
+
+// initial number of rows we allocate for when querying
+#define INITIAL_ROWS   8
+
+// how much we grow by when we need more space
+#define REALLOC_FACTOR 4
+#define ERROR_BUF_SIZE 1024
+
+
+
+
 // libcache callbacks
 bool cache_key_is_equal(void* key1, void* key2, void* user);
 void cache_key_retain(void* key_in, void** key_out, void* user_data);
@@ -96,6 +109,8 @@ struct Database {
 	int  get_column(const char* name, void** output, uint32_t* result_count, 
 					Table* table, Column* column, uint32_t count, ...);
 	int  get_row(const char* name, uint8_t** output, Table* table, uint32_t count, ...);
+	int  get_row_ordered(const char* name, uint8_t** output, Table* table, Column* order_by, 
+						 int order, uint32_t count, ...);
 	int  update_value(const char* name, Table* table, Column* value_column, void** value, 
 					  uint32_t count, ...);
 	int  update(Table* table, uint64_t pkvalue, ...);

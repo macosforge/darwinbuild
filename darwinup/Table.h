@@ -33,10 +33,10 @@
 #ifndef _TABLE_H
 #define _TABLE_H
 
-
 #include <stdint.h>
 #include <sqlite3.h>
 #include "Column.h"
+
 
 struct Table {	
 	Table();
@@ -63,6 +63,8 @@ struct Table {
 	sqlite3_stmt*    get_column(sqlite3* db, Column* value_column, uint32_t count, 
 								va_list args);
 	sqlite3_stmt*    get_row(sqlite3* db, uint32_t count, va_list args);
+	sqlite3_stmt*    get_row_ordered(sqlite3* db, Column* order_by, int order, 
+							 uint32_t count, va_list args);
 	sqlite3_stmt*    update_value(sqlite3* db, Column* value_column, uint32_t count,
 								  va_list args);
 	sqlite3_stmt*    insert(sqlite3* db);

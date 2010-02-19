@@ -35,7 +35,6 @@
 #include "File.h"
 #include "SerialSet.h"
 #include "Utils.h"
-
 #include <assert.h>
 #include <copyfile.h>
 #include <errno.h>
@@ -47,8 +46,8 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/stat.h>
-
 #include <sqlite3.h>
+
 
 Depot::Depot() {
 	m_prefix = NULL;
@@ -183,28 +182,10 @@ Archive* Depot::archive(archive_name_t name) {
 Archive* Depot::archive(archive_keyword_t keyword) {
 	int res = 0;
 	Archive* archive = NULL;
-	static sqlite3_stmt* stmt = NULL;
-	const char* query = NULL;
-	if (stmt == NULL && m_db) {
-		if (keyword == DEPOT_ARCHIVE_NEWEST) {
-			query = "SELECT serial FROM archives WHERE name != '<Rollback>' ORDER BY date_added DESC LIMIT 1";
-		} else if (keyword == DEPOT_ARCHIVE_OLDEST) {
-			query = "SELECT serial FROM archives WHERE name != '<Rollback>' ORDER BY date_added ASC LIMIT 1";
-		} else {
-			fprintf(stderr, "Error: unknown archive keyword.\n");
-			res = -1;
-		}
-		if (res == 0) res = sqlite3_prepare(m_db, query, -1, &stmt, NULL);
-		if (res != 0) fprintf(stderr, "%s:%d: sqlite3_prepare: %s: %s (%d)\n", __FILE__, __LINE__, query, sqlite3_errmsg(m_db), res);
-	}
-	if (stmt && res == 0) {
-		res = sqlite3_step(stmt);
-		if (res == SQLITE_ROW) {
-			uint64_t serial = sqlite3_column_int64(stmt, 0);
-			archive = Depot::archive(serial);
-		}
-		sqlite3_reset(stmt);
-	}
+	uint8_t* data;
+	
+	res = this->m_db2->get_archive(&data, keyword);
+	if (res == 0) archive = this->m_db2->make_archive(data);	
 	return archive;	
 }
 

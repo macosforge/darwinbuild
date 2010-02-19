@@ -34,9 +34,12 @@
 #include <string.h>
 #include <stdlib.h>
 #include "Table.h"
+#include "Database.h"
+
 
 // how much we grow by when we need more space
 #define REALLOC_FACTOR 4
+
 
 // XXX
 void __hex_str(const char* s) {
@@ -56,6 +59,7 @@ Table::Table() {
 	m_result_max    = 1;
 	m_result_count  = 0;
 	m_results       = (uint8_t**)malloc(sizeof(uint8_t*) * m_result_max);
+	IF_DEBUG("[ALLOC] constructor %p \n", m_results);
 	m_name          = strdup("unnamed_table");
 	m_create_sql    = NULL;
 	m_insert_sql    = NULL;
@@ -74,6 +78,7 @@ Table::Table(const char* name) {
 	m_result_max    = 1;
 	m_result_count  = 0;
 	m_results       = (uint8_t**)malloc(sizeof(uint8_t*) * m_result_max);
+	IF_DEBUG("[ALLOC] constructor %p \n", m_results);
 	m_name          = strdup(name);
 	m_create_sql    = NULL;
 	m_insert_sql    = NULL;
@@ -90,10 +95,14 @@ Table::~Table() {
 	}
 	free(m_columns);
 	
+
 	for (uint32_t i=0; i < m_result_count; i++) {
-		this->free_row(m_results[i]);
-		free(m_results[i]);
+		if (m_results[i]) {
+			IF_DEBUG("[FREE] destructor loop %d %p \n", i, m_results[i]);
+			this->free_result(m_results[i]);
+		}
 	}
+	IF_DEBUG("[FREE] destructor free %p \n", m_results);
 	free(m_results);
 	
 	free(m_name);
@@ -150,6 +159,7 @@ int Table::offset(int column) {
 uint8_t* Table::alloc_result() {
 	if (m_result_count >= m_result_max) {
 		m_results = (uint8_t**)realloc(m_results, m_result_max * sizeof(uint8_t*) * REALLOC_FACTOR);
+		IF_DEBUG("[ALLOC] realloc m_results %p \n", m_results);
 		if (!m_results) {
 			fprintf(stderr, "Error: unable to reallocate memory to add a result row\n");
 			return NULL;
@@ -158,6 +168,8 @@ uint8_t* Table::alloc_result() {
 	}
 	m_result_count++;
 	m_results[m_result_count-1] = (uint8_t*)calloc(1, this->row_size());
+	IF_DEBUG("[ALLOC] calloc(%d) %d %p \n", this->row_size(), m_result_count-1, 
+			 m_results[m_result_count-1]);
 	return m_results[m_result_count-1];
 }
 
@@ -172,6 +184,7 @@ int Table::free_row(uint8_t* row) {
 				break;
 			default:
 				memcpy(&ptr, current, sizeof(void*));
+				IF_DEBUG("[FREE] %s: %p (type of %d: %d) \n", m_name, ptr, i, m_columns[i]->type());
 				free(ptr);
 				current += sizeof(void*);
 		}
@@ -184,7 +197,9 @@ int Table::free_result(uint8_t* result) {
 		// look for matching result
 		if (result == m_results[i]) {
 			this->free_row((uint8_t*)m_results[i]);
+			IF_DEBUG("[FREE] %s result %d %p \n", m_name, i, m_results[i]);
 			free(m_results[i]);
+			m_results[i] = NULL;
 			// if we did not free the last result,
 			// move last result to the empty slot
 			if (i != (m_result_count - 1)) {
@@ -259,11 +274,30 @@ char* Table::create() {
 
 #define __where_va_columns \
 	char tmpstr[256]; \
+    char* val; \
+    const char* op = "="; \
 	int len; \
 	for (uint32_t i=0; i < count; i++) { \
+        fprintf(stderr, "DEBUG: __where_va i=%u \n", i); \
 		Column* col = va_arg(args, Column*); \
-		va_arg(args, void*); \
-		len = snprintf(tmpstr, 256, " AND %s=?", col->name()); \
+		fprintf(stderr, "DEBUG: __where_va col %p \n", col); \
+        if (col->type() == SQLITE_TEXT) { \
+            val = va_arg(args, char*); \
+            switch (val[0]) { \
+            case '!': \
+                op = "!="; \
+                break; \
+            case '>': \
+                op = ">"; \
+                break; \
+            case '<': \
+                op = "<"; \
+                break; \
+            } \
+		} else { \
+	        va_arg(args, void*); \
+        } \
+		len = snprintf(tmpstr, 256, " AND %s%s?", col->name(), op); \
 		if (len >= 255) { \
 			fprintf(stderr, "Error: column name is too big (limit: 248): %s\n", col->name()); \
 			return NULL; \
@@ -335,6 +369,24 @@ sqlite3_stmt* Table::get_row(sqlite3* db, uint32_t count, va_list args) {
 	
 	return stmt;	
 }
+
+sqlite3_stmt* Table::get_row_ordered(sqlite3* db, Column* order_by, int order, 
+									 uint32_t count, va_list args) {
+	__alloc_stmt_query;
+	strlcpy(query, "SELECT * FROM ", size);
+	__check_and_cat(m_name);
+	__check_and_cat(" WHERE 1");
+	__where_va_columns;
+	__check_and_cat(" ORDER BY ");
+	__check_and_cat(order_by->name());
+	__check_and_cat((order == ORDER_BY_DESC ? " DESC" : " ASC"));
+	strlcat(query, ";", size);
+	IF_DEBUG("[TABLE] get_row_ordered query: %s \n", query);
+	__prepare_stmt;
+	
+	return stmt;	
+}
+
 
 sqlite3_stmt* Table::update_value(sqlite3* db, Column* value_column, uint32_t count, va_list args) {
 	__alloc_stmt_query;

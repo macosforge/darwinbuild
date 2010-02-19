@@ -32,13 +32,6 @@
 
 #include "Database.h"
 
-// initial number of rows we allocate for when querying
-#define INITIAL_ROWS   8
-
-// how much we grow by when we need more space
-#define REALLOC_FACTOR 4
-#define ERROR_BUF_SIZE 1024
-
 /**
  * sqlite3_trace callback for debugging
  */
@@ -313,16 +306,15 @@ int Database::execute(sqlite3_stmt* stmt) {
         Column* col = va_arg(args, Column*); \
         uint8_t* bdata = NULL; \
         uint32_t bsize = 0; \
-        uint64_t val; \
+        char* tval; \
         switch(col->type()) { \
             case TYPE_INTEGER: \
-                val = va_arg(args, uint64_t); \
-                res = sqlite3_bind_int64(stmt, param++, val); \
-                fprintf(stderr, "DEBUG: bind int: %llu \n", val); \
+                res = sqlite3_bind_int64(stmt, param++, va_arg(args, uint64_t)); \
                 break; \
             case TYPE_TEXT: \
-                res = sqlite3_bind_text(stmt, param++, va_arg(args, char*), -1, SQLITE_STATIC); \
-                fprintf(stderr, "DEBUG: bind text \n"); \
+                tval = va_arg(args, char*); \
+                if (tval[0] == '!' || tval[0] == '>' || tval[0] == '<') tval++; \
+                res = sqlite3_bind_text(stmt, param++, tval, -1, SQLITE_STATIC); \
                 break; \
             case TYPE_BLOB: \
                 bdata = va_arg(args, uint8_t*); \
@@ -331,7 +323,6 @@ int Database::execute(sqlite3_stmt* stmt) {
                                         bdata, \
 										bsize, \
                                         SQLITE_STATIC); \
-                fprintf(stderr, "DEBUG: bind blob \n"); \
                 break; \
 		} \
         if (res != SQLITE_OK) { \
@@ -372,7 +363,7 @@ size_t Database::store_column(sqlite3_stmt* stmt, int column, uint8_t* output) {
 			break;
 		case SQLITE_TEXT:
 			*(const char**)output = strdup((const char*)sqlite3_column_text(stmt, column));
-			IF_DEBUG("store text: %p %s \n", (char*)output, (char*)output);
+			IF_DEBUG("[ALLOC] text: %p %s \n", (char*)output, (char*)output);
 			used = sizeof(char*);
 			IF_DEBUG("store_column used=%u output(%p) = %s \n", 
 					 (uint32_t)used, output, *(char**)output);
@@ -382,6 +373,7 @@ size_t Database::store_column(sqlite3_stmt* stmt, int column, uint8_t* output) {
 			blobsize = sqlite3_column_bytes(stmt, column);
 			IF_DEBUG("blob(%p) size=%d \n", blob, blobsize);
 			*(void**)output = malloc(blobsize);
+			IF_DEBUG("[ALLOC] blob %p \n", (void*)*output);
 			if (*output && blobsize) memcpy(*(void**)output, blob, blobsize);
 			used = sizeof(void*);
 			IF_DEBUG("store_column used=%u output(%p) = %s \n", 
@@ -502,6 +494,23 @@ int Database::get_row(const char* name, uint8_t** output, Table* table, uint32_t
 	cache_release_value(m_statement_cache, &stmt);
 	return res;
 }
+
+int Database::get_row_ordered(const char* name, uint8_t** output, Table* table, Column* order_by,
+							  int order, uint32_t count, ...) {
+	__get_stmt(table->get_row_ordered(m_db, order_by, order, count, args));
+	IF_DEBUG("stmt = %s \n", sqlite3_sql(stmt));
+	int res = SQLITE_OK;
+	uint32_t param = 1;
+	__bind_va_columns(count);
+	*output = table->alloc_result();
+	IF_DEBUG("Table::alloc_result = %p \n", *output);
+	res = this->step_once(stmt, *output, NULL);
+	IF_DEBUG("get_row_ordered output(%p) = %llu \n", *output, **(uint64_t**)output);
+	sqlite3_reset(stmt);
+	cache_release_value(m_statement_cache, &stmt);
+	return res;
+}
+
 
 int Database::sql(const char* name, const char* fmt, ...) {
 	sqlite3_stmt* stmt;

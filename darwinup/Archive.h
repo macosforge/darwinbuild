@@ -39,6 +39,13 @@
 #include <time.h>
 #include <uuid/uuid.h>
 
+typedef char* archive_name_t;
+
+enum archive_keyword_t {
+	DEPOT_ARCHIVE_NEWEST,
+	DEPOT_ARCHIVE_OLDEST
+};
+
 
 //
 // ARCHIVE_INFO flags stored in the database

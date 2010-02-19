@@ -185,7 +185,6 @@ uint64_t DarwinupDatabase::count_files(Archive* archive, const char* path) {
 
 	int res = SQLITE_OK;
 	uint64_t* c;
-	if (!c) fprintf(stderr, "Error: ran out of memory in DarwinupDatabase::count_files().\n");
 	res = this->count("count_files",
 					  (void**)&c,
 					  this->m_files_table,
@@ -293,6 +292,26 @@ int DarwinupDatabase::get_archive(uint8_t** data, const char* name) {
 						 1,
 						 this->m_archives_table->column(2), // name
 						 name);
+}
+
+int DarwinupDatabase::get_archive(uint8_t** data, archive_keyword_t keyword) {
+	int res = SQLITE_OK;
+	int order = ORDER_BY_DESC;
+
+	if (keyword == DEPOT_ARCHIVE_OLDEST) {
+		order = ORDER_BY_ASC;
+	}
+	
+	res = this->get_row_ordered("archive__keyword",
+								data,
+								this->m_archives_table,
+								this->m_archives_table->column(3), // order by date_added
+								order,
+								1,
+								this->m_archives_table->column(2), // name
+								"!<Rollback>");
+	
+	return res;
 }
 
 int DarwinupDatabase::archive_offset(int column) {
