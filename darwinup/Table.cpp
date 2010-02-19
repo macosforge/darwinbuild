@@ -35,6 +35,8 @@
 #include <stdlib.h>
 #include "Table.h"
 
+// how much we grow by when we need more space
+#define REALLOC_FACTOR 4
 
 // XXX
 void __hex_str(const char* s) {
@@ -122,28 +124,37 @@ const Column** Table::columns() {
 
 
 int Table::add_column(Column* c) {
+	// accumulate offsets for columns
+	static int offset = 0;
+	c->m_offset = offset;
+	offset += c->size();
+	
+	// reallocate if needed
 	if (m_column_count >= m_column_max) {
-		m_columns = (Column**)realloc(m_columns, m_column_max * sizeof(Column*) * 4);
+		m_columns = (Column**)realloc(m_columns, m_column_max * sizeof(Column*) * REALLOC_FACTOR);
 		if (!m_columns) {
 			fprintf(stderr, "Error: unable to reallocate memory to add a column\n");
 			return 1;
 		}
-		m_column_max *= 4;
+		m_column_max *= REALLOC_FACTOR;
 	}
 	m_columns[m_column_count++] = c;
 	
 	return 0;
 }
 
+int Table::offset(int column) {
+	return this->m_columns[column]->offset();
+}
 
 uint8_t* Table::alloc_result() {
 	if (m_result_count >= m_result_max) {
-		m_results = (uint8_t**)realloc(m_results, m_result_max * sizeof(uint8_t*) * 4);
+		m_results = (uint8_t**)realloc(m_results, m_result_max * sizeof(uint8_t*) * REALLOC_FACTOR);
 		if (!m_results) {
 			fprintf(stderr, "Error: unable to reallocate memory to add a result row\n");
 			return NULL;
 		}
-		m_result_max *= 4;
+		m_result_max *= REALLOC_FACTOR;
 	}
 	m_result_count++;
 	m_results[m_result_count-1] = (uint8_t*)calloc(1, this->row_size());
@@ -152,6 +163,7 @@ uint8_t* Table::alloc_result() {
 
 int Table::free_row(uint8_t* row) {
 	uint8_t* current = row;
+	void* ptr;
 	for (uint32_t i=0; i < m_column_count; i++) {
 		switch (m_columns[i]->type()) {
 			case SQLITE_INTEGER:
@@ -159,7 +171,8 @@ int Table::free_row(uint8_t* row) {
 				// nothing to free
 				break;
 			default:
-				free(current);
+				memcpy(&ptr, current, sizeof(void*));
+				free(ptr);
 				current += sizeof(void*);
 		}
 	}
@@ -277,7 +290,6 @@ char* Table::create() {
 
 
 sqlite3_stmt* Table::count(sqlite3* db) {
-	IF_DEBUG("[TABLE] entering count of %s \n", m_name);
 	sqlite3_stmt* stmt = (sqlite3_stmt*)malloc(sizeof(sqlite3_stmt*));
 	char* query;
 	int size = asprintf(&query, "SELECT count(*) FROM %s ;", m_name) + 1;
@@ -292,7 +304,6 @@ sqlite3_stmt* Table::count(sqlite3* db, uint32_t count, va_list args) {
 	__check_and_cat(" WHERE 1");
 	__where_va_columns;
 	strlcat(query, ";", size);
-	IF_DEBUG("[TABLE] count query: %s \n", query);	
 	__prepare_stmt;
 
 	return stmt;	
@@ -307,7 +318,6 @@ sqlite3_stmt* Table::get_column(sqlite3* db, Column* value_column, uint32_t coun
 	__check_and_cat(" WHERE 1");
 	__where_va_columns;
 	strlcat(query, ";", size);
-	IF_DEBUG("[TABLE] get_column query: %s \n", query);
 	__prepare_stmt;
 	
 	return stmt;
@@ -335,7 +345,6 @@ sqlite3_stmt* Table::update_value(sqlite3* db, Column* value_column, uint32_t co
 	__check_and_cat("=? WHERE 1");
 	__where_va_columns;
 	strlcat(query, ";", size);
-	IF_DEBUG("[TABLE] update_value query: %s \n", query);
 	__prepare_stmt;
 	
 	return stmt;
@@ -521,7 +530,6 @@ sqlite3_stmt* Table::del(sqlite3* db, uint32_t count, va_list args) {
 	__check_and_cat(" WHERE 1");
 	__where_va_columns;
 	strlcat(query, ";", size);
-	IF_DEBUG("[TABLE] delete query: %s \n", query);	
 	__prepare_stmt;
 	
 	return stmt;

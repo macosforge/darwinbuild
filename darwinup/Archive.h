@@ -134,6 +134,7 @@ struct Archive {
 	time_t		m_date_installed;
 	
 	friend struct Depot;
+	friend struct DarwinupDatabase;
 };
 
 

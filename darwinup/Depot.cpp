@@ -145,63 +145,26 @@ DarwinupDatabase* Depot::get_db2() {
 
 // Unserialize an archive from the database.
 // Find the archive by UUID.
-// XXX: should be memoized
 Archive* Depot::archive(uuid_t uuid) {
 	int res = 0;
 	Archive* archive = NULL;
-	static sqlite3_stmt* stmt = NULL;
-	if (stmt == NULL && m_db) {
-		const char* query = "SELECT serial, name, info, date_added FROM archives WHERE uuid=?";
-		res = sqlite3_prepare(m_db, query, -1, &stmt, NULL);
-		if (res != 0) fprintf(stderr, "%s:%d: sqlite3_prepare: %s: %s (%d)\n", __FILE__, __LINE__, query, sqlite3_errmsg(m_db), res);
-	}
-	if (stmt && res == 0) {
-		res = sqlite3_bind_blob(stmt, 1, uuid, sizeof(uuid_t), SQLITE_STATIC);
-		if (res == 0) res = sqlite3_step(stmt);
-		if (res == SQLITE_ROW) {
-			uint64_t serial = sqlite3_column_int64(stmt, 0);
-			const unsigned char* name = sqlite3_column_text(stmt, 1);
-			uint64_t info = sqlite3_column_int64(stmt, 2);
-			time_t date_added = sqlite3_column_int(stmt, 3);
-			archive = new Archive(serial, uuid, (const char*)name, NULL, info, date_added);
-		}
-		sqlite3_reset(stmt);
-	}
+	uint8_t* data;
+	
+	res = this->m_db2->get_archive(&data, uuid);
+	if (res == 0) archive = this->m_db2->make_archive(data);
 	return archive;
 }
 
 // Unserialize an archive from the database.
 // Find the archive by serial.
-// XXX: should be memoized
 Archive* Depot::archive(uint64_t serial) {
 	int res = 0;
 	Archive* archive = NULL;
-	static sqlite3_stmt* stmt = NULL;
-	if (stmt == NULL && m_db) {
-		const char* query = "SELECT uuid, name, info, date_added FROM archives WHERE serial=?";
-		res = sqlite3_prepare(m_db, query, -1, &stmt, NULL);
-		if (res != 0) fprintf(stderr, "%s:%d: sqlite3_prepare: %s: %s (%d)\n", __FILE__, __LINE__, query, sqlite3_errmsg(m_db), res);
-	}
-	if (stmt && res == 0) {
-		res = sqlite3_bind_int64(stmt, 1, serial);
-		if (res == 0) res = sqlite3_step(stmt);
-		if (res == SQLITE_ROW) {
-			uuid_t uuid;
-			const void* blob = sqlite3_column_blob(stmt, 0);
-			int blobsize = sqlite3_column_bytes(stmt, 0);
-			if (blobsize > 0) {
-				assert(blobsize == sizeof(uuid_t));
-				memcpy(uuid, blob, sizeof(uuid_t));
-			} else {
-				uuid_clear(uuid);
-			}
-			const unsigned char* name = sqlite3_column_text(stmt, 1);
-			uint64_t info = sqlite3_column_int64(stmt, 2);
-			time_t date_added = sqlite3_column_int(stmt, 3);
-			archive = new Archive(serial, uuid, (const char*)name, NULL, info, date_added);
-		}
-		sqlite3_reset(stmt);
-	}
+	uint8_t* data;
+	
+	res = this->m_db2->get_archive(&data, serial);
+	if (res == 0) archive = this->m_db2->make_archive(data);
+
 	return archive;
 }
 
@@ -210,32 +173,10 @@ Archive* Depot::archive(uint64_t serial) {
 Archive* Depot::archive(archive_name_t name) {
 	int res = 0;
 	Archive* archive = NULL;
-	static sqlite3_stmt* stmt = NULL;
-	if (stmt == NULL && m_db) {
-		const char* query = "SELECT serial, uuid, info, date_added FROM archives WHERE name=? ORDER BY date_added DESC LIMIT 1";
-		res = sqlite3_prepare(m_db, query, -1, &stmt, NULL);
-		if (res != 0) fprintf(stderr, "%s:%d: sqlite3_prepare: %s: %s (%d)\n", __FILE__, __LINE__, query, sqlite3_errmsg(m_db), res);
-	}
-	if (stmt && res == 0) {
-		res = sqlite3_bind_text(stmt, 1, name, -1, SQLITE_STATIC);
-		if (res == 0) res = sqlite3_step(stmt);
-		if (res == SQLITE_ROW) {
-			uuid_t uuid;
-			const void* blob = sqlite3_column_blob(stmt, 1);
-			int blobsize = sqlite3_column_bytes(stmt, 1);
-			if (blobsize > 0) {
-				assert(blobsize == sizeof(uuid_t));
-				memcpy(uuid, blob, sizeof(uuid_t));
-			} else {
-				uuid_clear(uuid);
-			}
-			uint64_t serial = sqlite3_column_int64(stmt, 0);
-			uint64_t info = sqlite3_column_int64(stmt, 2);
-			time_t date_added = sqlite3_column_int(stmt, 3);
-			archive = new Archive(serial, uuid, (const char*)name, NULL, info, date_added);
-		}
-		sqlite3_reset(stmt);
-	}
+	uint8_t* data;
+	
+	res = this->m_db2->get_archive(&data, name);
+	if (res == 0) archive = this->m_db2->make_archive(data);
 	return archive;
 }
 

@@ -251,26 +251,22 @@ int DarwinupDatabase::get_file_serials(uint64_t** serials, uint32_t* count) {
 }
 
 
-// serial uuid name date_added active info
+Archive* DarwinupDatabase::make_archive(uint8_t* data) {
+	uint64_t serial;
+	memcpy(&serial, &data[this->archive_offset(0)], sizeof(uint64_t));
+	uuid_t* uuid;
+	memcpy(&uuid, &data[this->archive_offset(1)], sizeof(uuid_t*));
+	char* name;
+	memcpy(&name, &data[this->archive_offset(2)], sizeof(char*));
+	time_t date_added;
+	memcpy(&date_added, &data[this->archive_offset(3)], sizeof(time_t));
+	uint64_t info;
+	memcpy(&info, &data[this->archive_offset(5)], sizeof(uint64_t));
 
-/*
-int DarwinupDatabase::process_archive_results() {
-	const unsigned char* name = sqlite3_column_text(stmt, 1);
-	uuid_t uuid;
-	const void* blob = sqlite3_column_blob(stmt, 1);
-	int blobsize = sqlite3_column_bytes(stmt, 1);
-	if (blobsize > 0) {
-		assert(blobsize == sizeof(uuid_t));
-		memcpy(uuid, blob, sizeof(uuid_t));
-	} else {
-		uuid_clear(uuid);
-	}
-	uint64_t serial = sqlite3_column_int64(stmt, 0);
-	uint64_t info = sqlite3_column_int64(stmt, 2);
-	time_t date_added = sqlite3_column_int(stmt, 3);	
-	return 0;
+	Archive* archive = new Archive(serial, *uuid, name, NULL, info, date_added);
+	this->m_archives_table->free_result(data);
+	return archive;
 }
-*/
 
 int DarwinupDatabase::get_archive(uint8_t** data, uuid_t uuid) {
 	return this->get_row("archive__uuid",
@@ -300,7 +296,7 @@ int DarwinupDatabase::get_archive(uint8_t** data, const char* name) {
 }
 
 int DarwinupDatabase::archive_offset(int column) {
-	return column*8;
+	return this->m_archives_table->offset(column);
 }
 
 

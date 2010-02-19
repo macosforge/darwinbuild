@@ -100,6 +100,10 @@ uint32_t Column::size() {
 	return sizeof(void*);
 }
 
+int Column::offset() {
+	return m_offset;
+}
+
 const bool Column::is_index() {
 	return m_is_index;
 }

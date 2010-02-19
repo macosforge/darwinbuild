@@ -50,6 +50,8 @@ struct Column {
 	uint32_t       size();
 	const char*    create();
 	const char*    index();
+	int            offset();
+	
 	
 	const bool     is_index();
 	const bool     is_pk();
@@ -62,6 +64,9 @@ protected:
 	bool           m_is_index;
 	bool           m_is_pk;
 	bool           m_is_unique;
+	int            m_offset;
+	
+	friend struct Table;
 };
 
 #endif

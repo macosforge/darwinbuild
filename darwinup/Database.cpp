@@ -243,7 +243,6 @@ int Database::sql_once(const char* fmt, ...) {
     char* error;
     if (this->m_db) {
         char *query = sqlite3_vmprintf(fmt, args);
-        IF_DEBUG("[DATABASE] SQL(): %s \n", query);
         res = sqlite3_exec(this->m_db, query, NULL, NULL, &error);
         sqlite3_free(query);
     } else {
