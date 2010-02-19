@@ -72,8 +72,8 @@ struct Depot {
 	Archive* get_archive(const char* arg);
 
 	// returns a list of Archive*. Caller must free the list. 
-	Archive** get_all_archives(size_t *count);
-	size_t count_archives();
+	Archive** get_all_archives(uint64_t *count);
+	uint64_t count_archives();
 	
 	int dump();
 	static int dump_archive(Archive* archive, void* context);

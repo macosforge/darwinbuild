@@ -182,7 +182,6 @@ uint64_t DarwinupDatabase::insert_file(uint32_t info, mode_t mode, uid_t uid, gi
 }
 
 uint64_t DarwinupDatabase::count_files(Archive* archive, const char* path) {
-
 	int res = SQLITE_OK;
 	uint64_t* c;
 	res = this->count("count_files",
@@ -193,9 +192,34 @@ uint64_t DarwinupDatabase::count_files(Archive* archive, const char* path) {
 					  (uint64_t)archive->serial(),
 					  this->m_files_table->column(8), // path
 					  path);
+	if (res) {
+		fprintf(stderr, "Error: unable to count files: %d \n", res);
+		return 0;
+	}
 	return *c;
 }
 
+uint64_t DarwinupDatabase::count_archives(bool include_rollbacks) {
+	int res = SQLITE_OK;
+	uint64_t* c;
+	if (include_rollbacks) {
+		res = this->count("count_archives",
+						  (void**)&c,
+						  this->m_archives_table, 0);				
+	} else {
+		res = this->count("count_archives_norollback",
+						  (void**)&c,
+						  this->m_archives_table,
+						  1,
+						  this->m_archives_table->column(2), // name
+						  "!<Rollback>");		
+	}
+	if (res) {
+		fprintf(stderr, "Error: unable to count archives: %d \n", res);
+		return 0;
+	}	
+	return *c;	
+}
 
 int DarwinupDatabase::delete_archive(Archive* archive) {
 	return this->del(this->m_archives_table, archive->serial());
@@ -321,8 +345,6 @@ int DarwinupDatabase::archive_offset(int column) {
 
 /*
 get_all_archives(include_rollbacks?)
-
-count_archives(include_rollbacks?)
  
 get_files(archive)
 

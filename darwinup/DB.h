@@ -60,6 +60,7 @@ struct DarwinupDatabase : Database {
 	void init_schema();
 	
 	uint64_t count_files(Archive* archive, const char* path);
+	uint64_t count_archives(bool include_rollbacks);
 	
 	// Archives
 	Archive* make_archive(uint8_t* data);

@@ -237,7 +237,7 @@ Archive* Depot::get_archive(const char* arg) {
 	return Depot::archive((archive_name_t)arg);
 }
 
-Archive** Depot::get_all_archives(size_t* count) {
+Archive** Depot::get_all_archives(uint64_t* count) {
 	extern uint32_t verbosity;
 	int res = 0;
 	*count = this->count_archives();
@@ -264,32 +264,15 @@ Archive** Depot::get_all_archives(size_t* count) {
 	return list;	
 }
 
-size_t Depot::count_archives() {
+uint64_t Depot::count_archives() {
 	extern uint32_t verbosity;
-	int res = 0;
-	size_t count = 0;
-	static sqlite3_stmt* stmt = NULL;
-	if (stmt == NULL && m_db) {
-		const char* query = "SELECT count(*) FROM archives WHERE name != '<Rollback>'";
-		if (verbosity & VERBOSE_DEBUG) {
-			query = "SELECT count(*) FROM archives";
-		}
-		res = sqlite3_prepare(m_db, query, -1, &stmt, NULL);
-		if (res != 0) fprintf(stderr, "%s:%d: sqlite3_prepare: %s: %s (%d)\n", __FILE__, __LINE__, query, sqlite3_errmsg(m_db), res);
-	}
-	if (stmt && res == 0) {
-		res = sqlite3_step(stmt);
-		if (res == SQLITE_ROW) {
-			count = sqlite3_column_int64(stmt, 0);
-		}
-		sqlite3_reset(stmt);
-	}
-	return count;
+	uint64_t c = this->m_db2->count_archives(verbosity & VERBOSE_DEBUG);
+	return c;
 }
 
 int Depot::iterate_archives(ArchiveIteratorFunc func, void* context) {
 	int res = 0;
-	size_t count = 0;
+	uint64_t count = 0;
 	Archive** list = this->get_all_archives(&count);
 	for (size_t i = 0; i < count; i++) {
 		if (list[i]) {
@@ -1220,7 +1203,7 @@ int Depot::dispatch_command(Archive* archive, const char* command) {
 int Depot::process_archive(const char* command, const char* arg) {
 	extern uint32_t verbosity;
 	int res = 0;
-	size_t count = 0;
+	uint64_t count = 0;
 	Archive** list = NULL;
 	
 	if (strncasecmp(arg, "all", 3) == 0) {
