@@ -500,7 +500,7 @@ int Database::get_row(const char* name, uint8_t** output, Table* table, uint32_t
 	IF_DEBUG("get_row output(%p) = %llu \n", *output, **(uint64_t**)output);
 	sqlite3_reset(stmt);
 	cache_release_value(m_statement_cache, &stmt);
-	return output == NULL;
+	return res;
 }
 
 int Database::sql(const char* name, const char* fmt, ...) {
@@ -534,7 +534,7 @@ int Database::count(const char* name, void** output, Table* table, uint32_t coun
 	res = this->step_once(stmt, *(uint8_t**)output, NULL);
 	sqlite3_reset(stmt);
 	cache_release_value(m_statement_cache, &stmt);	
-	return output == NULL;
+	return res;
 }
 
 /**
