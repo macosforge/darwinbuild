@@ -363,7 +363,7 @@ size_t Database::store_column(sqlite3_stmt* stmt, int column, uint8_t* output) {
 			break;
 		case SQLITE_TEXT:
 			*(const char**)output = strdup((const char*)sqlite3_column_text(stmt, column));
-			IF_DEBUG("[ALLOC] text: %p %s \n", (char*)output, (char*)output);
+			IF_DEBUG("[ALLOC] text: %p %s \n", *(char**)output, *(char**)output);
 			used = sizeof(char*);
 			IF_DEBUG("store_column used=%u output(%p) = %s \n", 
 					 (uint32_t)used, output, *(char**)output);
@@ -373,7 +373,7 @@ size_t Database::store_column(sqlite3_stmt* stmt, int column, uint8_t* output) {
 			blobsize = sqlite3_column_bytes(stmt, column);
 			IF_DEBUG("blob(%p) size=%d \n", blob, blobsize);
 			*(void**)output = malloc(blobsize);
-			IF_DEBUG("[ALLOC] blob %p \n", (void*)*output);
+			IF_DEBUG("[ALLOC] blob %p \n", *(void**)output);
 			if (*output && blobsize) memcpy(*(void**)output, blob, blobsize);
 			used = sizeof(void*);
 			IF_DEBUG("store_column used=%u output(%p) = %s \n", 
