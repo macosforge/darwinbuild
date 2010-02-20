@@ -374,10 +374,14 @@ size_t Database::store_column(sqlite3_stmt* stmt, int column, uint8_t* output) {
 			IF_DEBUG("blob(%p) size=%d \n", blob, blobsize);
 			*(void**)output = malloc(blobsize);
 			IF_DEBUG("[ALLOC] blob %p \n", *(void**)output);
-			if (*output && blobsize) memcpy(*(void**)output, blob, blobsize);
+			if (*(void**)output && blobsize) {
+				memcpy(*(void**)output, blob, blobsize);
+			} else {
+				fprintf(stderr, "Error: unable to get blob from database stmt.\n");
+			}
 			used = sizeof(void*);
 			IF_DEBUG("store_column used=%u output(%p) = %s \n", 
-					 (uint32_t)used, output, *(char**)output);
+					 (uint32_t)used, *(char**)output, *(char**)output);
 			break;
 		default:
 			fprintf(stderr, "Error: unhandled column type in Database::store_column(): %d \n", 
