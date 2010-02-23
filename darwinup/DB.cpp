@@ -32,7 +32,6 @@
 
 #include "DB.h"
 
-
 DarwinupDatabase::DarwinupDatabase() {
 	this->connect();
 }
@@ -128,9 +127,6 @@ File* DarwinupDatabase::make_file(uint8_t* data) {
 	memcpy(&serial, &data[this->file_offset(0)], sizeof(uint64_t));
 	uint64_t archive_serial;
 	memcpy(&archive_serial, &data[this->file_offset(1)], sizeof(uint64_t));
-	
-	IF_DEBUG("make_file offset %d found serial %llu \n", this->file_offset(1), archive_serial);
-	
 	uint64_t info;
 	memcpy(&info, &data[this->file_offset(2)], sizeof(uint64_t));
 	uint64_t mode;
@@ -142,10 +138,15 @@ File* DarwinupDatabase::make_file(uint8_t* data) {
 	uint64_t size;
 	memcpy(&size, &data[this->file_offset(6)], sizeof(uint64_t));
 
-	Digest* digest = new Digest();
-	digest->m_size = 20; // size of SHA1 hash
-	memcpy(digest->m_data, &data[this->file_offset(7)], 20);
-
+	Digest* digest = NULL;
+	uint8_t* dp;
+	memcpy(&dp, &data[this->file_offset(7)], sizeof(uint8_t*));
+	if (dp) {
+		digest = new Digest();
+		digest->m_size = 20; // size of SHA1 hash
+		memcpy(digest->m_data, dp, 20);
+	}
+	
 	char* path;
 	memcpy(&path, &data[this->file_offset(8)], sizeof(char*));
 	

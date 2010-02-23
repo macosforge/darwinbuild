@@ -46,22 +46,6 @@
 #include <unistd.h>
 #include <limits.h>
 
-void __data_hex(uint8_t* data, uint32_t size) {
-	if (!size) return;
-	for (uint32_t i=0; i < size; i++) {
-		if (!(i%8)) {
-			if (i<10) fprintf(stderr, " ");
-			fprintf(stderr, "%d", i);
-		} else {
-			fprintf(stderr, "  ");
-		}
-	}
-	fprintf(stderr, "\n");
-	for (uint32_t i=0; i < size; i++) {
-		fprintf(stderr, "%02x", data[i]);
-	}
-	fprintf(stderr, "\n");
-}
 
 void __str_hex(const char* str) {
 	int i = 0;

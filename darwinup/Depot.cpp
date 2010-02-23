@@ -390,7 +390,7 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback, 
 		
 			uint32_t actual_flags = File::compare(file, actual);
 			uint32_t preceding_flags = File::compare(actual, preceding);
-		
+			
 			// If file == actual && actual == preceding then nothing needs to be done.
 			if (actual_flags == FILE_INFO_IDENTICAL && preceding_flags == FILE_INFO_IDENTICAL) {
 				state = ' ';

@@ -37,6 +37,8 @@
 #include <stdint.h>
 #include <openssl/evp.h>
 
+#include "Utils.h"
+
 ////
 //  Digest
 //
