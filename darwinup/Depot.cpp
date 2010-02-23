@@ -250,7 +250,8 @@ Archive** Depot::get_all_archives(uint64_t* count) {
 			query = "SELECT serial, uuid, name, info, date_added FROM archives ORDER BY serial DESC";
 		}
 		res = sqlite3_prepare(m_db, query, -1, &stmt, NULL);
-		if (res != 0) fprintf(stderr, "%s:%d: sqlite3_prepare: %s: %s (%d)\n", __FILE__, __LINE__, query, sqlite3_errmsg(m_db), res);
+		if (res != 0) fprintf(stderr, "%s:%d: sqlite3_prepare: %s: %s (%d)\n", 
+							  __FILE__, __LINE__, query, sqlite3_errmsg(m_db), res);
 	}
 	if (stmt && res == 0) {
 		size_t i = 0;
@@ -285,53 +286,28 @@ int Depot::iterate_archives(ArchiveIteratorFunc func, void* context) {
 }
 
 int Depot::iterate_files(Archive* archive, FileIteratorFunc func, void* context) {
-	int res = 0;
-	static sqlite3_stmt* stmt = NULL;
-	if (stmt == NULL && m_db) {
-		const char* query = "SELECT serial, info, path, mode, uid, gid, size, digest FROM files WHERE archive=? ORDER BY path";
-		res = sqlite3_prepare(m_db, query, -1, &stmt, NULL);
-		if (res != 0) fprintf(stderr, "%s:%d: sqlite3_prepare: %s: %s (%d)\n", __FILE__, __LINE__, query, sqlite3_errmsg(m_db), res);
-	}
-	if (stmt && res == 0) {
-		res = sqlite3_bind_int64(stmt, 1, archive->serial());
-		while (res == 0) {
-			res = sqlite3_step(stmt);
-			if (res == SQLITE_ROW) {
-				res = 0;
-				int i = 0;
-				uint64_t serial = sqlite3_column_int64(stmt, i++);
-				uint32_t info = sqlite3_column_int(stmt, i++);
-				const unsigned char* path = sqlite3_column_text(stmt, i++);
-				mode_t mode = sqlite3_column_int(stmt, i++);
-				uid_t uid = sqlite3_column_int(stmt, i++);
-				gid_t gid = sqlite3_column_int(stmt, i++);
-				off_t size = sqlite3_column_int64(stmt, i++);
-				const void* blob = sqlite3_column_blob(stmt, i);
-				int blobsize = sqlite3_column_bytes(stmt, i++);
-
-				Digest* digest = NULL;
-				if (blobsize > 0) {
-					digest = new Digest();
-					digest->m_size = blobsize;
-					memcpy(digest->m_data, blob, ((size_t)blobsize < sizeof(digest->m_data)) ? blobsize : sizeof(digest->m_data));
-				}
-
-				File* file = FileFactory(serial, archive, info, (const char*)path, mode, uid, gid, size, digest);
-				if (file) {
-					res = func(file, context);
-					delete file;
-				} else {
-					fprintf(stderr, "%s:%d: FileFactory returned NULL\n", __FILE__, __LINE__);
-					res = -1;
-					break;
-				}
-			} else if (res == SQLITE_DONE) {
-				res = 0;
+	int res = DB_OK;
+	uint8_t** filelist;
+	uint32_t count;
+	res = this->m_db2->get_files(&filelist, &count, archive);
+	IF_DEBUG("iterate_files for count %d from get_files, res: %d \n", count, res);
+	if (FOUND(res)) {
+		for (uint32_t i=0; i < count; i++) {
+			File* file = this->m_db2->make_file(filelist[i]);
+			IF_DEBUG("make_file gave back file %llu \n", file->serial());
+			if (file) {
+				res = func(file, context);
+				delete file;
+			} else {
+				fprintf(stderr, "%s:%d: DB::make_file returned NULL\n", __FILE__, __LINE__);
+				res = -1;
 				break;
 			}
 		}
-		sqlite3_reset(stmt);
+	} else {
+		IF_DEBUG("iterate_files for archive (%llu) found no files \n", archive->serial());
 	}
+
 	return res;
 }
 

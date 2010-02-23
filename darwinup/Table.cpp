@@ -280,9 +280,7 @@ char* Table::create() {
     char not_op = ' '; \
 	int len; \
 	for (uint32_t i=0; i < count; i++) { \
-        fprintf(stderr, "DEBUG: __where_va i=%u \n", i); \
 		Column* col = va_arg(args, Column*); \
-		fprintf(stderr, "DEBUG: __where_va col %p \n", col); \
         tmp_op = va_arg(args, int); \
         if (tmp_op == '!') { \
             not_op = tmp_op; \

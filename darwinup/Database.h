@@ -57,6 +57,13 @@
 #define REALLOC_FACTOR 4
 #define ERROR_BUF_SIZE 1024
 
+// return code bits
+#define DB_OK        0x0000
+#define DB_ERROR     0x0001
+#define DB_FOUND     0x0010
+
+#define FOUND(x)  ((x & DB_FOUND) && !(x & DB_ERROR))
+
 
 
 
@@ -111,6 +118,8 @@ struct Database {
 	int  get_row(const char* name, uint8_t** output, Table* table, uint32_t count, ...);
 	int  get_row_ordered(const char* name, uint8_t** output, Table* table, Column* order_by, 
 						 int order, uint32_t count, ...);
+	int  get_all_ordered(const char* name, uint8_t*** output, uint32_t* result_count,
+						 Table* table, Column* order_by, int order, uint32_t count, ...);
 	int  update_value(const char* name, Table* table, Column* value_column, void** value, 
 					  uint32_t count, ...);
 	int  update(Table* table, uint64_t pkvalue, ...);
@@ -135,7 +144,7 @@ protected:
 	
 	size_t store_column(sqlite3_stmt* stmt, int column, uint8_t* output);
 	int step_once(sqlite3_stmt* stmt, uint8_t* output, uint32_t* used);
-	int step_column(sqlite3_stmt* stmt, void** output, uint32_t size, uint32_t* count);
+	int step_all(sqlite3_stmt* stmt, void** output, uint32_t size, uint32_t* count);
 	
 	// libcache
 	void init_cache();

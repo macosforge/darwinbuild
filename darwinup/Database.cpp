@@ -301,7 +301,6 @@ int Database::execute(sqlite3_stmt* stmt) {
 #define __bind_va_columns(_lastarg) \
     va_list args; \
     va_start(args, _lastarg); \
-    fprintf(stderr, "DEBUG: sql: %s \n", sqlite3_sql(stmt)); \
     for (uint32_t i=0; i<count; i++) { \
         Column* col = va_arg(args, Column*); \
         va_arg(args, int); \
@@ -428,7 +427,7 @@ int Database::step_once(sqlite3_stmt* stmt, uint8_t* output, uint32_t* used) {
 	return res;
 }
 
-int Database::step_column(sqlite3_stmt* stmt, void** output, uint32_t size, uint32_t* count) {
+int Database::step_all(sqlite3_stmt* stmt, void** output, uint32_t size, uint32_t* count) {
 	uint32_t used = 0;
 	uint32_t total_used = used;
 	uint32_t rowsize = size / INITIAL_ROWS;
@@ -448,7 +447,7 @@ int Database::step_column(sqlite3_stmt* stmt, void** output, uint32_t size, uint
 			*output = realloc(*output, size);
 			IF_DEBUG("reallocating: output = %p  size = %u \n", *output, size);
 			if (!*output) {
-				fprintf(stderr, "Error: ran out of memory in Database::step_once \n");
+				fprintf(stderr, "Error: ran out of memory in Database::step_all \n");
 				return SQLITE_ERROR;
 			}
 		}		
@@ -482,7 +481,7 @@ int Database::get_column(const char* name, void** output, uint32_t* result_count
 	uint32_t size = INITIAL_ROWS * column->size();
 	*output = malloc(size);
 	IF_DEBUG("get_column output = %p  size = %u \n", *output, size);
-	res = this->step_column(stmt, output, size, result_count);
+	res = this->step_all(stmt, output, size, result_count);
 	IF_DEBUG("get_colu output(%p) = %llu \n", *output, **(uint64_t**)output);
 	sqlite3_reset(stmt);
 	cache_release_value(m_statement_cache, &stmt);
@@ -517,6 +516,49 @@ int Database::get_row_ordered(const char* name, uint8_t** output, Table* table, 
 	IF_DEBUG("get_row_ordered output(%p) = %llu \n", *output, **(uint64_t**)output);
 	sqlite3_reset(stmt);
 	cache_release_value(m_statement_cache, &stmt);
+	return res;
+}
+
+int Database::get_all_ordered(const char* name, uint8_t*** output, uint32_t* result_count,
+							  Table* table, Column* order_by, int order, uint32_t count, ...) {
+	__get_stmt(table->get_row_ordered(m_db, order_by, order, count, args));
+	IF_DEBUG("stmt = %s \n", sqlite3_sql(stmt));
+	int res = SQLITE_OK;
+	uint32_t param = 1;
+	__bind_va_columns(count);
+	uint8_t* current = NULL;
+	*result_count = 0;
+	uint32_t output_max = INITIAL_ROWS;
+	*output = (uint8_t**)calloc(output_max, sizeof(uint8_t*));
+	
+	res = SQLITE_ROW;
+	while (res == SQLITE_ROW) {
+		if ((*result_count) >= output_max) {
+			output_max *= REALLOC_FACTOR;
+			*output = (uint8_t**)realloc((*output), output_max * sizeof(uint8_t*));
+			if (!(*output)) {
+				fprintf(stderr, "Error: ran out of memory trying to realloc output"
+						        "in get_all_ordered.\n");
+				return DB_ERROR;
+			}
+			IF_DEBUG("get_all_ordered realloc: %p \n", *output);
+		}
+		current = table->alloc_result();
+		IF_DEBUG("Table::alloc_result = %p \n", current);
+		res = this->step_once(stmt, current, NULL);
+		if (res == SQLITE_ROW) {
+			(*output)[(*result_count)] = current;
+			IF_DEBUG("get_all_ordered count: %u output(%p) = %llu \n", 
+					 (*result_count), (*output)[(*result_count)], (uint64_t)(*output)[(*result_count)][0]);
+			(*result_count)++;
+		} else {
+			table->free_result(current);
+		}
+	}
+
+	sqlite3_reset(stmt);
+	cache_release_value(m_statement_cache, &stmt);
+	IF_DEBUG("get_all_ordered res = %d \n", res);
 	return res;
 }
 

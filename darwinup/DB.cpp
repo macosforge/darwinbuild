@@ -353,7 +353,22 @@ int DarwinupDatabase::get_inactive_archive_serials(uint64_t** serials, uint32_t*
 							   1,
 							   this->m_archives_table->column(4), // active
 							   '=', (uint64_t)0);
-	if (res == SQLITE_DONE && *count) return (DB_OK & DB_FOUND);
+	if (res == SQLITE_DONE && *count) return (DB_OK | DB_FOUND);
+	if (res == SQLITE_DONE) return DB_OK;
+	return DB_ERROR;
+}
+
+int DarwinupDatabase::get_files(uint8_t*** data, uint32_t* count, Archive* archive) {
+	int res = this->get_all_ordered("files__archive",
+									data, count,
+									this->m_files_table,
+									this->m_files_table->column(8), // order by path
+									ORDER_BY_ASC,
+									1,
+									this->m_files_table->column(1),
+									'=', archive->serial());
+	
+	if ((res == SQLITE_DONE) && *count) return (DB_OK | DB_FOUND);
 	if (res == SQLITE_DONE) return DB_OK;
 	return DB_ERROR;
 }
@@ -363,7 +378,7 @@ int DarwinupDatabase::get_file_serials(uint64_t** serials, uint32_t* count) {
 							   this->m_files_table,
 							   this->m_files_table->column(0),
 							   0);
-	if (res == SQLITE_DONE && *count) return (DB_OK & DB_FOUND);
+	if (res == SQLITE_DONE && *count) return (DB_OK | DB_FOUND);
 	if (res == SQLITE_DONE) return DB_OK;
 	return DB_ERROR;	
 }
