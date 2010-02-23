@@ -143,7 +143,6 @@ struct Depot {
 	
 	File*		file_superseded_by(File* file);
 	File*		file_preceded_by(File* file);
-	File*		file_star_eded_by(File* file, sqlite3_stmt* stmt);
 
 	int		check_consistency();
 

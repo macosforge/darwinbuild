@@ -93,6 +93,7 @@ struct Digest {
 	uint32_t	m_size;
 	
 	friend struct Depot;
+	friend struct DarwinupDatabase;
 };
 
 ////

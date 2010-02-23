@@ -56,6 +56,7 @@ Table::Table() {
 	m_column_max    = 1;
 	m_column_count  = 0;
 	m_columns       = (Column**)malloc(sizeof(Column*) * m_column_max);
+	m_columns_size  = 0; 
 	m_result_max    = 1;
 	m_result_count  = 0;
 	m_results       = (uint8_t**)malloc(sizeof(uint8_t*) * m_result_max);
@@ -75,6 +76,7 @@ Table::Table(const char* name) {
 	m_column_max    = 1;
 	m_column_count  = 0;
 	m_columns       = (Column**)malloc(sizeof(Column*) * m_column_max);
+	m_columns_size  = 0; 
 	m_result_max    = 1;
 	m_result_count  = 0;
 	m_results       = (uint8_t**)malloc(sizeof(uint8_t*) * m_result_max);
@@ -124,7 +126,7 @@ const char* Table::name() {
 }
 
 uint32_t Table::row_size() {
-	return m_column_count*8;
+	return m_columns_size;
 }
 
 const Column** Table::columns() {
@@ -133,10 +135,9 @@ const Column** Table::columns() {
 
 
 int Table::add_column(Column* c) {
-	// accumulate offsets for columns
-	static int offset = 0;
-	c->m_offset = offset;
-	offset += c->size();
+	// accumulate offsets for columns in m_columns_size
+	c->m_offset = this->m_columns_size;
+	this->m_columns_size += c->size();
 	
 	// reallocate if needed
 	if (m_column_count >= m_column_max) {
@@ -274,30 +275,22 @@ char* Table::create() {
 
 #define __where_va_columns \
 	char tmpstr[256]; \
-    char* val; \
-    const char* op = "="; \
+    char tmp_op = '='; \
+    char op = '='; \
+    char not_op = ' '; \
 	int len; \
 	for (uint32_t i=0; i < count; i++) { \
         fprintf(stderr, "DEBUG: __where_va i=%u \n", i); \
 		Column* col = va_arg(args, Column*); \
 		fprintf(stderr, "DEBUG: __where_va col %p \n", col); \
-        if (col->type() == SQLITE_TEXT) { \
-            val = va_arg(args, char*); \
-            switch (val[0]) { \
-            case '!': \
-                op = "!="; \
-                break; \
-            case '>': \
-                op = ">"; \
-                break; \
-            case '<': \
-                op = "<"; \
-                break; \
-            } \
-		} else { \
-	        va_arg(args, void*); \
+        tmp_op = va_arg(args, int); \
+        if (tmp_op == '!') { \
+            not_op = tmp_op; \
+        } else { \
+            op = tmp_op; \
         } \
-		len = snprintf(tmpstr, 256, " AND %s%s?", col->name(), op); \
+        va_arg(args, void*); \
+		len = snprintf(tmpstr, 256, " AND %s%c%c?", col->name(), not_op, op); \
 		if (len >= 255) { \
 			fprintf(stderr, "Error: column name is too big (limit: 248): %s\n", col->name()); \
 			return NULL; \

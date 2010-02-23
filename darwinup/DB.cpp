@@ -89,7 +89,7 @@ int DarwinupDatabase::set_archive_active(uint64_t serial, uint64_t* active) {
 							  (void**)active,
 							  1,                                 // number of where conditions
 							  this->m_archives_table->column(0), // serial
-							  serial);
+							  '=', serial);
 }
 
 int DarwinupDatabase::update_archive(uint64_t serial, uuid_t uuid, const char* name,
@@ -122,16 +122,93 @@ uint64_t DarwinupDatabase::insert_archive(uuid_t uuid, uint32_t info, const char
 	return this->last_insert_id();
 }
 
+File* DarwinupDatabase::make_file(uint8_t* data) {
+	// XXX do this with a for loop and column->type()
+	uint64_t serial;
+	memcpy(&serial, &data[this->file_offset(0)], sizeof(uint64_t));
+	uint64_t archive_serial;
+	memcpy(&archive_serial, &data[this->file_offset(1)], sizeof(uint64_t));
+	
+	IF_DEBUG("make_file offset %d found serial %llu \n", this->file_offset(1), archive_serial);
+	
+	uint64_t info;
+	memcpy(&info, &data[this->file_offset(2)], sizeof(uint64_t));
+	uint64_t mode;
+	memcpy(&mode, &data[this->file_offset(3)], sizeof(uint64_t));
+	uint64_t uid;
+	memcpy(&uid, &data[this->file_offset(4)], sizeof(uint64_t));
+	uint64_t gid;
+	memcpy(&gid, &data[this->file_offset(5)], sizeof(uint64_t));
+	uint64_t size;
+	memcpy(&size, &data[this->file_offset(6)], sizeof(uint64_t));
+
+	Digest* digest = new Digest();
+	digest->m_size = 20; // size of SHA1 hash
+	memcpy(digest->m_data, &data[this->file_offset(7)], 20);
+
+	char* path;
+	memcpy(&path, &data[this->file_offset(8)], sizeof(char*));
+	
+	uint8_t* archive_data;
+	int res = this->get_archive(&archive_data, archive_serial);
+	Archive* archive = NULL;
+	if (FOUND(res)) {
+		archive = this->make_archive(archive_data);
+	} else {
+		fprintf(stderr, "Error: DB::make_file could not find the archive for file: %s: %d \n", path, res);
+		return NULL;
+	}
+	this->m_archives_table->free_result(archive_data);
+	
+	File* result = FileFactory(serial, archive, info, (const char*)path, mode, uid, gid, size, digest);
+	this->m_files_table->free_result(data);
+	
+	return result;
+}
+
+
+
+int DarwinupDatabase::get_next_file(uint8_t** data, File* file, file_starseded_t star) {
+	int res = SQLITE_OK;
+	
+	char comp = '<';
+	const char* name = "file_preceded";
+	int order = ORDER_BY_DESC;
+	if (star == FILE_SUPERSEDED) {
+		comp = '>';
+		name = "file_superseded";
+		order = ORDER_BY_ASC;
+	}
+	res = this->get_row_ordered(name,
+								data,
+								this->m_files_table,
+								this->m_files_table->column(1), // order by archive
+								order,
+								2,
+								this->m_files_table->column(1), // archive
+								comp, file->archive()->serial(),
+								this->m_files_table->column(8), // path
+								'=', file->path());
+	
+	if (res == SQLITE_ROW) return (DB_FOUND | DB_OK);
+	if (res == SQLITE_DONE) return DB_OK;
+	return DB_ERROR;
+}
+
 int DarwinupDatabase::get_file_serial_from_archive(Archive* archive, const char* path, uint64_t** serial) {
-	return this->get_value("file_serial__archive_path",
-						   (void**)serial,
-						   this->m_files_table,
-						   this->m_files_table->column(0), // serial
-						   2,                              // number of where conditions
-						   this->m_files_table->column(1), // archive
-						   (uint64_t)archive->serial(),
-						   this->m_files_table->column(8), // path
-						   path);
+	int res = this->get_value("file_serial__archive_path",
+							  (void**)serial,
+							  this->m_files_table,
+							  this->m_files_table->column(0), // serial
+							  2,                              // number of where conditions
+							  this->m_files_table->column(1), // archive
+							  '=', (uint64_t)archive->serial(),
+							  this->m_files_table->column(8), // path
+							  '=', path);
+	
+	if (res == SQLITE_ROW) return (DB_FOUND | DB_OK);
+	if (res == SQLITE_DONE) return DB_OK;
+	return DB_ERROR;
 }
 
 int DarwinupDatabase::update_file(uint64_t serial, Archive* archive, uint32_t info, mode_t mode, 
@@ -189,10 +266,10 @@ uint64_t DarwinupDatabase::count_files(Archive* archive, const char* path) {
 					  this->m_files_table,
 					  2,                              // number of where conditions
 					  this->m_files_table->column(1), // archive
-					  (uint64_t)archive->serial(),
+					  '=', (uint64_t)archive->serial(),
 					  this->m_files_table->column(8), // path
-					  path);
-	if (res) {
+					  '=', path);	
+	if (res != SQLITE_ROW) {
 		fprintf(stderr, "Error: unable to count files: %d \n", res);
 		return 0;
 	}
@@ -212,9 +289,9 @@ uint64_t DarwinupDatabase::count_archives(bool include_rollbacks) {
 						  this->m_archives_table,
 						  1,
 						  this->m_archives_table->column(2), // name
-						  "!<Rollback>");		
+						  '!', "<Rollback>");		
 	}
-	if (res) {
+	if (res != SQLITE_ROW) {
 		fprintf(stderr, "Error: unable to count archives: %d \n", res);
 		return 0;
 	}	
@@ -222,36 +299,48 @@ uint64_t DarwinupDatabase::count_archives(bool include_rollbacks) {
 }
 
 int DarwinupDatabase::delete_archive(Archive* archive) {
-	return this->del(this->m_archives_table, archive->serial());
+	int res = this->del(this->m_archives_table, archive->serial());
+	if (res != SQLITE_OK) return DB_ERROR;
+	return DB_OK;
 }
 
 int DarwinupDatabase::delete_archive(uint64_t serial) {
-	return this->del(this->m_archives_table, serial) ;
+	int res = this->del(this->m_archives_table, serial);
+	if (res != SQLITE_OK) return DB_ERROR;
+	return DB_OK;
 }
 
 int DarwinupDatabase::delete_empty_archives() {
-	return this->sql("delete_empty_archives", 
-					 "DELETE FROM archives "
-					 "WHERE serial IN "
-					 " (SELECT serial FROM archives "
-					 "  WHERE serial NOT IN "
-					 "   (SELECT DISTINCT archive FROM files));");	
+	int res = this->sql("delete_empty_archives", 
+						"DELETE FROM archives "
+						"WHERE serial IN "
+						" (SELECT serial FROM archives "
+						"  WHERE serial NOT IN "
+						"   (SELECT DISTINCT archive FROM files));");	
+	if (res != SQLITE_OK) return DB_ERROR;
+	return DB_OK;
 }
 
 int DarwinupDatabase::delete_file(File* file) {
-	return this->del(this->m_files_table, file->serial());
+	int res = this->del(this->m_files_table, file->serial());
+	if (res != SQLITE_OK) return DB_ERROR;
+	return DB_OK;
 }
 
 int DarwinupDatabase::delete_file(uint64_t serial) {
-	return this->del(this->m_files_table, serial);
+	int res = this->del(this->m_files_table, serial);
+	if (res != SQLITE_OK) return DB_ERROR;
+	return DB_OK;
 }
 
 int DarwinupDatabase::delete_files(Archive* archive) {
-	return this->del("delete_files__archive",
-					 this->m_files_table,
-					 1,                               // number of where conditions
-					 this->m_files_table->column(1),  // archive
-					 (uint64_t)archive->serial());
+	int res = this->del("delete_files__archive",
+						this->m_files_table,
+						1,                               // number of where conditions
+						this->m_files_table->column(1),  // archive
+						'=', (uint64_t)archive->serial());
+	if (res != SQLITE_OK) return DB_ERROR;
+	return DB_OK;
 }
 
 
@@ -262,19 +351,25 @@ int DarwinupDatabase::get_inactive_archive_serials(uint64_t** serials, uint32_t*
 							   this->m_archives_table->column(0), // serial
 							   1,
 							   this->m_archives_table->column(4), // active
-							   (uint64_t)0);
-	return res;
+							   '=', (uint64_t)0);
+	if (res == SQLITE_DONE && *count) return (DB_OK & DB_FOUND);
+	if (res == SQLITE_DONE) return DB_OK;
+	return DB_ERROR;
 }
 
 int DarwinupDatabase::get_file_serials(uint64_t** serials, uint32_t* count) {
-	return this->get_column("file_serials", (void**)serials, count, 
-							this->m_files_table,
-							this->m_files_table->column(0),
-							0);
+	int res = this->get_column("file_serials", (void**)serials, count, 
+							   this->m_files_table,
+							   this->m_files_table->column(0),
+							   0);
+	if (res == SQLITE_DONE && *count) return (DB_OK & DB_FOUND);
+	if (res == SQLITE_DONE) return DB_OK;
+	return DB_ERROR;	
 }
 
 
 Archive* DarwinupDatabase::make_archive(uint8_t* data) {
+	// XXX do this with a for loop and column->type()
 	uint64_t serial;
 	memcpy(&serial, &data[this->archive_offset(0)], sizeof(uint64_t));
 	uuid_t* uuid;
@@ -292,30 +387,40 @@ Archive* DarwinupDatabase::make_archive(uint8_t* data) {
 }
 
 int DarwinupDatabase::get_archive(uint8_t** data, uuid_t uuid) {
-	return this->get_row("archive__uuid",
-						 data,
-						 this->m_archives_table,
-						 1,
-						 this->m_archives_table->column(1), // uuid
-						 uuid, sizeof(uuid_t));
+	int res = this->get_row("archive__uuid",
+							data,
+							this->m_archives_table,
+							1,
+							this->m_archives_table->column(1), // uuid
+							'=', uuid, sizeof(uuid_t));
+	if (res == SQLITE_ROW) return (DB_FOUND | DB_OK);
+	if (res == SQLITE_DONE) return DB_OK;
+	return DB_ERROR;	
 }
 
 int DarwinupDatabase::get_archive(uint8_t** data, uint64_t serial) {
-	return this->get_row("archive__serial",
-						 data,
-						 this->m_archives_table,
-						 1,
-						 this->m_archives_table->column(0), // serial
-						 serial);
+	IF_DEBUG("get_archive serial: %llu \n", serial);
+	int res = this->get_row("archive__serial",
+							data,
+							this->m_archives_table,
+							1,
+							this->m_archives_table->column(0), // serial
+							'=', serial);
+	if (res == SQLITE_ROW) return (DB_FOUND | DB_OK);
+	if (res == SQLITE_DONE) return DB_OK;
+	return DB_ERROR;	
 }
 
 int DarwinupDatabase::get_archive(uint8_t** data, const char* name) {
-	return this->get_row("archive__name",
-						 data,
-						 this->m_archives_table,
-						 1,
-						 this->m_archives_table->column(2), // name
-						 name);
+	int res = this->get_row("archive__name",
+							data,
+							this->m_archives_table,
+							1,
+							this->m_archives_table->column(2), // name
+							'=', name);
+	if (res == SQLITE_ROW) return (DB_FOUND | DB_OK);
+	if (res == SQLITE_DONE) return DB_OK;
+	return DB_ERROR;	
 }
 
 int DarwinupDatabase::get_archive(uint8_t** data, archive_keyword_t keyword) {
@@ -333,22 +438,17 @@ int DarwinupDatabase::get_archive(uint8_t** data, archive_keyword_t keyword) {
 								order,
 								1,
 								this->m_archives_table->column(2), // name
-								"!<Rollback>");
+								'!', "<Rollback>");
 	
-	return res;
+	if (res == SQLITE_ROW) return (DB_FOUND | DB_OK);
+	if (res == SQLITE_DONE) return DB_OK;
+	return DB_ERROR;	
 }
 
 int DarwinupDatabase::archive_offset(int column) {
 	return this->m_archives_table->offset(column);
 }
 
-
-/*
-get_all_archives(include_rollbacks?)
- 
-get_files(archive)
-
-
-*/
-
-
+int DarwinupDatabase::file_offset(int column) {
+	return this->m_files_table->offset(column);
+}

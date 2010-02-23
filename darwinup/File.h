@@ -39,6 +39,11 @@
 #include <sys/stat.h>
 #include <fts.h>
 
+enum file_starseded_t {
+	FILE_SUPERSEDED,
+	FILE_PRECEDED
+};
+
 //
 // FILE_INFO flags stored in the database
 //

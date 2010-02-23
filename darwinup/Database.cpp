@@ -304,6 +304,7 @@ int Database::execute(sqlite3_stmt* stmt) {
     fprintf(stderr, "DEBUG: sql: %s \n", sqlite3_sql(stmt)); \
     for (uint32_t i=0; i<count; i++) { \
         Column* col = va_arg(args, Column*); \
+        va_arg(args, int); \
         uint8_t* bdata = NULL; \
         uint32_t bsize = 0; \
         char* tval; \
@@ -313,7 +314,6 @@ int Database::execute(sqlite3_stmt* stmt) {
                 break; \
             case TYPE_TEXT: \
                 tval = va_arg(args, char*); \
-                if (tval[0] == '!' || tval[0] == '>' || tval[0] == '<') tval++; \
                 res = sqlite3_bind_text(stmt, param++, tval, -1, SQLITE_STATIC); \
                 break; \
             case TYPE_BLOB: \
@@ -383,6 +383,12 @@ size_t Database::store_column(sqlite3_stmt* stmt, int column, uint8_t* output) {
 			IF_DEBUG("store_column used=%u output(%p) = %s \n", 
 					 (uint32_t)used, *(char**)output, *(char**)output);
 			break;
+		case SQLITE_NULL:
+			// result row has a NULL value which is okay
+			IF_DEBUG("store_column got a NULL column value for: %d \n", column);
+			*(const char**)output = NULL;
+			used = sizeof(char*);
+			break;
 		default:
 			fprintf(stderr, "Error: unhandled column type in Database::store_column(): %d \n", 
 					type);
@@ -417,7 +423,6 @@ int Database::step_once(sqlite3_stmt* stmt, uint8_t* output, uint32_t* used) {
 			*used = current - output;
 			IF_DEBUG("step_once after store used(%p) = %u \n", used, *used);
 		}
-		res = SQLITE_OK;
 	}
 
 	return res;
@@ -430,12 +435,12 @@ int Database::step_column(sqlite3_stmt* stmt, void** output, uint32_t size, uint
 	uint8_t* current = *(uint8_t**)output;
 	*count = 0;
 	IF_DEBUG("rowsize = %u \n", rowsize);
-	int res = SQLITE_OK;
-	while (res == SQLITE_OK) {
+	int res = SQLITE_ROW;
+	while (res == SQLITE_ROW) {
 		current = *(uint8_t**)output + total_used;
 		IF_DEBUG("calling step_once with current(%p) \n", current);
 		res = this->step_once(stmt, current, &used);
-		if (res == SQLITE_OK) (*count)++;
+		if (res == SQLITE_ROW) (*count)++;
 		total_used += used;
 		IF_DEBUG("stepped: used = %u total_used = %u size = %u \n", used, total_used, size);
 		if (total_used >= (size - rowsize)) {
@@ -461,7 +466,7 @@ int Database::get_value(const char* name, void** output, Table* table, Column* v
 	uint32_t size = value_column->size();
 	*output = malloc(size);
 	res = this->step_once(stmt, (uint8_t*)*output, NULL);
-	IF_DEBUG("get_value output(%p) = %llu \n", *output, **(uint64_t**)output);
+	IF_DEBUG("get_value: res = %d output(%p) = %llu \n", res, *output, **(uint64_t**)output);
 	sqlite3_reset(stmt);
 	cache_release_value(m_statement_cache, &stmt);
 	return res;

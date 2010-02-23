@@ -77,7 +77,7 @@ protected:
 	int            free_row(uint8_t* row);
 	
 	char*          m_name;
-	
+
 	char*          m_create_sql;
 	char*          m_insert_sql;
 	char*          m_update_sql;
@@ -86,6 +86,7 @@ protected:
 	Column**       m_columns;
 	uint32_t       m_column_count;
 	uint32_t       m_column_max;
+	int            m_columns_size;
 	
 	sqlite3_stmt*  m_prepared_insert;
 	sqlite3_stmt*  m_prepared_update;
