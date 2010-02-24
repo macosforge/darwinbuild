@@ -180,8 +180,14 @@ protected:
 	bool  is_empty();
 	int   create_tables();
 
-
-
+	// bind all table columns from va_list
+	int   bind_all_columns(sqlite3_stmt* stmt, Table* table, va_list args);
+	// bind each set of parameters from va_list 
+	int   bind_va_columns(sqlite3_stmt* stmt, uint32_t count, va_list args);
+	// bind parameters from va_list, starting with the param'th parameter in stmt
+	int   bind_columns(sqlite3_stmt* stmt, uint32_t count, int param, 
+					   va_list args);
+	
 	/**
 	 * step and store functions
 	 */
