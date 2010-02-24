@@ -189,6 +189,7 @@ int Table::free_result(uint8_t* result) {
             op = tmp_op; \
         } \
         va_arg(args, void*); \
+        if (col->type() == SQLITE_BLOB) va_arg(args, uint32_t); \
 		len = snprintf(tmpstr, 256, " AND %s%c%c?", col->name(), not_op, op); \
 		if (len >= 255) { \
 			fprintf(stderr, "Error: column name is too big (limit: 248): %s\n", col->name()); \

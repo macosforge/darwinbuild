@@ -62,13 +62,13 @@ struct Table {
 	 *
 	 * - order is either ORDER_BY_ASC or ORDER_BY_DESC
 	 * - count parameters should be the number of items in the va_list
-	 * - args should be a va_list with sets of 3 parameters for WHERE clause:
-	 *        Column*, char, value
-	 *
+	 * - args should have sets of 3 (integer and text) or 4 (blob) 
+	 *     parameters for WHERE clause like Column*, char, value
 	 *      - Column* is the column to match against
 	 *      - char is how to compare, one of '=', '!', '>', or '<'
-	 *      - value is the value to match, which is ignored by these API
-	 *          since they leave placeholders instead
+	 *      - value is the value to match (1 for integer and text, 2 for blobs)
+	 *          which is ignored by these API since they leave placeholders 
+	 *          instead
 	 *
 	 */
 	sqlite3_stmt*    create(sqlite3* db);  

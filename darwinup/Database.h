@@ -47,6 +47,7 @@
 #include "Digest.h"
 #include "Archive.h"
 
+// flag for generating queries with ORDER BY clauses
 #define ORDER_BY_DESC 0
 #define ORDER_BY_ASC  1
 
@@ -62,28 +63,23 @@
 #define DB_ERROR     0x0001
 #define DB_FOUND     0x0010
 
+// test return code to see if actual results were found
 #define FOUND(x)  ((x & DB_FOUND) && !(x & DB_ERROR))
 
 // Schema creation macros
 #define ADD_COLUMN(table, name, type, index, pk, unique) \
-        assert(table->add_column(new Column(name, type, index, pk, unique))==0);
+    assert(table->add_column(new Column(name, type, index, pk, unique))==0);
 #define ADD_INDEX(table, name, type, unique) \
-        assert(table->add_column(new Column(name, type, true, false, unique))==0);
+	assert(table->add_column(new Column(name, type, true, false, unique))==0);
 #define ADD_PK(table, name) \
-        assert(table->add_column(new Column(name, TYPE_INTEGER, false, true, false))==0);
+	assert(table->add_column(new Column(name, TYPE_INTEGER, \
+                                        false, true, false))==0);
 #define ADD_TEXT(table, name) \
-		assert(table->add_column(new Column(name, TYPE_TEXT))==0);
+	assert(table->add_column(new Column(name, TYPE_TEXT))==0);
 #define ADD_INTEGER(table, name) \
-		assert(table->add_column(new Column(name, TYPE_INTEGER))==0);
+	assert(table->add_column(new Column(name, TYPE_INTEGER))==0);
 #define ADD_BLOB(table, name) \
-        assert(table->add_column(new Column(name, TYPE_BLOB))==0);
-
-// libcache callbacks
-bool cache_key_is_equal(void* key1, void* key2, void* user);
-void cache_key_retain(void* key_in, void** key_out, void* user_data);
-void cache_key_release(void* key, void* user_data);
-void cache_value_retain(void* value, void* user_data);
-void cache_value_release(void* value, void* user_data);
+	assert(table->add_column(new Column(name, TYPE_BLOB))==0);
 
 
 /**
@@ -96,29 +92,39 @@ struct Database {
 	Database(const char* path);
 	virtual ~Database();
 
-	static const int TYPE_INTEGER = SQLITE_INTEGER;
-	static const int TYPE_TEXT    = SQLITE3_TEXT;
-	static const int TYPE_BLOB    = SQLITE_BLOB;
-	
+	/**
+	 * init_schema is called during db connection.
+	 * Projects implementing a Database derived class
+	 * should use Table::add_column() or the ADD_*
+	 * macros in their init_schema() to define their schema
+	 */
 	virtual void init_schema();
+	
 	const char*  path();
 	const char*  error();
 	int          connect();
 	int          connect(const char* path);
-	
 	
 	int          begin_transaction();
 	int          rollback_transaction();
 	int          commit_transaction();
 	
 	/**
-	 * SELECT statement caching and execution
+	 * statement caching and execution
 	 *
-	 *  name is a string key that labels the query for caching purposes (63 char max)
-	 *  output is where we will store the value requested
-	 *  table and value_column are what value we'll give back
-	 *
-	 *  everything else are Column*,value pairs for making a WHERE clause
+	 * - name is a string key that labels the query for caching purposes 
+	 * - output is where we will store the value requested
+	 * - count is the number of sets of parameters
+	 * - va_list should have sets of 3 (integer and text) or 4 (blob) 
+	 *     parameters for WHERE clause like Column*, char, value(s)
+	 *      - Column* is the column to match against
+	 *      - char is how to compare, one of '=', '!', '>', or '<'
+	 *      - value(s) is the value to match
+	 *          - text columns require a char* arg
+	 *          - integer columns require a uint64_t arg
+	 *          - blob columns require 2 args in the list:
+	 *              - first is a uint8_t* of data
+	 *              - second is a uint32_t value for size of the data
 	 *
 	 */
 	int  count(const char* name, void** output, Table* table, uint32_t count, ...);
@@ -133,26 +139,52 @@ struct Database {
 						 Table* table, Column* order_by, int order, uint32_t count, ...);
 	int  update_value(const char* name, Table* table, Column* value_column, void** value, 
 					  uint32_t count, ...);
+	int  del(const char* name, Table* table, uint32_t count, ...);
+	
+	/**
+	 * update/insert whole rows
+	 *
+	 * Given a table and a va_list in the same order as Table::add_column() 
+	 * calls, minus any primary key columns, bind and executes a sql query 
+	 * for insert or update. 
+	 *
+	 * The Table is responsible for preparing the statement
+	 *
+	 * text columns require char* args
+	 * integer columns require uint64_t args
+	 * blob columns require 2 args in the list:
+	 *    - first is a uint8_t* of data
+	 *    - second is a uint32_t value for size of the data 
+	 *
+	 */	
 	int  update(Table* table, uint64_t pkvalue, ...);
 	int  insert(Table* table, ...);
-
+	
+	// delete row with primary key equal to serial
 	int  del(Table* table, uint64_t serial);
-	int  del(const char* name, Table* table, uint32_t count, ...);
-		
-	int  add_table(Table*);
+	
 	uint64_t last_insert_id();
 	
-	int sql_once(const char* fmt, ...);
-	int sql(const char* name, const char* fmt, ...);
 	
 protected:
+
+	// execute query with printf-style format, does not cache statement
+	int sql_once(const char* fmt, ...);
+	// cache statement with name, execute query with printf-style format
+	int sql(const char* name, const char* fmt, ...);
+	int execute(sqlite3_stmt* stmt);
 	
+	int  add_table(Table*);
+	
+	// test if database has had its tables created
 	bool  is_empty();
 	int   create_tables();
 
-	
-	int execute(sqlite3_stmt* stmt);
-	
+
+
+	/**
+	 * step and store functions
+	 */
 	size_t store_column(sqlite3_stmt* stmt, int column, uint8_t* output);
 	int step_once(sqlite3_stmt* stmt, uint8_t* output, uint32_t* used);
 	int step_all(sqlite3_stmt* stmt, void** output, uint32_t size, uint32_t* count);
@@ -176,7 +208,18 @@ protected:
 	
 	char*            m_error;
 	size_t           m_error_size;
+	
+	static const int TYPE_INTEGER = SQLITE_INTEGER;
+	static const int TYPE_TEXT    = SQLITE3_TEXT;
+	static const int TYPE_BLOB    = SQLITE_BLOB;
 
 };
+
+// libcache callbacks
+bool cache_key_is_equal(void* key1, void* key2, void* user);
+void cache_key_retain(void* key_in, void** key_out, void* user_data);
+void cache_key_release(void* key, void* user_data);
+void cache_value_retain(void* value, void* user_data);
+void cache_value_release(void* value, void* user_data);
 
 #endif
