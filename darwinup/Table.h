@@ -88,6 +88,8 @@ struct Table {
 	
 protected:
 
+	int            where_va_columns(uint32_t count, char* query, size_t size, 
+									size_t* used, va_list args);
 	const Column** columns();
 	uint32_t       column_count();
 

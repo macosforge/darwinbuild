@@ -174,46 +174,14 @@ int Table::free_result(uint8_t* result) {
         used = strlcat(query, text, size); \
     }
 
-#define __where_va_columns \
-	char tmpstr[256]; \
-    char tmp_op = '='; \
-    char op = '='; \
-    char not_op = ' '; \
-	int len; \
-	for (uint32_t i=0; i < count; i++) { \
-		Column* col = va_arg(args, Column*); \
-        tmp_op = va_arg(args, int); \
-        if (tmp_op == '!') { \
-            not_op = tmp_op; \
-        } else { \
-            op = tmp_op; \
-        } \
-        va_arg(args, void*); \
-        if (col->type() == SQLITE_BLOB) va_arg(args, uint32_t); \
-		len = snprintf(tmpstr, 256, " AND %s%c%c?", col->name(), not_op, op); \
-		if (len >= 255) { \
-			fprintf(stderr, "Error: column name is too big (limit: 248): %s\n", col->name()); \
-			return NULL; \
-		} \
-		used = strlcat(query, tmpstr, size); \
-		if (used >= size-1) { \
-			size *= 4; \
-			query = (char*)realloc(query, size); \
-			if (!query) { \
-				fprintf(stderr, "Error: ran out of memory!\n"); \
-				return NULL; \
-			} \
-			used = strlcat(query, tmpstr, size); \
-		} \
-	}
-
 #define __prepare_stmt \
-	int res = sqlite3_prepare_v2(db, query, size, &stmt, NULL); \
-	free(query); \
-	if (res != SQLITE_OK) { \
-		fprintf(stderr, "Error: unable to prepare statement: %s\n", sqlite3_errmsg(db)); \
-		return NULL; \
-	}
+    int res = sqlite3_prepare_v2(db, query, size, &stmt, NULL); \
+    free(query); \
+    if (res != SQLITE_OK) { \
+        fprintf(stderr, "Error: unable to prepare statement: %s\n", \
+				sqlite3_errmsg(db)); \
+        return NULL; \
+    }
 
 sqlite3_stmt* Table::create(sqlite3* db) {
 	size_t size;
@@ -276,7 +244,7 @@ sqlite3_stmt* Table::count(sqlite3* db, uint32_t count, va_list args) {
 	strlcpy(query, "SELECT count(*) FROM ", size);
 	__check_and_cat(m_name);
 	__check_and_cat(" WHERE 1");
-	__where_va_columns;
+	this->where_va_columns(count, query, size, &used, args);
 	strlcat(query, ";", size);
 	__prepare_stmt;
 
@@ -290,7 +258,7 @@ sqlite3_stmt* Table::get_column(sqlite3* db, Column* value_column, uint32_t coun
 	__check_and_cat(" FROM ");
 	__check_and_cat(m_name);
 	__check_and_cat(" WHERE 1");
-	__where_va_columns;
+	this->where_va_columns(count, query, size, &used, args);
 	strlcat(query, ";", size);
 	__prepare_stmt;
 	
@@ -302,7 +270,7 @@ sqlite3_stmt* Table::get_row(sqlite3* db, uint32_t count, va_list args) {
 	strlcpy(query, "SELECT * FROM ", size);
 	__check_and_cat(m_name);
 	__check_and_cat(" WHERE 1");
-	__where_va_columns;
+	this->where_va_columns(count, query, size, &used, args);
 	strlcat(query, ";", size);
 	__prepare_stmt;
 	
@@ -315,7 +283,7 @@ sqlite3_stmt* Table::get_row_ordered(sqlite3* db, Column* order_by, int order,
 	strlcpy(query, "SELECT * FROM ", size);
 	__check_and_cat(m_name);
 	__check_and_cat(" WHERE 1");
-	__where_va_columns;
+	this->where_va_columns(count, query, size, &used, args);
 	__check_and_cat(" ORDER BY ");
 	__check_and_cat(order_by->name());
 	__check_and_cat((order == ORDER_BY_DESC ? " DESC" : " ASC"));
@@ -333,7 +301,7 @@ sqlite3_stmt* Table::update_value(sqlite3* db, Column* value_column, uint32_t co
 	__check_and_cat(" SET ");
 	__check_and_cat(value_column->name());
 	__check_and_cat("=? WHERE 1");
-	__where_va_columns;
+	this->where_va_columns(count, query, size, &used, args);
 	strlcat(query, ";", size);
 	__prepare_stmt;
 	
@@ -490,11 +458,49 @@ sqlite3_stmt* Table::del(sqlite3* db, uint32_t count, va_list args) {
 	strlcpy(query, "DELETE FROM ", size);
 	__check_and_cat(m_name);
 	__check_and_cat(" WHERE 1");
-	__where_va_columns;
+	this->where_va_columns(count, query, size, &used, args);
 	strlcat(query, ";", size);
 	__prepare_stmt;
 	
 	return stmt;
+}
+
+int Table::where_va_columns(uint32_t count, char* query, size_t size, 
+							size_t* used, va_list args) {
+	char tmpstr[256];
+    char tmp_op = '=';
+    char op = '=';
+    char not_op = ' ';
+	int len;
+	for (uint32_t i=0; i < count; i++) {
+		Column* col = va_arg(args, Column*);
+        tmp_op = va_arg(args, int);
+        if (tmp_op == '!') {
+            not_op = tmp_op;
+        } else {
+            op = tmp_op;
+        }
+        va_arg(args, void*);
+        if (col->type() == SQLITE_BLOB) va_arg(args, uint32_t);
+		len = snprintf(tmpstr, 256, " AND %s%c%c?", col->name(), not_op, op);
+		if (len >= 255) {
+			fprintf(stderr, "Error: column name is too big (limit: 248): %s\n", 
+					col->name());
+			return NULL;
+		}
+		*used = strlcat(query, tmpstr, size);
+		if (*used >= size-1) {
+			size *= 4;
+			query = (char*)realloc(query, size);
+			if (!query) {
+				fprintf(stderr, "Error: ran out of memory!\n");
+				return -1;
+			}
+			*used = strlcat(query, tmpstr, size);
+		}
+	}
+	
+	return 0;
 }
 
 const Column** Table::columns() {
