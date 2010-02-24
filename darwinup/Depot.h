@@ -35,7 +35,6 @@
 
 #include <sys/types.h>
 #include <uuid/uuid.h>
-#include <sqlite3.h>
 #include "DB.h"
 #include "Archive.h"
 
@@ -68,7 +67,6 @@ struct Depot {
 	Archive* archive(uuid_t uuid);
 	Archive* archive(archive_name_t name);
 	Archive* archive(archive_keyword_t keyword);
-	Archive* archive(sqlite3_stmt* stmt);
 	Archive* get_archive(const char* arg);
 
 	// returns a list of Archive*. Caller must free the list. 
@@ -107,33 +105,29 @@ struct Depot {
 
 	int has_file(Archive* archive, File* file);
 
-	// XXX: remove me
-	DarwinupDatabase* get_db();
 	
-	protected:
+protected:
 
 	// Serialize access to the Depot via flock(2).
-	int lock(int operation);
-	int unlock(void);
+	int     lock(int operation);
+	int     unlock(void);
 
 	// Inserts an Archive into the database.
 	// This modifies the Archive's serial number.
 	// If the Archive already has a serial number, it cannot be inserted.
-	int insert(Archive* archive);
+	int     insert(Archive* archive);
 	
 	// Inserts a File into the database, as part of the specified Archive.
 	// This modifies the File's serial number.
 	// This modifies the File's Archive pointer.
 	// If the File already has a serial number, it cannot be inserted.
-	int insert(Archive* archive, File* file);
-
-	
+	int     insert(Archive* archive, File* file);
 	
 	// Removes an Archive from the database.
-	int remove(Archive* archive);
+	int     remove(Archive* archive);
 	
 	// Removes a File from the database.
-	int remove(File* file);
+	int     remove(File* file);
 
 	int		analyze_stage(const char* path, Archive* archive, Archive* rollback, int* rollback_files);
 	int		prune_directories();
@@ -141,8 +135,8 @@ struct Depot {
 	// Removes all archive entries which have no corresponding files entries.
 	int		prune_archives();
 	
-	File*		file_superseded_by(File* file);
-	File*		file_preceded_by(File* file);
+	File*	file_superseded_by(File* file);
+	File*	file_preceded_by(File* file);
 
 	int		check_consistency();
 

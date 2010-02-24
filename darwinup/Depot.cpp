@@ -129,11 +129,6 @@ int Depot::is_initialized() {
 	return (m_db != NULL);
 }
 
-
-DarwinupDatabase* Depot::get_db() {
-	return m_db;
-}
-
 // Unserialize an archive from the database.
 // Find the archive by UUID.
 Archive* Depot::archive(uuid_t uuid) {
