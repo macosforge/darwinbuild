@@ -204,14 +204,23 @@ int Table::free_result(uint8_t* result) {
 			// if we did not free the last result,
 			// move last result to the empty slot
 			if (i != (m_result_count - 1)) {
-				m_results[i] = m_results[m_column_count-1];
-				m_results[m_column_count-1] = NULL;
+				m_results[i] = m_results[m_result_count-1];
+				m_results[m_result_count-1] = NULL;
 			}
+			m_result_count--;
 		}
 	}
 	return 0;
 }
 
+void Table::dump_results() {
+	fprintf(stderr, "====================================================================\n");
+	for (uint32_t i=0; i < m_result_count; i++) {
+		fprintf(stderr, "%p %u:\n", m_results[i], i);
+		__data_hex(m_results[i], 48);
+	}
+	fprintf(stderr, "====================================================================\n");
+}
 
 char* Table::create() {
 	if (!m_create_sql) {

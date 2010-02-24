@@ -39,15 +39,6 @@ void dbtrace(void* context, const char* sql) {
 	IF_DEBUG("[TRACE] %s \n", sql);
 }
 
-void __blob_hex(uint8_t* data, uint32_t size) {
-	if (!size) return;
-	for (uint32_t i=0; i < size; i++) {
-		IF_DEBUG("%02x", data[i]);
-	}
-	IF_DEBUG("\n");
-}
-
-
 Database::Database() {
 	// XXX: make the initial allocation for 2 to tailor to darwinup usage
 	m_table_max = 1;

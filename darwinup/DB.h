@@ -63,6 +63,7 @@ struct DarwinupDatabase : Database {
 	
 	// Archives
 	Archive* make_archive(uint8_t* data);
+	int      get_archives(uint8_t*** data, uint32_t* count, bool include_rollbacks);
 	int      get_archive(uint8_t** data, uuid_t uuid);
 	int      get_archive(uint8_t** data, uint64_t serial);
 	int      get_archive(uint8_t** data, const char* name);

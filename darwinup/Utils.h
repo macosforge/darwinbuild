@@ -62,6 +62,8 @@ int compact_slashes(char* orig, int slashes);
 char* fetch_url(const char* srcpath, const char* dstpath);
 char* fetch_userhost(const char* srcpath, const char* dstpath);
 
+void __data_hex(uint8_t* data, uint32_t size);
+
 inline int INFO_TEST(uint32_t word, uint32_t flag) { return ((word & flag) != 0); }
 inline int INFO_SET(uint32_t word, uint32_t flag) { return (word | flag); }
 inline int INFO_CLR(uint32_t word, uint32_t flag) { return (word & (~flag)); }

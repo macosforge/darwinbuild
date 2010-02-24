@@ -385,7 +385,7 @@ int DarwinupDatabase::get_file_serials(uint64_t** serials, uint32_t* count) {
 
 
 Archive* DarwinupDatabase::make_archive(uint8_t* data) {
-	// XXX do this with a for loop and column->type()
+	// XXX do this with a for loop and column->type()	
 	uint64_t serial;
 	memcpy(&serial, &data[this->archive_offset(0)], sizeof(uint64_t));
 	uuid_t* uuid;
@@ -400,6 +400,21 @@ Archive* DarwinupDatabase::make_archive(uint8_t* data) {
 	Archive* archive = new Archive(serial, *uuid, name, NULL, info, date_added);
 	this->m_archives_table->free_result(data);
 	return archive;
+}
+
+int DarwinupDatabase::get_archives(uint8_t*** data, uint32_t* count, bool include_rollbacks) {
+	int res = this->get_all_ordered("get_archives",
+									data, count,
+									this->m_archives_table,
+									this->m_archives_table->column(0), // order by path
+									ORDER_BY_DESC,
+									1,
+									this->m_archives_table->column(2),  // name
+									'!', (include_rollbacks ? "" : "<Rollback>") );
+	
+	if ((res == SQLITE_DONE) && *count) return (DB_OK | DB_FOUND);
+	if (res == SQLITE_DONE) return DB_OK;
+	return DB_ERROR;	
 }
 
 int DarwinupDatabase::get_archive(uint8_t** data, uuid_t uuid) {

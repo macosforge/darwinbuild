@@ -30,15 +30,6 @@
  * @APPLE_BSD_LICENSE_HEADER_END@
  */
 
-#include "Archive.h"
-#include "Depot.h"
-#include "Utils.h"
-#include "DB.h"
-
-//XXX: remove me
-#include "File.h"
-#include "Digest.h"
-
 #include <libgen.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -46,14 +37,10 @@
 #include <unistd.h>
 #include <limits.h>
 
-
-void __str_hex(const char* str) {
-	int i = 0;
-	while (str[i]) {
-		fprintf(stderr, "%02x", str[i++]);
-	}
-	fprintf(stderr, "\n");
-}
+#include "Archive.h"
+#include "Depot.h"
+#include "Utils.h"
+#include "DB.h"
 
 
 void usage(char* progname) {
@@ -154,13 +141,7 @@ int main(int argc, char* argv[]) {
 		fprintf(stderr, "Error: unable to initialize storage.\n");
 		exit(2);
 	}
-	
-	
-	// XXX: test area for new database... remove me
-	//DarwinupDatabase* testdb = depot->get_db2();
 
-	// XXX
-	
 	if (argc == 2 && strcmp(argv[0], "install") == 0) {
 		char uuid[37];
 		Archive* archive = ArchiveFactory(argv[1], depot->downloads_path());

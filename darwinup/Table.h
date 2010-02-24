@@ -73,7 +73,7 @@ struct Table {
 	sqlite3_stmt*    del(sqlite3* db, uint32_t count, va_list args);
 	
 protected:
-		
+	void           dump_results();	
 	int            free_row(uint8_t* row);
 	
 	char*          m_name;

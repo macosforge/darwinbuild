@@ -72,7 +72,7 @@ struct Depot {
 	Archive* get_archive(const char* arg);
 
 	// returns a list of Archive*. Caller must free the list. 
-	Archive** get_all_archives(uint64_t *count);
+	Archive** get_all_archives(uint32_t *count);
 	uint64_t count_archives();
 	
 	int dump();
@@ -108,7 +108,7 @@ struct Depot {
 	int has_file(Archive* archive, File* file);
 
 	// XXX: remove me
-	DarwinupDatabase* get_db2();
+	DarwinupDatabase* get_db();
 	
 	protected:
 
@@ -146,8 +146,7 @@ struct Depot {
 
 	int		check_consistency();
 
-	sqlite3*	      m_db;
-	DarwinupDatabase* m_db2;
+	DarwinupDatabase* m_db;
 	
 	mode_t		m_depot_mode;
 	char*       m_prefix;
