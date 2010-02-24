@@ -35,15 +35,6 @@
 #include <stdlib.h>
 #include "Column.h"
 
-Column::Column() {
-	m_name       = strdup("unnamed_column");
-	m_create_sql = NULL;
-	m_type       = SQLITE_INTEGER;
-	m_is_index   = false;
-	m_is_pk      = false;
-	m_is_unique  = false;
-}
-
 Column::Column(const char* name, uint32_t type) {
 	m_name       = strdup(name);
 	m_create_sql = NULL;
@@ -76,6 +67,19 @@ uint32_t Column::type() {
 	return m_type;
 }
 
+const bool Column::is_index() {
+	return m_is_index;
+}
+
+const bool Column::is_pk() {
+	return m_is_pk;
+}
+
+const bool Column::is_unique() {
+	return m_is_unique;
+}
+
+
 const char* Column::typestr() {
 	switch(m_type) {
 		case SQLITE_INTEGER:
@@ -104,23 +108,6 @@ int Column::offset() {
 	return m_offset;
 }
 
-const bool Column::is_index() {
-	return m_is_index;
-}
-
-const bool Column::is_pk() {
-	return m_is_pk;
-}
-
-const bool Column::is_unique() {
-	return m_is_unique;
-}
-
-/**
- * Returns string of sql.
- * Columns will deallocate the string in dtor.
- *
- */
 const char* Column::create() {
 	if (!m_create_sql) {
 		asprintf(&m_create_sql, "%s %s%s%s", m_name, this->typestr(),

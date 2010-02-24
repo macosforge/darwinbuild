@@ -35,10 +35,15 @@
 
 #include <stdint.h>
 #include <sqlite3.h>
+
 #include "Utils.h"
 
+/**
+ * Column objects represent a column in a database table. They store
+ *  type information and chunks of sql for their Table to build
+ *  queries with. 
+ */
 struct Column {
-	Column();
 	Column(const char* name, uint32_t type);
 	Column(const char* name, uint32_t type,
 		   bool is_index, bool is_pk, bool is_unique);
@@ -46,18 +51,24 @@ struct Column {
 	
 	const char*    name();
 	uint32_t       type();
-	const char*    typestr();
-	uint32_t       size();
-	const char*    create();
-	const char*    index();
-	int            offset();
-	
-	
 	const bool     is_index();
 	const bool     is_pk();
 	const bool     is_unique();
-	
+
+	// return size of this column when packed into a result record
+	uint32_t       size();
+
 protected:
+	// return a string representation  of this columns type suitable 
+	//  for sql queries
+	const char*    typestr();
+	
+	// return the offset of this column in the Table's result record
+	int            offset();
+	
+	// generate the sql needed to create this column
+	const char*    create();
+
 	char*          m_name;
 	char*          m_create_sql;
 	uint32_t       m_type; // SQLITE_* type definition

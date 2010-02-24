@@ -40,8 +40,7 @@ void dbtrace(void* context, const char* sql) {
 }
 
 Database::Database() {
-	// XXX: make the initial allocation for 2 to tailor to darwinup usage
-	m_table_max = 1;
+	m_table_max = 2;
 	m_table_count = 0;
 	m_tables = (Table**)malloc(sizeof(Table*) * m_table_max);
 	this->init_cache();
@@ -52,7 +51,7 @@ Database::Database() {
 }
 
 Database::Database(const char* path) {
-	m_table_max = 1;
+	m_table_max = 2;
 	m_table_count = 0;
 	m_tables = (Table**)malloc(sizeof(Table*) * m_table_max);
 	this->init_cache();
@@ -572,7 +571,7 @@ int Database::update(Table* table, uint64_t pkvalue, ...) {
 }
 
 /**
- * Given a table, value_column, and value to set, plus a va_list of Column,value for WHERE clause
+ * Given a table, value_column, and value to set, plus a va_list of Column,compare,value for WHERE clause
  *  set the value_column to value when WHERE is true
  */
 int Database::update_value(const char* name, Table* table, Column* value_column, void** value, 
