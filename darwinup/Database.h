@@ -64,8 +64,19 @@
 
 #define FOUND(x)  ((x & DB_FOUND) && !(x & DB_ERROR))
 
-
-
+// Schema creation macros
+#define ADD_COLUMN(table, name, type, index, pk, unique) \
+        assert(table->add_column(new Column(name, type, index, pk, unique))==0);
+#define ADD_INDEX(table, name, type, unique) \
+        assert(table->add_column(new Column(name, type, true, false, unique))==0);
+#define ADD_PK(table, name) \
+        assert(table->add_column(new Column(name, TYPE_INTEGER, false, true, false))==0);
+#define ADD_TEXT(table, name) \
+		assert(table->add_column(new Column(name, TYPE_TEXT))==0);
+#define ADD_INTEGER(table, name) \
+		assert(table->add_column(new Column(name, TYPE_INTEGER))==0);
+#define ADD_BLOB(table, name) \
+        assert(table->add_column(new Column(name, TYPE_BLOB))==0);
 
 // libcache callbacks
 bool cache_key_is_equal(void* key1, void* key2, void* user);

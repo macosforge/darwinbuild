@@ -45,29 +45,25 @@ DarwinupDatabase::~DarwinupDatabase() {
 }
 
 void DarwinupDatabase::init_schema() {
-	// XXX: use macros to make this cleaner
-	
 	this->m_archives_table = new Table("archives");
-	//                                                                           index  pk     unique
-	assert(m_archives_table->add_column(new Column("serial",     TYPE_INTEGER,   false, true,  false))==0);
-	assert(m_archives_table->add_column(new Column("uuid",       TYPE_BLOB,      true,  false, true))==0);
-	assert(m_archives_table->add_column(new Column("name",       TYPE_TEXT))==0);
-	assert(m_archives_table->add_column(new Column("date_added", TYPE_INTEGER))==0);
-	assert(m_archives_table->add_column(new Column("active",     TYPE_INTEGER))==0);
-	assert(m_archives_table->add_column(new Column("info",       TYPE_INTEGER))==0);
+	ADD_PK(m_archives_table, "serial");
+	ADD_INDEX(m_archives_table, "uuid", TYPE_BLOB, true); 
+	ADD_TEXT(m_archives_table, "name");
+	ADD_INTEGER(m_archives_table, "date_added");
+	ADD_INTEGER(m_archives_table, "active");
+	ADD_INTEGER(m_archives_table, "info");	
 	assert(this->add_table(this->m_archives_table)==0);
 	
 	this->m_files_table = new Table("files");
-	//                                                                           index  pk     unique
-	assert(m_files_table->add_column(new Column("serial",  TYPE_INTEGER,         false, true,  false))==0);
-	assert(m_files_table->add_column(new Column("archive", TYPE_INTEGER))==0);
-	assert(m_files_table->add_column(new Column("info",    TYPE_INTEGER))==0);
-	assert(m_files_table->add_column(new Column("mode",    TYPE_INTEGER))==0);
-	assert(m_files_table->add_column(new Column("uid",     TYPE_INTEGER))==0);
-	assert(m_files_table->add_column(new Column("gid",     TYPE_INTEGER))==0);
-	assert(m_files_table->add_column(new Column("size",    TYPE_INTEGER))==0);
-	assert(m_files_table->add_column(new Column("digest",  TYPE_BLOB))==0); 
-	assert(m_files_table->add_column(new Column("path",    TYPE_TEXT,            true,  false, false))==0);
+	ADD_PK(m_files_table, "serial");
+	ADD_INTEGER(m_files_table, "archive");
+	ADD_INTEGER(m_files_table, "info");
+	ADD_INTEGER(m_files_table, "mode");
+	ADD_INTEGER(m_files_table, "uid");
+	ADD_INTEGER(m_files_table, "gid");
+	ADD_INTEGER(m_files_table, "size");
+	ADD_BLOB(m_files_table, "digest");
+	ADD_INDEX(m_files_table, "path", TYPE_TEXT, false);
 	assert(this->add_table(this->m_files_table)==0);	
 }
 
