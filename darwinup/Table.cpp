@@ -33,34 +33,13 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+
 #include "Table.h"
 #include "Database.h"
 
 
-// how much we grow by when we need more space
-#define REALLOC_FACTOR 4
-
-Table::Table() {
-	m_column_max    = 1;
-	m_column_count  = 0;
-	m_columns       = (Column**)malloc(sizeof(Column*) * m_column_max);
-	m_columns_size  = 0; 
-	m_result_max    = 1;
-	m_result_count  = 0;
-	m_results       = (uint8_t**)malloc(sizeof(uint8_t*) * m_result_max);
-	m_name          = strdup("unnamed_table");
-	m_create_sql    = NULL;
-	m_insert_sql    = NULL;
-	m_update_sql    = NULL;
-	m_delete_sql    = NULL;
-	m_prepared_insert = NULL;
-	m_prepared_update = NULL;
-	m_prepared_delete = NULL;
-
-}
-
 Table::Table(const char* name) {
-	m_column_max    = 1;
+	m_column_max    = 2;
 	m_column_count  = 0;
 	m_columns       = (Column**)malloc(sizeof(Column*) * m_column_max);
 	m_columns_size  = 0; 
@@ -104,19 +83,9 @@ Table::~Table() {
 	
 }
 
-
 const char* Table::name() {
 	return m_name;
 }
-
-uint32_t Table::row_size() {
-	return m_columns_size;
-}
-
-const Column** Table::columns() {
-	return (const Column**)m_columns;
-}
-
 
 int Table::add_column(Column* c) {
 	// accumulate offsets for columns in m_columns_size
@@ -137,8 +106,20 @@ int Table::add_column(Column* c) {
 	return 0;
 }
 
-int Table::offset(int column) {
-	return this->m_columns[column]->offset();
+Column* Table::column(uint32_t index) {
+	if (index < m_column_count) {
+		return this->m_columns[index];
+	} else {
+		return NULL;
+	}
+}
+
+int Table::offset(uint32_t index) {
+	return this->m_columns[index]->offset();
+}
+
+uint32_t Table::row_size() {
+	return m_columns_size;
 }
 
 uint8_t* Table::alloc_result() {
@@ -153,24 +134,6 @@ uint8_t* Table::alloc_result() {
 	m_result_count++;
 	m_results[m_result_count-1] = (uint8_t*)calloc(1, this->row_size());
 	return m_results[m_result_count-1];
-}
-
-int Table::free_row(uint8_t* row) {
-	uint8_t* current = row;
-	void* ptr;
-	for (uint32_t i=0; i < m_column_count; i++) {
-		switch (m_columns[i]->type()) {
-			case SQLITE_INTEGER:
-				current += sizeof(uint64_t);
-				// nothing to free
-				break;
-			default:
-				memcpy(&ptr, current, sizeof(void*));
-				free(ptr);
-				current += sizeof(void*);
-		}
-	}
-	return 0;
 }
 
 int Table::free_result(uint8_t* result) {
@@ -190,54 +153,6 @@ int Table::free_result(uint8_t* result) {
 		}
 	}
 	return 0;
-}
-
-void Table::dump_results() {
-	fprintf(stderr, "====================================================================\n");
-	for (uint32_t i=0; i < m_result_count; i++) {
-		fprintf(stderr, "%p %u:\n", m_results[i], i);
-		__data_hex(m_results[i], 48);
-	}
-	fprintf(stderr, "====================================================================\n");
-}
-
-char* Table::create() {
-	if (!m_create_sql) {
-		uint32_t i = 0;
-
-		// size of "create table ( );" plus table name, plus 1 for each column to separate
-		size_t size = strlen(m_name) + 22 + m_column_count;
-		for (i=0; i<m_column_count; i++) {		
-			// size for column spec
-			size += strlen(m_columns[i]->create());
-			// size for create index query
-			size += 26 + 2*strlen(m_columns[i]->name()) + 2*strlen(m_name);
-		}
-				
-		// create creation sql
-		m_create_sql = (char*)malloc(size);
-		strlcpy(m_create_sql, "CREATE TABLE ", size);
-		strlcat(m_create_sql, m_name, size);
-		strlcat(m_create_sql, " (", size);
-		// get creation sql for each column
-		for (i=0; i<m_column_count; i++) {
-			if (i) strlcat(m_create_sql, ", ", size); // comma separate after 0th column
-			strlcat(m_create_sql, m_columns[i]->create(), size);
-		}
-		strlcat(m_create_sql, "); ", size);
-
-		for (i=0; i<m_column_count; i++) {
-			if (m_columns[i]->is_index()) {
-				char* buf;
-				asprintf(&buf, "CREATE INDEX %s_%s ON %s (%s);", 
-						 m_name, m_columns[i]->name(), m_name, m_columns[i]->name());
-				strlcat(m_create_sql, buf, size);
-				free(buf);
-			}
-		}
-	}
-
-	return m_create_sql;
 }
 
 #define __alloc_stmt_query \
@@ -299,6 +214,53 @@ char* Table::create() {
 		return NULL; \
 	}
 
+sqlite3_stmt* Table::create(sqlite3* db) {
+	size_t size;
+	if (!m_create_sql) {
+		uint32_t i = 0;
+		
+		// size of "create table ( );" plus table name, plus 1 for each column to separate
+		size = strlen(m_name) + 22 + m_column_count;
+		for (i=0; i<m_column_count; i++) {		
+			// size for column spec
+			size += strlen(m_columns[i]->create());
+			// size for create index query
+			size += 26 + 2*strlen(m_columns[i]->name()) + 2*strlen(m_name);
+		}
+		
+		// create creation sql
+		m_create_sql = (char*)malloc(size);
+		strlcpy(m_create_sql, "CREATE TABLE ", size);
+		strlcat(m_create_sql, m_name, size);
+		strlcat(m_create_sql, " (", size);
+		// get creation sql for each column
+		for (i=0; i<m_column_count; i++) {
+			if (i) strlcat(m_create_sql, ", ", size); // comma separate after 0th column
+			strlcat(m_create_sql, m_columns[i]->create(), size);
+		}
+		strlcat(m_create_sql, "); ", size);
+		
+		for (i=0; i<m_column_count; i++) {
+			if (m_columns[i]->is_index()) {
+				char* buf;
+				asprintf(&buf, "CREATE INDEX %s_%s ON %s (%s);", 
+						 m_name, m_columns[i]->name(), m_name, m_columns[i]->name());
+				strlcat(m_create_sql, buf, size);
+				free(buf);
+			}
+		}
+	}
+
+	sqlite3_stmt* stmt = (sqlite3_stmt*)malloc(sizeof(sqlite3_stmt*));
+	int res = sqlite3_prepare_v2(db, m_create_sql, size, &stmt, NULL); \
+	if (res != SQLITE_OK) { \
+		fprintf(stderr, "Error: unable to prepare CREATE statement: %s\n", 
+				sqlite3_errmsg(db)); \
+		return NULL; \
+	}
+	
+	return stmt;
+}
 
 sqlite3_stmt* Table::count(sqlite3* db) {
 	sqlite3_stmt* stmt = (sqlite3_stmt*)malloc(sizeof(sqlite3_stmt*));
@@ -483,20 +445,6 @@ sqlite3_stmt* Table::insert(sqlite3* db) {
 	return m_prepared_insert;
 }
 
-
-Column* Table::column(uint32_t index) {
-	if (index < m_column_count) {
-		return this->m_columns[index];
-	} else {
-		return NULL;
-	}
-}
-
-uint32_t Table::column_count() {
-	return this->m_column_count;
-}
-
-
 sqlite3_stmt* Table::del(sqlite3* db) {
 	// we only need to prepare once, return if we already have it
 	if (m_prepared_delete) return m_prepared_delete;
@@ -546,4 +494,39 @@ sqlite3_stmt* Table::del(sqlite3* db, uint32_t count, va_list args) {
 	__prepare_stmt;
 	
 	return stmt;
+}
+
+const Column** Table::columns() {
+	return (const Column**)m_columns;
+}
+
+uint32_t Table::column_count() {
+	return this->m_column_count;
+}
+
+int Table::free_row(uint8_t* row) {
+	uint8_t* current = row;
+	void* ptr;
+	for (uint32_t i=0; i < m_column_count; i++) {
+		switch (m_columns[i]->type()) {
+			case SQLITE_INTEGER:
+				current += sizeof(uint64_t);
+				// nothing to free
+				break;
+			default:
+				memcpy(&ptr, current, sizeof(void*));
+				free(ptr);
+				current += sizeof(void*);
+		}
+	}
+	return 0;
+}
+
+void Table::dump_results(FILE* f) {
+	fprintf(f, "====================================================================\n");
+	for (uint32_t i=0; i < m_result_count; i++) {
+		fprintf(f, "%p %u:\n", m_results[i], i);
+		__data_hex(f, m_results[i], 48);
+	}
+	fprintf(f, "====================================================================\n");
 }

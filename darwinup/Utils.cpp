@@ -246,20 +246,20 @@ char* fetch_userhost(const char* srcpath, const char* dstpath) {
 	return NULL;	
 }
 
-void __data_hex(uint8_t* data, uint32_t size) {
+void __data_hex(FILE* f, uint8_t* data, uint32_t size) {
 	if (!size) return;
 	for (uint32_t i=0; i < size; i++) {
 		if (!(i%8)) {
-			if (i<10) fprintf(stderr, " ");
-			fprintf(stderr, "%d", i);
+			if (i<10) fprintf(f, " ");
+			fprintf(f, "%d", i);
 		} else {
-			fprintf(stderr, "  ");
+			fprintf(f, "  ");
 		}
 	}
-	fprintf(stderr, "\n");
+	fprintf(f, "\n");
 	for (uint32_t i=0; i < size; i++) {
-		fprintf(stderr, "%02x", data[i]);
+		fprintf(f, "%02x", data[i]);
 	}
-	fprintf(stderr, "\n");
+	fprintf(f, "\n");
 }
 
