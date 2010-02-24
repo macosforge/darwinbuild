@@ -40,18 +40,6 @@
 // how much we grow by when we need more space
 #define REALLOC_FACTOR 4
 
-
-// XXX
-void __hex_str(const char* s) {
-	int len = strlen(s);
-	IF_DEBUG("HEXSTR: %d \n", len);
-	for (int i=0; i <= len; i++) {
-		IF_DEBUG("%02x", (unsigned int)s[i]);
-	}
-	IF_DEBUG("\n");
-}
-
-
 Table::Table() {
 	m_column_max    = 1;
 	m_column_count  = 0;
@@ -60,7 +48,6 @@ Table::Table() {
 	m_result_max    = 1;
 	m_result_count  = 0;
 	m_results       = (uint8_t**)malloc(sizeof(uint8_t*) * m_result_max);
-	IF_DEBUG("[ALLOC] constructor %p \n", m_results);
 	m_name          = strdup("unnamed_table");
 	m_create_sql    = NULL;
 	m_insert_sql    = NULL;
@@ -80,7 +67,6 @@ Table::Table(const char* name) {
 	m_result_max    = 1;
 	m_result_count  = 0;
 	m_results       = (uint8_t**)malloc(sizeof(uint8_t*) * m_result_max);
-	IF_DEBUG("[ALLOC] constructor %p \n", m_results);
 	m_name          = strdup(name);
 	m_create_sql    = NULL;
 	m_insert_sql    = NULL;
@@ -100,11 +86,9 @@ Table::~Table() {
 
 	for (uint32_t i=0; i < m_result_count; i++) {
 		if (m_results[i]) {
-			IF_DEBUG("[FREE] destructor loop %d %p \n", i, m_results[i]);
 			this->free_result(m_results[i]);
 		}
 	}
-	IF_DEBUG("[FREE] destructor free %p \n", m_results);
 	free(m_results);
 	
 	free(m_name);
@@ -160,7 +144,6 @@ int Table::offset(int column) {
 uint8_t* Table::alloc_result() {
 	if (m_result_count >= m_result_max) {
 		m_results = (uint8_t**)realloc(m_results, m_result_max * sizeof(uint8_t*) * REALLOC_FACTOR);
-		IF_DEBUG("[ALLOC] realloc m_results %p \n", m_results);
 		if (!m_results) {
 			fprintf(stderr, "Error: unable to reallocate memory to add a result row\n");
 			return NULL;
@@ -169,8 +152,6 @@ uint8_t* Table::alloc_result() {
 	}
 	m_result_count++;
 	m_results[m_result_count-1] = (uint8_t*)calloc(1, this->row_size());
-	IF_DEBUG("[ALLOC] calloc(%d) %d %p \n", this->row_size(), m_result_count-1, 
-			 m_results[m_result_count-1]);
 	return m_results[m_result_count-1];
 }
 
@@ -185,7 +166,6 @@ int Table::free_row(uint8_t* row) {
 				break;
 			default:
 				memcpy(&ptr, current, sizeof(void*));
-				IF_DEBUG("[FREE] %s: %p (type of %d: %d) \n", m_name, ptr, i, m_columns[i]->type());
 				free(ptr);
 				current += sizeof(void*);
 		}
@@ -198,7 +178,6 @@ int Table::free_result(uint8_t* result) {
 		// look for matching result
 		if (result == m_results[i]) {
 			this->free_row((uint8_t*)m_results[i]);
-			IF_DEBUG("[FREE] %s result %d %p \n", m_name, i, m_results[i]);
 			free(m_results[i]);
 			m_results[i] = NULL;
 			// if we did not free the last result,
@@ -257,9 +236,7 @@ char* Table::create() {
 			}
 		}
 	}
-	
-	IF_DEBUG("[TABLE] create(): %s \n", m_create_sql);
-		
+
 	return m_create_sql;
 }
 
@@ -364,7 +341,6 @@ sqlite3_stmt* Table::get_row(sqlite3* db, uint32_t count, va_list args) {
 	__check_and_cat(" WHERE 1");
 	__where_va_columns;
 	strlcat(query, ";", size);
-	IF_DEBUG("[TABLE] get_row query: %s \n", query);
 	__prepare_stmt;
 	
 	return stmt;	
@@ -381,7 +357,6 @@ sqlite3_stmt* Table::get_row_ordered(sqlite3* db, Column* order_by, int order,
 	__check_and_cat(order_by->name());
 	__check_and_cat((order == ORDER_BY_DESC ? " DESC" : " ASC"));
 	strlcat(query, ";", size);
-	IF_DEBUG("[TABLE] get_row_ordered query: %s \n", query);
 	__prepare_stmt;
 	
 	return stmt;	
@@ -409,12 +384,8 @@ sqlite3_stmt* Table::update_value(sqlite3* db, Column* value_column, uint32_t co
 sqlite3_stmt* Table::update(sqlite3* db) {
 	// we only need to prepare once, return if we already have it
 	if (m_prepared_update) {
-		IF_DEBUG("[TABLE] %s table found cached update statement at %p \n", m_name, m_prepared_update);
 		return m_prepared_update;
 	}
-	
-	IF_DEBUG("[TABLE] %s is generating an update statement \n", m_name);
-	
 	uint32_t i = 0;
 	bool comma = false;  // flag we set to start adding commas
 	
@@ -450,9 +421,7 @@ sqlite3_stmt* Table::update(sqlite3* db) {
 		}
 	}
 	strlcat(m_update_sql, ";", size);
-	
-	IF_DEBUG("[TABLE] prepared update: %s \n", m_update_sql);
-	
+		
 	// prepare
 	int res = sqlite3_prepare_v2(db, m_update_sql, strlen(m_update_sql), &m_prepared_update, NULL);
 	if (res != SQLITE_OK) {
@@ -466,13 +435,9 @@ sqlite3_stmt* Table::update(sqlite3* db) {
 sqlite3_stmt* Table::insert(sqlite3* db) {
 	// we only need to prepare once, return if we already have it
 	if (m_prepared_insert) {
-		IF_DEBUG("[TABLE] %s table found cached insert statement at %p \n",
-				 m_name, m_prepared_insert);
 		return m_prepared_insert;
 	}
-	
-	IF_DEBUG("[TABLE] %s is generating an insert statement \n", m_name);
-	
+
 	uint32_t i = 0;
 	bool comma = false;  // flag we set to start adding commas
 	
@@ -508,9 +473,7 @@ sqlite3_stmt* Table::insert(sqlite3* db) {
 		}
 	}
 	strlcat(m_insert_sql, ");", size);
-	
-	IF_DEBUG("[TABLE] prepared insert: %s \n", m_insert_sql);
-	
+
 	// prepare
 	int res = sqlite3_prepare_v2(db, m_insert_sql, strlen(m_insert_sql), &m_prepared_insert, NULL);
 	if (res != SQLITE_OK) {
@@ -563,8 +526,6 @@ sqlite3_stmt* Table::del(sqlite3* db) {
 	}
 	strlcat(m_delete_sql, ";", size);
 	
-	IF_DEBUG("[TABLE] prepared delete: %s \n", m_delete_sql);
-	
 	// prepare
 	int res = sqlite3_prepare_v2(db, m_delete_sql, strlen(m_delete_sql), &m_prepared_delete, NULL);
 	if (res != SQLITE_OK) {
@@ -586,4 +547,3 @@ sqlite3_stmt* Table::del(sqlite3* db, uint32_t count, va_list args) {
 	
 	return stmt;
 }
-

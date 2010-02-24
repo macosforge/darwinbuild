@@ -430,7 +430,6 @@ int DarwinupDatabase::get_archive(uint8_t** data, uuid_t uuid) {
 }
 
 int DarwinupDatabase::get_archive(uint8_t** data, uint64_t serial) {
-	IF_DEBUG("get_archive serial: %llu \n", serial);
 	int res = this->get_row("archive__serial",
 							data,
 							this->m_archives_table,

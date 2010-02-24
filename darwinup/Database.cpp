@@ -87,7 +87,6 @@ void Database::init_schema() {
 
 
 void Database::init_cache() {
-	IF_DEBUG("CACHE: init_cache \n");
 	cache_attributes_t attrs;
 	attrs.version = CACHE_ATTRIBUTES_VERSION_2;
 	attrs.key_hash_cb = cache_key_hash_cb_cstring;
@@ -100,33 +99,27 @@ void Database::init_cache() {
 }
 
 void Database::destroy_cache() {
-	IF_DEBUG("CACHE: destroy_cache \n");
 	cache_destroy(m_statement_cache);
 }
 
 bool cache_key_is_equal(void* key1, void* key2, void* user) {
 	bool res = (strcmp((char*)key1, (char*)key2) == 0);
-	IF_DEBUG("CACHE: key1: %s key2: %s res: %d\n", (char*)key1, (char*)key2, res);
 	return res;
 }
 
 void cache_key_retain(void* key_in, void** key_out, void* user_data) {
-	IF_DEBUG("CACHE: key_retain %s\n", (char*)key_in);
 	*key_out = strdup((char*)key_in);
 }
 
 void cache_key_release(void* key, void* user_data) {
-	IF_DEBUG("CACHE: key_release %s\n", (char*)key);
 	free(key);
 }
 
 void cache_value_retain(void* value, void* user_data) {
-	IF_DEBUG("CACHE: value_retain %p\n", value);
 	// do nothing
 }
 
 void cache_value_release(void* value, void* user_data) {
-	IF_DEBUG("CACHE: value_release %p\n", value);
 	sqlite3_finalize((sqlite3_stmt*)value);
 }
 
@@ -192,7 +185,6 @@ int Database::add_table(Table* t) {
 int Database::create_tables() {
 	int res = SQLITE_OK;
 	for (uint32_t i=0; i<m_table_count; i++) {
-		IF_DEBUG("[DATABASE] creating table #%u \n", i);
 		res = this->sql_once(m_tables[i]->create());
 		if (res!=SQLITE_OK) {
 			fprintf(stderr, "Error: sql error trying to create table: %s: %s\n", 
@@ -338,44 +330,32 @@ int Database::execute(sqlite3_stmt* stmt) {
 	free(key);
 
 size_t Database::store_column(sqlite3_stmt* stmt, int column, uint8_t* output) {
-	IF_DEBUG("store_column: column = %d  output = %p \n", column, output);
 	size_t used;
 	int type = sqlite3_column_type(stmt, column);
 	const void* blob;
 	int blobsize;
-	IF_DEBUG("column type = %d \n", type);
 	switch(type) {
 		case SQLITE_INTEGER:
 			*(uint64_t*)output = (uint64_t)sqlite3_column_int64(stmt, column);
 			used = sizeof(uint64_t);
-			IF_DEBUG("store_column used=%u output(%p) = %llu \n", 
-					 (uint32_t)used, output, *(uint64_t*)output);
 			break;
 		case SQLITE_TEXT:
 			*(const char**)output = strdup((const char*)sqlite3_column_text(stmt, column));
-			IF_DEBUG("[ALLOC] text: %p %s \n", *(char**)output, *(char**)output);
 			used = sizeof(char*);
-			IF_DEBUG("store_column used=%u output(%p) = %s \n", 
-					 (uint32_t)used, output, *(char**)output);
 			break;
 		case SQLITE_BLOB:
 			blob = sqlite3_column_blob(stmt, column);
 			blobsize = sqlite3_column_bytes(stmt, column);
-			IF_DEBUG("blob(%p) size=%d \n", blob, blobsize);
 			*(void**)output = malloc(blobsize);
-			IF_DEBUG("[ALLOC] blob %p \n", *(void**)output);
 			if (*(void**)output && blobsize) {
 				memcpy(*(void**)output, blob, blobsize);
 			} else {
 				fprintf(stderr, "Error: unable to get blob from database stmt.\n");
 			}
 			used = sizeof(void*);
-			IF_DEBUG("store_column used=%u output(%p) = %s \n", 
-					 (uint32_t)used, *(char**)output, *(char**)output);
 			break;
 		case SQLITE_NULL:
 			// result row has a NULL value which is okay
-			IF_DEBUG("store_column got a NULL column value for: %d \n", column);
 			*(const char**)output = NULL;
 			used = sizeof(char*);
 			break;
@@ -398,20 +378,14 @@ size_t Database::store_column(sqlite3_stmt* stmt, int column, uint8_t* output) {
 int Database::step_once(sqlite3_stmt* stmt, uint8_t* output, uint32_t* used) {
 	int res = sqlite3_step(stmt);
 	uint8_t* current = output;
-	IF_DEBUG("output = %p current = %p \n", output, current);
 	if (used) *used = 0;
-	if (used) IF_DEBUG("step_once used(%p) = %u \n", used, *used);
-
 	if (res == SQLITE_ROW) {
 		int count = sqlite3_column_count(stmt);
 		for (int i = 0; i < count; i++) {
-			IF_DEBUG("loop current ptr before = %p \n", current);
 			current += this->store_column(stmt, i, current);
-			IF_DEBUG("loop current ptr after = %p \n", current);
 		}
 		if (used) {
 			*used = current - output;
-			IF_DEBUG("step_once after store used(%p) = %u \n", used, *used);
 		}
 	}
 
@@ -424,19 +398,15 @@ int Database::step_all(sqlite3_stmt* stmt, void** output, uint32_t size, uint32_
 	uint32_t rowsize = size / INITIAL_ROWS;
 	uint8_t* current = *(uint8_t**)output;
 	*count = 0;
-	IF_DEBUG("rowsize = %u \n", rowsize);
 	int res = SQLITE_ROW;
 	while (res == SQLITE_ROW) {
 		current = *(uint8_t**)output + total_used;
-		IF_DEBUG("calling step_once with current(%p) \n", current);
 		res = this->step_once(stmt, current, &used);
 		if (res == SQLITE_ROW) (*count)++;
 		total_used += used;
-		IF_DEBUG("stepped: used = %u total_used = %u size = %u \n", used, total_used, size);
 		if (total_used >= (size - rowsize)) {
 			size *= REALLOC_FACTOR;
 			*output = realloc(*output, size);
-			IF_DEBUG("reallocating: output = %p  size = %u \n", *output, size);
 			if (!*output) {
 				fprintf(stderr, "Error: ran out of memory in Database::step_all \n");
 				return SQLITE_ERROR;
@@ -456,7 +426,6 @@ int Database::get_value(const char* name, void** output, Table* table, Column* v
 	uint32_t size = value_column->size();
 	*output = malloc(size);
 	res = this->step_once(stmt, (uint8_t*)*output, NULL);
-	IF_DEBUG("get_value: res = %d output(%p) = %llu \n", res, *output, **(uint64_t**)output);
 	sqlite3_reset(stmt);
 	cache_release_value(m_statement_cache, &stmt);
 	return res;
@@ -465,15 +434,12 @@ int Database::get_value(const char* name, void** output, Table* table, Column* v
 int Database::get_column(const char* name, void** output, uint32_t* result_count, 
 						 Table* table, Column* column, uint32_t count, ...) {
 	__get_stmt(table->get_column(m_db, column, count, args));
-	IF_DEBUG("stmt = %s \n", sqlite3_sql(stmt));
 	int res = SQLITE_OK;
 	uint32_t param = 1;
 	__bind_va_columns(count);
 	uint32_t size = INITIAL_ROWS * column->size();
 	*output = malloc(size);
-	IF_DEBUG("get_column output = %p  size = %u \n", *output, size);
 	res = this->step_all(stmt, output, size, result_count);
-	IF_DEBUG("get_colu output(%p) = %llu \n", *output, **(uint64_t**)output);
 	sqlite3_reset(stmt);
 	cache_release_value(m_statement_cache, &stmt);
 	return res;
@@ -481,14 +447,11 @@ int Database::get_column(const char* name, void** output, uint32_t* result_count
 
 int Database::get_row(const char* name, uint8_t** output, Table* table, uint32_t count, ...) {
 	__get_stmt(table->get_row(m_db, count, args));
-	IF_DEBUG("stmt = %s \n", sqlite3_sql(stmt));
 	int res = SQLITE_OK;
 	uint32_t param = 1;
 	__bind_va_columns(count);
 	*output = table->alloc_result();
-	IF_DEBUG("Table::alloc_result = %p \n", *output);
 	res = this->step_once(stmt, *output, NULL);
-	IF_DEBUG("get_row output(%p) = %llu \n", *output, **(uint64_t**)output);
 	sqlite3_reset(stmt);
 	cache_release_value(m_statement_cache, &stmt);
 	return res;
@@ -497,14 +460,11 @@ int Database::get_row(const char* name, uint8_t** output, Table* table, uint32_t
 int Database::get_row_ordered(const char* name, uint8_t** output, Table* table, Column* order_by,
 							  int order, uint32_t count, ...) {
 	__get_stmt(table->get_row_ordered(m_db, order_by, order, count, args));
-	IF_DEBUG("stmt = %s \n", sqlite3_sql(stmt));
 	int res = SQLITE_OK;
 	uint32_t param = 1;
 	__bind_va_columns(count);
 	*output = table->alloc_result();
-	IF_DEBUG("Table::alloc_result = %p \n", *output);
 	res = this->step_once(stmt, *output, NULL);
-	IF_DEBUG("get_row_ordered output(%p) = %llu \n", *output, **(uint64_t**)output);
 	sqlite3_reset(stmt);
 	cache_release_value(m_statement_cache, &stmt);
 	return res;
@@ -513,7 +473,6 @@ int Database::get_row_ordered(const char* name, uint8_t** output, Table* table, 
 int Database::get_all_ordered(const char* name, uint8_t*** output, uint32_t* result_count,
 							  Table* table, Column* order_by, int order, uint32_t count, ...) {
 	__get_stmt(table->get_row_ordered(m_db, order_by, order, count, args));
-	IF_DEBUG("stmt = %s \n", sqlite3_sql(stmt));
 	int res = SQLITE_OK;
 	uint32_t param = 1;
 	__bind_va_columns(count);
@@ -532,15 +491,11 @@ int Database::get_all_ordered(const char* name, uint8_t*** output, uint32_t* res
 						        "in get_all_ordered.\n");
 				return DB_ERROR;
 			}
-			IF_DEBUG("get_all_ordered realloc: %p \n", *output);
 		}
 		current = table->alloc_result();
-		IF_DEBUG("Table::alloc_result = %p \n", current);
 		res = this->step_once(stmt, current, NULL);
 		if (res == SQLITE_ROW) {
 			(*output)[(*result_count)] = current;
-			IF_DEBUG("get_all_ordered count: %u output(%p) = %llu \n", 
-					 (*result_count), (*output)[(*result_count)], (uint64_t)(*output)[(*result_count)][0]);
 			(*result_count)++;
 		} else {
 			table->free_result(current);
@@ -549,7 +504,6 @@ int Database::get_all_ordered(const char* name, uint8_t*** output, uint32_t* res
 
 	sqlite3_reset(stmt);
 	cache_release_value(m_statement_cache, &stmt);
-	IF_DEBUG("get_all_ordered res = %d \n", res);
 	return res;
 }
 

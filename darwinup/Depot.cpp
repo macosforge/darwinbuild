@@ -200,11 +200,9 @@ Archive* Depot::get_archive(const char* arg) {
 		return Depot::archive(serial);
 	}
 	if (strncasecmp("oldest", arg, 6) == 0) {
-		IF_DEBUG("looking for oldest\n");
 		return Depot::archive(DEPOT_ARCHIVE_OLDEST);
 	}
 	if (strncasecmp("newest", arg, 6) == 0) {
-		IF_DEBUG("looking for newest\n");
 		return Depot::archive(DEPOT_ARCHIVE_NEWEST);
 	}
 	return Depot::archive((archive_name_t)arg);
@@ -215,18 +213,15 @@ Archive** Depot::get_all_archives(uint32_t* count) {
 	int res = DB_OK;
 	uint8_t** archlist;
 	res = this->m_db->get_archives(&archlist, count, verbosity & VERBOSE_DEBUG);
-	IF_DEBUG("get_all_archives for count %d from get_archives, res: %d \n", *count, res);
 	
 	Archive** list = (Archive**)malloc(sizeof(Archive*) * (*count));
 	if (!list) {
 		fprintf(stderr, "Error: ran out of memory in Depot::get_all_archives\n");
 		return NULL;
 	}
-	IF_DEBUG("done with malloc archive list \n");
 	if (FOUND(res)) {
 		for (uint32_t i=0; i < *count; i++) {
 			Archive* archive = this->m_db->make_archive(archlist[i]);
-			IF_DEBUG("make_archive gave back archive %llu \n", archive->serial());
 			if (archive) {
 				list[i] = archive;
 			} else {
@@ -235,8 +230,6 @@ Archive** Depot::get_all_archives(uint32_t* count) {
 				break;
 			}
 		}
-	} else {
-		IF_DEBUG("get_archives found no archives \n");
 	}
 
 	return list;	
@@ -266,11 +259,9 @@ int Depot::iterate_files(Archive* archive, FileIteratorFunc func, void* context)
 	uint8_t** filelist;
 	uint32_t count;
 	res = this->m_db->get_files(&filelist, &count, archive);
-	IF_DEBUG("iterate_files for count %d from get_files, res: %d \n", count, res);
 	if (FOUND(res)) {
 		for (uint32_t i=0; i < count; i++) {
 			File* file = this->m_db->make_file(filelist[i]);
-			IF_DEBUG("make_file gave back file %llu \n", file->serial());
 			if (file) {
 				res = func(file, context);
 				delete file;
@@ -280,8 +271,6 @@ int Depot::iterate_files(Archive* archive, FileIteratorFunc func, void* context)
 				break;
 			}
 		}
-	} else {
-		IF_DEBUG("iterate_files for archive (%llu) found no files \n", archive->serial());
 	}
 
 	return res;
@@ -318,7 +307,6 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback, 
 			File* actual = FileFactory(actpath);
 
 			File* preceding = this->file_preceded_by(file);
-			if (preceding) IF_DEBUG("[PRECED] %llu %s \n", preceding->serial(), preceding->path());
 			
 			if (actual == NULL) {
 				// No actual file exists already, so we create a placeholder.
@@ -483,7 +471,6 @@ int Depot::backup_file(File* file, void* ctx) {
 	int res = 0;
 
 	IF_DEBUG("[backup] backup_file: %s , %s \n", file->path(), context->archive->m_name);
-	IF_DEBUG("info = %d \n", file->info());
 
 	if (INFO_TEST(file->info(), FILE_INFO_ROLLBACK_DATA)) {
 	        char *path;        // the file's path
@@ -655,7 +642,6 @@ int Depot::prune_directories() {
 		if (ent->fts_info == FTS_D) {
 			char path[PATH_MAX];
 			snprintf(path, PATH_MAX, "%s/%s", m_archives_path, ent->fts_name);
-			IF_DEBUG("pruning: %s\n", path);
 			res = remove_directory(path);
 		}
 		ent = ent->fts_link;
@@ -694,12 +680,10 @@ int Depot::uninstall_file(File* file, void* ctx) {
 		IF_DEBUG("[uninstall]    changes since install; skipping\n");
 	} else {
 		File* superseded = context->depot->file_superseded_by(file);
-		if (superseded) IF_DEBUG("[SUPER] %llu %s \n", superseded->serial(), superseded->path());
 		if (superseded == NULL) {
 			// no one's using this file anymore
 			File* preceding = context->depot->file_preceded_by(file);
 			assert(preceding != NULL);
-			IF_DEBUG("[PRECED] %llu %s \n", preceding->serial(), preceding->path());
 			if (INFO_TEST(preceding->info(), FILE_INFO_NO_ENTRY)) {
 				state = 'R';
 				IF_DEBUG("[uninstall]    removing file\n");
@@ -776,7 +760,6 @@ int Depot::uninstall(Archive* archive) {
 	uint32_t i;
 	for (i = 0; i < context.files_to_remove->count; ++i) {
 		uint64_t serial = context.files_to_remove->values[i];
-		IF_DEBUG("deleting file %lld\n", serial);
 		if (res == 0) res = m_db->delete_file(serial);
 	}
 	if (res == 0) res = this->commit_transaction();
