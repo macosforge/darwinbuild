@@ -184,7 +184,7 @@ int Table::free_result(uint8_t* result) {
     }
 
 sqlite3_stmt* Table::create(sqlite3* db) {
-	size_t size;
+	size_t size = 0;
 	if (!m_create_sql) {
 		uint32_t i = 0;
 		
