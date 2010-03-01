@@ -159,8 +159,7 @@ int Table::free_result(uint8_t* result) {
 	size_t size = 256; \
 	size_t used = 0; \
 	char* query = (char*)malloc(size); \
-	sqlite3_stmt* stmt = (sqlite3_stmt*)malloc(sizeof(sqlite3_stmt*));
-
+	sqlite3_stmt** pps = (sqlite3_stmt**)malloc(sizeof(sqlite3_stmt*));
 
 #define __check_and_cat(text) \
 	used = strlcat(query, text, size); \
@@ -175,7 +174,7 @@ int Table::free_result(uint8_t* result) {
     }
 
 #define __prepare_stmt \
-    int res = sqlite3_prepare_v2(db, query, size, &stmt, NULL); \
+    int res = sqlite3_prepare_v2(db, query, size, pps, NULL); \
     free(query); \
     if (res != SQLITE_OK) { \
         fprintf(stderr, "Error: unable to prepare statement: %s\n", \
@@ -235,11 +234,17 @@ sqlite3_stmt* Table::count(sqlite3* db) {
 	sqlite3_stmt* stmt = (sqlite3_stmt*)malloc(sizeof(sqlite3_stmt*));
 	char* query;
 	int size = asprintf(&query, "SELECT count(*) FROM %s ;", m_name) + 1;
-	__prepare_stmt;
+    int res = sqlite3_prepare_v2(db, query, size, &stmt, NULL); \
+    free(query); \
+    if (res != SQLITE_OK) { \
+        fprintf(stderr, "Error: unable to prepare statement: %s\n", \
+				sqlite3_errmsg(db)); \
+        return NULL; \
+    }	
 	return stmt;
 }
 
-sqlite3_stmt* Table::count(sqlite3* db, uint32_t count, va_list args) {
+sqlite3_stmt** Table::count(sqlite3* db, uint32_t count, va_list args) {
 	__alloc_stmt_query;
 	strlcpy(query, "SELECT count(*) FROM ", size);
 	__check_and_cat(m_name);
@@ -248,10 +253,10 @@ sqlite3_stmt* Table::count(sqlite3* db, uint32_t count, va_list args) {
 	strlcat(query, ";", size);
 	__prepare_stmt;
 
-	return stmt;	
+	return pps;	
 }
 
-sqlite3_stmt* Table::get_column(sqlite3* db, Column* value_column, uint32_t count, va_list args) {
+sqlite3_stmt** Table::get_column(sqlite3* db, Column* value_column, uint32_t count, va_list args) {
 	__alloc_stmt_query;
 	strlcpy(query, "SELECT ", size);
 	__check_and_cat(value_column->name());
@@ -262,10 +267,10 @@ sqlite3_stmt* Table::get_column(sqlite3* db, Column* value_column, uint32_t coun
 	strlcat(query, ";", size);
 	__prepare_stmt;
 	
-	return stmt;
+	return pps;
 }
 
-sqlite3_stmt* Table::get_row(sqlite3* db, uint32_t count, va_list args) {
+sqlite3_stmt** Table::get_row(sqlite3* db, uint32_t count, va_list args) {
 	__alloc_stmt_query;
 	strlcpy(query, "SELECT * FROM ", size);
 	__check_and_cat(m_name);
@@ -274,10 +279,10 @@ sqlite3_stmt* Table::get_row(sqlite3* db, uint32_t count, va_list args) {
 	strlcat(query, ";", size);
 	__prepare_stmt;
 	
-	return stmt;	
+	return pps;	
 }
 
-sqlite3_stmt* Table::get_row_ordered(sqlite3* db, Column* order_by, int order, 
+sqlite3_stmt** Table::get_row_ordered(sqlite3* db, Column* order_by, int order, 
 									 uint32_t count, va_list args) {
 	__alloc_stmt_query;
 	strlcpy(query, "SELECT * FROM ", size);
@@ -290,11 +295,11 @@ sqlite3_stmt* Table::get_row_ordered(sqlite3* db, Column* order_by, int order,
 	strlcat(query, ";", size);
 	__prepare_stmt;
 	
-	return stmt;	
+	return pps;	
 }
 
 
-sqlite3_stmt* Table::update_value(sqlite3* db, Column* value_column, uint32_t count, va_list args) {
+sqlite3_stmt** Table::update_value(sqlite3* db, Column* value_column, uint32_t count, va_list args) {
 	__alloc_stmt_query;
 	strlcpy(query, "UPDATE ", size);
 	__check_and_cat(m_name);
@@ -305,7 +310,7 @@ sqlite3_stmt* Table::update_value(sqlite3* db, Column* value_column, uint32_t co
 	strlcat(query, ";", size);
 	__prepare_stmt;
 	
-	return stmt;
+	return pps;
 }
 
 /**
@@ -453,7 +458,7 @@ sqlite3_stmt* Table::del(sqlite3* db) {
 	
 }
 
-sqlite3_stmt* Table::del(sqlite3* db, uint32_t count, va_list args) {
+sqlite3_stmt** Table::del(sqlite3* db, uint32_t count, va_list args) {
 	__alloc_stmt_query;
 	strlcpy(query, "DELETE FROM ", size);
 	__check_and_cat(m_name);
@@ -462,7 +467,7 @@ sqlite3_stmt* Table::del(sqlite3* db, uint32_t count, va_list args) {
 	strlcat(query, ";", size);
 	__prepare_stmt;
 	
-	return stmt;
+	return pps;
 }
 
 int Table::where_va_columns(uint32_t count, char* query, size_t size, 

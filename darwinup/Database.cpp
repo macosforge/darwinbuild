@@ -227,15 +227,17 @@ int Database::bind_columns(sqlite3_stmt* stmt, uint32_t count, int param,
 
 #define __get_stmt(expr) \
 	sqlite3_stmt* stmt; \
+    sqlite3_stmt** pps; \
 	char* key = strdup(name); \
-	cache_get_and_retain(m_statement_cache, key, (void**)&stmt); \
-	if (!stmt) { \
+	cache_get_and_retain(m_statement_cache, key, (void**)&pps); \
+	if (!pps) { \
 		va_list args; \
 		va_start(args, count); \
-		stmt = expr; \
+		pps = expr; \
 		va_end(args); \
-		cache_set_and_retain(m_statement_cache, key, stmt, sizeof(stmt)); \
+		cache_set_and_retain(m_statement_cache, key, pps, 0); \
 	} \
+    stmt = *pps; \
 	free(key);
 
 int Database::count(const char* name, void** output, Table* table, 
@@ -244,11 +246,12 @@ int Database::count(const char* name, void** output, Table* table,
 	va_start(args, count);
 	__get_stmt(table->count(m_db, count, args));
 	int res = SQLITE_OK;
-	this->bind_va_columns(stmt, count, args);
+	res = this->bind_va_columns(stmt, count, args);
 	*output = malloc(sizeof(uint64_t));
+	assert(*output);
 	res = this->step_once(stmt, *(uint8_t**)output, NULL);
 	sqlite3_reset(stmt);
-	cache_release_value(m_statement_cache, &stmt);
+	cache_release_value(m_statement_cache, pps);
 	va_end(args);
 	return res;
 }
@@ -262,9 +265,10 @@ int Database::get_value(const char* name, void** output, Table* table,
 	this->bind_va_columns(stmt, count, args);
 	uint32_t size = value_column->size();
 	*output = malloc(size);
+	assert(*output);
 	res = this->step_once(stmt, (uint8_t*)*output, NULL);
 	sqlite3_reset(stmt);
-	cache_release_value(m_statement_cache, &stmt);
+	cache_release_value(m_statement_cache, pps);
 	va_end(args);
 	return res;
 }
@@ -280,7 +284,7 @@ int Database::get_column(const char* name, void** output, uint32_t* result_count
 	*output = malloc(size);
 	res = this->step_all(stmt, output, size, result_count);
 	sqlite3_reset(stmt);
-	cache_release_value(m_statement_cache, &stmt);
+	cache_release_value(m_statement_cache, pps);
 	va_end(args);
 	return res;
 }
@@ -295,7 +299,7 @@ int Database::get_row(const char* name, uint8_t** output, Table* table,
 	*output = table->alloc_result();
 	res = this->step_once(stmt, *output, NULL);
 	sqlite3_reset(stmt);
-	cache_release_value(m_statement_cache, &stmt);
+	cache_release_value(m_statement_cache, pps);
 	va_end(args);
 	return res;
 }
@@ -310,7 +314,7 @@ int Database::get_row_ordered(const char* name, uint8_t** output, Table* table,
 	*output = table->alloc_result();
 	res = this->step_once(stmt, *output, NULL);
 	sqlite3_reset(stmt);
-	cache_release_value(m_statement_cache, &stmt);
+	cache_release_value(m_statement_cache, pps);
 	va_end(args);
 	return res;
 }
@@ -350,7 +354,7 @@ int Database::get_all_ordered(const char* name, uint8_t*** output,
 	}
 
 	sqlite3_reset(stmt);
-	cache_release_value(m_statement_cache, &stmt);
+	cache_release_value(m_statement_cache, pps);
 	va_end(args);
 	return res;
 }
@@ -384,7 +388,7 @@ int Database::update_value(const char* name, Table* table, Column* value_column,
 	this->bind_columns(stmt, count, param, args);
 	res = sqlite3_step(stmt);
 	sqlite3_reset(stmt);
-    cache_release_value(m_statement_cache, &stmt);
+    cache_release_value(m_statement_cache, pps);
 	va_end(args);
 	return (res == SQLITE_DONE ? SQLITE_OK : res);
 }
@@ -516,7 +520,7 @@ int Database::sql(const char* name, const char* fmt, ...) {
 			free(key);
 			return res;
 		}
-		cache_set_and_retain(m_statement_cache, key, stmt, sizeof(stmt)); \
+		cache_set_and_retain(m_statement_cache, key, stmt, 0); \
 		free(key);
 	}
 	return this->execute(stmt);
@@ -679,11 +683,14 @@ void Database::init_cache() {
 	cache_attributes_t attrs;
 	attrs.version = CACHE_ATTRIBUTES_VERSION_2;
 	attrs.key_hash_cb = cache_key_hash_cb_cstring;
-	attrs.key_is_equal_cb = cache_key_is_equal;
+	attrs.key_is_equal_cb = cache_key_is_equal_cb_cstring;
 	attrs.key_retain_cb = cache_key_retain;
-	attrs.key_release_cb = cache_key_release;
-	attrs.value_release_cb = cache_value_release;
-	attrs.value_retain_cb = cache_value_retain;
+	attrs.key_release_cb = cache_release_cb_free;
+	attrs.value_release_cb = cache_statement_release;
+	attrs.value_retain_cb = NULL;
+	attrs.value_make_purgeable_cb = NULL;
+	attrs.value_make_nonpurgeable_cb = NULL;
+	attrs.user_data = NULL;
 	cache_create("org.macosforge.darwinbuild.darwinup.statements", 
 				 &attrs, &m_statement_cache);
 }
@@ -692,23 +699,10 @@ void Database::destroy_cache() {
 	cache_destroy(m_statement_cache);
 }
 
-bool cache_key_is_equal(void* key1, void* key2, void* user) {
-	bool res = (strcmp((char*)key1, (char*)key2) == 0);
-	return res;
-}
-
 void cache_key_retain(void* key_in, void** key_out, void* user_data) {
 	*key_out = strdup((char*)key_in);
 }
 
-void cache_key_release(void* key, void* user_data) {
-	free(key);
-}
-
-void cache_value_retain(void* value, void* user_data) {
-	// do nothing
-}
-
-void cache_value_release(void* value, void* user_data) {
-	sqlite3_finalize((sqlite3_stmt*)value);
+void cache_statement_release(void* value, void* user_data) {
+	sqlite3_finalize(*(sqlite3_stmt**)value);
 }

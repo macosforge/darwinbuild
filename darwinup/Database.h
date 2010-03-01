@@ -222,10 +222,8 @@ protected:
 };
 
 // libcache callbacks
-bool cache_key_is_equal(void* key1, void* key2, void* user);
 void cache_key_retain(void* key_in, void** key_out, void* user_data);
-void cache_key_release(void* key, void* user_data);
-void cache_value_retain(void* value, void* user_data);
-void cache_value_release(void* value, void* user_data);
+void cache_statement_retain(void* value, void* user_data);
+void cache_statement_release(void* value, void* user_data);
 
 #endif
