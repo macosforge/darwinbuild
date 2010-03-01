@@ -155,33 +155,6 @@ int Table::free_result(uint8_t* result) {
 	return 0;
 }
 
-#define __alloc_stmt_query \
-	size_t size = 256; \
-	size_t used = 0; \
-	char* query = (char*)malloc(size); \
-	sqlite3_stmt** pps = (sqlite3_stmt**)malloc(sizeof(sqlite3_stmt*));
-
-#define __check_and_cat(text) \
-	used = strlcat(query, text, size); \
-    if (used >= size-1) { \
-        size *= 4; \
-        query = (char*)realloc(query, size); \
-        if (!query) { \
-			fprintf(stderr, "Error: ran out of memory!\n"); \
-            return NULL; \
-        } \
-        used = strlcat(query, text, size); \
-    }
-
-#define __prepare_stmt \
-    int res = sqlite3_prepare_v2(db, query, size, pps, NULL); \
-    free(query); \
-    if (res != SQLITE_OK) { \
-        fprintf(stderr, "Error: unable to prepare statement: %s\n", \
-				sqlite3_errmsg(db)); \
-        return NULL; \
-    }
-
 sqlite3_stmt* Table::create(sqlite3* db) {
 	size_t size = 0;
 	if (!m_create_sql) {
@@ -218,7 +191,7 @@ sqlite3_stmt* Table::create(sqlite3* db) {
 			}
 		}
 	}
-
+	
 	sqlite3_stmt* stmt = (sqlite3_stmt*)malloc(sizeof(sqlite3_stmt*));
 	int res = sqlite3_prepare_v2(db, m_create_sql, size, &stmt, NULL); \
 	if (res != SQLITE_OK) { \
@@ -243,6 +216,178 @@ sqlite3_stmt* Table::count(sqlite3* db) {
     }	
 	return stmt;
 }
+
+/**
+ * Prepare and cache the update statement. 
+ * Assumes table only has 1 primary key
+ */
+sqlite3_stmt* Table::update(sqlite3* db) {
+	// we only need to prepare once, return if we already have it
+	if (m_prepared_update) {
+		return m_prepared_update;
+	}
+	uint32_t i = 0;
+	bool comma = false;  // flag we set to start adding commas
+	
+	// calculate the length of the sql statement
+	size_t size = 27 + 5*m_column_count;
+	for (i=0; i<m_column_count; i++) {
+		size += strlen(m_columns[i]->name());
+	}
+	
+	// generate the sql query
+	m_update_sql = (char*)malloc(size);
+	strlcpy(m_update_sql, "UPDATE ", size);
+	strlcat(m_update_sql, m_name, size);
+	strlcat(m_update_sql, " SET ", size);
+	for (i=0; i<m_column_count; i++) {
+		// comma separate after 0th column
+		if (comma) strlcat(m_update_sql, ", ", size);
+		// primary keys do not get inserted
+		if (!m_columns[i]->is_pk()) {
+			strlcat(m_update_sql, m_columns[i]->name(), size);
+			strlcat(m_update_sql, "=?", size);
+			comma = true;
+		}
+	}
+	
+	// WHERE statement using primary keys
+	strlcat(m_update_sql, " WHERE ", size);
+	for (i=0; i<m_column_count; i++) {
+		if (m_columns[i]->is_pk()) {
+			strlcat(m_update_sql, m_columns[i]->name(), size);
+			strlcat(m_update_sql, "=?", size);
+			break;
+		}
+	}
+	strlcat(m_update_sql, ";", size);
+	
+	// prepare
+	int res = sqlite3_prepare_v2(db, m_update_sql, strlen(m_update_sql), &m_prepared_update, NULL);
+	if (res != SQLITE_OK) {
+		fprintf(stderr, "Error: unable to prepare update statement for table: %s \n", m_name);
+		return NULL;
+	}
+	return m_prepared_update;
+}
+
+
+sqlite3_stmt* Table::insert(sqlite3* db) {
+	// we only need to prepare once, return if we already have it
+	if (m_prepared_insert) {
+		return m_prepared_insert;
+	}
+	
+	uint32_t i = 0;
+	bool comma = false;  // flag we set to start adding commas
+	
+	// calculate the length of the sql statement
+	size_t size = 27 + 5*m_column_count;
+	for (i=0; i<m_column_count; i++) {
+		size += strlen(m_columns[i]->name());
+	}
+	
+	// generate the sql query
+	m_insert_sql = (char*)malloc(size);
+	strlcpy(m_insert_sql, "INSERT INTO ", size);
+	strlcat(m_insert_sql, m_name, size);
+	strlcat(m_insert_sql, " (", size);
+	for (i=0; i<m_column_count; i++) {
+		// comma separate after 0th column
+		if (comma) strlcat(m_insert_sql, ", ", size);
+		// primary keys do not get inserted
+		if (!m_columns[i]->is_pk()) {
+			strlcat(m_insert_sql, m_columns[i]->name(), size);
+			comma = true;
+		}
+	}
+	comma = false;
+	strlcat(m_insert_sql, ") VALUES (", size);
+	for (i=0; i<m_column_count; i++) {
+		// comma separate after 0th column
+		if (comma) strlcat(m_insert_sql, ", ", size); 
+		// primary keys do not get inserted
+		if (!m_columns[i]->is_pk()) {
+			strlcat(m_insert_sql, "?", size);
+			comma = true;
+		}
+	}
+	strlcat(m_insert_sql, ");", size);
+	
+	// prepare
+	int res = sqlite3_prepare_v2(db, m_insert_sql, strlen(m_insert_sql), &m_prepared_insert, NULL);
+	if (res != SQLITE_OK) {
+		fprintf(stderr, "Error: unable to prepare insert statement for table: %s \n", m_name);
+		return NULL;
+	}
+	return m_prepared_insert;
+}
+
+sqlite3_stmt* Table::del(sqlite3* db) {
+	// we only need to prepare once, return if we already have it
+	if (m_prepared_delete) return m_prepared_delete;
+	
+	uint32_t i = 0;
+	
+	// generate the sql query
+	size_t size = 22 + strlen(m_name);
+	for (i=0; i<m_column_count; i++) {
+		if (m_columns[i]->is_pk()) {
+			size += strlen(m_columns[i]->name()) + 2;
+			break;
+		}
+	}
+	m_delete_sql = (char*)malloc(size);
+	strlcpy(m_delete_sql, "DELETE FROM ", size);
+	strlcat(m_delete_sql, m_name, size);
+	
+	// WHERE statement using primary keys
+	strlcat(m_delete_sql, " WHERE ", size);
+	for (i=0; i<m_column_count; i++) {
+		if (m_columns[i]->is_pk()) {
+			strlcat(m_delete_sql, m_columns[i]->name(), size);
+			strlcat(m_delete_sql, "=?", size);
+			break;
+		}
+	}
+	strlcat(m_delete_sql, ";", size);
+	
+	// prepare
+	int res = sqlite3_prepare_v2(db, m_delete_sql, strlen(m_delete_sql), &m_prepared_delete, NULL);
+	if (res != SQLITE_OK) {
+		fprintf(stderr, "Error: unable to prepare delete statement for table: %s \n", m_name);
+		return NULL;
+	}
+	return m_prepared_delete;
+	
+}
+
+#define __alloc_stmt_query \
+	size_t size = 256; \
+	size_t used = 0; \
+	char* query = (char*)malloc(size); \
+	sqlite3_stmt** pps = (sqlite3_stmt**)malloc(sizeof(sqlite3_stmt*));
+
+#define __check_and_cat(text) \
+	used = strlcat(query, text, size); \
+    if (used >= size-1) { \
+        size *= 4; \
+        query = (char*)realloc(query, size); \
+        if (!query) { \
+			fprintf(stderr, "Error: ran out of memory!\n"); \
+            return NULL; \
+        } \
+        used = strlcat(query, text, size); \
+    }
+
+#define __prepare_stmt \
+    int res = sqlite3_prepare_v2(db, query, size, pps, NULL); \
+    free(query); \
+    if (res != SQLITE_OK) { \
+        fprintf(stderr, "Error: unable to prepare statement: %s\n", \
+				sqlite3_errmsg(db)); \
+        return NULL; \
+    }
 
 sqlite3_stmt** Table::count(sqlite3* db, uint32_t count, va_list args) {
 	__alloc_stmt_query;
@@ -298,7 +443,6 @@ sqlite3_stmt** Table::get_row_ordered(sqlite3* db, Column* order_by, int order,
 	return pps;	
 }
 
-
 sqlite3_stmt** Table::update_value(sqlite3* db, Column* value_column, uint32_t count, va_list args) {
 	__alloc_stmt_query;
 	strlcpy(query, "UPDATE ", size);
@@ -311,151 +455,6 @@ sqlite3_stmt** Table::update_value(sqlite3* db, Column* value_column, uint32_t c
 	__prepare_stmt;
 	
 	return pps;
-}
-
-/**
- * Prepare and cache the update statement. 
- * Assumes table only has 1 primary key
- */
-sqlite3_stmt* Table::update(sqlite3* db) {
-	// we only need to prepare once, return if we already have it
-	if (m_prepared_update) {
-		return m_prepared_update;
-	}
-	uint32_t i = 0;
-	bool comma = false;  // flag we set to start adding commas
-	
-	// calculate the length of the sql statement
-	size_t size = 27 + 5*m_column_count;
-	for (i=0; i<m_column_count; i++) {
-		size += strlen(m_columns[i]->name());
-	}
-	
-	// generate the sql query
-	m_update_sql = (char*)malloc(size);
-	strlcpy(m_update_sql, "UPDATE ", size);
-	strlcat(m_update_sql, m_name, size);
-	strlcat(m_update_sql, " SET ", size);
-	for (i=0; i<m_column_count; i++) {
-		// comma separate after 0th column
-		if (comma) strlcat(m_update_sql, ", ", size);
-		// primary keys do not get inserted
-		if (!m_columns[i]->is_pk()) {
-			strlcat(m_update_sql, m_columns[i]->name(), size);
-			strlcat(m_update_sql, "=?", size);
-			comma = true;
-		}
-	}
-	
-	// WHERE statement using primary keys
-	strlcat(m_update_sql, " WHERE ", size);
-	for (i=0; i<m_column_count; i++) {
-		if (m_columns[i]->is_pk()) {
-			strlcat(m_update_sql, m_columns[i]->name(), size);
-			strlcat(m_update_sql, "=?", size);
-			break;
-		}
-	}
-	strlcat(m_update_sql, ";", size);
-		
-	// prepare
-	int res = sqlite3_prepare_v2(db, m_update_sql, strlen(m_update_sql), &m_prepared_update, NULL);
-	if (res != SQLITE_OK) {
-		fprintf(stderr, "Error: unable to prepare update statement for table: %s \n", m_name);
-		return NULL;
-	}
-	return m_prepared_update;
-}
-
-
-sqlite3_stmt* Table::insert(sqlite3* db) {
-	// we only need to prepare once, return if we already have it
-	if (m_prepared_insert) {
-		return m_prepared_insert;
-	}
-
-	uint32_t i = 0;
-	bool comma = false;  // flag we set to start adding commas
-	
-	// calculate the length of the sql statement
-	size_t size = 27 + 5*m_column_count;
-	for (i=0; i<m_column_count; i++) {
-		size += strlen(m_columns[i]->name());
-	}
-	
-	// generate the sql query
-	m_insert_sql = (char*)malloc(size);
-	strlcpy(m_insert_sql, "INSERT INTO ", size);
-	strlcat(m_insert_sql, m_name, size);
-	strlcat(m_insert_sql, " (", size);
-	for (i=0; i<m_column_count; i++) {
-		// comma separate after 0th column
-		if (comma) strlcat(m_insert_sql, ", ", size);
-		// primary keys do not get inserted
-		if (!m_columns[i]->is_pk()) {
-			strlcat(m_insert_sql, m_columns[i]->name(), size);
-			comma = true;
-		}
-	}
-	comma = false;
-	strlcat(m_insert_sql, ") VALUES (", size);
-	for (i=0; i<m_column_count; i++) {
-		// comma separate after 0th column
-		if (comma) strlcat(m_insert_sql, ", ", size); 
-		// primary keys do not get inserted
-		if (!m_columns[i]->is_pk()) {
-			strlcat(m_insert_sql, "?", size);
-			comma = true;
-		}
-	}
-	strlcat(m_insert_sql, ");", size);
-
-	// prepare
-	int res = sqlite3_prepare_v2(db, m_insert_sql, strlen(m_insert_sql), &m_prepared_insert, NULL);
-	if (res != SQLITE_OK) {
-		fprintf(stderr, "Error: unable to prepare insert statement for table: %s \n", m_name);
-		return NULL;
-	}
-	return m_prepared_insert;
-}
-
-sqlite3_stmt* Table::del(sqlite3* db) {
-	// we only need to prepare once, return if we already have it
-	if (m_prepared_delete) return m_prepared_delete;
-
-	uint32_t i = 0;
-	
-	// generate the sql query
-	size_t size = 22 + strlen(m_name);
-	for (i=0; i<m_column_count; i++) {
-		if (m_columns[i]->is_pk()) {
-			size += strlen(m_columns[i]->name()) + 2;
-			break;
-		}
-	}
-	m_delete_sql = (char*)malloc(size);
-	strlcpy(m_delete_sql, "DELETE FROM ", size);
-	strlcat(m_delete_sql, m_name, size);
-	
-	// WHERE statement using primary keys
-	strlcat(m_delete_sql, " WHERE ", size);
-	for (i=0; i<m_column_count; i++) {
-		if (m_columns[i]->is_pk()) {
-			strlcat(m_delete_sql, m_columns[i]->name(), size);
-			strlcat(m_delete_sql, "=?", size);
-			break;
-		}
-	}
-	strlcat(m_delete_sql, ";", size);
-	
-	// prepare
-	int res = sqlite3_prepare_v2(db, m_delete_sql, strlen(m_delete_sql), &m_prepared_delete, NULL);
-	if (res != SQLITE_OK) {
-		fprintf(stderr, "Error: unable to prepare delete statement for table: %s \n", m_name);
-		return NULL;
-	}
-	return m_prepared_delete;
-	
 }
 
 sqlite3_stmt** Table::del(sqlite3* db, uint32_t count, va_list args) {

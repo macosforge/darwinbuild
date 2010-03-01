@@ -58,7 +58,16 @@ struct Table {
 	int            free_result(uint8_t* result);
 
 	/**
-	 * sql statement generators
+	 * sql statement generators (cached on Table)
+	 */
+	sqlite3_stmt*    create(sqlite3* db);  
+	sqlite3_stmt*    count(sqlite3* db);
+	sqlite3_stmt*    update(sqlite3* db);
+	sqlite3_stmt*    insert(sqlite3* db);
+	sqlite3_stmt*    del(sqlite3* db);
+	
+	/**
+	 * sql statement generators (cached by Database & libcache)
 	 *
 	 * - order is either ORDER_BY_ASC or ORDER_BY_DESC
 	 * - count parameters should be the number of items in the va_list
@@ -71,8 +80,6 @@ struct Table {
 	 *          instead
 	 *
 	 */
-	sqlite3_stmt*    create(sqlite3* db);  
-	sqlite3_stmt*    count(sqlite3* db);
 	sqlite3_stmt**    count(sqlite3* db, uint32_t count, va_list args);
 	sqlite3_stmt**    get_column(sqlite3* db, Column* value_column, 
 								uint32_t count, va_list args);
@@ -81,9 +88,6 @@ struct Table {
 							 uint32_t count, va_list args);
 	sqlite3_stmt**    update_value(sqlite3* db, Column* value_column, 
 								  uint32_t count, va_list args);
-	sqlite3_stmt*    update(sqlite3* db);
-	sqlite3_stmt*    insert(sqlite3* db);
-	sqlite3_stmt*    del(sqlite3* db);
 	sqlite3_stmt**    del(sqlite3* db, uint32_t count, va_list args);
 	
 protected:
