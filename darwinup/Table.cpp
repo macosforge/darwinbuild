@@ -155,54 +155,6 @@ int Table::free_result(uint8_t* result) {
 	return 0;
 }
 
-sqlite3_stmt* Table::create(sqlite3* db) {
-	size_t size = 0;
-	if (!m_create_sql) {
-		uint32_t i = 0;
-		
-		// size of "create table ( );" plus table name, plus 1 for each column to separate
-		size = strlen(m_name) + 22 + m_column_count;
-		for (i=0; i<m_column_count; i++) {		
-			// size for column spec
-			size += strlen(m_columns[i]->create());
-			// size for create index query
-			size += 26 + 2*strlen(m_columns[i]->name()) + 2*strlen(m_name);
-		}
-		
-		// create creation sql
-		m_create_sql = (char*)malloc(size);
-		strlcpy(m_create_sql, "CREATE TABLE ", size);
-		strlcat(m_create_sql, m_name, size);
-		strlcat(m_create_sql, " (", size);
-		// get creation sql for each column
-		for (i=0; i<m_column_count; i++) {
-			if (i) strlcat(m_create_sql, ", ", size); // comma separate after 0th column
-			strlcat(m_create_sql, m_columns[i]->create(), size);
-		}
-		strlcat(m_create_sql, "); ", size);
-		
-		for (i=0; i<m_column_count; i++) {
-			if (m_columns[i]->is_index()) {
-				char* buf;
-				asprintf(&buf, "CREATE INDEX %s_%s ON %s (%s);", 
-						 m_name, m_columns[i]->name(), m_name, m_columns[i]->name());
-				strlcat(m_create_sql, buf, size);
-				free(buf);
-			}
-		}
-	}
-	
-	sqlite3_stmt* stmt = (sqlite3_stmt*)malloc(sizeof(sqlite3_stmt*));
-	int res = sqlite3_prepare_v2(db, m_create_sql, size, &stmt, NULL); \
-	if (res != SQLITE_OK) { \
-		fprintf(stderr, "Error: unable to prepare CREATE statement: %s\n", 
-				sqlite3_errmsg(db)); \
-		return NULL; \
-	}
-	
-	return stmt;
-}
-
 sqlite3_stmt* Table::count(sqlite3* db) {
 	sqlite3_stmt* stmt = (sqlite3_stmt*)malloc(sizeof(sqlite3_stmt*));
 	char* query;
@@ -467,6 +419,50 @@ sqlite3_stmt** Table::del(sqlite3* db, uint32_t count, va_list args) {
 	__prepare_stmt;
 	
 	return pps;
+}
+
+const char* Table::create() {
+	size_t size = 0;
+	if (!m_create_sql) {
+		uint32_t i = 0;
+		
+		// size of "create table ( );" plus table name, plus 1 for each column to separate
+		size = strlen(m_name) + 22 + m_column_count;
+		for (i=0; i<m_column_count; i++) {		
+			// size for column spec
+			size += strlen(m_columns[i]->create());
+			// size for create index query
+			size += 26 + 2*strlen(m_columns[i]->name()) + 2*strlen(m_name);
+		}
+		
+		// create creation sql
+		m_create_sql = (char*)malloc(size);
+		strlcpy(m_create_sql, "CREATE TABLE ", size);
+		strlcat(m_create_sql, m_name, size);
+		strlcat(m_create_sql, " (", size);
+		// get creation sql for each column
+		for (i=0; i<m_column_count; i++) {
+			if (i) strlcat(m_create_sql, ", ", size); // comma separate after 0th column
+			strlcat(m_create_sql, m_columns[i]->create(), size);
+		}
+		strlcat(m_create_sql, "); ", size);
+		
+		for (i=0; i<m_column_count; i++) {
+			fprintf(stderr, "DEBUG: loop for index: %s %d %s \n", 
+					m_name, i, m_columns[i]->name());
+			if (m_columns[i]->is_index()) {
+				char* buf;
+				asprintf(&buf, "CREATE INDEX %s_%s ON %s (%s);", 
+						 m_name, m_columns[i]->name(), m_name, m_columns[i]->name());
+				strlcat(m_create_sql, buf, size);
+				fprintf(stderr, "DEBUG: latest sql: %s \n", m_create_sql);
+				free(buf);
+			}
+		}
+	}
+	fprintf(stderr, "DEBUG: final sql: %s \n", m_create_sql);
+	
+	return (const char*)m_create_sql;
 }
 
 int Table::where_va_columns(uint32_t count, char* query, size_t size, 

@@ -60,7 +60,6 @@ struct Table {
 	/**
 	 * sql statement generators (cached on Table)
 	 */
-	sqlite3_stmt*    create(sqlite3* db);  
 	sqlite3_stmt*    count(sqlite3* db);
 	sqlite3_stmt*    update(sqlite3* db);
 	sqlite3_stmt*    insert(sqlite3* db);
@@ -92,6 +91,8 @@ struct Table {
 	
 protected:
 
+	const char*    create();  
+	
 	int            where_va_columns(uint32_t count, char* query, size_t size, 
 									size_t* used, va_list args);
 	const Column** columns();

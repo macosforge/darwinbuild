@@ -1017,6 +1017,7 @@ int Depot::insert(Archive* archive, File* file) {
 	return res;
 }
 
+// XXX: cache what files we have seen in memory so we do not have to query db
 int Depot::has_file(Archive* archive, File* file) {
 	// check for the destination prefix in file's path, remove if found
 	char *path, *relpath;

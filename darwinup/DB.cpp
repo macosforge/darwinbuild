@@ -56,7 +56,7 @@ void DarwinupDatabase::init_schema() {
 	
 	this->m_files_table = new Table("files");
 	ADD_PK(m_files_table, "serial");
-	ADD_INTEGER(m_files_table, "archive");
+	ADD_INDEX(m_files_table, "archive", TYPE_INTEGER, false);
 	ADD_INTEGER(m_files_table, "info");
 	ADD_INTEGER(m_files_table, "mode");
 	ADD_INTEGER(m_files_table, "uid");

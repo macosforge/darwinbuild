@@ -574,7 +574,7 @@ bool Database::is_empty() {
 int Database::create_tables() {
 	int res = SQLITE_OK;
 	for (uint32_t i=0; i<m_table_count; i++) {
-		res = this->execute(m_tables[i]->create(this->m_db));
+		this->sql_once(m_tables[i]->create());
 		if (res!=SQLITE_OK) {
 			fprintf(stderr, "Error: sql error trying to create table: %s: %s\n",
 					m_tables[i]->name(), m_error);
