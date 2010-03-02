@@ -448,20 +448,16 @@ const char* Table::create() {
 		strlcat(m_create_sql, "); ", size);
 		
 		for (i=0; i<m_column_count; i++) {
-			fprintf(stderr, "DEBUG: loop for index: %s %d %s \n", 
-					m_name, i, m_columns[i]->name());
 			if (m_columns[i]->is_index()) {
 				char* buf;
 				asprintf(&buf, "CREATE INDEX %s_%s ON %s (%s);", 
 						 m_name, m_columns[i]->name(), m_name, m_columns[i]->name());
 				strlcat(m_create_sql, buf, size);
-				fprintf(stderr, "DEBUG: latest sql: %s \n", m_create_sql);
 				free(buf);
 			}
 		}
 	}
-	fprintf(stderr, "DEBUG: final sql: %s \n", m_create_sql);
-	
+
 	return (const char*)m_create_sql;
 }
 
