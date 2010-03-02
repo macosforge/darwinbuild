@@ -185,21 +185,30 @@ Archive* Depot::archive(archive_keyword_t keyword) {
 //            or     "oldest" for the oldest installed root)
 //   
 Archive* Depot::get_archive(const char* arg) {
+
+	// test for arg being a uuid
 	uuid_t uuid;
-	uint64_t serial; 
 	if (uuid_parse(arg, uuid) == 0) {
 		return Depot::archive(uuid);
 	}
-	serial = strtoull(arg, NULL, 0);
-	if (serial) {
+
+	// test for arg being a serial number
+	uint64_t serial; 
+	char* endptr = NULL;
+	serial = strtoull(arg, &endptr, 0);
+	if (serial && (*arg != '\0') && (*endptr == '\0')) {
 		return Depot::archive(serial);
 	}
+	
+	// test for keywords
 	if (strncasecmp("oldest", arg, 6) == 0) {
 		return Depot::archive(DEPOT_ARCHIVE_OLDEST);
 	}
 	if (strncasecmp("newest", arg, 6) == 0) {
 		return Depot::archive(DEPOT_ARCHIVE_NEWEST);
 	}
+	
+	// if nothing else, must be an archive name
 	return Depot::archive((archive_name_t)arg);
 }
 
