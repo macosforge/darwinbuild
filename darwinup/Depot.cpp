@@ -404,20 +404,19 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback, 
 			if ((state != ' ' && preceding_flags != FILE_INFO_IDENTICAL) ||
 				INFO_TEST(actual->info(), FILE_INFO_BASE_SYSTEM | FILE_INFO_ROLLBACK_DATA)) {
 				*rollback_files += 1;
-				IF_DEBUG("[analyze]    insert rollback\n");
-				res = this->insert(rollback, actual);
+				if (!this->has_file(rollback, actual)) {
+					IF_DEBUG("[analyze]    insert rollback\n");
+					res = this->insert(rollback, actual);
+				}
 				assert(res == 0);
+
 				// need to save parent directories as well
-				char *ppath;
-				char *pathbuf;
-				pathbuf = strdup(actual->path());
-				ppath = dirname(pathbuf);
-				free(pathbuf);
+				FTSENT *pent = ent->fts_parent;
+				
 				// while we have a valid path that is below the prefix
-				while (ppath 
-					   && strncmp(ppath, this->prefix(), strlen(this->prefix())) == 0
-					   && strncmp(ppath, this->prefix(), strlen(ppath)) > 0) {
-					File* parent = FileFactory(ppath);
+				while (pent && pent->fts_level >= 0) {
+					File* parent = FileFactory(rollback, pent);
+					
 					// if parent dir does not exist, we are
 					//  generating a rollback of base system
 					//  which does not have matching directories,
@@ -426,10 +425,13 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback, 
 						IF_DEBUG("[analyze]      parent path not found, skipping parents\n");
 						break;
 					}
-					IF_DEBUG("[analyze]      adding parent to rollback: %s \n", parent->path());
-					res = this->insert(rollback, parent);
+
+					if (!this->has_file(rollback, parent)) {
+						IF_DEBUG("[analyze]      adding parent to rollback: %s \n", parent->path());
+						res = this->insert(rollback, parent);
+					}
 					assert(res == 0);
-					ppath = dirname(ppath);
+					pent = pent->fts_parent;
 				}
 			}
 
@@ -989,10 +991,6 @@ int Depot::insert(Archive* archive) {
 }
 
 int Depot::insert(Archive* archive, File* file) {
-	int res = 0;
-	int do_update = 0;
-	uint64_t* serial;
-	
 	// check for the destination prefix in file's path, remove if found
 	char *path, *relpath;
 	size_t prefixlen = strlen(this->prefix());
@@ -1002,31 +1000,18 @@ int Depot::insert(Archive* archive, File* file) {
 	        relpath += prefixlen - 1;
 	}
 
-	if (this->has_file(archive, file)) {
-		do_update = 1;
-		res = this->m_db->get_file_serial_from_archive(archive, relpath, &serial);
-		if (!serial || !FOUND(res)) {
-			fprintf(stderr, "Error: unable to find file from archive %llu at path %s: %p %llu %d \n", 
-					archive->serial(), relpath, serial, *serial, res);
-			return 1;
-		}
-		res = m_db->update_file(*serial, archive, file->info(), file->mode(), file->uid(), file->gid(),
-									 file->digest(), relpath);
-	} else {
-		file->m_serial = m_db->insert_file(file->info(), file->mode(), file->uid(), file->gid(), 
-											file->digest(), archive, relpath);
-		if (!file->m_serial) {
-			fprintf(stderr, "Error: unable to insert file at path %s for archive %s \n", 
-					relpath, archive->name());
-			return 2;
-		}
+	file->m_serial = m_db->insert_file(file->info(), file->mode(), file->uid(), file->gid(), 
+									   file->digest(), archive, relpath);
+	if (!file->m_serial) {
+		fprintf(stderr, "Error: unable to insert file at path %s for archive %s \n", 
+				relpath, archive->name());
+		return DB_ERROR;
 	}
 
 	free(path);
-	return res;
+	return 0;
 }
 
-// XXX: cache what files we have seen in memory so we do not have to query db
 int Depot::has_file(Archive* archive, File* file) {
 	// check for the destination prefix in file's path, remove if found
 	char *path, *relpath;
@@ -1036,12 +1021,13 @@ int Depot::has_file(Archive* archive, File* file) {
 	if (strncmp(file->path(), this->prefix(), prefixlen) == 0) {
 		relpath += prefixlen - 1;
 	}
-	
+
 	uint64_t count = m_db->count_files(archive, relpath);
-	
+
 	free(path);
 	return count > 0;
 }
+
 
 int Depot::remove(Archive* archive) {
 	int res = 0;

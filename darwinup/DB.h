@@ -54,7 +54,6 @@
  *
  */
 struct DarwinupDatabase : Database {
-	DarwinupDatabase();
 	DarwinupDatabase(const char* path);
 	virtual ~DarwinupDatabase();
 	void init_schema();

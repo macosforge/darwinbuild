@@ -45,6 +45,9 @@ struct Table {
 	
 	const char*    name();
 
+	// Add custom SQL to table initialization
+	int            set_custom_create(const char* sql);
+	
 	// Column handling
 	int            add_column(Column*);
 	Column*        column(uint32_t index);
@@ -105,6 +108,7 @@ protected:
 	char*          m_name;
 
 	char*          m_create_sql;
+	char*          m_custom_create_sql;
 	char*          m_insert_sql;
 	char*          m_update_sql;
 	char*          m_delete_sql;

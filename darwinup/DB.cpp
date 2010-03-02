@@ -32,9 +32,6 @@
 
 #include "DB.h"
 
-DarwinupDatabase::DarwinupDatabase() {
-	this->connect();
-}
 
 DarwinupDatabase::DarwinupDatabase(const char* path) : Database(path) {
 	this->connect();
@@ -64,7 +61,10 @@ void DarwinupDatabase::init_schema() {
 	ADD_INTEGER(m_files_table, "size");
 	ADD_BLOB(m_files_table, "digest");
 	ADD_INDEX(m_files_table, "path", TYPE_TEXT, false);
-	assert(this->add_table(this->m_files_table)==0);	
+	// custom index to protect from duplicate files
+	assert(this->m_files_table->set_custom_create("CREATE UNIQUE INDEX files_archive_path " 
+												  "ON files (archive, path);") == 0);
+	assert(this->add_table(this->m_files_table)==0);
 }
 
 int DarwinupDatabase::activate_archive(uint64_t serial) {

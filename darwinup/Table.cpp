@@ -48,6 +48,7 @@ Table::Table(const char* name) {
 	m_results       = (uint8_t**)malloc(sizeof(uint8_t*) * m_result_max);
 	m_name          = strdup(name);
 	m_create_sql    = NULL;
+	m_custom_create_sql    = NULL;
 	m_insert_sql    = NULL;
 	m_update_sql    = NULL;
 	m_delete_sql    = NULL;
@@ -73,6 +74,7 @@ Table::~Table() {
 	free(m_name);
 
 	free(m_create_sql);
+	free(m_custom_create_sql);
 	free(m_insert_sql);
 	free(m_update_sql);
 	free(m_delete_sql);
@@ -85,6 +87,11 @@ Table::~Table() {
 
 const char* Table::name() {
 	return m_name;
+}
+
+int Table::set_custom_create(const char* sql) {
+	this->m_custom_create_sql = strdup(sql);
+	return this->m_custom_create_sql == 0;
 }
 
 int Table::add_column(Column* c) {
@@ -433,6 +440,8 @@ const char* Table::create() {
 			size += strlen(m_columns[i]->create());
 			// size for create index query
 			size += 26 + 2*strlen(m_columns[i]->name()) + 2*strlen(m_name);
+			// custom sql
+			if (m_custom_create_sql) size += strlen(m_custom_create_sql);
 		}
 		
 		// create creation sql
@@ -456,6 +465,7 @@ const char* Table::create() {
 				free(buf);
 			}
 		}
+		if (m_custom_create_sql) strlcat(m_create_sql, m_custom_create_sql, size);
 	}
 
 	return (const char*)m_create_sql;
