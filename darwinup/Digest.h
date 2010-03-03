@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005 Apple Computer, Inc. All rights reserved.
+ * Copyright (c) 2005-2010 Apple Computer, Inc. All rights reserved.
  *
  * @APPLE_BSD_LICENSE_HEADER_START@
  *
@@ -30,9 +30,14 @@
  * @APPLE_BSD_LICENSE_HEADER_END@
  */
 
+#ifndef _DIGEST_H
+#define _DIGEST_H
+
 #include <sys/types.h>
 #include <stdint.h>
 #include <openssl/evp.h>
+
+#include "Utils.h"
 
 ////
 //  Digest
@@ -90,6 +95,7 @@ struct Digest {
 	uint32_t	m_size;
 	
 	friend struct Depot;
+	friend struct DarwinupDatabase;
 };
 
 ////
@@ -132,3 +138,6 @@ struct SHA1DigestSymlink : SHA1Digest {
 	// The target is obtained via readlink(2).
 	SHA1DigestSymlink(const char* filename);
 };
+
+#endif
+

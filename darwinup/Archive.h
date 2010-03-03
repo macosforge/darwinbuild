@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005 Apple Computer, Inc. All rights reserved.
+ * Copyright (c) 2005-2010 Apple Computer, Inc. All rights reserved.
  *
  * @APPLE_BSD_LICENSE_HEADER_START@
  *
@@ -30,11 +30,21 @@
  * @APPLE_BSD_LICENSE_HEADER_END@
  */
 
+#ifndef _ARCHIVE_H
+#define _ARCHIVE_H
+
 #include <stdint.h>
 #include <stdio.h>
 #include <sys/types.h>
 #include <time.h>
 #include <uuid/uuid.h>
+
+typedef char* archive_name_t;
+
+enum archive_keyword_t {
+	DEPOT_ARCHIVE_NEWEST,
+	DEPOT_ARCHIVE_OLDEST
+};
 
 
 //
@@ -131,6 +141,7 @@ struct Archive {
 	time_t		m_date_installed;
 	
 	friend struct Depot;
+	friend struct DarwinupDatabase;
 };
 
 
@@ -301,3 +312,6 @@ struct ZipArchive : public Archive {
 	ZipArchive(const char* path);
 	virtual int extract(const char* destdir);
 };
+
+#endif
+

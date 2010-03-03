@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005 Apple Computer, Inc. All rights reserved.
+ * Copyright (c) 2005-2010 Apple Computer, Inc. All rights reserved.
  *
  * @APPLE_BSD_LICENSE_HEADER_START@
  *
@@ -30,6 +30,9 @@
  * @APPLE_BSD_LICENSE_HEADER_END@
  */
 
+#ifndef _SERIALSET_H
+#define _SERIALSET_H
+
 #include <stdint.h>
 #include <sys/types.h>
 
@@ -44,3 +47,5 @@ struct SerialSet {
 	uint32_t count;
 	uint64_t* values;
 };
+
+#endif

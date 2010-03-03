@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005 Apple Computer, Inc. All rights reserved.
+ * Copyright (c) 2005-2010 Apple Computer, Inc. All rights reserved.
  *
  * @APPLE_BSD_LICENSE_HEADER_START@
  *
@@ -30,11 +30,19 @@
  * @APPLE_BSD_LICENSE_HEADER_END@
  */
 
+#ifndef _FILE_H
+#define _FILE_H
+
 #include "Digest.h"
 
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fts.h>
+
+enum file_starseded_t {
+	FILE_SUPERSEDED,
+	FILE_PRECEDED
+};
 
 //
 // FILE_INFO flags stored in the database
@@ -214,3 +222,5 @@ struct Directory : File {
 	virtual int install(const char* prefix, const char* dest);
 	virtual int remove();
 };
+
+#endif

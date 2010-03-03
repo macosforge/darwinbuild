@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2010 Apple Computer, Inc. All rights reserved.
+ * Copyright (c) 2010 Apple Computer, Inc. All rights reserved.
  *
  * @APPLE_BSD_LICENSE_HEADER_START@
  *
@@ -30,42 +30,54 @@
  * @APPLE_BSD_LICENSE_HEADER_END@
  */
 
-#ifndef _UTILS_H
-#define _UTILS_H
+#ifndef _COLUMN_H
+#define _COLUMN_H
 
 #include <stdint.h>
-#include <sys/types.h>
-#include <fts.h>
+#include <sqlite3.h>
 
-#include <stdarg.h>
-#include <stdio.h>
+#include "Utils.h"
 
-const uint32_t VERBOSE		= 0x1;
-const uint32_t VERBOSE_DEBUG	= 0x2;
+/**
+ * Column objects represent a column in a database table. They store
+ *  type information and chunks of sql for their Table to build
+ *  queries with. 
+ */
+struct Column {
+	Column(const char* name, uint32_t type);
+	Column(const char* name, uint32_t type,
+		   bool is_index, bool is_pk, bool is_unique);
+	virtual ~Column();
+	
+	const char*    name();
+	uint32_t       type();
+	const bool     is_index();
+	const bool     is_pk();
+	const bool     is_unique();
 
-#define IF_DEBUG(...) do { extern uint32_t verbosity; if (verbosity & VERBOSE_DEBUG) fprintf(stderr, "DEBUG: " __VA_ARGS__); } while (0)
+	// return size of this column when packed into a result record
+	uint32_t       size();
 
-int fts_compare(const FTSENT **a, const FTSENT **b);
-int ftsent_filename(FTSENT* ent, char* filename, size_t bufsiz);
-int mkdir_p(const char* path);
-int remove_directory(const char* path);
-int is_directory(const char* path);
-int is_regular_file(const char* path);
-int is_url_path(const char* path);
-int is_userhost_path(const char* path);
-int has_suffix(const char* str, const char* sfx);
-int exec_with_args(const char** args);
+protected:
+	// return a string representation  of this columns type suitable 
+	//  for sql queries
+	const char*    typestr();
+	
+	// return the offset of this column in the Table's result record
+	int            offset();
+	
+	// generate the sql needed to create this column
+	const char*    create();
 
-int join_path(char** out, const char* p1, const char* p2);
-int compact_slashes(char* orig, int slashes);
-
-char* fetch_url(const char* srcpath, const char* dstpath);
-char* fetch_userhost(const char* srcpath, const char* dstpath);
-
-void __data_hex(FILE* f, uint8_t* data, uint32_t size);
-
-inline int INFO_TEST(uint32_t word, uint32_t flag) { return ((word & flag) != 0); }
-inline int INFO_SET(uint32_t word, uint32_t flag) { return (word | flag); }
-inline int INFO_CLR(uint32_t word, uint32_t flag) { return (word & (~flag)); }
+	char*          m_name;
+	char*          m_create_sql;
+	uint32_t       m_type; // SQLITE_* type definition
+	bool           m_is_index;
+	bool           m_is_pk;
+	bool           m_is_unique;
+	int            m_offset;
+	
+	friend struct Table;
+};
 
 #endif

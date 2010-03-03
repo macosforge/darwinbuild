@@ -1,6 +1,17 @@
 Darwin Build Scripts Change History
 -----------------------------------
 
+Release 15 [03-Mar-2010]
+	- darwinup: added new database abstraction layer to simplify Depot code,
+	  reduce copy-paste, and reduce unnecessary statement preparation
+	- darwinup: allow list subcommand to run as not-root
+	- darwinup: support multiple command line arguments (ex: globbing)
+
+Release 14 [05-Feb-2010]
+	- darwinup: add upgrade command to automatically replace last root
+	  installed with the same name.
+	- darwinup: added ability to install roots which have broken symlinks
+
 Release 13.1 [22-Dec-2009]
 	- darwinup: fix bug where rollback archives for user modifications
 	  did not contain parent directories and thus certain

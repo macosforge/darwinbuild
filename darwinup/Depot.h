@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005 Apple Computer, Inc. All rights reserved.
+ * Copyright (c) 2005-2010 Apple Computer, Inc. All rights reserved.
  *
  * @APPLE_BSD_LICENSE_HEADER_START@
  *
@@ -30,22 +30,20 @@
  * @APPLE_BSD_LICENSE_HEADER_END@
  */
 
+#ifndef _DEPOT_H
+#define _DEPOT_H
+
 #include <sys/types.h>
 #include <uuid/uuid.h>
-#include <sqlite3.h>
+#include "DB.h"
+#include "Archive.h"
 
 struct Archive;
 struct File;
+struct DarwinupDatabase;
 
 typedef int (*ArchiveIteratorFunc)(Archive* archive, void* context);
 typedef int (*FileIteratorFunc)(File* file, void* context);
-
-typedef char* archive_name_t;
-
-enum archive_keyword_t {
-		DEPOT_ARCHIVE_NEWEST,
-		DEPOT_ARCHIVE_OLDEST
-};
 
 struct Depot {
 	Depot();
@@ -53,7 +51,15 @@ struct Depot {
 	
 	virtual ~Depot();
 
-	int initialize();
+	// establish database connection
+	int connect();
+
+	// create directories we need for storage
+	int create_storage();
+	
+	// use initialize() to connect to database 
+	//  and (optionally) create the storage directories
+	int initialize(bool writable);
 	int is_initialized();
 	
 	const char* prefix();
@@ -69,12 +75,11 @@ struct Depot {
 	Archive* archive(uuid_t uuid);
 	Archive* archive(archive_name_t name);
 	Archive* archive(archive_keyword_t keyword);
-	Archive* archive(sqlite3_stmt* stmt);
 	Archive* get_archive(const char* arg);
 
 	// returns a list of Archive*. Caller must free the list. 
-	Archive** get_all_archives(size_t *count);
-	size_t count_archives();
+	Archive** get_all_archives(uint32_t *count);
+	uint64_t count_archives();
 	
 	int dump();
 	static int dump_archive(Archive* archive, void* context);
@@ -107,30 +112,31 @@ struct Depot {
 	// test if the depot is currently locked 
 	int is_locked();
 
-	protected:
+
+protected:
 
 	// Serialize access to the Depot via flock(2).
-	int lock(int operation);
-	int unlock(void);
+	int     lock(int operation);
+	int     unlock(void);
 
 	// Inserts an Archive into the database.
 	// This modifies the Archive's serial number.
 	// If the Archive already has a serial number, it cannot be inserted.
-	int insert(Archive* archive);
+	int     insert(Archive* archive);
 	
 	// Inserts a File into the database, as part of the specified Archive.
 	// This modifies the File's serial number.
 	// This modifies the File's Archive pointer.
 	// If the File already has a serial number, it cannot be inserted.
-	int insert(Archive* archive, File* file);
-
-	int has_file(Archive* archive, File* file);
+	int     insert(Archive* archive, File* file);
+	
+	int     has_file(Archive* archive, File* file);
 	
 	// Removes an Archive from the database.
-	int remove(Archive* archive);
+	int     remove(Archive* archive);
 	
 	// Removes a File from the database.
-	int remove(File* file);
+	int     remove(File* file);
 
 	int		analyze_stage(const char* path, Archive* archive, Archive* rollback, int* rollback_files);
 	int		prune_directories();
@@ -138,22 +144,21 @@ struct Depot {
 	// Removes all archive entries which have no corresponding files entries.
 	int		prune_archives();
 	
-	File*		file_superseded_by(File* file);
-	File*		file_preceded_by(File* file);
-	File*		file_star_eded_by(File* file, sqlite3_stmt* stmt);
+	File*	file_superseded_by(File* file);
+	File*	file_preceded_by(File* file);
 
 	int		check_consistency();
 
-
-	virtual int	SQL(const char* fmt, ...);
-
-	sqlite3*	m_db;
+	DarwinupDatabase* m_db;
+	
 	mode_t		m_depot_mode;
-        char*           m_prefix;
+	char*       m_prefix;
 	char*		m_depot_path;
 	char*		m_database_path;
 	char*		m_archives_path;
 	char*		m_downloads_path;
-	int		m_lock_fd;
-        int             m_is_locked;
+	int		    m_lock_fd;
+	int         m_is_locked;
 };
+
+#endif

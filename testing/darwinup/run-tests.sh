@@ -32,6 +32,11 @@ do
 	tar zxvf $R.tar.gz -C $PREFIX
 done;
 
+for R in 300dirs 300files;
+do
+	cp $R.tbz2 $PREFIX/
+done;
+
 mkdir -p $ORIG
 cp -R $DEST/* $ORIG/
 
@@ -46,6 +51,18 @@ do
 	echo "DIFF: diffing original test files to dest (should be no diffs) ..."
 	$DIFF $ORIG $DEST 2>&1
 done
+
+echo "========== TEST: Multiple argument test ==========";
+darwinup -vv -p $DEST install $PREFIX/root{,2,3}
+LINES=$(darwinup -p $DEST list | wc -l)
+if [ $LINES -lt 5 ]; then
+	echo "Failed multiple argument test."
+	exit 1;
+fi
+darwinup -vv -p $DEST uninstall all
+echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+$DIFF $ORIG $DEST 2>&1
+
 
 echo "========== TEST: Trying all roots at once, uninstall in reverse ==========";
 for R in $ROOTS;
@@ -107,6 +124,25 @@ done
 echo "DIFF: diffing original test files to dest (should be no diffs) ..."
 $DIFF $ORIG $DEST 2>&1
 
+echo "========== TEST: trying large roots ==========";
+echo "INFO: installing 300files";
+darwinup -vv -p $DEST install $PREFIX/300files.tbz2
+darwinup -vv -p $DEST uninstall 300files.tbz2
+echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+$DIFF $ORIG $DEST 2>&1
+echo "INFO: installing 300dir";
+darwinup -vv -p $DEST install $PREFIX/300dirs.tbz2
+darwinup -vv -p $DEST uninstall 300dirs.tbz2
+echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+$DIFF $ORIG $DEST 2>&1
+echo "INFO: installing both 300files and 300dirs";
+darwinup -vv -p $DEST install $PREFIX/300dirs.tbz2
+darwinup -vv -p $DEST install $PREFIX/300files.tbz2
+darwinup -vv -p $DEST uninstall 300dirs.tbz2
+darwinup -vv -p $DEST uninstall 300files.tbz2
+echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+$DIFF $ORIG $DEST 2>&1
+
 echo "========== TEST: Try uninstalling with user data in rollback =========="
 echo "INFO: Installing root5 ...";
 darwinup -vv -p $DEST install $PREFIX/root5
@@ -131,8 +167,10 @@ darwinup -vv -p $DEST uninstall newest
 echo "DIFF: diffing original test files to dest (should be no diffs) ..."
 $DIFF $ORIG $DEST 2>&1
 
- 
-# expected failures
+
+#
+# The following are expected failures
+#
 set +e
 echo "========== TEST: Trying a root that will fail due to object change =========="
 darwinup -vv -p $DEST install $PREFIX/root4

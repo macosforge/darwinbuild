@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005 Apple Computer, Inc. All rights reserved.
+ * Copyright (c) 2005-2010 Apple Computer, Inc. All rights reserved.
  *
  * @APPLE_BSD_LICENSE_HEADER_START@
  *
@@ -245,3 +245,21 @@ char* fetch_userhost(const char* srcpath, const char* dstpath) {
 	if (res == 0) return localfile;
 	return NULL;	
 }
+
+void __data_hex(FILE* f, uint8_t* data, uint32_t size) {
+	if (!size) return;
+	for (uint32_t i=0; i < size; i++) {
+		if (!(i%8)) {
+			if (i<10) fprintf(f, " ");
+			fprintf(f, "%d", i);
+		} else {
+			fprintf(f, "  ");
+		}
+	}
+	fprintf(f, "\n");
+	for (uint32_t i=0; i < size; i++) {
+		fprintf(f, "%02x", data[i]);
+	}
+	fprintf(f, "\n");
+}
+
