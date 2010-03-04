@@ -32,9 +32,9 @@ do
 	tar zxvf $R.tar.gz -C $PREFIX
 done;
 
-for R in 300dirs 300files;
+for R in 300dirs.tbz2 300files.tbz2 deep-rollback.cpgz deep-rollback-2.xar;
 do
-	cp $R.tbz2 $PREFIX/
+	cp $R $PREFIX/
 done;
 
 mkdir -p $ORIG
@@ -155,6 +155,27 @@ darwinup -vv -p $DEST uninstall root7
 stat $DEST/d/file
 rm $DEST/d/file
 rmdir $DEST/d
+echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+$DIFF $ORIG $DEST 2>&1
+
+echo "========== TEST: Deep rollback while saving user data =========="
+darwinup -vv -p $DEST install $PREFIX/deep-rollback.cpgz
+echo "modified" >> $DEST/d1/d2/d3/d4/d5/d6/file
+darwinup -vv -p $DEST install $PREFIX/deep-rollback.cpgz
+darwinup -vv -p $DEST uninstall newest
+darwinup -vv -p $DEST uninstall newest
+stat $DEST/d1/d2/d3/d4/d5/d6/file
+rm $DEST/d1/d2/d3/d4/d5/d6/file
+rm -rf $DEST/d1
+echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+$DIFF $ORIG $DEST 2>&1
+
+darwinup -vv -p $DEST install $PREFIX/deep-rollback.cpgz
+darwinup -vv -p $DEST install $PREFIX/deep-rollback-2.xar
+darwinup -vv -p $DEST uninstall all
+echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+$DIFF $ORIG $DEST 2>&1
+
 
 echo "========== TEST: Testing broken symlink handling =========="
 darwinup -vv -p $DEST install $PREFIX/symlinks

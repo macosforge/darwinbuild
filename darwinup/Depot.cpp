@@ -437,28 +437,32 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback, 
 				}
 				assert(res == 0);
 
-				// need to save parent directories as well
-				FTSENT *pent = ent->fts_parent;
-				
-				// while we have a valid path that is below the prefix
-				while (pent && pent->fts_level >= 0) {
-					File* parent = FileFactory(rollback, pent);
+				if (!INFO_TEST(actual->info(), FILE_INFO_NO_ENTRY)) {
+					// need to save parent directories as well
+					FTSENT *pent = ent->fts_parent;
 					
-					// if parent dir does not exist, we are
-					//  generating a rollback of base system
-					//  which does not have matching directories,
-					//  so we can just move on.
-					if (!parent) {
-						IF_DEBUG("[analyze]      parent path not found, skipping parents\n");
-						break;
+					// while we have a valid path that is below the prefix
+					while (pent && pent->fts_level > 0) {
+						File* parent = FileFactory(rollback, pent);
+						
+						// if parent dir does not exist, we are
+						//  generating a rollback of base system
+						//  which does not have matching directories,
+						//  so we can just move on.
+						if (!parent) {
+							IF_DEBUG("[analyze]      parent path not found, skipping parents\n");
+							break;
+						}
+						
+						if (!this->has_file(rollback, parent)) {
+							IF_DEBUG("[analyze]      adding parent to rollback: %s \n", parent->path());
+							res = this->insert(rollback, parent);
+						}
+						assert(res == 0);
+						pent = pent->fts_parent;
 					}
-
-					if (!this->has_file(rollback, parent)) {
-						IF_DEBUG("[analyze]      adding parent to rollback: %s \n", parent->path());
-						res = this->insert(rollback, parent);
-					}
-					assert(res == 0);
-					pent = pent->fts_parent;
+				} else {
+					fprintf(stderr, "[analyze]      actual does not exist, no need to add parents to rollback\n");
 				}
 			}
 
