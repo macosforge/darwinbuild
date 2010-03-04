@@ -461,8 +461,6 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback, 
 						assert(res == 0);
 						pent = pent->fts_parent;
 					}
-				} else {
-					fprintf(stderr, "[analyze]      actual does not exist, no need to add parents to rollback\n");
 				}
 			}
 
