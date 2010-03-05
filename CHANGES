@@ -2,6 +2,7 @@ Darwin Build Scripts Change History
 -----------------------------------
 
 Release 15 [03-Mar-2010]
+	- darwinup: fixed stray directories bugs due to apparent local modifications
 	- darwinup: added new database abstraction layer to simplify Depot code,
 	  reduce copy-paste, and reduce unnecessary statement preparation
 	- darwinup: allow list subcommand to run as not-root
