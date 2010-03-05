@@ -425,6 +425,7 @@ int DarwinupDatabase::get_archive(uint8_t** data, uuid_t uuid) {
 	return DB_ERROR;	
 }
 
+// XXX: get_archive gets called repeatedly by make_file, should memoize
 int DarwinupDatabase::get_archive(uint8_t** data, uint64_t serial) {
 	int res = this->get_row("archive__serial",
 							data,

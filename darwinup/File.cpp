@@ -338,6 +338,8 @@ int Directory::install(const char* prefix, const char* dest) {
 	
 	IF_DEBUG("[install] mkdir(%s, %04o)\n", dstpath, mode);
 	if (res == 0) res = mkdir(dstpath, mode);
+	// mkdir is limited by umask, so ensure mode is set
+	if (res == 0) res = chmod(dstpath, mode); 
 
 	if (res && errno == EEXIST) {
 		if (is_directory(dstpath)) {
