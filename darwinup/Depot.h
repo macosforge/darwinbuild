@@ -139,10 +139,10 @@ protected:
 	int     remove(File* file);
 
 	int		analyze_stage(const char* path, Archive* archive, Archive* rollback, int* rollback_files);
+
+	// removes expand and unexpanded files from archives path
 	int		prune_directories();
-	
-	// Removes all archive entries which have no corresponding files entries.
-	int		prune_archives();
+	int		prune_archive(Archive* archive);
 	
 	File*	file_superseded_by(File* file);
 	File*	file_preceded_by(File* file);

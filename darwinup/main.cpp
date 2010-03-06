@@ -45,7 +45,7 @@
 
 void usage(char* progname) {
 	fprintf(stderr, "usage:    %s [-v] [-p DIR] [command] [args]          \n", progname);
-	fprintf(stderr, "version: 15                                                    \n");
+	fprintf(stderr, "version: 16                                                    \n");
 	fprintf(stderr, "                                                               \n");
 	fprintf(stderr, "options:                                                       \n");
 	fprintf(stderr, "          -f         force operation to succeed at all costs   \n");

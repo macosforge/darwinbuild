@@ -713,9 +713,25 @@ int Depot::prune_directories() {
 	return res;
 }
 
-int Depot::prune_archives() {
+// delete the unexpanded tarball from archives storage
+int Depot::prune_archive(Archive* archive) {
 	int res = 0;
+	
+	// clean up database
 	res = this->m_db->delete_empty_archives();
+	if (res) {
+		fprintf(stderr, "Error: unable to prune archives from database.\n");
+		return res;
+	}
+	
+	// clean up disk
+	char path[PATH_MAX];
+	char uuid[37];
+	uuid_unparse_upper(archive->uuid(), uuid);
+	if (res == 0) snprintf(path, PATH_MAX, "%s/%s.tar.bz2", m_archives_path, uuid);
+	if (res == 0) res = unlink(path);
+	if (res) perror(path);
+	
 	return res;
 }
 
@@ -834,7 +850,7 @@ int Depot::uninstall(Archive* archive) {
 	// delete all of the expanded archive backing stores to save disk space
 	if (res == 0) res = this->prune_directories();
 
-	if (res == 0) res = prune_archives();
+	if (res == 0) res = this->prune_archive(archive);
 
 	(void)this->lock(LOCK_SH);
 
