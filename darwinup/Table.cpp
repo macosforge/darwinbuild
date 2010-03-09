@@ -194,7 +194,7 @@ sqlite3_stmt* Table::update(sqlite3* db) {
 	bool comma = false;  // flag we set to start adding commas
 	
 	// calculate the length of the sql statement
-	size_t size = 27 + 5*m_column_count;
+	size_t size = 28 + 5*m_column_count + strlen(m_name);
 	for (i=0; i<m_column_count; i++) {
 		size += strlen(m_columns[i]->name());
 	}
@@ -246,7 +246,7 @@ sqlite3_stmt* Table::insert(sqlite3* db) {
 	bool comma = false;  // flag we set to start adding commas
 	
 	// calculate the length of the sql statement
-	size_t size = 27 + 5*m_column_count;
+	size_t size = 28 + 5*m_column_count + strlen(m_name);
 	for (i=0; i<m_column_count; i++) {
 		size += strlen(m_columns[i]->name());
 	}
@@ -277,6 +277,8 @@ sqlite3_stmt* Table::insert(sqlite3* db) {
 		}
 	}
 	strlcat(m_insert_sql, ");", size);
+	
+	IF_SQL("insert sql: %s \n", m_insert_sql);
 	
 	// prepare
 	int res = sqlite3_prepare_v2(db, m_insert_sql, strlen(m_insert_sql), &m_prepared_insert, NULL);

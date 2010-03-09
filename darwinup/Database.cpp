@@ -36,7 +36,7 @@
  * sqlite3_trace callback for debugging
  */
 void dbtrace(void* context, const char* sql) {
-	fprintf(stderr, "SQL: %s\n", sql);
+	fprintf(stderr, "[SQL] %s\n", sql);
 }
 
 Database::Database() {
@@ -95,6 +95,11 @@ int Database::init_schema() {
 	return DB_OK;
 }
 
+int Database::post_table_creation() {
+	// clients can implement this
+	return DB_OK;
+}
+
 const char* Database::path() {
 	return m_path;
 }
@@ -139,15 +144,18 @@ int Database::connect() {
 	} else {
 		// not empty, but upgrade schema if needed
 		uint32_t version = this->get_schema_version();
+		IF_DEBUG("Connected to db and found version = %u \n", version);
 		if (version < this->m_schema_version) {
+			IF_DEBUG("Upgrading schema from %u to %u \n", version, this->m_schema_version);
 			assert(this->upgrade_schema(version) == 0);
-			this->set_schema_version(this->m_schema_version);
 		}
 		if (version > this->m_schema_version) {
 			fprintf(stderr, "Error: this client is too old!\n");
 			return DB_ERROR;
 		}
-	}	
+	}
+	
+	this->set_schema_version(this->m_schema_version);
 	
 	return res;	
 }
@@ -647,6 +655,8 @@ int Database::create_tables() {
 			return res;
 		}
 	}
+	if (res == DB_OK) res = this->initial_data();
+	if (res == DB_OK) res = this->post_table_creation();
 	return res;
 }
 
@@ -716,33 +726,38 @@ int Database::init_internal_schema() {
 	return DB_OK;
 }
 
-int Database::get_information_value(const char* variable, char** value) {
+int Database::initial_data() {
+	// load our initial config data
+	return this->insert(m_information_table, "schema_version", "0");
+}
+
+int Database::get_information_value(const char* variable, char*** value) {
 	return this->get_value("get_information_value",
 						   (void**)value,
 						   this->m_information_table,
-						   this->m_information_table->column(1), // value
+						   this->m_information_table->column(2), // value
 						   1,
-						   this->m_information_table->column(0), // variable
+						   this->m_information_table->column(1), // variable
 						   '=', variable);
 }
 
 int Database::update_information_value(const char* variable, const char* value) {
 	return this->update_value("update_information_value",
 							  this->m_information_table,
-							  this->m_information_table->column(1), // value
-							  (void**)value, 
+							  this->m_information_table->column(2), // value
+							  (void**)&value, 
 							  1,
-							  this->m_information_table->column(0), // variable
+							  this->m_information_table->column(1), // variable
 							  '=', variable);
 }
 
 uint32_t Database::get_schema_version() {
-	char* vertxt;
-	int res = DB_OK;
+	int res = SQLITE_OK;
+	char** vertxt = NULL;
 	res = this->get_information_value("schema_version", &vertxt);
-	if (FOUND(res)) {
-		uint32_t version = (uint32_t)strtoul(vertxt, NULL, 10);
-		free(vertxt);
+	if (res == SQLITE_ROW) {
+		uint32_t version = (uint32_t)strtoul(*vertxt, NULL, 10);
+		free(*vertxt);
 		return version;
 	} else {
 		// lack of information table/value means we are 
@@ -820,7 +835,7 @@ int Database::step_once(sqlite3_stmt* stmt, uint8_t* output, uint32_t* used) {
 			*used = current - output;
 		}
 	}
-	
+
 	return res;
 }
 

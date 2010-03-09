@@ -106,6 +106,10 @@ struct Database {
 	 */
 	virtual int  init_schema();
 	
+	// called after tables are created so clients can load
+	// initial sets of data
+	virtual int  post_table_creation();
+	
 	const char*  path();
 	const char*  error();
 	int          connect();
@@ -180,10 +184,10 @@ protected:
 	
 	int   upgrade_schema(uint32_t version);
 	int   upgrade_internal_schema(uint32_t version);
-	
 	int   init_internal_schema();
-	
-	int   get_information_value(const char* variable, char** value);
+	int   initial_data();
+
+	int   get_information_value(const char* variable, char*** value);
 	int   update_information_value(const char* variable, const char* value);
 	
 	// get and set version info in actual database
