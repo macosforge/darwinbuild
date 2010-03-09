@@ -266,6 +266,36 @@ Archive** Depot::get_all_archives(uint32_t* count) {
 	return list;	
 }
 
+Archive** Depot::get_superseded_archives(uint32_t* count) {
+	int res = DB_OK;
+	uint8_t** archlist;
+	res = this->m_db->get_archives(&archlist, count, false); // rollbacks cannot be superseded
+	
+	Archive** list = (Archive**)malloc(sizeof(Archive*) * (*count));
+	if (!list) {
+		fprintf(stderr, "Error: ran out of memory in Depot::get_superseded_archives\n");
+		return NULL;
+	}
+
+	uint32_t i = 0;
+	uint32_t cur = i;
+	if (FOUND(res)) {
+		while (i < *count) {
+			Archive* archive = this->m_db->make_archive(archlist[i++]);
+			if (archive && this->is_superseded(archive)) {
+				list[cur++] = archive;
+			} else if (!archive) {
+				fprintf(stderr, "%s:%d: DB::make_archive returned NULL\n", __FILE__, __LINE__);
+				res = -1;
+				break;
+			}
+		}
+	}
+	// adjust count based on our is_superseded filtering
+	*count = cur;
+	return list;	
+}
+
 uint64_t Depot::count_archives() {
 	extern uint32_t verbosity;
 	uint64_t c = this->m_db->count_archives((bool)(verbosity & VERBOSE_DEBUG));
@@ -852,6 +882,9 @@ int Depot::uninstall(Archive* archive) {
 
 	if (res == 0) res = this->prune_archive(archive);
 
+	if (res == 0) fprintf(stdout, "Uninstalled archive: %llu %s \n",
+						  archive->serial(), archive->name());
+	
 	(void)this->lock(LOCK_SH);
 
 	return res;
@@ -1025,6 +1058,23 @@ int Depot::commit_transaction() {
 
 int Depot::is_locked() { return m_is_locked; }
 
+bool Depot::is_superseded(Archive* archive) {
+	int res = DB_OK;
+	uint8_t** filelist;
+	uint8_t* data;
+	uint32_t count;	
+	res = this->m_db->get_files(&filelist, &count, archive);
+	if (FOUND(res)) {
+		for (uint32_t i=0; i < count; i++) {
+			File* file = this->m_db->make_file(filelist[i]);
+			res = this->m_db->get_next_file(&data, file, FILE_SUPERSEDED);
+			// XXX: need to send data to Table to free
+			if (!FOUND(res)) return false;
+		}
+	}
+	return true;			
+}
+
 int Depot::lock(int operation) {
 	int res = 0;
 	if (m_lock_fd == -1) {
@@ -1149,6 +1199,8 @@ int Depot::process_archive(const char* command, const char* arg) {
 	
 	if (strncasecmp(arg, "all", 3) == 0) {
 		list = this->get_all_archives(&count);
+	} else if (strncasecmp(arg, "superseded", 10) == 0) {
+		list = this->get_superseded_archives(&count);
 	} else {
 		// make a list of 1 Archive
 		list = (Archive**)malloc(sizeof(Archive*));

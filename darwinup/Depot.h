@@ -79,6 +79,7 @@ struct Depot {
 
 	// returns a list of Archive*. Caller must free the list. 
 	Archive** get_all_archives(uint32_t *count);
+	Archive** get_superseded_archives(uint32_t *count);
 	uint64_t count_archives();
 	
 	int dump();
@@ -112,6 +113,7 @@ struct Depot {
 	// test if the depot is currently locked 
 	int is_locked();
 
+	bool is_superseded(Archive* archive);
 
 protected:
 
