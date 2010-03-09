@@ -112,7 +112,7 @@ int DarwinupDatabase::update_archive(uint64_t serial, uuid_t uuid, const char* n
 }
 
 uint64_t DarwinupDatabase::insert_archive(uuid_t uuid, uint32_t info, const char* name, 
-										  time_t date_added, char* build) {
+										  time_t date_added, const char* build) {
 	
 	int res = this->insert(this->m_archives_table,
 						   (uint8_t*)uuid,
@@ -406,8 +406,10 @@ Archive* DarwinupDatabase::make_archive(uint8_t* data) {
 	memcpy(&date_added, &data[this->archive_offset(3)], sizeof(time_t));
 	uint64_t info;
 	memcpy(&info, &data[this->archive_offset(5)], sizeof(uint64_t));
+	char* build;
+	memcpy(&build, &data[this->archive_offset(6)], sizeof(char*));
 
-	Archive* archive = new Archive(serial, *uuid, name, NULL, info, date_added);
+	Archive* archive = new Archive(serial, *uuid, name, NULL, info, date_added, build);
 	this->m_archives_table->free_result(data);
 	return archive;
 }

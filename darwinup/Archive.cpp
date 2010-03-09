@@ -53,11 +53,13 @@ Archive::Archive(const char* path) {
 	m_date_installed = time(NULL);
 }
 
-Archive::Archive(uint64_t serial, uuid_t uuid, const char* name, const char* path, uint64_t info, time_t date_installed) {
+Archive::Archive(uint64_t serial, uuid_t uuid, const char* name, const char* path, 
+				 uint64_t info, time_t date_installed, const char* build) {
 	m_serial = serial;
 	uuid_copy(m_uuid, uuid);
 	m_name = name ? strdup(name) : NULL;
 	m_path = path ? strdup(path) : NULL;
+	m_build = build ? strdup(build) : NULL;
 	m_info = info;
 	m_date_installed = date_installed;
 }
@@ -66,12 +68,14 @@ Archive::Archive(uint64_t serial, uuid_t uuid, const char* name, const char* pat
 Archive::~Archive() {
 	if (m_path) free(m_path);
 	if (m_name) free(m_name);
+	if (m_build) free(m_build);
 }
 
 uint64_t	Archive::serial()		{ return m_serial; }
 uint8_t*	Archive::uuid()			{ return m_uuid; }
 const char*	Archive::name()			{ return m_name; }
 const char*	Archive::path()			{ return m_path; }
+const char*	Archive::build()		{ return m_build; }
 uint64_t	Archive::info()			{ return m_info; }
 time_t		Archive::date_installed()	{ return m_date_installed; }
 

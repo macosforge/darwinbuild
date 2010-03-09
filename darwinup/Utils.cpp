@@ -320,13 +320,15 @@ int build_number_for_path(char** build, const char* path) {
 	res = 1;
 	while (res > 0 && res < 16) {
 		res = read(pfd[0], *build, 16);
+		// strip newline
+		if (res > 1 && (*build)[res-1] == '\n') (*build)[res-1] = '\0';
 	}
 	close(pfd[0]);
 
 	if (res == 0) return res; // success
 	
 	if (res == -1) {
-		fprintf(stderr, "Error: failed to read build from xpath.\n");
+		fprintf(stderr, "Error: failed to read build from plist.\n");
 		return res;
 	}
 

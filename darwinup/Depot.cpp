@@ -634,6 +634,11 @@ int Depot::install(Archive* archive) {
 	int res = 0;
 	Archive* rollback = new RollbackArchive();
 
+	if (this->m_build) {
+		rollback->m_build = strdup(this->m_build);
+		archive->m_build = strdup(this->m_build);
+	}
+	
 	assert(rollback != NULL);
 	assert(archive != NULL);
 
@@ -1114,7 +1119,7 @@ int Depot::insert(Archive* archive) {
 											 archive->info(),
 											 archive->name(),
 											 archive->date_installed(),
-											 m_build);
+											 archive->build());
 	return archive->m_serial == 0;
 }
 

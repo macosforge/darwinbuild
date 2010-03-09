@@ -97,13 +97,16 @@ struct Archive {
 	// Do not modify or free(3).
 	virtual const char* path();
 	
+	// the OS build this archive was installed onto
+	virtual const char* build();
+	
 	// ARCHIVE_INFO flags.
 	virtual uint64_t info();
 	
 	// The epoch seconds when the archive was installed.
 	virtual time_t date_installed();
-
-
+	
+	
 	////
 	//  Member functions
 	////
@@ -130,13 +133,16 @@ struct Archive {
 
 	protected:
 
-	// Constructor for subclasses and Depot to use when unserializing an archive from the database.
-	Archive(uint64_t serial, uuid_t uuid, const char* name, const char* path, uint64_t info, time_t date_installed);
+	// Constructor for subclasses and Depot to use when 
+	//  unserializing an archive from the database.
+	Archive(uint64_t serial, uuid_t uuid, const char* name, const char* path, 
+			uint64_t info, time_t date_installed, const char* build);
 	
 	uint64_t	m_serial;
 	uuid_t		m_uuid;
 	char*		m_name;
 	char*		m_path;
+	char*       m_build;
 	uint64_t	m_info;
 	time_t		m_date_installed;
 	
