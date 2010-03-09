@@ -56,7 +56,7 @@
 struct DarwinupDatabase : Database {
 	DarwinupDatabase(const char* path);
 	virtual ~DarwinupDatabase();
-	void init_schema();
+	int init_schema();
 	
 	uint64_t count_files(Archive* archive, const char* path);
 	uint64_t count_archives(bool include_rollbacks);

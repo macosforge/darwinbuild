@@ -82,13 +82,17 @@ Database::~Database() {
 	free(m_error);
 }
 
+uint32_t Database::schema_version() {
+	return this->m_schema_version;
+}
+
+void Database::schema_version(uint32_t v) {
+	this->m_schema_version = v;
+}
 
 int Database::init_schema() {
 	// do nothing... children should implement this
-}
-
-int Database::upgrade_schema(uint32_t fromversion) {
-	// do nothing... children should implement this
+	return DB_OK;
 }
 
 const char* Database::path() {
@@ -113,6 +117,7 @@ int Database::connect() {
 		return res;
 	}
 	
+	int exists = is_regular_file(m_path);
 	res = sqlite3_open(m_path, &m_db);
 	if (res) {
 		sqlite3_close(m_db);
@@ -128,6 +133,22 @@ int Database::connect() {
 		return res;
 	}
 	
+	if (!exists) {
+		// create schema since it is empty
+		assert(this->create_tables() == 0);
+	} else {
+		// not empty, but upgrade schema if needed
+		uint32_t version = this->get_schema_version();
+		if (version < this->m_schema_version) {
+			assert(this->upgrade_schema(version) == 0);
+			this->set_schema_version(this->m_schema_version);
+		}
+		if (version > this->m_schema_version) {
+			fprintf(stderr, "Error: this client is too old!\n");
+			return DB_ERROR;
+		}
+	}	
+	
 	return res;	
 }
 
@@ -139,7 +160,7 @@ int Database::pre_connect() {
 }
 
 int Database::post_connect() {
-	int res = DB_OK
+	int res = DB_OK;
 	
 	// prepare transaction statements
 	if (res == DB_OK) 
@@ -157,19 +178,7 @@ int Database::post_connect() {
 	if (verbosity & VERBOSE_SQL) {
 		sqlite3_trace(m_db, dbtrace, NULL);
 	}
-	
-	if (this->is_empty()) {
-		// create schema since it is empty
-		assert(this->create_tables() == 0);
-	} else {
-		// not empty, but upgrade schema if needed
-		version = this->get_schema_version();
-		if (version < this->m_schema_version) {
-			assert(this->upgrade_schema(version) == 0);
-			this->set_schema_version(this->m_schema_version);
-		}
-	}
-	
+		
 	return res;
 }
 
@@ -596,6 +605,7 @@ int Database::add_table(Table* t) {
 		m_table_max *= REALLOC_FACTOR;
 	}
 	m_tables[m_table_count++] = t;
+	t->m_version = this->m_schema_version;
 	
 	return 0;
 }
@@ -617,6 +627,16 @@ bool Database::is_empty() {
 	return res != SQLITE_OK;
 }
 
+int Database::create_table(Table* table) {
+	int res = this->sql_once(table->create());
+	if (res != DB_OK) {
+		fprintf(stderr, "Error: sql error trying to create"
+				" table: %s: %s\n",
+				table->name(), m_error);
+	}
+	return res;
+}
+
 int Database::create_tables() {
 	int res = SQLITE_OK;
 	for (uint32_t i=0; i<m_table_count; i++) {
@@ -630,22 +650,90 @@ int Database::create_tables() {
 	return res;
 }
 
+int Database::upgrade_schema(uint32_t version) {
+	int res = DB_OK;
+	this->begin_transaction();
+	
+	res = this->upgrade_internal_schema(version);
+	if (res != DB_OK) {
+		fprintf(stderr, "Error: unable to upgrade internal schema.\n");
+		this->rollback_transaction();
+		return res;
+	}			
+	
+	for (uint32_t ti = 0; res == DB_OK && ti < m_table_count; ti++) {
+		if (m_tables[ti]->version() > version) {
+			// entire table is new
+			res = this->create_table(m_tables[ti]);
+		} else {
+			// table is same version, so check for new columns
+			for (uint32_t ci = 0; res == DB_OK && ci < m_tables[ti]->column_count(); ci++) {
+				if (m_tables[ti]->column(ci)->version() < version) {
+					// this should never happen
+					fprintf(stderr, "Error: internal error with schema versioning."
+									" Column %s is older than its table %s. \n",
+							m_tables[ti]->column(ci)->name(), m_tables[ti]->name());
+				}
+				if (m_tables[ti]->column(ci)->version() > version) {
+					// column is new
+					res = this->sql_once(m_tables[ti]->alter_add_column(ci));
+					if (res != DB_OK) {
+						fprintf(stderr, "Error: sql error trying to upgrade (alter)"
+						        " table: %s column: %s : %s\n",
+								m_tables[ti]->name(), m_tables[ti]->column(ci)->name(), 
+								m_error);
+					}		
+				}
+			}
+		}
+	}
+	
+	if (res == DB_OK) {
+		this->commit_transaction();
+	} else {
+		this->rollback_transaction();
+	}
+
+	return res;
+}
+
+int Database::upgrade_internal_schema(uint32_t version) {
+	int res = DB_OK;
+	
+	if (version == 0) {
+		res = this->sql_once(this->m_information_table->create());
+	}
+	
+	return res;
+}
+
 int Database::init_internal_schema() {
 	this->m_information_table = new Table("database_information");
+	ADD_TABLE(this->m_information_table);
 	ADD_PK(m_information_table, "id");
 	ADD_INDEX(m_information_table, "variable", TYPE_TEXT, true);
 	ADD_TEXT(m_information_table, "value");
-	assert(this->add_table(this->m_information_table)==0);
+	return DB_OK;
 }
 
-int Database::get_information_value(char* variable, char** value) {
+int Database::get_information_value(const char* variable, char** value) {
 	return this->get_value("get_information_value",
-						   value,
+						   (void**)value,
 						   this->m_information_table,
-						   this->m_information_table->columns(1), // value
+						   this->m_information_table->column(1), // value
 						   1,
-						   this->m_information_table->columns(0), // variable
+						   this->m_information_table->column(0), // variable
 						   '=', variable);
+}
+
+int Database::update_information_value(const char* variable, const char* value) {
+	return this->update_value("update_information_value",
+							  this->m_information_table,
+							  this->m_information_table->column(1), // value
+							  (void**)value, 
+							  1,
+							  this->m_information_table->column(0), // variable
+							  '=', variable);
 }
 
 uint32_t Database::get_schema_version() {
@@ -663,22 +751,15 @@ uint32_t Database::get_schema_version() {
 	}
 }
 
-int Database::update_information_value(char* variable, char* value) {
-	return this->update_value("update_information_value",
-							  this->m_information_table,
-							  this->m_information_table->columns(1), // value
-							  value, 
-							  1,
-							  this->m_information_table->columns(0), // variable
-							  '=', variable);
-}
-
 int Database::set_schema_version(uint32_t version) {
 	int res = DB_OK;
-	res = this->update_information_value("schema_version", &version);
+	char* vertxt;
+	asprintf(&vertxt, "%u", version);
+	if (!vertxt) return DB_ERROR;
+	res = this->update_information_value("schema_version", vertxt);
+	free(vertxt);
 	return res;
 }
-
 
 size_t Database::store_column(sqlite3_stmt* stmt, int column, uint8_t* output) {
 	size_t used;

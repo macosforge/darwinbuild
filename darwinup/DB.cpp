@@ -34,7 +34,6 @@
 
 
 DarwinupDatabase::DarwinupDatabase(const char* path) : Database(path) {
-	m_schema_version = 1;
 	this->connect();
 }
 
@@ -42,18 +41,23 @@ DarwinupDatabase::~DarwinupDatabase() {
 	// parent automatically deallocates schema objects
 }
 
-int DarwinupDatabase::init_schema() {	
+int DarwinupDatabase::init_schema() {
+	
+
+	SCHEMA_VERSION(0);
+	
 	this->m_archives_table = new Table("archives");
+	ADD_TABLE(this->m_archives_table);
 	ADD_PK(m_archives_table, "serial");
 	ADD_INDEX(m_archives_table, "uuid", TYPE_BLOB, true); 
 	ADD_TEXT(m_archives_table, "name");
 	ADD_INTEGER(m_archives_table, "date_added");
 	ADD_INTEGER(m_archives_table, "active");
 	ADD_INTEGER(m_archives_table, "info");	
-	ADD_TEXT(m_archives_table, "osbuild");
-	assert(this->add_table(this->m_archives_table)==0);
+
 	
 	this->m_files_table = new Table("files");
+	ADD_TABLE(this->m_files_table);
 	ADD_PK(m_files_table, "serial");
 	ADD_INDEX(m_files_table, "archive", TYPE_INTEGER, false);
 	ADD_INTEGER(m_files_table, "info");
@@ -63,19 +67,15 @@ int DarwinupDatabase::init_schema() {
 	ADD_INTEGER(m_files_table, "size");
 	ADD_BLOB(m_files_table, "digest");
 	ADD_INDEX(m_files_table, "path", TYPE_TEXT, false);
+	
 	// custom index to protect from duplicate files
 	assert(this->m_files_table->set_custom_create("CREATE UNIQUE INDEX files_archive_path " 
 												  "ON files (archive, path);") == 0);
-	assert(this->add_table(this->m_files_table)==0);
-	
-	return 0;
-}
 
-int DarwinupDatabase::upgrade_schema(uint32_t fromversion) {
 
-	if (fromversion < 1) {
-		this->sql_once("ALTER TABLE archives ADD COLUMN osbuild TEXT");
-	}
+	SCHEMA_VERSION(1);
+
+	ADD_TEXT(m_archives_table, "osbuild");
 	
 	return 0;
 }

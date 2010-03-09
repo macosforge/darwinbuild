@@ -67,19 +67,21 @@
 #define FOUND(x)  ((x & DB_FOUND) && !(x & DB_ERROR))
 
 // Schema creation macros
+#define SCHEMA_VERSION(v) this->schema_version(v);
+#define ADD_TABLE(t) assert(this->add_table(t)==0);
 #define ADD_COLUMN(table, name, type, index, pk, unique) \
-    assert(table->add_column(new Column(name, type, index, pk, unique))==0);
+    assert(table->add_column(new Column(name, type, index, pk, unique), this->schema_version())==0);
 #define ADD_INDEX(table, name, type, unique) \
-	assert(table->add_column(new Column(name, type, true, false, unique))==0);
+	assert(table->add_column(new Column(name, type, true, false, unique), this->schema_version())==0);
 #define ADD_PK(table, name) \
 	assert(table->add_column(new Column(name, TYPE_INTEGER, \
-                                        false, true, false))==0);
+                                        false, true, false), this->schema_version())==0);
 #define ADD_TEXT(table, name) \
-	assert(table->add_column(new Column(name, TYPE_TEXT))==0);
+	assert(table->add_column(new Column(name, TYPE_TEXT), this->schema_version())==0);
 #define ADD_INTEGER(table, name) \
-	assert(table->add_column(new Column(name, TYPE_INTEGER))==0);
+	assert(table->add_column(new Column(name, TYPE_INTEGER), this->schema_version())==0);
 #define ADD_BLOB(table, name) \
-	assert(table->add_column(new Column(name, TYPE_BLOB))==0);
+	assert(table->add_column(new Column(name, TYPE_BLOB), this->schema_version())==0);
 
 
 /**
@@ -92,18 +94,17 @@ struct Database {
 	Database(const char* path);
 	virtual ~Database();
 
+	// public setter/getter of class attr
+	uint32_t     schema_version();
+	void         schema_version(uint32_t v);
+	
 	/**
 	 * init_schema is called during db connection.
 	 * Projects implementing a Database derived class
 	 * should use Table::add_column() or the ADD_*
 	 * macros in their init_schema() to define their schema
 	 */
-	virtual int init_schema();
-	/**
-	 * upgrade_schema should execute sql statements needed to
-	 * upgrade from fromversion to the current version
-	 */
-	virtual int upgrade_schema(uint32_t fromversion);
+	virtual int  init_schema();
 	
 	const char*  path();
 	const char*  error();
@@ -177,6 +178,18 @@ protected:
 	int   pre_connect();
 	int   post_connect();
 	
+	int   upgrade_schema(uint32_t version);
+	int   upgrade_internal_schema(uint32_t version);
+	
+	int   init_internal_schema();
+	
+	int   get_information_value(const char* variable, char** value);
+	int   update_information_value(const char* variable, const char* value);
+	
+	// get and set version info in actual database
+	int       set_schema_version(uint32_t version);
+	uint32_t  get_schema_version(); 
+	
 	// execute query with printf-style format, does not cache statement
 	int   sql_once(const char* fmt, ...);
 	// cache statement with name, execute query with printf-style format
@@ -188,6 +201,7 @@ protected:
 	// test if database has had its tables created
 	bool  is_empty();
 	// create tables for the client
+	int   create_table(Table* table);
 	int   create_tables();
 	// create tables for ourselves
 	int   create_internal_tables();
@@ -216,7 +230,7 @@ protected:
 	
 	uint32_t         m_schema_version;
 	Table*           m_information_table;
-	sqlite3_stmt     m_get_information_value;
+	sqlite3_stmt*    m_get_information_value;
 	
 	Table**          m_tables;
 	uint32_t         m_table_count;
