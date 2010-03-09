@@ -98,12 +98,7 @@ struct Database {
 	 * should use Table::add_column() or the ADD_*
 	 * macros in their init_schema() to define their schema
 	 */
-	virtual int init_schema();
-	/**
-	 * upgrade_schema should execute sql statements needed to
-	 * upgrade from fromversion to the current version
-	 */
-	virtual int upgrade_schema(uint32_t fromversion);
+	virtual void init_schema();
 	
 	const char*  path();
 	const char*  error();
@@ -173,24 +168,17 @@ struct Database {
 	
 protected:
 
-	// pre- and post- connection work
-	int   pre_connect();
-	int   post_connect();
-	
 	// execute query with printf-style format, does not cache statement
-	int   sql_once(const char* fmt, ...);
+	int sql_once(const char* fmt, ...);
 	// cache statement with name, execute query with printf-style format
-	int   sql(const char* name, const char* fmt, ...);
-	int   execute(sqlite3_stmt* stmt);
+	int sql(const char* name, const char* fmt, ...);
+	int execute(sqlite3_stmt* stmt);
 	
-	int   add_table(Table*);
+	int  add_table(Table*);
 	
 	// test if database has had its tables created
 	bool  is_empty();
-	// create tables for the client
 	int   create_tables();
-	// create tables for ourselves
-	int   create_internal_tables();
 
 	// bind all table columns from va_list
 	int   bind_all_columns(sqlite3_stmt* stmt, Table* table, va_list args);
@@ -213,11 +201,7 @@ protected:
 	
 	char*            m_path;
 	sqlite3*         m_db;
-	
-	uint32_t         m_schema_version;
-	Table*           m_information_table;
-	sqlite3_stmt     m_get_information_value;
-	
+
 	Table**          m_tables;
 	uint32_t         m_table_count;
 	uint32_t         m_table_max;

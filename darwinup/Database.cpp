@@ -40,7 +40,6 @@ void dbtrace(void* context, const char* sql) {
 }
 
 Database::Database() {
-	m_schema_version = 0;
 	m_table_max = 2;
 	m_table_count = 0;
 	m_tables = (Table**)malloc(sizeof(Table*) * m_table_max);
@@ -52,7 +51,6 @@ Database::Database() {
 }
 
 Database::Database(const char* path) {
-	m_schema_version = 0;
 	m_table_max = 2;
 	m_table_count = 0;
 	m_tables = (Table**)malloc(sizeof(Table*) * m_table_max);
@@ -83,11 +81,7 @@ Database::~Database() {
 }
 
 
-int Database::init_schema() {
-	// do nothing... children should implement this
-}
-
-int Database::upgrade_schema(uint32_t fromversion) {
+void Database::init_schema() {
 	// do nothing... children should implement this
 }
 
@@ -100,19 +94,12 @@ const char* Database::error() {
 }
 
 int Database::connect() {
-	int res = DB_OK;
-	
 	if (!m_path) {
 		fprintf(stderr, "Error: need to specify a path to Database.\n");
 		return -1;
 	}
-
-	res = this->pre_connect();
-	if (res) {
-		fprintf(stderr, "Error: pre-connection failed.\n");
-		return res;
-	}
-	
+	int res = SQLITE_OK;
+	this->init_schema();
 	res = sqlite3_open(m_path, &m_db);
 	if (res) {
 		sqlite3_close(m_db);
@@ -121,56 +108,28 @@ int Database::connect() {
 				m_path);
 		return res;
 	}
-	
-	res = this->post_connect();
-	if (res) {
-		fprintf(stderr, "Error: post-connection failed.\n");
-		return res;
-	}
-	
-	return res;	
-}
 
-int Database::pre_connect() {	
-	int res = DB_OK;
-	res = this->init_internal_schema();
-	res = this->init_schema();
-	return res;
-}
-
-int Database::post_connect() {
-	int res = DB_OK
-	
-	// prepare transaction statements
-	if (res == DB_OK) 
-		res = sqlite3_prepare_v2(m_db, "BEGIN TRANSACTION", 18,
-								 &m_begin_transaction, NULL);
-	if (res == DB_OK) 
-		res = sqlite3_prepare_v2(m_db, "ROLLBACK TRANSACTION", 21,
-								 &m_rollback_transaction, NULL);
-	if (res == DB_OK) 
-		res = sqlite3_prepare_v2(m_db, "COMMIT TRANSACTION", 19,
-								 &m_commit_transaction, NULL);	
-
-	// debug settings
 	extern uint32_t verbosity;
 	if (verbosity & VERBOSE_SQL) {
 		sqlite3_trace(m_db, dbtrace, NULL);
 	}
 	
 	if (this->is_empty()) {
-		// create schema since it is empty
 		assert(this->create_tables() == 0);
-	} else {
-		// not empty, but upgrade schema if needed
-		version = this->get_schema_version();
-		if (version < this->m_schema_version) {
-			assert(this->upgrade_schema(version) == 0);
-			this->set_schema_version(this->m_schema_version);
-		}
 	}
 	
-	return res;
+	// prepare transaction statements
+	if (res == SQLITE_OK) 
+		res = sqlite3_prepare_v2(m_db, "BEGIN TRANSACTION", 18,
+								 &m_begin_transaction, NULL);
+	if (res == SQLITE_OK) 
+		res = sqlite3_prepare_v2(m_db, "ROLLBACK TRANSACTION", 21,
+								 &m_rollback_transaction, NULL);
+	if (res == SQLITE_OK) 
+		res = sqlite3_prepare_v2(m_db, "COMMIT TRANSACTION", 19,
+								 &m_commit_transaction, NULL);
+	
+	return res;	
 }
 
 int Database::connect(const char* path) {
@@ -629,56 +588,6 @@ int Database::create_tables() {
 	}
 	return res;
 }
-
-int Database::init_internal_schema() {
-	this->m_information_table = new Table("database_information");
-	ADD_PK(m_information_table, "id");
-	ADD_INDEX(m_information_table, "variable", TYPE_TEXT, true);
-	ADD_TEXT(m_information_table, "value");
-	assert(this->add_table(this->m_information_table)==0);
-}
-
-int Database::get_information_value(char* variable, char** value) {
-	return this->get_value("get_information_value",
-						   value,
-						   this->m_information_table,
-						   this->m_information_table->columns(1), // value
-						   1,
-						   this->m_information_table->columns(0), // variable
-						   '=', variable);
-}
-
-uint32_t Database::get_schema_version() {
-	char* vertxt;
-	int res = DB_OK;
-	res = this->get_information_value("schema_version", &vertxt);
-	if (FOUND(res)) {
-		uint32_t version = (uint32_t)strtoul(vertxt, NULL, 10);
-		free(vertxt);
-		return version;
-	} else {
-		// lack of information table/value means we are 
-		//  upgrading an old database
-		return 0;
-	}
-}
-
-int Database::update_information_value(char* variable, char* value) {
-	return this->update_value("update_information_value",
-							  this->m_information_table,
-							  this->m_information_table->columns(1), // value
-							  value, 
-							  1,
-							  this->m_information_table->columns(0), // variable
-							  '=', variable);
-}
-
-int Database::set_schema_version(uint32_t version) {
-	int res = DB_OK;
-	res = this->update_information_value("schema_version", &version);
-	return res;
-}
-
 
 size_t Database::store_column(sqlite3_stmt* stmt, int column, uint8_t* output) {
 	size_t used;
