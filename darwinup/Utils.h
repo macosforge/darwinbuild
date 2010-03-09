@@ -40,12 +40,10 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-const uint32_t VERBOSE		    = 0x1;
+const uint32_t VERBOSE		= 0x1;
 const uint32_t VERBOSE_DEBUG	= 0x2;
-const uint32_t VERBOSE_SQL      = 0x4;
 
 #define IF_DEBUG(...) do { extern uint32_t verbosity; if (verbosity & VERBOSE_DEBUG) fprintf(stderr, "DEBUG: " __VA_ARGS__); } while (0)
-#define IF_SQL(...) do { extern uint32_t verbosity; if (verbosity & VERBOSE_SQL) fprintf(stderr, "SQL: " __VA_ARGS__); } while (0)
 
 int fts_compare(const FTSENT **a, const FTSENT **b);
 int ftsent_filename(FTSENT* ent, char* filename, size_t bufsiz);

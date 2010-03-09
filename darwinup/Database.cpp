@@ -36,7 +36,7 @@
  * sqlite3_trace callback for debugging
  */
 void dbtrace(void* context, const char* sql) {
-	fprintf(stderr, "SQL: %s\n", sql);
+	IF_DEBUG("[TRACE] %s \n", sql);
 }
 
 Database::Database() {
@@ -107,13 +107,8 @@ int Database::connect() {
 		fprintf(stderr, "Error: unable to connect to database at: %s \n", 
 				m_path);
 		return res;
-	}
-
-	extern uint32_t verbosity;
-	if (verbosity & VERBOSE_SQL) {
-		sqlite3_trace(m_db, dbtrace, NULL);
-	}
-	
+	}	
+	sqlite3_trace(m_db, dbtrace, NULL);
 	if (this->is_empty()) {
 		assert(this->create_tables() == 0);
 	}
