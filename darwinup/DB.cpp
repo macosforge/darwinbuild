@@ -415,7 +415,7 @@ int DarwinupDatabase::get_archives(uint8_t*** data, uint32_t* count, bool includ
 	int res = this->get_all_ordered("get_archives",
 									data, count,
 									this->m_archives_table,
-									this->m_archives_table->column(0), // order by serial
+									this->m_archives_table->column(0), // order by path
 									ORDER_BY_DESC,
 									1,
 									this->m_archives_table->column(2),  // name

@@ -72,14 +72,12 @@ void usage(char* progname) {
 	fprintf(stderr, "          xar, zip                                             \n");
 	fprintf(stderr, "                                                               \n");
 	fprintf(stderr, "<archive> is one of:                                           \n");
-	fprintf(stderr, "          <serial>     the Serial number                       \n");
-	fprintf(stderr, "          <uuid>       the UUID                                \n");
-	fprintf(stderr, "          <name>       the last root installed with that name  \n");
-	fprintf(stderr, "          newest       the newest (last) root installed        \n");
-	fprintf(stderr, "          oldest       the oldest root installed               \n");
-	fprintf(stderr, "          superseded   all roots that have been fully replaced \n");
-	fprintf(stderr, "                        by newer roots                         \n");
-	fprintf(stderr, "          all          all installed roots                     \n");
+	fprintf(stderr, "          <serial>   the Serial number                         \n");
+	fprintf(stderr, "          <uuid>     the UUID                                  \n");
+	fprintf(stderr, "          <name>     the last root installed with that name    \n");
+	fprintf(stderr, "          newest     the newest (last) root installed          \n");
+	fprintf(stderr, "          oldest     the oldest root installed                 \n");
+	fprintf(stderr, "          all        all installed roots                       \n");
 	fprintf(stderr, "                                                               \n");
 	exit(1);
 }
