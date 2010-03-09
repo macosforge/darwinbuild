@@ -31,16 +31,6 @@
  */
 
 #include "Utils.h"
-#include <assert.h>
-#include <errno.h>
-#include <libgen.h>
-#include <limits.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <spawn.h>
-#include <sys/stat.h>
 
 extern char** environ;
 
@@ -147,16 +137,54 @@ int has_suffix(const char* str, const char* sfx) {
 }
 
 int exec_with_args(const char** args) {
+	return exec_with_args_fa(args, NULL);
+}
+
+int exec_with_args_pipe(const char** args, int fd) {
+	int res = 0;
+	posix_spawn_file_actions_t fa;
+
+	res = posix_spawn_file_actions_init(&fa);
+	if (res) {
+		fprintf(stderr, "Error: unable to initialize file actions: %d \n", res);
+		return res;
+	}
+
+	res = posix_spawn_file_actions_adddup2(&fa, fd, 1); // pipe stdout
+	if (res) {
+		fprintf(stderr, "Error: (%d) unable to add dup2 for %d \n", res, fd);
+		return res;
+	}
+
+	res = posix_spawn_file_actions_addclose(&fa, 2); // close stderr
+	if (res) {
+		fprintf(stderr, "Error: (%d) unable to add close for stderr.\n", res);
+		return res;
+	}
+
+	res = posix_spawn_file_actions_addclose(&fa, 0); // close stdin
+	if (res) {
+		fprintf(stderr, "Error: (%d) unable to add close for stdin.\n", res);
+		return res;
+	}
+	
+	res = exec_with_args_fa(args, &fa);
+	posix_spawn_file_actions_destroy(&fa);
+
+	return res;
+}
+
+int exec_with_args_fa(const char** args, posix_spawn_file_actions_t* fa) {
 	int res = 0;
 	pid_t pid;
 	int status;
 	
-	IF_DEBUG("Spawning %s \n", args[0]);
+	IF_DEBUG("Spawn: %s \n", args[0]);
 		
-	res = posix_spawn(&pid, args[0], NULL, NULL, (char**)args, environ);
+	res = posix_spawn(&pid, args[0], fa, NULL, (char**)args, environ);
 	if (res != 0) fprintf(stderr, "Error: Failed to spawn %s: %s (%d)\n", args[0], strerror(res), res);
 	
-	IF_DEBUG("Running %s on pid %d \n", args[0], (int)pid);
+	IF_DEBUG("Running: %s on pid %d \n", args[0], (int)pid);
 
 	do {
 		res = waitpid(pid, &status, 0);
@@ -169,7 +197,7 @@ int exec_with_args(const char** args) {
 		}
 	}
 	
-	IF_DEBUG("Done running %s \n", args[0]);
+	IF_DEBUG("Done: %s \n", args[0]);
 	
 	return res;
 }
@@ -244,6 +272,65 @@ char* fetch_userhost(const char* srcpath, const char* dstpath) {
 	if (res == 0) res = exec_with_args(args);
 	if (res == 0) return localfile;
 	return NULL;	
+}
+
+int build_number_for_path(char** build, const char* path) {
+	// find /System
+	char system[PATH_MAX];
+	char parent[PATH_MAX];
+	strlcpy(parent, path, PATH_MAX);
+	int res = -1;
+	struct stat sb;
+	while (res) {
+		// walk up path
+		snprintf(system, PATH_MAX, "%s%sSystem", 
+				 parent, (parent[1] == '\0' ? "" : "/"));
+		res = stat(system, &sb);
+		if (parent[1] == '\0') {
+			// we hit the top of the filesystem
+			break;
+		}
+		if (res) snprintf(parent, PATH_MAX, "%s", dirname(parent));
+	}
+	if (res) {
+		fprintf(stderr, "Error: (%d) unable to find /System when looking for build version.\n", res);
+		return res;
+	}
+	
+	// use xpath to read version plist
+	snprintf(system, PATH_MAX, "%s/System/Library/CoreServices/SystemVersion.plist", parent);
+	const char* args[] = {
+		"/usr/bin/xpath",
+		system,
+		"/plist/dict/key[text()='ProductBuildVersion']/following-sibling::*[1]/text()",
+		NULL
+	};
+	int pfd[2];
+	res = pipe(pfd);
+	if (res) {
+		fprintf(stderr, "Error: (%d) failed to create pipe.\n", res);
+		return res;
+	}
+
+	exec_with_args_pipe(args, pfd[1]);
+	
+	// read from the pipe
+	close(pfd[1]);
+	*build = (char*)malloc(16);
+	res = 1;
+	while (res > 0 && res < 16) {
+		res = read(pfd[0], *build, 16);
+	}
+	close(pfd[0]);
+
+	if (res == 0) return res; // success
+	
+	if (res == -1) {
+		fprintf(stderr, "Error: failed to read build from xpath.\n");
+		return res;
+	}
+
+	return -1;
 }
 
 void __data_hex(FILE* f, uint8_t* data, uint32_t size) {

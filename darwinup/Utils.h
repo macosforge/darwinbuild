@@ -36,9 +36,18 @@
 #include <stdint.h>
 #include <sys/types.h>
 #include <fts.h>
-
 #include <stdarg.h>
 #include <stdio.h>
+#include <assert.h>
+#include <errno.h>
+#include <libgen.h>
+#include <limits.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <spawn.h>
+#include <sys/stat.h>
+
 
 const uint32_t VERBOSE		    = 0x1;
 const uint32_t VERBOSE_DEBUG	= 0x2;
@@ -56,13 +65,18 @@ int is_regular_file(const char* path);
 int is_url_path(const char* path);
 int is_userhost_path(const char* path);
 int has_suffix(const char* str, const char* sfx);
+
 int exec_with_args(const char** args);
+int exec_with_args_pipe(const char** args, int fd);
+int exec_with_args_fa(const char** args, posix_spawn_file_actions_t* fa);
 
 int join_path(char** out, const char* p1, const char* p2);
 int compact_slashes(char* orig, int slashes);
 
 char* fetch_url(const char* srcpath, const char* dstpath);
 char* fetch_userhost(const char* srcpath, const char* dstpath);
+
+int build_number_for_path(char** build, const char* path);
 
 void __data_hex(FILE* f, uint8_t* data, uint32_t size);
 

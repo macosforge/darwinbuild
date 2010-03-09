@@ -131,7 +131,7 @@ int main(int argc, char* argv[]) {
 	if (!path) {
 		asprintf(&path, "/");
 	}
-		
+
 	Depot* depot = new Depot(path);
 		
 	// commands with no arguments
