@@ -159,6 +159,7 @@ protected:
 	char*		m_database_path;
 	char*		m_archives_path;
 	char*		m_downloads_path;
+	char*       m_build;
 	int		    m_lock_fd;
 	int         m_is_locked;
 };

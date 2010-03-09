@@ -297,12 +297,12 @@ int build_number_for_path(char** build, const char* path) {
 		return res;
 	}
 	
-	// use xpath to read version plist
+	// read version plist to get build number
 	snprintf(system, PATH_MAX, "%s/System/Library/CoreServices/SystemVersion.plist", parent);
 	const char* args[] = {
-		"/usr/bin/xpath",
+		"/usr/libexec/PlistBuddy",
+		"-c", "Print ProductBuildVersion",
 		system,
-		"/plist/dict/key[text()='ProductBuildVersion']/following-sibling::*[1]/text()",
 		NULL
 	};
 	int pfd[2];

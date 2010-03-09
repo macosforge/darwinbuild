@@ -54,6 +54,7 @@ Depot::Depot() {
 	m_database_path = NULL;
 	m_archives_path = NULL;
 	m_downloads_path = NULL;
+	m_build = NULL;
 	m_db = NULL;
 	m_lock_fd = -1;
 	m_is_locked = 0;
@@ -64,6 +65,7 @@ Depot::Depot(const char* prefix) {
 	m_lock_fd = -1;
 	m_is_locked = 0;
 	m_depot_mode = 0750;
+	m_build = NULL;
 
 	asprintf(&m_prefix, "%s", prefix);
 	join_path(&m_depot_path, m_prefix, "/.DarwinDepot");
@@ -138,7 +140,9 @@ int Depot::initialize(bool writable) {
 		if (res) return res;
 		res = this->lock(LOCK_SH);
 		if (res) return res;
-		m_is_locked = 1;		
+		m_is_locked = 1;
+		res = build_number_for_path(&m_build, m_prefix);
+		if (res) return res;
 	}
 
 	int exists = is_regular_file(m_database_path);
@@ -1107,9 +1111,10 @@ int Depot::insert(Archive* archive) {
 	// Don't insert an archive that is already in the database
 	assert(archive->serial() == 0);
 	archive->m_serial = m_db->insert_archive(archive->uuid(),
-											  archive->info(),
-											  archive->name(),
-											  archive->date_installed());
+											 archive->info(),
+											 archive->name(),
+											 archive->date_installed(),
+											 m_build);
 	return archive->m_serial == 0;
 }
 

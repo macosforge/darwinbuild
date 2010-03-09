@@ -74,7 +74,7 @@ struct DarwinupDatabase : Database {
 	int      deactivate_archive(uint64_t serial);
 	int      update_archive(uint64_t serial, uuid_t uuid, const char* name,
 							time_t date_added, uint32_t active, uint32_t info);
-	uint64_t insert_archive(uuid_t uuid, uint32_t info, const char* name, time_t date);
+	uint64_t insert_archive(uuid_t uuid, uint32_t info, const char* name, time_t date, char* build);
 	int      delete_empty_archives();
 	int      delete_archive(Archive* archive);
 	int      delete_archive(uint64_t serial);

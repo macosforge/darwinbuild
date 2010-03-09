@@ -112,7 +112,7 @@ int DarwinupDatabase::update_archive(uint64_t serial, uuid_t uuid, const char* n
 }
 
 uint64_t DarwinupDatabase::insert_archive(uuid_t uuid, uint32_t info, const char* name, 
-										  time_t date_added) {
+										  time_t date_added, char* build) {
 	
 	int res = this->insert(this->m_archives_table,
 						   (uint8_t*)uuid,
@@ -120,7 +120,8 @@ uint64_t DarwinupDatabase::insert_archive(uuid_t uuid, uint32_t info, const char
 						   name,
 						   (uint64_t)date_added,
 						   (uint64_t)0,
-						   (uint64_t)info);
+						   (uint64_t)info,
+						   build);
 	if (res != SQLITE_OK) {
 		fprintf(stderr, "Error: unable to insert archive %s: %s \n",
 				name, this->error());
