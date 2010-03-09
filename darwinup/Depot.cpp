@@ -916,14 +916,22 @@ int Depot::verify_file(File* file, void* context) {
 	return 0;
 }
 
+void Depot::archive_header() {
+	fprintf(stdout, "%-6s %-36s  %-12s  %-7s  %s\n", 
+			"Serial", "UUID", "Date", "Build", "Name");
+	fprintf(stdout, "====== ====================================  "
+			"============  =======  =================\n");	
+}
+
+
 int Depot::verify(Archive* archive) {
 	int res = 0;
-	fprintf(stdout, "%-6s %-36s  %-23s  %s\n", "Serial", "UUID", "Date Installed", "Name");
-	fprintf(stdout, "====== ====================================  =======================  =================\n");
+	this->archive_header();
 	list_archive(archive, stdout);	
-	fprintf(stdout, "=======================================================================================\n");
+	hr();
 	if (res == 0) res = this->iterate_files(archive, &Depot::verify_file, NULL);
-	fprintf(stdout, "=======================================================================================\n\n");
+	hr();
+	fprintf(stdout, "\n");
 	return res;
 }
 
@@ -937,17 +945,17 @@ int Depot::list_archive(Archive* archive, void* context) {
 	struct tm local;
 	time_t seconds = archive->date_installed();
 	localtime_r(&seconds, &local);
-	strftime(date, sizeof(date), "%F %T %Z", &local);
+	strftime(date, sizeof(date), "%b %e %H:%M", &local);
 
-	fprintf((FILE*)context, "%-6llu %-36s  %-23s  %s\n", serial, uuid, date, archive->name());
+	fprintf((FILE*)context, "%-6llu %-36s  %-12s  %-7s  %s\n", 
+			serial, uuid, date, archive->build(), archive->name());
 	
 	return 0;
 }
 
 int Depot::list() {
 	int res = 0;
-	fprintf(stdout, "%-6s %-36s  %-23s  %s\n", "Serial", "UUID", "Date Installed", "Name");
-	fprintf(stdout, "====== ====================================  =======================  =================\n");
+	this->archive_header();
 	if (res == 0) res = this->iterate_archives(&Depot::list_archive, stdout);
 	return res;
 }
@@ -961,12 +969,12 @@ int Depot::print_file(File* file, void* context) {
 
 int Depot::files(Archive* archive) {
 	int res = 0;
-	fprintf(stdout, "%-6s %-36s  %-23s  %s\n", "Serial", "UUID", "Date Installed", "Name");
-	fprintf(stdout, "====== ====================================  =======================  =================\n");
+	this->archive_header();
 	list_archive(archive, stdout);
-	fprintf(stdout, "=======================================================================================\n");
+	hr();
 	if (res == 0) res = this->iterate_files(archive, &Depot::print_file, stdout);
-	fprintf(stdout, "=======================================================================================\n\n");
+	hr();
+	fprintf(stdout, "\n");
 	return res;
 }
 
@@ -974,9 +982,10 @@ int Depot::dump_archive(Archive* archive, void* context) {
 	Depot* depot = (Depot*)context;
 	int res = 0;
 	list_archive(archive, stdout);
-	fprintf(stdout, "=======================================================================================\n");
+	hr();
 	if (res == 0) res = depot->iterate_files(archive, &Depot::print_file, stdout);
-	fprintf(stdout, "=======================================================================================\n\n");
+	hr();
+	fprintf(stdout, "\n");
 	return res;
 }
 
@@ -984,8 +993,7 @@ int Depot::dump() {
 	extern uint32_t verbosity;
 	verbosity = 0xFFFFFFFF; // dump is intrinsically a debug command
 	int res = 0;
-	fprintf(stdout, "%-6s %-36s  %-23s  %s\n", "Serial", "UUID", "Date Installed", "Name");
-	fprintf(stdout, "====== ====================================  =======================  =================\n");
+	this->archive_header();
 	if (res == 0) res = this->iterate_archives(&Depot::dump_archive, this);
 	return res;
 }
@@ -1025,12 +1033,11 @@ int Depot::check_consistency() {
 		fprintf(stderr, "The following archive%s in an inconsistent state and must be uninstalled "
 						"before proceeding:\n\n", inactive->count > 1 ? "s are" : " is");
 		uint32_t i;
-		fprintf(stderr, "%-6s %-36s  %-23s  %s\n", "Serial", "UUID", "Date Installed", "Name");
-		fprintf(stderr, "====== ====================================  =======================  =================\n");
+		this->archive_header();
 		for (i = 0; i < inactive->count; ++i) {
 			Archive* archive = this->archive(inactive->values[i]);
 			if (archive) {
-				list_archive(archive, stderr);
+				list_archive(archive, stdout);
 				delete archive;
 			}
 		}

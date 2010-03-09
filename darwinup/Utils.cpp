@@ -352,3 +352,8 @@ void __data_hex(FILE* f, uint8_t* data, uint32_t size) {
 	fprintf(f, "\n");
 }
 
+void hr() {
+	fprintf(stdout, "=============================================="
+			"=======================================\n");	
+}
+

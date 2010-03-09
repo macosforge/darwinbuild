@@ -151,6 +151,8 @@ protected:
 
 	int		check_consistency();
 
+	void    archive_header();
+	
 	DarwinupDatabase* m_db;
 	
 	mode_t		m_depot_mode;

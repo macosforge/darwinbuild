@@ -80,6 +80,9 @@ int build_number_for_path(char** build, const char* path);
 
 void __data_hex(FILE* f, uint8_t* data, uint32_t size);
 
+// print a horizontal line to stdout
+void hr();
+
 inline int INFO_TEST(uint32_t word, uint32_t flag) { return ((word & flag) != 0); }
 inline int INFO_SET(uint32_t word, uint32_t flag) { return (word | flag); }
 inline int INFO_CLR(uint32_t word, uint32_t flag) { return (word & (~flag)); }
