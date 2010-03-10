@@ -844,6 +844,7 @@ int Depot::uninstall_file(File* file, void* ctx) {
 
 int Depot::uninstall(Archive* archive) {
 	extern uint32_t verbosity;
+	extern uint32_t force;
 	int res = 0;
 
 	assert(archive != NULL);
@@ -859,6 +860,25 @@ int Depot::uninstall(Archive* archive) {
 		return -1;
 	}
 
+	/** 
+	 * require -f to force uninstalling an archive installed on top of an older
+	 * base system since the rollback archive we'll use will potentially damage
+	 * the base system.
+	 */
+	if (!force && (strcmp(this->m_build, archive->build()) != 0)) {
+		fprintf(stderr, 
+				"-------------------------------------------------------------------------------\n"
+				"The %s root was installed on a different base OS build (%s). The current    \n"
+				"OS build is %s. Uninstalling a root that was installed on a different OS     \n"
+				"build has the potential to damage your OS install due to the fact that the   \n"
+				"rollback data is from the wrong OS version.\n\n"
+				" You must use the force (-f) option to make this potentially unsafe operation  \n"
+				"happen.\n"
+				"-------------------------------------------------------------------------------\n",
+				archive->name(), archive->build(), m_build);
+		return 9999;
+	}
+	
 	res = this->lock(LOCK_EX);
 	if (res != 0) return res;
 

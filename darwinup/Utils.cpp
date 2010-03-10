@@ -316,10 +316,10 @@ int build_number_for_path(char** build, const char* path) {
 	
 	// read from the pipe
 	close(pfd[1]);
-	*build = (char*)malloc(16);
+	*build = (char*)calloc(1, 16);
 	res = 1;
-	while (res > 0 && res < 16) {
-		res = read(pfd[0], *build, 16);
+	while (res > 0 && res < 15) {
+		res = read(pfd[0], *build, 15);
 		// strip newline
 		if (res > 1 && (*build)[res-1] == '\n') (*build)[res-1] = '\0';
 	}
@@ -356,4 +356,3 @@ void hr() {
 	fprintf(stdout, "=============================================="
 			"=======================================\n");	
 }
-
