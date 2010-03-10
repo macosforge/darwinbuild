@@ -76,6 +76,8 @@ int compact_slashes(char* orig, int slashes);
 char* fetch_url(const char* srcpath, const char* dstpath);
 char* fetch_userhost(const char* srcpath, const char* dstpath);
 
+int find_base_system_path(char** output, const char* path);
+int update_dyld_shared_cache(const char* path);
 int build_number_for_path(char** build, const char* path);
 
 void __data_hex(FILE* f, uint8_t* data, uint32_t size);

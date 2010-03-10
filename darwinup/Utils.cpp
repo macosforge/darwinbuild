@@ -274,8 +274,8 @@ char* fetch_userhost(const char* srcpath, const char* dstpath) {
 	return NULL;	
 }
 
-int build_number_for_path(char** build, const char* path) {
-	// find /System
+int find_base_system_path(char** output, const char* path) {
+	// find the first /System as we walk up path
 	char system[PATH_MAX];
 	char parent[PATH_MAX];
 	strlcpy(parent, path, PATH_MAX);
@@ -293,12 +293,56 @@ int build_number_for_path(char** build, const char* path) {
 		if (res) snprintf(parent, PATH_MAX, "%s", dirname(parent));
 	}
 	if (res) {
-		fprintf(stderr, "Error: (%d) unable to find /System when looking for build version.\n", res);
+		fprintf(stderr, "Error: (%d) unable to find base system path.\n", res);
 		return res;
 	}
 	
+	asprintf(output, "%s", parent);
+	return 0;
+}
+
+int update_dyld_shared_cache(const char* path) {
+	extern uint32_t verbosity;
+	int res;
+	char* base;
+	res = find_base_system_path(&base, path);
+	if (res) return res;
+	
+	if (verbosity) {
+		fprintf(stdout, "Updating dyld shared cache for %s ... ", base);
+		fflush(stdout);
+	}
+	
+	// exec the tool from our target system
+	char* toolpath;
+	join_path(&toolpath, base, "/usr/bin/update_dyld_shared_cache");
+
+	const char* args[] = {
+		toolpath,
+		"-root", base,
+		NULL
+	};
+	res = exec_with_args(args);
+
+	if (verbosity) fprintf(stdout, "Done updating dyld shared cache\n");
+	
+	free(toolpath);
+	free(base);
+	return res;
+}
+
+int build_number_for_path(char** build, const char* path) {
+	int res = 0;
+	char system[PATH_MAX];
+	char* base;
+	
+	// find the version plist for our target path
+	find_base_system_path(&base, path);
+	if (!base) return 1;	
+	snprintf(system, PATH_MAX, "%s/System/Library/CoreServices/SystemVersion.plist", base);
+	free(base);
+
 	// read version plist to get build number
-	snprintf(system, PATH_MAX, "%s/System/Library/CoreServices/SystemVersion.plist", parent);
 	const char* args[] = {
 		"/usr/libexec/PlistBuddy",
 		"-c", "Print ProductBuildVersion",
@@ -311,7 +355,6 @@ int build_number_for_path(char** build, const char* path) {
 		fprintf(stderr, "Error: (%d) failed to create pipe.\n", res);
 		return res;
 	}
-
 	exec_with_args_pipe(args, pfd[1]);
 	
 	// read from the pipe
@@ -356,3 +399,4 @@ void hr() {
 	fprintf(stdout, "=============================================="
 			"=======================================\n");	
 }
+
