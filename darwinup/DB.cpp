@@ -469,12 +469,14 @@ int DarwinupDatabase::get_archive(uint8_t** data, const char* name) {
 int DarwinupDatabase::get_archive(uint8_t** data, archive_keyword_t keyword) {
 	int res = SQLITE_OK;
 	int order = ORDER_BY_DESC;
+	const char* name = "archive_newest";
 
 	if (keyword == DEPOT_ARCHIVE_OLDEST) {
 		order = ORDER_BY_ASC;
+		name = "archive_oldest";
 	}
 	
-	res = this->get_row_ordered("archive__keyword",
+	res = this->get_row_ordered(name,
 								data,
 								this->m_archives_table,
 								this->m_archives_table->column(3), // order by date_added
