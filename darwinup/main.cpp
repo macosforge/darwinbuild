@@ -55,7 +55,7 @@ void usage(char* progname) {
 	fprintf(stderr, "commands:                                                      \n");
 	fprintf(stderr, "          files      <archive>                                 \n");
 	fprintf(stderr, "          install    <path>                                    \n");
-	fprintf(stderr, "          list                                                 \n");
+	fprintf(stderr, "          list       [archive]                                 \n");
 	fprintf(stderr, "          uninstall  <archive>                                 \n");
 	fprintf(stderr, "          upgrade    <path>                                    \n");
 	fprintf(stderr, "          verify     <archive>                                 \n");
@@ -71,7 +71,7 @@ void usage(char* progname) {
 	fprintf(stderr, "          tar, tar.gz, tar.bz2                                 \n");
 	fprintf(stderr, "          xar, zip                                             \n");
 	fprintf(stderr, "                                                               \n");
-	fprintf(stderr, "<archive> is one of:                                           \n");
+	fprintf(stderr, "archive is one of:                                             \n");
 	fprintf(stderr, "          <serial>     the Serial number                       \n");
 	fprintf(stderr, "          <uuid>       the UUID                                \n");
 	fprintf(stderr, "          <name>       the last root installed with that name  \n");
@@ -134,54 +134,58 @@ int main(int argc, char* argv[]) {
 
 	Depot* depot = new Depot(path);
 		
-	// commands with no arguments
-	if (argc == 1) {
-		if (strcmp(argv[0], "list") == 0) {
-			res = depot->initialize(false);
-			if (res == -2) {
-				fprintf(stdout, "Nothing has been installed yet.\n");
-				exit(0);
-			}
-			if (res == 0) depot->list();
-		} else if (strcmp(argv[0], "dump") == 0) {
+	// list handles args optional and in special ways
+	if (strcmp(argv[0], "list") == 0) {
+		res = depot->initialize(false);
+		if (res == -2) {
+			// we are not asking to write, 
+			// but no depot exists yet either,
+			// so print the apparent truth
+			fprintf(stdout, "Nothing has been installed yet.\n");
+			exit(0);
+		}
+		if (res == 0) depot->list(argc-1, (char**)(argv+1));
+	} else if (argc == 1) {
+		// other commands which take no arguments
+		if (strcmp(argv[0], "dump") == 0) {
 			if (depot->initialize(false)) exit(11);
 			depot->dump();
 		} else {
 			usage(progname);
 		}
-	}
-
-	// loop over arguments
-	for (int i = 1; i < argc; i++) {
-		if (strcmp(argv[0], "install") == 0) {
-			if (i==1 && depot->initialize(true)) exit(13);
-			res = depot->install(argv[i]);
-			if (res == 0) res = update_dyld_shared_cache(path);
-		} else if (strcmp(argv[0], "upgrade") == 0) {
-			if (i==1 && depot->initialize(true)) exit(14);
-			// find most recent matching archive by name
-			Archive* old = depot->get_archive(basename(argv[i]));
-			if (!old) {
-				fprintf(stderr, "Error: unable to find a matching root to upgrade.\n");
-				res = 5;
+	} else {
+		// loop over arguments
+		for (int i = 1; i < argc; i++) {
+			if (strcmp(argv[0], "install") == 0) {
+				if (i==1 && depot->initialize(true)) exit(13);
+				res = depot->install(argv[i]);
+				if (res == 0) res = update_dyld_shared_cache(path);
+			} else if (strcmp(argv[0], "upgrade") == 0) {
+				if (i==1 && depot->initialize(true)) exit(14);
+				// find most recent matching archive by name
+				Archive* old = depot->get_archive(basename(argv[i]));
+				if (!old) {
+					fprintf(stderr, "Error: unable to find a matching root to upgrade.\n");
+					res = 5;
+				}
+				// install new archive
+				if (res == 0) res = depot->install(argv[i]);
+				// uninstall old archive
+				if (res == 0) res = depot->uninstall(old);
+				if (res == 0) res = update_dyld_shared_cache(path);
+			} else if (strcmp(argv[0], "files") == 0) {
+				if (i==1 && depot->initialize(false)) exit(12);
+				res = depot->process_archive(argv[0], argv[i]);
+			} else if (strcmp(argv[0], "uninstall") == 0) {
+				if (i==1 && depot->initialize(true)) exit(15);
+				res = depot->process_archive(argv[0], argv[i]);
+				if (res == 0) res = update_dyld_shared_cache(path);
+			} else if (strcmp(argv[0], "verify") == 0) {
+				if (i==1 && depot->initialize(true)) exit(16);
+				res = depot->process_archive(argv[0], argv[i]);
+			} else {
+				usage(progname);
 			}
-			// install new archive
-			if (res == 0) res = depot->install(argv[i]);
-			// uninstall old archive
-			if (res == 0) res = depot->uninstall(old);
-			if (res == 0) res = update_dyld_shared_cache(path);
-		} else if (strcmp(argv[0], "files") == 0) {
-			if (i==1 && depot->initialize(false)) exit(12);
-			res = depot->process_archive(argv[0], argv[i]);
-		} else if (strcmp(argv[0], "uninstall") == 0) {
-			if (i==1 && depot->initialize(true)) exit(15);
-			res = depot->process_archive(argv[0], argv[i]);
-			if (res == 0) res = update_dyld_shared_cache(path);
-		} else if (strcmp(argv[0], "verify") == 0) {
-			if (i==1 && depot->initialize(true)) exit(16);
-			res = depot->process_archive(argv[0], argv[i]);
-		} else {
-			usage(progname);
 		}
 	}
 	

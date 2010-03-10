@@ -986,9 +986,42 @@ int Depot::list_archive(Archive* archive, void* context) {
 }
 
 int Depot::list() {
+	return this->list(0, NULL);
+}
+
+int Depot::list(int count, char** args) {
 	int res = 0;
+
 	this->archive_header();
-	if (res == 0) res = this->iterate_archives(&Depot::list_archive, stdout);
+	
+	// handle the default case of "all"
+	if (count == 0) return this->iterate_archives(&Depot::list_archive, stdout);
+
+	Archive** list;
+	Archive* archive;
+	uint32_t archcnt;
+	for (int i = 0; res == 0 && i < count; i++) {
+		list = NULL;
+		archive = NULL;
+		archcnt = 0;
+		// check for special keywords
+		if (strncasecmp(args[i], "all", 3) == 0) {
+			list = this->get_all_archives(&archcnt);
+		} else if (strncasecmp(args[i], "superseded", 10) == 0) {
+			list = this->get_superseded_archives(&archcnt);
+		} 
+		if (archcnt) {
+			// loop over special keyword results
+			for (uint32_t j = 0; res == 0 && j < archcnt; j++) {
+				res = this->list_archive(list[j], stdout);
+			}
+		} else {
+			// arg is a single-archive specifier
+			archive = this->get_archive(args[i]);
+			if (archive) res = this->list_archive(archive, stdout);
+		}
+	}
+	
 	return res;
 }
 
