@@ -141,6 +141,7 @@ int Database::connect() {
 	if (!exists) {
 		// create schema since it is empty
 		assert(this->create_tables() == 0);
+		assert(this->set_schema_version(this->m_schema_version) == 0);
 	} else {
 		// not empty, but upgrade schema if needed
 		uint32_t version = this->get_schema_version();
@@ -148,14 +149,13 @@ int Database::connect() {
 		if (version < this->m_schema_version) {
 			IF_DEBUG("Upgrading schema from %u to %u \n", version, this->m_schema_version);
 			assert(this->upgrade_schema(version) == 0);
+			assert(this->set_schema_version(this->m_schema_version) == 0);
 		}
 		if (version > this->m_schema_version) {
 			fprintf(stderr, "Error: this client is too old!\n");
 			return DB_ERROR;
 		}
 	}
-	
-	this->set_schema_version(this->m_schema_version);
 	
 	return res;	
 }
