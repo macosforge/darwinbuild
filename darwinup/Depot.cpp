@@ -1148,9 +1148,25 @@ bool Depot::is_superseded(Archive* archive) {
 	if (FOUND(res)) {
 		for (uint32_t i=0; i < count; i++) {
 			File* file = this->m_db->make_file(filelist[i]);
+			
+			// check for being superseded by a root
 			res = this->m_db->get_next_file(&data, file, FILE_SUPERSEDED);
 			// XXX: need to send data to Table to free
-			if (!FOUND(res)) return false;
+			if (FOUND(res)) continue;
+			
+			// check for being superseded by external changes
+			char* actpath;
+			join_path(&actpath, this->prefix(), file->path());
+			File* actual = FileFactory(actpath);
+			free(actpath);
+			uint32_t flags = File::compare(file, actual);
+
+			// not found in database and no changes on disk, 
+			// so file is the current version of actual
+			if (flags == FILE_INFO_IDENTICAL) return false;
+			 
+			// something external changed contents of actual,
+			// so we consider this file superseded (by OS upgrade?)
 		}
 	}
 	return true;			
