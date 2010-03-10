@@ -370,7 +370,6 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback, 
 			char* actpath;
 			join_path(&actpath, this->prefix(), file->path());
 			File* actual = FileFactory(actpath);
-
 			File* preceding = this->file_preceded_by(file);
 			
 			if (actual == NULL) {
@@ -427,6 +426,16 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback, 
 						actual->info_set(FILE_INFO_ROLLBACK_DATA);
 					}
 				}				
+			}
+
+			// if file == actual, but actual != preceding, then an external
+			// process changed actual to be the same as what we are installing
+			// now (OS upgrade?). We do not need to save actual, but make
+			// a special state so the user knows what happened and does not
+			// get a ?.
+			if (actual_flags == FILE_INFO_IDENTICAL && preceding_flags != FILE_INFO_IDENTICAL) {
+				IF_DEBUG("[analyze]    external changes but file same as actual\n");
+				state = 'E';
 			}
 			
 			// XXX: should this be done in backup_file?
@@ -792,9 +801,11 @@ int Depot::uninstall_file(File* file, void* ctx) {
 	IF_DEBUG("[uninstall] actual path is %s\n", actpath);
 	File* actual = FileFactory(actpath);
 	uint32_t flags = File::compare(file, actual);
-		
-	if (actual != NULL && flags != FILE_INFO_IDENTICAL) {
-		// XXX: probably not the desired behavior
+	
+	if (actual == NULL) {
+		IF_DEBUG("[uninstall]    actual file missing, possibly due to parent being removed already\n");
+		state = '!';
+	} else if (flags != FILE_INFO_IDENTICAL) {
 		IF_DEBUG("[uninstall]    changes since install; skipping\n");
 	} else {
 		File* superseded = context->depot->file_superseded_by(file);
@@ -817,6 +828,7 @@ int Depot::uninstall_file(File* file, void* ctx) {
 				} else if (INFO_TEST(flags, FILE_INFO_MODE_DIFFERS) ||
 					   INFO_TEST(flags, FILE_INFO_GID_DIFFERS) ||
 					   INFO_TEST(flags, FILE_INFO_UID_DIFFERS)) {
+					state = 'M';
 					if (res == 0) res = preceding->install_info(context->depot->m_prefix);
 				} else {
 					IF_DEBUG("[uninstall]    no changes; leaving in place\n");
