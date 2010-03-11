@@ -79,6 +79,7 @@ struct DarwinupDatabase : Database {
 	int      delete_empty_archives();
 	int      delete_archive(Archive* archive);
 	int      delete_archive(uint64_t serial);
+	int      free_archive(uint8_t* data);
 
 	// Files
 	File*    make_file(uint8_t* data);
@@ -95,6 +96,7 @@ struct DarwinupDatabase : Database {
 	int      delete_file(uint64_t serial);
 	int      delete_file(File* file);
 	int      delete_files(Archive* archive);
+	int      free_file(uint8_t* data);
 	
 
 protected:

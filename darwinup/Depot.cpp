@@ -1151,7 +1151,7 @@ bool Depot::is_superseded(Archive* archive) {
 			
 			// check for being superseded by a root
 			res = this->m_db->get_next_file(&data, file, FILE_SUPERSEDED);
-			// XXX: need to send data to Table to free
+			this->m_db->free_file(data);
 			if (FOUND(res)) continue;
 			
 			// check for being superseded by external changes

@@ -332,6 +332,10 @@ int DarwinupDatabase::delete_empty_archives() {
 	return DB_OK;
 }
 
+int DarwinupDatabase::free_archive(uint8_t* data) {
+	return this->m_archives_table->free_result(data);
+}
+
 int DarwinupDatabase::delete_file(File* file) {
 	int res = this->del(this->m_files_table, file->serial());
 	if (res != SQLITE_OK) return DB_ERROR;
@@ -354,6 +358,9 @@ int DarwinupDatabase::delete_files(Archive* archive) {
 	return DB_OK;
 }
 
+int DarwinupDatabase::free_file(uint8_t* data) {
+	return this->m_files_table->free_result(data);
+}
 
 int DarwinupDatabase::get_inactive_archive_serials(uint64_t** serials, uint32_t* count) {
 	int res = this->get_column("inactive_archive_serials",
