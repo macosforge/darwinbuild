@@ -143,9 +143,12 @@ int Database::connect() {
 		assert(this->create_tables() == 0);
 		assert(this->set_schema_version(this->m_schema_version) == 0);
 	} else {
-		// not empty, but upgrade schema if needed
-		uint32_t version = this->get_schema_version();
-		IF_DEBUG("Connected to db and found version = %u \n", version);
+		// test schema versions
+		uint32_t version = 0;
+		if (this->has_information_table()) {
+			version = this->get_schema_version();
+		}
+
 		if (version < this->m_schema_version) {
 			IF_DEBUG("Upgrading schema from %u to %u \n", version, this->m_schema_version);
 			assert(this->upgrade_schema(version) == 0);
@@ -742,13 +745,35 @@ int Database::get_information_value(const char* variable, char*** value) {
 }
 
 int Database::update_information_value(const char* variable, const char* value) {
-	return this->update_value("update_information_value",
-							  this->m_information_table,
-							  this->m_information_table->column(2), // value
-							  (void**)&value, 
-							  1,
-							  this->m_information_table->column(1), // variable
-							  '=', variable);
+	int res = SQLITE_OK;
+	uint64_t* c;
+	res = this->count("count_info_var",
+					  (void**)&c,
+					  this->m_information_table,
+					  1,
+					  this->m_information_table->column(1), // variable
+					  '=', variable);
+					  
+	if (*c > 0) {
+		res = this->update_value("update_information_value",
+								  this->m_information_table,
+								  this->m_information_table->column(2), // value
+								  (void**)&value, 
+								  1,
+								  this->m_information_table->column(1), // variable
+								  '=', variable);
+	} else {
+		res = this->insert(m_information_table, variable, value);
+	}
+	
+	return res;
+}
+
+bool Database::has_information_table() {
+	int res = sqlite3_exec(this->m_db, 
+						   "SELECT count(*) FROM database_information;", 
+						   NULL, NULL, NULL);
+	return res == SQLITE_OK;
 }
 
 uint32_t Database::get_schema_version() {
@@ -767,6 +792,7 @@ uint32_t Database::get_schema_version() {
 }
 
 int Database::set_schema_version(uint32_t version) {
+	IF_DEBUG("set_schema_version %u \n", version);
 	int res = DB_OK;
 	char* vertxt;
 	asprintf(&vertxt, "%u", version);

@@ -191,8 +191,9 @@ protected:
 	int   update_information_value(const char* variable, const char* value);
 	
 	// get and set version info in actual database
+	bool      has_information_table();
+	uint32_t  get_schema_version();
 	int       set_schema_version(uint32_t version);
-	uint32_t  get_schema_version(); 
 	
 	// execute query with printf-style format, does not cache statement
 	int   sql_once(const char* fmt, ...);
