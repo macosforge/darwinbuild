@@ -35,10 +35,13 @@
 
 DarwinupDatabase::DarwinupDatabase(const char* path) : Database(path) {
 	this->connect();
+	this->last_archive = NULL;
 }
 
 DarwinupDatabase::~DarwinupDatabase() {
 	// parent automatically deallocates schema objects
+
+	if (this->last_archive) delete this->last_archive;
 }
 
 int DarwinupDatabase::init_schema() {
@@ -91,6 +94,7 @@ int DarwinupDatabase::deactivate_archive(uint64_t serial) {
 }
 
 int DarwinupDatabase::set_archive_active(uint64_t serial, uint64_t* active) {
+	this->clear_last_archive();
 	return this->update_value("activate_archive", 
 							  this->m_archives_table,
 							  this->m_archives_table->column(4), // active
@@ -102,6 +106,7 @@ int DarwinupDatabase::set_archive_active(uint64_t serial, uint64_t* active) {
 
 int DarwinupDatabase::update_archive(uint64_t serial, uuid_t uuid, const char* name,
 									  time_t date_added, uint32_t active, uint32_t info) {
+	this->clear_last_archive();
 	return this->update(this->m_archives_table, serial,
 						(uint8_t*)uuid,
 						(uint32_t)sizeof(uuid_t),
@@ -160,17 +165,23 @@ File* DarwinupDatabase::make_file(uint8_t* data) {
 	char* path;
 	memcpy(&path, &data[this->file_offset(8)], sizeof(char*));
 	
-	uint8_t* archive_data;
-	int res = this->get_archive(&archive_data, archive_serial);
-	Archive* archive = NULL;
-	if (FOUND(res)) {
-		archive = this->make_archive(archive_data);
+	// get archive, which may be stored in last_archive
+	int res = DB_OK;
+	bool cached = false;
+	Archive* archive = this->get_last_archive(archive_serial);
+	if (archive) {
+		cached = true;
 	} else {
+		uint8_t* archive_data;
+		res = this->get_archive(&archive_data, archive_serial);
+		this->set_last_archive(archive_data);
+		archive = this->last_archive;
+	}
+	if (!archive) {
 		fprintf(stderr, "Error: DB::make_file could not find the archive for file: %s: %d \n", path, res);
 		return NULL;
 	}
-	this->m_archives_table->free_result(archive_data);
-	
+
 	File* result = FileFactory(serial, archive, info, (const char*)path, mode, uid, gid, size, digest);
 	this->m_files_table->free_result(data);
 	
@@ -418,6 +429,7 @@ Archive* DarwinupDatabase::make_archive(uint8_t* data) {
 
 	Archive* archive = new Archive(serial, *uuid, name, NULL, info, date_added, build);
 	this->m_archives_table->free_result(data);
+
 	return archive;
 }
 
@@ -448,7 +460,6 @@ int DarwinupDatabase::get_archive(uint8_t** data, uuid_t uuid) {
 	return DB_ERROR;	
 }
 
-// XXX: get_archive gets called repeatedly by make_file, should memoize
 int DarwinupDatabase::get_archive(uint8_t** data, uint64_t serial) {
 	int res = this->get_row("archive__serial",
 							data,
@@ -456,7 +467,9 @@ int DarwinupDatabase::get_archive(uint8_t** data, uint64_t serial) {
 							1,
 							this->m_archives_table->column(0), // serial
 							'=', serial);
-	if (res == SQLITE_ROW) return (DB_FOUND | DB_OK);
+	if (res == SQLITE_ROW) {
+		return (DB_FOUND | DB_OK);
+	}
 	if (res == SQLITE_DONE) return DB_OK;
 	return DB_ERROR;	
 }
@@ -503,4 +516,23 @@ int DarwinupDatabase::archive_offset(int column) {
 
 int DarwinupDatabase::file_offset(int column) {
 	return this->m_files_table->offset(column);
+}
+
+Archive* DarwinupDatabase::get_last_archive(uint64_t serial) {
+	if (this->last_archive && this->last_archive->serial() == serial) {
+		return this->last_archive;
+	}
+	return NULL;
+}
+
+int DarwinupDatabase::clear_last_archive() {
+	delete this->last_archive;
+	this->last_archive = NULL;
+	return 0;
+}
+
+int DarwinupDatabase::set_last_archive(uint8_t* data) {
+	this->last_archive = this->make_archive(data);
+	if (this->last_archive) return 0;
+	return 1;
 }

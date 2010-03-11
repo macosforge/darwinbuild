@@ -98,6 +98,11 @@ struct DarwinupDatabase : Database {
 	int      delete_files(Archive* archive);
 	int      free_file(uint8_t* data);
 	
+	// memoization
+	Archive* get_last_archive(uint64_t serial);
+	int      clear_last_archive();
+	int      set_last_archive(uint8_t* data);
+	
 
 protected:
 	
@@ -105,6 +110,9 @@ protected:
 	
 	Table*        m_archives_table;
 	Table*        m_files_table;
+	
+	// memoize some get_archive calls
+	Archive*      last_archive;
 	
 };
 
