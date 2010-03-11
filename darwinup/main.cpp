@@ -48,9 +48,10 @@ void usage(char* progname) {
 	fprintf(stderr, "version: 16                                                    \n");
 	fprintf(stderr, "                                                               \n");
 	fprintf(stderr, "options:                                                       \n");
-	fprintf(stderr, "          -f         force operation to succeed at all costs   \n");
-	fprintf(stderr, "          -p DIR     operate on roots under DIR (default: /)   \n");
-	fprintf(stderr, "          -v         verbose (use -vv for extra verbosity)     \n");
+	fprintf(stderr, "          -d        do not update dyld cache after (un)install \n");	
+	fprintf(stderr, "          -f        force operation to succeed at all costs    \n");
+	fprintf(stderr, "          -p DIR    operate on roots under DIR (default: /)    \n");
+	fprintf(stderr, "          -v        verbose (use -vv for extra verbosity)      \n");
 	fprintf(stderr, "                                                               \n");
 	fprintf(stderr, "commands:                                                      \n");
 	fprintf(stderr, "          files      <archive>                                 \n");
@@ -93,10 +94,15 @@ int main(int argc, char* argv[]) {
 	char* progname = strdup(basename(argv[0]));      
 
 	char* path = NULL;
+	
+	bool update_dyld = true;
 
 	int ch;
-	while ((ch = getopt(argc, argv, "fp:vh")) != -1) {
+	while ((ch = getopt(argc, argv, "dfp:vh")) != -1) {
 		switch (ch) {
+		case 'd':
+				update_dyld = false;
+				break;
 		case 'f':
 				IF_DEBUG("forcing operations\n");
 				force = 1;
@@ -159,7 +165,7 @@ int main(int argc, char* argv[]) {
 			if (strcmp(argv[0], "install") == 0) {
 				if (i==1 && depot->initialize(true)) exit(13);
 				res = depot->install(argv[i]);
-				if (res == 0) res = update_dyld_shared_cache(path);
+				if (update_dyld && res == 0) res = update_dyld_shared_cache(path);
 			} else if (strcmp(argv[0], "upgrade") == 0) {
 				if (i==1 && depot->initialize(true)) exit(14);
 				// find most recent matching archive by name
@@ -172,14 +178,14 @@ int main(int argc, char* argv[]) {
 				if (res == 0) res = depot->install(argv[i]);
 				// uninstall old archive
 				if (res == 0) res = depot->uninstall(old);
-				if (res == 0) res = update_dyld_shared_cache(path);
+				if (update_dyld && res == 0) res = update_dyld_shared_cache(path);
 			} else if (strcmp(argv[0], "files") == 0) {
 				if (i==1 && depot->initialize(false)) exit(12);
 				res = depot->process_archive(argv[0], argv[i]);
 			} else if (strcmp(argv[0], "uninstall") == 0) {
 				if (i==1 && depot->initialize(true)) exit(15);
 				res = depot->process_archive(argv[0], argv[i]);
-				if (res == 0) res = update_dyld_shared_cache(path);
+				if (update_dyld && res == 0) res = update_dyld_shared_cache(path);
 			} else if (strcmp(argv[0], "verify") == 0) {
 				if (i==1 && depot->initialize(true)) exit(16);
 				res = depot->process_archive(argv[0], argv[i]);
