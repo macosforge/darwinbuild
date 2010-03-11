@@ -347,6 +347,7 @@ int Depot::iterate_files(Archive* archive, FileIteratorFunc func, void* context)
 
 int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback,
 						 int* rollback_files) {
+	extern uint32_t dryrun;
 	int res = 0;
 	assert(archive != NULL);
 	assert(rollback != NULL);
@@ -464,7 +465,7 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback,
 				join_path(&backup_dirpath, uuidpath, dir);
 				assert(backup_dirpath != NULL);
 				
-				res = mkdir_p(backup_dirpath);
+				if (!dryrun) res = mkdir_p(backup_dirpath);
 				if (res != 0 && errno != EEXIST) {
 					fprintf(stderr, "%s:%d: %s: %s (%d)\n", 
 							__FILE__, __LINE__, backup_dirpath, strerror(errno), errno);
@@ -481,7 +482,7 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback,
 				*rollback_files += 1;
 				if (!this->has_file(rollback, actual)) {
 					IF_DEBUG("[analyze]    insert rollback\n");
-					res = this->insert(rollback, actual);
+					if (!dryrun) res = this->insert(rollback, actual);
 				}
 				assert(res == 0);
 
@@ -505,7 +506,7 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback,
 						if (!this->has_file(rollback, parent)) {
 							IF_DEBUG("[analyze]      adding parent to rollback: %s \n", 
 									 parent->path());
-							res = this->insert(rollback, parent);
+							if (!dryrun) res = this->insert(rollback, parent);
 						}
 						assert(res == 0);
 						pent = pent->fts_parent;
@@ -514,7 +515,7 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback,
 			}
 
 			fprintf(stderr, "%c %s\n", state, file->path());
-			res = this->insert(archive, file);
+			if (!dryrun) res = this->insert(archive, file);
 			assert(res == 0);
 			if (preceding && preceding != actual) delete preceding;
 			if (actual) delete actual;
@@ -648,6 +649,7 @@ int Depot::install(const char* path) {
 
 
 int Depot::install(Archive* archive) {
+	extern uint32_t dryrun;
 	int res = 0;
 	Archive* rollback = new RollbackArchive();
 
@@ -665,15 +667,15 @@ int Depot::install(Archive* archive) {
 	//
 	// The fun starts here
 	//
-	if (res == 0) res = this->begin_transaction();	
+	if (!dryrun && res == 0) res = this->begin_transaction();	
 
 	//
 	// Insert the rollback archive before the new archive to install, thus keeping
 	// the chronology of the serial numbers correct.  We may later choose to delete
 	// the rollback archive if we determine that it was not necessary.
 	//
-	if (res == 0) res = this->insert(rollback);
-	if (res == 0) res = this->insert(archive);
+	if (!dryrun && res == 0) res = this->insert(rollback);
+	if (!dryrun && res == 0) res = this->insert(archive);
 
 	//
 	// Create the stage directory and rollback backing store directories
@@ -683,7 +685,6 @@ int Depot::install(Archive* archive) {
 	char* rollback_path = rollback->create_directory(m_archives_path);
 	assert(rollback_path != NULL);
 
-
 	// Extract the archive into its backing store directory
 	if (res == 0) res = archive->extract(archive_path);
 
@@ -692,6 +693,16 @@ int Depot::install(Archive* archive) {
 	// installed and the rollback archive.
 	int rollback_files = 0;
 	if (res == 0) res = this->analyze_stage(archive_path, archive, rollback, &rollback_files);
+	
+	// we can stop now if this is a dry run
+	if (dryrun) {
+		remove_directory(archive_path);
+		remove_directory(rollback_path);
+		free(rollback_path);
+		free(archive_path);
+		(void)this->lock(LOCK_SH);
+		return res;
+	}
 	
 	// If no files were added to the rollback archive, delete the rollback archive.
 	if (res == 0 && rollback_files == 0) {
@@ -792,6 +803,7 @@ int Depot::prune_archive(Archive* archive) {
 }
 
 int Depot::uninstall_file(File* file, void* ctx) {
+	extern uint32_t dryrun;
 	InstallContext* context = (InstallContext*)ctx;
 	int res = 0;
 	char state = ' ';
@@ -825,7 +837,7 @@ int Depot::uninstall_file(File* file, void* ctx) {
 			if (INFO_TEST(preceding->info(), FILE_INFO_NO_ENTRY)) {
 				state = 'R';
 				IF_DEBUG("[uninstall]    removing file\n");
-				if (actual && res == 0) res = actual->remove();
+				if (!dryrun && actual && res == 0) res = actual->remove();
 			} else {
 				// copy the preceding file back out to the system
 				// if it's different from what's already there
@@ -833,13 +845,17 @@ int Depot::uninstall_file(File* file, void* ctx) {
 				if (INFO_TEST(flags, FILE_INFO_DATA_DIFFERS)) {
 					state = 'U';
 					IF_DEBUG("[uninstall]    restoring\n");
-					if (res == 0) res = preceding->install(context->depot->m_archives_path, 
-														   context->depot->m_prefix);
+					if (!dryrun && res == 0) {
+						res = preceding->install(context->depot->m_archives_path, 
+												 context->depot->m_prefix);
+					}
 				} else if (INFO_TEST(flags, FILE_INFO_MODE_DIFFERS) ||
 					   INFO_TEST(flags, FILE_INFO_GID_DIFFERS) ||
 					   INFO_TEST(flags, FILE_INFO_UID_DIFFERS)) {
 					state = 'M';
-					if (res == 0) res = preceding->install_info(context->depot->m_prefix);
+					if (!dryrun && res == 0) {
+						res = preceding->install_info(context->depot->m_prefix);
+					}
 				} else {
 					IF_DEBUG("[uninstall]    no changes; leaving in place\n");
 				}
@@ -847,7 +863,9 @@ int Depot::uninstall_file(File* file, void* ctx) {
 			uint32_t info = preceding->info();
 			if (INFO_TEST(info, FILE_INFO_NO_ENTRY | FILE_INFO_ROLLBACK_DATA) &&
 			    !INFO_TEST(info, FILE_INFO_BASE_SYSTEM)) {
-				if (res == 0) res = context->files_to_remove->add(preceding->serial());
+				if (!dryrun && res == 0) {
+					res = context->files_to_remove->add(preceding->serial());
+				}
 			}
 			delete preceding;
 		} else {
@@ -868,6 +886,7 @@ int Depot::uninstall_file(File* file, void* ctx) {
 int Depot::uninstall(Archive* archive) {
 	extern uint32_t verbosity;
 	extern uint32_t force;
+	extern uint32_t dryrun;
 	int res = 0;
 
 	assert(archive != NULL);
@@ -908,35 +927,39 @@ int Depot::uninstall(Archive* archive) {
 	res = this->lock(LOCK_EX);
 	if (res != 0) return res;
 
-	// XXX: this may be superfluous
-	// uninstall_file should be smart enough to do a mtime check...
-	if (res == 0) res = this->prune_directories();
+	if (!dryrun) {
+		// XXX: this may be superfluous
+		// uninstall_file should be smart enough to do a mtime check...
+		if (res == 0) res = this->prune_directories();
 
-	// We do this here to get an exclusive lock on the database.
-	if (res == 0) res = this->begin_transaction();
-	if (res == 0) res = m_db->deactivate_archive(serial);
-	if (res == 0) res = this->commit_transaction();
-
+		// We do this here to get an exclusive lock on the database.
+		if (res == 0) res = this->begin_transaction();
+		if (res == 0) res = m_db->deactivate_archive(serial);
+		if (res == 0) res = this->commit_transaction();
+	}
+	
 	InstallContext context(this, archive);
 	if (res == 0) res = this->iterate_files(archive, &Depot::uninstall_file, &context);
 	
-	if (res == 0) res = this->begin_transaction();
-	uint32_t i;
-	for (i = 0; i < context.files_to_remove->count; ++i) {
-		uint64_t serial = context.files_to_remove->values[i];
-		if (res == 0) res = m_db->delete_file(serial);
+	if (!dryrun) {
+		if (res == 0) res = this->begin_transaction();
+		uint32_t i;
+		for (i = 0; i < context.files_to_remove->count; ++i) {
+			uint64_t serial = context.files_to_remove->values[i];
+			if (res == 0) res = m_db->delete_file(serial);
+		}
+		if (res == 0) res = this->commit_transaction();
+
+		if (res == 0) res = this->begin_transaction();	
+		if (res == 0) res = this->remove(archive);
+		if (res == 0) res = this->commit_transaction();
+
+		// delete all of the expanded archive backing stores to save disk space
+		if (res == 0) res = this->prune_directories();
+
+		if (res == 0) res = this->prune_archive(archive);
 	}
-	if (res == 0) res = this->commit_transaction();
-
-	if (res == 0) res = this->begin_transaction();	
-	if (res == 0) res = this->remove(archive);
-	if (res == 0) res = this->commit_transaction();
-
-	// delete all of the expanded archive backing stores to save disk space
-	if (res == 0) res = this->prune_directories();
-
-	if (res == 0) res = this->prune_archive(archive);
-
+	
 	if (res == 0) fprintf(stdout, "Uninstalled archive: %llu %s \n",
 						  archive->serial(), archive->name());
 	

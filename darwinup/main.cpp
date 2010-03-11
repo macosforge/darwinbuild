@@ -48,8 +48,9 @@ void usage(char* progname) {
 	fprintf(stderr, "version: 16                                                    \n");
 	fprintf(stderr, "                                                               \n");
 	fprintf(stderr, "options:                                                       \n");
-	fprintf(stderr, "          -d        do not update dyld cache after (un)install \n");	
+	fprintf(stderr, "          -d        do not update dyld cache                   \n");	
 	fprintf(stderr, "          -f        force operation to succeed at all costs    \n");
+	fprintf(stderr, "          -n        dry run                                    \n");
 	fprintf(stderr, "          -p DIR    operate on roots under DIR (default: /)    \n");
 	fprintf(stderr, "          -v        verbose (use -vv for extra verbosity)      \n");
 	fprintf(stderr, "                                                               \n");
@@ -88,17 +89,16 @@ void usage(char* progname) {
 // our globals
 uint32_t verbosity;
 uint32_t force;
+uint32_t dryrun;
 
 
 int main(int argc, char* argv[]) {
 	char* progname = strdup(basename(argv[0]));      
-
 	char* path = NULL;
-	
 	bool update_dyld = true;
 
 	int ch;
-	while ((ch = getopt(argc, argv, "dfp:vh")) != -1) {
+	while ((ch = getopt(argc, argv, "dfnp:vh")) != -1) {
 		switch (ch) {
 		case 'd':
 				update_dyld = false;
@@ -106,6 +106,10 @@ int main(int argc, char* argv[]) {
 		case 'f':
 				IF_DEBUG("forcing operations\n");
 				force = 1;
+				break;
+		case 'n':
+				IF_DEBUG("dry run\n");
+				dryrun = 1;
 				break;
 		case 'p':
 				if (optarg[0] != '/') {
