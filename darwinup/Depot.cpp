@@ -877,7 +877,10 @@ int Depot::uninstall(Archive* archive) {
 	 * base system since the rollback archive we'll use will potentially damage
 	 * the base system.
 	 */
-	if (!force && (strcmp(this->m_build, archive->build()) != 0)) {
+	if (!force && 
+		this->m_build &&
+		archive->build() &&
+		(strcmp(this->m_build, archive->build()) != 0)) {
 		fprintf(stderr, 
 				"-------------------------------------------------------------------------------\n"
 				"The %s root was installed on a different base OS build (%s). The current    \n"
