@@ -126,7 +126,8 @@ int Depot::initialize(bool writable) {
 	int res = 0;
 	
 	// initialization requires all these paths to be set
-	if (!(m_prefix && m_depot_path && m_database_path && m_archives_path && m_downloads_path)) {
+	if (!(m_prefix && m_depot_path && m_database_path && 
+		  m_archives_path && m_downloads_path)) {
 		return -1;
 	}
 	
@@ -260,7 +261,8 @@ Archive** Depot::get_all_archives(uint32_t* count) {
 			if (archive) {
 				list[i] = archive;
 			} else {
-				fprintf(stderr, "%s:%d: DB::make_archive returned NULL\n", __FILE__, __LINE__);
+				fprintf(stderr, "%s:%d: DB::make_archive returned NULL\n",
+						__FILE__, __LINE__);
 				res = -1;
 				break;
 			}
@@ -289,7 +291,8 @@ Archive** Depot::get_superseded_archives(uint32_t* count) {
 			if (archive && this->is_superseded(archive)) {
 				list[cur++] = archive;
 			} else if (!archive) {
-				fprintf(stderr, "%s:%d: DB::make_archive returned NULL\n", __FILE__, __LINE__);
+				fprintf(stderr, "%s:%d: DB::make_archive returned NULL\n",
+						__FILE__, __LINE__);
 				res = -1;
 				break;
 			}
@@ -342,7 +345,8 @@ int Depot::iterate_files(Archive* archive, FileIteratorFunc func, void* context)
 }
 
 
-int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback, int* rollback_files) {
+int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback,
+						 int* rollback_files) {
 	int res = 0;
 	assert(archive != NULL);
 	assert(rollback != NULL);
@@ -462,7 +466,8 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback, 
 				
 				res = mkdir_p(backup_dirpath);
 				if (res != 0 && errno != EEXIST) {
-					fprintf(stderr, "%s:%d: %s: %s (%d)\n", __FILE__, __LINE__, backup_dirpath, strerror(errno), errno);
+					fprintf(stderr, "%s:%d: %s: %s (%d)\n", 
+							__FILE__, __LINE__, backup_dirpath, strerror(errno), errno);
 				} else {
 					res = 0;
 				}
@@ -498,7 +503,8 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback, 
 						}
 						
 						if (!this->has_file(rollback, parent)) {
-							IF_DEBUG("[analyze]      adding parent to rollback: %s \n", parent->path());
+							IF_DEBUG("[analyze]      adding parent to rollback: %s \n", 
+									 parent->path());
 							res = this->insert(rollback, parent);
 						}
 						assert(res == 0);
@@ -586,7 +592,8 @@ int Depot::backup_file(File* file, void* ctx) {
 		IF_DEBUG("[backup] copyfile(%s, %s)\n", path, dstpath);
 		res = copyfile(path, dstpath, NULL, COPYFILE_ALL|COPYFILE_NOFOLLOW);
 
-		if (res != 0) fprintf(stderr, "%s:%d: backup failed: %s: %s (%d)\n", __FILE__, __LINE__, dstpath, strerror(errno), errno);
+		if (res != 0) fprintf(stderr, "%s:%d: backup failed: %s: %s (%d)\n", 
+							  __FILE__, __LINE__, dstpath, strerror(errno), errno);
 		free(path);
 		free(dstpath);
 		free(uuidpath);
@@ -606,7 +613,8 @@ int Depot::install_file(File* file, void* ctx) {
 	} else {
 		res = file->install_info(context->depot->m_prefix);
 	}
-	if (res != 0) fprintf(stderr, "%s:%d: install failed: %s: %s (%d)\n", __FILE__, __LINE__, file->path(), strerror(errno), errno);
+	if (res != 0) fprintf(stderr, "%s:%d: install failed: %s: %s (%d)\n", 
+						  __FILE__, __LINE__, file->path(), strerror(errno), errno);
 	return res;
 }
 
@@ -803,7 +811,8 @@ int Depot::uninstall_file(File* file, void* ctx) {
 	uint32_t flags = File::compare(file, actual);
 	
 	if (actual == NULL) {
-		IF_DEBUG("[uninstall]    actual file missing, possibly due to parent being removed already\n");
+		IF_DEBUG("[uninstall]    actual file missing, "
+				 "possibly due to parent being removed already\n");
 		state = '!';
 	} else if (flags != FILE_INFO_IDENTICAL) {
 		IF_DEBUG("[uninstall]    changes since install; skipping\n");
@@ -824,7 +833,8 @@ int Depot::uninstall_file(File* file, void* ctx) {
 				if (INFO_TEST(flags, FILE_INFO_DATA_DIFFERS)) {
 					state = 'U';
 					IF_DEBUG("[uninstall]    restoring\n");
-					if (res == 0) res = preceding->install(context->depot->m_archives_path, context->depot->m_prefix);
+					if (res == 0) res = preceding->install(context->depot->m_archives_path, 
+														   context->depot->m_prefix);
 				} else if (INFO_TEST(flags, FILE_INFO_MODE_DIFFERS) ||
 					   INFO_TEST(flags, FILE_INFO_GID_DIFFERS) ||
 					   INFO_TEST(flags, FILE_INFO_UID_DIFFERS)) {
@@ -848,7 +858,8 @@ int Depot::uninstall_file(File* file, void* ctx) {
 
 	fprintf(stderr, "%c %s\n", state, file->path());
 
-	if (res != 0) fprintf(stderr, "%s:%d: uninstall failed: %s\n", __FILE__, __LINE__, file->path());
+	if (res != 0) fprintf(stderr, "%s:%d: uninstall failed: %s\n", 
+						  __FILE__, __LINE__, file->path());
 
 	free(actpath);
 	return res;
@@ -1109,7 +1120,8 @@ int Depot::check_consistency() {
 				delete archive;
 			}
 		}
-		fprintf(stderr, "\nWould you like to uninstall %s now? [y/n] ", inactive->count > 1 ? "them" : "it");
+		fprintf(stderr, "\nWould you like to uninstall %s now? [y/n] ", 
+				inactive->count > 1 ? "them" : "it");
 		int c = getchar();
 		fprintf(stderr, "\n");
 		if (c == 'y' || c == 'Y') {
