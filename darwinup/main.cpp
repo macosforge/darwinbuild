@@ -150,9 +150,15 @@ int main(int argc, char* argv[]) {
 		if (res == -2) {
 			// we are not asking to write, 
 			// but no depot exists yet either,
-			// so print the apparent truth
-			fprintf(stdout, "Nothing has been installed yet.\n");
+			// so print an empty list
+			depot->archive_header();
 			exit(0);
+		}
+		if (res == -3) {
+			// permission denied when trying to read
+			// the depot
+			fprintf(stderr, "Permission denied when trying to read the database.\n");
+			exit(6);
 		}
 		if (res == 0) depot->list(argc-1, (char**)(argv+1));
 	} else if (argc == 1) {

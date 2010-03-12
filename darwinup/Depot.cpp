@@ -39,6 +39,7 @@
 #include <copyfile.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <grp.h>
 #include <libgen.h>
 #include <limits.h>
 #include <stdio.h>
@@ -102,18 +103,28 @@ int Depot::connect() {
 }
 
 int Depot::create_storage() {
+	uid_t uid = getuid();
+	struct group *gs = getgrnam("admin");
+	gid_t gid = gs->gr_gid;
+	
 	int res = mkdir(m_depot_path, m_depot_mode);
+	res = chmod(m_depot_path, m_depot_mode);
+	res = chown(m_depot_path, uid, gid);
 	if (res && errno != EEXIST) {
 		perror(m_depot_path);
 		return res;
 	}
 	res = mkdir(m_archives_path, m_depot_mode);
+	res = chmod(m_archives_path, m_depot_mode);
+	res = chown(m_archives_path, uid, gid);
 	if (res && errno != EEXIST) {
 		perror(m_archives_path);
 		return res;
 	}
 	
 	res = mkdir(m_downloads_path, m_depot_mode);
+	res = chmod(m_downloads_path, m_depot_mode);
+	res = chown(m_downloads_path, uid, gid);
 	if (res && errno != EEXIST) {
 		perror(m_downloads_path);
 		return res;
@@ -146,10 +157,15 @@ int Depot::initialize(bool writable) {
 		if (res) return res;
 	}
 
-	int exists = is_regular_file(m_database_path);
-	if (!exists && !writable) {
-		// read-only mode requested but we have no database
-		return -2;
+	struct stat sb;
+	res = stat(m_database_path, &sb);
+	if (!writable && res == -1 && (errno == ENOENT || errno == ENOTDIR)) {
+		// depot does not exist
+		return -2; 
+	}
+	if (!writable && res == -1 && errno == EACCES) {
+		// permission denied
+		return -3;
 	}
 
 	res = this->connect();

@@ -116,6 +116,8 @@ struct Depot {
 
 	bool is_superseded(Archive* archive);
 
+	void    archive_header();
+	
 protected:
 
 	// Serialize access to the Depot via flock(2).
@@ -151,8 +153,6 @@ protected:
 	File*	file_preceded_by(File* file);
 
 	int		check_consistency();
-
-	void    archive_header();
 	
 	DarwinupDatabase* m_db;
 	
