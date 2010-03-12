@@ -1,6 +1,7 @@
 darwinup
-01-Sep-2005
+12-Mar-2010
 Kevin Van Vechten <kvv@apple.com>
+William Siegrist  <wsiegrist@apple.com>
 
 OVERVIEW
 ========
@@ -44,6 +45,9 @@ state.  The compressed state is always authoritative and the expanded state
 is pruned when darwinup exits.  The backing store for each archive is named
 according to that archive's UUID in the database.
 
+/.DarwinDepot/Downloads/
+Temporary storage for any remote archives, such as when giving http or
+rsync urls to darwinup. 
 
 OPERATIONS
 ==========
