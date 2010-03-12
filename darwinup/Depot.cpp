@@ -154,7 +154,6 @@ int Depot::initialize(bool writable) {
 		if (res) return res;
 		m_is_locked = 1;
 		res = build_number_for_path(&m_build, m_prefix);
-		if (res) return res;
 	}
 
 	struct stat sb;

@@ -336,11 +336,20 @@ int build_number_for_path(char** build, const char* path) {
 	char system[PATH_MAX];
 	char* base;
 	
+	*build = (char*)calloc(1, 16);
+	
 	// find the version plist for our target path
 	find_base_system_path(&base, path);
 	if (!base) return 1;	
 	snprintf(system, PATH_MAX, "%s/System/Library/CoreServices/SystemVersion.plist", base);
 	free(base);
+
+	struct stat sb;
+	res = stat(system, &sb);
+	if (res) {
+		snprintf(*build, 16, " ");
+		return 1;
+	}
 
 	// read version plist to get build number
 	const char* args[] = {
@@ -359,7 +368,6 @@ int build_number_for_path(char** build, const char* path) {
 	
 	// read from the pipe
 	close(pfd[1]);
-	*build = (char*)calloc(1, 16);
 	res = 1;
 	while (res > 0 && res < 15) {
 		res = read(pfd[0], *build, 15);
