@@ -39,6 +39,7 @@
 #include <copyfile.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <grp.h>
 #include <libgen.h>
 #include <limits.h>
 #include <stdio.h>
@@ -54,6 +55,7 @@ Depot::Depot() {
 	m_database_path = NULL;
 	m_archives_path = NULL;
 	m_downloads_path = NULL;
+	m_build = NULL;
 	m_db = NULL;
 	m_lock_fd = -1;
 	m_is_locked = 0;
@@ -64,6 +66,7 @@ Depot::Depot(const char* prefix) {
 	m_lock_fd = -1;
 	m_is_locked = 0;
 	m_depot_mode = 0750;
+	m_build = NULL;
 
 	asprintf(&m_prefix, "%s", prefix);
 	join_path(&m_depot_path, m_prefix, "/.DarwinDepot");
@@ -100,18 +103,28 @@ int Depot::connect() {
 }
 
 int Depot::create_storage() {
+	uid_t uid = getuid();
+	struct group *gs = getgrnam("admin");
+	gid_t gid = gs->gr_gid;
+	
 	int res = mkdir(m_depot_path, m_depot_mode);
+	res = chmod(m_depot_path, m_depot_mode);
+	res = chown(m_depot_path, uid, gid);
 	if (res && errno != EEXIST) {
 		perror(m_depot_path);
 		return res;
 	}
 	res = mkdir(m_archives_path, m_depot_mode);
+	res = chmod(m_archives_path, m_depot_mode);
+	res = chown(m_archives_path, uid, gid);
 	if (res && errno != EEXIST) {
 		perror(m_archives_path);
 		return res;
 	}
 	
 	res = mkdir(m_downloads_path, m_depot_mode);
+	res = chmod(m_downloads_path, m_depot_mode);
+	res = chown(m_downloads_path, uid, gid);
 	if (res && errno != EEXIST) {
 		perror(m_downloads_path);
 		return res;
@@ -124,7 +137,8 @@ int Depot::initialize(bool writable) {
 	int res = 0;
 	
 	// initialization requires all these paths to be set
-	if (!(m_prefix && m_depot_path && m_database_path && m_archives_path && m_downloads_path)) {
+	if (!(m_prefix && m_depot_path && m_database_path && 
+		  m_archives_path && m_downloads_path)) {
 		return -1;
 	}
 	
@@ -138,13 +152,19 @@ int Depot::initialize(bool writable) {
 		if (res) return res;
 		res = this->lock(LOCK_SH);
 		if (res) return res;
-		m_is_locked = 1;		
+		m_is_locked = 1;
+		res = build_number_for_path(&m_build, m_prefix);
 	}
 
-	int exists = is_regular_file(m_database_path);
-	if (!exists && !writable) {
-		// read-only mode requested but we have no database
-		return -2;
+	struct stat sb;
+	res = stat(m_database_path, &sb);
+	if (!writable && res == -1 && (errno == ENOENT || errno == ENOTDIR)) {
+		// depot does not exist
+		return -2; 
+	}
+	if (!writable && res == -1 && errno == EACCES) {
+		// permission denied
+		return -3;
 	}
 
 	res = this->connect();
@@ -256,13 +276,45 @@ Archive** Depot::get_all_archives(uint32_t* count) {
 			if (archive) {
 				list[i] = archive;
 			} else {
-				fprintf(stderr, "%s:%d: DB::make_archive returned NULL\n", __FILE__, __LINE__);
+				fprintf(stderr, "%s:%d: DB::make_archive returned NULL\n",
+						__FILE__, __LINE__);
 				res = -1;
 				break;
 			}
 		}
 	}
 
+	return list;	
+}
+
+Archive** Depot::get_superseded_archives(uint32_t* count) {
+	int res = DB_OK;
+	uint8_t** archlist;
+	res = this->m_db->get_archives(&archlist, count, false); // rollbacks cannot be superseded
+	
+	Archive** list = (Archive**)malloc(sizeof(Archive*) * (*count));
+	if (!list) {
+		fprintf(stderr, "Error: ran out of memory in Depot::get_superseded_archives\n");
+		return NULL;
+	}
+
+	uint32_t i = 0;
+	uint32_t cur = i;
+	if (FOUND(res)) {
+		while (i < *count) {
+			Archive* archive = this->m_db->make_archive(archlist[i++]);
+			if (archive && this->is_superseded(archive)) {
+				list[cur++] = archive;
+			} else if (!archive) {
+				fprintf(stderr, "%s:%d: DB::make_archive returned NULL\n",
+						__FILE__, __LINE__);
+				res = -1;
+				break;
+			}
+		}
+	}
+	// adjust count based on our is_superseded filtering
+	*count = cur;
 	return list;	
 }
 
@@ -308,7 +360,9 @@ int Depot::iterate_files(Archive* archive, FileIteratorFunc func, void* context)
 }
 
 
-int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback, int* rollback_files) {
+int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback,
+						 int* rollback_files) {
+	extern uint32_t dryrun;
 	int res = 0;
 	assert(archive != NULL);
 	assert(rollback != NULL);
@@ -336,7 +390,6 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback, 
 			char* actpath;
 			join_path(&actpath, this->prefix(), file->path());
 			File* actual = FileFactory(actpath);
-
 			File* preceding = this->file_preceded_by(file);
 			
 			if (actual == NULL) {
@@ -394,6 +447,16 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback, 
 					}
 				}				
 			}
+
+			// if file == actual, but actual != preceding, then an external
+			// process changed actual to be the same as what we are installing
+			// now (OS upgrade?). We do not need to save actual, but make
+			// a special state so the user knows what happened and does not
+			// get a ?.
+			if (actual_flags == FILE_INFO_IDENTICAL && preceding_flags != FILE_INFO_IDENTICAL) {
+				IF_DEBUG("[analyze]    external changes but file same as actual\n");
+				state = 'E';
+			}
 			
 			// XXX: should this be done in backup_file?
 			// If we're going to need to squirrel away data, create
@@ -417,9 +480,10 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback, 
 				join_path(&backup_dirpath, uuidpath, dir);
 				assert(backup_dirpath != NULL);
 				
-				res = mkdir_p(backup_dirpath);
+				if (!dryrun) res = mkdir_p(backup_dirpath);
 				if (res != 0 && errno != EEXIST) {
-					fprintf(stderr, "%s:%d: %s: %s (%d)\n", __FILE__, __LINE__, backup_dirpath, strerror(errno), errno);
+					fprintf(stderr, "%s:%d: %s: %s (%d)\n", 
+							__FILE__, __LINE__, backup_dirpath, strerror(errno), errno);
 				} else {
 					res = 0;
 				}
@@ -433,7 +497,7 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback, 
 				*rollback_files += 1;
 				if (!this->has_file(rollback, actual)) {
 					IF_DEBUG("[analyze]    insert rollback\n");
-					res = this->insert(rollback, actual);
+					if (!dryrun) res = this->insert(rollback, actual);
 				}
 				assert(res == 0);
 
@@ -455,8 +519,9 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback, 
 						}
 						
 						if (!this->has_file(rollback, parent)) {
-							IF_DEBUG("[analyze]      adding parent to rollback: %s \n", parent->path());
-							res = this->insert(rollback, parent);
+							IF_DEBUG("[analyze]      adding parent to rollback: %s \n", 
+									 parent->path());
+							if (!dryrun) res = this->insert(rollback, parent);
 						}
 						assert(res == 0);
 						pent = pent->fts_parent;
@@ -465,7 +530,7 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback, 
 			}
 
 			fprintf(stderr, "%c %s\n", state, file->path());
-			res = this->insert(archive, file);
+			if (!dryrun) res = this->insert(archive, file);
 			assert(res == 0);
 			if (preceding && preceding != actual) delete preceding;
 			if (actual) delete actual;
@@ -543,7 +608,8 @@ int Depot::backup_file(File* file, void* ctx) {
 		IF_DEBUG("[backup] copyfile(%s, %s)\n", path, dstpath);
 		res = copyfile(path, dstpath, NULL, COPYFILE_ALL|COPYFILE_NOFOLLOW);
 
-		if (res != 0) fprintf(stderr, "%s:%d: backup failed: %s: %s (%d)\n", __FILE__, __LINE__, dstpath, strerror(errno), errno);
+		if (res != 0) fprintf(stderr, "%s:%d: backup failed: %s: %s (%d)\n", 
+							  __FILE__, __LINE__, dstpath, strerror(errno), errno);
 		free(path);
 		free(dstpath);
 		free(uuidpath);
@@ -563,7 +629,8 @@ int Depot::install_file(File* file, void* ctx) {
 	} else {
 		res = file->install_info(context->depot->m_prefix);
 	}
-	if (res != 0) fprintf(stderr, "%s:%d: install failed: %s: %s (%d)\n", __FILE__, __LINE__, file->path(), strerror(errno), errno);
+	if (res != 0) fprintf(stderr, "%s:%d: install failed: %s: %s (%d)\n", 
+						  __FILE__, __LINE__, file->path(), strerror(errno), errno);
 	return res;
 }
 
@@ -597,9 +664,15 @@ int Depot::install(const char* path) {
 
 
 int Depot::install(Archive* archive) {
+	extern uint32_t dryrun;
 	int res = 0;
 	Archive* rollback = new RollbackArchive();
 
+	if (this->m_build) {
+		rollback->m_build = strdup(this->m_build);
+		archive->m_build = strdup(this->m_build);
+	}
+	
 	assert(rollback != NULL);
 	assert(archive != NULL);
 
@@ -609,15 +682,15 @@ int Depot::install(Archive* archive) {
 	//
 	// The fun starts here
 	//
-	if (res == 0) res = this->begin_transaction();	
+	if (!dryrun && res == 0) res = this->begin_transaction();	
 
 	//
 	// Insert the rollback archive before the new archive to install, thus keeping
 	// the chronology of the serial numbers correct.  We may later choose to delete
 	// the rollback archive if we determine that it was not necessary.
 	//
-	if (res == 0) res = this->insert(rollback);
-	if (res == 0) res = this->insert(archive);
+	if (!dryrun && res == 0) res = this->insert(rollback);
+	if (!dryrun && res == 0) res = this->insert(archive);
 
 	//
 	// Create the stage directory and rollback backing store directories
@@ -627,7 +700,6 @@ int Depot::install(Archive* archive) {
 	char* rollback_path = rollback->create_directory(m_archives_path);
 	assert(rollback_path != NULL);
 
-
 	// Extract the archive into its backing store directory
 	if (res == 0) res = archive->extract(archive_path);
 
@@ -636,6 +708,16 @@ int Depot::install(Archive* archive) {
 	// installed and the rollback archive.
 	int rollback_files = 0;
 	if (res == 0) res = this->analyze_stage(archive_path, archive, rollback, &rollback_files);
+	
+	// we can stop now if this is a dry run
+	if (dryrun) {
+		remove_directory(archive_path);
+		remove_directory(rollback_path);
+		free(rollback_path);
+		free(archive_path);
+		(void)this->lock(LOCK_SH);
+		return res;
+	}
 	
 	// If no files were added to the rollback archive, delete the rollback archive.
 	if (res == 0 && rollback_files == 0) {
@@ -713,13 +795,30 @@ int Depot::prune_directories() {
 	return res;
 }
 
-int Depot::prune_archives() {
+// delete the unexpanded tarball from archives storage
+int Depot::prune_archive(Archive* archive) {
 	int res = 0;
+	
+	// clean up database
 	res = this->m_db->delete_empty_archives();
+	if (res) {
+		fprintf(stderr, "Error: unable to prune archives from database.\n");
+		return res;
+	}
+	
+	// clean up disk
+	char path[PATH_MAX];
+	char uuid[37];
+	uuid_unparse_upper(archive->uuid(), uuid);
+	if (res == 0) snprintf(path, PATH_MAX, "%s/%s.tar.bz2", m_archives_path, uuid);
+	if (res == 0) res = unlink(path);
+	if (res) perror(path);
+	
 	return res;
 }
 
 int Depot::uninstall_file(File* file, void* ctx) {
+	extern uint32_t dryrun;
 	InstallContext* context = (InstallContext*)ctx;
 	int res = 0;
 	char state = ' ';
@@ -737,9 +836,12 @@ int Depot::uninstall_file(File* file, void* ctx) {
 	IF_DEBUG("[uninstall] actual path is %s\n", actpath);
 	File* actual = FileFactory(actpath);
 	uint32_t flags = File::compare(file, actual);
-		
-	if (actual != NULL && flags != FILE_INFO_IDENTICAL) {
-		// XXX: probably not the desired behavior
+	
+	if (actual == NULL) {
+		IF_DEBUG("[uninstall]    actual file missing, "
+				 "possibly due to parent being removed already\n");
+		state = '!';
+	} else if (flags != FILE_INFO_IDENTICAL) {
 		IF_DEBUG("[uninstall]    changes since install; skipping\n");
 	} else {
 		File* superseded = context->depot->file_superseded_by(file);
@@ -750,7 +852,7 @@ int Depot::uninstall_file(File* file, void* ctx) {
 			if (INFO_TEST(preceding->info(), FILE_INFO_NO_ENTRY)) {
 				state = 'R';
 				IF_DEBUG("[uninstall]    removing file\n");
-				if (actual && res == 0) res = actual->remove();
+				if (!dryrun && actual && res == 0) res = actual->remove();
 			} else {
 				// copy the preceding file back out to the system
 				// if it's different from what's already there
@@ -758,11 +860,17 @@ int Depot::uninstall_file(File* file, void* ctx) {
 				if (INFO_TEST(flags, FILE_INFO_DATA_DIFFERS)) {
 					state = 'U';
 					IF_DEBUG("[uninstall]    restoring\n");
-					if (res == 0) res = preceding->install(context->depot->m_archives_path, context->depot->m_prefix);
+					if (!dryrun && res == 0) {
+						res = preceding->install(context->depot->m_archives_path, 
+												 context->depot->m_prefix);
+					}
 				} else if (INFO_TEST(flags, FILE_INFO_MODE_DIFFERS) ||
 					   INFO_TEST(flags, FILE_INFO_GID_DIFFERS) ||
 					   INFO_TEST(flags, FILE_INFO_UID_DIFFERS)) {
-					if (res == 0) res = preceding->install_info(context->depot->m_prefix);
+					state = 'M';
+					if (!dryrun && res == 0) {
+						res = preceding->install_info(context->depot->m_prefix);
+					}
 				} else {
 					IF_DEBUG("[uninstall]    no changes; leaving in place\n");
 				}
@@ -770,7 +878,9 @@ int Depot::uninstall_file(File* file, void* ctx) {
 			uint32_t info = preceding->info();
 			if (INFO_TEST(info, FILE_INFO_NO_ENTRY | FILE_INFO_ROLLBACK_DATA) &&
 			    !INFO_TEST(info, FILE_INFO_BASE_SYSTEM)) {
-				if (res == 0) res = context->files_to_remove->add(preceding->serial());
+				if (!dryrun && res == 0) {
+					res = context->files_to_remove->add(preceding->serial());
+				}
 			}
 			delete preceding;
 		} else {
@@ -781,7 +891,8 @@ int Depot::uninstall_file(File* file, void* ctx) {
 
 	fprintf(stderr, "%c %s\n", state, file->path());
 
-	if (res != 0) fprintf(stderr, "%s:%d: uninstall failed: %s\n", __FILE__, __LINE__, file->path());
+	if (res != 0) fprintf(stderr, "%s:%d: uninstall failed: %s\n", 
+						  __FILE__, __LINE__, file->path());
 
 	free(actpath);
 	return res;
@@ -789,6 +900,8 @@ int Depot::uninstall_file(File* file, void* ctx) {
 
 int Depot::uninstall(Archive* archive) {
 	extern uint32_t verbosity;
+	extern uint32_t force;
+	extern uint32_t dryrun;
 	int res = 0;
 
 	assert(archive != NULL);
@@ -804,38 +917,67 @@ int Depot::uninstall(Archive* archive) {
 		return -1;
 	}
 
+	/** 
+	 * require -f to force uninstalling an archive installed on top of an older
+	 * base system since the rollback archive we'll use will potentially damage
+	 * the base system.
+	 */
+	if (!force && 
+		this->m_build &&
+		archive->build() &&
+		(strcmp(this->m_build, archive->build()) != 0)) {
+		fprintf(stderr, 
+				"-------------------------------------------------------------------------------\n"
+				"The %s root was installed on a different base OS build (%s). The current    \n"
+				"OS build is %s. Uninstalling a root that was installed on a different OS     \n"
+				"build has the potential to damage your OS install due to the fact that the   \n"
+				"rollback data is from the wrong OS version.\n\n"
+				" You must use the force (-f) option to make this potentially unsafe operation  \n"
+				"happen.\n"
+				"-------------------------------------------------------------------------------\n",
+				archive->name(), archive->build(), m_build);
+		return 9999;
+	}
+	
 	res = this->lock(LOCK_EX);
 	if (res != 0) return res;
 
-	// XXX: this may be superfluous
-	// uninstall_file should be smart enough to do a mtime check...
-	if (res == 0) res = this->prune_directories();
+	if (!dryrun) {
+		// XXX: this may be superfluous
+		// uninstall_file should be smart enough to do a mtime check...
+		if (res == 0) res = this->prune_directories();
 
-	// We do this here to get an exclusive lock on the database.
-	if (res == 0) res = this->begin_transaction();
-	if (res == 0) res = m_db->deactivate_archive(serial);
-	if (res == 0) res = this->commit_transaction();
-
+		// We do this here to get an exclusive lock on the database.
+		if (res == 0) res = this->begin_transaction();
+		if (res == 0) res = m_db->deactivate_archive(serial);
+		if (res == 0) res = this->commit_transaction();
+	}
+	
 	InstallContext context(this, archive);
 	if (res == 0) res = this->iterate_files(archive, &Depot::uninstall_file, &context);
 	
-	if (res == 0) res = this->begin_transaction();
-	uint32_t i;
-	for (i = 0; i < context.files_to_remove->count; ++i) {
-		uint64_t serial = context.files_to_remove->values[i];
-		if (res == 0) res = m_db->delete_file(serial);
+	if (!dryrun) {
+		if (res == 0) res = this->begin_transaction();
+		uint32_t i;
+		for (i = 0; i < context.files_to_remove->count; ++i) {
+			uint64_t serial = context.files_to_remove->values[i];
+			if (res == 0) res = m_db->delete_file(serial);
+		}
+		if (res == 0) res = this->commit_transaction();
+
+		if (res == 0) res = this->begin_transaction();	
+		if (res == 0) res = this->remove(archive);
+		if (res == 0) res = this->commit_transaction();
+
+		// delete all of the expanded archive backing stores to save disk space
+		if (res == 0) res = this->prune_directories();
+
+		if (res == 0) res = this->prune_archive(archive);
 	}
-	if (res == 0) res = this->commit_transaction();
-
-	if (res == 0) res = this->begin_transaction();	
-	if (res == 0) res = this->remove(archive);
-	if (res == 0) res = this->commit_transaction();
-
-	// delete all of the expanded archive backing stores to save disk space
-	if (res == 0) res = this->prune_directories();
-
-	if (res == 0) res = prune_archives();
-
+	
+	if (res == 0) fprintf(stdout, "Uninstalled archive: %llu %s \n",
+						  archive->serial(), archive->name());
+	
 	(void)this->lock(LOCK_SH);
 
 	return res;
@@ -858,14 +1000,22 @@ int Depot::verify_file(File* file, void* context) {
 	return 0;
 }
 
+void Depot::archive_header() {
+	fprintf(stdout, "%-6s %-36s  %-12s  %-7s  %s\n", 
+			"Serial", "UUID", "Date", "Build", "Name");
+	fprintf(stdout, "====== ====================================  "
+			"============  =======  =================\n");	
+}
+
+
 int Depot::verify(Archive* archive) {
 	int res = 0;
-	fprintf(stdout, "%-6s %-36s  %-23s  %s\n", "Serial", "UUID", "Date Installed", "Name");
-	fprintf(stdout, "====== ====================================  =======================  =================\n");
+	this->archive_header();
 	list_archive(archive, stdout);	
-	fprintf(stdout, "=======================================================================================\n");
+	hr();
 	if (res == 0) res = this->iterate_files(archive, &Depot::verify_file, NULL);
-	fprintf(stdout, "=======================================================================================\n\n");
+	hr();
+	fprintf(stdout, "\n");
 	return res;
 }
 
@@ -879,18 +1029,51 @@ int Depot::list_archive(Archive* archive, void* context) {
 	struct tm local;
 	time_t seconds = archive->date_installed();
 	localtime_r(&seconds, &local);
-	strftime(date, sizeof(date), "%F %T %Z", &local);
+	strftime(date, sizeof(date), "%b %e %H:%M", &local);
 
-	fprintf((FILE*)context, "%-6llu %-36s  %-23s  %s\n", serial, uuid, date, archive->name());
+	fprintf((FILE*)context, "%-6llu %-36s  %-12s  %-7s  %s\n", 
+			serial, uuid, date, (archive->build()?archive->build():""), archive->name());
 	
 	return 0;
 }
 
 int Depot::list() {
+	return this->list(0, NULL);
+}
+
+int Depot::list(int count, char** args) {
 	int res = 0;
-	fprintf(stdout, "%-6s %-36s  %-23s  %s\n", "Serial", "UUID", "Date Installed", "Name");
-	fprintf(stdout, "====== ====================================  =======================  =================\n");
-	if (res == 0) res = this->iterate_archives(&Depot::list_archive, stdout);
+
+	this->archive_header();
+	
+	// handle the default case of "all"
+	if (count == 0) return this->iterate_archives(&Depot::list_archive, stdout);
+
+	Archive** list;
+	Archive* archive;
+	uint32_t archcnt;
+	for (int i = 0; res == 0 && i < count; i++) {
+		list = NULL;
+		archive = NULL;
+		archcnt = 0;
+		// check for special keywords
+		if (strncasecmp(args[i], "all", 3) == 0) {
+			list = this->get_all_archives(&archcnt);
+		} else if (strncasecmp(args[i], "superseded", 10) == 0) {
+			list = this->get_superseded_archives(&archcnt);
+		} 
+		if (archcnt) {
+			// loop over special keyword results
+			for (uint32_t j = 0; res == 0 && j < archcnt; j++) {
+				res = this->list_archive(list[j], stdout);
+			}
+		} else {
+			// arg is a single-archive specifier
+			archive = this->get_archive(args[i]);
+			if (archive) res = this->list_archive(archive, stdout);
+		}
+	}
+	
 	return res;
 }
 
@@ -903,12 +1086,12 @@ int Depot::print_file(File* file, void* context) {
 
 int Depot::files(Archive* archive) {
 	int res = 0;
-	fprintf(stdout, "%-6s %-36s  %-23s  %s\n", "Serial", "UUID", "Date Installed", "Name");
-	fprintf(stdout, "====== ====================================  =======================  =================\n");
+	this->archive_header();
 	list_archive(archive, stdout);
-	fprintf(stdout, "=======================================================================================\n");
+	hr();
 	if (res == 0) res = this->iterate_files(archive, &Depot::print_file, stdout);
-	fprintf(stdout, "=======================================================================================\n\n");
+	hr();
+	fprintf(stdout, "\n");
 	return res;
 }
 
@@ -916,9 +1099,10 @@ int Depot::dump_archive(Archive* archive, void* context) {
 	Depot* depot = (Depot*)context;
 	int res = 0;
 	list_archive(archive, stdout);
-	fprintf(stdout, "=======================================================================================\n");
+	hr();
 	if (res == 0) res = depot->iterate_files(archive, &Depot::print_file, stdout);
-	fprintf(stdout, "=======================================================================================\n\n");
+	hr();
+	fprintf(stdout, "\n");
 	return res;
 }
 
@@ -926,8 +1110,7 @@ int Depot::dump() {
 	extern uint32_t verbosity;
 	verbosity = 0xFFFFFFFF; // dump is intrinsically a debug command
 	int res = 0;
-	fprintf(stdout, "%-6s %-36s  %-23s  %s\n", "Serial", "UUID", "Date Installed", "Name");
-	fprintf(stdout, "====== ====================================  =======================  =================\n");
+	this->archive_header();
 	if (res == 0) res = this->iterate_archives(&Depot::dump_archive, this);
 	return res;
 }
@@ -967,16 +1150,16 @@ int Depot::check_consistency() {
 		fprintf(stderr, "The following archive%s in an inconsistent state and must be uninstalled "
 						"before proceeding:\n\n", inactive->count > 1 ? "s are" : " is");
 		uint32_t i;
-		fprintf(stderr, "%-6s %-36s  %-23s  %s\n", "Serial", "UUID", "Date Installed", "Name");
-		fprintf(stderr, "====== ====================================  =======================  =================\n");
+		this->archive_header();
 		for (i = 0; i < inactive->count; ++i) {
 			Archive* archive = this->archive(inactive->values[i]);
 			if (archive) {
-				list_archive(archive, stderr);
+				list_archive(archive, stdout);
 				delete archive;
 			}
 		}
-		fprintf(stderr, "\nWould you like to uninstall %s now? [y/n] ", inactive->count > 1 ? "them" : "it");
+		fprintf(stderr, "\nWould you like to uninstall %s now? [y/n] ", 
+				inactive->count > 1 ? "them" : "it");
 		int c = getchar();
 		fprintf(stderr, "\n");
 		if (c == 'y' || c == 'Y') {
@@ -1008,6 +1191,39 @@ int Depot::commit_transaction() {
 }
 
 int Depot::is_locked() { return m_is_locked; }
+
+bool Depot::is_superseded(Archive* archive) {
+	int res = DB_OK;
+	uint8_t** filelist;
+	uint8_t* data;
+	uint32_t count;	
+	res = this->m_db->get_files(&filelist, &count, archive);
+	if (FOUND(res)) {
+		for (uint32_t i=0; i < count; i++) {
+			File* file = this->m_db->make_file(filelist[i]);
+			
+			// check for being superseded by a root
+			res = this->m_db->get_next_file(&data, file, FILE_SUPERSEDED);
+			this->m_db->free_file(data);
+			if (FOUND(res)) continue;
+			
+			// check for being superseded by external changes
+			char* actpath;
+			join_path(&actpath, this->prefix(), file->path());
+			File* actual = FileFactory(actpath);
+			free(actpath);
+			uint32_t flags = File::compare(file, actual);
+
+			// not found in database and no changes on disk, 
+			// so file is the current version of actual
+			if (flags == FILE_INFO_IDENTICAL) return false;
+			 
+			// something external changed contents of actual,
+			// so we consider this file superseded (by OS upgrade?)
+		}
+	}
+	return true;			
+}
 
 int Depot::lock(int operation) {
 	int res = 0;
@@ -1041,9 +1257,10 @@ int Depot::insert(Archive* archive) {
 	// Don't insert an archive that is already in the database
 	assert(archive->serial() == 0);
 	archive->m_serial = m_db->insert_archive(archive->uuid(),
-											  archive->info(),
-											  archive->name(),
-											  archive->date_installed());
+											 archive->info(),
+											 archive->name(),
+											 archive->date_installed(),
+											 archive->build());
 	return archive->m_serial == 0;
 }
 
@@ -1133,6 +1350,8 @@ int Depot::process_archive(const char* command, const char* arg) {
 	
 	if (strncasecmp(arg, "all", 3) == 0) {
 		list = this->get_all_archives(&count);
+	} else if (strncasecmp(arg, "superseded", 10) == 0) {
+		list = this->get_superseded_archives(&count);
 	} else {
 		// make a list of 1 Archive
 		list = (Archive**)malloc(sizeof(Archive*));

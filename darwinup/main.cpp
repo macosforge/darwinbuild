@@ -45,17 +45,19 @@
 
 void usage(char* progname) {
 	fprintf(stderr, "usage:    %s [-v] [-p DIR] [command] [args]          \n", progname);
-	fprintf(stderr, "version: 15                                                    \n");
+	fprintf(stderr, "version: 16                                                    \n");
 	fprintf(stderr, "                                                               \n");
 	fprintf(stderr, "options:                                                       \n");
-	fprintf(stderr, "          -f         force operation to succeed at all costs   \n");
-	fprintf(stderr, "          -p DIR     operate on roots under DIR (default: /)   \n");
-	fprintf(stderr, "          -v         verbose (use -vv for extra verbosity)     \n");
+	fprintf(stderr, "          -d        do not update dyld cache                   \n");	
+	fprintf(stderr, "          -f        force operation to succeed at all costs    \n");
+	fprintf(stderr, "          -n        dry run                                    \n");
+	fprintf(stderr, "          -p DIR    operate on roots under DIR (default: /)    \n");
+	fprintf(stderr, "          -v        verbose (use -vv for extra verbosity)      \n");
 	fprintf(stderr, "                                                               \n");
 	fprintf(stderr, "commands:                                                      \n");
 	fprintf(stderr, "          files      <archive>                                 \n");
 	fprintf(stderr, "          install    <path>                                    \n");
-	fprintf(stderr, "          list                                                 \n");
+	fprintf(stderr, "          list       [archive]                                 \n");
 	fprintf(stderr, "          uninstall  <archive>                                 \n");
 	fprintf(stderr, "          upgrade    <path>                                    \n");
 	fprintf(stderr, "          verify     <archive>                                 \n");
@@ -71,13 +73,15 @@ void usage(char* progname) {
 	fprintf(stderr, "          tar, tar.gz, tar.bz2                                 \n");
 	fprintf(stderr, "          xar, zip                                             \n");
 	fprintf(stderr, "                                                               \n");
-	fprintf(stderr, "<archive> is one of:                                           \n");
-	fprintf(stderr, "          <serial>   the Serial number                         \n");
-	fprintf(stderr, "          <uuid>     the UUID                                  \n");
-	fprintf(stderr, "          <name>     the last root installed with that name    \n");
-	fprintf(stderr, "          newest     the newest (last) root installed          \n");
-	fprintf(stderr, "          oldest     the oldest root installed                 \n");
-	fprintf(stderr, "          all        all installed roots                       \n");
+	fprintf(stderr, "archive is one of:                                             \n");
+	fprintf(stderr, "          <serial>     the Serial number                       \n");
+	fprintf(stderr, "          <uuid>       the UUID                                \n");
+	fprintf(stderr, "          <name>       the last root installed with that name  \n");
+	fprintf(stderr, "          newest       the newest (last) root installed        \n");
+	fprintf(stderr, "          oldest       the oldest root installed               \n");
+	fprintf(stderr, "          superseded   all roots that have been fully replaced \n");
+	fprintf(stderr, "                        by newer roots                         \n");
+	fprintf(stderr, "          all          all installed roots                     \n");
 	fprintf(stderr, "                                                               \n");
 	exit(1);
 }
@@ -85,19 +89,27 @@ void usage(char* progname) {
 // our globals
 uint32_t verbosity;
 uint32_t force;
+uint32_t dryrun;
 
 
 int main(int argc, char* argv[]) {
 	char* progname = strdup(basename(argv[0]));      
-
 	char* path = NULL;
+	bool update_dyld = true;
 
 	int ch;
-	while ((ch = getopt(argc, argv, "fp:vh")) != -1) {
+	while ((ch = getopt(argc, argv, "dfnp:vh")) != -1) {
 		switch (ch) {
+		case 'd':
+				update_dyld = false;
+				break;
 		case 'f':
 				IF_DEBUG("forcing operations\n");
 				force = 1;
+				break;
+		case 'n':
+				IF_DEBUG("dry run\n");
+				dryrun = 1;
 				break;
 		case 'p':
 				if (optarg[0] != '/') {
@@ -129,54 +141,67 @@ int main(int argc, char* argv[]) {
 	if (!path) {
 		asprintf(&path, "/");
 	}
-		
+
 	Depot* depot = new Depot(path);
 		
-	// commands with no arguments
-	if (argc == 1) {
-		if (strcmp(argv[0], "list") == 0) {
-			res = depot->initialize(false);
-			if (res == -2) {
-				fprintf(stdout, "Nothing has been installed yet.\n");
-				exit(0);
-			}
-			if (res == 0) depot->list();
-		} else if (strcmp(argv[0], "dump") == 0) {
+	// list handles args optional and in special ways
+	if (strcmp(argv[0], "list") == 0) {
+		res = depot->initialize(false);
+		if (res == -2) {
+			// we are not asking to write, 
+			// but no depot exists yet either,
+			// so print an empty list
+			depot->archive_header();
+			exit(0);
+		}
+		if (res == -3) {
+			// permission denied when trying to read
+			// the depot
+			fprintf(stderr, "Permission denied when trying to read the database.\n");
+			exit(6);
+		}
+		if (res == 0) depot->list(argc-1, (char**)(argv+1));
+	} else if (argc == 1) {
+		// other commands which take no arguments
+		if (strcmp(argv[0], "dump") == 0) {
 			if (depot->initialize(false)) exit(11);
 			depot->dump();
 		} else {
 			usage(progname);
 		}
-	}
-
-	// loop over arguments
-	for (int i = 1; i < argc; i++) {
-		if (strcmp(argv[0], "install") == 0) {
-			if (i==1 && depot->initialize(true)) exit(13);
-			res = depot->install(argv[i]);
-		} else if (strcmp(argv[0], "upgrade") == 0) {
-			if (i==1 && depot->initialize(true)) exit(14);
-			// find most recent matching archive by name
-			Archive* old = depot->get_archive(basename(argv[i]));
-			if (!old) {
-				fprintf(stderr, "Error: unable to find a matching root to upgrade.\n");
-				res = 5;
+	} else {
+		// loop over arguments
+		for (int i = 1; i < argc; i++) {
+			if (strcmp(argv[0], "install") == 0) {
+				if (i==1 && depot->initialize(true)) exit(13);
+				res = depot->install(argv[i]);
+				if (update_dyld && res == 0) res = update_dyld_shared_cache(path);
+			} else if (strcmp(argv[0], "upgrade") == 0) {
+				if (i==1 && depot->initialize(true)) exit(14);
+				// find most recent matching archive by name
+				Archive* old = depot->get_archive(basename(argv[i]));
+				if (!old) {
+					fprintf(stderr, "Error: unable to find a matching root to upgrade.\n");
+					res = 5;
+				}
+				// install new archive
+				if (res == 0) res = depot->install(argv[i]);
+				// uninstall old archive
+				if (res == 0) res = depot->uninstall(old);
+				if (update_dyld && res == 0) res = update_dyld_shared_cache(path);
+			} else if (strcmp(argv[0], "files") == 0) {
+				if (i==1 && depot->initialize(false)) exit(12);
+				res = depot->process_archive(argv[0], argv[i]);
+			} else if (strcmp(argv[0], "uninstall") == 0) {
+				if (i==1 && depot->initialize(true)) exit(15);
+				res = depot->process_archive(argv[0], argv[i]);
+				if (update_dyld && res == 0) res = update_dyld_shared_cache(path);
+			} else if (strcmp(argv[0], "verify") == 0) {
+				if (i==1 && depot->initialize(true)) exit(16);
+				res = depot->process_archive(argv[0], argv[i]);
+			} else {
+				usage(progname);
 			}
-			// install new archive
-			if (res == 0) res = depot->install(argv[i]);
-			// uninstall old archive
-			if (res == 0) res = depot->uninstall(old);
-		} else if (strcmp(argv[0], "files") == 0) {
-			if (i==1 && depot->initialize(false)) exit(12);
-			res = depot->process_archive(argv[0], argv[i]);
-		} else if (strcmp(argv[0], "uninstall") == 0) {
-			if (i==1 && depot->initialize(true)) exit(15);
-			res = depot->process_archive(argv[0], argv[i]);
-		} else if (strcmp(argv[0], "verify") == 0) {
-			if (i==1 && depot->initialize(true)) exit(16);
-			res = depot->process_archive(argv[0], argv[i]);
-		} else {
-			usage(progname);
 		}
 	}
 	

@@ -39,25 +39,30 @@
 Column::Column(const char* name, uint32_t type) {
 	m_name       = strdup(name);
 	m_create_sql = NULL;
+	m_alter_sql = NULL;
 	m_type       = type;
 	m_is_index   = false;
 	m_is_pk      = false;
 	m_is_unique  = false;
+	m_version    = 0;
 }
 
 Column::Column(const char* name, uint32_t type, 
 			   bool is_index, bool is_pk, bool is_unique) {
 	m_name       = strdup(name);
 	m_create_sql = NULL;
+	m_alter_sql = NULL;
 	m_type       = type;
 	m_is_index   = is_index;
 	m_is_pk      = is_pk;
 	m_is_unique  = is_unique;
+	m_version    = 0;
 }
 
 Column::~Column() {
 	free(m_name);
 	free(m_create_sql);
+	free(m_alter_sql);
 }
 
 const char* Column::name() {
@@ -80,6 +85,9 @@ const bool Column::is_unique() {
 	return m_is_unique;
 }
 
+uint32_t Column::version() {
+	return m_version;
+}
 
 const char* Column::typestr() {
 	switch(m_type) {
@@ -117,3 +125,12 @@ const char* Column::create() {
 	}
 	return (const char*)m_create_sql;
 }
+
+const char* Column::alter(const char* table_name) {
+	if (!m_alter_sql) {
+		asprintf(&m_alter_sql, "ALTER TABLE %s ADD COLUMN %s;",
+				table_name, this->create());
+	}
+	return (const char*)m_alter_sql;
+}
+

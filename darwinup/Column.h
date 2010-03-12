@@ -55,6 +55,8 @@ struct Column {
 	const bool     is_pk();
 	const bool     is_unique();
 
+	uint32_t       version();
+	
 	// return size of this column when packed into a result record
 	uint32_t       size();
 
@@ -68,9 +70,13 @@ protected:
 	
 	// generate the sql needed to create this column
 	const char*    create();
+	// generate alter table sql for this column for table named table_name
+	const char*    alter(const char* table_name);
 
 	char*          m_name;
-	char*          m_create_sql;
+	uint32_t       m_version; // schema version this was added
+	char*          m_create_sql; // sql fragment for use in CREATE TABLE
+	char*          m_alter_sql; // entire ALTER TABLE ADD COLUMN sql
 	uint32_t       m_type; // SQLITE_* type definition
 	bool           m_is_index;
 	bool           m_is_pk;

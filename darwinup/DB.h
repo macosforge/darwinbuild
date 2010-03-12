@@ -56,7 +56,7 @@
 struct DarwinupDatabase : Database {
 	DarwinupDatabase(const char* path);
 	virtual ~DarwinupDatabase();
-	void init_schema();
+	int init_schema();
 	
 	uint64_t count_files(Archive* archive, const char* path);
 	uint64_t count_archives(bool include_rollbacks);
@@ -74,16 +74,19 @@ struct DarwinupDatabase : Database {
 	int      deactivate_archive(uint64_t serial);
 	int      update_archive(uint64_t serial, uuid_t uuid, const char* name,
 							time_t date_added, uint32_t active, uint32_t info);
-	uint64_t insert_archive(uuid_t uuid, uint32_t info, const char* name, time_t date);
+	uint64_t insert_archive(uuid_t uuid, uint32_t info, const char* name, 
+							time_t date, const char* build);
 	int      delete_empty_archives();
 	int      delete_archive(Archive* archive);
 	int      delete_archive(uint64_t serial);
+	int      free_archive(uint8_t* data);
 
 	// Files
 	File*    make_file(uint8_t* data);
 	int      get_next_file(uint8_t** data, File* file, file_starseded_t star);
 	int      get_file_serials(uint64_t** serials, uint32_t* count);
-	int      get_file_serial_from_archive(Archive* archive, const char* path, uint64_t** serial);
+	int      get_file_serial_from_archive(Archive* archive, const char* path, 
+										  uint64_t** serial);
 	int      get_files(uint8_t*** data, uint32_t* count, Archive* archive);
 	int      file_offset(int column);
 	int      update_file(uint64_t serial, Archive* archive, uint32_t info, mode_t mode, 
@@ -93,6 +96,12 @@ struct DarwinupDatabase : Database {
 	int      delete_file(uint64_t serial);
 	int      delete_file(File* file);
 	int      delete_files(Archive* archive);
+	int      free_file(uint8_t* data);
+	
+	// memoization
+	Archive* get_last_archive(uint64_t serial);
+	int      clear_last_archive();
+	int      set_last_archive(uint8_t* data);
 	
 
 protected:
@@ -101,6 +110,9 @@ protected:
 	
 	Table*        m_archives_table;
 	Table*        m_files_table;
+	
+	// memoize some get_archive calls
+	Archive*      last_archive;
 	
 };
 

@@ -44,12 +44,13 @@ struct Table {
 	virtual ~Table();
 	
 	const char*    name();
+	uint32_t       version();
 
 	// Add custom SQL to table initialization
 	int            set_custom_create(const char* sql);
 	
 	// Column handling
-	int            add_column(Column*);
+	int            add_column(Column*, uint32_t schema_version);
 	Column*        column(uint32_t index);
 	// get the result record offset for column at index
 	int            offset(uint32_t index);
@@ -95,6 +96,7 @@ struct Table {
 protected:
 
 	const char*    create();  
+	const char*    alter_add_column(uint32_t index);
 	
 	int            where_va_columns(uint32_t count, char* query, size_t size, 
 									size_t* used, va_list args);
@@ -106,6 +108,7 @@ protected:
 	void           dump_results(FILE* f);	
 	
 	char*          m_name;
+	uint32_t       m_version; // schema version this was added
 
 	char*          m_create_sql;
 	char*          m_custom_create_sql;

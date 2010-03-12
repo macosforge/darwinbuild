@@ -36,14 +36,25 @@
 #include <stdint.h>
 #include <sys/types.h>
 #include <fts.h>
-
 #include <stdarg.h>
 #include <stdio.h>
+#include <assert.h>
+#include <errno.h>
+#include <libgen.h>
+#include <limits.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <spawn.h>
+#include <sys/stat.h>
 
-const uint32_t VERBOSE		= 0x1;
+
+const uint32_t VERBOSE		    = 0x1;
 const uint32_t VERBOSE_DEBUG	= 0x2;
+const uint32_t VERBOSE_SQL      = 0x4;
 
 #define IF_DEBUG(...) do { extern uint32_t verbosity; if (verbosity & VERBOSE_DEBUG) fprintf(stderr, "DEBUG: " __VA_ARGS__); } while (0)
+#define IF_SQL(...) do { extern uint32_t verbosity; if (verbosity & VERBOSE_SQL) fprintf(stderr, "DEBUG: " __VA_ARGS__); } while (0)
 
 int fts_compare(const FTSENT **a, const FTSENT **b);
 int ftsent_filename(FTSENT* ent, char* filename, size_t bufsiz);
@@ -54,7 +65,10 @@ int is_regular_file(const char* path);
 int is_url_path(const char* path);
 int is_userhost_path(const char* path);
 int has_suffix(const char* str, const char* sfx);
+
 int exec_with_args(const char** args);
+int exec_with_args_pipe(const char** args, int fd);
+int exec_with_args_fa(const char** args, posix_spawn_file_actions_t* fa);
 
 int join_path(char** out, const char* p1, const char* p2);
 int compact_slashes(char* orig, int slashes);
@@ -62,7 +76,14 @@ int compact_slashes(char* orig, int slashes);
 char* fetch_url(const char* srcpath, const char* dstpath);
 char* fetch_userhost(const char* srcpath, const char* dstpath);
 
+int find_base_system_path(char** output, const char* path);
+int update_dyld_shared_cache(const char* path);
+int build_number_for_path(char** build, const char* path);
+
 void __data_hex(FILE* f, uint8_t* data, uint32_t size);
+
+// print a horizontal line to stdout
+void hr();
 
 inline int INFO_TEST(uint32_t word, uint32_t flag) { return ((word & flag) != 0); }
 inline int INFO_SET(uint32_t word, uint32_t flag) { return (word | flag); }

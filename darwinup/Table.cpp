@@ -54,7 +54,8 @@ Table::Table(const char* name) {
 	m_delete_sql    = NULL;
 	m_prepared_insert = NULL;
 	m_prepared_update = NULL;
-	m_prepared_delete = NULL;	
+	m_prepared_delete = NULL;
+	m_version       = 0;
 }
 
 Table::~Table() {
@@ -89,12 +90,16 @@ const char* Table::name() {
 	return m_name;
 }
 
+uint32_t Table::version() {
+	return m_version;
+}
+
 int Table::set_custom_create(const char* sql) {
 	this->m_custom_create_sql = strdup(sql);
 	return this->m_custom_create_sql == 0;
 }
 
-int Table::add_column(Column* c) {
+int Table::add_column(Column* c, uint32_t schema_version) {
 	// accumulate offsets for columns in m_columns_size
 	c->m_offset = this->m_columns_size;
 	this->m_columns_size += c->size();
@@ -109,7 +114,7 @@ int Table::add_column(Column* c) {
 		m_column_max *= REALLOC_FACTOR;
 	}
 	m_columns[m_column_count++] = c;
-	
+	c->m_version = schema_version;
 	return 0;
 }
 
@@ -189,7 +194,7 @@ sqlite3_stmt* Table::update(sqlite3* db) {
 	bool comma = false;  // flag we set to start adding commas
 	
 	// calculate the length of the sql statement
-	size_t size = 27 + 5*m_column_count;
+	size_t size = 28 + 5*m_column_count + strlen(m_name);
 	for (i=0; i<m_column_count; i++) {
 		size += strlen(m_columns[i]->name());
 	}
@@ -241,7 +246,7 @@ sqlite3_stmt* Table::insert(sqlite3* db) {
 	bool comma = false;  // flag we set to start adding commas
 	
 	// calculate the length of the sql statement
-	size_t size = 27 + 5*m_column_count;
+	size_t size = 28 + 5*m_column_count + strlen(m_name);
 	for (i=0; i<m_column_count; i++) {
 		size += strlen(m_columns[i]->name());
 	}
@@ -272,6 +277,8 @@ sqlite3_stmt* Table::insert(sqlite3* db) {
 		}
 	}
 	strlcat(m_insert_sql, ");", size);
+	
+	IF_SQL("insert sql: %s \n", m_insert_sql);
 	
 	// prepare
 	int res = sqlite3_prepare_v2(db, m_insert_sql, strlen(m_insert_sql), &m_prepared_insert, NULL);
@@ -469,6 +476,11 @@ const char* Table::create() {
 	}
 
 	return (const char*)m_create_sql;
+}
+
+const char* Table::alter_add_column(uint32_t index) {
+	if (m_columns[index]) return m_columns[index]->alter(m_name);
+	return NULL;
 }
 
 int Table::where_va_columns(uint32_t count, char* query, size_t size, 

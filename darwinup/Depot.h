@@ -79,12 +79,14 @@ struct Depot {
 
 	// returns a list of Archive*. Caller must free the list. 
 	Archive** get_all_archives(uint32_t *count);
+	Archive** get_superseded_archives(uint32_t *count);
 	uint64_t count_archives();
 	
 	int dump();
 	static int dump_archive(Archive* archive, void* context);
 	
 	int list();
+	int list(int count, char** args);
 	static int list_archive(Archive* archive, void* context);
 
 	int install(const char* path);
@@ -112,7 +114,10 @@ struct Depot {
 	// test if the depot is currently locked 
 	int is_locked();
 
+	bool is_superseded(Archive* archive);
 
+	void    archive_header();
+	
 protected:
 
 	// Serialize access to the Depot via flock(2).
@@ -139,16 +144,16 @@ protected:
 	int     remove(File* file);
 
 	int		analyze_stage(const char* path, Archive* archive, Archive* rollback, int* rollback_files);
+
+	// removes expand and unexpanded files from archives path
 	int		prune_directories();
-	
-	// Removes all archive entries which have no corresponding files entries.
-	int		prune_archives();
+	int		prune_archive(Archive* archive);
 	
 	File*	file_superseded_by(File* file);
 	File*	file_preceded_by(File* file);
 
 	int		check_consistency();
-
+	
 	DarwinupDatabase* m_db;
 	
 	mode_t		m_depot_mode;
@@ -157,6 +162,7 @@ protected:
 	char*		m_database_path;
 	char*		m_archives_path;
 	char*		m_downloads_path;
+	char*       m_build;
 	int		    m_lock_fd;
 	int         m_is_locked;
 };
