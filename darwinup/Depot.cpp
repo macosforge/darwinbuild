@@ -1033,7 +1033,7 @@ int Depot::list_archive(Archive* archive, void* context) {
 	strftime(date, sizeof(date), "%b %e %H:%M", &local);
 
 	fprintf((FILE*)context, "%-6llu %-36s  %-12s  %-7s  %s\n", 
-			serial, uuid, date, archive->build(), archive->name());
+			serial, uuid, date, (archive->build()?archive->build():""), archive->name());
 	
 	return 0;
 }
