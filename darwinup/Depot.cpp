@@ -324,6 +324,30 @@ uint64_t Depot::count_archives() {
 	return c;
 }
 
+struct InstallContext {
+	InstallContext(Depot* d, Archive* a) {
+		depot = d;
+		archive = a;
+		files_modified = 0;
+		files_added = 0;
+		files_removed = 0;
+		files_to_remove = new SerialSet();
+		reverse_files = false;
+	}
+	
+	~InstallContext() {
+		delete files_to_remove;
+	}
+	
+	Depot* depot;
+	Archive* archive;
+	uint64_t files_modified;
+	uint64_t files_added;
+	uint64_t files_removed;
+	SerialSet* files_to_remove;	// for uninstall
+	bool reverse_files; // for uninstall
+};
+
 int Depot::iterate_archives(ArchiveIteratorFunc func, void* context) {
 	int res = 0;
 	uint32_t count = 0;
@@ -341,7 +365,8 @@ int Depot::iterate_files(Archive* archive, FileIteratorFunc func, void* context)
 	int res = DB_OK;
 	uint8_t** filelist;
 	uint32_t count;
-	res = this->m_db->get_files(&filelist, &count, archive);
+	bool reverse = ((InstallContext*)context)->reverse_files;
+	res = this->m_db->get_files(&filelist, &count, archive, reverse);
 	if (FOUND(res)) {
 		for (uint32_t i=0; i < count; i++) {
 			File* file = this->m_db->make_file(filelist[i]);
@@ -541,30 +566,6 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback,
 	if (fts) fts_close(fts);
 	return res;
 }
-
-
-
-struct InstallContext {
-	InstallContext(Depot* d, Archive* a) {
-		depot = d;
-		archive = a;
-		files_modified = 0;
-		files_added = 0;
-		files_removed = 0;
-		files_to_remove = new SerialSet();
-	}
-	
-	~InstallContext() {
-		delete files_to_remove;
-	}
-	
-	Depot* depot;
-	Archive* archive;
-	uint64_t files_modified;
-	uint64_t files_added;
-	uint64_t files_removed;
-	SerialSet* files_to_remove;	// for uninstall
-};
 
 int Depot::backup_file(File* file, void* ctx) {
 	InstallContext* context = (InstallContext*)ctx;
@@ -954,6 +955,7 @@ int Depot::uninstall(Archive* archive) {
 	}
 	
 	InstallContext context(this, archive);
+	context.reverse_files = true; // uninstall children before parents
 	if (res == 0) res = this->iterate_files(archive, &Depot::uninstall_file, &context);
 	
 	if (!dryrun) {
@@ -1197,7 +1199,7 @@ bool Depot::is_superseded(Archive* archive) {
 	uint8_t** filelist;
 	uint8_t* data;
 	uint32_t count;	
-	res = this->m_db->get_files(&filelist, &count, archive);
+	res = this->m_db->get_files(&filelist, &count, archive, false);
 	if (FOUND(res)) {
 		for (uint32_t i=0; i < count; i++) {
 			File* file = this->m_db->make_file(filelist[i]);
