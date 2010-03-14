@@ -145,7 +145,7 @@ int Depot::initialize(bool writable) {
 	if (writable) {
 		uid_t uid = getuid();
 		if (uid) {
-			fprintf(stderr, "You must be root to perform that operation.\n");
+			fprintf(stdout, "You must be root to perform that operation.\n");
 			exit(3);
 		}			
 		res = this->create_storage();
@@ -554,7 +554,7 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback,
 				}
 			}
 
-			fprintf(stderr, "%c %s\n", state, file->path());
+			fprintf(stdout, "%c %s\n", state, file->path());
 			if (!dryrun) res = this->insert(archive, file);
 			assert(res == 0);
 			if (preceding && preceding != actual) delete preceding;
@@ -643,6 +643,8 @@ int Depot::install(const char* path) {
 	if (archive) {
 		res = this->install(archive);
 		if (res == 0) {
+			fprintf(stdout, "Installed archive: %llu %s \n", 
+					archive->serial(), archive->name());
 			uuid_unparse_upper(archive->uuid(), uuid);
 			fprintf(stdout, "%s\n", uuid);
 		} else {
@@ -652,12 +654,12 @@ int Depot::install(const char* path) {
 				fprintf(stderr, "Error: Unable to rollback installation. "
 						"Your system is in an inconsistent state! File a bug!\n");
 			} else {
-				fprintf(stderr, "Rollback successful.\n");
+				fprintf(stdout, "Rollback successful.\n");
 			}
 			res = 1;
 		}
 	} else {
-		fprintf(stderr, "Archive not found: %s\n", path);
+		fprintf(stdout, "Archive not found: %s\n", path);
 	}
 
 	return res;
@@ -890,7 +892,7 @@ int Depot::uninstall_file(File* file, void* ctx) {
 		}
 	}
 
-	fprintf(stderr, "%c %s\n", state, file->path());
+	fprintf(stdout, "%c %s\n", state, file->path());
 
 	if (res != 0) fprintf(stderr, "%s:%d: uninstall failed: %s\n", 
 						  __FILE__, __LINE__, file->path());
@@ -1338,7 +1340,7 @@ int Depot::dispatch_command(Archive* archive, const char* command) {
 		fprintf(stderr, "Error: unknown command given to dispatch_command.\n");
 	}
 	if (res != 0) {
-		fprintf(stderr, "An error occurred.\n");
+		fprintf(stdout, "An error occurred.\n");
 	}
 	return res;
 }
@@ -1363,13 +1365,13 @@ int Depot::process_archive(const char* command, const char* arg) {
 	
 	for (size_t i = 0; i < count; i++) {
 		if (!list[i]) {
-			fprintf(stderr, "Archive not found: %s\n", arg);
+			fprintf(stdout, "Archive not found: %s\n", arg);
 			return -1;
 		}
 		if (verbosity & VERBOSE_DEBUG) {
 			char uuid[37];
 			uuid_unparse_upper(list[i]->uuid(), uuid);
-			fprintf(stderr, "Found archive: %s\n", uuid);
+			fprintf(stdout, "Found archive: %s\n", uuid);
 		}
 		res = this->dispatch_command(list[i], command);
 		delete list[i];
