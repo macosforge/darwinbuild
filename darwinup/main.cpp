@@ -104,12 +104,11 @@ int main(int argc, char* argv[]) {
 				update_dyld = false;
 				break;
 		case 'f':
-				IF_DEBUG("forcing operations\n");
 				force = 1;
 				break;
 		case 'n':
-				IF_DEBUG("dry run\n");
 				dryrun = 1;
+				update_dyld = false;
 				break;
 		case 'p':
 				if (optarg[0] != '/') {
@@ -138,8 +137,14 @@ int main(int argc, char* argv[]) {
 	
 	int res = 0;
 
+	if (dryrun) IF_DEBUG("option: dry run\n");
+	if (force)  IF_DEBUG("option: forcing operations\n");
+	if (!update_dyld) IF_DEBUG("option: not updating dyld cache\n");
+	
 	if (!path) {
 		asprintf(&path, "/");
+	} else {
+		IF_DEBUG("option: path is %s\n", path);
 	}
 
 	Depot* depot = new Depot(path);
