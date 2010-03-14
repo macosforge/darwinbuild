@@ -83,6 +83,28 @@
 #define ADD_BLOB(table, name) \
 	assert(table->add_column(new Column(name, TYPE_BLOB), this->schema_version())==0);
 
+// retry an operation a few times if we hit a lock
+#define __retry_if_locked(operation) \
+    do { \
+    extern uint32_t verbosity; \
+    fprintf(stderr, "retry: verbosity %u \n", verbosity); \
+    res = operation; \
+    fprintf(stderr, "retry: initial res %d \n", res); \
+    if (res == 5 || res == 6) { \
+        fprintf(stderr, "retry: locked \n"); \
+        int _num_tries = 3; \
+        while (_num_tries--) { \
+            fprintf(stderr, "retry: tries left %d \n", _num_tries); \
+            if (verbosity) fprintf(stdout, "Database is locked, " \
+								   "trying again in 1 second...\n"); \
+	        sleep(1); \
+            res = operation; \
+			fprintf(stderr, "retry: res %d \n", res); \
+		} \
+        if (verbosity) fprintf(stdout, "Database is still locked, giving up.\n"); \
+	} \
+    } while (0);
+
 
 /**
  * 
