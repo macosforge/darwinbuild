@@ -11,7 +11,7 @@ ORIG=$PREFIX/orig
 DEST=$PREFIX/dest
 DESTTAR=dest.tar.gz
 
-DARWINUP="darwinup -dvvv -p $DEST "
+DARWINUP="darwinup $1 -p $DEST "
 DIFF="diff -x .DarwinDepot -x broken -qru"
 
 ROOTS="root root2 root3"
