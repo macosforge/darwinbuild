@@ -311,7 +311,7 @@ uint64_t DarwinupDatabase::count_archives(bool include_rollbacks) {
 						  this->m_archives_table,
 						  1,
 						  this->m_archives_table->column(2), // name
-						  '!', "<Rollback>");		
+						  '!', "<Rollback>");
 	}
 	if (res != SQLITE_ROW) {
 		fprintf(stderr, "Error: unable to count archives: %d \n", res);
@@ -447,7 +447,7 @@ int DarwinupDatabase::get_archives(uint8_t*** data, uint32_t* count, bool includ
 									ORDER_BY_DESC,
 									1,
 									this->m_archives_table->column(2),  // name
-									'!', (include_rollbacks ? "" : "<Rollback>") );
+									'!', (include_rollbacks ? "" : "<Rollback>"));
 	
 	if ((res == SQLITE_DONE) && *count) return (DB_OK | DB_FOUND);
 	if (res == SQLITE_DONE) return DB_OK;
