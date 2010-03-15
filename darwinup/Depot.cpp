@@ -145,17 +145,21 @@ int Depot::initialize(bool writable) {
 	if (writable) {
 		uid_t uid = getuid();
 		if (uid) {
-			fprintf(stderr, "You must be root to perform that operation.\n");
+			fprintf(stdout, "You must be root to perform that operation.\n");
 			exit(3);
 		}			
+		
 		res = this->create_storage();
 		if (res) return res;
-		res = this->lock(LOCK_SH);
-		if (res) return res;
-		m_is_locked = 1;
-		res = build_number_for_path(&m_build, m_prefix);
+				
+		build_number_for_path(&m_build, m_prefix);
 	}
 
+	// take an exclusive lock
+	res = this->lock(LOCK_EX);
+	if (res) return res;
+	m_is_locked = 1;			
+	
 	struct stat sb;
 	res = stat(m_database_path, &sb);
 	if (!writable && res == -1 && (errno == ENOENT || errno == ENOTDIR)) {
@@ -324,6 +328,30 @@ uint64_t Depot::count_archives() {
 	return c;
 }
 
+struct InstallContext {
+	InstallContext(Depot* d, Archive* a) {
+		depot = d;
+		archive = a;
+		files_modified = 0;
+		files_added = 0;
+		files_removed = 0;
+		files_to_remove = new SerialSet();
+		reverse_files = false;
+	}
+	
+	~InstallContext() {
+		delete files_to_remove;
+	}
+	
+	Depot* depot;
+	Archive* archive;
+	uint64_t files_modified;
+	uint64_t files_added;
+	uint64_t files_removed;
+	SerialSet* files_to_remove;	// for uninstall
+	bool reverse_files; // for uninstall
+};
+
 int Depot::iterate_archives(ArchiveIteratorFunc func, void* context) {
 	int res = 0;
 	uint32_t count = 0;
@@ -341,7 +369,8 @@ int Depot::iterate_files(Archive* archive, FileIteratorFunc func, void* context)
 	int res = DB_OK;
 	uint8_t** filelist;
 	uint32_t count;
-	res = this->m_db->get_files(&filelist, &count, archive);
+	bool reverse = ((InstallContext*)context)->reverse_files;
+	res = this->m_db->get_files(&filelist, &count, archive, reverse);
 	if (FOUND(res)) {
 		for (uint32_t i=0; i < count; i++) {
 			File* file = this->m_db->make_file(filelist[i]);
@@ -529,7 +558,7 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback,
 				}
 			}
 
-			fprintf(stderr, "%c %s\n", state, file->path());
+			fprintf(stdout, "%c %s\n", state, file->path());
 			if (!dryrun) res = this->insert(archive, file);
 			assert(res == 0);
 			if (preceding && preceding != actual) delete preceding;
@@ -541,30 +570,6 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback,
 	if (fts) fts_close(fts);
 	return res;
 }
-
-
-
-struct InstallContext {
-	InstallContext(Depot* d, Archive* a) {
-		depot = d;
-		archive = a;
-		files_modified = 0;
-		files_added = 0;
-		files_removed = 0;
-		files_to_remove = new SerialSet();
-	}
-	
-	~InstallContext() {
-		delete files_to_remove;
-	}
-	
-	Depot* depot;
-	Archive* archive;
-	uint64_t files_modified;
-	uint64_t files_added;
-	uint64_t files_removed;
-	SerialSet* files_to_remove;	// for uninstall
-};
 
 int Depot::backup_file(File* file, void* ctx) {
 	InstallContext* context = (InstallContext*)ctx;
@@ -642,6 +647,8 @@ int Depot::install(const char* path) {
 	if (archive) {
 		res = this->install(archive);
 		if (res == 0) {
+			fprintf(stdout, "Installed archive: %llu %s \n", 
+					archive->serial(), archive->name());
 			uuid_unparse_upper(archive->uuid(), uuid);
 			fprintf(stdout, "%s\n", uuid);
 		} else {
@@ -651,12 +658,12 @@ int Depot::install(const char* path) {
 				fprintf(stderr, "Error: Unable to rollback installation. "
 						"Your system is in an inconsistent state! File a bug!\n");
 			} else {
-				fprintf(stderr, "Rollback successful.\n");
+				fprintf(stdout, "Rollback successful.\n");
 			}
 			res = 1;
 		}
 	} else {
-		fprintf(stderr, "Archive not found: %s\n", path);
+		fprintf(stdout, "Archive not found: %s\n", path);
 	}
 
 	return res;
@@ -676,7 +683,6 @@ int Depot::install(Archive* archive) {
 	assert(rollback != NULL);
 	assert(archive != NULL);
 
-	res = this->lock(LOCK_EX);
 	if (res != 0) return res;
 
 	//
@@ -715,7 +721,6 @@ int Depot::install(Archive* archive) {
 		remove_directory(rollback_path);
 		free(rollback_path);
 		free(archive_path);
-		(void)this->lock(LOCK_SH);
 		return res;
 	}
 	
@@ -768,8 +773,6 @@ int Depot::install(Archive* archive) {
 	remove_directory(rollback_path);
 	free(rollback_path);
 	free(archive_path);
-	
-	(void)this->lock(LOCK_SH);
 
 	return res;
 }
@@ -889,7 +892,7 @@ int Depot::uninstall_file(File* file, void* ctx) {
 		}
 	}
 
-	fprintf(stderr, "%c %s\n", state, file->path());
+	fprintf(stdout, "%c %s\n", state, file->path());
 
 	if (res != 0) fprintf(stderr, "%s:%d: uninstall failed: %s\n", 
 						  __FILE__, __LINE__, file->path());
@@ -938,8 +941,7 @@ int Depot::uninstall(Archive* archive) {
 				archive->name(), archive->build(), m_build);
 		return 9999;
 	}
-	
-	res = this->lock(LOCK_EX);
+
 	if (res != 0) return res;
 
 	if (!dryrun) {
@@ -954,6 +956,7 @@ int Depot::uninstall(Archive* archive) {
 	}
 	
 	InstallContext context(this, archive);
+	context.reverse_files = true; // uninstall children before parents
 	if (res == 0) res = this->iterate_files(archive, &Depot::uninstall_file, &context);
 	
 	if (!dryrun) {
@@ -977,8 +980,6 @@ int Depot::uninstall(Archive* archive) {
 	
 	if (res == 0) fprintf(stdout, "Uninstalled archive: %llu %s \n",
 						  archive->serial(), archive->name());
-	
-	(void)this->lock(LOCK_SH);
 
 	return res;
 }
@@ -1197,7 +1198,7 @@ bool Depot::is_superseded(Archive* archive) {
 	uint8_t** filelist;
 	uint8_t* data;
 	uint32_t count;	
-	res = this->m_db->get_files(&filelist, &count, archive);
+	res = this->m_db->get_files(&filelist, &count, archive, false);
 	if (FOUND(res)) {
 		for (uint32_t i=0; i < count; i++) {
 			File* file = this->m_db->make_file(filelist[i]);
@@ -1336,7 +1337,7 @@ int Depot::dispatch_command(Archive* archive, const char* command) {
 		fprintf(stderr, "Error: unknown command given to dispatch_command.\n");
 	}
 	if (res != 0) {
-		fprintf(stderr, "An error occurred.\n");
+		fprintf(stdout, "An error occurred.\n");
 	}
 	return res;
 }
@@ -1361,13 +1362,13 @@ int Depot::process_archive(const char* command, const char* arg) {
 	
 	for (size_t i = 0; i < count; i++) {
 		if (!list[i]) {
-			fprintf(stderr, "Archive not found: %s\n", arg);
+			fprintf(stdout, "Archive not found: %s\n", arg);
 			return -1;
 		}
 		if (verbosity & VERBOSE_DEBUG) {
 			char uuid[37];
 			uuid_unparse_upper(list[i]->uuid(), uuid);
-			fprintf(stderr, "Found archive: %s\n", uuid);
+			fprintf(stdout, "Found archive: %s\n", uuid);
 		}
 		res = this->dispatch_command(list[i], command);
 		delete list[i];

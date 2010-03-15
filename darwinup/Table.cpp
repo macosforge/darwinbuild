@@ -498,8 +498,12 @@ int Table::where_va_columns(uint32_t count, char* query, size_t size,
         } else {
             op = tmp_op;
         }
-        va_arg(args, void*);
-        if (col->type() == SQLITE_BLOB) va_arg(args, uint32_t);
+		if (col->type() == SQLITE_TEXT) va_arg(args, char*);
+        if (col->type() == SQLITE_INTEGER) va_arg(args, uint64_t);
+        if (col->type() == SQLITE_BLOB) {
+			va_arg(args, char*);
+			va_arg(args, uint32_t);
+		}
 		len = snprintf(tmpstr, 256, " AND %s%c%c?", col->name(), not_op, op);
 		if (len >= 255) {
 			fprintf(stderr, "Error: column name is too big (limit: 248): %s\n", 

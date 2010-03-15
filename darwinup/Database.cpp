@@ -553,7 +553,7 @@ int Database::sql_once(const char* fmt, ...) {
     char* error;
     if (this->m_db) {
         char *query = sqlite3_vmprintf(fmt, args);
-        res = sqlite3_exec(this->m_db, query, NULL, NULL, &error);
+		res = sqlite3_exec(this->m_db, query, NULL, NULL, &error);
         sqlite3_free(query);
     } else {
         fprintf(stderr, "Error: database not open.\n");
@@ -562,7 +562,7 @@ int Database::sql_once(const char* fmt, ...) {
     va_end(args);
 	if (error) {
 		strlcpy(m_error, error, m_error_size);
-		fprintf(stderr, "Error: sql(): %s \n", m_error);
+		fprintf(stderr, "Error: sql_once(): %s \n", m_error);
 		fprintf(stderr, "Error: fmt: %s \n", fmt);
 		sqlite3_free(error);
 	}
@@ -593,7 +593,8 @@ int Database::sql(const char* name, const char* fmt, ...) {
 }
 
 int Database::execute(sqlite3_stmt* stmt) {
-	int res = sqlite3_step(stmt);
+	int res = SQLITE_OK;
+	res = sqlite3_step(stmt);
 	if (res == SQLITE_DONE) {
 		res = SQLITE_OK;
 	} else {
@@ -770,9 +771,10 @@ int Database::update_information_value(const char* variable, const char* value) 
 }
 
 bool Database::has_information_table() {
-	int res = sqlite3_exec(this->m_db, 
-						   "SELECT count(*) FROM database_information;", 
-						   NULL, NULL, NULL);
+	int res = SQLITE_OK;
+	res = sqlite3_exec(this->m_db, 
+					   "SELECT count(*) FROM database_information;", 
+					   NULL, NULL, NULL);
 	return res == SQLITE_OK;
 }
 
@@ -849,7 +851,8 @@ size_t Database::store_column(sqlite3_stmt* stmt, int column, uint8_t* output) {
  *   were written to output
  */
 int Database::step_once(sqlite3_stmt* stmt, uint8_t* output, uint32_t* used) {
-	int res = sqlite3_step(stmt);
+	int res = SQLITE_OK;
+	res = sqlite3_step(stmt);
 	uint8_t* current = output;
 	if (used) *used = 0;
 	if (res == SQLITE_ROW) {

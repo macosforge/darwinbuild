@@ -87,7 +87,7 @@ struct DarwinupDatabase : Database {
 	int      get_file_serials(uint64_t** serials, uint32_t* count);
 	int      get_file_serial_from_archive(Archive* archive, const char* path, 
 										  uint64_t** serial);
-	int      get_files(uint8_t*** data, uint32_t* count, Archive* archive);
+	int      get_files(uint8_t*** data, uint32_t* count, Archive* archive, bool reverse);
 	int      file_offset(int column);
 	int      update_file(uint64_t serial, Archive* archive, uint32_t info, mode_t mode, 
 						 uid_t uid, gid_t gid, Digest* digest, const char* path);
