@@ -41,6 +41,26 @@ done;
 mkdir -p $ORIG
 cp -R $DEST/* $ORIG/
 
+echo "========== TEST: Trying both 32 and 64 bit =========="
+for R in $ROOTS;
+do
+	echo "INFO: Installing $R ...";
+	arch -i386 $DARWINUP install $PREFIX/$R
+	UUID=$($DARWINUP list | head -3 | tail -1 | awk '{print $1}')
+	echo "INFO: Uninstalling $R ...";
+	arch -x86_64 $DARWINUP uninstall $UUID
+	echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+	$DIFF $ORIG $DEST 2>&1
+	echo "INFO: Installing $R ...";
+	arch -x86_64 $DARWINUP install $PREFIX/$R
+	UUID=$($DARWINUP list | head -3 | tail -1 | awk '{print $1}')
+	echo "INFO: Uninstalling $R ...";
+	arch -i386 $DARWINUP uninstall $UUID
+	echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+	$DIFF $ORIG $DEST 2>&1
+done
+
+
 echo "========== TEST: Trying roots one at a time =========="
 for R in $ROOTS;
 do
