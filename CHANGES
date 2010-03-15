@@ -1,6 +1,15 @@
 Darwin Build Scripts Change History
 -----------------------------------
 
+Release 16.1 [15-Mar-2010]
+	- darwinup: uninstall a root's files in reverse order so children
+	  get removed before parents. Fixes "!" status bug.
+	- darwinup: lock depot for entire duration of operations to prevent
+	  collisions.
+	- darwinup: gracefully warn when update_dyld_shared_cache not found
+	- darwinup: fix 32-bit-only crash in database subsystem
+	- darwinup: adjust what output goes to stderr vs stdout
+
 Release 16 [12-Mar-2010]
 	- darwinup: delete old roots after they are no longer needed
 	- darwinup: track base OS build for roots
