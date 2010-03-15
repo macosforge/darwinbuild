@@ -123,7 +123,7 @@ int Database::connect() {
 	}
 	
 	int exists = is_regular_file(m_path);
-	__retry_if_locked(sqlite3_open(m_path, &m_db));
+	res = sqlite3_open(m_path, &m_db);
 	if (res) {
 		sqlite3_close(m_db);
 		m_db = NULL;
@@ -452,7 +452,7 @@ int Database::update_value(const char* name, Table* table, Column* value_column,
 		return res;
 	}
 	this->bind_columns(stmt, count, param, args);
-	__retry_if_locked(sqlite3_step(stmt));
+	res = sqlite3_step(stmt);
 	sqlite3_reset(stmt);
     cache_release_value(m_statement_cache, pps);
 	va_end(args);
@@ -553,7 +553,7 @@ int Database::sql_once(const char* fmt, ...) {
     char* error;
     if (this->m_db) {
         char *query = sqlite3_vmprintf(fmt, args);
-        __retry_if_locked(sqlite3_exec(this->m_db, query, NULL, NULL, &error));
+		res = sqlite3_exec(this->m_db, query, NULL, NULL, &error);
         sqlite3_free(query);
     } else {
         fprintf(stderr, "Error: database not open.\n");
@@ -594,7 +594,7 @@ int Database::sql(const char* name, const char* fmt, ...) {
 
 int Database::execute(sqlite3_stmt* stmt) {
 	int res = SQLITE_OK;
-	__retry_if_locked(sqlite3_step(stmt));
+	res = sqlite3_step(stmt);
 	if (res == SQLITE_DONE) {
 		res = SQLITE_OK;
 	} else {
@@ -634,7 +634,7 @@ bool Database::is_empty() {
 	int res = SQLITE_OK;
 	char* query;
 	asprintf(&query, "SELECT count(*) FROM %s;", m_tables[0]->name());
-	__retry_if_locked(sqlite3_exec(this->m_db, query, NULL, NULL, NULL));
+	res = sqlite3_exec(this->m_db, query, NULL, NULL, NULL);
 	free(query);
 	return res != SQLITE_OK;
 }
@@ -772,9 +772,9 @@ int Database::update_information_value(const char* variable, const char* value) 
 
 bool Database::has_information_table() {
 	int res = SQLITE_OK;
-	__retry_if_locked(sqlite3_exec(this->m_db, 
-								   "SELECT count(*) FROM database_information;", 
-								   NULL, NULL, NULL));
+	res = sqlite3_exec(this->m_db, 
+					   "SELECT count(*) FROM database_information;", 
+					   NULL, NULL, NULL);
 	return res == SQLITE_OK;
 }
 
@@ -852,7 +852,7 @@ size_t Database::store_column(sqlite3_stmt* stmt, int column, uint8_t* output) {
  */
 int Database::step_once(sqlite3_stmt* stmt, uint8_t* output, uint32_t* used) {
 	int res = SQLITE_OK;
-	__retry_if_locked(sqlite3_step(stmt));
+	res = sqlite3_step(stmt);
 	uint8_t* current = output;
 	if (used) *used = 0;
 	if (res == SQLITE_ROW) {

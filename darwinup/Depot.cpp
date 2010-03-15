@@ -148,14 +148,18 @@ int Depot::initialize(bool writable) {
 			fprintf(stdout, "You must be root to perform that operation.\n");
 			exit(3);
 		}			
+		
 		res = this->create_storage();
 		if (res) return res;
-		res = this->lock(LOCK_SH);
-		if (res) return res;
-		m_is_locked = 1;
-		res = build_number_for_path(&m_build, m_prefix);
+				
+		build_number_for_path(&m_build, m_prefix);
 	}
 
+	// take an exclusive lock
+	res = this->lock(LOCK_EX);
+	if (res) return res;
+	m_is_locked = 1;			
+	
 	struct stat sb;
 	res = stat(m_database_path, &sb);
 	if (!writable && res == -1 && (errno == ENOENT || errno == ENOTDIR)) {
@@ -679,7 +683,6 @@ int Depot::install(Archive* archive) {
 	assert(rollback != NULL);
 	assert(archive != NULL);
 
-	res = this->lock(LOCK_EX);
 	if (res != 0) return res;
 
 	//
@@ -718,7 +721,6 @@ int Depot::install(Archive* archive) {
 		remove_directory(rollback_path);
 		free(rollback_path);
 		free(archive_path);
-		(void)this->lock(LOCK_SH);
 		return res;
 	}
 	
@@ -771,8 +773,6 @@ int Depot::install(Archive* archive) {
 	remove_directory(rollback_path);
 	free(rollback_path);
 	free(archive_path);
-	
-	(void)this->lock(LOCK_SH);
 
 	return res;
 }
@@ -941,8 +941,7 @@ int Depot::uninstall(Archive* archive) {
 				archive->name(), archive->build(), m_build);
 		return 9999;
 	}
-	
-	res = this->lock(LOCK_EX);
+
 	if (res != 0) return res;
 
 	if (!dryrun) {
@@ -981,8 +980,6 @@ int Depot::uninstall(Archive* archive) {
 	
 	if (res == 0) fprintf(stdout, "Uninstalled archive: %llu %s \n",
 						  archive->serial(), archive->name());
-	
-	(void)this->lock(LOCK_SH);
 
 	return res;
 }
