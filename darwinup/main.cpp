@@ -180,7 +180,6 @@ int main(int argc, char* argv[]) {
 			if (strcmp(argv[0], "install") == 0) {
 				if (i==1 && depot->initialize(true)) exit(13);
 				res = depot->install(argv[i]);
-				if (update_dyld && res == 0) res = update_dyld_shared_cache(path);
 			} else if (strcmp(argv[0], "upgrade") == 0) {
 				if (i==1 && depot->initialize(true)) exit(14);
 				// find most recent matching archive by name
@@ -193,14 +192,12 @@ int main(int argc, char* argv[]) {
 				if (res == 0) res = depot->install(argv[i]);
 				// uninstall old archive
 				if (res == 0) res = depot->uninstall(old);
-				if (update_dyld && res == 0) res = update_dyld_shared_cache(path);
 			} else if (strcmp(argv[0], "files") == 0) {
 				if (i==1 && depot->initialize(false)) exit(12);
 				res = depot->process_archive(argv[0], argv[i]);
 			} else if (strcmp(argv[0], "uninstall") == 0) {
 				if (i==1 && depot->initialize(true)) exit(15);
 				res = depot->process_archive(argv[0], argv[i]);
-				if (update_dyld && res == 0) res = update_dyld_shared_cache(path);
 			} else if (strcmp(argv[0], "verify") == 0) {
 				if (i==1 && depot->initialize(true)) exit(16);
 				res = depot->process_archive(argv[0], argv[i]);
@@ -208,6 +205,11 @@ int main(int argc, char* argv[]) {
 				usage(progname);
 			}
 		}
+		if (update_dyld && res == 0) {
+			res = update_dyld_shared_cache(path);
+			if (res) fprintf(stderr, "Warning: could not update dyld cache.\n");
+			res = 0;
+		}		
 	}
 	
 	free(path);

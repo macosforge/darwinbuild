@@ -317,6 +317,12 @@ int update_dyld_shared_cache(const char* path) {
 	char* toolpath;
 	join_path(&toolpath, base, "/usr/bin/update_dyld_shared_cache");
 
+	struct stat sb;
+	res = stat(toolpath, &sb);
+	if (res) {
+		return 1;
+	}
+		
 	const char* args[] = {
 		toolpath,
 		"-root", base,
