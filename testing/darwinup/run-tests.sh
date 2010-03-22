@@ -41,6 +41,10 @@ done;
 mkdir -p $ORIG
 cp -R $DEST/* $ORIG/
 
+echo "========== TEST: Listing ============="
+sudo -u nobody $DARWINUP list
+$DARWINUP list
+
 echo "========== TEST: Trying both 32 and 64 bit =========="
 for R in $ROOTS;
 do
@@ -85,12 +89,18 @@ echo "DIFF: diffing original test files to dest (should be no diffs) ..."
 $DIFF $ORIG $DEST 2>&1
 
 
-echo "========== TEST: Trying all roots at once, uninstall in reverse ==========";
+echo "========== TEST: Trying all roots at once and verifying ==============";
 for R in $ROOTS;
 do
 	echo "INFO: Installing $R ...";
 	$DARWINUP install $PREFIX/$R
 done
+
+$DARWINUP verify all
+$DARWINUP files  all
+$DARWINUP dump
+
+echo "========== TEST: uninstall in reverse ==========";
 for R in $ROOTS;
 do
 	UUID=$($DARWINUP list | head -3 | tail -1 | awk '{print $1}')
@@ -100,7 +110,7 @@ done
 echo "DIFF: diffing original test files to dest (should be no diffs) ..."
 $DIFF $ORIG $DEST 2>&1
 
-echo "========== TEST: Trying all roots at once, uninstall in install order =========="
+echo "========== TEST: Trying all roots at once, uninstall in install order by serial =========="
 for R in $ROOTS;
 do
         echo "INFO: Installing $R ...";
@@ -115,7 +125,7 @@ done
 echo "DIFF: diffing original test files to dest (should be no diffs) ..."
 $DIFF $ORIG $DEST 2>&1
 
-echo "========== TEST: Trying all roots at once, uninstall root2, root3, root =========="
+echo "========== TEST: Trying all roots at once, uninstall root2, root3, root by UUID =========="
 for R in $ROOTS;
 do
         echo "INFO: Installing $R ...";
@@ -123,7 +133,7 @@ do
 done
 for R in root2 root3 root;
 do
-        UUID=$($DARWINUP list | grep $R$ | awk '{print $1}')
+        UUID=$($DARWINUP list | grep $R$ | awk '{print $2}')
         echo "INFO: Uninstalling $UUID ...";
         $DARWINUP uninstall $UUID
 done
@@ -206,6 +216,34 @@ $DIFF $ORIG $DEST 2>&1
 $DARWINUP install $PREFIX/symlink_update
 stat -L $DEST/broken
 $DARWINUP uninstall newest
+echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+$DIFF $ORIG $DEST 2>&1
+
+echo "========== TEST: Upgrades ============="
+$DARWINUP install $PREFIX/root5
+$DARWINUP upgrade $PREFIX/root5
+$DARWINUP upgrade $PREFIX/root5
+$DARWINUP upgrade $PREFIX/root5
+C=$($DARWINUP list | grep root5 | wc -l | xargs)
+test "$C" == "1" 
+$DARWINUP uninstall oldest
+echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+$DIFF $ORIG $DEST 2>&1
+
+echo "========== TEST: Superseded ============="
+$DARWINUP install $PREFIX/root5
+$DARWINUP install $PREFIX/root6
+$DARWINUP install $PREFIX/root5
+$DARWINUP install $PREFIX/root2
+$DARWINUP install $PREFIX/root6
+$DARWINUP install $PREFIX/root6
+$DARWINUP install $PREFIX/root5
+$DARWINUP list superseded
+$DARWINUP uninstall superseded
+C=$($DARWINUP list | grep root | wc -l | xargs)
+test "$C" == "2" 
+$DARWINUP uninstall oldest
+$DARWINUP uninstall oldest
 echo "DIFF: diffing original test files to dest (should be no diffs) ..."
 $DIFF $ORIG $DEST 2>&1
 

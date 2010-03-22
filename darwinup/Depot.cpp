@@ -154,11 +154,6 @@ int Depot::initialize(bool writable) {
 				
 		build_number_for_path(&m_build, m_prefix);
 	}
-
-	// take an exclusive lock
-	res = this->lock(LOCK_EX);
-	if (res) return res;
-	m_is_locked = 1;			
 	
 	struct stat sb;
 	res = stat(m_database_path, &sb);
@@ -171,6 +166,11 @@ int Depot::initialize(bool writable) {
 		return -3;
 	}
 
+	// take an exclusive lock
+	res = this->lock(LOCK_EX);
+	if (res) return res;
+	m_is_locked = 1;			
+		
 	res = this->connect();
 
 	return res;
@@ -369,7 +369,8 @@ int Depot::iterate_files(Archive* archive, FileIteratorFunc func, void* context)
 	int res = DB_OK;
 	uint8_t** filelist;
 	uint32_t count;
-	bool reverse = ((InstallContext*)context)->reverse_files;
+	bool reverse = false;
+	if (context) reverse = ((InstallContext*)context)->reverse_files;
 	res = this->m_db->get_files(&filelist, &count, archive, reverse);
 	if (FOUND(res)) {
 		for (uint32_t i=0; i < count; i++) {
