@@ -1,6 +1,10 @@
 Darwin Build Scripts Change History
 -----------------------------------
 
+Release 16.2 [22-Mar-2010]
+	- darwinup: fix crash in verify subcommand
+	- darwinup: fix non-root list subcommand locking
+
 Release 16.1 [15-Mar-2010]
 	- darwinup: uninstall a root's files in reverse order so children
 	  get removed before parents. Fixes "!" status bug.
