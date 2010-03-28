@@ -51,6 +51,7 @@ Archive::Archive(const char* path) {
 	m_name = strdup(basename(m_path));
 	m_info = 0;
 	m_date_installed = time(NULL);
+	m_is_superseded = -1;  // unknown
 }
 
 Archive::Archive(uint64_t serial, uuid_t uuid, const char* name, const char* path, 
@@ -62,6 +63,7 @@ Archive::Archive(uint64_t serial, uuid_t uuid, const char* name, const char* pat
 	m_build = build ? strdup(build) : NULL;
 	m_info = info;
 	m_date_installed = date_installed;
+	m_is_superseded = -1; // unknown
 }
 
 

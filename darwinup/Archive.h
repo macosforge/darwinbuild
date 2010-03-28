@@ -106,7 +106,7 @@ struct Archive {
 	// The epoch seconds when the archive was installed.
 	virtual time_t date_installed();
 	
-	
+		
 	////
 	//  Member functions
 	////
@@ -145,6 +145,9 @@ struct Archive {
 	char*       m_build;
 	uint64_t	m_info;
 	time_t		m_date_installed;
+	
+	// -1 unknown, 0 false, 1 true
+	int       m_is_superseded;
 	
 	friend struct Depot;
 	friend struct DarwinupDatabase;

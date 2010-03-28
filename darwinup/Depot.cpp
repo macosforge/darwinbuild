@@ -929,7 +929,9 @@ int Depot::uninstall(Archive* archive) {
 	if (!force && 
 		this->m_build &&
 		archive->build() &&
-		(strcmp(this->m_build, archive->build()) != 0)) {
+		(strcmp(this->m_build, archive->build()) != 0) &&
+		!this->is_superseded(archive)
+		) {
 		fprintf(stderr, 
 				"-------------------------------------------------------------------------------\n"
 				"The %s root was installed on a different base OS build (%s). The current    \n"
@@ -1195,6 +1197,12 @@ int Depot::commit_transaction() {
 int Depot::is_locked() { return m_is_locked; }
 
 bool Depot::is_superseded(Archive* archive) {
+	// return early if already known
+	if (archive->m_is_superseded != -1) { 
+		return (archive->m_is_superseded == 1);
+	}
+	
+	// need to find out if superseded
 	int res = DB_OK;
 	uint8_t** filelist;
 	uint8_t* data;
@@ -1218,12 +1226,16 @@ bool Depot::is_superseded(Archive* archive) {
 
 			// not found in database and no changes on disk, 
 			// so file is the current version of actual
-			if (flags == FILE_INFO_IDENTICAL) return false;
+			if (flags == FILE_INFO_IDENTICAL) {
+				archive->m_is_superseded = 0;
+				return false;
+			}
 			 
 			// something external changed contents of actual,
 			// so we consider this file superseded (by OS upgrade?)
 		}
 	}
+	archive->m_is_superseded = 1;
 	return true;			
 }
 
