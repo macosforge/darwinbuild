@@ -151,7 +151,6 @@ int main(int argc, char* argv[]) {
 		
 	// list handles args optional and in special ways
 	if (strcmp(argv[0], "list") == 0) {
-		update_dyld = false;
 		res = depot->initialize(false);
 		if (res == -2) {
 			// we are not asking to write, 
@@ -170,7 +169,6 @@ int main(int argc, char* argv[]) {
 	} else if (argc == 1) {
 		// other commands which take no arguments
 		if (strcmp(argv[0], "dump") == 0) {
-			update_dyld = false;
 			if (depot->initialize(false)) exit(11);
 			depot->dump();
 		} else {
@@ -195,21 +193,19 @@ int main(int argc, char* argv[]) {
 				// uninstall old archive
 				if (res == 0) res = depot->uninstall(old);
 			} else if (strcmp(argv[0], "files") == 0) {
-				update_dyld = false;
 				if (i==1 && depot->initialize(false)) exit(12);
 				res = depot->process_archive(argv[0], argv[i]);
 			} else if (strcmp(argv[0], "uninstall") == 0) {
 				if (i==1 && depot->initialize(true)) exit(15);
 				res = depot->process_archive(argv[0], argv[i]);
 			} else if (strcmp(argv[0], "verify") == 0) {
-				update_dyld = false;
 				if (i==1 && depot->initialize(true)) exit(16);
 				res = depot->process_archive(argv[0], argv[i]);
 			} else {
 				usage(progname);
 			}
 		}
-		if (update_dyld && res == 0) {
+		if (update_dyld && depot->is_dirty() && res == 0) {
 			res = update_dyld_shared_cache(path);
 			if (res) fprintf(stderr, "Warning: could not update dyld cache.\n");
 			res = 0;
