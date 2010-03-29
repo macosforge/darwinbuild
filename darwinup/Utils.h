@@ -33,6 +33,7 @@
 #ifndef _UTILS_H
 #define _UTILS_H
 
+#include <Availability.h>
 #include <stdint.h>
 #include <sys/types.h>
 #include <fts.h>
@@ -78,7 +79,10 @@ char* fetch_userhost(const char* srcpath, const char* dstpath);
 
 int find_base_system_path(char** output, const char* path);
 int update_dyld_shared_cache(const char* path);
+
+#if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
 int build_number_for_path(char** build, const char* path);
+#endif
 
 void __data_hex(FILE* f, uint8_t* data, uint32_t size);
 

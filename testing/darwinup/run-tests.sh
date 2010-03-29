@@ -11,6 +11,10 @@ ORIG=$PREFIX/orig
 DEST=$PREFIX/dest
 DESTTAR=dest.tar.gz
 
+HASXAR=$(darwinup 2>&1 | grep xar | wc -l)
+HAS386=$(file `which darwinup` | grep i386 | wc -l)
+HASX64=$(file `which darwinup` | grep x86_64 | wc -l)
+
 DARWINUP="darwinup $1 -p $DEST "
 DIFF="diff -x .DarwinDepot -x broken -qru"
 
@@ -41,29 +45,34 @@ done;
 mkdir -p $ORIG
 cp -R $DEST/* $ORIG/
 
-echo "========== TEST: Listing ============="
-sudo -u nobody $DARWINUP list
-$DARWINUP list
+if [ -f /usr/bin/sudo ];
+then
+	echo "========== TEST: Listing ============="
+	/usr/bin/sudo -u nobody $DARWINUP list
+	$DARWINUP list
+fi
 
-echo "========== TEST: Trying both 32 and 64 bit =========="
-for R in $ROOTS;
-do
-	echo "INFO: Installing $R ...";
-	arch -i386 $DARWINUP install $PREFIX/$R
-	UUID=$($DARWINUP list | head -3 | tail -1 | awk '{print $1}')
-	echo "INFO: Uninstalling $R ...";
-	arch -x86_64 $DARWINUP uninstall $UUID
-	echo "DIFF: diffing original test files to dest (should be no diffs) ..."
-	$DIFF $ORIG $DEST 2>&1
-	echo "INFO: Installing $R ...";
-	arch -x86_64 $DARWINUP install $PREFIX/$R
-	UUID=$($DARWINUP list | head -3 | tail -1 | awk '{print $1}')
-	echo "INFO: Uninstalling $R ...";
-	arch -i386 $DARWINUP uninstall $UUID
-	echo "DIFF: diffing original test files to dest (should be no diffs) ..."
-	$DIFF $ORIG $DEST 2>&1
-done
-
+if [ $HAS386 -gt 0 -a $HASX64 -gt 0 ];
+then
+	echo "========== TEST: Trying both 32 and 64 bit =========="
+	for R in $ROOTS;
+	do
+		echo "INFO: Installing $R ...";
+		arch -i386 $DARWINUP install $PREFIX/$R
+		UUID=$($DARWINUP list | head -3 | tail -1 | awk '{print $1}')
+		echo "INFO: Uninstalling $R ...";
+		arch -x86_64 $DARWINUP uninstall $UUID
+		echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+		$DIFF $ORIG $DEST 2>&1
+		echo "INFO: Installing $R ...";
+		arch -x86_64 $DARWINUP install $PREFIX/$R
+		UUID=$($DARWINUP list | head -3 | tail -1 | awk '{print $1}')
+		echo "INFO: Uninstalling $R ...";
+		arch -i386 $DARWINUP uninstall $UUID
+		echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+		$DIFF $ORIG $DEST 2>&1
+	done
+fi
 
 echo "========== TEST: Trying roots one at a time =========="
 for R in $ROOTS;
@@ -201,12 +210,14 @@ rm -rf $DEST/d1
 echo "DIFF: diffing original test files to dest (should be no diffs) ..."
 $DIFF $ORIG $DEST 2>&1
 
-$DARWINUP install $PREFIX/deep-rollback.cpgz
-$DARWINUP install $PREFIX/deep-rollback-2.xar
-$DARWINUP uninstall all
-echo "DIFF: diffing original test files to dest (should be no diffs) ..."
-$DIFF $ORIG $DEST 2>&1
-
+if [ $HASXAR -gt 0 ];
+then
+	$DARWINUP install $PREFIX/deep-rollback.cpgz
+	$DARWINUP install $PREFIX/deep-rollback-2.xar ;
+	$DARWINUP uninstall all
+	echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+	$DIFF $ORIG $DEST 2>&1
+fi
 
 echo "========== TEST: Testing broken symlink handling =========="
 $DARWINUP install $PREFIX/symlinks

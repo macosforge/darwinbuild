@@ -30,6 +30,7 @@
  * @APPLE_BSD_LICENSE_HEADER_END@
  */
 
+#include <Availability.h>
 #include <libgen.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -48,7 +49,9 @@ void usage(char* progname) {
 	fprintf(stderr, "version: 16.2                                                  \n");
 	fprintf(stderr, "                                                               \n");
 	fprintf(stderr, "options:                                                       \n");
+#if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
 	fprintf(stderr, "          -d        do not update dyld cache                   \n");	
+#endif
 	fprintf(stderr, "          -f        force operation to succeed at all costs    \n");
 	fprintf(stderr, "          -n        dry run                                    \n");
 	fprintf(stderr, "          -p DIR    operate on roots under DIR (default: /)    \n");
@@ -71,7 +74,11 @@ void usage(char* progname) {
 	fprintf(stderr, "          cpio, cpio.gz, cpio.bz2                              \n");
 	fprintf(stderr, "          pax, pax.gz, pax.bz2                                 \n");
 	fprintf(stderr, "          tar, tar.gz, tar.bz2                                 \n");
+#if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060	
 	fprintf(stderr, "          xar, zip                                             \n");
+#else
+	fprintf(stderr, "          zip                                                  \n");	
+#endif
 	fprintf(stderr, "                                                               \n");
 	fprintf(stderr, "archive is one of:                                             \n");
 	fprintf(stderr, "          <serial>     the Serial number                       \n");
@@ -95,20 +102,30 @@ uint32_t dryrun;
 int main(int argc, char* argv[]) {
 	char* progname = strdup(basename(argv[0]));      
 	char* path = NULL;
+#if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
 	bool update_dyld = true;
-
+#endif
+	
 	int ch;
+#if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
 	while ((ch = getopt(argc, argv, "dfnp:vh")) != -1) {
+#else
+	while ((ch = getopt(argc, argv, "fnp:vh")) != -1) {		
+#endif
 		switch (ch) {
+#if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060	
 		case 'd':
 				update_dyld = false;
 				break;
+#endif
 		case 'f':
 				force = 1;
 				break;
 		case 'n':
 				dryrun = 1;
+#if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
 				update_dyld = false;
+#endif
 				break;
 		case 'p':
 				if (optarg[0] != '/') {
@@ -139,7 +156,9 @@ int main(int argc, char* argv[]) {
 
 	if (dryrun) IF_DEBUG("option: dry run\n");
 	if (force)  IF_DEBUG("option: forcing operations\n");
+#if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
 	if (!update_dyld) IF_DEBUG("option: not updating dyld cache\n");
+#endif
 	
 	if (!path) {
 		asprintf(&path, "/");
@@ -205,11 +224,13 @@ int main(int argc, char* argv[]) {
 				usage(progname);
 			}
 		}
+#if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
 		if (update_dyld && depot->is_dirty() && res == 0) {
 			res = update_dyld_shared_cache(path);
 			if (res) fprintf(stderr, "Warning: could not update dyld cache.\n");
 			res = 0;
 		}		
+#endif
 	}
 	
 	free(path);

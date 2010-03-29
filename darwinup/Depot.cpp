@@ -154,8 +154,12 @@ int Depot::initialize(bool writable) {
 		
 		res = this->create_storage();
 		if (res) return res;
-				
+#if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060				
 		build_number_for_path(&m_build, m_prefix);
+#else 
+		m_build = (char*)calloc(1, 2);
+		snprintf(m_build, 2, " ");
+#endif
 	}
 	
 	struct stat sb;

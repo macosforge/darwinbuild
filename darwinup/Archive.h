@@ -33,6 +33,7 @@
 #ifndef _ARCHIVE_H
 #define _ARCHIVE_H
 
+#include <Availability.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <sys/types.h>
@@ -298,7 +299,7 @@ struct TarBZ2Archive : public Archive {
         virtual int extract(const char* destdir);
 };
 
-
+#if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
 ////
 //  XarArchive
 //
@@ -309,7 +310,7 @@ struct XarArchive : public Archive {
 	XarArchive(const char* path);
 	virtual int extract(const char* destdir);
 };
-
+#endif
 
 ////
 //  ZipArchive

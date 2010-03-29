@@ -33,6 +33,7 @@
 #ifndef _DEPOT_H
 #define _DEPOT_H
 
+#include <Availability.h>
 #include <sys/types.h>
 #include <uuid/uuid.h>
 #include "DB.h"
