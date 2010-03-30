@@ -51,6 +51,7 @@ Archive::Archive(const char* path) {
 	m_name = strdup(basename(m_path));
 	m_info = 0;
 	m_date_installed = time(NULL);
+	m_is_superseded = -1;  // unknown
 }
 
 Archive::Archive(uint64_t serial, uuid_t uuid, const char* name, const char* path, 
@@ -62,6 +63,7 @@ Archive::Archive(uint64_t serial, uuid_t uuid, const char* name, const char* pat
 	m_build = build ? strdup(build) : NULL;
 	m_info = info;
 	m_date_installed = date_installed;
+	m_is_superseded = -1; // unknown
 }
 
 
@@ -238,7 +240,7 @@ int TarBZ2Archive::extract(const char* destdir) {
 	return exec_with_args(args);
 }
 
-
+#if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
 XarArchive::XarArchive(const char* path) : Archive(path) {}
 
 int XarArchive::extract(const char* destdir) {
@@ -250,7 +252,7 @@ int XarArchive::extract(const char* destdir) {
 	};
 	return exec_with_args(args);
 }
-
+#endif
 
 ZipArchive::ZipArchive(const char* path) : Archive(path) {}
 
@@ -317,8 +319,10 @@ Archive* ArchiveFactory(const char* path, const char* tmppath) {
 		archive = new TarGZArchive(actpath);
 	} else if (has_suffix(actpath, ".tar.bz2") || has_suffix(actpath, ".tbz2")) {
 		archive = new TarBZ2Archive(actpath);		
+#if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
 	} else if (has_suffix(actpath, ".xar")) {
 		archive = new XarArchive(actpath);
+#endif
 	} else if (has_suffix(actpath, ".zip")) {
 		archive = new ZipArchive(actpath);
 	} else {

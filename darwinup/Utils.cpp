@@ -337,6 +337,7 @@ int update_dyld_shared_cache(const char* path) {
 	return res;
 }
 
+#if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
 int build_number_for_path(char** build, const char* path) {
 	int res = 0;
 	char system[PATH_MAX];
@@ -391,6 +392,7 @@ int build_number_for_path(char** build, const char* path) {
 
 	return -1;
 }
+#endif
 
 void __data_hex(FILE* f, uint8_t* data, uint32_t size) {
 	if (!size) return;

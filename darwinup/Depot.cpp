@@ -60,6 +60,7 @@ Depot::Depot() {
 	m_lock_fd = -1;
 	m_is_locked = 0;
 	m_depot_mode = 0750;
+	m_is_dirty = false;
 }
 
 Depot::Depot(const char* prefix) {
@@ -67,7 +68,8 @@ Depot::Depot(const char* prefix) {
 	m_is_locked = 0;
 	m_depot_mode = 0750;
 	m_build = NULL;
-
+	m_is_dirty = false;
+	
 	asprintf(&m_prefix, "%s", prefix);
 	join_path(&m_depot_path, m_prefix, "/.DarwinDepot");
 	join_path(&m_database_path, m_depot_path, "/Database-V100");
@@ -92,6 +94,7 @@ Depot::~Depot() {
 const char*	Depot::archives_path()		{ return m_archives_path; }
 const char*	Depot::downloads_path()		{ return m_downloads_path; }
 const char*     Depot::prefix()                 { return m_prefix; }
+bool          Depot::is_dirty()          { return m_is_dirty; }
 
 int Depot::connect() {
 	m_db = new DarwinupDatabase(m_database_path);
@@ -151,8 +154,12 @@ int Depot::initialize(bool writable) {
 		
 		res = this->create_storage();
 		if (res) return res;
-				
+#if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060				
 		build_number_for_path(&m_build, m_prefix);
+#else 
+		m_build = (char*)calloc(1, 2);
+		snprintf(m_build, 2, " ");
+#endif
 	}
 	
 	struct stat sb;
@@ -458,6 +465,7 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback,
 			//  after saving actual in the rollback archive.
 			//  i.e. user changes since last installation
 			if (actual_flags != FILE_INFO_IDENTICAL) {
+				this->m_is_dirty = true;
 				if (INFO_TEST(actual->info(), FILE_INFO_NO_ENTRY)) {
 					state = 'A';
 				} else {
@@ -854,6 +862,7 @@ int Depot::uninstall_file(File* file, void* ctx) {
 			File* preceding = context->depot->file_preceded_by(file);
 			assert(preceding != NULL);
 			if (INFO_TEST(preceding->info(), FILE_INFO_NO_ENTRY)) {
+				context->depot->m_is_dirty = true;
 				state = 'R';
 				IF_DEBUG("[uninstall]    removing file\n");
 				if (!dryrun && actual && res == 0) res = actual->remove();
@@ -862,6 +871,7 @@ int Depot::uninstall_file(File* file, void* ctx) {
 				// if it's different from what's already there
 				uint32_t flags = File::compare(file, preceding);
 				if (INFO_TEST(flags, FILE_INFO_DATA_DIFFERS)) {
+					context->depot->m_is_dirty = true;
 					state = 'U';
 					IF_DEBUG("[uninstall]    restoring\n");
 					if (!dryrun && res == 0) {
@@ -871,6 +881,7 @@ int Depot::uninstall_file(File* file, void* ctx) {
 				} else if (INFO_TEST(flags, FILE_INFO_MODE_DIFFERS) ||
 					   INFO_TEST(flags, FILE_INFO_GID_DIFFERS) ||
 					   INFO_TEST(flags, FILE_INFO_UID_DIFFERS)) {
+					context->depot->m_is_dirty = true;
 					state = 'M';
 					if (!dryrun && res == 0) {
 						res = preceding->install_info(context->depot->m_prefix);
@@ -929,7 +940,9 @@ int Depot::uninstall(Archive* archive) {
 	if (!force && 
 		this->m_build &&
 		archive->build() &&
-		(strcmp(this->m_build, archive->build()) != 0)) {
+		(strcmp(this->m_build, archive->build()) != 0) &&
+		!this->is_superseded(archive)
+		) {
 		fprintf(stderr, 
 				"-------------------------------------------------------------------------------\n"
 				"The %s root was installed on a different base OS build (%s). The current    \n"
@@ -1008,7 +1021,6 @@ void Depot::archive_header() {
 	fprintf(stdout, "====== ====================================  "
 			"============  =======  =================\n");	
 }
-
 
 int Depot::verify(Archive* archive) {
 	int res = 0;
@@ -1195,6 +1207,12 @@ int Depot::commit_transaction() {
 int Depot::is_locked() { return m_is_locked; }
 
 bool Depot::is_superseded(Archive* archive) {
+	// return early if already known
+	if (archive->m_is_superseded != -1) { 
+		return (archive->m_is_superseded == 1);
+	}
+	
+	// need to find out if superseded
 	int res = DB_OK;
 	uint8_t** filelist;
 	uint8_t* data;
@@ -1218,12 +1236,16 @@ bool Depot::is_superseded(Archive* archive) {
 
 			// not found in database and no changes on disk, 
 			// so file is the current version of actual
-			if (flags == FILE_INFO_IDENTICAL) return false;
+			if (flags == FILE_INFO_IDENTICAL) {
+				archive->m_is_superseded = 0;
+				return false;
+			}
 			 
 			// something external changed contents of actual,
 			// so we consider this file superseded (by OS upgrade?)
 		}
 	}
+	archive->m_is_superseded = 1;
 	return true;			
 }
 

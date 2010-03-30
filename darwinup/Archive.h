@@ -33,6 +33,7 @@
 #ifndef _ARCHIVE_H
 #define _ARCHIVE_H
 
+#include <Availability.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <sys/types.h>
@@ -106,7 +107,7 @@ struct Archive {
 	// The epoch seconds when the archive was installed.
 	virtual time_t date_installed();
 	
-	
+		
 	////
 	//  Member functions
 	////
@@ -145,6 +146,9 @@ struct Archive {
 	char*       m_build;
 	uint64_t	m_info;
 	time_t		m_date_installed;
+	
+	// -1 unknown, 0 false, 1 true
+	int       m_is_superseded;
 	
 	friend struct Depot;
 	friend struct DarwinupDatabase;
@@ -295,7 +299,7 @@ struct TarBZ2Archive : public Archive {
         virtual int extract(const char* destdir);
 };
 
-
+#if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
 ////
 //  XarArchive
 //
@@ -306,7 +310,7 @@ struct XarArchive : public Archive {
 	XarArchive(const char* path);
 	virtual int extract(const char* destdir);
 };
-
+#endif
 
 ////
 //  ZipArchive
