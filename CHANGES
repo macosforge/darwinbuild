@@ -1,6 +1,14 @@
 Darwin Build Scripts Change History
 -----------------------------------
 
+Release 17 [30-Mar-2010]
+	- darwinup: only update dyld cache when Depot actually
+	  changes a file
+	- darwinup: uninstalling a superseded root does not require
+	  the -f option to force it since it is safe in all cases.
+	- darwinup: conditionalize some features in case we build
+	  without xar or universal support.
+
 Release 16.2 [22-Mar-2010]
 	- darwinup: fix crash in verify subcommand
 	- darwinup: fix non-root list subcommand locking
