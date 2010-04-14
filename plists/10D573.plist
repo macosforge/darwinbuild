@@ -1,0 +1,343 @@
+// !$*UTF8*$!
+{
+        binary_sites = (
+                "http://src.macosforge.org/Roots/10D573/",
+        );
+        build = 10D573;
+        darwin = "Darwin 10.3";
+        inherits = 10C540;
+        macosx = "Mac OS X 10.6.3";
+	projects = {
+		AppleDisplays = {
+			version = 1170.0.37;
+		};
+		AppleHWSensor = {
+			target = AppleHWSensorSL;
+			version = 193;
+		};
+		AppleIntelPIIXATA = {
+			version = 251.0.1;
+		};
+		AppleSMBIOS = {
+			version = 39;
+		};
+		AppleUSBAudio = {
+			version = 268.4.1;
+		};
+		AppleUSBCDCDriver = {
+			version = 4005.4.2;
+		};
+		CF = {
+			version = 550.19;
+		};
+		ChatServer = {
+			version = 326.5;
+		};
+		CoreOSMakefiles = {
+			version = 63;
+		};
+		DirectoryService = {
+			target = DirectoryServiceFW;
+			version = 621.3;
+		};
+		ICU = {
+			version = 400.39;
+		};
+		IOATAFamily = {
+			version = 251.0.1;
+		};
+		IOATAPIProtocolTransport = {
+			version = 251.0.1;
+		};
+		IOAudioFamily = {
+			version = 176.4.2;
+		};
+		IOFireWireFamily = {
+			version = 426.4.1;
+		};
+		IOFireWireSBP2 = {
+			version = 406.4.1;
+		};
+		IOFireWireSerialBusProtocolTransport = {
+			version = 201.0.3;
+		};
+		IOGraphics = {
+			version = 363.9;
+		};
+		IOHIDFamily = {
+			version = 315.0.1;
+		};
+		IOKitUser = {
+			version = 514.8.1;
+		};
+		IONetworkingFamily = {
+			version = 64;
+		};
+		IOUSBFamily = {
+			version = 396.4.7;
+		};
+		IOUSBMassStorageClass = {
+			version = 261.0.3;
+		};
+		JavaScriptCore = {
+			version = 6531.21.9;
+		};
+		JavaScriptGlue = {
+			version = 6531.21.1;
+		};
+		Libc = {
+			version = 594.1.4;
+		};
+		Libinfo = {
+			version = 330;
+		};
+		Libnotify = {
+			version = 54.0.1;
+		};
+		Libsystem = {
+			version = 125.0.1;
+		};
+		MySQL = {
+			version = 53;
+		};
+		OpenLDAP = {
+			version = 143.2;
+		};
+		OpenPAM = {
+			version = 11.1;
+		};
+		OpenSSL097 = {
+			version = 105;
+		};
+		OpenSSL098 = {
+			version = 32;
+		};
+		PowerManagement = {
+			version = 211.2;
+		};
+		RubyGems = {
+			version = 17.1;
+		};
+		RubyOnRails = {
+			version = 28.1;
+		};
+		Security = {
+			version = 37594;
+		};
+		SpamAssassin = {
+			version = 144.2;
+		};
+		TimeZoneData = {
+			version = 23;
+		};
+		Tokend = {
+			version = 37563;
+		};
+		WebCore = {
+			version = 6531.21.8;
+		};
+		WebKit = {
+			version = 6531.21.11;
+		};
+		X11apps = {
+			version = 30.1;
+		};
+		X11fonts = {
+			version = 10.2;
+		};
+		X11libs = {
+			version = 40.2;
+		};
+		X11proto = {
+			version = 40.1;
+		};
+		X11server = {
+			version = 85.2;
+		};
+		amavisd = {
+			version = 114.1;
+		};
+		apache = {
+			version = 747.1;
+		};
+		apache_mod_php = {
+			version = 53.1.1;
+		};
+		awk = {
+			version = 15;
+		};
+		bless = {
+			version = 71.1;
+		};
+		bzip2 = {
+			version = 21;
+		};
+		cddafs = {
+			version = 243.0.2;
+		};
+		clamav = {
+			version = 125.2;
+		};
+		configd = {
+			target = configd_base;
+			version = 293.4;
+		};
+		cups = {
+			version = 218.9;
+		};
+		curl = {
+			version = 57.1;
+		};
+		developer_cmds = {
+			version = 53.1;
+		};
+		diskdev_cmds = {
+			version = 491.0.2;
+		};
+		dovecot = {
+			version = 166.11;
+		};
+		eap8021x = {
+			version = 100.1;
+		};
+		files = {
+			version = 556.0.1;
+		};
+		freeradius = {
+			version = 25.1;
+		};
+		gnudiff = {
+			version = 15;
+		};
+		grep = {
+			version = 28;
+		};
+		hfs = {
+			version = 183.1;
+		};
+		ipsec = {
+			target = "IPSec (Aggregate)";
+			version = 93.6;
+		};
+		kext_tools = {
+			version = 180.1;
+		};
+		launchd = {
+			version = 329.3;
+		};
+		less = {
+			version = 22;
+		};
+		libarchive = {
+			version = 14;
+		};
+		libdispatch = {
+			version = 84.5.5;
+		};
+		libedit = {
+			version = 13;
+		};
+		libiconv = {
+			version = 30;
+		};
+		libpcap = {
+			version = 23;
+		};
+		libresolv = {
+			version = 40;
+		};
+		libsecurity_apple_x509_tp = {
+			version = 37601;
+		};
+		libsecurity_keychain = {
+			version = 38259;
+		};
+		libsecurity_ssl = {
+			version = 37593;
+		};
+		libsecurityd = {
+			version = 37613;
+		};
+		llvmCore = {
+			version = 2120;
+		};
+		lsof = {
+			version = 42;
+		};
+		mDNSResponder = {
+			version = 214.3;
+		};
+		mailman = {
+			version = 132.1;
+		};
+		msdosfs = {
+			version = 167;
+		};
+		ncurses = {
+			version = 31;
+		};
+		network_cmds = {
+			version = 328;
+		};
+		notify = {
+			version = 25;
+		};
+		ntfs = {
+			version = 65.2;
+		};
+		pcre = {
+			version = 4.2;
+		};
+		postfix = {
+			version = 197.7;
+		};
+		ppp = {
+			version = 412.0.10;
+		};
+		python = {
+			version = 44.1;
+		};
+		rsync = {
+			version = 40;
+		};
+		ruby = {
+			version = 75.1;
+		};
+		samba = {
+			version = 235.2;
+		};
+		screen = {
+			version = 19;
+		};
+		securityd = {
+			version = 37613;
+		};
+		smb = {
+			version = 431.2;
+		};
+		syslog = {
+			version = 100.0.1;
+		};
+		system_cmds = {
+			version = 498.0.10;
+		};
+		system_config = {
+			version = 50.1;
+		};
+		tcpdump = {
+			version = 28;
+		};
+		tcsh = {
+			version = 63.2;
+		};
+		vim = {
+			version = 44;
+		};
+		xnu = {
+			version = 1504.3.12;
+		};
+		zlib = {
+			version = 23.0.1;
+		};
+	};
+}
