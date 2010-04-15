@@ -46,11 +46,25 @@ safely and easily.
 .Sh SUBCOMMANDS
 .Bl -tag -width -indent
 .It Ar files Ar archives
+List the files and directories in the 
+.Ar archive .
 .It Ar install Ar path
+Install the root at 
+.Ar path .
 .It Ar list Op Ar archive
+List archives that are installed. You may optionally provide an
+archive specification to limit which archives get listed. 
 .It Ar uninstall Ar archives
+Uninstall the specified archive.
 .It Ar upgrade Ar path
+Find the last archive that was installed with the same name (basename of 
+path), and replace it with the root at 
+.Ar path .
 .It Ar verify Ar archive
+List all of the information about 
+.Ar archive .
+This includes status letters
+detailing how the archive differs from whats on disk
 .El
 .Sh STATUS SYMBOLS
 .Bl -tag -width -indent
@@ -75,7 +89,7 @@ on disk. This probably means something manually installed a root or software
 update without darwinup knowing about it. This is usually harmless. 
 .It M 
 Mode change. Only changes to permission or ownership were needed to
-uninstall the root. 
+uninstall the file or directory. 
 .It R
 Removed. No previous file or directory existed, so the uninstall process
 removed the file. 
