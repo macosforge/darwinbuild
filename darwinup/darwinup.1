@@ -60,8 +60,11 @@ Unknown state. Probably a bug.
 Missing file during uninstall. Darwinup expected a file or directory to 
 exist, but it did not. This could be a bug in darwinup, but most likely 
 another tool or software update removed a file that darwinup had been 
-tracking. Since this happened during uninstall, it is probably safe to 
-ignore.
+tracking. It can also be caused by an installation failing due to an
+object changing type (see FORCING OPERATIONS below), and the subsequent 
+rollback finding the root only partially installed. Since these all 
+happen during uninstall, they are typically safe to ignore, since darwinup 
+was going to delete the object anyway.
 .It A
 Added. No previous file or directory existed so the file or directory was
 added to your system.
