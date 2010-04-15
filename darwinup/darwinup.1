@@ -43,7 +43,37 @@ archives, of files that replace parts of your system. This is useful
 for installing a new version of a library or tool on your system while 
 allowing you to uninstall the files and revert back to the originals 
 safely and easily.
+.Sh OPTIONS
+.Bl -tag -width -indent
+.It \-d
+Do not update dyld cache. Darwinup normally runs update_dyld_shared_cache 
+if the operation actually changes files on disk. To ensure this does not 
+happen, you can provide this option.
+.It \-f
+Force. Some operations will fail gracefully due to potentially unsafe 
+situations, such as a root that installs a file where a directory is.
+In order to have darwinup continue through such a situation, you can
+pass the -f option.
+.It \-n
+Dry run. Darwinup will go through an operation, including analyzing
+the root(s) and printing the state/change symbol, but no files will
+be modified on your system and no records will be added to the depot.
+.It \-p Op Ar path
+Prefix path. Normally, darwinup will operate on the boot partition. You
+can use the -p option to have darwinup work on another partition. You
+can provide any arbitrary path, it does not need to be a mount point.
+.It \-v
+Verbose. This option causes darwinup to print extra information. You can
+pass 2 or 3 v's for even more information, but that is usually only needed
+for development and debugging of darwinup itself.
+.El
 .Sh SUBCOMMANDS
+Note that the
+.Ar path
+and
+.Ar archive
+options listed below support globbing and multiple items. See the EXAMPLES 
+section below for more details.
 .Bl -tag -width -indent
 .It Ar files Ar archives
 List the files and directories in the 
@@ -66,7 +96,7 @@ List all of the information about
 This includes status letters
 detailing how the archive differs from whats on disk
 .El
-.Sh STATUS SYMBOLS
+.Sh STATE/CHANGE SYMBOLS
 .Bl -tag -width -indent
 .It ? 
 Unknown state. Probably a bug.
@@ -97,6 +127,8 @@ removed the file.
 Updated. During installation, the file or directory replaces an existing 
 object at the same path. During uninstallation, the previous version of
 the file was restored. 
+.El
 .Sh SUPPORTED PATHS
 .Sh ARCHIVE SPECIFICATIONS
 .Sh FORCING OPERATIONS
+.Sh EXAMPLES
