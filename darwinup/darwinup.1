@@ -40,8 +40,9 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .Nm 
 allows you to manage roots, or
 archives, of files that replace parts of your system. This is useful
-for installing a new version of a library or tool on your system while allowing you to
-uninstall the files and revert back to the originals safely and easily.
+for installing a new version of a library or tool on your system while 
+allowing you to uninstall the files and revert back to the originals 
+safely and easily.
 .Sh SUBCOMMANDS
 .Bl -tag -width -indent
 .It Ar files Ar archives
@@ -51,6 +52,34 @@ uninstall the files and revert back to the originals safely and easily.
 .It Ar upgrade Ar path
 .It Ar verify Ar archive
 .El
+.Sh STATUS SYMBOLS
+.Bl -tag -width -indent
+.It ? 
+Unknown state. Probably a bug.
+.It !
+Missing file during uninstall. Darwinup expected a file or directory to 
+exist, but it did not. This could be a bug in darwinup, but most likely 
+another tool or software update removed a file that darwinup had been 
+tracking. Since this happened during uninstall, it is probably safe to 
+ignore.
+.It A
+Added. No previous file or directory existed so the file or directory was
+added to your system.
+.It E
+External change. The file you are installing is different than the 
+last file you installed, but it is identical to what was actually found
+on disk. This probably means something manually installed a root or software
+update without darwinup knowing about it. This is usually harmless. 
+.It M 
+Mode change. Only changes to permission or ownership were needed to
+uninstall the root. 
+.It R
+Removed. No previous file or directory existed, so the uninstall process
+removed the file. 
+.It U
+Updated. During installation, the file or directory replaces an existing 
+object at the same path. During uninstallation, the previous version of
+the file was restored. 
 .Sh SUPPORTED PATHS
 .Sh ARCHIVE SPECIFICATIONS
 .Sh FORCING OPERATIONS
