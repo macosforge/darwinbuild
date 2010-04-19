@@ -136,6 +136,7 @@ struct Database {
 	const char*  error();
 	int          connect();
 	int          connect(const char* path);
+	bool         is_connected();
 	
 	int          begin_transaction();
 	int          rollback_transaction();
