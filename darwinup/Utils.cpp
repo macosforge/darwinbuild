@@ -257,18 +257,28 @@ char* fetch_url(const char* srcpath, const char* dstpath) {
 
 char* fetch_userhost(const char* srcpath, const char* dstpath) {
 	extern uint32_t verbosity;
+
 	char* localfile;
 	int res = join_path(&localfile, dstpath, basename((char*)srcpath));
 	if (!localfile) return NULL;
+	
+	// make sure dstpath has a trailing slash
+	char* cleanpath;
+	res = join_path(&cleanpath, dstpath, "/");
+	if (!cleanpath) return NULL;
 		
+	IF_DEBUG("rsync %s %s %s \n", (verbosity ? "-v" : "-q"), srcpath, cleanpath);
+	
 	const char* args[] = {
 		"/usr/bin/rsync",
 		(verbosity ? "-v" : "-q"),
-		"-a", srcpath,
-		localfile,
+		"-a", "--delete",
+		srcpath,
+		cleanpath,
 		NULL
 	};
 
+	free(cleanpath);
 	if (res == 0) res = exec_with_args(args);
 	if (res == 0) return localfile;
 	return NULL;	
