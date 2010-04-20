@@ -121,8 +121,22 @@ int Database::connect() {
 		fprintf(stderr, "Error: pre-connection failed.\n");
 		return res;
 	}
-	
+
+	// test our access level
 	int exists = is_regular_file(m_path);
+	bool readonly = false;
+	if (!exists && access(dirname(m_path), W_OK | X_OK)) {
+		// does not exist and we cannot write to the directory
+		fprintf(stderr, 
+				"Error: Unable to create new darwinup database. "
+				"Try running as root.");
+		return DB_ERROR;					
+	}
+	if (exists && access(m_path, W_OK)) {
+		// db exists already but we cannot write to it
+		readonly = true;
+	}
+
 	res = sqlite3_open(m_path, &m_db);
 	if (res) {
 		sqlite3_close(m_db);
@@ -137,7 +151,7 @@ int Database::connect() {
 		fprintf(stderr, "Error: post-connection failed.\n");
 		return res;
 	}
-	
+
 	if (!exists) {
 		// create schema since it is empty
 		assert(this->create_tables() == 0);
@@ -150,12 +164,23 @@ int Database::connect() {
 		}
 
 		if (version < this->m_schema_version) {
+			if (readonly) {
+				fprintf(stderr, 
+						"Error: the darwinup database needs to be upgraded "
+						"but darwinup cannot write to database. "
+						"Try running as root.\n");
+				sqlite3_close(m_db);
+				m_db = NULL;
+				return DB_ERROR;
+			}
 			IF_DEBUG("Upgrading schema from %u to %u \n", version, this->m_schema_version);
 			assert(this->upgrade_schema(version) == 0);
 			assert(this->set_schema_version(this->m_schema_version) == 0);
 		}
 		if (version > this->m_schema_version) {
 			fprintf(stderr, "Error: this client is too old!\n");
+			sqlite3_close(m_db);
+			m_db = NULL;
 			return DB_ERROR;
 		}
 	}
@@ -201,6 +226,10 @@ int Database::connect(const char* path) {
 		return 1;
 	}
 	return this->connect();
+}
+
+bool Database::is_connected() {
+	return m_db != NULL;
 }
 
 int Database::begin_transaction() {

@@ -98,8 +98,8 @@ bool          Depot::is_dirty()          { return m_is_dirty; }
 
 int Depot::connect() {
 	m_db = new DarwinupDatabase(m_database_path);
-	if (!m_db) {
-		fprintf(stderr, "Error: unable to connect to database in Depot::connect().\n");
+	if (!m_db || !m_db->is_connected()) {
+		fprintf(stderr, "Error: unable to connect to database.\n");
 		return 1;
 	}
 	return 0;

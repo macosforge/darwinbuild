@@ -281,16 +281,26 @@ Archive* ArchiveFactory(const char* path, const char* tmppath) {
 			return NULL;
 		}
 	} else if (is_userhost_path(path)) {
-		actpath = fetch_userhost(path, tmppath);
+		char* cleanpath;
+		// join with / to ensure all single slashes and a single trailing slash
+		int res = join_path(&cleanpath, path, "/");
+		assert(res==0);
+		size_t pathlen = strlen(cleanpath);
+		// remove trailing slash so rsync behavior is predictable
+		cleanpath[pathlen - 1] = '\0';
+	
+		IF_DEBUG("fetching userhost path from: %s to: %s \n", cleanpath, tmppath);
+		actpath = fetch_userhost(cleanpath, tmppath);
+		IF_DEBUG("fetched %s \n", actpath);
 		if (!actpath) {
 			fprintf(stderr, "Error: could not fetch remote file from: %s \n", path);
 			return NULL;
 		}
+		free(cleanpath);
 	} else {
 		actpath = (char *)path;
 	}
 
-	
 	// make sure the archive exists
 	struct stat sb;
 	int res = stat(actpath, &sb);
@@ -328,7 +338,7 @@ Archive* ArchiveFactory(const char* path, const char* tmppath) {
 	} else {
 		fprintf(stderr, "Error: unknown archive type: %s\n", path);
 	}
-	
+
 	if (actpath && actpath != path) free(actpath);
 	return archive;
 }

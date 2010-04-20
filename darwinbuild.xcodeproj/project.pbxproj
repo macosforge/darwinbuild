@@ -167,6 +167,7 @@
 		DFC9772D11138F9400CAE084 /* Column.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DFC9772711138F9400CAE084 /* Column.cpp */; };
 		DFC9772E11138F9400CAE084 /* Database.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DFC9772911138F9400CAE084 /* Database.cpp */; };
 		DFC9772F11138F9400CAE084 /* Table.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DFC9772B11138F9400CAE084 /* Table.cpp */; };
+		DFCAA3C61178E1A1008DCF37 /* darwinup.1 in Install Manpage */ = {isa = PBXBuildFile; fileRef = DFCAA39C1178E05B008DCF37 /* darwinup.1 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -629,6 +630,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
+		DFCAA3C51178E10E008DCF37 /* Install Manpage */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 8;
+			dstPath = "$(DATDIR)/man/man1";
+			dstSubfolderSpec = 0;
+			files = (
+				DFCAA3C61178E1A1008DCF37 /* darwinup.1 in Install Manpage */,
+			);
+			name = "Install Manpage";
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -753,6 +765,7 @@
 		DFC9772A11138F9400CAE084 /* Database.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Database.h; path = darwinup/Database.h; sourceTree = "<group>"; };
 		DFC9772B11138F9400CAE084 /* Table.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Table.cpp; path = darwinup/Table.cpp; sourceTree = "<group>"; };
 		DFC9772C11138F9400CAE084 /* Table.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Table.h; path = darwinup/Table.h; sourceTree = "<group>"; };
+		DFCAA39C1178E05B008DCF37 /* darwinup.1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.man; name = darwinup.1; path = darwinup/darwinup.1; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1018,6 +1031,7 @@
 		72C86BD710965DD800C66E90 /* darwinup */ = {
 			isa = PBXGroup;
 			children = (
+				DFCAA39C1178E05B008DCF37 /* darwinup.1 */,
 				DFC9772711138F9400CAE084 /* Column.cpp */,
 				DFC9772811138F9400CAE084 /* Column.h */,
 				DFC9772911138F9400CAE084 /* Database.cpp */,
@@ -1679,6 +1693,7 @@
 			buildPhases = (
 				72C86C451096609500C66E90 /* Sources */,
 				72C86C461096609500C66E90 /* Frameworks */,
+				DFCAA3C51178E10E008DCF37 /* Install Manpage */,
 			);
 			buildRules = (
 			);
