@@ -1,6 +1,12 @@
 Darwin Build Scripts Change History
 -----------------------------------
 
+Release 17.1 [20-Apr-2010]
+	- darwinup: add a manpage for darwinup
+	- darwinup: fix crash when not root and a db upgrade is needed
+	- darwinup: make remote root install behave consistently with
+	  respect to trailing slashes.
+
 Release 17 [30-Mar-2010]
 	- darwinup: only update dyld cache when Depot actually
 	  changes a file
