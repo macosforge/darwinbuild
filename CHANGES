@@ -1,6 +1,11 @@
 Darwin Build Scripts Change History
 -----------------------------------
 
+Release 18 [03-May-2010]
+	- darwinup: fix bug which caused the uninstall half of upgrade to
+	  run when the install half failed
+	- darwinup: add .tbz as a suffix for bzip2 tarballs
+
 Release 17.1 [20-Apr-2010]
 	- darwinup: add a manpage for darwinup
 	- darwinup: fix crash when not root and a db upgrade is needed
