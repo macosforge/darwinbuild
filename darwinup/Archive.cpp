@@ -327,7 +327,9 @@ Archive* ArchiveFactory(const char* path, const char* tmppath) {
 		archive = new TarArchive(actpath);
 	} else if (has_suffix(actpath, ".tar.gz") || has_suffix(actpath, ".tgz")) {
 		archive = new TarGZArchive(actpath);
-	} else if (has_suffix(actpath, ".tar.bz2") || has_suffix(actpath, ".tbz2")) {
+	} else if (has_suffix(actpath, ".tar.bz2") 
+				|| has_suffix(actpath, ".tbz2") 
+				|| has_suffix(actpath, ".tbz")) {
 		archive = new TarBZ2Archive(actpath);		
 #if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
 	} else if (has_suffix(actpath, ".xar")) {
