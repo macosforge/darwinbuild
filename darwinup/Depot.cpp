@@ -672,7 +672,9 @@ int Depot::install(const char* path) {
 			res = 1;
 		}
 	} else {
-		fprintf(stdout, "Archive not found: %s\n", path);
+		fprintf(stdout, "Error: unable to load \"%s\". Either the path is invalid or"
+				         " the file is in an unknown format.\n", path);
+		return -1;
 	}
 
 	return res;
