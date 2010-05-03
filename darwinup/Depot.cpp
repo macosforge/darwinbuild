@@ -673,6 +673,7 @@ int Depot::install(const char* path) {
 		}
 	} else {
 		fprintf(stdout, "Archive not found: %s\n", path);
+		return -1;
 	}
 
 	return res;

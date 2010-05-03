@@ -241,6 +241,19 @@ $DARWINUP uninstall oldest
 echo "DIFF: diffing original test files to dest (should be no diffs) ..."
 $DIFF $ORIG $DEST 2>&1
 
+echo "========== TEST: Try to upgrade with non-existent file ============="
+$DARWINUP install $PREFIX/root5
+mv $PREFIX/root5 $PREFIX/root5.tmp
+set +e
+$DARWINUP upgrade $PREFIX/root5
+set -e
+C=$($DARWINUP list | grep root5 | wc -l | xargs)
+test "$C" == "1" 
+mv $PREFIX/root5.tmp $PREFIX/root5
+$DARWINUP uninstall oldest
+echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+$DIFF $ORIG $DEST 2>&1
+
 echo "========== TEST: Superseded ============="
 $DARWINUP install $PREFIX/root5
 $DARWINUP install $PREFIX/root6
