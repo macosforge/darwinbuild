@@ -3475,6 +3475,7 @@
 			buildSettings = {
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				INSTALL_PATH = "$(BINDIR)";
+				PREFIX = /usr;
 				PRODUCT_NAME = darwinup;
 			};
 			name = Release;
