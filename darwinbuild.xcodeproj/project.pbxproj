@@ -3473,10 +3473,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				INSTALL_PATH = "$(BINDIR)";
 				PREFIX = /usr;
 				PRODUCT_NAME = darwinup;
+				STRIP_INSTALLED_PRODUCT = YES;
+				STRIP_STYLE = all;
 			};
 			name = Release;
 		};
