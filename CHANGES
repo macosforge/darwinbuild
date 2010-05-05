@@ -1,6 +1,9 @@
 Darwin Build Scripts Change History
 -----------------------------------
 
+Release 18.1 [04-May-2010]
+	- darwinup: fix release build issue
+
 Release 18 [03-May-2010]
 	- darwinup: fix bug which caused the uninstall half of upgrade to
 	  run when the install half failed
