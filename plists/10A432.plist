@@ -3146,6 +3146,7 @@
 					gcc_select,
 					gnumake,
 					gnuzip,
+					mDNSResponderSystemLibraries,
 					perl,
 					shell_cmds,
 					system_cmds,
@@ -3166,7 +3167,6 @@
 					libdispatch,
 					libdyld,
 					libresolv,
-					mDNSResponderSystemLibraries,
 					xnu,
 				);
 			};
