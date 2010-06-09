@@ -1,11 +1,11 @@
 #!/bin/bash
 set -e
 set -x
+pushd $(dirname $0) >> /dev/null
 
 #
 # Run tests on darwinup
 #
-
 PREFIX=/tmp/testing/darwinup
 ORIG=$PREFIX/orig
 DEST=$PREFIX/dest
@@ -282,5 +282,6 @@ if [ $? -ne 1 ]; then exit 1; fi
 echo "DIFF: diffing original test files to dest (should be no diffs) ..."
 $DIFF $ORIG $DEST 2>&1
 
+popd >> /dev/null
 echo "INFO: Done testing!"
 
