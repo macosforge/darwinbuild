@@ -107,8 +107,11 @@ int Depot::connect() {
 
 int Depot::create_storage() {
 	uid_t uid = getuid();
+	gid_t gid = 0;
 	struct group *gs = getgrnam("admin");
-	gid_t gid = gs->gr_gid;
+	if (gs) {
+		gid = gs->gr_gid;
+	}
 	
 	int res = mkdir(m_depot_path, m_depot_mode);
 	res = chmod(m_depot_path, m_depot_mode);
