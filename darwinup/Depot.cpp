@@ -1076,9 +1076,9 @@ int Depot::list(int count, char** args) {
 		archive = NULL;
 		archcnt = 0;
 		// check for special keywords
-		if (strncasecmp(args[i], "all", 3) == 0) {
+		if (strncasecmp(args[i], "all", 3) == 0 && strlen(args[i]) == 3) {
 			list = this->get_all_archives(&archcnt);
-		} else if (strncasecmp(args[i], "superseded", 10) == 0) {
+		} else if (strncasecmp(args[i], "superseded", 10) == 0 && strlen(args[i]) == 10) {
 			list = this->get_superseded_archives(&archcnt);
 		} 
 		if (archcnt) {
@@ -1377,9 +1377,9 @@ int Depot::process_archive(const char* command, const char* archspec) {
 	uint32_t count = 0;
 	Archive** list = NULL;
 	
-	if (strncasecmp(archspec, "all", 3) == 0) {
+	if (strncasecmp(archspec, "all", 3) == 0 && strlen(archspec) == 3) {
 		list = this->get_all_archives(&count);
-	} else if (strncasecmp(archspec, "superseded", 10) == 0) {
+	} else if (strncasecmp(archspec, "superseded", 10) == 0 && strlen(archspec) == 10) {
 		list = this->get_superseded_archives(&count);
 	} else {
 		// make a list of 1 Archive
@@ -1409,8 +1409,8 @@ int Depot::rename_archive(const char* archspec, const char* name) {
 	extern uint32_t verbosity;
 	int res = 0;
 	
-	if (strncasecmp(archspec, "all", 3) == 0 ||
-		strncasecmp(archspec, "superseded", 10) == 0) {
+	if ((strncasecmp(archspec, "all", 3) == 0 && strlen(archspec) == 3) ||
+		(strncasecmp(archspec, "superseded", 10) == 0 && strlen(archspec) == 10)) {
 		fprintf(stderr, "Error: keywords 'all' and 'superseded' cannot be used with the"
 				" rename command.\n");
 		return -2;
