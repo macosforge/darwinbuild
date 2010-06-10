@@ -110,7 +110,9 @@ struct Depot {
 	// processes an archive according to command
 	//  arg is an archive identifier, such as serial or uuid
 	int dispatch_command(Archive* archive, const char* command);
-	int process_archive(const char* command, const char* arg);
+	int process_archive(const char* command, const char* archspec);
+	
+	int rename_archive(const char* archspec, const char* name);
 	
 	// test if the depot is currently locked 
 	int is_locked();

@@ -61,6 +61,7 @@ void usage(char* progname) {
 	fprintf(stderr, "          files      <archive>                                 \n");
 	fprintf(stderr, "          install    <path>                                    \n");
 	fprintf(stderr, "          list       [archive]                                 \n");
+	fprintf(stderr, "          rename     <archive> <name>                          \n");
 	fprintf(stderr, "          uninstall  <archive>                                 \n");
 	fprintf(stderr, "          upgrade    <path>                                    \n");
 	fprintf(stderr, "          verify     <archive>                                 \n");
@@ -149,7 +150,7 @@ int main(int argc, char* argv[]) {
 		}
 	}
 	argc -= optind;
-	argv += optind;
+    argv += optind;
 	if (argc == 0) usage(progname);
 	
 	int res = 0;
@@ -191,11 +192,12 @@ int main(int argc, char* argv[]) {
 			if (depot->initialize(false)) exit(11);
 			depot->dump();
 		} else {
+			fprintf(stderr, "Error: unknown command: '%s' \n", argv[0]);
 			usage(progname);
 		}
 	} else {
 		// loop over arguments
-		for (int i = 1; i < argc; i++) {
+		for (int i = 1; i < argc && res == 0; i++) {
 			if (strcmp(argv[0], "install") == 0) {
 				if (i==1 && depot->initialize(true)) exit(13);
 				res = depot->install(argv[i]);
@@ -220,7 +222,18 @@ int main(int argc, char* argv[]) {
 			} else if (strcmp(argv[0], "verify") == 0) {
 				if (i==1 && depot->initialize(true)) exit(16);
 				res = depot->process_archive(argv[0], argv[i]);
+			} else if (strcmp(argv[0], "rename") == 0) {
+				if (i==1 && depot->initialize(true)) exit(17);
+				if ((i+1) >= argc) {
+					fprintf(stderr, 
+							"Error: rename command for '%s' takes 2 arguments.\n", 
+							argv[i]);
+					exit(18);
+				}
+				res = depot->rename_archive(argv[i], argv[i+1]);
+				i++;
 			} else {
+				fprintf(stderr, "Error: unknown command: '%s' \n", argv[0]);
 				usage(progname);
 			}
 		}

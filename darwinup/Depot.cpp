@@ -1371,26 +1371,26 @@ int Depot::dispatch_command(Archive* archive, const char* command) {
 }
 
 // perform a command on an archive specification
-int Depot::process_archive(const char* command, const char* arg) {
+int Depot::process_archive(const char* command, const char* archspec) {
 	extern uint32_t verbosity;
 	int res = 0;
 	uint32_t count = 0;
 	Archive** list = NULL;
 	
-	if (strncasecmp(arg, "all", 3) == 0) {
+	if (strncasecmp(archspec, "all", 3) == 0) {
 		list = this->get_all_archives(&count);
-	} else if (strncasecmp(arg, "superseded", 10) == 0) {
+	} else if (strncasecmp(archspec, "superseded", 10) == 0) {
 		list = this->get_superseded_archives(&count);
 	} else {
 		// make a list of 1 Archive
 		list = (Archive**)malloc(sizeof(Archive*));
-		list[0] = this->get_archive(arg);
+		list[0] = this->get_archive(archspec);
 		count = 1;
 	}
 	
 	for (size_t i = 0; i < count; i++) {
 		if (!list[i]) {
-			fprintf(stdout, "Archive not found: %s\n", arg);
+			fprintf(stdout, "Archive not found: %s\n", archspec);
 			return -1;
 		}
 		if (verbosity & VERBOSE_DEBUG) {
@@ -1402,5 +1402,50 @@ int Depot::process_archive(const char* command, const char* arg) {
 		delete list[i];
 	} 
 	free(list);
+	return res;
+}
+
+int Depot::rename_archive(const char* archspec, const char* name) {
+	extern uint32_t verbosity;
+	int res = 0;
+	char uuid[37];
+	
+	if (strncasecmp(archspec, "all", 3) == 0 ||
+		strncasecmp(archspec, "superseded", 10) == 0) {
+		fprintf(stderr, "Error: keywords 'all' and 'superseded' cannot be used with the"
+				" rename command.\n");
+		return -2;
+	}
+	
+	Archive* archive = this->get_archive(archspec);
+	if (!archive) {
+		fprintf(stdout, "Archive not found: %s\n", archspec);
+		return -1;
+	}
+	if (verbosity & VERBOSE_DEBUG) {
+		uuid_unparse_upper(archive->uuid(), uuid);
+		fprintf(stdout, "Found archive: %s\n", uuid);
+	}
+	if (!name || strlen(name) == 0) {
+		fprintf(stderr, "Error: invalid name: '%s'\n", name);
+		return -3;
+	}
+	
+	free(archive->m_name);
+	archive->m_name = strdup(name);
+	
+	res = m_db->update_archive(archive->serial(),
+							   archive->uuid(),
+							   archive->name(),
+							   archive->date_installed(),
+							   1,
+							   archive->info(),
+							   archive->build());
+
+	if (res == 0 && (verbosity & VERBOSE_DEBUG)) {
+		fprintf(stdout, "Renamed archive %s to '%s'.\n", uuid, archive->name());
+	}
+	
+	delete archive;
 	return res;
 }

@@ -272,6 +272,26 @@ echo "DIFF: diffing original test files to dest (should be no diffs) ..."
 $DIFF $ORIG $DEST 2>&1
 
 
+echo "========== TEST: Archive Rename ============="
+$DARWINUP install $PREFIX/root2
+$DARWINUP install $PREFIX/root
+$DARWINUP install $PREFIX/root6
+$DARWINUP rename root "RENAME1"
+C=$($DARWINUP list | grep "RENAME1" | wc -l | xargs)
+test "$C" == "1" 
+$DARWINUP rename oldest "RENAME2"
+C=$($DARWINUP list | grep "RENAME2" | wc -l | xargs)
+test "$C" == "1" 
+$DARWINUP uninstall "RENAME1"
+C=$($DARWINUP list | grep "RENAME1" | wc -l | xargs)
+test "$C" == "0" 
+C=$($DARWINUP files "RENAME2" | wc -l | xargs)
+test "$C" == "17" 
+C=$($DARWINUP verify "RENAME2" | wc -l | xargs)
+test "$C" == "17" 
+
+
+
 #
 # The following are expected failures
 #
