@@ -105,7 +105,8 @@ int DarwinupDatabase::set_archive_active(uint64_t serial, uint64_t* active) {
 }
 
 int DarwinupDatabase::update_archive(uint64_t serial, uuid_t uuid, const char* name,
-									  time_t date_added, uint32_t active, uint32_t info) {
+									 time_t date_added, uint32_t active, uint32_t info,
+									 const char* build) {
 	this->clear_last_archive();
 	return this->update(this->m_archives_table, serial,
 						(uint8_t*)uuid,
@@ -113,7 +114,8 @@ int DarwinupDatabase::update_archive(uint64_t serial, uuid_t uuid, const char* n
 						name,
 						(uint64_t)date_added,
 						(uint64_t)active,
-						(uint64_t)info);
+						(uint64_t)info,
+						build);
 }
 
 uint64_t DarwinupDatabase::insert_archive(uuid_t uuid, uint32_t info, const char* name, 
