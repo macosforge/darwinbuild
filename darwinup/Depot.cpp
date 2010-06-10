@@ -1408,7 +1408,6 @@ int Depot::process_archive(const char* command, const char* archspec) {
 int Depot::rename_archive(const char* archspec, const char* name) {
 	extern uint32_t verbosity;
 	int res = 0;
-	char uuid[37];
 	
 	if (strncasecmp(archspec, "all", 3) == 0 ||
 		strncasecmp(archspec, "superseded", 10) == 0) {
@@ -1422,10 +1421,13 @@ int Depot::rename_archive(const char* archspec, const char* name) {
 		fprintf(stdout, "Archive not found: %s\n", archspec);
 		return -1;
 	}
+	
+	char uuid[37];
+	uuid_unparse_upper(archive->uuid(), uuid);
 	if (verbosity & VERBOSE_DEBUG) {
-		uuid_unparse_upper(archive->uuid(), uuid);
 		fprintf(stdout, "Found archive: %s\n", uuid);
 	}
+
 	if (!name || strlen(name) == 0) {
 		fprintf(stderr, "Error: invalid name: '%s'\n", name);
 		return -3;
@@ -1442,9 +1444,8 @@ int Depot::rename_archive(const char* archspec, const char* name) {
 							   archive->info(),
 							   archive->build());
 
-	if (res == 0 && (verbosity & VERBOSE_DEBUG)) {
-		fprintf(stdout, "Renamed archive %s to '%s'.\n", uuid, archive->name());
-	}
+	if (res == 0) fprintf(stdout, "Renamed archive %s to '%s'.\n", 
+						  uuid, archive->name());
 	
 	delete archive;
 	return res;
