@@ -288,8 +288,17 @@ test "$C" == "0"
 C=$($DARWINUP files "RENAME2" | wc -l | xargs)
 test "$C" == "17" 
 C=$($DARWINUP verify "RENAME2" | wc -l | xargs)
-test "$C" == "17" 
-
+test "$C" == "17"
+$DARWINUP rename root6 RENAME3 RENAME3 RENAME4 RENAME4 RENAME5 RENAME5 RENAME6
+C=$($DARWINUP list | grep "root6" | wc -l | xargs)
+test "$C" == "0" 
+C=$($DARWINUP list | grep "RENAME6" | wc -l | xargs)
+test "$C" == "1" 
+C=$($DARWINUP files "RENAME6" | wc -l | xargs)
+test "$C" == "8"
+$DARWINUP uninstall all
+echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+$DIFF $ORIG $DEST 2>&1
 
 
 #
