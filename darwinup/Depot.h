@@ -122,6 +122,7 @@ struct Depot {
 	void    archive_header();
 	
 	bool    is_dirty();
+	bool    has_modified_extensions();
 	
 protected:
 
@@ -170,7 +171,9 @@ protected:
 	char*       m_build;
 	int		    m_lock_fd;
 	int         m_is_locked;
-	bool      m_is_dirty; // track if we need to update dyld cache
+	bool        m_is_dirty; // track if we need to update dyld cache
+	bool        m_modified_extensions; // track if we need to touch /S/L/E
+
 };
 
 #endif

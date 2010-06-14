@@ -35,6 +35,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/time.h>
 #include <unistd.h>
 #include <limits.h>
 
@@ -50,7 +51,7 @@ void usage(char* progname) {
 	fprintf(stderr, "                                                               \n");
 	fprintf(stderr, "options:                                                       \n");
 #if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
-	fprintf(stderr, "          -d        do not update dyld cache                   \n");	
+	fprintf(stderr, "          -d        disable helpful automation                 \n");	
 #endif
 	fprintf(stderr, "          -f        force operation to succeed at all costs    \n");
 	fprintf(stderr, "          -n        dry run                                    \n");
@@ -104,7 +105,7 @@ int main(int argc, char* argv[]) {
 	char* progname = strdup(basename(argv[0]));      
 	char* path = NULL;
 #if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
-	bool update_dyld = true;
+	bool disable_automation = false;
 #endif
 	
 	int ch;
@@ -116,7 +117,7 @@ int main(int argc, char* argv[]) {
 		switch (ch) {
 #if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060	
 		case 'd':
-				update_dyld = false;
+				disable_automation = true;
 				break;
 #endif
 		case 'f':
@@ -125,7 +126,7 @@ int main(int argc, char* argv[]) {
 		case 'n':
 				dryrun = 1;
 #if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
-				update_dyld = false;
+				disable_automation = true;
 #endif
 				break;
 		case 'p':
@@ -158,7 +159,7 @@ int main(int argc, char* argv[]) {
 	if (dryrun) IF_DEBUG("option: dry run\n");
 	if (force)  IF_DEBUG("option: forcing operations\n");
 #if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
-	if (!update_dyld) IF_DEBUG("option: not updating dyld cache\n");
+	if (!disable_automation) IF_DEBUG("option: helpful automation disabled\n");
 #endif
 	
 	if (!path) {
@@ -238,11 +239,21 @@ int main(int argc, char* argv[]) {
 			}
 		}
 #if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
-		if (update_dyld && depot->is_dirty() && res == 0) {
+		if (!disable_automation && depot->is_dirty() && res == 0) {
 			res = update_dyld_shared_cache(path);
 			if (res) fprintf(stderr, "Warning: could not update dyld cache.\n");
 			res = 0;
-		}		
+		}
+		if (!disable_automation && depot->has_modified_extensions() && res == 0) {
+			char *sle_path;
+			res = join_path(&sle_path, depot->prefix(), "/System/Library/Extensions");
+			if (res == 0) res = utimes(sle_path, NULL);
+			if (res) {
+				fprintf(stderr, "Warning: unable to touch %s \n", sle_path);
+				res = 0;
+			}
+			free(sle_path);
+		}
 #endif
 	}
 	

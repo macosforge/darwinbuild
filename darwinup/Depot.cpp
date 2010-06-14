@@ -61,6 +61,7 @@ Depot::Depot() {
 	m_is_locked = 0;
 	m_depot_mode = 0750;
 	m_is_dirty = false;
+	m_modified_extensions = false;
 }
 
 Depot::Depot(const char* prefix) {
@@ -69,6 +70,7 @@ Depot::Depot(const char* prefix) {
 	m_depot_mode = 0750;
 	m_build = NULL;
 	m_is_dirty = false;
+	m_modified_extensions = false;
 	
 	asprintf(&m_prefix, "%s", prefix);
 	join_path(&m_depot_path, m_prefix, "/.DarwinDepot");
@@ -91,10 +93,11 @@ Depot::~Depot() {
 	if (m_downloads_path)	free(m_downloads_path);
 }
 
-const char*	Depot::archives_path()		{ return m_archives_path; }
-const char*	Depot::downloads_path()		{ return m_downloads_path; }
-const char*     Depot::prefix()                 { return m_prefix; }
-bool          Depot::is_dirty()          { return m_is_dirty; }
+const char*	Depot::archives_path()		      { return m_archives_path; }
+const char*	Depot::downloads_path()		      { return m_downloads_path; }
+const char* Depot::prefix()                   { return m_prefix; }
+bool        Depot::is_dirty()                 { return m_is_dirty; }
+bool        Depot::has_modified_extensions()  { return m_modified_extensions; }
 
 int Depot::connect() {
 	m_db = new DarwinupDatabase(m_database_path);
@@ -486,7 +489,14 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback,
 						IF_DEBUG("[analyze]    needs user data backup\n");
 						actual->info_set(FILE_INFO_ROLLBACK_DATA);
 					}
-				}				
+				}
+				
+				if (!this->m_modified_extensions && 
+					(strncmp(file->path(), "/System/Library/Extensions", 26) == 0)) {
+					IF_DEBUG("[analyze]    kernel extension detected\n");
+					this->m_modified_extensions = true;
+				}
+
 			}
 
 			// if file == actual, but actual != preceding, then an external

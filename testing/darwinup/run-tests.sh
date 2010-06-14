@@ -37,7 +37,7 @@ do
 	tar zxvf $R.tar.gz -C $PREFIX
 done;
 
-for R in 300dirs.tbz2 300files.tbz2 deep-rollback.cpgz deep-rollback-2.xar;
+for R in 300dirs.tbz2 300files.tbz2 deep-rollback.cpgz deep-rollback-2.xar extension.tar.bz2;
 do
 	cp $R $PREFIX/
 done;
@@ -297,6 +297,18 @@ test "$C" == "1"
 C=$($DARWINUP files "RENAME6" | wc -l | xargs)
 test "$C" == "8"
 $DARWINUP uninstall all
+echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+$DIFF $ORIG $DEST 2>&1
+
+echo "========== TEST: Modify /System/Library/Extensions =========="
+mkdir -p $DEST/System/Library/Extensions/Foo.kext
+BEFORE=$(ls -Tld $DEST/System/Library/Extensions/ | awk '{print $6$7$8$9}');
+sleep 2;
+$DARWINUP install extension.tar.bz2
+AFTER=$(ls -Tld $DEST/System/Library/Extensions/ | awk '{print $6$7$8$9}');
+test $BEFORE != $AFTER
+$DARWINUP uninstall newest
+rm -rf $DEST/System
 echo "DIFF: diffing original test files to dest (should be no diffs) ..."
 $DIFF $ORIG $DEST 2>&1
 
