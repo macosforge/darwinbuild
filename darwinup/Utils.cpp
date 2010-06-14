@@ -402,6 +402,20 @@ int build_number_for_path(char** build, const char* path) {
 
 	return -1;
 }
+
+int tell_finder_to_restart() {
+	int res = 0;
+	
+	const char *args[] = {
+		"/usr/bin/osascript", "-e",
+		"tell app \"Finder\" to restart",
+		NULL,
+	};
+	
+	res = exec_with_args(args);
+	
+	return res;
+}
 #endif
 
 void __data_hex(FILE* f, uint8_t* data, uint32_t size) {
@@ -425,4 +439,3 @@ void hr() {
 	fprintf(stdout, "=============================================="
 			"=======================================\n");	
 }
-

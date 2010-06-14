@@ -56,6 +56,9 @@ void usage(char* progname) {
 	fprintf(stderr, "          -f        force operation to succeed at all costs    \n");
 	fprintf(stderr, "          -n        dry run                                    \n");
 	fprintf(stderr, "          -p DIR    operate on roots under DIR (default: /)    \n");
+#if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
+	fprintf(stderr, "          -r        gracefully restart when finished           \n");	
+#endif
 	fprintf(stderr, "          -v        verbose (use -vv for extra verbosity)      \n");
 	fprintf(stderr, "                                                               \n");
 	fprintf(stderr, "commands:                                                      \n");
@@ -106,11 +109,12 @@ int main(int argc, char* argv[]) {
 	char* path = NULL;
 #if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
 	bool disable_automation = false;
+	bool restart = false;
 #endif
 	
 	int ch;
 #if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
-	while ((ch = getopt(argc, argv, "dfnp:vh")) != -1) {
+	while ((ch = getopt(argc, argv, "dfnp:rvh")) != -1) {
 #else
 	while ((ch = getopt(argc, argv, "fnp:vh")) != -1) {		
 #endif
@@ -140,6 +144,11 @@ int main(int argc, char* argv[]) {
 				}
 				join_path(&path, optarg, "/");
 				break;
+#if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060	
+		case 'r':
+				restart = true;
+				break;
+#endif
 		case 'v':
 				verbosity <<= 1;
 				verbosity |= VERBOSE;
@@ -159,7 +168,8 @@ int main(int argc, char* argv[]) {
 	if (dryrun) IF_DEBUG("option: dry run\n");
 	if (force)  IF_DEBUG("option: forcing operations\n");
 #if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
-	if (!disable_automation) IF_DEBUG("option: helpful automation disabled\n");
+	if (disable_automation) IF_DEBUG("option: helpful automation disabled\n");
+    if (restart) IF_DEBUG("option: restart when finished\n");
 #endif
 	
 	if (!path) {
@@ -253,6 +263,12 @@ int main(int argc, char* argv[]) {
 				res = 0;
 			}
 			free(sle_path);
+		}
+		if (restart && res == 0) {
+			res = tell_finder_to_restart();
+			if (res) fprintf(stderr, "Warning: tried to tell Finder to restart"
+							         "but failed.\n");
+			res = 0;
 		}
 #endif
 	}
