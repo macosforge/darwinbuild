@@ -110,7 +110,9 @@ struct Depot {
 	// processes an archive according to command
 	//  arg is an archive identifier, such as serial or uuid
 	int dispatch_command(Archive* archive, const char* command);
-	int process_archive(const char* command, const char* arg);
+	int process_archive(const char* command, const char* archspec);
+	
+	int rename_archive(const char* archspec, const char* name);
 	
 	// test if the depot is currently locked 
 	int is_locked();
@@ -120,6 +122,7 @@ struct Depot {
 	void    archive_header();
 	
 	bool    is_dirty();
+	bool    has_modified_extensions();
 	
 protected:
 
@@ -168,7 +171,9 @@ protected:
 	char*       m_build;
 	int		    m_lock_fd;
 	int         m_is_locked;
-	bool      m_is_dirty; // track if we need to update dyld cache
+	bool        m_is_dirty; // track if we need to update dyld cache
+	bool        m_modified_extensions; // track if we need to touch /S/L/E
+
 };
 
 #endif

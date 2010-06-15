@@ -61,6 +61,7 @@ Depot::Depot() {
 	m_is_locked = 0;
 	m_depot_mode = 0750;
 	m_is_dirty = false;
+	m_modified_extensions = false;
 }
 
 Depot::Depot(const char* prefix) {
@@ -69,6 +70,7 @@ Depot::Depot(const char* prefix) {
 	m_depot_mode = 0750;
 	m_build = NULL;
 	m_is_dirty = false;
+	m_modified_extensions = false;
 	
 	asprintf(&m_prefix, "%s", prefix);
 	join_path(&m_depot_path, m_prefix, "/.DarwinDepot");
@@ -91,10 +93,11 @@ Depot::~Depot() {
 	if (m_downloads_path)	free(m_downloads_path);
 }
 
-const char*	Depot::archives_path()		{ return m_archives_path; }
-const char*	Depot::downloads_path()		{ return m_downloads_path; }
-const char*     Depot::prefix()                 { return m_prefix; }
-bool          Depot::is_dirty()          { return m_is_dirty; }
+const char*	Depot::archives_path()		      { return m_archives_path; }
+const char*	Depot::downloads_path()		      { return m_downloads_path; }
+const char* Depot::prefix()                   { return m_prefix; }
+bool        Depot::is_dirty()                 { return m_is_dirty; }
+bool        Depot::has_modified_extensions()  { return m_modified_extensions; }
 
 int Depot::connect() {
 	m_db = new DarwinupDatabase(m_database_path);
@@ -107,8 +110,11 @@ int Depot::connect() {
 
 int Depot::create_storage() {
 	uid_t uid = getuid();
+	gid_t gid = 0;
 	struct group *gs = getgrnam("admin");
-	gid_t gid = gs->gr_gid;
+	if (gs) {
+		gid = gs->gr_gid;
+	}
 	
 	int res = mkdir(m_depot_path, m_depot_mode);
 	res = chmod(m_depot_path, m_depot_mode);
@@ -483,7 +489,14 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback,
 						IF_DEBUG("[analyze]    needs user data backup\n");
 						actual->info_set(FILE_INFO_ROLLBACK_DATA);
 					}
-				}				
+				}
+				
+				if (!this->m_modified_extensions && 
+					(strncmp(file->path(), "/System/Library/Extensions", 26) == 0)) {
+					IF_DEBUG("[analyze]    kernel extension detected\n");
+					this->m_modified_extensions = true;
+				}
+
 			}
 
 			// if file == actual, but actual != preceding, then an external
@@ -1073,9 +1086,9 @@ int Depot::list(int count, char** args) {
 		archive = NULL;
 		archcnt = 0;
 		// check for special keywords
-		if (strncasecmp(args[i], "all", 3) == 0) {
+		if (strncasecmp(args[i], "all", 3) == 0 && strlen(args[i]) == 3) {
 			list = this->get_all_archives(&archcnt);
-		} else if (strncasecmp(args[i], "superseded", 10) == 0) {
+		} else if (strncasecmp(args[i], "superseded", 10) == 0 && strlen(args[i]) == 10) {
 			list = this->get_superseded_archives(&archcnt);
 		} 
 		if (archcnt) {
@@ -1368,26 +1381,26 @@ int Depot::dispatch_command(Archive* archive, const char* command) {
 }
 
 // perform a command on an archive specification
-int Depot::process_archive(const char* command, const char* arg) {
+int Depot::process_archive(const char* command, const char* archspec) {
 	extern uint32_t verbosity;
 	int res = 0;
 	uint32_t count = 0;
 	Archive** list = NULL;
 	
-	if (strncasecmp(arg, "all", 3) == 0) {
+	if (strncasecmp(archspec, "all", 3) == 0 && strlen(archspec) == 3) {
 		list = this->get_all_archives(&count);
-	} else if (strncasecmp(arg, "superseded", 10) == 0) {
+	} else if (strncasecmp(archspec, "superseded", 10) == 0 && strlen(archspec) == 10) {
 		list = this->get_superseded_archives(&count);
 	} else {
 		// make a list of 1 Archive
 		list = (Archive**)malloc(sizeof(Archive*));
-		list[0] = this->get_archive(arg);
+		list[0] = this->get_archive(archspec);
 		count = 1;
 	}
 	
 	for (size_t i = 0; i < count; i++) {
 		if (!list[i]) {
-			fprintf(stdout, "Archive not found: %s\n", arg);
+			fprintf(stdout, "Archive not found: %s\n", archspec);
 			return -1;
 		}
 		if (verbosity & VERBOSE_DEBUG) {
@@ -1399,5 +1412,51 @@ int Depot::process_archive(const char* command, const char* arg) {
 		delete list[i];
 	} 
 	free(list);
+	return res;
+}
+
+int Depot::rename_archive(const char* archspec, const char* name) {
+	extern uint32_t verbosity;
+	int res = 0;
+	
+	if ((strncasecmp(archspec, "all", 3) == 0 && strlen(archspec) == 3) ||
+		(strncasecmp(archspec, "superseded", 10) == 0 && strlen(archspec) == 10)) {
+		fprintf(stderr, "Error: keywords 'all' and 'superseded' cannot be used with the"
+				" rename command.\n");
+		return -2;
+	}
+	
+	Archive* archive = this->get_archive(archspec);
+	if (!archive) {
+		fprintf(stdout, "Archive not found: %s\n", archspec);
+		return -1;
+	}
+	
+	char uuid[37];
+	uuid_unparse_upper(archive->uuid(), uuid);
+	if (verbosity & VERBOSE_DEBUG) {
+		fprintf(stdout, "Found archive: %s\n", uuid);
+	}
+
+	if (!name || strlen(name) == 0) {
+		fprintf(stderr, "Error: invalid name: '%s'\n", name);
+		return -3;
+	}
+	
+	free(archive->m_name);
+	archive->m_name = strdup(name);
+	
+	res = m_db->update_archive(archive->serial(),
+							   archive->uuid(),
+							   archive->name(),
+							   archive->date_installed(),
+							   1,
+							   archive->info(),
+							   archive->build());
+
+	if (res == 0) fprintf(stdout, "Renamed archive %s to '%s'.\n", 
+						  uuid, archive->name());
+	
+	delete archive;
 	return res;
 }

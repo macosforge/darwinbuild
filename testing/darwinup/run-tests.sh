@@ -1,11 +1,11 @@
 #!/bin/bash
 set -e
 set -x
+pushd $(dirname $0) >> /dev/null
 
 #
 # Run tests on darwinup
 #
-
 PREFIX=/tmp/testing/darwinup
 ORIG=$PREFIX/orig
 DEST=$PREFIX/dest
@@ -37,7 +37,7 @@ do
 	tar zxvf $R.tar.gz -C $PREFIX
 done;
 
-for R in 300dirs.tbz2 300files.tbz2 deep-rollback.cpgz deep-rollback-2.xar;
+for R in 300dirs.tbz2 300files.tbz2 deep-rollback.cpgz deep-rollback-2.xar extension.tar.bz2;
 do
 	cp $R $PREFIX/
 done;
@@ -272,6 +272,47 @@ echo "DIFF: diffing original test files to dest (should be no diffs) ..."
 $DIFF $ORIG $DEST 2>&1
 
 
+echo "========== TEST: Archive Rename ============="
+$DARWINUP install $PREFIX/root2
+$DARWINUP install $PREFIX/root
+$DARWINUP install $PREFIX/root6
+$DARWINUP rename root "RENAME1"
+C=$($DARWINUP list | grep "RENAME1" | wc -l | xargs)
+test "$C" == "1" 
+$DARWINUP rename oldest "RENAME2"
+C=$($DARWINUP list | grep "RENAME2" | wc -l | xargs)
+test "$C" == "1" 
+$DARWINUP uninstall "RENAME1"
+C=$($DARWINUP list | grep "RENAME1" | wc -l | xargs)
+test "$C" == "0" 
+C=$($DARWINUP files "RENAME2" | wc -l | xargs)
+test "$C" == "17" 
+C=$($DARWINUP verify "RENAME2" | wc -l | xargs)
+test "$C" == "17"
+$DARWINUP rename root6 RENAME3 RENAME3 RENAME4 RENAME4 RENAME5 RENAME5 RENAME6
+C=$($DARWINUP list | grep "root6" | wc -l | xargs)
+test "$C" == "0" 
+C=$($DARWINUP list | grep "RENAME6" | wc -l | xargs)
+test "$C" == "1" 
+C=$($DARWINUP files "RENAME6" | wc -l | xargs)
+test "$C" == "8"
+$DARWINUP uninstall all
+echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+$DIFF $ORIG $DEST 2>&1
+
+echo "========== TEST: Modify /System/Library/Extensions =========="
+mkdir -p $DEST/System/Library/Extensions/Foo.kext
+BEFORE=$(ls -Tld $DEST/System/Library/Extensions/ | awk '{print $6$7$8$9}');
+sleep 2;
+$DARWINUP install extension.tar.bz2
+AFTER=$(ls -Tld $DEST/System/Library/Extensions/ | awk '{print $6$7$8$9}');
+test $BEFORE != $AFTER
+$DARWINUP uninstall newest
+rm -rf $DEST/System
+echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+$DIFF $ORIG $DEST 2>&1
+
+
 #
 # The following are expected failures
 #
@@ -282,5 +323,6 @@ if [ $? -ne 1 ]; then exit 1; fi
 echo "DIFF: diffing original test files to dest (should be no diffs) ..."
 $DIFF $ORIG $DEST 2>&1
 
+popd >> /dev/null
 echo "INFO: Done testing!"
 

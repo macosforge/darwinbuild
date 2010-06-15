@@ -35,6 +35,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/time.h>
 #include <unistd.h>
 #include <limits.h>
 
@@ -50,17 +51,21 @@ void usage(char* progname) {
 	fprintf(stderr, "                                                               \n");
 	fprintf(stderr, "options:                                                       \n");
 #if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
-	fprintf(stderr, "          -d        do not update dyld cache                   \n");	
+	fprintf(stderr, "          -d        disable helpful automation                 \n");	
 #endif
 	fprintf(stderr, "          -f        force operation to succeed at all costs    \n");
 	fprintf(stderr, "          -n        dry run                                    \n");
 	fprintf(stderr, "          -p DIR    operate on roots under DIR (default: /)    \n");
+#if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
+	fprintf(stderr, "          -r        gracefully restart when finished           \n");	
+#endif
 	fprintf(stderr, "          -v        verbose (use -vv for extra verbosity)      \n");
 	fprintf(stderr, "                                                               \n");
 	fprintf(stderr, "commands:                                                      \n");
 	fprintf(stderr, "          files      <archive>                                 \n");
 	fprintf(stderr, "          install    <path>                                    \n");
 	fprintf(stderr, "          list       [archive]                                 \n");
+	fprintf(stderr, "          rename     <archive> <name>                          \n");
 	fprintf(stderr, "          uninstall  <archive>                                 \n");
 	fprintf(stderr, "          upgrade    <path>                                    \n");
 	fprintf(stderr, "          verify     <archive>                                 \n");
@@ -103,19 +108,20 @@ int main(int argc, char* argv[]) {
 	char* progname = strdup(basename(argv[0]));      
 	char* path = NULL;
 #if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
-	bool update_dyld = true;
+	bool disable_automation = false;
+	bool restart = false;
 #endif
 	
 	int ch;
 #if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
-	while ((ch = getopt(argc, argv, "dfnp:vh")) != -1) {
+	while ((ch = getopt(argc, argv, "dfnp:rvh")) != -1) {
 #else
 	while ((ch = getopt(argc, argv, "fnp:vh")) != -1) {		
 #endif
 		switch (ch) {
 #if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060	
 		case 'd':
-				update_dyld = false;
+				disable_automation = true;
 				break;
 #endif
 		case 'f':
@@ -124,7 +130,7 @@ int main(int argc, char* argv[]) {
 		case 'n':
 				dryrun = 1;
 #if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
-				update_dyld = false;
+				disable_automation = true;
 #endif
 				break;
 		case 'p':
@@ -138,6 +144,11 @@ int main(int argc, char* argv[]) {
 				}
 				join_path(&path, optarg, "/");
 				break;
+#if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060	
+		case 'r':
+				restart = true;
+				break;
+#endif
 		case 'v':
 				verbosity <<= 1;
 				verbosity |= VERBOSE;
@@ -149,7 +160,7 @@ int main(int argc, char* argv[]) {
 		}
 	}
 	argc -= optind;
-	argv += optind;
+    argv += optind;
 	if (argc == 0) usage(progname);
 	
 	int res = 0;
@@ -157,7 +168,8 @@ int main(int argc, char* argv[]) {
 	if (dryrun) IF_DEBUG("option: dry run\n");
 	if (force)  IF_DEBUG("option: forcing operations\n");
 #if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
-	if (!update_dyld) IF_DEBUG("option: not updating dyld cache\n");
+	if (disable_automation) IF_DEBUG("option: helpful automation disabled\n");
+    if (restart) IF_DEBUG("option: restart when finished\n");
 #endif
 	
 	if (!path) {
@@ -191,11 +203,12 @@ int main(int argc, char* argv[]) {
 			if (depot->initialize(false)) exit(11);
 			depot->dump();
 		} else {
+			fprintf(stderr, "Error: unknown command: '%s' \n", argv[0]);
 			usage(progname);
 		}
 	} else {
 		// loop over arguments
-		for (int i = 1; i < argc; i++) {
+		for (int i = 1; i < argc && res == 0; i++) {
 			if (strcmp(argv[0], "install") == 0) {
 				if (i==1 && depot->initialize(true)) exit(13);
 				res = depot->install(argv[i]);
@@ -220,16 +233,43 @@ int main(int argc, char* argv[]) {
 			} else if (strcmp(argv[0], "verify") == 0) {
 				if (i==1 && depot->initialize(true)) exit(16);
 				res = depot->process_archive(argv[0], argv[i]);
+			} else if (strcmp(argv[0], "rename") == 0) {
+				if (i==1 && depot->initialize(true)) exit(17);
+				if ((i+1) >= argc) {
+					fprintf(stderr, 
+							"Error: rename command for '%s' takes 2 arguments.\n", 
+							argv[i]);
+					exit(18);
+				}
+				res = depot->rename_archive(argv[i], argv[i+1]);
+				i++;
 			} else {
+				fprintf(stderr, "Error: unknown command: '%s' \n", argv[0]);
 				usage(progname);
 			}
 		}
 #if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
-		if (update_dyld && depot->is_dirty() && res == 0) {
+		if (!disable_automation && depot->is_dirty() && res == 0) {
 			res = update_dyld_shared_cache(path);
 			if (res) fprintf(stderr, "Warning: could not update dyld cache.\n");
 			res = 0;
-		}		
+		}
+		if (!disable_automation && depot->has_modified_extensions() && res == 0) {
+			char *sle_path;
+			res = join_path(&sle_path, depot->prefix(), "/System/Library/Extensions");
+			if (res == 0) res = utimes(sle_path, NULL);
+			if (res) {
+				fprintf(stderr, "Warning: unable to touch %s \n", sle_path);
+				res = 0;
+			}
+			free(sle_path);
+		}
+		if (restart && res == 0) {
+			res = tell_finder_to_restart();
+			if (res) fprintf(stderr, "Warning: tried to tell Finder to restart"
+							         "but failed.\n");
+			res = 0;
+		}
 #endif
 	}
 	

@@ -46,9 +46,7 @@ safely and easily.
 .Sh OPTIONS
 .Bl -tag -width -indent
 .It \-d
-Do not update dyld cache. Darwinup normally runs update_dyld_shared_cache 
-if the operation actually changes files on disk. To ensure this does not 
-happen, you can provide this option.
+Do not run helpful automation. See HELPFUL AUTOMATION below.
 .It \-f
 Force. Some operations will fail gracefully due to potentially unsafe 
 situations, such as a root that installs a file where a directory is.
@@ -58,10 +56,14 @@ pass the -f option.
 Dry run. Darwinup will go through an operation, including analyzing
 the root(s) and printing the state/change symbol, but no files will
 be modified on your system and no records will be added to the depot.
+This option implies -d.
 .It \-p Op Ar path
 Prefix path. Normally, darwinup will operate on the boot partition. You
 can use the -p option to have darwinup work on another partition. You
 can provide any arbitrary path, it does not need to be a mount point.
+.It \-r
+Restart. Gracefully restart after all operations are complete by telling
+Finder to restart. 
 .It \-v
 Verbose. This option causes darwinup to print extra information. You can
 pass 2 or 3 v's for even more information, but that is usually only needed
@@ -75,22 +77,24 @@ and
 options listed below support globbing and multiple items. See the EXAMPLES 
 section below for more details.
 .Bl -tag -width -indent
-.It Ar files Ar archives
+.It files Ar archives
 List the files and directories in the 
 .Ar archive .
-.It Ar install Ar path
+.It install Ar path
 Install the root at 
 .Ar path .
-.It Ar list Op Ar archive
+.It list Op Ar archive
 List archives that are installed. You may optionally provide an
 archive specification to limit which archives get listed. 
-.It Ar uninstall Ar archives
+.It rename Ar archive Ar name
+Rename an archive.
+.It uninstall Ar archives
 Uninstall the specified archive.
-.It Ar upgrade Ar path
+.It upgrade Ar path
 Find the last archive that was installed with the same name (basename of 
 path), and replace it with the root at 
 .Ar path .
-.It Ar verify Ar archive
+.It verify Ar archive
 List all of the information about 
 .Ar archive .
 This includes status letters
@@ -208,6 +212,20 @@ operation if you really want to. If the files you are uninstalling are all
 superseded, then you should not get this error as the backup copies will
 not be used anyway. 
 .El
+.Sh HELPFUL AUTOMATION
+Darwinup tries to detect common situations and run external tools that you
+would otherwise have to remember to run yourself. The "dry run" (-n) and 
+"disable automation" (-d) options prevent any of the following from 
+happening.
+.Bl -tag -width -indent
+.It Dyld Cache
+If a root modifies any file, then darwinup will run 
+update_dyld_shared_cache unless the -d option is specified.
+.It Kernel Extensions
+If a root modifies a file under /System/Library/Extensions, then darwinup
+will update the mtime of /System/Library/Extensions to ensure that the 
+kext cache is updated during the next boot. 
+.El
 .Sh EXAMPLES
 .Bl -tag -width -indent
 .It Install files from a tarball
@@ -229,4 +247,5 @@ $ darwinup install http://src.macosforge.org/Roots/10D573/zlib.root.tar.gz
 .Xr curl 1 ,
 .Xr tar 1 ,
 .Xr gzip 1 ,
-.Xr ditto 1
+.Xr ditto 1 ,
+.Xr update_dyld_shared_cache 1
