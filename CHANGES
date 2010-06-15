@@ -1,6 +1,13 @@
 Darwin Build Scripts Change History
 -----------------------------------
 
+Release 19 [15-Jun-2010]
+	- darwinup: fix crash when getgrnam fails
+	- darwinup: add rename command
+	- darwinup: touch /System/Library/Extensions when a kernel 
+	  extension is modified.
+	- darwinup: add option for rebooting when finished
+
 Release 18.1 [04-May-2010]
 	- darwinup: fix release build issue
 
