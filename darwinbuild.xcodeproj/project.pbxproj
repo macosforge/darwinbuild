@@ -53,6 +53,7 @@
 			buildPhases = (
 			);
 			dependencies = (
+				72D05CBA11D2688D00B33EDD /* PBXTargetDependency */,
 				7227AB48109897E000BE33D7 /* PBXTargetDependency */,
 				725740CE1097B0AD008AD4D7 /* PBXTargetDependency */,
 				725740CC1097B0AD008AD4D7 /* PBXTargetDependency */,
@@ -163,6 +164,7 @@
 		72C86C9F109745BC00C66E90 /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72C86BE610965E4F00C66E90 /* Utils.cpp */; };
 		72C86CE210974CC800C66E90 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 72C86CE110974CC700C66E90 /* libcrypto.dylib */; };
 		72C86CE410974CC800C66E90 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 72C86CE310974CC800C66E90 /* libsqlite3.dylib */; };
+		72D05CB811D2680500B33EDD /* query.c in Sources */ = {isa = PBXBuildFile; fileRef = 72D05CA911D2678F00B33EDD /* query.c */; };
 		DF12E2821119E2B0007587C1 /* DB.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF12E2811119E2B0007587C1 /* DB.cpp */; };
 		DFC9772D11138F9400CAE084 /* Column.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DFC9772711138F9400CAE084 /* Column.cpp */; };
 		DFC9772E11138F9400CAE084 /* Database.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DFC9772911138F9400CAE084 /* Database.cpp */; };
@@ -584,6 +586,20 @@
 			remoteGlobalIDString = 72C86C51109660CA00C66E90;
 			remoteInfo = darwintrace;
 		};
+		72D05CAF11D267C400B33EDD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7257499F1097697300B13BC3;
+			remoteInfo = darwinxref;
+		};
+		72D05CB911D2688D00B33EDD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 72D05CAD11D267C400B33EDD /* query */;
+			remoteInfo = query;
+		};
 		DFCB82D9109A2F9A00D2DB2F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
@@ -757,6 +773,8 @@
 		72C86CDD10974C3A00C66E90 /* libredo_prebinding.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libredo_prebinding.a; path = /usr/local/lib/libredo_prebinding.a; sourceTree = "<absolute>"; };
 		72C86CE110974CC700C66E90 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = /usr/lib/libcrypto.dylib; sourceTree = "<absolute>"; };
 		72C86CE310974CC800C66E90 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = /usr/lib/libsqlite3.dylib; sourceTree = "<absolute>"; };
+		72D05CA911D2678F00B33EDD /* query.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = query.c; sourceTree = "<group>"; };
+		72D05CB711D267C400B33EDD /* register copy.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = "register copy.so"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF12E2801119E2B0007587C1 /* DB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DB.h; path = darwinup/DB.h; sourceTree = "<group>"; };
 		DF12E2811119E2B0007587C1 /* DB.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DB.cpp; path = darwinup/DB.cpp; sourceTree = "<group>"; };
 		DFC9772711138F9400CAE084 /* Column.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Column.cpp; path = darwinup/Column.cpp; sourceTree = "<group>"; };
@@ -965,6 +983,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		72D05CB211D267C400B33EDD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -1095,6 +1120,7 @@
 				72C86C0910965EEA00C66E90 /* original.c */,
 				72C86C0A10965EEA00C66E90 /* patchfiles.c */,
 				72C86C0B10965EEA00C66E90 /* plist_sites.c */,
+				72D05CA911D2678F00B33EDD /* query.c */,
 				72C86C0C10965EEA00C66E90 /* register.c */,
 				72C86C0D10965EEA00C66E90 /* resolveDeps.c */,
 				72C86C0E10965EEA00C66E90 /* source_sites.c */,
@@ -1141,6 +1167,7 @@
 				7227AC1C1098D8DB00BE33D7 /* thinPackages */,
 				7227AC251098DB9200BE33D7 /* installXcode */,
 				7227AC2E1098DBDF00BE33D7 /* installXcode32 */,
+				72D05CB711D267C400B33EDD /* register copy.so */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1722,6 +1749,23 @@
 			productReference = 72C86C52109660CA00C66E90 /* darwintrace.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
+		72D05CAD11D267C400B33EDD /* query */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 72D05CB311D267C400B33EDD /* Build configuration list for PBXNativeTarget "query" */;
+			buildPhases = (
+				72D05CB011D267C400B33EDD /* Sources */,
+				72D05CB211D267C400B33EDD /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				72D05CAE11D267C400B33EDD /* PBXTargetDependency */,
+			);
+			name = query;
+			productName = configuration;
+			productReference = 72D05CB711D267C400B33EDD /* register copy.so */;
+			productType = "com.apple.product-type.objfile";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1763,6 +1807,7 @@
 				725740471097ABDC008AD4D7 /* original */,
 				7257404F1097AEC1008AD4D7 /* patchfiles */,
 				725740571097AECC008AD4D7 /* plist_sites */,
+				72D05CAD11D267C400B33EDD /* query */,
 				7257405F1097AEDE008AD4D7 /* register */,
 				725740671097AEF0008AD4D7 /* resolveDeps */,
 				7257406F1097AEFE008AD4D7 /* source_sites */,
@@ -2208,6 +2253,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		72D05CB011D267C400B33EDD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				72D05CB811D2680500B33EDD /* query.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -2505,6 +2558,16 @@
 			isa = PBXTargetDependency;
 			target = 72C86C51109660CA00C66E90 /* darwintrace */;
 			targetProxy = 72C86C601096617500C66E90 /* PBXContainerItemProxy */;
+		};
+		72D05CAE11D267C400B33EDD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7257499F1097697300B13BC3 /* darwinxref */;
+			targetProxy = 72D05CAF11D267C400B33EDD /* PBXContainerItemProxy */;
+		};
+		72D05CBA11D2688D00B33EDD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 72D05CAD11D267C400B33EDD /* query */;
+			targetProxy = 72D05CB911D2688D00B33EDD /* PBXContainerItemProxy */;
 		};
 		DFCB82DA109A2F9A00D2DB2F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -3518,6 +3581,27 @@
 			};
 			name = Release;
 		};
+		72D05CB411D267C400B33EDD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		72D05CB511D267C400B33EDD /* Public */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
+			buildSettings = {
+			};
+			name = Public;
+		};
+		72D05CB611D267C400B33EDD /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -3907,6 +3991,16 @@
 				72C86C571096614C00C66E90 /* Debug */,
 				725749871097633500B13BC3 /* Public */,
 				72C86C581096614C00C66E90 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Public;
+		};
+		72D05CB311D267C400B33EDD /* Build configuration list for PBXNativeTarget "query" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				72D05CB411D267C400B33EDD /* Debug */,
+				72D05CB511D267C400B33EDD /* Public */,
+				72D05CB611D267C400B33EDD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Public;
