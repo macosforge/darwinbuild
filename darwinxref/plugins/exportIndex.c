@@ -44,19 +44,21 @@ static int run(CFArrayRef argv) {
 		CFStringRef arg = CFArrayGetValueAtIndex(argv, 0);
 		xml = CFEqual(arg, CFSTR("-xml"));
 		// -xml is the only supported option
-		if (xml && count >= 2) {
+		if (xml && count == 2) {
 			build = CFArrayGetValueAtIndex(argv, 1);
-		} else if (count == 1) {
+		} else if (!xml && count == 1) {
 			build = arg;
-		} else {
-			return -1;
 		}
 	}
 	
 	CFPropertyListRef plist = DBCopyBuildPlist(build);
 	if (xml) {
-		CFDataRef data = CFPropertyListCreateXMLData(NULL, plist);
-		res = write(STDOUT_FILENO, CFDataGetBytePtr(data), CFDataGetLength(data));
+	  CFDataRef data = CFPropertyListCreateData(kCFAllocatorDefault, 
+						    plist, 
+						    kCFPropertyListXMLFormat_v1_0,
+						    0,
+						    NULL);
+	  res = write(STDOUT_FILENO, CFDataGetBytePtr(data), CFDataGetLength(data));
 	} else {
 		res = writePlist(stdout, plist, 0);
 	}
