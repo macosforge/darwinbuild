@@ -257,30 +257,35 @@ char* fetch_url(const char* srcpath, const char* dstpath) {
 
 char* fetch_userhost(const char* srcpath, const char* dstpath) {
 	extern uint32_t verbosity;
+	int res = 0;
 
-	char* localfile;
-	int res = join_path(&localfile, dstpath, basename((char*)srcpath));
-	if (!localfile) return NULL;
-	
-	// make sure dstpath has a trailing slash
-	char* cleanpath;
-	res = join_path(&cleanpath, dstpath, "/");
-	if (!cleanpath) return NULL;
-		
-	IF_DEBUG("rsync %s %s %s \n", (verbosity ? "-v" : "-q"), srcpath, cleanpath);
+	// clean up srcpath by adding trailing slash
+	char* cleansrc;
+	res = join_path(&cleansrc, srcpath, "/");
+	if (res != 0) return NULL;
+
+	// make sure dstpath ends in basename of cleansrc for consistent rsync behavior
+	char* cleandst;
+	char* srccopy = strdup(cleansrc); // basename might modify input, so make a copy
+	res = join_path(&cleandst, dstpath, basename(srccopy));
+	if (res != 0) return NULL;
+
+	IF_DEBUG("rsync -a --delete %s %s %s \n", 
+			 (verbosity ? "-v" : "-q"), cleansrc, cleandst);
 	
 	const char* args[] = {
 		"/usr/bin/rsync",
 		(verbosity ? "-v" : "-q"),
 		"-a", "--delete",
-		srcpath,
-		cleanpath,
+		cleansrc,
+		cleandst,
 		NULL
 	};
 
-	free(cleanpath);
 	if (res == 0) res = exec_with_args(args);
-	if (res == 0) return localfile;
+	free(srccopy);
+	free(cleansrc);
+	if (res == 0) return cleandst;
 	return NULL;	
 }
 
