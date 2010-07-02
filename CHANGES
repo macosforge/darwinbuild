@@ -1,6 +1,10 @@
 Darwin Build Scripts Change History
 -----------------------------------
 
+Release 19.1 [01-Jul-2010]
+	- darwinup: fix bug which prevented remote root install when the remote
+	  path is a symlink.
+
 Release 19 [15-Jun-2010]
 	- darwinup: fix crash when getgrnam fails
 	- darwinup: add rename command
