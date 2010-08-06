@@ -161,7 +161,6 @@
 		72C86C9D109745BC00C66E90 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72C86BE210965E4F00C66E90 /* main.cpp */; };
 		72C86C9E109745BC00C66E90 /* SerialSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72C86BE410965E4F00C66E90 /* SerialSet.cpp */; };
 		72C86C9F109745BC00C66E90 /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72C86BE610965E4F00C66E90 /* Utils.cpp */; };
-		72C86CE210974CC800C66E90 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 72C86CE110974CC700C66E90 /* libcrypto.dylib */; };
 		72C86CE410974CC800C66E90 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 72C86CE310974CC800C66E90 /* libsqlite3.dylib */; };
 		72D05CB811D2680500B33EDD /* query.c in Sources */ = {isa = PBXBuildFile; fileRef = 72D05CA911D2678F00B33EDD /* query.c */; };
 		DF12E2821119E2B0007587C1 /* DB.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF12E2811119E2B0007587C1 /* DB.cpp */; };
@@ -770,7 +769,6 @@
 		72C86C481096609500C66E90 /* darwinup */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = darwinup; sourceTree = BUILT_PRODUCTS_DIR; };
 		72C86C52109660CA00C66E90 /* darwintrace.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = darwintrace.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		72C86CDD10974C3A00C66E90 /* libredo_prebinding.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libredo_prebinding.a; path = /usr/local/lib/libredo_prebinding.a; sourceTree = "<absolute>"; };
-		72C86CE110974CC700C66E90 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = /usr/lib/libcrypto.dylib; sourceTree = "<absolute>"; };
 		72C86CE310974CC800C66E90 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = /usr/lib/libsqlite3.dylib; sourceTree = "<absolute>"; };
 		72D05CA911D2678F00B33EDD /* query.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = query.c; sourceTree = "<group>"; };
 		72D05CB711D267C400B33EDD /* query.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = query.so; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -968,7 +966,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				72C86CE210974CC800C66E90 /* libcrypto.dylib in Frameworks */,
 				72C86CE410974CC800C66E90 /* libsqlite3.dylib in Frameworks */,
 				7227ACA01098FCAA00BE33D7 /* libredo_prebinding.a in Frameworks */,
 			);
@@ -1000,7 +997,6 @@
 				72C86BD510965DC900C66E90 /* darwinbuild */,
 				72C86C391096607900C66E90 /* Products */,
 				72C86CDD10974C3A00C66E90 /* libredo_prebinding.a */,
-				72C86CE110974CC700C66E90 /* libcrypto.dylib */,
 				72C86CE310974CC800C66E90 /* libsqlite3.dylib */,
 				72574A0F10977F7A00B13BC3 /* CoreFoundation.framework */,
 				72574A1410977FAD00B13BC3 /* libtcl.dylib */,
