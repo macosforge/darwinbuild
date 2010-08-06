@@ -40,7 +40,8 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
-#include <openssl/evp.h>
+#include <stdlib.h>
+#include <CommonCrypto/CommonDigest.h>
 
 
 static char* format_digest(const unsigned char* m) {
@@ -62,21 +63,12 @@ static char* format_digest(const unsigned char* m) {
 }
 
 static char* calculate_digest(int fd) {
-	unsigned char digstr[EVP_MAX_MD_SIZE];
-	memset(digstr, 0, sizeof(digstr));
+	unsigned char md[20];
+	CC_SHA1_CTX c;
+	CC_SHA1_Init(&c);
 	
-	EVP_MD_CTX ctx;
-	static const EVP_MD* md;
+	memset(md, 0, 20);
 	
-	if (md == NULL) {
-		EVP_MD_CTX_init(&ctx);
-		OpenSSL_add_all_digests();
-		md = EVP_get_digestbyname("sha1");
-		if (md == NULL) return NULL;
-	}
-
-	EVP_DigestInit(&ctx, md);
-
 	ssize_t len;
 	const unsigned int blocklen = 8192;
 	static unsigned char* block = NULL;
@@ -88,11 +80,11 @@ static char* calculate_digest(int fd) {
 		if (len == 0) { close(fd); break; }
 		if ((len < 0) && (errno == EINTR)) continue;
 		if (len < 0) { close(fd); return NULL; }
-		EVP_DigestUpdate(&ctx, block, (size_t)len);
+		CC_SHA1_Update(&c, block, (size_t)len);
 	}
-
-	EVP_DigestFinal(&ctx, digstr, NULL);
-	return format_digest(digstr);
+	
+	CC_SHA1_Final(md, &c);
+	return format_digest(md);
 }
 
 static int compare(const FTSENT **a, const FTSENT **b) {

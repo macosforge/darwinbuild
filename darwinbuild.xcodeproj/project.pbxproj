@@ -109,7 +109,6 @@
 		7227AB46109897D500BE33D7 /* macosx.tcl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 72C86C0710965EEA00C66E90 /* macosx.tcl */; };
 		7227AB67109899A600BE33D7 /* cfutils.h in Headers */ = {isa = PBXBuildFile; fileRef = 72C86BE910965E7500C66E90 /* cfutils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7227AB68109899A600BE33D7 /* DBPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 72C86BED10965E7500C66E90 /* DBPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7227AB7210989AAF00BE33D7 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 72C86CE110974CC700C66E90 /* libcrypto.dylib */; };
 		7227AB7510989F8D00BE33D7 /* manifest.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86C2E1096600B00C66E90 /* manifest.c */; };
 		7227ACA01098FCAA00BE33D7 /* libredo_prebinding.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 72C86CDD10974C3A00C66E90 /* libredo_prebinding.a */; };
 		7227AD1C109A05FA00BE33D7 /* buildlist in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7227AB871098A7BF00BE33D7 /* buildlist */; };
@@ -597,7 +596,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 72D05CAD11D267C400B33EDD /* query */;
+			remoteGlobalIDString = 72D05CAD11D267C400B33EDD;
 			remoteInfo = query;
 		};
 		DFCB82D9109A2F9A00D2DB2F /* PBXContainerItemProxy */ = {
@@ -774,7 +773,7 @@
 		72C86CE110974CC700C66E90 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = /usr/lib/libcrypto.dylib; sourceTree = "<absolute>"; };
 		72C86CE310974CC800C66E90 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = /usr/lib/libsqlite3.dylib; sourceTree = "<absolute>"; };
 		72D05CA911D2678F00B33EDD /* query.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = query.c; sourceTree = "<group>"; };
-		72D05CB711D267C400B33EDD /* register copy.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = "register copy.so"; sourceTree = BUILT_PRODUCTS_DIR; };
+		72D05CB711D267C400B33EDD /* query.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = query.so; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF12E2801119E2B0007587C1 /* DB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DB.h; path = darwinup/DB.h; sourceTree = "<group>"; };
 		DF12E2811119E2B0007587C1 /* DB.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DB.cpp; path = darwinup/DB.cpp; sourceTree = "<group>"; };
 		DFC9772711138F9400CAE084 /* Column.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Column.cpp; path = darwinup/Column.cpp; sourceTree = "<group>"; };
@@ -791,7 +790,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7227AB7210989AAF00BE33D7 /* libcrypto.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1167,7 +1165,7 @@
 				7227AC1C1098D8DB00BE33D7 /* thinPackages */,
 				7227AC251098DB9200BE33D7 /* installXcode */,
 				7227AC2E1098DBDF00BE33D7 /* installXcode32 */,
-				72D05CB711D267C400B33EDD /* register copy.so */,
+				72D05CB711D267C400B33EDD /* query.so */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1763,7 +1761,7 @@
 			);
 			name = query;
 			productName = configuration;
-			productReference = 72D05CB711D267C400B33EDD /* register copy.so */;
+			productReference = 72D05CB711D267C400B33EDD /* query.so */;
 			productType = "com.apple.product-type.objfile";
 		};
 /* End PBXNativeTarget section */
