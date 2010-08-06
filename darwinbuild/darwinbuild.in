@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Copyright (c) 2004-2005, Apple Computer, Inc. All rights reserved.
+# Copyright (c) 2004-2010, Apple Computer, Inc. All rights reserved.
 # 
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
@@ -81,6 +81,7 @@ DMGFILE=.build/buildroot.sparsebundle
 NFSDIR=.build/buildroot.nfs
 DARWINXREF=$PREFIX/bin/darwinxref
 DATADIR=$PREFIX/share/darwinbuild
+DIGEST=$DATADIR/digest
 COMMONFILE=$DATADIR/darwinbuild.common
 DARWINTRACE=$DATADIR/darwintrace.dylib
 DITTO=$DATADIR/ditto
@@ -993,7 +994,7 @@ if [ "$EXIT_STATUS" == "0" ]; then
 	    	### Output the manifest
 		MANIFEST="/tmp/$projnam.$$"
 		"$DARWINXREF" register "$projnam" "$REAL_DSTROOT" | tee "$MANIFEST"
-		SHA1=$(cat "$MANIFEST" | openssl dgst -sha1)
+		SHA1=$(cat "$MANIFEST" | $DIGEST)
 		mkdir -p "$REAL_DSTROOT/usr/local/darwinbuild/receipts"
 		cp "$MANIFEST" "$REAL_DSTROOT/usr/local/darwinbuild/receipts/$SHA1"
 		ln -s "$SHA1" "$REAL_DSTROOT/usr/local/darwinbuild/receipts/$projnam.hdrs"
@@ -1007,7 +1008,7 @@ if [ "$EXIT_STATUS" == "0" ]; then
 		### in the receipts directory after registration.
 		MANIFEST="/tmp/$projnam.$$"
 		"$DARWINXREF" register "$projnam" "$REAL_DSTROOT" | tee "$MANIFEST"
-		SHA1=$(cat "$MANIFEST" | openssl dgst -sha1)
+		SHA1=$(cat "$MANIFEST" | $DIGEST)
 		mkdir -p "$REAL_DSTROOT/usr/local/darwinbuild/receipts"
 		cp "$MANIFEST" "$REAL_DSTROOT/usr/local/darwinbuild/receipts/$SHA1"
 		ln -s "$SHA1" "$REAL_DSTROOT/usr/local/darwinbuild/receipts/$projnam"
