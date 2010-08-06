@@ -49,50 +49,6 @@ extern "C" {
 #include "redo_prebinding.h"
 }
 
-Digest::Digest() {
-	memset(m_data, 0, sizeof(m_data));
-	m_size = 0;
-}
-
-Digest::Digest(const EVP_MD* md, int fd) {
-	digest(md, fd);
-}
-
-void Digest::digest(const EVP_MD* md, int fd) {
-	EVP_MD_CTX ctx;
-	EVP_MD_CTX_init(&ctx);
-	EVP_DigestInit(&ctx, md);
-
-	int len;
-	const unsigned int blocklen = 8192;
-	static uint8_t* block = NULL;
-	if (block == NULL) {
-		block = (uint8_t*)malloc(blocklen);
-	}
-	while(1) {
-		len = read(fd, block, blocklen);
-		if (len == 0) { close(fd); break; }
-		if ((len < 0) && (errno == EINTR)) continue;
-		if (len < 0) { close(fd); return; }
-		EVP_DigestUpdate(&ctx, block, len);
-	}
-	if (len >= 0) {
-		EVP_DigestFinal(&ctx, m_data, &m_size);
-	}
-}
-
-Digest::Digest(const EVP_MD* md, uint8_t* data, uint32_t size) {
-	digest(md, data, size);
-}
-
-void Digest::digest(const EVP_MD* md, uint8_t* data, uint32_t size) {
-	EVP_MD_CTX ctx;
-	EVP_MD_CTX_init(&ctx);
-	EVP_DigestInit(&ctx, md);
-	EVP_DigestUpdate(&ctx, data, size);
-	EVP_DigestFinal(&ctx, m_data, &m_size);
-}
-
 uint8_t*	Digest::data() { return m_data; }
 uint32_t	Digest::size() { return m_size; }
 
@@ -121,45 +77,51 @@ int Digest::equal(Digest* a, Digest* b) {
 	return (memcmp(a->data(), b->data(), a_size) == 0);
 }
 
-
-const EVP_MD* SHA1Digest::m_md;
-
 SHA1Digest::SHA1Digest() {
-	if (m_md == NULL) {
-		OpenSSL_add_all_digests();
-		m_md = EVP_get_digestbyname("sha1");
-		assert(m_md != NULL);
-	}
+	m_size = CC_SHA1_DIGEST_LENGTH;
 }
 
 SHA1Digest::SHA1Digest(int fd) {
-	if (m_md == NULL) {
-		OpenSSL_add_all_digests();
-		m_md = EVP_get_digestbyname("sha1");
-		assert(m_md != NULL);
-	}
-	digest(m_md, fd);
+	m_size = CC_SHA1_DIGEST_LENGTH;
+	digest(m_data, fd);
 }
 
 SHA1Digest::SHA1Digest(const char* filename) {
+	m_size = CC_SHA1_DIGEST_LENGTH;
 	int fd = open(filename, O_RDONLY);
-	if (m_md == NULL) {
-		OpenSSL_add_all_digests();
-		m_md = EVP_get_digestbyname("sha1");
-		assert(m_md != NULL);
-	}
-	digest(m_md, fd);
+	digest(m_data, fd);
 }
 
 SHA1Digest::SHA1Digest(uint8_t* data, uint32_t size) {
-	if (m_md == NULL) {
-		OpenSSL_add_all_digests();
-		m_md = EVP_get_digestbyname("sha1");
-		assert(m_md != NULL);
-	}
-	digest(m_md, data, size);
+	m_size = CC_SHA1_DIGEST_LENGTH;
+	digest(m_data, data, size);
 }
 
+void SHA1Digest::digest(unsigned char* md, int fd) {
+	CC_SHA1_CTX c;
+	CC_SHA1_Init(&c);
+	
+	int len;
+	const unsigned int blocklen = 8192;
+	static uint8_t* block = NULL;
+	if (block == NULL) {
+		block = (uint8_t*)malloc(blocklen);
+	}
+	while(1) {
+		len = read(fd, block, blocklen);
+		if (len == 0) { close(fd); break; }
+		if ((len < 0) && (errno == EINTR)) continue;
+		if (len < 0) { close(fd); return; }
+		CC_SHA1_Update(&c, block, (size_t)len);
+	}
+	if (len >= 0) {
+		CC_SHA1_Final(md, &c);
+	}	
+}
+
+void SHA1Digest::digest(unsigned char* md, uint8_t* data, uint32_t size) {
+	CC_SHA1((const void*)data, (CC_LONG)size, md);
+}
 
 SHA1DigestMachO::SHA1DigestMachO(const char* filename) {
 	char* error = NULL;
@@ -182,11 +144,11 @@ SHA1DigestMachO::SHA1DigestMachO(const char* filename) {
 			&block,
 			&blocklen);
 		if (ret == REDO_PREBINDING_SUCCESS && block != NULL) {
-			digest(SHA1Digest::m_md, (uint8_t*)block, blocklen);
+			digest(m_data, (uint8_t*)block, blocklen);
 		} else {
 			//fprintf(stderr, "%s:%d: unexpected unprebind result: %s: %s (%d)\n", __FILE__, __LINE__, filename, error, ret);
 			int fd = open(filename, O_RDONLY);
-			digest(SHA1Digest::m_md, fd);
+			digest(m_data, fd);
 			close(fd);
 		}
 		if (block != NULL) {
@@ -195,7 +157,7 @@ SHA1DigestMachO::SHA1DigestMachO(const char* filename) {
 		}
 	} else {
 		int fd = open(filename, O_RDONLY);
-		digest(SHA1Digest::m_md, fd);
+		digest(m_data, fd);
 		close(fd);
 	}
 }
@@ -206,6 +168,6 @@ SHA1DigestSymlink::SHA1DigestSymlink(const char* filename) {
 	if (res == -1) {
 		fprintf(stderr, "%s:%d: readlink: %s: %s (%d)\n", __FILE__, __LINE__, filename, strerror(errno), errno);
 	} else {
-		digest(SHA1Digest::m_md, (uint8_t*)link, res);
+		digest(m_data, (uint8_t*)link, res);
 	}
 }

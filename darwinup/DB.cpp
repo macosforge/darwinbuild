@@ -155,11 +155,11 @@ File* DarwinupDatabase::make_file(uint8_t* data) {
 	uint64_t size;
 	memcpy(&size, &data[this->file_offset(6)], sizeof(uint64_t));
 
-	Digest* digest = NULL;
+	SHA1Digest* digest = NULL;
 	uint8_t* dp;
 	memcpy(&dp, &data[this->file_offset(7)], sizeof(uint8_t*));
 	if (dp) {
-		digest = new Digest();
+		digest = new SHA1Digest();
 		digest->m_size = 20; // size of SHA1 hash
 		memcpy(digest->m_data, dp, 20);
 	}
