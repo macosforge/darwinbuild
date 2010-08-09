@@ -66,11 +66,11 @@ char* format_digest(const unsigned char* m) {
 }
 
 char* calculate_digest(int fd) {
-	unsigned char md[20];
+	unsigned char md[CC_SHA1_DIGEST_LENGTH];
 	CC_SHA1_CTX c;
 	CC_SHA1_Init(&c);
 	
-	memset(md, 0, 20);
+	memset(md, 0, CC_SHA1_DIGEST_LENGTH);
 	
 	ssize_t len;
 	const unsigned int blocklen = 8192;
