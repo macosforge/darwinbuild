@@ -1,6 +1,10 @@
 Darwin Build Scripts Change History
 -----------------------------------
 
+Release 20 [10-Aug-2010]
+	- all: use CommonCrypto instead of OpenSSL
+	- all: remove obsolete Makefiles
+
 Release 19.1 [01-Jul-2010]
 	- darwinup: fix bug which prevented remote root install when the remote
 	  path is a symlink.
