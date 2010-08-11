@@ -25,6 +25,7 @@
 				7227AD1B109A053900BE33D7 /* CopyFiles */,
 			);
 			dependencies = (
+				720BE2F6120C90E500B3C4A5 /* PBXTargetDependency */,
 				7227AC421098DC6A00BE33D7 /* PBXTargetDependency */,
 				7227AC401098DC6A00BE33D7 /* PBXTargetDependency */,
 				7227AC3E1098DC6A00BE33D7 /* PBXTargetDependency */,
@@ -101,6 +102,7 @@
 
 /* Begin PBXBuildFile section */
 		61E0A6BD10A8DCC700DA7EBC /* exportIndex.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86BFF10965EEA00C66E90 /* exportIndex.c */; };
+		720BE2F4120C90C500B3C4A5 /* digest.c in Sources */ = {isa = PBXBuildFile; fileRef = 720BE2E9120C909E00B3C4A5 /* digest.c */; };
 		7227AB41109897D500BE33D7 /* binary_sites.tcl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 72C86BF310965EEA00C66E90 /* binary_sites.tcl */; };
 		7227AB42109897D500BE33D7 /* branch.tcl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 72C86BF410965EEA00C66E90 /* branch.tcl */; };
 		7227AB43109897D500BE33D7 /* currentBuild.tcl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 72C86BF610965EEA00C66E90 /* currentBuild.tcl */; };
@@ -109,7 +111,6 @@
 		7227AB46109897D500BE33D7 /* macosx.tcl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 72C86C0710965EEA00C66E90 /* macosx.tcl */; };
 		7227AB67109899A600BE33D7 /* cfutils.h in Headers */ = {isa = PBXBuildFile; fileRef = 72C86BE910965E7500C66E90 /* cfutils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7227AB68109899A600BE33D7 /* DBPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 72C86BED10965E7500C66E90 /* DBPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7227AB7210989AAF00BE33D7 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 72C86CE110974CC700C66E90 /* libcrypto.dylib */; };
 		7227AB7510989F8D00BE33D7 /* manifest.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86C2E1096600B00C66E90 /* manifest.c */; };
 		7227ACA01098FCAA00BE33D7 /* libredo_prebinding.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 72C86CDD10974C3A00C66E90 /* libredo_prebinding.a */; };
 		7227AD1C109A05FA00BE33D7 /* buildlist in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7227AB871098A7BF00BE33D7 /* buildlist */; };
@@ -162,7 +163,6 @@
 		72C86C9D109745BC00C66E90 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72C86BE210965E4F00C66E90 /* main.cpp */; };
 		72C86C9E109745BC00C66E90 /* SerialSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72C86BE410965E4F00C66E90 /* SerialSet.cpp */; };
 		72C86C9F109745BC00C66E90 /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72C86BE610965E4F00C66E90 /* Utils.cpp */; };
-		72C86CE210974CC800C66E90 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 72C86CE110974CC700C66E90 /* libcrypto.dylib */; };
 		72C86CE410974CC800C66E90 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 72C86CE310974CC800C66E90 /* libsqlite3.dylib */; };
 		72D05CB811D2680500B33EDD /* query.c in Sources */ = {isa = PBXBuildFile; fileRef = 72D05CA911D2678F00B33EDD /* query.c */; };
 		DF12E2821119E2B0007587C1 /* DB.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF12E2811119E2B0007587C1 /* DB.cpp */; };
@@ -173,6 +173,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		720BE2F5120C90E500B3C4A5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 720BE2EA120C90A700B3C4A5;
+			remoteInfo = digest;
+		};
 		7227AB0F1097BBA900BE33D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
@@ -597,7 +604,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 72D05CAD11D267C400B33EDD /* query */;
+			remoteGlobalIDString = 72D05CAD11D267C400B33EDD;
 			remoteInfo = query;
 		};
 		DFCB82D9109A2F9A00D2DB2F /* PBXContainerItemProxy */ = {
@@ -660,6 +667,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		720BE2E9120C909E00B3C4A5 /* digest.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = digest.c; path = darwinbuild/digest.c; sourceTree = "<group>"; };
+		720BE2F2120C90A700B3C4A5 /* digest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = digest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7227AB6D10989A9900BE33D7 /* manifest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = manifest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7227AB871098A7BF00BE33D7 /* buildlist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = buildlist; path = darwinbuild/buildlist; sourceTree = "<group>"; };
 		7227AB881098A7BF00BE33D7 /* buildorder */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; name = buildorder; path = darwinbuild/buildorder; sourceTree = "<group>"; };
@@ -771,10 +780,9 @@
 		72C86C481096609500C66E90 /* darwinup */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = darwinup; sourceTree = BUILT_PRODUCTS_DIR; };
 		72C86C52109660CA00C66E90 /* darwintrace.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = darwintrace.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		72C86CDD10974C3A00C66E90 /* libredo_prebinding.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libredo_prebinding.a; path = /usr/local/lib/libredo_prebinding.a; sourceTree = "<absolute>"; };
-		72C86CE110974CC700C66E90 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = /usr/lib/libcrypto.dylib; sourceTree = "<absolute>"; };
 		72C86CE310974CC800C66E90 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = /usr/lib/libsqlite3.dylib; sourceTree = "<absolute>"; };
 		72D05CA911D2678F00B33EDD /* query.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = query.c; sourceTree = "<group>"; };
-		72D05CB711D267C400B33EDD /* register copy.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = "register copy.so"; sourceTree = BUILT_PRODUCTS_DIR; };
+		72D05CB711D267C400B33EDD /* query.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = query.so; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF12E2801119E2B0007587C1 /* DB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DB.h; path = darwinup/DB.h; sourceTree = "<group>"; };
 		DF12E2811119E2B0007587C1 /* DB.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DB.cpp; path = darwinup/DB.cpp; sourceTree = "<group>"; };
 		DFC9772711138F9400CAE084 /* Column.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Column.cpp; path = darwinup/Column.cpp; sourceTree = "<group>"; };
@@ -787,11 +795,17 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		720BE2ED120C90A700B3C4A5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7227AB6B10989A9900BE33D7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7227AB7210989AAF00BE33D7 /* libcrypto.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -970,7 +984,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				72C86CE210974CC800C66E90 /* libcrypto.dylib in Frameworks */,
 				72C86CE410974CC800C66E90 /* libsqlite3.dylib in Frameworks */,
 				7227ACA01098FCAA00BE33D7 /* libredo_prebinding.a in Frameworks */,
 			);
@@ -1002,7 +1015,6 @@
 				72C86BD510965DC900C66E90 /* darwinbuild */,
 				72C86C391096607900C66E90 /* Products */,
 				72C86CDD10974C3A00C66E90 /* libredo_prebinding.a */,
-				72C86CE110974CC700C66E90 /* libcrypto.dylib */,
 				72C86CE310974CC800C66E90 /* libsqlite3.dylib */,
 				72574A0F10977F7A00B13BC3 /* CoreFoundation.framework */,
 				72574A1410977FAD00B13BC3 /* libtcl.dylib */,
@@ -1013,6 +1025,7 @@
 		72C86BD510965DC900C66E90 /* darwinbuild */ = {
 			isa = PBXGroup;
 			children = (
+				720BE2E9120C909E00B3C4A5 /* digest.c */,
 				7227AB871098A7BF00BE33D7 /* buildlist */,
 				7227AB881098A7BF00BE33D7 /* buildorder */,
 				7227AB891098A7BF00BE33D7 /* ditto */,
@@ -1167,7 +1180,8 @@
 				7227AC1C1098D8DB00BE33D7 /* thinPackages */,
 				7227AC251098DB9200BE33D7 /* installXcode */,
 				7227AC2E1098DBDF00BE33D7 /* installXcode32 */,
-				72D05CB711D267C400B33EDD /* register copy.so */,
+				72D05CB711D267C400B33EDD /* query.so */,
+				720BE2F2120C90A700B3C4A5 /* digest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1194,6 +1208,22 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		720BE2EA120C90A700B3C4A5 /* digest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 720BE2EE120C90A700B3C4A5 /* Build configuration list for PBXNativeTarget "digest" */;
+			buildPhases = (
+				720BE2EB120C90A700B3C4A5 /* Sources */,
+				720BE2ED120C90A700B3C4A5 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = digest;
+			productName = digest;
+			productReference = 720BE2F2120C90A700B3C4A5 /* digest */;
+			productType = "com.apple.product-type.tool";
+		};
 		7227AB6C10989A9900BE33D7 /* manifest */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7227AB7310989ACD00BE33D7 /* Build configuration list for PBXNativeTarget "manifest" */;
@@ -1763,7 +1793,7 @@
 			);
 			name = query;
 			productName = configuration;
-			productReference = 72D05CB711D267C400B33EDD /* register copy.so */;
+			productReference = 72D05CB711D267C400B33EDD /* query.so */;
 			productType = "com.apple.product-type.objfile";
 		};
 /* End PBXNativeTarget section */
@@ -1822,6 +1852,7 @@
 				7227AC1E1098DB9200BE33D7 /* installXcode */,
 				7227AC271098DBDF00BE33D7 /* installXcode32 */,
 				7227AC7E1098EF6400BE33D7 /* libredo_prebinding.a */,
+				720BE2EA120C90A700B3C4A5 /* digest */,
 			);
 		};
 /* End PBXProject section */
@@ -2023,6 +2054,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		720BE2EB120C90A700B3C4A5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				720BE2F4120C90C500B3C4A5 /* digest.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7227AB6A10989A9900BE33D7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2264,6 +2303,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		720BE2F6120C90E500B3C4A5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 720BE2EA120C90A700B3C4A5 /* digest */;
+			targetProxy = 720BE2F5120C90E500B3C4A5 /* PBXContainerItemProxy */;
+		};
 		7227AB101097BBA900BE33D7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 725740981097B051008AD4D7 /* darwinxref_plugins */;
@@ -2577,6 +2621,33 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		720BE2EF120C90A700B3C4A5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
+			buildSettings = {
+				INSTALL_PATH = "$(DATDIR)/darwinbuild";
+				PRODUCT_NAME = digest;
+			};
+			name = Debug;
+		};
+		720BE2F0120C90A700B3C4A5 /* Public */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
+			buildSettings = {
+				INSTALL_PATH = "$(DATDIR)/darwinbuild";
+				PRODUCT_NAME = digest;
+			};
+			name = Public;
+		};
+		720BE2F1120C90A700B3C4A5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
+			buildSettings = {
+				INSTALL_PATH = "$(DATDIR)/darwinbuild";
+				PRODUCT_NAME = digest;
+			};
+			name = Release;
+		};
 		7227AB3E1098977D00BE33D7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
@@ -3605,6 +3676,16 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		720BE2EE120C90A700B3C4A5 /* Build configuration list for PBXNativeTarget "digest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				720BE2EF120C90A700B3C4A5 /* Debug */,
+				720BE2F0120C90A700B3C4A5 /* Public */,
+				720BE2F1120C90A700B3C4A5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Public;
+		};
 		7227AB4A109897E500BE33D7 /* Build configuration list for PBXAggregateTarget "tcl_plugins" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -35,34 +35,25 @@
 
 #include <sys/types.h>
 #include <stdint.h>
-#include <openssl/evp.h>
+#include <CommonCrypto/CommonDigest.h>
 
 #include "Utils.h"
 
 ////
 //  Digest
 //
-//  Digest is the root class for all message digest algorithms
-//  supported by darwinup.
-//
-//  Conceptually it's an abstract class, although that
-//  hasn't been formalized.
+//  Digest is the abstract root class for all message digest algorithms
+//  supported by darwinup. Subclasses must implement the constructors 
+//  and digest() APIs.
 //
 //  SHA1Digest is the only concrete subclass.  There are two
 //  subclasses of SHA1Digest which add convenience functions
 //  for digesting a canonicalized Mach-O binary, and the
 //  target of a symlink obtained by readlink(2).
 //
-//  NOTE: It might be more appropriate to use the CommonCrypto
-//  implementation of these algorithms rather than the OpenSSL
-//  implementation.  However, CommonCrypto is only available on
-//  Tiger.
 ////
 
 struct Digest {
-	Digest();
-	Digest(const EVP_MD* md, int fd);
-	Digest(const EVP_MD* md, uint8_t* data, uint32_t size);
 	
 	////
 	//  Accessor functions
@@ -74,7 +65,7 @@ struct Digest {
 	// Returns the size of the raw digest.
 	virtual uint32_t	size();
 	
-	// Returns the digest as an ASCIZ string, represented in hexidecimal.
+	// Returns the digest as an ASCII string, represented in hexidecimal.
 	virtual char*		string();
 	
 	////
@@ -88,11 +79,11 @@ struct Digest {
 
 	protected:
 
-	virtual	void	digest(const EVP_MD* md, int fd);
-	virtual	void	digest(const EVP_MD* md, uint8_t* data, uint32_t size);
+	virtual	void	digest(unsigned char* md, int fd) = 0;
+	virtual	void	digest(unsigned char* md, uint8_t* data, uint32_t size) = 0;
 
-	uint8_t		m_data[EVP_MAX_MD_SIZE];
-	uint32_t	m_size;
+	unsigned char m_data[CC_SHA512_DIGEST_LENGTH]; // support up to 64 bytes
+	uint32_t	  m_size;
 	
 	friend struct Depot;
 	friend struct DarwinupDatabase;
@@ -102,8 +93,6 @@ struct Digest {
 //  SHA1Digest
 ////
 struct SHA1Digest : Digest {
-	static const EVP_MD* m_md;
-	
 	// Creates an empty digest.
 	SHA1Digest();
 	
@@ -115,6 +104,10 @@ struct SHA1Digest : Digest {
 	
 	// Computes the SHA-1 digest of the block of memory.
 	SHA1Digest(uint8_t* data, uint32_t size);
+	
+	void	digest(unsigned char* md, int fd);
+	void	digest(unsigned char* md, uint8_t* data, uint32_t size);
+
 };
 
 ////

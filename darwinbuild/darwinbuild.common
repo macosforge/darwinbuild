@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Copyright (c) 2005, Apple Computer, Inc. All rights reserved.
+# Copyright (c) 2005-2010, Apple Computer, Inc. All rights reserved.
 # 
 # @APPLE_BSD_LICENSE_HEADER_START@
 #
@@ -533,10 +533,10 @@ function CreateReceipt() {
 	    echo "ERROR: Could not access $HashSource" 1>&2
 	    exit 1
 	fi
-	Hash=$(openssl dgst -sha1 < "$HashSource")
+	Hash=$($DIGEST < "$HashSource")
 	echo "# Hash of $HashSource" >> "$TmpFile"
     else
-	Hash=$(openssl dgst -sha1 < "$TmpFile")
+	Hash=$($DIGEST < "$TmpFile")
     fi
 
     cp "$TmpFile" "$receipts/$Hash"
