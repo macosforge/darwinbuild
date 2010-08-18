@@ -111,7 +111,7 @@ int run(CFArrayRef argv) {
 
     } else if (res == kCFCompareGreaterThan) {
       // 1 got ahead of 2, which means 1 is missing a project
-      CFStringRef version2 = DBCopyPropString(build2, projectName1, CFSTR("version"));
+      CFStringRef version2 = DBCopyPropString(build2, projectName2, CFSTR("version"));
       cfprintf(stdout, "%@-%@ only in %@\n", projectName2, version2, build2);
       CFRelease(version2);
       ++j;
