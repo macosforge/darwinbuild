@@ -82,7 +82,8 @@ File::File(Archive* archive, FTSENT* ent) {
 	m_digest = NULL;
 }
 
-File::File(uint64_t serial, Archive* archive, uint32_t info, const char* path, mode_t mode, uid_t uid, gid_t gid, off_t size, Digest* digest) {
+File::File(uint64_t serial, Archive* archive, uint32_t info, const char* path, 
+		   mode_t mode, uid_t uid, gid_t gid, off_t size, Digest* digest) {
 	m_serial = serial;
 	m_archive = archive;
 	m_info = info;
@@ -116,17 +117,21 @@ void		File::archive(Archive* archive) { m_archive = archive; }
 
 uint32_t File::compare(File* a, File* b) {
 	if (a == b) return FILE_INFO_IDENTICAL; // identity
-	if (a == NULL) return 0xFFFFFFFF; // existent and nonexistent file are infinitely different
-	if (b == NULL) return 0xFFFFFFFF; // existent and nonexistent file are infinitely different
+	// existent and nonexistent file are infinitely different
+	if (a == NULL) return 0xFFFFFFFF; 
+	if (b == NULL) return 0xFFFFFFFF;
 	
 	uint32_t result = FILE_INFO_IDENTICAL;
 	if (a->m_uid != b->m_uid) result |= FILE_INFO_UID_DIFFERS;
 	if (a->m_gid != b->m_gid) result |= FILE_INFO_GID_DIFFERS;
 	if (a->m_mode != b->m_mode) result |= FILE_INFO_MODE_DIFFERS;
-	if ((a->m_mode & S_IFMT) != (b->m_mode & S_IFMT)) result |= FILE_INFO_TYPE_DIFFERS;
-	if ((a->m_mode & ALLPERMS) != (b->m_mode & ALLPERMS)) result |= FILE_INFO_PERM_DIFFERS;
+	if ((a->m_mode & S_IFMT) != (b->m_mode & S_IFMT)) 
+		result |= FILE_INFO_TYPE_DIFFERS;
+	if ((a->m_mode & ALLPERMS) != (b->m_mode & ALLPERMS)) 
+		result |= FILE_INFO_PERM_DIFFERS;
 	//if (a->m_size != b->m_size) result |= FILE_INFO_SIZE_DIFFERS;
-	if (Digest::equal(a->m_digest, b->m_digest) == 0) result |= FILE_INFO_DATA_DIFFERS;
+	if (Digest::equal(a->m_digest, b->m_digest) == 0) 
+		result |= FILE_INFO_DATA_DIFFERS;
 	return result;
 }
 
@@ -158,7 +163,8 @@ int File::install(const char* prefix, const char* dest) {
 	if (dirpath) {
 		ssize_t len = snprintf(srcpath, sizeof(srcpath), "%s/%s", dirpath, path);
 		if ((size_t)len > sizeof(srcpath)) {
-			fprintf(stderr, "ERROR: [install] path too long: %s/%s\n", dirpath, path);
+			fprintf(stderr, "ERROR: [install] path too long: %s/%s\n", 
+					dirpath, path);
 			return -1;
 		}
 		IF_DEBUG("[install] rename(%s, %s)\n", srcpath, dstpath);
@@ -168,20 +174,22 @@ int File::install(const char* prefix, const char* dest) {
 				// the file wasn't found, try to do on-demand
 				// expansion of the archive that contains it.
 				if (is_directory(dirpath) == 0) {
-					IF_DEBUG("[install] File::install on-demand archive expansion \n");
+					IF_DEBUG("[install] File::install on-demand archive expansion\n");
 					res = archive->expand_directory(prefix);
 					if (res == 0) res = this->install(prefix, dest);
 				} else {
 					// archive was already expanded, so
 					// the file is truly missing (worry).
 					IF_DEBUG("[install] File::install missing file in archive \n");
-					fprintf(stderr, "%s:%d: %s: %s (%d)\n", __FILE__, __LINE__, srcpath, strerror(errno), errno);
+					fprintf(stderr, "%s:%d: %s: %s (%d)\n", 
+							__FILE__, __LINE__, srcpath, strerror(errno), errno);
 				}
 			} else if (force && errno == ENOTDIR) {
 				// a) some part of destination path does not exist
 				// b) from is a directory, but to is not
 				IF_DEBUG("[install] File::install ENOTDIR\n");
-				fprintf(stderr, "%s:%d: %s: %s (%d)\n", __FILE__, __LINE__, dstpath, strerror(errno), errno);
+				fprintf(stderr, "%s:%d: %s: %s (%d)\n", 
+						__FILE__, __LINE__, dstpath, strerror(errno), errno);
 			} else if (force && errno == EISDIR) {
 				// to is a directory, but from is not
 				IF_DEBUG("[install] replacing directory with a file\n");
@@ -190,28 +198,27 @@ int File::install(const char* prefix, const char* dest) {
 				rmstate = removefile_state_alloc();
 				res = removefile(dstpath, rmstate, REMOVEFILE_RECURSIVE);
 				removefile_state_free(rmstate);
-				if (res == -1) fprintf(stderr, "%s:%d: %s: %s (%d)\n", __FILE__, __LINE__, dstpath, strerror(errno), errno);
+				if (res == -1) fprintf(stderr, "%s:%d: %s: %s (%d)\n",
+									   __FILE__, __LINE__, dstpath, strerror(errno), 
+									   errno);
 				IF_DEBUG("[install] rename(%s, %s)\n", srcpath, dstpath);
 				res = rename(srcpath, dstpath);
-				if (res == -1) fprintf(stderr, "%s:%d: %s: %s (%d)\n", __FILE__, __LINE__, dstpath, strerror(errno), errno);
+				if (res == -1) fprintf(stderr, "%s:%d: %s: %s (%d)\n",
+									   __FILE__, __LINE__, dstpath, strerror(errno), 
+									   errno);
 			} else if (force && errno == ENOTEMPTY) {
 				// to is a directory and is not empty
 				IF_DEBUG("[install] File::install ENOTEMPTY\n");
-				fprintf(stderr, "%s:%d: %s: %s (%d)\n", __FILE__, __LINE__, dstpath, strerror(errno), errno);
+				fprintf(stderr, "%s:%d: %s: %s (%d)\n", 
+						__FILE__, __LINE__, dstpath, strerror(errno), errno);
 			} else {
 				if (!force) {
-					fprintf(stderr,
-							"-------------------------------------------------------------------------------\n"
-							"darwinup has encountered a potentially unsafe mismatch between the root and    \n"
-							"destination. For example, you may be trying to install a file where a directory\n" 
-							"currently exists. darwinup will not install this root by default since it could\n"
-							"cause damage to your system. You can use the force (-f) option to allow        \n"
-							"darwinup to attempt the install anyway.                                        \n"
-							"-------------------------------------------------------------------------------\n"
-							);
+					fprintf(stderr, FILE_OBJ_CHANGE_ERROR("file", "directory"));
 				}
-				fprintf(stderr, "%s:%d: %s: %s (%d)\n", __FILE__, __LINE__, dstpath, strerror(errno), errno);
-				fprintf(stderr, "ERROR: fatal error during File::install. Cannot continue.\n");
+				fprintf(stderr, "%s:%d: %s: %s (%d)\n", 
+						__FILE__, __LINE__, dstpath, strerror(errno), errno);
+				fprintf(stderr, "ERROR: fatal error during File::install. " \
+						"Cannot continue.\n");
 			}
 		} else {
 			IF_DEBUG("[install] rename(%s, %s)\n", srcpath, dstpath);
@@ -226,7 +233,8 @@ int File::install(const char* prefix, const char* dest) {
 
 int File::remove() {
 	// not implemented
-	fprintf(stderr, "%s:%d: call to abstract function File::remove\n", __FILE__, __LINE__);
+	fprintf(stderr, "%s:%d: call to abstract function File::remove\n", 
+			__FILE__, __LINE__);
 	return -1;
 }
 
@@ -251,13 +259,17 @@ NoEntry::NoEntry(const char* path) : File(path) {
 	m_info = INFO_SET(m_info, FILE_INFO_NO_ENTRY);
 }
 
-NoEntry::NoEntry(uint64_t serial, Archive* archive, uint32_t info, const char* path, mode_t mode, uid_t uid, gid_t gid, off_t size, Digest* digest) : File(serial, archive, info, path, mode, uid, gid, size, digest) {}
+NoEntry::NoEntry(uint64_t serial, Archive* archive, uint32_t info, const char* path, 
+				 mode_t mode, uid_t uid, gid_t gid, off_t size, Digest* digest) 
+: File(serial, archive, info, path, mode, uid, gid, size, digest) {}
 
 Regular::Regular(Archive* archive, FTSENT* ent) : File(archive, ent) {
 	m_digest = new SHA1DigestMachO(ent->fts_accpath);
 }
 
-Regular::Regular(uint64_t serial, Archive* archive, uint32_t info, const char* path, mode_t mode, uid_t uid, gid_t gid, off_t size, Digest* digest) : File(serial, archive, info, path, mode, uid, gid, size, digest) {
+Regular::Regular(uint64_t serial, Archive* archive, uint32_t info, const char* path, 
+				 mode_t mode, uid_t uid, gid_t gid, off_t size, Digest* digest) 
+: File(serial, archive, info, path, mode, uid, gid, size, digest) {
 	if (digest == NULL || serial == 0) {
 		m_digest = new SHA1DigestMachO(path);
 	}
@@ -273,7 +285,8 @@ int Regular::remove() {
 		// remove the file anyway
 		res = 0;
 	} else if (res != 0) {
-		fprintf(stderr, "%s:%d: %s: %s (%d)\n", __FILE__, __LINE__, m_path, strerror(errno), errno);
+		fprintf(stderr, "%s:%d: %s: %s (%d)\n", 
+				__FILE__, __LINE__, m_path, strerror(errno), errno);
 	}
 	return res;
 }
@@ -282,7 +295,9 @@ Symlink::Symlink(Archive* archive, FTSENT* ent) : File(archive, ent) {
 	m_digest = new SHA1DigestSymlink(ent->fts_accpath);
 }
 
-Symlink::Symlink(uint64_t serial, Archive* archive, uint32_t info, const char* path, mode_t mode, uid_t uid, gid_t gid, off_t size, Digest* digest) : File(serial, archive, info, path, mode, uid, gid, size, digest) {
+Symlink::Symlink(uint64_t serial, Archive* archive, uint32_t info, const char* path,
+				 mode_t mode, uid_t uid, gid_t gid, off_t size, Digest* digest) 
+: File(serial, archive, info, path, mode, uid, gid, size, digest) {
 	if (digest == NULL || serial == 0) {
 		m_digest = new SHA1DigestSymlink(path);
 	}
@@ -298,7 +313,8 @@ int Symlink::remove() {
 		// remove the file anyway
 		res = 0;
 	} else if (res == -1) {
-		fprintf(stderr, "%s:%d: %s (%d)\n", __FILE__, __LINE__, strerror(errno), errno);
+		fprintf(stderr, "%s:%d: %s (%d)\n", 
+				__FILE__, __LINE__, strerror(errno), errno);
 	}
 	return res;
 }
@@ -312,7 +328,8 @@ int Symlink::install_info(const char* dest) {
 	gid_t gid = this->gid();
 	IF_DEBUG("[install] lchown(%d, %d)\n", uid, gid);
 	if (res == 0) res = lchown(path, uid, gid);
-	if (res == -1) fprintf(stderr, "%s:%d: %s: %s (%d)\n", __FILE__, __LINE__, path, strerror(errno), errno);
+	if (res == -1) fprintf(stderr, "%s:%d: %s: %s (%d)\n", 
+						   __FILE__, __LINE__, path, strerror(errno), errno);
 	//IF_DEBUG("[install] lchmod(%o)\n", mode);
 	//if (res == 0) res = lchmod(path, mode);
 	free(path);
@@ -321,7 +338,10 @@ int Symlink::install_info(const char* dest) {
 
 Directory::Directory(Archive* archive, FTSENT* ent) : File(archive, ent) {}
 
-Directory::Directory(uint64_t serial, Archive* archive, uint32_t info, const char* path, mode_t mode, uid_t uid, gid_t gid, off_t size, Digest* digest) : File(serial, archive, info, path, mode, uid, gid, size, digest) {};
+Directory::Directory(uint64_t serial, Archive* archive, uint32_t info, 
+					 const char* path, mode_t mode, uid_t uid, gid_t gid, off_t size,
+					 Digest* digest) 
+: File(serial, archive, info, path, mode, uid, gid, size, digest) {};
 
 int Directory::install(const char* prefix, const char* dest) {
 	// We create a new directory instead of renaming the
@@ -346,28 +366,35 @@ int Directory::install(const char* prefix, const char* dest) {
 			// this is expected in normal cases, so no need to force
 			IF_DEBUG("[install] directory already exists, setting mode \n");
 			res = chmod(dstpath, mode);
-			if (res == -1) fprintf(stderr, "%s:%d: %s: %s (%d)\n", __FILE__, __LINE__, dstpath, strerror(errno), errno);
+			if (res == -1) fprintf(stderr, "%s:%d: %s: %s (%d)\n", 
+								   __FILE__, __LINE__, dstpath, strerror(errno), 
+								   errno);
 		} else if (force) {
 			// this could be bad, so require the force option
-			IF_DEBUG("[install] original node is a file, we need to replace with a directory \n");
+			IF_DEBUG("[install] original node is a file, we need to replace " \
+					 "with a directory \n");
 			IF_DEBUG("[install] unlink(%s)\n", dstpath);
 			res = unlink(dstpath);
 			IF_DEBUG("[install] mkdir(%s, %04o)\n", dstpath, mode);
 			res = mkdir(dstpath, mode);
-			if (res == -1) fprintf(stderr, "%s:%d: %s: %s (%d)\n", __FILE__, __LINE__, dstpath, strerror(errno), errno);
+			if (res == -1) fprintf(stderr, "%s:%d: %s: %s (%d)\n", 
+								   __FILE__, __LINE__, dstpath, strerror(errno), 
+								   errno);
 		}
 	} else if (force && res == -1 && errno == ENOTDIR) {
 		// some part of destination path is not a directory
 		IF_DEBUG("[install] Directory::install ENOTDIR \n");
 	} else if (res == -1) {
-		fprintf(stderr, "ERROR: %s:%d: %s: %s (%d)\n", __FILE__, __LINE__, dstpath, strerror(errno), errno);
+		fprintf(stderr, "ERROR: %s:%d: %s: %s (%d)\n", 
+				__FILE__, __LINE__, dstpath, strerror(errno), errno);
 		fprintf(stderr, "ERROR: unable to create %s \n", dstpath);
 	}
 	
 	if (res == 0) {
 		res = chown(dstpath, uid, gid);
 		if (res != 0) {
-			fprintf(stderr, "ERROR: %s:%d: %s: %s (%d)\n", __FILE__, __LINE__, dstpath, strerror(errno), errno);
+			fprintf(stderr, "ERROR: %s:%d: %s: %s (%d)\n", 
+					__FILE__, __LINE__, dstpath, strerror(errno), errno);
 			fprintf(stderr, "ERROR: unable to change ownership of %s \n", dstpath);
 		}
 	}
@@ -388,31 +415,38 @@ int Directory::remove() {
 	} else if (res == -1 && errno == ENOTEMPTY) {
 	        res = remove_directory(path);
 	} else if (res == -1) {
-		fprintf(stderr, "%s:%d: %s (%d)\n", __FILE__, __LINE__, strerror(errno), errno);
+		fprintf(stderr, "%s:%d: %s (%d)\n", 
+				__FILE__, __LINE__, strerror(errno), errno);
 	}
 	return res;
 }
 
 
-File* FileFactory(uint64_t serial, Archive* archive, uint32_t info, const char* path, mode_t mode, uid_t uid, gid_t gid, off_t size, Digest* digest) {
+File* FileFactory(uint64_t serial, Archive* archive, uint32_t info, const char* path, 
+				  mode_t mode, uid_t uid, gid_t gid, off_t size, Digest* digest) {
 	File* file = NULL;
 	switch (mode & S_IFMT) {
 		case S_IFDIR:
-			file = new Directory(serial, archive, info, path, mode, uid, gid, size, digest);
+			file = new Directory(serial, archive, info, path, mode, uid, gid, size, 
+								 digest);
 			break;
 		case S_IFREG:
-			file = new Regular(serial, archive, info, path, mode, uid, gid, size, digest);
+			file = new Regular(serial, archive, info, path, mode, uid, gid, size, 
+							   digest);
 			break;
 		case S_IFLNK:
-			file = new Symlink(serial, archive, info, path, mode, uid, gid, size, digest);
+			file = new Symlink(serial, archive, info, path, mode, uid, gid, size, 
+							   digest);
 			break;
 		case 0:
 			if (INFO_TEST(info, FILE_INFO_NO_ENTRY)) {
-				file = new NoEntry(serial, archive, info, path, mode, uid, gid, size, digest);
+				file = new NoEntry(serial, archive, info, path, mode, uid, gid, size, 
+								   digest);
 				break;
 			}
 		default:
-			fprintf(stderr, "%s:%d: unexpected file type %o\n", __FILE__, __LINE__, mode & S_IFMT);
+			fprintf(stderr, "%s:%d: unexpected file type %o\n", 
+					__FILE__, __LINE__, mode & S_IFMT);
 			break;
 	}
 	return file;
@@ -435,10 +469,12 @@ File* FileFactory(Archive* archive, FTSENT* ent) {
 			break;
 		case FTS_DEFAULT:
 		case FTS_DNR:
-			fprintf(stderr, "%s:%d: could not read directory.  Run as root.\n", __FILE__, __LINE__);
+			fprintf(stderr, "%s:%d: could not read directory.  Run as root.\n",
+					__FILE__, __LINE__);
 			break;
 		default:
-			fprintf(stderr, "%s:%d: unexpected fts_info type %d\n", __FILE__, __LINE__, ent->fts_info);
+			fprintf(stderr, "%s:%d: unexpected fts_info type %d\n", 
+					__FILE__, __LINE__, ent->fts_info);
 			break;
 	}
 	return file;
@@ -462,11 +498,13 @@ File* FileFactory(const char* path) {
 		return NULL;
 	}	
 	if (res == -1) {
-		fprintf(stderr, "%s:%d: %s: %s (%d)\n", __FILE__, __LINE__, path, strerror(errno), errno);
+		fprintf(stderr, "%s:%d: %s: %s (%d)\n", 
+				__FILE__, __LINE__, path, strerror(errno), errno);
 		fprintf(stderr, "ERROR: unable to stat %s \n", path);
 		return NULL;
 	}
 	
-	file = FileFactory(0, NULL, FILE_INFO_NONE, path, sb.st_mode, sb.st_uid, sb.st_gid, sb.st_size, NULL);
+	file = FileFactory(0, NULL, FILE_INFO_NONE, path, sb.st_mode, sb.st_uid, 
+					   sb.st_gid, sb.st_size, NULL);
 	return file;
 }

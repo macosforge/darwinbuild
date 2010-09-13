@@ -39,6 +39,15 @@
 #include <sys/stat.h>
 #include <fts.h>
 
+#define FILE_OBJ_CHANGE_ERROR(_old_, _new_) \
+"-----------------------------------------------------------------------------\n" \
+"Darwinup has encountered a potentially unsafe mismatch between the root and  \n" \
+"destination. You seem to be trying to install a " _new_ " over a " _old_".   \n" \
+"Darwinup will not install this root by default since it could cause damage   \n" \
+"to your system. You can use the force (-f) option to allow darwinup to       \n" \
+"attempt the install anyway.                                                  \n" \
+"-----------------------------------------------------------------------------\n"
+
 enum file_starseded_t {
 	FILE_SUPERSEDED,
 	FILE_PRECEDED
