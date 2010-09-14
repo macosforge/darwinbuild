@@ -213,8 +213,8 @@ int File::install(const char* prefix, const char* dest) {
 						__FILE__, __LINE__, dstpath, strerror(errno), errno);
 			} else {
 				if (!force) {
-					fprintf(stderr, FILE_OBJ_CHANGE_ERROR("file", "directory"));
-				}
+					assert(0);
+				} 
 				fprintf(stderr, "%s:%d: %s: %s (%d)\n", 
 						__FILE__, __LINE__, dstpath, strerror(errno), errno);
 				fprintf(stderr, "ERROR: fatal error during File::install. " \

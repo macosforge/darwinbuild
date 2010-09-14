@@ -402,9 +402,9 @@ int Depot::iterate_files(Archive* archive, FileIteratorFunc func, void* context)
 	return res;
 }
 
-
 int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback,
 						 int* rollback_files) {
+	extern uint32_t force;
 	extern uint32_t dryrun;
 	int res = 0;
 	assert(archive != NULL);
@@ -475,8 +475,21 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback,
 				if (INFO_TEST(actual->info(), FILE_INFO_NO_ENTRY)) {
 					state = 'A';
 				} else {
+					if (INFO_TEST(actual_flags, FILE_INFO_TYPE_DIFFERS) && !force) {
+						// the existing file on disk is a different type than what
+						// we are trying to install, so require the force option,
+						// otherwise print an error and bail
+						mode_t file_type = file->mode() & S_IFMT;
+						mode_t actual_type = actual->mode() & S_IFMT;
+						fprintf(stderr, FILE_OBJ_CHANGE_ERROR, path, 
+								FILE_TYPE_STRING(file_type),
+								FILE_TYPE_STRING(actual_type));
+						return -2;
+					}
 					state = 'U';
 				}
+				
+				
 				
 				if (INFO_TEST(actual_flags, FILE_INFO_TYPE_DIFFERS) ||
 				    INFO_TEST(actual_flags, FILE_INFO_DATA_DIFFERS)) {
@@ -739,8 +752,8 @@ int Depot::install(Archive* archive) {
 	int rollback_files = 0;
 	if (res == 0) res = this->analyze_stage(archive_path, archive, rollback, &rollback_files);
 	
-	// we can stop now if this is a dry run
-	if (dryrun) {
+	// we can stop now if analyze failed or this is a dry run
+	if (res || dryrun) {
 		remove_directory(archive_path);
 		remove_directory(rollback_path);
 		free(rollback_path);
