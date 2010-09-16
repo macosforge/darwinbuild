@@ -52,7 +52,7 @@ do
 done;
 
 for R in rep_dir_file rep_dir_link rep_file_dir rep_file_link \
-		 rep_link_dir rep_link_file;
+		 rep_link_dir rep_link_file rep_flink_dir rep_flink_file;
 do
 	tar zxvf $R.tar.gz -C $PREFIX
 done;
@@ -369,7 +369,7 @@ is_dir $DEST/rep_dir
 echo "DIFF: diffing original test files to dest (should be no diffs) ..."
 $DIFF $ORIG $DEST 2>&1
 
-echo "========== TEST: Forcing object change: symlink to file ==========" 
+echo "========== TEST: Forcing object change: symlink->dir to file ==========" 
 is_link $DEST/rep_link
 $DARWINUP -f install $PREFIX/rep_link_file
 is_file $DEST/rep_link
@@ -378,12 +378,30 @@ is_link $DEST/rep_link
 echo "DIFF: diffing original test files to dest (should be no diffs) ..."
 $DIFF $ORIG $DEST 2>&1
 
-echo "========== TEST: Forcing object change: symlink to directory ==========" 
+echo "========== TEST: Forcing object change: symlink->dir to directory ==========" 
 is_link $DEST/rep_link
 $DARWINUP -f install $PREFIX/rep_link_dir
 is_dir $DEST/rep_link
 $DARWINUP uninstall newest
 is_link $DEST/rep_link
+echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+$DIFF $ORIG $DEST 2>&1
+
+echo "========== TEST: Forcing object change: symlink->file to file ==========" 
+is_link $DEST/rep_flink
+$DARWINUP -f install $PREFIX/rep_flink_file
+is_file $DEST/rep_flink
+$DARWINUP uninstall newest
+is_link $DEST/rep_flink
+echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+$DIFF $ORIG $DEST 2>&1
+
+echo "========== TEST: Forcing object change: symlink->file to directory ==========" 
+is_link $DEST/rep_flink
+$DARWINUP -f install $PREFIX/rep_flink_dir
+is_dir $DEST/rep_flink
+$DARWINUP uninstall newest
+is_link $DEST/rep_flink
 echo "DIFF: diffing original test files to dest (should be no diffs) ..."
 $DIFF $ORIG $DEST 2>&1
 
@@ -423,20 +441,33 @@ echo "DIFF: diffing original test files to dest (should be no diffs) ..."
 $DIFF $ORIG $DEST 2>&1
 if [ $? -ne 0 ]; then exit 1; fi
 
-echo "========== TEST: Try replacing Symlink with Directory =========="
+echo "========== TEST: Try replacing Symlink to directory with Directory =========="
 $DARWINUP install $PREFIX/rep_link_dir
 if [ $? -ne 255 ]; then exit 1; fi
 echo "DIFF: diffing original test files to dest (should be no diffs) ..."
 $DIFF $ORIG $DEST 2>&1
 if [ $? -ne 0 ]; then exit 1; fi
 
-echo "========== TEST: Try replacing Symlink with File =========="
+echo "========== TEST: Try replacing Symlink to directory with File =========="
 $DARWINUP install $PREFIX/rep_link_file
 if [ $? -ne 255 ]; then exit 1; fi
 echo "DIFF: diffing original test files to dest (should be no diffs) ..."
 $DIFF $ORIG $DEST 2>&1
 if [ $? -ne 0 ]; then exit 1; fi
 
+echo "========== TEST: Try replacing Symlink to file with Directory =========="
+$DARWINUP install $PREFIX/rep_flink_dir
+if [ $? -ne 255 ]; then exit 1; fi
+echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+$DIFF $ORIG $DEST 2>&1
+if [ $? -ne 0 ]; then exit 1; fi
+
+echo "========== TEST: Try replacing Symlink to file with File =========="
+$DARWINUP install $PREFIX/rep_flink_file
+if [ $? -ne 255 ]; then exit 1; fi
+echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+$DIFF $ORIG $DEST 2>&1
+if [ $? -ne 0 ]; then exit 1; fi
 
 popd >> /dev/null
 echo "INFO: Done testing!"
