@@ -104,7 +104,7 @@ int remove_directory(const char* directory) {
 
 int is_directory(const char* path) {
 	struct stat sb;
-	int res = stat(path, &sb);
+	int res = lstat(path, &sb);
 	return (res == 0 && S_ISDIR(sb.st_mode));
 }
 
