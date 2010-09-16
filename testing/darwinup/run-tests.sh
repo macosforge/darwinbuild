@@ -330,42 +330,42 @@ set +e
 
 echo "========== TEST: Try replacing File with Directory =========="
 $DARWINUP install $PREFIX/rep_file_dir
-if [ $? -ne 1 ]; then exit 1; fi
+if [ $? -ne -1 ]; then exit 1; fi
 echo "DIFF: diffing original test files to dest (should be no diffs) ..."
 $DIFF $ORIG $DEST 2>&1
 if [ $? -ne 0 ]; then exit 1; fi
 
 echo "========== TEST: Try replacing File with Symlink =========="
 $DARWINUP install $PREFIX/rep_file_link
-if [ $? -ne 1 ]; then exit 1; fi
+if [ $? -ne -1 ]; then exit 1; fi
 echo "DIFF: diffing original test files to dest (should be no diffs) ..."
 $DIFF $ORIG $DEST 2>&1
 if [ $? -ne 0 ]; then exit 1; fi
 
 echo "========== TEST: Try replacing Directory with Symlink =========="
 $DARWINUP install $PREFIX/rep_dir_link
-if [ $? -ne 1 ]; then exit 1; fi
+if [ $? -ne -1 ]; then exit 1; fi
 echo "DIFF: diffing original test files to dest (should be no diffs) ..."
 $DIFF $ORIG $DEST 2>&1
 if [ $? -ne 0 ]; then exit 1; fi
 
 echo "========== TEST: Try replacing Directory with File =========="
 $DARWINUP install $PREFIX/rep_dir_file
-if [ $? -ne 1 ]; then exit 1; fi
+if [ $? -ne -1 ]; then exit 1; fi
 echo "DIFF: diffing original test files to dest (should be no diffs) ..."
 $DIFF $ORIG $DEST 2>&1
 if [ $? -ne 0 ]; then exit 1; fi
 
 echo "========== TEST: Try replacing Symlink with Directory =========="
 $DARWINUP install $PREFIX/rep_link_dir
-if [ $? -ne 1 ]; then exit 1; fi
+if [ $? -ne -1 ]; then exit 1; fi
 echo "DIFF: diffing original test files to dest (should be no diffs) ..."
 $DIFF $ORIG $DEST 2>&1
 if [ $? -ne 0 ]; then exit 1; fi
 
 echo "========== TEST: Try replacing Symlink with File =========="
 $DARWINUP install $PREFIX/rep_link_file
-if [ $? -ne 1 ]; then exit 1; fi
+if [ $? -ne -1 ]; then exit 1; fi
 echo "DIFF: diffing original test files to dest (should be no diffs) ..."
 $DIFF $ORIG $DEST 2>&1
 if [ $? -ne 0 ]; then exit 1; fi
