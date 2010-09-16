@@ -39,6 +39,15 @@
 #include "DB.h"
 #include "Archive.h"
 
+#define DEPOT_OK              0
+#define DEPOT_ERROR          -1
+#define DEPOT_NOT_EXIST      -2
+#define DEPOT_PERM_DENIED    -3
+#define DEPOT_OBJ_CHANGE     -4
+#define DEPOT_BUILD_MISMATCH -5
+#define DEPOT_USAGE_ERROR    -6
+
+
 struct Archive;
 struct File;
 struct DarwinupDatabase;

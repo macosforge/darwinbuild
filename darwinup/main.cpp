@@ -183,14 +183,14 @@ int main(int argc, char* argv[]) {
 	// list handles args optional and in special ways
 	if (strcmp(argv[0], "list") == 0) {
 		res = depot->initialize(false);
-		if (res == -2) {
+		if (res == DEPOT_NOT_EXIST) {
 			// we are not asking to write, 
 			// but no depot exists yet either,
 			// so print an empty list
 			depot->archive_header();
 			exit(0);
 		}
-		if (res == -3) {
+		if (res == DEPOT_PERM_DENIED) {
 			// permission denied when trying to read
 			// the depot
 			fprintf(stderr, "Permission denied when trying to read the database.\n");
