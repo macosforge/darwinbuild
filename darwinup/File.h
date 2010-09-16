@@ -41,8 +41,8 @@
 
 #define FILE_OBJ_CHANGE_ERROR \
 "-----------------------------------------------------------------------------\n" \
-"Darwinup has encountered a potentially unsafe mismatch between the root and  \n" \
-"destination: %s\n" \
+"Potentially unsafe mismatch between the root and destination:  \n\n" \
+"%s\n\n" \
 "You seem to be trying to install a %s over a %s.                             \n" \
 "Darwinup will not install this root by default since it could cause damage   \n" \
 "to your system. You can use the force (-f) option to allow darwinup to       \n" \

@@ -481,7 +481,7 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback,
 						// otherwise print an error and bail
 						mode_t file_type = file->mode() & S_IFMT;
 						mode_t actual_type = actual->mode() & S_IFMT;
-						fprintf(stderr, FILE_OBJ_CHANGE_ERROR, path, 
+						fprintf(stderr, FILE_OBJ_CHANGE_ERROR, actual->path(), 
 								FILE_TYPE_STRING(file_type),
 								FILE_TYPE_STRING(actual_type));
 						return DEPOT_OBJ_CHANGE;
