@@ -20,6 +20,20 @@ DIFF="diff -x .DarwinDepot -x broken -qru"
 
 ROOTS="root root2 root3"
 
+
+function is_file {
+	test -f $1 -a ! -L $1
+}
+
+function is_dir {
+	test -d $1 -a ! -L $1
+}
+
+function is_link {
+	test -L $1;
+}
+
+
 echo "INFO: Cleaning up testing area ..."
 rm -rf $PREFIX
 mkdir -p $PREFIX
@@ -319,7 +333,60 @@ echo "DIFF: diffing original test files to dest (should be no diffs) ..."
 $DIFF $ORIG $DEST 2>&1
 
 
-# XXX: need to test the force option overrides expected fail cases
+echo "========== TEST: Forcing object change: file to directory ==========" 
+is_file $DEST/rep_file
+$DARWINUP -f install $PREFIX/rep_file_dir
+is_dir $DEST/rep_file
+$DARWINUP uninstall newest
+is_file $DEST/rep_file
+echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+$DIFF $ORIG $DEST 2>&1
+
+echo "========== TEST: Forcing object change: file to symlink ==========" 
+is_file $DEST/rep_file
+$DARWINUP -f install $PREFIX/rep_file_link
+is_link $DEST/rep_file
+$DARWINUP uninstall newest
+is_file $DEST/rep_file
+echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+$DIFF $ORIG $DEST 2>&1
+
+echo "========== TEST: Forcing object change: directory to file ==========" 
+is_dir $DEST/rep_dir
+$DARWINUP -f install $PREFIX/rep_dir_file
+is_file $DEST/rep_dir
+$DARWINUP uninstall newest
+is_dir $DEST/rep_dir
+echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+$DIFF $ORIG $DEST 2>&1
+
+echo "========== TEST: Forcing object change: directory to symlink ==========" 
+is_dir $DEST/rep_dir
+$DARWINUP -f install $PREFIX/rep_dir_link
+is_link $DEST/rep_dir
+$DARWINUP uninstall newest
+is_dir $DEST/rep_dir
+echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+$DIFF $ORIG $DEST 2>&1
+
+echo "========== TEST: Forcing object change: symlink to file ==========" 
+is_link $DEST/rep_link
+$DARWINUP -f install $PREFIX/rep_link_file
+is_file $DEST/rep_link
+$DARWINUP uninstall newest
+is_link $DEST/rep_link
+echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+$DIFF $ORIG $DEST 2>&1
+
+echo "========== TEST: Forcing object change: symlink to directory ==========" 
+is_link $DEST/rep_link
+$DARWINUP -f install $PREFIX/rep_link_dir
+is_dir $DEST/rep_link
+$DARWINUP uninstall newest
+is_link $DEST/rep_link
+echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+$DIFF $ORIG $DEST 2>&1
+
 
 
 #
