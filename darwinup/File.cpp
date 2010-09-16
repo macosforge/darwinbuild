@@ -212,9 +212,6 @@ int File::install(const char* prefix, const char* dest) {
 				fprintf(stderr, "%s:%d: %s: %s (%d)\n", 
 						__FILE__, __LINE__, dstpath, strerror(errno), errno);
 			} else {
-				if (!force) {
-					assert(0);
-				} 
 				fprintf(stderr, "%s:%d: %s: %s (%d)\n", 
 						__FILE__, __LINE__, dstpath, strerror(errno), errno);
 				fprintf(stderr, "ERROR: fatal error during File::install. " \

@@ -229,6 +229,10 @@ int main(int argc, char* argv[]) {
 				res = depot->process_archive(argv[0], argv[i]);
 			} else if (strcmp(argv[0], "uninstall") == 0) {
 				if (i==1 && depot->initialize(true)) exit(15);
+				// uninstall is always in force mode so it can
+				// uninstall archives that were installed under
+				// force mode
+				force = 1;
 				res = depot->process_archive(argv[0], argv[i]);
 			} else if (strcmp(argv[0], "verify") == 0) {
 				if (i==1 && depot->initialize(true)) exit(16);
