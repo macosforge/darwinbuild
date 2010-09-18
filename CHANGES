@@ -1,5 +1,14 @@
 Darwin Build Scripts Change History
 -----------------------------------
+Release 21 [17-Sep-2010]
+	- darwinup: fix bug which silently failed to fully install
+	  a root if the root had a directory where the destination
+	  had a symlink to a directory
+	- darwinup: test for object change during analyze stage instead
+	  of install stage so we can bail out without having a root
+	  partially installed then uninstalled
+	- darwinup: add a full set of test cases for object change
+	  conditions
 
 Release 20.1 [02-Sep-2010]
 	- darwinxref: build fix for format string warning
