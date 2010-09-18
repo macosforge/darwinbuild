@@ -183,14 +183,14 @@ int main(int argc, char* argv[]) {
 	// list handles args optional and in special ways
 	if (strcmp(argv[0], "list") == 0) {
 		res = depot->initialize(false);
-		if (res == -2) {
+		if (res == DEPOT_NOT_EXIST) {
 			// we are not asking to write, 
 			// but no depot exists yet either,
 			// so print an empty list
 			depot->archive_header();
 			exit(0);
 		}
-		if (res == -3) {
+		if (res == DEPOT_PERM_DENIED) {
 			// permission denied when trying to read
 			// the depot
 			fprintf(stderr, "Permission denied when trying to read the database.\n");
@@ -229,6 +229,10 @@ int main(int argc, char* argv[]) {
 				res = depot->process_archive(argv[0], argv[i]);
 			} else if (strcmp(argv[0], "uninstall") == 0) {
 				if (i==1 && depot->initialize(true)) exit(15);
+				// uninstall is always in force mode so it can
+				// uninstall archives that were installed under
+				// force mode
+				force = 1;
 				res = depot->process_archive(argv[0], argv[i]);
 			} else if (strcmp(argv[0], "verify") == 0) {
 				if (i==1 && depot->initialize(true)) exit(16);

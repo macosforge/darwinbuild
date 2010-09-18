@@ -103,9 +103,9 @@ int Depot::connect() {
 	m_db = new DarwinupDatabase(m_database_path);
 	if (!m_db || !m_db->is_connected()) {
 		fprintf(stderr, "Error: unable to connect to database.\n");
-		return 1;
+		return DB_ERROR;
 	}
-	return 0;
+	return DB_OK;
 }
 
 int Depot::create_storage() {
@@ -138,7 +138,7 @@ int Depot::create_storage() {
 		perror(m_downloads_path);
 		return res;
 	}
-	return 0;
+	return DEPOT_OK;
 }
 
 // Initialize the depot
@@ -148,7 +148,7 @@ int Depot::initialize(bool writable) {
 	// initialization requires all these paths to be set
 	if (!(m_prefix && m_depot_path && m_database_path && 
 		  m_archives_path && m_downloads_path)) {
-		return -1;
+		return DEPOT_ERROR;
 	}
 	
 	if (writable) {
@@ -172,11 +172,11 @@ int Depot::initialize(bool writable) {
 	res = stat(m_database_path, &sb);
 	if (!writable && res == -1 && (errno == ENOENT || errno == ENOTDIR)) {
 		// depot does not exist
-		return -2; 
+		return DEPOT_NOT_EXIST; 
 	}
 	if (!writable && res == -1 && errno == EACCES) {
 		// permission denied
-		return -3;
+		return DEPOT_PERM_DENIED;
 	}
 
 	// take an exclusive lock
@@ -402,9 +402,9 @@ int Depot::iterate_files(Archive* archive, FileIteratorFunc func, void* context)
 	return res;
 }
 
-
 int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback,
 						 int* rollback_files) {
+	extern uint32_t force;
 	extern uint32_t dryrun;
 	int res = 0;
 	assert(archive != NULL);
@@ -475,8 +475,21 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback,
 				if (INFO_TEST(actual->info(), FILE_INFO_NO_ENTRY)) {
 					state = 'A';
 				} else {
+					if (INFO_TEST(actual_flags, FILE_INFO_TYPE_DIFFERS) && !force) {
+						// the existing file on disk is a different type than what
+						// we are trying to install, so require the force option,
+						// otherwise print an error and bail
+						mode_t file_type = file->mode() & S_IFMT;
+						mode_t actual_type = actual->mode() & S_IFMT;
+						fprintf(stderr, FILE_OBJ_CHANGE_ERROR, actual->path(), 
+								FILE_TYPE_STRING(file_type),
+								FILE_TYPE_STRING(actual_type));
+						return DEPOT_OBJ_CHANGE;
+					}
 					state = 'U';
 				}
+				
+				
 				
 				if (INFO_TEST(actual_flags, FILE_INFO_TYPE_DIFFERS) ||
 				    INFO_TEST(actual_flags, FILE_INFO_DATA_DIFFERS)) {
@@ -674,20 +687,25 @@ int Depot::install(const char* path) {
 			uuid_unparse_upper(archive->uuid(), uuid);
 			fprintf(stdout, "%s\n", uuid);
 		} else {
-			fprintf(stderr, "Error: Install failed. Rolling back installation.\n");
-			res = this->uninstall(archive);
-			if (res) {
-				fprintf(stderr, "Error: Unable to rollback installation. "
-						"Your system is in an inconsistent state! File a bug!\n");
-			} else {
-				fprintf(stdout, "Rollback successful.\n");
+			fprintf(stderr, "Error: Install failed.\n");				
+			if (res != DEPOT_OBJ_CHANGE) {
+				// object change errors come from analyze stage,
+				// so there is no installation to roll back
+				fprintf(stderr, "Rolling back installation.\n");
+				res = this->uninstall(archive);
+				if (res) {
+					fprintf(stderr, "Error: Unable to rollback installation. "
+							"Your system is in an inconsistent state! File a bug!\n");
+				} else {
+					fprintf(stdout, "Rollback successful.\n");
+				}
 			}
-			res = 1;
+			res = DEPOT_ERROR;
 		}
 	} else {
-		fprintf(stdout, "Error: unable to load \"%s\". Either the path is invalid or"
+		fprintf(stdout, "Error: unable to load \"%s\". Either the path is missing, invalid or"
 				         " the file is in an unknown format.\n", path);
-		return -1;
+		return DEPOT_ERROR;
 	}
 
 	return res;
@@ -739,8 +757,8 @@ int Depot::install(Archive* archive) {
 	int rollback_files = 0;
 	if (res == 0) res = this->analyze_stage(archive_path, archive, rollback, &rollback_files);
 	
-	// we can stop now if this is a dry run
-	if (dryrun) {
+	// we can stop now if analyze failed or this is a dry run
+	if (res || dryrun) {
 		remove_directory(archive_path);
 		remove_directory(rollback_path);
 		free(rollback_path);
@@ -855,7 +873,7 @@ int Depot::uninstall_file(File* file, void* ctx) {
 	// We never uninstall a file that was part of the base system
 	if (INFO_TEST(file->info(), FILE_INFO_BASE_SYSTEM)) {
 		IF_DEBUG("[uninstall]    base system; skipping\n");
-		return 0;
+		return DEPOT_OK;
 	}
 	
 	char* actpath;
@@ -941,10 +959,10 @@ int Depot::uninstall(Archive* archive) {
 		// if in debug mode, get_all_archives returns rollbacks too, so just ignore
 		if (verbosity & VERBOSE_DEBUG) {
 			fprintf(stderr, "[uninstall] skipping uninstall since archive is a rollback.\n");
-			return 0;
+			return DEPOT_OK;
 		}
 		fprintf(stderr, "%s:%d: cannot uninstall a rollback archive.\n", __FILE__, __LINE__);
-		return -1;
+		return DEPOT_ERROR;
 	}
 
 	/** 
@@ -968,7 +986,7 @@ int Depot::uninstall(Archive* archive) {
 				"happen.\n"
 				"-------------------------------------------------------------------------------\n",
 				archive->name(), archive->build(), m_build);
-		return 9999;
+		return DEPOT_BUILD_MISMATCH;
 	}
 
 	if (res != 0) return res;
@@ -1027,7 +1045,7 @@ int Depot::verify_file(File* file, void* context) {
 		fprintf(stdout, "R ");
 	}
 	file->print(stdout);
-	return 0;
+	return DEPOT_OK;
 }
 
 void Depot::archive_header() {
@@ -1063,7 +1081,7 @@ int Depot::list_archive(Archive* archive, void* context) {
 	fprintf((FILE*)context, "%-6llu %-36s  %-12s  %-7s  %s\n", 
 			serial, uuid, date, (archive->build()?archive->build():""), archive->name());
 	
-	return 0;
+	return DEPOT_OK;
 }
 
 int Depot::list() {
@@ -1110,7 +1128,7 @@ int Depot::print_file(File* file, void* context) {
 	extern uint32_t verbosity;
 	if (verbosity & VERBOSE_DEBUG) fprintf((FILE*)context, "%04x ", file->info());
 	file->print((FILE*)context);
-	return 0;
+	return DEPOT_OK;
 }
 
 int Depot::files(Archive* archive) {
@@ -1322,7 +1340,7 @@ int Depot::insert(Archive* archive, File* file) {
 	}
 
 	free(path);
-	return 0;
+	return DEPOT_OK;
 }
 
 int Depot::has_file(Archive* archive, File* file) {
@@ -1401,7 +1419,7 @@ int Depot::process_archive(const char* command, const char* archspec) {
 	for (size_t i = 0; i < count; i++) {
 		if (!list[i]) {
 			fprintf(stdout, "Archive not found: %s\n", archspec);
-			return -1;
+			return DEPOT_ERROR;
 		}
 		if (verbosity & VERBOSE_DEBUG) {
 			char uuid[37];
@@ -1423,13 +1441,13 @@ int Depot::rename_archive(const char* archspec, const char* name) {
 		(strncasecmp(archspec, "superseded", 10) == 0 && strlen(archspec) == 10)) {
 		fprintf(stderr, "Error: keywords 'all' and 'superseded' cannot be used with the"
 				" rename command.\n");
-		return -2;
+		return DEPOT_USAGE_ERROR;
 	}
 	
 	Archive* archive = this->get_archive(archspec);
 	if (!archive) {
 		fprintf(stdout, "Archive not found: %s\n", archspec);
-		return -1;
+		return DEPOT_NOT_EXIST;
 	}
 	
 	char uuid[37];
@@ -1440,7 +1458,7 @@ int Depot::rename_archive(const char* archspec, const char* name) {
 
 	if (!name || strlen(name) == 0) {
 		fprintf(stderr, "Error: invalid name: '%s'\n", name);
-		return -3;
+		return DEPOT_ERROR;
 	}
 	
 	free(archive->m_name);

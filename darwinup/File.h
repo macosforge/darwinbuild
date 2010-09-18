@@ -39,6 +39,28 @@
 #include <sys/stat.h>
 #include <fts.h>
 
+#define FILE_OBJ_CHANGE_ERROR \
+"-----------------------------------------------------------------------------\n" \
+"Potentially unsafe mismatch between the root and destination:  \n\n" \
+"%s\n\n" \
+"You seem to be trying to install a %s over a %s.                             \n" \
+"Darwinup will not install this root by default since it could cause damage   \n" \
+"to your system. You can use the force (-f) option to allow darwinup to       \n" \
+"attempt the install anyway.                                                  \n" \
+"-----------------------------------------------------------------------------\n"
+
+#define FILE_TYPE_STRING(type) \
+(type == S_IFIFO ? "named pipe" : \
+(type == S_IFCHR ? "character special" : \
+(type == S_IFDIR ? "directory" : \
+(type == S_IFBLK ? "block special" : \
+(type == S_IFREG ? "file" : \
+(type == S_IFLNK ? "symbolic link" : \
+(type == S_IFSOCK ? "socket" : \
+(type == S_IFWHT ? "whiteout" : \
+"unknown"))))))))
+
+
 enum file_starseded_t {
 	FILE_SUPERSEDED,
 	FILE_PRECEDED
