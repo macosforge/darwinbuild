@@ -103,8 +103,17 @@ int remove_directory(const char* directory) {
 }
 
 int is_directory(const char* path) {
+	return is_directory(path, false);
+}
+
+int is_directory(const char* path, bool followlinks) {
 	struct stat sb;
-	int res = lstat(path, &sb);
+	int res = 0;
+	if (followlinks) {
+		res	= stat(path, &sb);	
+	} else {
+		res = lstat(path, &sb);
+	}
 	return (res == 0 && S_ISDIR(sb.st_mode));
 }
 
