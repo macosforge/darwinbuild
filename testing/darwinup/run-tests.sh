@@ -94,6 +94,13 @@ then
 	done
 fi
 
+echo "========== TEST: Try installing a symlink-to-directory =========="
+ln -s root2 $PREFIX/root_link
+$DARWINUP install $PREFIX/root_link
+$DARWINUP uninstall $PREFIX/root_link
+echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+$DIFF $ORIG $DEST 2>&1
+
 echo "========== TEST: Trying roots one at a time =========="
 for R in $ROOTS;
 do
