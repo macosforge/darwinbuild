@@ -62,6 +62,7 @@ int ftsent_filename(FTSENT* ent, char* filename, size_t bufsiz);
 int mkdir_p(const char* path);
 int remove_directory(const char* path);
 int is_directory(const char* path);
+int is_directory(const char* path, bool followlinks);
 int is_regular_file(const char* path);
 int is_url_path(const char* path);
 int is_userhost_path(const char* path);

@@ -300,7 +300,7 @@ Archive* ArchiveFactory(const char* path, const char* tmppath) {
 	}
 	
 	// use file extension to guess archive format
-	if (is_directory(actpath)) {
+	if (is_directory(actpath, true)) {
 		archive = new DittoArchive(actpath);
 	} else if (has_suffix(actpath, ".cpio")) {
 		archive = new CpioArchive(actpath);
