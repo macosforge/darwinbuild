@@ -1,5 +1,9 @@
 Darwin Build Scripts Change History
 -----------------------------------
+Release 21.1 [29-Sep-2010]
+	- darwinup: fix regression in v21 that broke installing roots when
+	  the path is a symlink to a directory. 
+
 Release 21 [17-Sep-2010]
 	- darwinup: fix bug which silently failed to fully install
 	  a root if the root had a directory where the destination
