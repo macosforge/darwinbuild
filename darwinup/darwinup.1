@@ -135,10 +135,12 @@ the file was restored.
 .Sh SUPPORTED PATHS
 .Bl -tag -width -indent
 .It /path/to/local/file-or-directory
-You can install files from one of your locally mounted filesystems. The path
-can be a directory, in which case all files below it will be installed, or
-it can be a archive file. The supported file formats are listed in the usage
-statement, but typical formats are .tgz, .tbz2, or .zip.
+You can install files from your local filesystem(s). This path can also
+point to a file or directory on a filesystem mounted from a server 
+(such as an AFP or NFS server).
+The path can be a directory, in which case all files below it will be 
+installed, or it can be a archive file. The supported file formats are listed 
+in the usage statement, but typical formats are .tgz, .tbz2, and .zip.
 .It user@host:/path/to/remote/file-or-directory
 You can install files from a remote machine via rsync/ssh. The remote files
 will be copied to your local depot and then installed like any other local
