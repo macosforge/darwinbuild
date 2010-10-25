@@ -46,6 +46,7 @@
 #define DEPOT_OBJ_CHANGE     -4
 #define DEPOT_BUILD_MISMATCH -5
 #define DEPOT_USAGE_ERROR    -6
+#define DEPOT_PREINSTALL_ERR -7
 
 
 struct Archive;

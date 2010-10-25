@@ -688,8 +688,9 @@ int Depot::install(const char* path) {
 			fprintf(stdout, "%s\n", uuid);
 		} else {
 			fprintf(stderr, "Error: Install failed.\n");				
-			if (res != DEPOT_OBJ_CHANGE) {
+			if (res != DEPOT_OBJ_CHANGE && res != DEPOT_PREINSTALL_ERR) {
 				// object change errors come from analyze stage,
+				// and pre-install errors happen early,
 				// so there is no installation to roll back
 				fprintf(stderr, "Rolling back installation.\n");
 				res = this->uninstall(archive);
@@ -763,6 +764,10 @@ int Depot::install(Archive* archive) {
 		remove_directory(rollback_path);
 		free(rollback_path);
 		free(archive_path);
+		if (!dryrun && res) {
+			this->rollback_transaction();
+			return DEPOT_PREINSTALL_ERR;
+		}
 		return res;
 	}
 	
