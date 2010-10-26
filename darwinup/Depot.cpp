@@ -426,6 +426,12 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback,
 
 			IF_DEBUG("[analyze] %s\n", file->path());
 
+			if (strcasestr(file->path(), ".DarwinDepot")) {
+				fprintf(stderr, "Error: Root contains a .DarwinDepot, "
+						"aborting to avoid damaging darwinup metadata.\n");
+				return DEPOT_ERROR;
+			}
+			
 			// Perform a three-way-diff between the file to be installed (file),
 			// the file we last installed in this location (preceding),
 			// and the file that actually exists in this location (actual).

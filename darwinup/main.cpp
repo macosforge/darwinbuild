@@ -211,7 +211,23 @@ int main(int argc, char* argv[]) {
 		for (int i = 1; i < argc && res == 0; i++) {
 			if (strcmp(argv[0], "install") == 0) {
 				if (i==1 && depot->initialize(true)) exit(13);
-				res = depot->install(argv[i]);
+				// gaurd against installing paths ontop of themselves
+				if (strncmp(path, argv[i], strlen(argv[i])) == 0 
+					&& (strlen(path) == strlen(argv[i]) 
+						|| strlen(path) - 1 == strlen(argv[i]))) {
+					if (strncmp(path, "/", 1) == 0 && strlen(path) == 1) {
+						fprintf(stderr, "Error: You provided '/' as a path to a root. "
+								"If you meant to specify a destination of '/', then you "
+								"just need to remove the '/' argument as the destination "
+								"defaults to '/'. Use the -p option to specify another "
+								"destination.\n");
+					} else {
+						fprintf(stderr, "Error: You cannot install the root at '%s' onto"
+								" itself.\n", path);
+					}
+					res = DEPOT_ERROR;
+				}							
+				if (res == 0) res = depot->install(argv[i]);
 			} else if (strcmp(argv[0], "upgrade") == 0) {
 				if (i==1 && depot->initialize(true)) exit(14);
 				// find most recent matching archive by name
