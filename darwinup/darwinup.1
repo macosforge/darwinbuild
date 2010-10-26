@@ -134,21 +134,19 @@ the file was restored.
 .El
 .Sh SUPPORTED PATHS
 .Bl -tag -width -indent
-.It /path/to/local/file-or-directory
-You can install files from your local filesystem(s). This path can also
-point to a file or directory on a filesystem mounted from a server 
-(such as an AFP or NFS server).
-The path can be a directory, in which case all files below it will be 
-installed, or it can be a archive file. The supported file formats are listed 
-in the usage statement, but typical formats are .tgz, .tbz2, and .zip.
-.It user@host:/path/to/remote/file-or-directory
-You can install files from a remote machine via rsync/ssh. The remote files
-will be copied to your local depot and then installed like any other local
-root.
-.It http[s]://host/path/to/remote/file
+.It /path/to/file-or-directory
+You can install archive files or directories by specifying a relative or 
+absolute path. If the path is a directory, all files below it will be 
+installed as a single root. If the path points to a file, it must be one of
+the suported archive file types as described in the usage statement. 
+.It user@host:/path/to/file-or-directory
+You can install files or directories from another host via rsync/ssh. 
+The files/directories will be downloaded to your machine and then installed 
+like any other root.
+.It http[s]://host/path/to/file
 You can install files from an archive hosted on an HTTP/HTTPS server. The
-archive file will be downloaded using curl to your local depot and then
-installed like any other local archive. You can not point darwinup at a
+archive file will be downloaded using curl to your machine and then
+installed like any other archive file. You can not point darwinup at a
 directory hosted via HTTP or HTTPS, only archive files such as tarballs.  
 .El
 .Sh ARCHIVE SPECIFICATIONS
