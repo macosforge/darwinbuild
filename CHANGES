@@ -1,5 +1,11 @@
 Darwin Build Scripts Change History
 -----------------------------------
+Release 22 [27-Oct-2010]
+	- darwinup: make man page clearer about what paths we support
+	- darwinup: add safety measures to prevent recursive installs
+	- darwinup: do not try to rollback installs that fail before
+	  there is anything to rollback. 
+
 Release 21.1 [29-Sep-2010]
 	- darwinup: fix regression in v21 that broke installing roots when
 	  the path is a symlink to a directory. 
