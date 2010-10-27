@@ -1,0 +1,2 @@
+This is a text file. Darwinup will see the .tgz extension and try to use tar on it.
+This will fail, which allows us to test early failures from external tools (like ditto and tar).

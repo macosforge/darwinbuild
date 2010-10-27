@@ -62,6 +62,9 @@ do
 	cp $R $PREFIX/
 done;
 
+cp corrupt.tgz $PREFIX/
+cp depotroot.tar.gz $PREFIX/
+
 mkdir -p $ORIG
 cp -R $DEST/* $ORIG/
 
@@ -425,6 +428,33 @@ $DIFF $ORIG $DEST 2>&1
 #
 echo "========== Expected Failures =========="
 set +e
+
+echo "========== TEST: testing early ditto failure ==========";
+
+$DARWINUP install $PREFIX/corrupt.tgz | tee $PREFIX/corrupt.log
+C=$(grep -c 'Rolling back' $PREFIX/corrupt.log)
+test $C -eq 0
+if [ $? -ne 0 ]; then exit 1; fi
+echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+$DIFF $ORIG $DEST 2>&1
+if [ $? -ne 0 ]; then exit 1; fi
+
+echo "========== TEST: testing recursive install guards ==========";
+$DARWINUP install $PREFIX/depotroot.tar.gz
+if [ $? -ne 255 ]; then exit 1; fi
+echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+$DIFF $ORIG $DEST 2>&1
+if [ $? -ne 0 ]; then exit 1; fi
+$DARWINUP install $DEST
+if [ $? -ne 255 ]; then exit 1; fi
+echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+$DIFF $ORIG $DEST 2>&1
+if [ $? -ne 0 ]; then exit 1; fi
+darwinup $1 install /
+if [ $? -ne 255 ]; then exit 1; fi
+echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+$DIFF $ORIG $DEST 2>&1
+if [ $? -ne 0 ]; then exit 1; fi
 
 echo "========== TEST: Try replacing File with Directory =========="
 $DARWINUP install $PREFIX/rep_file_dir

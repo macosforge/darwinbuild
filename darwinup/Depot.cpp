@@ -426,6 +426,12 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback,
 
 			IF_DEBUG("[analyze] %s\n", file->path());
 
+			if (strcasestr(file->path(), ".DarwinDepot")) {
+				fprintf(stderr, "Error: Root contains a .DarwinDepot, "
+						"aborting to avoid damaging darwinup metadata.\n");
+				return DEPOT_ERROR;
+			}
+			
 			// Perform a three-way-diff between the file to be installed (file),
 			// the file we last installed in this location (preceding),
 			// and the file that actually exists in this location (actual).
@@ -688,8 +694,9 @@ int Depot::install(const char* path) {
 			fprintf(stdout, "%s\n", uuid);
 		} else {
 			fprintf(stderr, "Error: Install failed.\n");				
-			if (res != DEPOT_OBJ_CHANGE) {
+			if (res != DEPOT_OBJ_CHANGE && res != DEPOT_PREINSTALL_ERR) {
 				// object change errors come from analyze stage,
+				// and pre-install errors happen early,
 				// so there is no installation to roll back
 				fprintf(stderr, "Rolling back installation.\n");
 				res = this->uninstall(archive);
@@ -763,6 +770,10 @@ int Depot::install(Archive* archive) {
 		remove_directory(rollback_path);
 		free(rollback_path);
 		free(archive_path);
+		if (!dryrun && res) {
+			this->rollback_transaction();
+			return DEPOT_PREINSTALL_ERR;
+		}
 		return res;
 	}
 	
