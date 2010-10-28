@@ -353,6 +353,7 @@ echo "========== TEST: Forcing object change: file to directory =========="
 is_file $DEST/rep_file
 $DARWINUP -f install $PREFIX/rep_file_dir
 is_dir $DEST/rep_file
+is_file $DEST/rep_file/subfile
 $DARWINUP uninstall newest
 is_file $DEST/rep_file
 echo "DIFF: diffing original test files to dest (should be no diffs) ..."
@@ -369,19 +370,23 @@ $DIFF $ORIG $DEST 2>&1
 
 echo "========== TEST: Forcing object change: directory to file ==========" 
 is_dir $DEST/rep_dir
+is_file $DEST/rep_dir/subfile
 $DARWINUP -f install $PREFIX/rep_dir_file
 is_file $DEST/rep_dir
 $DARWINUP uninstall newest
 is_dir $DEST/rep_dir
+is_file $DEST/rep_dir/subfile
 echo "DIFF: diffing original test files to dest (should be no diffs) ..."
 $DIFF $ORIG $DEST 2>&1
 
 echo "========== TEST: Forcing object change: directory to symlink ==========" 
 is_dir $DEST/rep_dir
+is_file $DEST/rep_dir/subfile
 $DARWINUP -f install $PREFIX/rep_dir_link
 is_link $DEST/rep_dir
 $DARWINUP uninstall newest
 is_dir $DEST/rep_dir
+is_file $DEST/rep_dir/subfile
 echo "DIFF: diffing original test files to dest (should be no diffs) ..."
 $DIFF $ORIG $DEST 2>&1
 
@@ -398,6 +403,7 @@ echo "========== TEST: Forcing object change: symlink->dir to directory ========
 is_link $DEST/rep_link
 $DARWINUP -f install $PREFIX/rep_link_dir
 is_dir $DEST/rep_link
+is_file $DEST/rep_link/subfile
 $DARWINUP uninstall newest
 is_link $DEST/rep_link
 echo "DIFF: diffing original test files to dest (should be no diffs) ..."
@@ -416,6 +422,7 @@ echo "========== TEST: Forcing object change: symlink->file to directory =======
 is_link $DEST/rep_flink
 $DARWINUP -f install $PREFIX/rep_flink_dir
 is_dir $DEST/rep_flink
+is_file $DEST/rep_flink/subfile
 $DARWINUP uninstall newest
 is_link $DEST/rep_flink
 echo "DIFF: diffing original test files to dest (should be no diffs) ..."
