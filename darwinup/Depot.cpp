@@ -701,8 +701,6 @@ int Depot::install_file(File* file, void* ctx) {
 	}
 	if (res != 0) fprintf(stderr, "%s:%d: install failed: %s: %s (%d)\n", 
 						  __FILE__, __LINE__, file->path(), strerror(errno), errno);
-	// XXX remove assert
-	assert(res == 0);
 	return res;
 }
 
