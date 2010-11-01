@@ -458,6 +458,32 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback,
 					actual->info_set(FILE_INFO_ROLLBACK_DATA);
 					file->info_set(FILE_INFO_INSTALL_DATA);
 				}
+				// if actual is a dir and file is not, recurse to save its children
+				if (S_ISDIR(actual->mode()) && !S_ISDIR(file->mode())) {
+					IF_DEBUG("[analyze]    directory being replaced by file, save children\n");
+					const char* sub_argv[] = { actual->path(), NULL };
+					FTS* subfts = fts_open((char**)sub_argv, 
+										   FTS_PHYSICAL | FTS_COMFOLLOW | FTS_XDEV, 
+										   fts_compare);
+					FTSENT* subent = fts_read(subfts); // throw away actual
+					while ((subent = fts_read(subfts)) != NULL) {
+						IF_DEBUG("saving child: %s\n", subent->fts_path);
+						// skip post-order visits
+						if (subent->fts_info == FTS_DP) {
+							continue;
+						}
+						File* subact = FileFactory(subent->fts_path);
+						subact->info_set(FILE_INFO_BASE_SYSTEM);
+						if (subent->fts_info != FTS_D) {
+							IF_DEBUG("saving file data\n");
+							subact->info_set(FILE_INFO_ROLLBACK_DATA);
+						}
+						if (!dryrun) {
+							res = this->insert(rollback, subact);
+						}
+						*rollback_files += 1;
+					}
+				}
 				preceding = actual;
 			}
 		
@@ -527,41 +553,7 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback,
 				IF_DEBUG("[analyze]    external changes but file same as actual\n");
 				state = 'E';
 			}
-			
-			// XXX: should this be done in backup_file?
-			// If we're going to need to squirrel away data, create
-			// the directory hierarchy now.
-			if (INFO_TEST(actual->info(), FILE_INFO_ROLLBACK_DATA)) {
-				char path[PATH_MAX];
-				char* backup_dirpath;
-
-				// we need the path minus our destination prefix for moving to the archive
-				strlcpy(path, actual->path() + strlen(m_prefix) - 1, sizeof(path));
-
-				const char* dir = dirname(path);
-				assert(dir != NULL);
-				
-				char *uuidpath;
-				char uuidstr[37];
-				uuid_unparse_upper(rollback->uuid(), uuidstr);
-				
-				asprintf(&uuidpath, "%s/%s", m_archives_path, uuidstr);
-				assert(uuidpath != NULL);
-				join_path(&backup_dirpath, uuidpath, dir);
-				assert(backup_dirpath != NULL);
-				
-				if (!dryrun) res = mkdir_p(backup_dirpath);
-				if (res != 0 && errno != EEXIST) {
-					fprintf(stderr, "%s:%d: %s: %s (%d)\n", 
-							__FILE__, __LINE__, backup_dirpath, strerror(errno), errno);
-				} else {
-					res = 0;
-				}
-				free(backup_dirpath);
-				free(uuidpath);
-			}
-			
-			
+						
 			if ((state != ' ' && preceding_flags != FILE_INFO_IDENTICAL) ||
 				INFO_TEST(actual->info(), FILE_INFO_BASE_SYSTEM | FILE_INFO_ROLLBACK_DATA)) {
 				*rollback_files += 1;
@@ -619,12 +611,42 @@ int Depot::backup_file(File* file, void* ctx) {
 	IF_DEBUG("[backup] backup_file: %s , %s \n", file->path(), context->archive->m_name);
 
 	if (INFO_TEST(file->info(), FILE_INFO_ROLLBACK_DATA)) {
-	        char *path;        // the file's path
+		char *path;        // the file's path
 		char *dstpath;     // the path inside the archives
 		char *relpath;     // the file's path minus the destination prefix
 		char *uuidpath;    // archives path plus the uuid
 		char uuidstr[37];
 
+		// If we're going to need to squirrel away data, create
+		// the directory hierarchy now.
+		char backup_path[PATH_MAX];
+		char* backup_dirpath;
+
+		// we need the path minus our destination prefix for moving to the archive
+		IF_DEBUG("[backup] file->path() = %s \n", file->path());
+		strlcpy(backup_path, file->path(), sizeof(backup_path));
+		IF_DEBUG("[backup] backup_path = %s \n", backup_path);
+			
+		const char* dir = dirname(backup_path);
+		assert(dir != NULL);
+		IF_DEBUG("[backup] dir = %s \n", dir);
+
+		uuid_unparse_upper(context->archive->uuid(), uuidstr);
+		asprintf(&uuidpath, "%s/%s", context->depot->m_archives_path, uuidstr);
+		assert(uuidpath != NULL);
+		IF_DEBUG("[backup] uuidpath = %s \n", uuidpath);
+		join_path(&backup_dirpath, uuidpath, dir);
+		assert(backup_dirpath != NULL);
+		
+		IF_DEBUG("mkdir_p: %s\n", backup_dirpath);
+		res = mkdir_p(backup_dirpath);
+		if (res != 0 && errno != EEXIST) {
+			fprintf(stderr, "%s:%d: %s: %s (%d)\n", 
+					__FILE__, __LINE__, backup_dirpath, strerror(errno), errno);
+		} else {
+			res = 0;
+		}
+		
 		// we need the path minus our destination path for moving to the archive
 		size_t prefixlen = strlen(context->depot->m_prefix);
 		if (strncmp(context->archive->m_name, "<Rollback>", strlen("<Rollback>")) == 0) {
@@ -637,16 +659,13 @@ int Depot::backup_file(File* file, void* ctx) {
 		        relpath += prefixlen - 1;
 		}
 
-		uuid_unparse_upper(context->archive->uuid(), uuidstr);		
-		asprintf(&uuidpath, "%s/%s", context->depot->m_archives_path, uuidstr);
-		assert(uuidpath != NULL);
 		join_path(&dstpath, uuidpath, relpath);
 		assert(dstpath != NULL);
 
 		IF_DEBUG("[backup] path = %s \n", path);
 		IF_DEBUG("[backup] relpath = %s \n", relpath);
 		IF_DEBUG("[backup] dstpath = %s \n", dstpath);
-		IF_DEBUG("[backup] uuidpath = %s \n", uuidpath);
+
 
 		++context->files_modified;
 
@@ -656,9 +675,14 @@ int Depot::backup_file(File* file, void* ctx) {
 
 		if (res != 0) fprintf(stderr, "%s:%d: backup failed: %s: %s (%d)\n", 
 							  __FILE__, __LINE__, dstpath, strerror(errno), errno);
+
+		// XXX: we cant propagate error from callback, but its safe to die here
+		assert(res == 0);
+		
 		free(path);
 		free(dstpath);
 		free(uuidpath);
+		free(backup_dirpath);
 	}
 	return res;
 }
@@ -677,6 +701,8 @@ int Depot::install_file(File* file, void* ctx) {
 	}
 	if (res != 0) fprintf(stderr, "%s:%d: install failed: %s: %s (%d)\n", 
 						  __FILE__, __LINE__, file->path(), strerror(errno), errno);
+	// XXX remove assert
+	assert(res == 0);
 	return res;
 }
 
@@ -919,8 +945,16 @@ int Depot::uninstall_file(File* file, void* ctx) {
 					state = 'U';
 					IF_DEBUG("[uninstall]    restoring\n");
 					if (!dryrun && res == 0) {
-						res = preceding->install(context->depot->m_archives_path, 
-												 context->depot->m_prefix);
+						if (INFO_TEST(flags, FILE_INFO_TYPE_DIFFERS) &&
+							S_ISDIR(preceding->mode())) {
+							// use rename instead of mkdir so children are restored
+							res = preceding->dirrename(context->depot->m_archives_path, 
+													   context->depot->m_prefix);							
+
+						} else {
+							res = preceding->install(context->depot->m_archives_path, 
+													 context->depot->m_prefix);							
+						}
 					}
 				} else if (INFO_TEST(flags, FILE_INFO_MODE_DIFFERS) ||
 					   INFO_TEST(flags, FILE_INFO_GID_DIFFERS) ||
