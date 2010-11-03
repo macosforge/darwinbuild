@@ -228,6 +228,11 @@ int File::install(const char* prefix, const char* dest) {
 	return res;
 }
 
+int File::dirrename(const char* prefix, const char* dest) {
+	// only used for directories
+	assert(0);
+}
+
 int File::remove() {
 	// not implemented
 	fprintf(stderr, "%s:%d: call to abstract function File::remove\n", 
@@ -341,6 +346,14 @@ Directory::Directory(uint64_t serial, Archive* archive, uint32_t info,
 : File(serial, archive, info, path, mode, uid, gid, size, digest) {};
 
 int Directory::install(const char* prefix, const char* dest) {
+	return this->_install(prefix, dest, false);
+}
+
+int Directory::dirrename(const char* prefix, const char* dest) {
+	return this->_install(prefix, dest, true);	
+}
+
+int Directory::_install(const char* prefix, const char* dest, bool use_rename) {
 	// We create a new directory instead of renaming the
 	// existing one, since that would move the entire
 	// sub-tree, and lead to a lot of ENOENT errors.
@@ -352,11 +365,35 @@ int Directory::install(const char* prefix, const char* dest) {
 	mode_t mode = this->mode() & ALLPERMS;
 	uid_t uid = this->uid();
 	gid_t gid = this->gid();
-	
-	IF_DEBUG("[install] mkdir(%s, %04o)\n", dstpath, mode);
-	if (res == 0) res = mkdir(dstpath, mode);
-	// mkdir is limited by umask, so ensure mode is set
-	if (res == 0) res = chmod(dstpath, mode); 
+
+	if (use_rename) {
+		// determine source path under archives directory for rename
+		char srcpath[PATH_MAX];
+		const char* path = this->path();
+		Archive* archive = this->archive();
+		char* dirpath = archive->directory_name(prefix);
+		IF_DEBUG("[install] dirpath is %s\n", dirpath);
+		if (is_directory(dirpath) == 0) {
+			IF_DEBUG("[install] expanding archive for directory rename\n");
+			res = archive->expand_directory(prefix);
+		}
+		if (res == 0 && dirpath) {
+			ssize_t len = snprintf(srcpath, sizeof(srcpath), "%s/%s", dirpath, path);
+			if ((size_t)len > sizeof(srcpath)) {
+				fprintf(stderr, "ERROR: [install] path too long: %s/%s\n", 
+						dirpath, path);
+				return -1;
+			}
+		}
+		if (is_regular_file(dstpath)) unlink(dstpath);
+		if (res == 0) IF_DEBUG("[install] rename(%s, %s)\n", srcpath, dstpath);
+		if (res == 0) res = rename(srcpath, dstpath);
+	} else {
+		IF_DEBUG("[install] mkdir(%s, %04o)\n", dstpath, mode);
+		res = mkdir(dstpath, mode);			
+		// mkdir is limited by umask, so ensure mode is set
+		if (res == 0) res = chmod(dstpath, mode); 
+	}
 
 	if (res && errno == EEXIST) {
 		if (is_directory(dstpath)) {
