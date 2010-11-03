@@ -1,5 +1,9 @@
 Darwin Build Scripts Change History
 -----------------------------------
+Release 23 [03-Nov-2010]
+	- darwinup: properly backup and restore existing content when
+	  installing a root that replaces a directory with a file. 
+
 Release 22 [27-Oct-2010]
 	- darwinup: make man page clearer about what paths we support
 	- darwinup: add safety measures to prevent recursive installs
