@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+        <key>binary_sites</key>
+        <array>
+                <string>http://src.macosforge.org/Roots/10J567/</string>
+        </array>
+	<key>build</key>
+	<string>10J567</string>
+	<key>darwin</key>
+	<string>Darwin 10.6</string>
+	<key>inherits</key>
+	<string>10H574</string>
+	<key>macosx</key>
+	<string>Mac OS X 10.6.6</string>
+	<key>projects</key>
+	<dict>
+		<key>IOAudioFamily</key>
+		<dict>
+			<key>version</key>
+			<string>180.4.1</string>
+		</dict>
+		<key>SecurityTool</key>
+		<dict>
+			<key>version</key>
+			<string>40418</string>
+		</dict>
+		<key>cups</key>
+		<dict>
+			<key>version</key>
+			<string>218.28</string>
+		</dict>
+		<key>launchd</key>
+		<dict>
+			<key>version</key>
+			<string>329.3.3</string>
+		</dict>
+		<key>libsecurity_apple_x509_tp</key>
+		<dict>
+			<key>version</key>
+			<string>40473</string>
+		</dict>
+		<key>libsecurity_cssm</key>
+		<dict>
+			<key>version</key>
+			<string>40418</string>
+		</dict>
+		<key>libsecurity_keychain</key>
+		<dict>
+			<key>version</key>
+			<string>40418</string>
+		</dict>
+		<key>mDNSResponder</key>
+		<dict>
+			<key>version</key>
+			<string>258.14</string>
+		</dict>
+		<key>xnu</key>
+		<dict>
+			<key>version</key>
+			<string>1504.9.26</string>
+		</dict>
+	</dict>
+</dict>
+</plist>
