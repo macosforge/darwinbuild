@@ -1,5 +1,8 @@
 Darwin Build Scripts Change History
 -----------------------------------
+Release 23.1 [25-Jan-2011]
+  - darwinup: strip symbols when building with Public configuration
+
 Release 23 [03-Nov-2010]
 	- darwinup: properly backup and restore existing content when
 	  installing a root that replaces a directory with a file. 
