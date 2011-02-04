@@ -40,15 +40,6 @@
 #include <string.h>
 #include <unistd.h>
 
-// For SHA1DigestMachO
-#include <mach/mach_init.h>
-#include <mach/vm_map.h>
-extern "C" {
-// <rdar://problem/4319807> redo_prebinding.h should use extern "C"
-//#include <mach-o/redo_prebinding.h> // from cctools_ofiles
-#include "redo_prebinding.h"
-}
-
 uint8_t*	Digest::data() { return m_data; }
 uint32_t	Digest::size() { return m_size; }
 
@@ -121,45 +112,6 @@ void SHA1Digest::digest(unsigned char* md, int fd) {
 
 void SHA1Digest::digest(unsigned char* md, uint8_t* data, uint32_t size) {
 	CC_SHA1((const void*)data, (CC_LONG)size, md);
-}
-
-SHA1DigestMachO::SHA1DigestMachO(const char* filename) {
-	char* error = NULL;
-	
-	// Check for Mach-O
-	int type = object_file_type(filename, NULL, &error);
-	if (type == OFT_EXECUTABLE ||
-		type == OFT_DYLIB ||
-		type == OFT_BUNDLE) {
-		// XXX - type == OFT_ARCHIVE?
-		void* block = NULL;
-		unsigned long blocklen = 0;
-		int ret = unprebind(filename,
-			NULL,
-			NULL,
-			&error,
-			1,
-			NULL,
-			0,
-			&block,
-			&blocklen);
-		if (ret == REDO_PREBINDING_SUCCESS && block != NULL) {
-			digest(m_data, (uint8_t*)block, blocklen);
-		} else {
-			//fprintf(stderr, "%s:%d: unexpected unprebind result: %s: %s (%d)\n", __FILE__, __LINE__, filename, error, ret);
-			int fd = open(filename, O_RDONLY);
-			digest(m_data, fd);
-			close(fd);
-		}
-		if (block != NULL) {
-			kern_return_t ret = vm_deallocate(mach_task_self(), (vm_address_t)block, (vm_size_t)blocklen);
-			assert(ret == 0);
-		}
-	} else {
-		int fd = open(filename, O_RDONLY);
-		digest(m_data, fd);
-		close(fd);
-	}
 }
 
 SHA1DigestSymlink::SHA1DigestSymlink(const char* filename) {

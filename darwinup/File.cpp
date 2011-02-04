@@ -266,14 +266,14 @@ NoEntry::NoEntry(uint64_t serial, Archive* archive, uint32_t info, const char* p
 : File(serial, archive, info, path, mode, uid, gid, size, digest) {}
 
 Regular::Regular(Archive* archive, FTSENT* ent) : File(archive, ent) {
-	m_digest = new SHA1DigestMachO(ent->fts_accpath);
+	m_digest = new SHA1Digest(ent->fts_accpath);
 }
 
 Regular::Regular(uint64_t serial, Archive* archive, uint32_t info, const char* path, 
 				 mode_t mode, uid_t uid, gid_t gid, off_t size, Digest* digest) 
 : File(serial, archive, info, path, mode, uid, gid, size, digest) {
 	if (digest == NULL || serial == 0) {
-		m_digest = new SHA1DigestMachO(path);
+		m_digest = new SHA1Digest(path);
 	}
 }
 
