@@ -147,7 +147,7 @@ void File::print(FILE* stream) {
 	free(dig);
 }
 
-int File::install(const char* prefix, const char* dest) {
+int File::install(const char* prefix, const char* dest, bool uninstall) {
 	extern uint32_t force;
 	int res = 0;
 	Archive* archive = this->archive();
@@ -159,6 +159,10 @@ int File::install(const char* prefix, const char* dest) {
 	const char* path = this->path();
 	char* dstpath;
 	join_path(&dstpath, dest, path);
+
+  // object changes are expected for some uninstall operations,
+  // otherwise require force flag
+  bool allow_change = (uninstall || force);
 
 	if (dirpath) {
 		ssize_t len = snprintf(srcpath, sizeof(srcpath), "%s/%s", dirpath, path);
@@ -176,7 +180,7 @@ int File::install(const char* prefix, const char* dest) {
 				if (is_directory(dirpath) == 0) {
 					IF_DEBUG("[install] File::install on-demand archive expansion\n");
 					res = archive->expand_directory(prefix);
-					if (res == 0) res = this->install(prefix, dest);
+					if (res == 0) res = this->install(prefix, dest, uninstall);
 				} else {
 					// archive was already expanded, so
 					// the file is truly missing (worry).
@@ -184,13 +188,13 @@ int File::install(const char* prefix, const char* dest) {
 					fprintf(stderr, "%s:%d: %s: %s (%d)\n", 
 							__FILE__, __LINE__, srcpath, strerror(errno), errno);
 				}
-			} else if (force && errno == ENOTDIR) {
+			} else if (allow_change && errno == ENOTDIR) {
 				// a) some part of destination path does not exist
 				// b) from is a directory, but to is not
 				IF_DEBUG("[install] File::install ENOTDIR\n");
 				fprintf(stderr, "%s:%d: %s: %s (%d)\n", 
 						__FILE__, __LINE__, dstpath, strerror(errno), errno);
-			} else if (force && errno == EISDIR) {
+			} else if (allow_change && errno == EISDIR) {
 				// to is a directory, but from is not
 				IF_DEBUG("[install] replacing directory with a file\n");
 				IF_DEBUG("[install] removefile(%s)\n", dstpath);
@@ -206,7 +210,7 @@ int File::install(const char* prefix, const char* dest) {
 				if (res == -1) fprintf(stderr, "%s:%d: %s: %s (%d)\n",
 									   __FILE__, __LINE__, dstpath, strerror(errno), 
 									   errno);
-			} else if (force && errno == ENOTEMPTY) {
+			} else if (allow_change && errno == ENOTEMPTY) {
 				// to is a directory and is not empty
 				IF_DEBUG("[install] File::install ENOTEMPTY\n");
 				fprintf(stderr, "%s:%d: %s: %s (%d)\n", 
@@ -228,7 +232,7 @@ int File::install(const char* prefix, const char* dest) {
 	return res;
 }
 
-int File::dirrename(const char* prefix, const char* dest) {
+int File::dirrename(const char* prefix, const char* dest, bool uninstall) {
 	// only used for directories
 	assert(0);
 }
@@ -345,15 +349,15 @@ Directory::Directory(uint64_t serial, Archive* archive, uint32_t info,
 					 Digest* digest) 
 : File(serial, archive, info, path, mode, uid, gid, size, digest) {};
 
-int Directory::install(const char* prefix, const char* dest) {
-	return this->_install(prefix, dest, false);
+int Directory::install(const char* prefix, const char* dest, bool uninstall) {
+	return this->_install(prefix, dest, uninstall, false);
 }
 
-int Directory::dirrename(const char* prefix, const char* dest) {
-	return this->_install(prefix, dest, true);	
+int Directory::dirrename(const char* prefix, const char* dest, bool uninstall) {
+	return this->_install(prefix, dest, uninstall, true);	
 }
 
-int Directory::_install(const char* prefix, const char* dest, bool use_rename) {
+int Directory::_install(const char* prefix, const char* dest, bool uninstall, bool use_rename) {
 	// We create a new directory instead of renaming the
 	// existing one, since that would move the entire
 	// sub-tree, and lead to a lot of ENOENT errors.
@@ -362,6 +366,10 @@ int Directory::_install(const char* prefix, const char* dest, bool use_rename) {
 	char* dstpath;
 	join_path(&dstpath, dest, this->path());
 	
+  // object changes are expected for some uninstall operations,
+  // otherwise require force flag
+  bool allow_change = (uninstall || force);
+
 	mode_t mode = this->mode() & ALLPERMS;
 	uid_t uid = this->uid();
 	gid_t gid = this->gid();
@@ -403,7 +411,7 @@ int Directory::_install(const char* prefix, const char* dest, bool use_rename) {
 			if (res == -1) fprintf(stderr, "%s:%d: %s: %s (%d)\n", 
 								   __FILE__, __LINE__, dstpath, strerror(errno), 
 								   errno);
-		} else if (force) {
+		} else if (allow_change) {
 			// this could be bad, so require the force option
 			IF_DEBUG("[install] original node is a file, we need to replace " \
 					 "with a directory \n");
@@ -415,7 +423,7 @@ int Directory::_install(const char* prefix, const char* dest, bool use_rename) {
 								   __FILE__, __LINE__, dstpath, strerror(errno), 
 								   errno);
 		}
-	} else if (force && res == -1 && errno == ENOTDIR) {
+	} else if (allow_change && res == -1 && errno == ENOTDIR) {
 		// some part of destination path is not a directory
 		IF_DEBUG("[install] Directory::install ENOTDIR \n");
 	} else if (res == -1) {

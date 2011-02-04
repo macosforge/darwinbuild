@@ -97,6 +97,18 @@ then
 	done
 fi
 
+echo "========== TEST: Test uninstall build check safety =========="
+$DARWINUP install $PREFIX/root2
+sqlite3 $DEST/.DarwinDepot/Database-V100 "UPDATE archives SET osbuild = '$(sw_vers -buildVersion)X'"
+set +e
+$DARWINUP uninstall root2
+if [ $? -eq 0 ]; then exit 1; fi
+set -e
+$DARWINUP -f uninstall root2
+echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+$DIFF $ORIG $DEST 2>&1
+
+
 echo "========== TEST: Try installing a symlink-to-directory =========="
 ln -s root2 $PREFIX/root_link
 # test without trailing slash

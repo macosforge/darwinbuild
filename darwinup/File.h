@@ -172,9 +172,9 @@ struct File {
 	// Installs the file from the archive into the prefix
 	// i.e., for regular files:
 	// rename(prefix + this->archive()->uuid() + this->path(), dest + this->path());
-	virtual int install(const char* prefix, const char* dest);
+	virtual int install(const char* prefix, const char* dest, bool uninstall);
 	// only used for directories
-	virtual int dirrename(const char* prefix, const char* dest);
+	virtual int dirrename(const char* prefix, const char* dest, bool uninstall);
 	
 	// Sets the mode, uid, and gid of the file in the dest path
 	// XXX: rename as repair()?
@@ -243,9 +243,9 @@ struct Symlink : File {
 struct Directory : File {
 	Directory(Archive* archive, FTSENT* ent);
 	Directory(uint64_t serial, Archive* archive, uint32_t info, const char* path, mode_t mode, uid_t uid, gid_t gid, off_t size, Digest* digest);
-	virtual int install(const char* prefix, const char* dest);
-	virtual int dirrename(const char* prefix, const char* dest);
-	int _install(const char* prefix, const char* dest, bool use_rename);
+	virtual int install(const char* prefix, const char* dest, bool uninstall);
+	virtual int dirrename(const char* prefix, const char* dest, bool uninstall);
+	int _install(const char* prefix, const char* dest, bool uninstall, bool use_rename);
 	virtual int remove();
 };
 
