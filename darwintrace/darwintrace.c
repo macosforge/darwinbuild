@@ -46,8 +46,8 @@
 
 #define DARWINTRACE_LOG_FULL_PATH 1
 #define DARWINTRACE_DEBUG_OUTPUT 0
-#define START_FD 81
-#define BUFFER_SIZE	1024
+#define DARWINTRACE_START_FD 81
+#define DARWINTRACE_BUFFER_SIZE	1024
 
 #if DARWINTRACE_DEBUG_OUTPUT
 #define dprintf(...) fprintf(stderr, __VA_ARGS__)
@@ -59,16 +59,16 @@
 __attribute__((used)) static struct{ const void* replacement; const void* replacee; } _interpose_##_replacee \
 __attribute__ ((section ("__DATA,__interpose"))) = { (const void*)(unsigned long)&_replacement, (const void*)(unsigned long)&_replacee };
 
-static int __darwintrace_fd = -2;
-static char __darwintrace_progname[BUFFER_SIZE];
-static pid_t __darwintrace_pid = -1;
+static int darwintrace_fd = -2;
+static char darwintrace_progname[DARWINTRACE_BUFFER_SIZE];
+static pid_t darwintrace_pid = -1;
 
 /**
  * Redirect file access 
  */
-static char *__darwintrace_redirect = NULL; 
-static char *__darwintrace_buildroot = NULL;
-static const char *__redirect_exceptions[] = {
+static char *darwintrace_redirect = NULL; 
+static char *darwintrace_buildroot = NULL;
+static const char *darwintrace_exceptions[] = {
   "/Developer/Library/Private",
   "/Developer/Library/Frameworks",
   "/Developer/usr/bin/../../Library/Private",
@@ -90,10 +90,11 @@ static const char *__redirect_exceptions[] = {
 };
 
 /* check if str starts with one of the exceptions */
-static inline bool __except(const char *str) {
-  size_t i, __exception_count = sizeof(__redirect_exceptions)/sizeof(*__redirect_exceptions); 
-  for (i = 0; i < __exception_count; i++) {				
-    if (strncmp(__redirect_exceptions[i], str, strlen(__redirect_exceptions[i])) == 0) { 
+static inline bool darwintrace_except(const char *str) {
+  size_t c = sizeof(darwintrace_exceptions)/sizeof(*darwintrace_exceptions); 
+  size_t i;
+  for (i = 0; i < c; i++) {				
+    if (strncmp(darwintrace_exceptions[i], str, strlen(darwintrace_exceptions[i])) == 0) { 
       return true;
     }
   }
@@ -101,81 +102,77 @@ static inline bool __except(const char *str) {
 }
 
 /* apply redirection heuristic to path */
-static inline char* __redirect_path(const char* path) {	
+static inline char* darwintrace_redirect_path(const char* path) {	
   char *redirpath;
   redirpath = (char *)path;
-  if (__darwintrace_redirect
+  if (darwintrace_redirect
       && path[0] == '/'
-      && !__except(path)
-      && strncmp(__darwintrace_buildroot, path, strlen(__darwintrace_buildroot))!=0
-      && strncmp(__darwintrace_redirect, path, strlen(__darwintrace_redirect))!=0 ) {
-    asprintf(&redirpath, "%s%s%s", __darwintrace_redirect, (*path == '/' ? "" : "/"), path);
+      && !darwintrace_except(path)
+      && strncmp(darwintrace_buildroot, path, strlen(darwintrace_buildroot))!=0
+      && strncmp(darwintrace_redirect, path, strlen(darwintrace_redirect))!=0 ) {
+    asprintf(&redirpath, "%s%s%s", darwintrace_redirect, (*path == '/' ? "" : "/"), path);
     dprintf("darwintrace: redirect %s -> %s\n", path, redirpath);
   }
   return redirpath;
 }
 
 /* free path if not the same as test */
-static inline void __free_path(char* path, const char* test) {
+static inline void darwintrace_free_path(char* path, const char* test) {
   if (path != test) free(path);
 }
 
-static inline void __darwintrace_setup() {
-	if (__darwintrace_fd == -2) {
+static inline void darwintrace_setup() {
+	if (darwintrace_fd == -2) {
 	  char* path = getenv("DARWINTRACE_LOG");
 	  if (path != NULL) {
-		int olderrno = errno;
-	    	int fd = open(path,
-			      O_CREAT | O_WRONLY | O_APPEND,
-			      DEFFILEMODE);
-		int newfd;
-		for(newfd = START_FD; newfd < START_FD + 21; newfd++) {
-		  if(-1 == write(newfd, "", 0) && errno == EBADF) {
-		    if(-1 != dup2(fd, newfd))
-		      __darwintrace_fd = newfd;
-		    close(fd);
-		    fcntl(__darwintrace_fd, F_SETFD, 1); /* close-on-exec */
-		    break;
-		  }
-		}
-		errno = olderrno;
+      int olderrno = errno;
+      int fd = open(path,
+                    O_CREAT | O_WRONLY | O_APPEND,
+                    DEFFILEMODE);
+      int newfd;
+      for(newfd = DARWINTRACE_START_FD; newfd < DARWINTRACE_START_FD + 21; newfd++) {
+        if(-1 == write(newfd, "", 0) && errno == EBADF) {
+          if(-1 != dup2(fd, newfd))
+            darwintrace_fd = newfd;
+          close(fd);
+          fcntl(darwintrace_fd, F_SETFD, 1); /* close-on-exec */
+          break;
+        }
+      }
+      errno = olderrno;
 	  }
 
 	  /* read env vars needed for redirection */
-	  __darwintrace_redirect = getenv("DARWINTRACE_REDIRECT");
-	  __darwintrace_buildroot = getenv("DARWIN_BUILDROOT");
+	  darwintrace_redirect = getenv("DARWINTRACE_REDIRECT");
+	  darwintrace_buildroot = getenv("DARWIN_BUILDROOT");
 	}
 
-	if (__darwintrace_pid == -1) {
-		__darwintrace_pid = getpid();
+	if (darwintrace_pid == -1) {
+		darwintrace_pid = getpid();
 		char** progname = _NSGetProgname();
 		if (progname && *progname) {
-		  if (strlcpy(__darwintrace_progname, *progname, sizeof(__darwintrace_progname)) 
-		      >= sizeof(__darwintrace_progname)) {
+		  if (strlcpy(darwintrace_progname, *progname, sizeof(darwintrace_progname)) >= sizeof(darwintrace_progname)) {
 		    dprintf("darwintrace: progname too long to copy: %s\n", *progname);
 		  }
 		}
 	}
 }
 
-/* __darwintrace_setup must have been called already */
-static inline void __darwintrace_logpath(int fd, const char *procname, char *tag, const char *path) {
-  char __darwintrace_buf[BUFFER_SIZE];
-  int size;
-
-  size = snprintf(__darwintrace_buf, sizeof(__darwintrace_buf),
-                  "%s[%d]\t%s\t%s\n",
-                  procname ? procname : __darwintrace_progname, __darwintrace_pid,
-                  tag, path );
-  
-  write(fd, __darwintrace_buf, size);
+/* darwintrace_setup must have been called already */
+static inline void darwintrace_logpath(int fd, const char *procname, char *tag, const char *path) {
+  char darwintrace_buf[DARWINTRACE_BUFFER_SIZE];
+  int size = snprintf(darwintrace_buf, sizeof(darwintrace_buf),
+                      "%s[%d]\t%s\t%s\n",
+                      procname ? procname : darwintrace_progname, darwintrace_pid,
+                      tag, path);
+  write(fd, darwintrace_buf, size);
   fsync(fd);
 }
 
 /* remap resource fork access to the data fork.
  * do a partial realpath(3) to fix "foo//bar" to "foo/bar"
  */
-static inline void __darwintrace_cleanup_path(char *path) {
+static inline void darwintrace_cleanup_path(char *path) {
   size_t pathlen, rsrclen;
   size_t i, shiftamount;
   enum { SAWSLASH, NOTHING } state = NOTHING;
@@ -226,15 +223,15 @@ int darwintrace_open(const char* path, int flags, ...) {
 	int result;
 	va_list args;
 
-	char* redirpath = __redirect_path(path);
+	char* redirpath = darwintrace_redirect_path(path);
 
 	va_start(args, flags);
 	mode = va_arg(args, int);
 	va_end(args);
 	result = open(redirpath, flags, mode);
 	if (result >= 0 && (flags & (O_CREAT | O_WRONLY /*O_RDWR*/)) == 0 ) {
-	  __darwintrace_setup();
-	  if (__darwintrace_fd >= 0) {
+	  darwintrace_setup();
+	  if (darwintrace_fd >= 0) {
 	    char realpath[MAXPATHLEN];
 #if DARWINTRACE_LOG_FULL_PATH
 	    int usegetpath = 1;
@@ -265,12 +262,12 @@ int darwintrace_open(const char* path, int flags, ...) {
         }
       }
 
-	    __darwintrace_cleanup_path(realpath);
-	    __darwintrace_logpath(__darwintrace_fd, NULL, "open", realpath);
+	    darwintrace_cleanup_path(realpath);
+	    darwintrace_logpath(darwintrace_fd, NULL, "open", realpath);
 	  }
 	}
 
-	__free_path(redirpath, path);
+	darwintrace_free_path(redirpath, path);
 	return result;
 }
 DARWINTRACE_INTERPOSE(darwintrace_open, open)
@@ -282,11 +279,11 @@ DARWINTRACE_INTERPOSE(darwintrace_open, open)
 ssize_t darwintrace_readlink(const char * path, char * buf, size_t bufsiz) {
 	ssize_t result;
 
-	char* redirpath = __redirect_path(path);
+	char* redirpath = darwintrace_redirect_path(path);
 	result = readlink(redirpath, buf, bufsiz);
 	if (result >= 0) {
-	  __darwintrace_setup();
-	  if (__darwintrace_fd >= 0) {
+	  darwintrace_setup();
+	  if (darwintrace_fd >= 0) {
 	    char realpath[MAXPATHLEN];
 
 	    dprintf("darwintrace: original readlink path is %s\n", redirpath);
@@ -295,12 +292,12 @@ ssize_t darwintrace_readlink(const char * path, char * buf, size_t bufsiz) {
 	      dprintf("darwintrace: in readlink: path too long to copy: %s\n", redirpath);
 	    }
 	    
-	    __darwintrace_cleanup_path(realpath);
-	    __darwintrace_logpath(__darwintrace_fd, NULL, "readlink", realpath);
+	    darwintrace_cleanup_path(realpath);
+	    darwintrace_logpath(darwintrace_fd, NULL, "readlink", realpath);
 	  }
 	}
   
-	__free_path(redirpath, path);
+	darwintrace_free_path(redirpath, path);
 	return result;
 }
 DARWINTRACE_INTERPOSE(darwintrace_readlink, readlink)
@@ -309,9 +306,9 @@ DARWINTRACE_INTERPOSE(darwintrace_readlink, readlink)
 int darwintrace_execve(const char* path, char* const argv[], char* const envp[]) {
 	int result;
 	
-	char* redirpath = __redirect_path(path);
-	__darwintrace_setup();
-	if (__darwintrace_fd >= 0) {
+	char* redirpath = darwintrace_redirect_path(path);
+	darwintrace_setup();
+	if (darwintrace_fd >= 0) {
 	  struct stat sb;
 	  char realpath[MAXPATHLEN];
 	  int printorig = 0;
@@ -350,8 +347,8 @@ int darwintrace_execve(const char* path, char* const argv[], char* const envp[])
           dprintf("darwintrace: in execve: path too long to copy: %s\n", redirpath);
 	      }
 
-	      __darwintrace_cleanup_path(realpath);
-	      __darwintrace_logpath(__darwintrace_fd, NULL, "execve", realpath);
+	      darwintrace_cleanup_path(realpath);
+	      darwintrace_logpath(darwintrace_fd, NULL, "execve", realpath);
 	    }
 		
 	    fd = open(redirpath, O_RDONLY, 0);
@@ -378,8 +375,8 @@ int darwintrace_execve(const char* path, char* const argv[], char* const envp[])
             }
           }
           
-          __darwintrace_cleanup_path(realpath);
-          __darwintrace_logpath(__darwintrace_fd, NULL, "execve", realpath);
+          darwintrace_cleanup_path(realpath);
+          darwintrace_logpath(darwintrace_fd, NULL, "execve", realpath);
 	      }
 
 	      bzero(buffer, sizeof(buffer));
@@ -418,8 +415,8 @@ int darwintrace_execve(const char* path, char* const argv[], char* const envp[])
               procname++;
             }
 
-            __darwintrace_cleanup_path(interp);
-            __darwintrace_logpath(__darwintrace_fd, procname, "execve", interp);
+            darwintrace_cleanup_path(interp);
+            darwintrace_logpath(darwintrace_fd, procname, "execve", interp);
           }
 	      }
         
@@ -429,7 +426,7 @@ int darwintrace_execve(const char* path, char* const argv[], char* const envp[])
 	}
   
 	result = execve(redirpath, argv, envp);
-	__free_path(redirpath, path);
+	darwintrace_free_path(redirpath, path);
 	return result;
 }
 DARWINTRACE_INTERPOSE(darwintrace_execve, execve)
@@ -440,7 +437,7 @@ DARWINTRACE_INTERPOSE(darwintrace_execve, execve)
    attempts to close our file descriptor
 */
 int darwintrace_close(int fd) {
-  if(__darwintrace_fd != -2 && fd == __darwintrace_fd) {
+  if(darwintrace_fd != -2 && fd == darwintrace_fd) {
     errno = EBADF;
     return -1;
   }
