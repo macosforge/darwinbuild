@@ -40,7 +40,6 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <sys/param.h>
-#include <sys/syscall.h>
 #include <sys/paths.h>
 #include <errno.h>
 
@@ -433,7 +432,7 @@ DARWINTRACE_INTERPOSE(darwintrace_execve, execve)
 
 
 /* 
-   if darwintrace has  been initialized, trap
+   if darwintrace has been initialized, trap
    attempts to close our file descriptor
 */
 int darwintrace_close(int fd) {
