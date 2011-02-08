@@ -46,13 +46,8 @@
 
 #define DARWINTRACE_LOG_FULL_PATH 1
 #define DARWINTRACE_DEBUG_OUTPUT 0
-
 #define START_FD 81
-static int __darwintrace_fd = -2;
 #define BUFFER_SIZE	1024
-
-static char __darwintrace_progname[BUFFER_SIZE];
-static pid_t __darwintrace_pid = -1;
 
 #if DARWINTRACE_DEBUG_OUTPUT
 #define dprintf(...) fprintf(stderr, __VA_ARGS__)
@@ -60,29 +55,35 @@ static pid_t __darwintrace_pid = -1;
 #define dprintf(...)
 #endif
 
+static int __darwintrace_fd = -2;
+static char __darwintrace_progname[BUFFER_SIZE];
+static pid_t __darwintrace_pid = -1;
+
 /**
  * Redirect file access 
  */
 static char *__darwintrace_redirect = NULL; 
 static char *__darwintrace_buildroot = NULL;
-static const char *__redirect_exceptions[] = {"/Developer/Library/Private",
-					      "/Developer/Library/Frameworks",
-					      "/Developer/usr/bin/../../Library/Private",
-					      "/Developer/usr/bin/../../Library/Frameworks",
-					      "/Developer/Library/Xcode",
-					      "/Developer/Platforms/",
-					      "/Developer/usr/bin/xcode",
-					      "/System/Library/Frameworks/Carbon",
-					      "/Volumes/BuildRoot_",
-					      "/usr/bin/xcrun",
-					      "/usr/bin/xcode",
-					      "/usr/local/share/darwin",
-					      "/usr/share/xcode",
-					      "/var/folders/",
-					      "/var/tmp/",
-					      "/.vol/",
-					      "/tmp/",
-					      "/dev/"};
+static const char *__redirect_exceptions[] = {
+  "/Developer/Library/Private",
+  "/Developer/Library/Frameworks",
+  "/Developer/usr/bin/../../Library/Private",
+  "/Developer/usr/bin/../../Library/Frameworks",
+  "/Developer/Library/Xcode",
+  "/Developer/Platforms/",
+  "/Developer/usr/bin/xcode",
+  "/System/Library/Frameworks/Carbon",
+  "/Volumes/BuildRoot_",
+  "/usr/bin/xcrun",
+  "/usr/bin/xcode",
+  "/usr/local/share/darwin",
+  "/usr/share/xcode",
+  "/var/folders/",
+  "/var/tmp/",
+  "/.vol/",
+  "/tmp/",
+  "/dev/",
+};
 
 /* check if str starts with one of the exceptions */
 static inline bool __except(const char *str) {
@@ -95,23 +96,25 @@ static inline bool __except(const char *str) {
   return false;
 }
 
-/* create __darwintrace_path and write the potentially-redirected path to it */
-#define __redirect_path()						\
-  char *__darwintrace_path;						\
-  __darwintrace_path = (char *)path;					\
-  if (__darwintrace_redirect						\
-      && path[0] == '/'							\
-      && !__except(path)						\
-      && strncmp(__darwintrace_buildroot, path, strlen(__darwintrace_buildroot))!=0 \
-      && strncmp(__darwintrace_redirect, path, strlen(__darwintrace_redirect))!=0 ) { \
-    asprintf(&__darwintrace_path, "%s%s%s", __darwintrace_redirect, (*path == '/' ? "" : "/"), path); \
-    dprintf("darwintrace: redirect %s -> %s\n", path, __darwintrace_path);		\
+/* apply redirection heuristic to path */
+static inline char* __redirect_path(const char* path) {	
+  char *redirpath;
+  redirpath = (char *)path;
+  if (__darwintrace_redirect
+      && path[0] == '/'
+      && !__except(path)
+      && strncmp(__darwintrace_buildroot, path, strlen(__darwintrace_buildroot))!=0
+      && strncmp(__darwintrace_redirect, path, strlen(__darwintrace_redirect))!=0 ) {
+    asprintf(&redirpath, "%s%s%s", __darwintrace_redirect, (*path == '/' ? "" : "/"), path);
+    dprintf("darwintrace: redirect %s -> %s\n", path, redirpath);
   }
-#define __free_path()				    \
-  if (__darwintrace_path != path) {		    \
-    free(__darwintrace_path);			    \
-  }
+  return redirpath;
+}
 
+/* free path if not the same as test */
+static inline void __free_path(char* path, const char* test) {
+  if (path != test) free(path);
+}
 
 static inline void __darwintrace_setup() {
 	if (__darwintrace_fd == -2) {
@@ -179,9 +182,9 @@ static inline void __darwintrace_cleanup_path(char *path) {
   rsrclen = strlen(_PATH_RSRCFORKSPEC);
   if(pathlen > rsrclen
      && 0 == strncmp(path + pathlen - rsrclen,
-		     _PATH_RSRCFORKSPEC, rsrclen)) {
-    path[pathlen - rsrclen] = '\0';
-    pathlen -= rsrclen;
+                     _PATH_RSRCFORKSPEC, rsrclen)) {
+       path[pathlen - rsrclen] = '\0';
+       pathlen -= rsrclen;
   }
 
   /* for each position in string (including
@@ -192,15 +195,15 @@ static inline void __darwintrace_cleanup_path(char *path) {
   for(i=0, shiftamount=0; i <= pathlen; i++) {
     if(state == SAWSLASH) {
       if(path[i] == '/') {
-	/* consume it */
-	shiftamount++;
+        /* consume it */
+        shiftamount++;
       } else {
-	state = NOTHING;
-	path[i - shiftamount] = path[i];
+        state = NOTHING;
+        path[i - shiftamount] = path[i];
       }
     } else {
       if(path[i] == '/') {
-	state = SAWSLASH;
+        state = SAWSLASH;
       }
       path[i - shiftamount] = path[i];
     }
@@ -223,12 +226,12 @@ int open(const char* path, int flags, ...) {
 	int result;
 	va_list args;
 
-	__redirect_path();
+	char* redirpath = __redirect_path(path);
 
 	va_start(args, flags);
 	mode = va_arg(args, int);
 	va_end(args);
-	result = open(__darwintrace_path, flags, mode);
+	result = open(redirpath, flags, mode);
 	if (result >= 0 && (flags & (O_CREAT | O_WRONLY /*O_RDWR*/)) == 0 ) {
 	  __darwintrace_setup();
 	  if (__darwintrace_fd >= 0) {
@@ -239,35 +242,35 @@ int open(const char* path, int flags, ...) {
 	    int usegetpath = 0;
 #endif
 
-	    dprintf("darwintrace: original open path is %s\n", __darwintrace_path);
+	    dprintf("darwintrace: original open path is %s\n", redirpath);
 
 	    /* for volfs paths, we need to do a GETPATH anyway */
-	    if(!usegetpath && strncmp(__darwintrace_path, "/.vol/", 6) == 0) {
+	    if(!usegetpath && strncmp(redirpath, "/.vol/", 6) == 0) {
 	      usegetpath = 1;
 	    }
 	    
 	    if(usegetpath) {
-	      if(0 == fcntl(result, F_GETPATH, realpath)) {
-		dprintf("darwintrace: resolved %s to %s\n", __darwintrace_path, realpath);
+        if(0 == fcntl(result, F_GETPATH, realpath)) {
+          dprintf("darwintrace: resolved %s to %s\n", redirpath, realpath);
 	      } else {
-		/* use original path */
-		dprintf("darwintrace: failed to resolve %s\n", __darwintrace_path);
-		if (strlcpy(realpath, __darwintrace_path, sizeof(realpath)) >= sizeof(realpath)) {
-		  dprintf("darwintrace: in open: original path too long to copy: %s\n", __darwintrace_path);
-		}
-	      }
-	    } else {
-	      if (strlcpy(realpath, __darwintrace_path, sizeof(realpath)) >= sizeof(realpath)) {
-		dprintf("darwintrace: in open (without getpath): path too long to copy: %s\n", __darwintrace_path);
-	      }
-	    }
+          /* use original path */
+          dprintf("darwintrace: failed to resolve %s\n", redirpath);
+          if (strlcpy(realpath, redirpath, sizeof(realpath)) >= sizeof(realpath)) {
+            dprintf("darwintrace: in open: original path too long to copy: %s\n", redirpath);
+          }
+        }
+      } else {
+	      if (strlcpy(realpath, redirpath, sizeof(realpath)) >= sizeof(realpath)) {
+          dprintf("darwintrace: in open (without getpath): path too long to copy: %s\n", redirpath);
+        }
+      }
 
 	    __darwintrace_cleanup_path(realpath);
-
 	    __darwintrace_logpath(__darwintrace_fd, NULL, "open", realpath);
 	  }
 	}
-	__free_path();
+
+	__free_path(redirpath, path);
 	return result;
 }
 
@@ -280,25 +283,25 @@ ssize_t  readlink(const char * path, char * buf, size_t bufsiz) {
 #define readlink(x,y,z) syscall(SYS_readlink, (x), (y), (z))
 	ssize_t result;
 
-	__redirect_path();
-	result = readlink(__darwintrace_path, buf, bufsiz);
+	char* redirpath = __redirect_path(path);
+	result = readlink(redirpath, buf, bufsiz);
 	if (result >= 0) {
 	  __darwintrace_setup();
 	  if (__darwintrace_fd >= 0) {
 	    char realpath[MAXPATHLEN];
 
-	    dprintf("darwintrace: original readlink path is %s\n", __darwintrace_path);
+	    dprintf("darwintrace: original readlink path is %s\n", redirpath);
 
-	    if (strlcpy(realpath, __darwintrace_path, sizeof(realpath)) >= sizeof(realpath)) {
-	      dprintf("darwintrace: in readlink: path too long to copy: %s\n", __darwintrace_path);
+	    if (strlcpy(realpath, redirpath, sizeof(realpath)) >= sizeof(realpath)) {
+	      dprintf("darwintrace: in readlink: path too long to copy: %s\n", redirpath);
 	    }
 	    
 	    __darwintrace_cleanup_path(realpath);
-
 	    __darwintrace_logpath(__darwintrace_fd, NULL, "readlink", realpath);
 	  }
 	}
-	__free_path();
+  
+	__free_path(redirpath, path);
 	return result;
 }
 
@@ -306,7 +309,7 @@ int execve(const char* path, char* const argv[], char* const envp[]) {
 #define execve(x,y,z) syscall(SYS_execve, (x), (y), (z))
 	int result;
 	
-	__redirect_path();
+	char* redirpath = __redirect_path(path);
 	__darwintrace_setup();
 	if (__darwintrace_fd >= 0) {
 	  struct stat sb;
@@ -320,15 +323,15 @@ int execve(const char* path, char* const argv[], char* const envp[]) {
 	  int usegetpath = 0;
 #endif
 
-	  dprintf("darwintrace: original execve path is %s\n", __darwintrace_path);
+	  dprintf("darwintrace: original execve path is %s\n", redirpath);
 
 	  /* for symlinks, we wan't to capture
 	   * both the original path and the modified one,
 	   * since for /usr/bin/gcc -> gcc-4.0,
 	   * both "gcc_select" and "gcc" are contributors
 	   */
-	  if (lstat(__darwintrace_path, &sb) == 0) {
-	    if(__darwintrace_path[0] != '/') {
+	  if (lstat(redirpath, &sb) == 0) {
+	    if(redirpath[0] != '/') {
 	      /* for relative paths, only print full path */
 	      printreal = 1;
 	      printorig = 0;
@@ -343,15 +346,15 @@ int execve(const char* path, char* const argv[], char* const envp[]) {
 	    }
 
 	    if(printorig) {
-	      if (strlcpy(realpath, __darwintrace_path, sizeof(realpath)) >= sizeof(realpath)) {
-		dprintf("darwintrace: in execve: path too long to copy: %s\n", __darwintrace_path);
+	      if (strlcpy(realpath, redirpath, sizeof(realpath)) >= sizeof(realpath)) {
+          dprintf("darwintrace: in execve: path too long to copy: %s\n", redirpath);
 	      }
 
 	      __darwintrace_cleanup_path(realpath);
 	      __darwintrace_logpath(__darwintrace_fd, NULL, "execve", realpath);
 	    }
 		
-	    fd = open(__darwintrace_path, O_RDONLY, 0);
+	    fd = open(redirpath, O_RDONLY, 0);
 	    if (fd != -1) {
 
 	      char buffer[MAXPATHLEN];
@@ -359,73 +362,74 @@ int execve(const char* path, char* const argv[], char* const envp[]) {
 
 	      /* once we have an open fd, if a full path was requested, do it */
 	      if(printreal) {
-		
-		if(usegetpath) {
-		  if(0 == fcntl(fd, F_GETPATH, realpath)) {
-		    dprintf("darwintrace: resolved execve path %s to %s\n", __darwintrace_path, realpath);
-		  } else {
-		    dprintf("darwintrace: failed to resolve %s\n", __darwintrace_path);
-		    if (strlcpy(realpath, __darwintrace_path, sizeof(realpath)) >= sizeof(realpath)) {
-		      dprintf("darwintrace: in execve: original path too long to copy: %s\n", __darwintrace_path);
-		    }
-		  }
-		} else {
-		  if (strlcpy(realpath, __darwintrace_path, sizeof(realpath)) >= sizeof(realpath)) {
-		    dprintf("darwintrace: in execve (without getpath): path too long to copy: %s\n", __darwintrace_path);
-		  }
-		}
-		__darwintrace_cleanup_path(realpath);
 
-		__darwintrace_logpath(__darwintrace_fd, NULL, "execve", realpath);
+          if(usegetpath) {
+            if(0 == fcntl(fd, F_GETPATH, realpath)) {
+              dprintf("darwintrace: resolved execve path %s to %s\n", redirpath, realpath);
+            } else {
+              dprintf("darwintrace: failed to resolve %s\n", redirpath);
+              if (strlcpy(realpath, redirpath, sizeof(realpath)) >= sizeof(realpath)) {
+                dprintf("darwintrace: in execve: original path too long to copy: %s\n", redirpath);
+              }
+            }
+          } else {
+            if (strlcpy(realpath, redirpath, sizeof(realpath)) >= sizeof(realpath)) {
+              dprintf("darwintrace: in execve (without getpath): path too long to copy: %s\n", redirpath);
+            }
+          }
+          
+          __darwintrace_cleanup_path(realpath);
+          __darwintrace_logpath(__darwintrace_fd, NULL, "execve", realpath);
 	      }
 
 	      bzero(buffer, sizeof(buffer));
 
 	      bytes_read = read(fd, buffer, MAXPATHLEN);
 	      if (bytes_read > 2 &&
-		  buffer[0] == '#' && buffer[1] == '!') {
-		char* interp = &buffer[2];
-		int i;
-		/* skip past leading whitespace */
-		for (i = 2; i < bytes_read; ++i) {
-		  if (buffer[i] != ' ' && buffer[i] != '\t') {
-		    interp = &buffer[i];
-		    break;
-		  }
-		}
-		/* found interpreter (or ran out of data)
-		   skip until next whitespace, then terminate the string */
-		for (; i < bytes_read; ++i) {
-		  if (buffer[i] == ' ' || buffer[i] == '\t' || buffer[i] == '\n') {
-		    buffer[i] = 0;
-		    break;
-		  }
-		}
-		/* we have liftoff */
-		if (interp && interp[0] != '\0') {
-		  const char* procname = NULL;
+            buffer[0] == '#' && buffer[1] == '!') {
+          char* interp = &buffer[2];
+          int i;
+          /* skip past leading whitespace */
+          for (i = 2; i < bytes_read; ++i) {
+            if (buffer[i] != ' ' && buffer[i] != '\t') {
+              interp = &buffer[i];
+              break;
+            }
+          }
+          /* found interpreter (or ran out of data)
+           skip until next whitespace, then terminate the string */
+          for (; i < bytes_read; ++i) {
+            if (buffer[i] == ' ' || buffer[i] == '\t' || buffer[i] == '\n') {
+              buffer[i] = 0;
+              break;
+            }
+          }
+          /* we have liftoff */
+          if (interp && interp[0] != '\0') {
+            const char* procname = NULL;
 
-		  /* look for slash to get the basename */
-		  procname = strrchr(argv[0], '/');
-		  if (procname == NULL) {
-		    /* no slash found, so assume whole string is basename */
-		    procname = argv[0];
-		  } else {
-		    /* advance pointer to just after slash */
-		    procname++;
-		  }
+            /* look for slash to get the basename */
+            procname = strrchr(argv[0], '/');
+            if (procname == NULL) {
+              /* no slash found, so assume whole string is basename */
+              procname = argv[0];
+            } else {
+              /* advance pointer to just after slash */
+              procname++;
+            }
 
-		  __darwintrace_cleanup_path(interp);
-
-		  __darwintrace_logpath(__darwintrace_fd, procname, "execve", interp);
-		}
+            __darwintrace_cleanup_path(interp);
+            __darwintrace_logpath(__darwintrace_fd, procname, "execve", interp);
+          }
 	      }
+        
 	      close(fd);
 	    }
 	  }
 	}
-	result = execve(__darwintrace_path, argv, envp);
-	__free_path();
+  
+	result = execve(redirpath, argv, envp);
+	__free_path(redirpath, path);
 	return result;
 }
 
