@@ -123,40 +123,37 @@ static inline void darwintrace_free_path(char* path, const char* test) {
 }
 
 static inline void darwintrace_setup() {
-	if (darwintrace_fd == -2) {
-	  char* path = getenv("DARWINTRACE_LOG");
-	  if (path != NULL) {
-      int olderrno = errno;
-      int fd = open(path,
-                    O_CREAT | O_WRONLY | O_APPEND,
-                    DEFFILEMODE);
-      int newfd;
-      for(newfd = DARWINTRACE_START_FD; newfd < DARWINTRACE_START_FD + 21; newfd++) {
-        if(-1 == write(newfd, "", 0) && errno == EBADF) {
-          if(-1 != dup2(fd, newfd))
-            darwintrace_fd = newfd;
-          close(fd);
-          fcntl(darwintrace_fd, F_SETFD, 1); /* close-on-exec */
-          break;
-        }
+	if (darwintrace_fd != -2) return;
+  
+  char* path = getenv("DARWINTRACE_LOG");
+  if (path != NULL) {
+    int olderrno = errno;
+    int fd = open(path,
+                  O_CREAT | O_WRONLY | O_APPEND,
+                  DEFFILEMODE);
+    int newfd;
+    for(newfd = DARWINTRACE_START_FD; newfd < DARWINTRACE_START_FD + 21; newfd++) {
+      if(-1 == write(newfd, "", 0) && errno == EBADF) {
+        if(-1 != dup2(fd, newfd)) darwintrace_fd = newfd;
+        close(fd);
+        fcntl(darwintrace_fd, F_SETFD, 1); /* close-on-exec */
+        break;
       }
-      errno = olderrno;
-	  }
+    }
+    errno = olderrno;
+  }
 
-	  /* read env vars needed for redirection */
-	  darwintrace_redirect = getenv("DARWINTRACE_REDIRECT");
-	  darwintrace_buildroot = getenv("DARWIN_BUILDROOT");
-	}
+  /* read env vars needed for redirection */
+  darwintrace_redirect = getenv("DARWINTRACE_REDIRECT");
+  darwintrace_buildroot = getenv("DARWIN_BUILDROOT");
 
-	if (darwintrace_pid == -1) {
-		darwintrace_pid = getpid();
-		char** progname = _NSGetProgname();
-		if (progname && *progname) {
-		  if (strlcpy(darwintrace_progname, *progname, sizeof(darwintrace_progname)) >= sizeof(darwintrace_progname)) {
-		    dprintf("darwintrace: progname too long to copy: %s\n", *progname);
-		  }
-		}
-	}
+  darwintrace_pid = getpid();
+  char** progname = _NSGetProgname();
+  if (progname && *progname) {
+    if (strlcpy(darwintrace_progname, *progname, sizeof(darwintrace_progname)) >= sizeof(darwintrace_progname)) {
+      dprintf("darwintrace: progname too long to copy: %s\n", *progname);
+    }
+  }
 }
 
 /* darwintrace_setup must have been called already */
@@ -167,7 +164,6 @@ static inline void darwintrace_logpath(int fd, const char *procname, char *tag, 
                       procname ? procname : darwintrace_progname, darwintrace_pid,
                       tag, path);
   write(fd, darwintrace_buf, size);
-  fsync(fd);
 }
 
 /* remap resource fork access to the data fork.
