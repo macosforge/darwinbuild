@@ -19,16 +19,21 @@ export DARWINTRACE_LOG="${LOGS}/trace.log"
 echo "INFO: Cleaning up testing area ..."
 rm -rf $PREFIX
 mkdir -p $PREFIX
+mkdir -p $ROOT
 mkdir -p $LOGS
 mkdir -p $BIN
 
-cp realpath $BIN/realpath
 REALPATH=$BIN/realpath
+cp realpath $REALPATH
 
-cp exec $BIN/exec
 EXEC=$BIN/exec
+cp exec $EXEC
 
-cp close-test $BIN/close-test
+CLOSETEST=$BIN/close-test
+cp close-test $CLOSETEST
+
+REDIRECTIONTEST=$BIN/redirection-test
+cp redirection-test $REDIRECTIONTEST
 
 
 echo "========== TEST: execve() Trace =========="
@@ -41,12 +46,12 @@ do
 	set -e
 	LOGPAT="Python\[[0-9]+\][[:space:]]execve[[:space:]]/bin/${FILE}"
 	C=$(grep -cE $LOGPAT $DARWINTRACE_LOG)
-    test $C -eq 1
+  test $C -eq 1
 done
 set -e
 
 echo "========== TEST: close() Safety =========="
-$BIN/close-test
+$CLOSETEST
 
 echo "========== TEST: open() Trace =========="
 for FILE in /System/Library/LaunchDaemons/*.plist;
@@ -55,7 +60,7 @@ do
 	RP=$($REALPATH $FILE);
 	LOGPAT="cat\[[0-9]+\][[:space:]]open[[:space:]]${RP}"
 	C=$(grep -cE $LOGPAT $DARWINTRACE_LOG)
-    test $C -eq 1
+  test $C -eq 1
 done
 
 echo "========== TEST: readlink() Trace =========="
@@ -64,15 +69,33 @@ do
 	readlink $FILE
 	LOGPAT="readlink\[[0-9]+\][[:space:]]readlink[[:space:]]${FILE}"
 	C=$(grep -cE $LOGPAT $DARWINTRACE_LOG)
-    test $C -eq 1
+  test $C -eq 1
 done
 
-
-#echo "========== TEST: Redirection =========="
-#cp $DARWINTRACE $ROOT/
-#DARWINTRACE_REDIRECT="${ROOT}"
-#DARWINTRACE_LOG="${LOGS}/Redirection.log"
-
+echo "========== TEST: Redirection =========="
+mkdir -p $ROOT/$PREFIX
+mkdir -p $ROOT/usr/lib
+cp /usr/lib/libSystem.B.dylib $ROOT/usr/lib/libSystem.B.dylib
+mkdir -p $ROOT/bin
+cp /bin/cat $ROOT/bin/cat
+echo "Outside of root" > $PREFIX/datafile
+echo "Inside of root" > $ROOT/$PREFIX/datafile
+export DARWINTRACE_REDIRECT="${ROOT}"
+export DARWIN_BUILDROOT="${ROOT}"
+$REDIRECTIONTEST $PREFIX
+unset DARWINTRACE_REDIRECT
+unset DARWIN_BUILDROOT
+# test that execve(/bin/cat) was redirected
+RP=$($REALPATH ${ROOT}/bin/cat)
+LOGPAT="bash\[[0-9]+\][[:space:]]execve[[:space:]]${RP}"
+C=$(grep -cE $LOGPAT $DARWINTRACE_LOG)
+test $C -eq 1
+# test that open(/tmp/.../datafile) does not get redirected
+#  since /tmp/ is one of the redirection exceptions
+RP=$($REALPATH ${PREFIX}/datafile)
+LOGPAT="cat\[[0-9]+\][[:space:]]open[[:space:]]${RP}"
+C=$(grep -cE $LOGPAT $DARWINTRACE_LOG)
+test $C -eq 1
 
 popd >> /dev/null
 echo "INFO: Done testing!"
