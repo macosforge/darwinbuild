@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import os
-for i in range(81,102):
+for i in range(101,200):
 	print " ... trying to close(%s)" % i
 	try:
 		os.close(i)

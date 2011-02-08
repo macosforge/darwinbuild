@@ -45,7 +45,8 @@
 
 #define DARWINTRACE_LOG_FULL_PATH 1
 #define DARWINTRACE_DEBUG_OUTPUT 0
-#define DARWINTRACE_START_FD 81
+#define DARWINTRACE_START_FD 101
+#define DARWINTRACE_STOP_FD  200
 #define DARWINTRACE_BUFFER_SIZE	1024
 
 #if DARWINTRACE_DEBUG_OUTPUT
@@ -132,7 +133,7 @@ static inline void darwintrace_setup() {
                   O_CREAT | O_WRONLY | O_APPEND,
                   DEFFILEMODE);
     int newfd;
-    for(newfd = DARWINTRACE_START_FD; newfd < DARWINTRACE_START_FD + 21; newfd++) {
+    for(newfd = DARWINTRACE_START_FD; newfd < DARWINTRACE_STOP_FD; newfd++) {
       if(-1 == write(newfd, "", 0) && errno == EBADF) {
         if(-1 != dup2(fd, newfd)) darwintrace_fd = newfd;
         close(fd);
