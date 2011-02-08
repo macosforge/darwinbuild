@@ -101,17 +101,19 @@ static inline bool darwintrace_except(const char *str) {
 }
 
 /* apply redirection heuristic to path */
-static inline char* darwintrace_redirect_path(const char* path) {	
+static inline char* darwintrace_redirect_path(const char* path) {
+  if (!darwintrace_redirect) return (char*)path;
+
   char *redirpath;
   redirpath = (char *)path;
-  if (darwintrace_redirect
-      && path[0] == '/'
+  if (path[0] == '/'
       && !darwintrace_except(path)
       && strncmp(darwintrace_buildroot, path, strlen(darwintrace_buildroot))!=0
       && strncmp(darwintrace_redirect, path, strlen(darwintrace_redirect))!=0 ) {
     asprintf(&redirpath, "%s%s%s", darwintrace_redirect, (*path == '/' ? "" : "/"), path);
     dprintf("darwintrace: redirect %s -> %s\n", path, redirpath);
   }
+
   return redirpath;
 }
 
@@ -228,7 +230,7 @@ int darwintrace_open(const char* path, int flags, ...) {
 	mode = va_arg(args, int);
 	va_end(args);
 	result = open(redirpath, flags, mode);
-	if (result >= 0 && (flags & (O_CREAT | O_WRONLY /*O_RDWR*/)) == 0 ) {
+	if (result >= 0 && (flags & (O_CREAT | O_WRONLY)) == 0 ) {
 	  darwintrace_setup();
 	  if (darwintrace_fd >= 0) {
 	    char realpath[MAXPATHLEN];
