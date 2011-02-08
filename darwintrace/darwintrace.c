@@ -55,6 +55,10 @@
 #define dprintf(...)
 #endif
 
+#define DARWINTRACE_INTERPOSE(_replacement,_replacee) \
+__attribute__((used)) static struct{ const void* replacement; const void* replacee; } _interpose_##_replacee \
+__attribute__ ((section ("__DATA,__interpose"))) = { (const void*)(unsigned long)&_replacement, (const void*)(unsigned long)&_replacee };
+
 static int __darwintrace_fd = -2;
 static char __darwintrace_progname[BUFFER_SIZE];
 static pid_t __darwintrace_pid = -1;
@@ -156,14 +160,13 @@ static inline void __darwintrace_setup() {
 
 /* __darwintrace_setup must have been called already */
 static inline void __darwintrace_logpath(int fd, const char *procname, char *tag, const char *path) {
-#pragma unused(procname)
   char __darwintrace_buf[BUFFER_SIZE];
   int size;
 
   size = snprintf(__darwintrace_buf, sizeof(__darwintrace_buf),
-		  "%s[%d]\t%s\t%s\n",
-		  procname ? procname : __darwintrace_progname, __darwintrace_pid,
-		  tag, path );
+                  "%s[%d]\t%s\t%s\n",
+                  procname ? procname : __darwintrace_progname, __darwintrace_pid,
+                  tag, path );
   
   write(fd, __darwintrace_buf, size);
   fsync(fd);
@@ -212,16 +215,13 @@ static inline void __darwintrace_cleanup_path(char *path) {
   dprintf("darwintrace: cleanup resulted in %s\n", path);
 }
 
-/* Log calls to open(2) into the file specified by DARWINTRACE_LOG.
-   Only logs if the DARWINTRACE_LOG environment variable is set.
+/* 
    Only logs files where the open succeeds.
    Only logs files opened for read access, without the O_CREAT flag set.
    The assumption is that any file that can be created isn't necessary
    to build the project.
 */
-
-int open(const char* path, int flags, ...) {
-#define open(x,y,z) syscall(SYS_open, (x), (y), (z))
+int darwintrace_open(const char* path, int flags, ...) {
 	mode_t mode;
 	int result;
 	va_list args;
@@ -273,14 +273,13 @@ int open(const char* path, int flags, ...) {
 	__free_path(redirpath, path);
 	return result;
 }
+DARWINTRACE_INTERPOSE(darwintrace_open, open)
 
-/* Log calls to readlink(2) into the file specified by DARWINTRACE_LOG.
-   Only logs if the DARWINTRACE_LOG environment variable is set.
+
+/* 
    Only logs files where the readlink succeeds.
 */
-
-ssize_t  readlink(const char * path, char * buf, size_t bufsiz) {
-#define readlink(x,y,z) syscall(SYS_readlink, (x), (y), (z))
+ssize_t darwintrace_readlink(const char * path, char * buf, size_t bufsiz) {
 	ssize_t result;
 
 	char* redirpath = __redirect_path(path);
@@ -304,9 +303,10 @@ ssize_t  readlink(const char * path, char * buf, size_t bufsiz) {
 	__free_path(redirpath, path);
 	return result;
 }
+DARWINTRACE_INTERPOSE(darwintrace_readlink, readlink)
 
-int execve(const char* path, char* const argv[], char* const envp[]) {
-#define execve(x,y,z) syscall(SYS_execve, (x), (y), (z))
+
+int darwintrace_execve(const char* path, char* const argv[], char* const envp[]) {
 	int result;
 	
 	char* redirpath = __redirect_path(path);
@@ -432,13 +432,14 @@ int execve(const char* path, char* const argv[], char* const envp[]) {
 	__free_path(redirpath, path);
 	return result;
 }
+DARWINTRACE_INTERPOSE(darwintrace_execve, execve)
 
-/* if darwintrace has  been initialized, trap
+
+/* 
+   if darwintrace has  been initialized, trap
    attempts to close our file descriptor
 */
-int close(int fd) {
-#define close(x) syscall(SYS_close, (x))
-
+int darwintrace_close(int fd) {
   if(__darwintrace_fd != -2 && fd == __darwintrace_fd) {
     errno = EBADF;
     return -1;
@@ -446,3 +447,4 @@ int close(int fd) {
 
   return close(fd);
 }
+DARWINTRACE_INTERPOSE(darwintrace_close, close)
