@@ -89,6 +89,10 @@ static const char *darwintrace_exceptions[] = {
   "/dev/",
 };
 
+/* store root paths so we can ignore them when logging */
+static char   **darwintrace_ignores     = NULL;
+static size_t  *darwintrace_ignore_lens = NULL;
+
 /* check if str starts with one of the exceptions */
 static inline bool darwintrace_except(const char *str) {
   size_t c = sizeof(darwintrace_exceptions)/sizeof(*darwintrace_exceptions); 
@@ -155,10 +159,40 @@ static inline void darwintrace_setup() {
       dprintf("darwintrace: progname too long to copy: %s\n", *progname);
     }
   }
+  
+  /* create ignores list from root env vars */
+  if (getenv("DARWINTRACE_IGNORE_ROOTS")) {
+    darwintrace_ignores = (char**)calloc(4, sizeof(char*));
+    darwintrace_ignore_lens = (size_t*)calloc(4, sizeof(size_t));
+    if (darwintrace_ignores && darwintrace_ignore_lens) {
+      darwintrace_ignores[0] = getenv("OBJROOT");
+      if (darwintrace_ignores[0])
+        darwintrace_ignore_lens[0] = strlen(darwintrace_ignores[0]);
+      darwintrace_ignores[1] = getenv("SRCROOT");
+      if (darwintrace_ignores[1])
+        darwintrace_ignore_lens[1] = strlen(darwintrace_ignores[1]);
+      darwintrace_ignores[2] = getenv("DSTROOT");
+      if (darwintrace_ignores[2])
+        darwintrace_ignore_lens[2] = strlen(darwintrace_ignores[2]);
+      darwintrace_ignores[3] = getenv("SYMROOT");
+      if (darwintrace_ignores[3]) 
+        darwintrace_ignore_lens[3] = strlen(darwintrace_ignores[3]);
+    } else {
+      dprintf("unable to allocate memory for darwintrace_ignores"); 
+    }
+  }
 }
 
 /* darwintrace_setup must have been called already */
 static inline void darwintrace_logpath(int fd, const char *procname, char *tag, const char *path) {
+  if (darwintrace_ignores) {
+    for (int i=0; i < 4; i++) {
+      if (darwintrace_ignores[i] 
+          && strncmp(darwintrace_ignores[i], path, darwintrace_ignore_lens[i]) == 0) {
+        return;
+      }
+    }
+  }
   char darwintrace_buf[DARWINTRACE_BUFFER_SIZE];
   int size = snprintf(darwintrace_buf, sizeof(darwintrace_buf),
                       "%s[%d]\t%s\t%s\n",
