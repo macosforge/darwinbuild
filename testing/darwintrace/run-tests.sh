@@ -50,8 +50,10 @@ do
 done
 set -e
 
+
 echo "========== TEST: close() Safety =========="
 $CLOSETEST
+
 
 echo "========== TEST: open() Trace =========="
 for FILE in /System/Library/LaunchDaemons/*.plist;
@@ -63,6 +65,7 @@ do
   test $C -eq 1
 done
 
+
 echo "========== TEST: readlink() Trace =========="
 for FILE in $(find /System/Library/Frameworks/*Foundation.framework -type l | xargs);
 do
@@ -71,6 +74,33 @@ do
 	C=$(grep -cE $LOGPAT $DARWINTRACE_LOG)
   test $C -eq 1
 done
+
+
+echo "========== TEST: ROOT Ignores =========="
+export DARWINTRACE_IGNORE_ROOTS=""
+export DSTROOT="/System/Library/LaunchAgents"
+for FILE in /var/log/*.log;
+do
+	cat $FILE >> /dev/null;
+	RP=$($REALPATH $FILE);
+	LOGPAT="cat\[[0-9]+\][[:space:]]open[[:space:]]${RP}"
+	C=$(grep -cE $LOGPAT $DARWINTRACE_LOG)
+  test $C -eq 1
+done
+
+for FILE in /System/Library/LaunchAgents/com.apple.*;
+do
+	cat $FILE >> /dev/null;
+	RP=$($REALPATH $FILE);
+	LOGPAT="cat\[[0-9]+\][[:space:]]open[[:space:]]${RP}"
+  set +e
+	C=$(grep -cE $LOGPAT $DARWINTRACE_LOG)
+  set -e
+  test $C -eq 0
+done
+unset DARWINTRACE_IGNORE_ROOTS
+unset DSTROOT
+
 
 echo "========== TEST: Redirection =========="
 mkdir -p $ROOT/$PREFIX
