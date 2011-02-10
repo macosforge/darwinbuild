@@ -1,0 +1,5 @@
+#!/bin/bash
+PREFIX=$1
+ROOT=$PREFIX/root
+
+/bin/cat $PREFIX/datafile

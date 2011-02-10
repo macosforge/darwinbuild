@@ -37,17 +37,6 @@
 			name = darwinbuild_scripts;
 			productName = darwinbuild_scripts;
 		};
-		7227AC7E1098EF6400BE33D7 /* libredo_prebinding.a */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 7227AC841098EF8000BE33D7 /* Build configuration list for PBXAggregateTarget "libredo_prebinding.a" */;
-			buildPhases = (
-				7227AC7D1098EF6400BE33D7 /* ShellScript */,
-			);
-			dependencies = (
-			);
-			name = libredo_prebinding.a;
-			productName = libredo_prebinding.a;
-		};
 		725740981097B051008AD4D7 /* darwinxref_plugins */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 725740A01097B08A008AD4D7 /* Build configuration list for PBXAggregateTarget "darwinxref_plugins" */;
@@ -112,7 +101,6 @@
 		7227AB67109899A600BE33D7 /* cfutils.h in Headers */ = {isa = PBXBuildFile; fileRef = 72C86BE910965E7500C66E90 /* cfutils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7227AB68109899A600BE33D7 /* DBPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 72C86BED10965E7500C66E90 /* DBPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7227AB7510989F8D00BE33D7 /* manifest.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86C2E1096600B00C66E90 /* manifest.c */; };
-		7227ACA01098FCAA00BE33D7 /* libredo_prebinding.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 72C86CDD10974C3A00C66E90 /* libredo_prebinding.a */; };
 		7227AD1C109A05FA00BE33D7 /* buildlist in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7227AB871098A7BF00BE33D7 /* buildlist */; };
 		7227AD1D109A05FA00BE33D7 /* buildorder in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7227AB881098A7BF00BE33D7 /* buildorder */; };
 		7227AD1E109A05FA00BE33D7 /* ditto in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7227AB891098A7BF00BE33D7 /* ditto */; };
@@ -607,13 +595,6 @@
 			remoteGlobalIDString = 72D05CAD11D267C400B33EDD;
 			remoteInfo = query;
 		};
-		DFCB82D9109A2F9A00D2DB2F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 7227AC7E1098EF6400BE33D7;
-			remoteInfo = libredo_prebinding.a;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -721,7 +702,6 @@
 		72C86BE010965E4F00C66E90 /* File.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = File.cpp; path = darwinup/File.cpp; sourceTree = "<group>"; };
 		72C86BE110965E4F00C66E90 /* File.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = File.h; path = darwinup/File.h; sourceTree = "<group>"; };
 		72C86BE210965E4F00C66E90 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = darwinup/main.cpp; sourceTree = "<group>"; };
-		72C86BE310965E4F00C66E90 /* redo_prebinding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = redo_prebinding.h; path = darwinup/redo_prebinding.h; sourceTree = "<group>"; };
 		72C86BE410965E4F00C66E90 /* SerialSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SerialSet.cpp; path = darwinup/SerialSet.cpp; sourceTree = "<group>"; };
 		72C86BE510965E4F00C66E90 /* SerialSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SerialSet.h; path = darwinup/SerialSet.h; sourceTree = "<group>"; };
 		72C86BE610965E4F00C66E90 /* Utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Utils.cpp; path = darwinup/Utils.cpp; sourceTree = "<group>"; };
@@ -779,7 +759,6 @@
 		72C86C381096607900C66E90 /* darwinbuild */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = darwinbuild; sourceTree = BUILT_PRODUCTS_DIR; };
 		72C86C481096609500C66E90 /* darwinup */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = darwinup; sourceTree = BUILT_PRODUCTS_DIR; };
 		72C86C52109660CA00C66E90 /* darwintrace.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = darwintrace.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
-		72C86CDD10974C3A00C66E90 /* libredo_prebinding.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libredo_prebinding.a; path = /usr/local/lib/libredo_prebinding.a; sourceTree = "<absolute>"; };
 		72C86CE310974CC800C66E90 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = /usr/lib/libsqlite3.dylib; sourceTree = "<absolute>"; };
 		72D05CA911D2678F00B33EDD /* query.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = query.c; sourceTree = "<group>"; };
 		72D05CB711D267C400B33EDD /* query.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = query.so; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -985,7 +964,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				72C86CE410974CC800C66E90 /* libsqlite3.dylib in Frameworks */,
-				7227ACA01098FCAA00BE33D7 /* libredo_prebinding.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1014,7 +992,6 @@
 				72C86BD610965DD000C66E90 /* darwinxref */,
 				72C86BD510965DC900C66E90 /* darwinbuild */,
 				72C86C391096607900C66E90 /* Products */,
-				72C86CDD10974C3A00C66E90 /* libredo_prebinding.a */,
 				72C86CE310974CC800C66E90 /* libsqlite3.dylib */,
 				72574A0F10977F7A00B13BC3 /* CoreFoundation.framework */,
 				72574A1410977FAD00B13BC3 /* libtcl.dylib */,
@@ -1085,7 +1062,6 @@
 				72C86BE010965E4F00C66E90 /* File.cpp */,
 				72C86BE110965E4F00C66E90 /* File.h */,
 				72C86BE210965E4F00C66E90 /* main.cpp */,
-				72C86BE310965E4F00C66E90 /* redo_prebinding.h */,
 				72C86BE410965E4F00C66E90 /* SerialSet.cpp */,
 				72C86BE510965E4F00C66E90 /* SerialSet.h */,
 				72C86BE610965E4F00C66E90 /* Utils.cpp */,
@@ -1755,7 +1731,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				DFCB82DA109A2F9A00D2DB2F /* PBXTargetDependency */,
 			);
 			name = darwinup;
 			productName = darwinup;
@@ -1858,7 +1833,6 @@
 				7227AC151098D8DB00BE33D7 /* thinPackages */,
 				7227AC1E1098DB9200BE33D7 /* installXcode */,
 				7227AC271098DBDF00BE33D7 /* installXcode32 */,
-				7227AC7E1098EF6400BE33D7 /* libredo_prebinding.a */,
 				720BE2EA120C90A700B3C4A5 /* digest */,
 			);
 		};
@@ -2044,19 +2018,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/bin/cp $DERIVED_FILE_DIR/installXcode32 $BUILT_PRODUCTS_DIR/installXcode32";
-		};
-		7227AC7D1098EF6400BE33D7 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "set -x\nBUILD=10A432\nHOST=src.macosforge.org\n\n# make sure we only run when needed\nif [ -f /usr/local/lib/libredo_prebinding.a ]; then\n\texit 0;\nfi\n\n/usr/bin/curl -kL http://$HOST/Roots/$BUILD/cctools_ofiles.root.tar.gz > $CONFIGURATION_TEMP_DIR/cctools_ofiles.root.tar.gz\n\n/bin/mkdir -p $BUILT_PRODUCTS_DIR\n\n/usr/bin/tar zxOf $CONFIGURATION_TEMP_DIR/cctools_ofiles.root.tar.gz ./usr/local/lib/libredo_prebinding.a > $BUILT_PRODUCTS_DIR/libredo_prebinding.a\n\n/bin/mkdir -p $DSTROOT/$PREFIX/lib/\n\n/bin/cp $BUILT_PRODUCTS_DIR/libredo_prebinding.a $DSTROOT/$PREFIX/lib/\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2620,11 +2581,6 @@
 			target = 72D05CAD11D267C400B33EDD /* query */;
 			targetProxy = 72D05CB911D2688D00B33EDD /* PBXContainerItemProxy */;
 		};
-		DFCB82DA109A2F9A00D2DB2F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 7227AC7E1098EF6400BE33D7 /* libredo_prebinding.a */;
-			targetProxy = DFCB82D9109A2F9A00D2DB2F /* PBXContainerItemProxy */;
-		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
@@ -2862,27 +2818,6 @@
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = darwinbuild_scripts;
-			};
-			name = Release;
-		};
-		7227AC7F1098EF6400BE33D7 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = libredo_prebinding.a;
-			};
-			name = Debug;
-		};
-		7227AC801098EF6400BE33D7 /* Public */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = libredo_prebinding.a;
-			};
-			name = Public;
-		};
-		7227AC811098EF6400BE33D7 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = libredo_prebinding.a;
 			};
 			name = Release;
 		};
@@ -3773,16 +3708,6 @@
 				7227AC321098DC4F00BE33D7 /* Debug */,
 				7227AC331098DC4F00BE33D7 /* Public */,
 				7227AC341098DC4F00BE33D7 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
-		};
-		7227AC841098EF8000BE33D7 /* Build configuration list for PBXAggregateTarget "libredo_prebinding.a" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				7227AC7F1098EF6400BE33D7 /* Debug */,
-				7227AC801098EF6400BE33D7 /* Public */,
-				7227AC811098EF6400BE33D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Public;

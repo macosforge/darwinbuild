@@ -695,7 +695,9 @@ int Depot::install_file(File* file, void* ctx) {
 	if (INFO_TEST(file->info(), FILE_INFO_INSTALL_DATA)) {
 		++context->files_modified;
 
-		res = file->install(context->depot->m_archives_path, context->depot->m_prefix);
+		res = file->install(context->depot->m_archives_path,
+                        context->depot->m_prefix,
+                        context->reverse_files);
 	} else {
 		res = file->install_info(context->depot->m_prefix);
 	}
@@ -947,11 +949,13 @@ int Depot::uninstall_file(File* file, void* ctx) {
 							S_ISDIR(preceding->mode())) {
 							// use rename instead of mkdir so children are restored
 							res = preceding->dirrename(context->depot->m_archives_path, 
-													   context->depot->m_prefix);							
+													               context->depot->m_prefix,
+                                         context->reverse_files);							
 
 						} else {
 							res = preceding->install(context->depot->m_archives_path, 
-													 context->depot->m_prefix);							
+													             context->depot->m_prefix,
+                                       context->reverse_files);
 						}
 					}
 				} else if (INFO_TEST(flags, FILE_INFO_MODE_DIFFERS) ||

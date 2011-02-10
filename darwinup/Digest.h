@@ -111,18 +111,6 @@ struct SHA1Digest : Digest {
 };
 
 ////
-//  SHA1DigestMachO
-//  Digests of canonicalized Mach-O file formats.
-////
-struct SHA1DigestMachO : SHA1Digest {
-	// Computes the SHA-1 digest of the data in the file.
-	// If the file is a Mach-O executable or dynamic library,
-	// the SHA-1 digest is computed from its canonical
-	// representation.
-	SHA1DigestMachO(const char* filename);
-};
-
-////
 //  SHA1DigestSymlink
 //  Digests of the target of a symlink.
 ////
