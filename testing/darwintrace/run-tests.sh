@@ -12,7 +12,6 @@ ROOT=$PREFIX/root
 BIN=$PREFIX/bin
 
 DARWINTRACE="/usr/local/share/darwinbuild/darwintrace.dylib"
-export DYLD_FORCE_FLAT_NAMESPACE=1
 export DYLD_INSERT_LIBRARIES=$DARWINTRACE
 export DARWINTRACE_LOG="${LOGS}/trace.log"
 
