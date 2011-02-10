@@ -1,7 +1,14 @@
 Darwin Build Scripts Change History
 -----------------------------------
+Release 24 [10-Feb-2011]
+	- darwinup: fix uninstall build-check safety
+	- darwinup: remove unprebinding support
+	- darwintrace: use modern interposing
+	- darwintrace: add feature to ignore ROOT paths
+	- darwintrace: add test suite
+
 Release 23.1 [25-Jan-2011]
-  - darwinup: strip symbols when building with Public configuration
+	- darwinup: strip symbols when building with Public configuration
 
 Release 23 [03-Nov-2010]
 	- darwinup: properly backup and restore existing content when
