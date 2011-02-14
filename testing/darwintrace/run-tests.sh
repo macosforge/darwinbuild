@@ -43,7 +43,7 @@ do
 	set +e	
 	$EXEC /bin/$FILE 2>&1 >> /dev/null
 	set -e
-	LOGPAT="Python\[[0-9]+\][[:space:]]execve[[:space:]]/bin/${FILE}"
+	LOGPAT="[Pp]ython\[[0-9]+\][[:space:]]execve[[:space:]]/bin/${FILE}"
 	C=$(grep -cE $LOGPAT $DARWINTRACE_LOG)
   test $C -eq 1
 done
