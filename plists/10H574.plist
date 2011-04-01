@@ -20,6 +20,10 @@
 		<dict>
 			<key>version</key>
 			<string>550.42</string>
+			<key>patchfiles</key>
+			<array>
+				<string>CF-550.42.buildfix.patch</string>
+			</array>
 		</dict>
 		<key>DirectoryService</key>
 		<dict>
