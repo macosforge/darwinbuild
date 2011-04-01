@@ -568,6 +568,7 @@
 					cctools_ofiles,
 					gcc,
 					launchd_libs,
+					libclosure,
 					libdispatch,
 					libdyld,
 					objc4,
