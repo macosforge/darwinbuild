@@ -795,8 +795,6 @@
 		DF6BE31D132C5EBD00793781 /* symlink_update.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = symlink_update.tar.gz; sourceTree = "<group>"; };
 		DF6BE31E132C5EBD00793781 /* symlinks.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = symlinks.tar.gz; sourceTree = "<group>"; };
 		DF6BE31F132C5EBD00793781 /* run-all-tests.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "run-all-tests.sh"; sourceTree = "<group>"; };
-		DF6BE327132C5FEB00793781 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
-		DF6BE329132C5FEB00793781 /* run_all_tests.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = run_all_tests.1; sourceTree = "<group>"; };
 		DFC9772711138F9400CAE084 /* Column.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Column.cpp; path = darwinup/Column.cpp; sourceTree = "<group>"; };
 		DFC9772811138F9400CAE084 /* Column.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Column.h; path = darwinup/Column.h; sourceTree = "<group>"; };
 		DFC9772911138F9400CAE084 /* Database.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Database.cpp; path = darwinup/Database.cpp; sourceTree = "<group>"; };
@@ -1025,7 +1023,6 @@
 				72C86BD710965DD800C66E90 /* darwinup */,
 				72C86BD610965DD000C66E90 /* darwinxref */,
 				72C86BD510965DC900C66E90 /* darwinbuild */,
-				DF6BE326132C5FEB00793781 /* run-all-tests */,
 				72C86C391096607900C66E90 /* Products */,
 				72C86CE310974CC800C66E90 /* libsqlite3.dylib */,
 				72574A0F10977F7A00B13BC3 /* CoreFoundation.framework */,
@@ -1249,15 +1246,6 @@
 				DF6BE31E132C5EBD00793781 /* symlinks.tar.gz */,
 			);
 			path = darwinup;
-			sourceTree = "<group>";
-		};
-		DF6BE326132C5FEB00793781 /* run-all-tests */ = {
-			isa = PBXGroup;
-			children = (
-				DF6BE327132C5FEB00793781 /* main.c */,
-				DF6BE329132C5FEB00793781 /* run_all_tests.1 */,
-			);
-			path = "run-all-tests";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
