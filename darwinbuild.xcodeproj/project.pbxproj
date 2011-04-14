@@ -764,6 +764,39 @@
 		72D05CB711D267C400B33EDD /* query.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = query.so; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF12E2801119E2B0007587C1 /* DB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DB.h; path = darwinup/DB.h; sourceTree = "<group>"; };
 		DF12E2811119E2B0007587C1 /* DB.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DB.cpp; path = darwinup/DB.cpp; sourceTree = "<group>"; };
+		DF6BE300132C5EBD00793781 /* close-test */ = {isa = PBXFileReference; lastKnownFileType = text; path = "close-test"; sourceTree = "<group>"; };
+		DF6BE301132C5EBD00793781 /* exec */ = {isa = PBXFileReference; lastKnownFileType = text; path = exec; sourceTree = "<group>"; };
+		DF6BE302132C5EBD00793781 /* realpath */ = {isa = PBXFileReference; lastKnownFileType = text; path = realpath; sourceTree = "<group>"; };
+		DF6BE303132C5EBD00793781 /* redirection-test */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "redirection-test"; sourceTree = "<group>"; };
+		DF6BE304132C5EBD00793781 /* run-tests.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "run-tests.sh"; sourceTree = "<group>"; };
+		DF6BE306132C5EBD00793781 /* 300dirs.tbz2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = 300dirs.tbz2; sourceTree = "<group>"; };
+		DF6BE307132C5EBD00793781 /* 300files.tbz2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = 300files.tbz2; sourceTree = "<group>"; };
+		DF6BE308132C5EBD00793781 /* corrupt.tgz */ = {isa = PBXFileReference; lastKnownFileType = text; path = corrupt.tgz; sourceTree = "<group>"; };
+		DF6BE309132C5EBD00793781 /* deep-rollback-2.xar */ = {isa = PBXFileReference; lastKnownFileType = file; path = "deep-rollback-2.xar"; sourceTree = "<group>"; };
+		DF6BE30A132C5EBD00793781 /* deep-rollback.cpgz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "deep-rollback.cpgz"; sourceTree = "<group>"; };
+		DF6BE30B132C5EBD00793781 /* depotroot.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = depotroot.tar.gz; sourceTree = "<group>"; };
+		DF6BE30C132C5EBD00793781 /* dest.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = dest.tar.gz; sourceTree = "<group>"; };
+		DF6BE30D132C5EBD00793781 /* extension.tar.bz2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = extension.tar.bz2; sourceTree = "<group>"; };
+		DF6BE30E132C5EBD00793781 /* rep_dir_file.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = rep_dir_file.tar.gz; sourceTree = "<group>"; };
+		DF6BE30F132C5EBD00793781 /* rep_dir_link.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = rep_dir_link.tar.gz; sourceTree = "<group>"; };
+		DF6BE310132C5EBD00793781 /* rep_file_dir.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = rep_file_dir.tar.gz; sourceTree = "<group>"; };
+		DF6BE311132C5EBD00793781 /* rep_file_link.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = rep_file_link.tar.gz; sourceTree = "<group>"; };
+		DF6BE312132C5EBD00793781 /* rep_flink_dir.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = rep_flink_dir.tar.gz; sourceTree = "<group>"; };
+		DF6BE313132C5EBD00793781 /* rep_flink_file.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = rep_flink_file.tar.gz; sourceTree = "<group>"; };
+		DF6BE314132C5EBD00793781 /* rep_link_dir.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = rep_link_dir.tar.gz; sourceTree = "<group>"; };
+		DF6BE315132C5EBD00793781 /* rep_link_file.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = rep_link_file.tar.gz; sourceTree = "<group>"; };
+		DF6BE316132C5EBD00793781 /* root.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = root.tar.gz; sourceTree = "<group>"; };
+		DF6BE317132C5EBD00793781 /* root2.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = root2.tar.gz; sourceTree = "<group>"; };
+		DF6BE318132C5EBD00793781 /* root3.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = root3.tar.gz; sourceTree = "<group>"; };
+		DF6BE319132C5EBD00793781 /* root5.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = root5.tar.gz; sourceTree = "<group>"; };
+		DF6BE31A132C5EBD00793781 /* root6.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = root6.tar.gz; sourceTree = "<group>"; };
+		DF6BE31B132C5EBD00793781 /* root7.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = root7.tar.gz; sourceTree = "<group>"; };
+		DF6BE31C132C5EBD00793781 /* run-tests.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "run-tests.sh"; sourceTree = "<group>"; };
+		DF6BE31D132C5EBD00793781 /* symlink_update.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = symlink_update.tar.gz; sourceTree = "<group>"; };
+		DF6BE31E132C5EBD00793781 /* symlinks.tar.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = symlinks.tar.gz; sourceTree = "<group>"; };
+		DF6BE31F132C5EBD00793781 /* run-all-tests.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "run-all-tests.sh"; sourceTree = "<group>"; };
+		DF6BE327132C5FEB00793781 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		DF6BE329132C5FEB00793781 /* run_all_tests.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = run_all_tests.1; sourceTree = "<group>"; };
 		DFC9772711138F9400CAE084 /* Column.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Column.cpp; path = darwinup/Column.cpp; sourceTree = "<group>"; };
 		DFC9772811138F9400CAE084 /* Column.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Column.h; path = darwinup/Column.h; sourceTree = "<group>"; };
 		DFC9772911138F9400CAE084 /* Database.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Database.cpp; path = darwinup/Database.cpp; sourceTree = "<group>"; };
@@ -987,10 +1020,12 @@
 		726DD14710965C5700D5AEAB = {
 			isa = PBXGroup;
 			children = (
+				DF6BE2FE132C5EBD00793781 /* testing */,
 				72C86BD810965DDF00C66E90 /* darwintrace */,
 				72C86BD710965DD800C66E90 /* darwinup */,
 				72C86BD610965DD000C66E90 /* darwinxref */,
 				72C86BD510965DC900C66E90 /* darwinbuild */,
+				DF6BE326132C5FEB00793781 /* run-all-tests */,
 				72C86C391096607900C66E90 /* Products */,
 				72C86CE310974CC800C66E90 /* libsqlite3.dylib */,
 				72574A0F10977F7A00B13BC3 /* CoreFoundation.framework */,
@@ -1160,6 +1195,69 @@
 				720BE2F2120C90A700B3C4A5 /* digest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		DF6BE2FE132C5EBD00793781 /* testing */ = {
+			isa = PBXGroup;
+			children = (
+				DF6BE2FF132C5EBD00793781 /* darwintrace */,
+				DF6BE305132C5EBD00793781 /* darwinup */,
+				DF6BE31F132C5EBD00793781 /* run-all-tests.sh */,
+			);
+			path = testing;
+			sourceTree = "<group>";
+		};
+		DF6BE2FF132C5EBD00793781 /* darwintrace */ = {
+			isa = PBXGroup;
+			children = (
+				DF6BE300132C5EBD00793781 /* close-test */,
+				DF6BE301132C5EBD00793781 /* exec */,
+				DF6BE302132C5EBD00793781 /* realpath */,
+				DF6BE303132C5EBD00793781 /* redirection-test */,
+				DF6BE304132C5EBD00793781 /* run-tests.sh */,
+			);
+			path = darwintrace;
+			sourceTree = "<group>";
+		};
+		DF6BE305132C5EBD00793781 /* darwinup */ = {
+			isa = PBXGroup;
+			children = (
+				DF6BE306132C5EBD00793781 /* 300dirs.tbz2 */,
+				DF6BE307132C5EBD00793781 /* 300files.tbz2 */,
+				DF6BE308132C5EBD00793781 /* corrupt.tgz */,
+				DF6BE309132C5EBD00793781 /* deep-rollback-2.xar */,
+				DF6BE30A132C5EBD00793781 /* deep-rollback.cpgz */,
+				DF6BE30B132C5EBD00793781 /* depotroot.tar.gz */,
+				DF6BE30C132C5EBD00793781 /* dest.tar.gz */,
+				DF6BE30D132C5EBD00793781 /* extension.tar.bz2 */,
+				DF6BE30E132C5EBD00793781 /* rep_dir_file.tar.gz */,
+				DF6BE30F132C5EBD00793781 /* rep_dir_link.tar.gz */,
+				DF6BE310132C5EBD00793781 /* rep_file_dir.tar.gz */,
+				DF6BE311132C5EBD00793781 /* rep_file_link.tar.gz */,
+				DF6BE312132C5EBD00793781 /* rep_flink_dir.tar.gz */,
+				DF6BE313132C5EBD00793781 /* rep_flink_file.tar.gz */,
+				DF6BE314132C5EBD00793781 /* rep_link_dir.tar.gz */,
+				DF6BE315132C5EBD00793781 /* rep_link_file.tar.gz */,
+				DF6BE316132C5EBD00793781 /* root.tar.gz */,
+				DF6BE317132C5EBD00793781 /* root2.tar.gz */,
+				DF6BE318132C5EBD00793781 /* root3.tar.gz */,
+				DF6BE319132C5EBD00793781 /* root5.tar.gz */,
+				DF6BE31A132C5EBD00793781 /* root6.tar.gz */,
+				DF6BE31B132C5EBD00793781 /* root7.tar.gz */,
+				DF6BE31C132C5EBD00793781 /* run-tests.sh */,
+				DF6BE31D132C5EBD00793781 /* symlink_update.tar.gz */,
+				DF6BE31E132C5EBD00793781 /* symlinks.tar.gz */,
+			);
+			path = darwinup;
+			sourceTree = "<group>";
+		};
+		DF6BE326132C5FEB00793781 /* run-all-tests */ = {
+			isa = PBXGroup;
+			children = (
+				DF6BE327132C5FEB00793781 /* main.c */,
+				DF6BE329132C5FEB00793781 /* run_all_tests.1 */,
+			);
+			path = "run-all-tests";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
