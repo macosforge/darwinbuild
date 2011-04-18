@@ -360,6 +360,16 @@ rm -rf $DEST/System
 echo "DIFF: diffing original test files to dest (should be no diffs) ..."
 $DIFF $ORIG $DEST 2>&1
 
+echo "========== TEST: List superseded after forced install ==========" 
+is_file $DEST/rep_file
+$DARWINUP -f install $PREFIX/rep_file_dir
+$DARWINUP -f install $PREFIX/rep_dir_file
+$DARWINUP install $PREFIX/root2
+OUT=$($DARWINUP list superseded 2>&1);
+echo $OUT | grep -qv ERROR
+$DARWINUP uninstall all
+echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+$DIFF $ORIG $DEST 2>&1
 
 echo "========== TEST: Forcing object change: file to directory ==========" 
 is_file $DEST/rep_file
