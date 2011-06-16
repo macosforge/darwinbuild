@@ -67,6 +67,8 @@ struct Digest {
 	
 	// Returns the digest as an ASCII string, represented in hexidecimal.
 	virtual char*		string();
+    
+    virtual ~Digest();
 	
 	////
 	//  Class functions
@@ -95,7 +97,7 @@ struct Digest {
 struct SHA1Digest : Digest {
 	// Creates an empty digest.
 	SHA1Digest();
-	
+    	
 	// Computes the SHA-1 digest of data read from the stream.
 	SHA1Digest(int fd);
 	
@@ -105,6 +107,8 @@ struct SHA1Digest : Digest {
 	// Computes the SHA-1 digest of the block of memory.
 	SHA1Digest(uint8_t* data, uint32_t size);
 	
+    ~SHA1Digest();
+
 	void	digest(unsigned char* md, int fd);
 	void	digest(unsigned char* md, uint8_t* data, uint32_t size);
 
@@ -118,6 +122,7 @@ struct SHA1DigestSymlink : SHA1Digest {
 	// Computes the SHA-1 digest of the target of the symlink.
 	// The target is obtained via readlink(2).
 	SHA1DigestSymlink(const char* filename);
+    ~SHA1DigestSymlink();
 };
 
 #endif

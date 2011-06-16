@@ -43,6 +43,10 @@
 uint8_t*	Digest::data() { return m_data; }
 uint32_t	Digest::size() { return m_size; }
 
+Digest::~Digest() {
+    
+}
+
 char* Digest::string() {
 	static const char* hexabet = "0123456789abcdef";
 	char* result = (char*)malloc(2*m_size+1);
@@ -88,6 +92,10 @@ SHA1Digest::SHA1Digest(uint8_t* data, uint32_t size) {
 	digest(m_data, data, size);
 }
 
+SHA1Digest::~SHA1Digest() {
+    
+}
+
 void SHA1Digest::digest(unsigned char* md, int fd) {
 	CC_SHA1_CTX c;
 	CC_SHA1_Init(&c);
@@ -123,3 +131,8 @@ SHA1DigestSymlink::SHA1DigestSymlink(const char* filename) {
 		digest(m_data, (uint8_t*)link, res);
 	}
 }
+
+SHA1DigestSymlink::~SHA1DigestSymlink() {
+    
+}
+

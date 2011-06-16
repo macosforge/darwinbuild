@@ -157,7 +157,7 @@ File* DarwinupDatabase::make_file(uint8_t* data) {
 
 	SHA1Digest* digest = NULL;
 	uint8_t* dp;
-	memcpy(&dp, &data[this->file_offset(7)], sizeof(uint8_t*));
+	memcpy(&dp, (uint8_t**)&data[this->file_offset(7)], sizeof(uint8_t*));
 	if (dp) {
 		digest = new SHA1Digest();
 		digest->m_size = CC_SHA1_DIGEST_LENGTH;
