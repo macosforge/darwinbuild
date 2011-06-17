@@ -1,8 +1,5 @@
 Darwin Build Scripts Change History
 -----------------------------------
-Release 24.1 [17-Jun-2011]
-	- Build fixes for newer compilers
-
 Release 24 [10-Feb-2011]
 	- darwinup: fix uninstall build-check safety
 	- darwinup: remove unprebinding support
