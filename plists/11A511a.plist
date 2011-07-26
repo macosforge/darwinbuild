@@ -2,10 +2,43 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>binary_sites</key>
+	<array>
+		<string>http://src.macosforge.org/Roots/11A511a/</string>
+	</array>
 	<key>build</key>
 	<string>11A511a</string>
 	<key>darwin</key>
 	<string>Darwin 11.0</string>
+	<key>environment</key>
+	<dict>
+		<key>MACOSX_DEPLOYMENT_TARGET</key>
+		<string>10.7</string>
+		<key>NEXT_ROOT</key>
+		<string></string>
+		<key>RC_ARCHS</key>
+		<string>i386 x86_64</string>
+		<key>RC_JASPER</key>
+		<string>YES</string>
+		<key>RC_NONARCH_CFLAGS</key>
+		<string>-pipe</string>
+		<key>RC_OS</key>
+		<string>macos</string>
+		<key>INSTALLED_PRODUCT_ASIDES</key>
+		<string>YES</string>
+		<key>RC_PRIVATE</key>
+		<string>/private</string>
+		<key>RC_RELEASE</key>
+		<string>Lion</string>
+		<key>RC_XBS</key>
+		<string>YES</string>	
+		<key>SEPARATE_STRIP</key>
+		<string>YES</string>
+		<key>UNAME_RELEASE</key>
+		<string>11.0</string>
+		<key>UNAME_SYSNAME</key>
+		<string>Darwin</string>
+	</dict>
 	<key>macosx</key>
 	<string>Mac OS X 10.7</string>
 	<key>projects</key>
@@ -1360,5 +1393,10 @@
 			<string>55</string>
 		</dict>
 	</dict>
+	<key>source_sites</key>
+	<array>
+		<string>http://src.macosforge.org/Projects/</string>
+		<string>http://src.macosforge.org/Patches/</string>
+	</array>
 </dict>
 </plist>
