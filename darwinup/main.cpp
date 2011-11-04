@@ -280,6 +280,15 @@ int main(int argc, char* argv[]) {
 			}
 			free(sle_path);
 		}
+#endif
+#if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1070
+		if (!disable_automation && depot->has_modified_xpc_services() && res == 0) {
+			res = update_xpc_services_cache(path);
+			if (res) fprintf(stderr, "Warning: could not update xpc services cache.\n");
+			res = 0;
+		}
+#endif
+#if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
 		if (restart && res == 0) {
 			res = tell_finder_to_restart();
 			if (res) fprintf(stderr, "Warning: tried to tell Finder to restart"

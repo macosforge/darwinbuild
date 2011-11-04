@@ -361,6 +361,42 @@ int update_dyld_shared_cache(const char* path) {
 	return res;
 }
 
+int update_xpc_services_cache(const char* path) {
+	extern uint32_t verbosity;
+	int res;
+	char* base;
+	res = find_base_system_path(&base, path);
+	if (res) return res;
+
+	if (verbosity) {
+		fprintf(stdout, "Updating xpc services cache for %s ...", base);
+		fflush(stdout);
+	}
+
+	char* toolpath;
+	join_path(&toolpath, base, "/usr/libexec/xpchelper");
+
+	struct stat sb;
+	res = stat(toolpath, &sb);
+	if (res) {
+		return 1;
+	}
+
+	const char* args[] = {
+		toolpath,
+		"--rebuild-cache",
+		"--root", base,
+		NULL
+	};
+	res = exec_with_args(args);
+
+	if (verbosity) fprintf(stdout, "Done updating xpc cache\n");
+
+	free(toolpath);
+	free(base);
+	return res;
+}
+
 #if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
 int build_number_for_path(char** build, const char* path) {
 	int res = 0;
