@@ -1,5 +1,8 @@
 Darwin Build Scripts Change History
 -----------------------------------
+Release 25 [4-Nov-2011]
+  - darwinup: support for rebuilding xpchelper cache
+
 Release 24.1 [17-Jun-2011]
 	- Build fixes for newer compilers
 
