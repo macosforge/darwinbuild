@@ -62,6 +62,7 @@ Depot::Depot() {
 	m_depot_mode = 0750;
 	m_is_dirty = false;
 	m_modified_extensions = false;
+	m_modified_xpc_services = false;
 }
 
 Depot::Depot(const char* prefix) {
@@ -71,6 +72,7 @@ Depot::Depot(const char* prefix) {
 	m_build = NULL;
 	m_is_dirty = false;
 	m_modified_extensions = false;
+	m_modified_xpc_services = false;
 	
 	asprintf(&m_prefix, "%s", prefix);
 	join_path(&m_depot_path, m_prefix, "/.DarwinDepot");
@@ -98,6 +100,7 @@ const char*	Depot::downloads_path()		      { return m_downloads_path; }
 const char* Depot::prefix()                   { return m_prefix; }
 bool        Depot::is_dirty()                 { return m_is_dirty; }
 bool        Depot::has_modified_extensions()  { return m_modified_extensions; }
+bool        Depot::has_modified_xpc_services(){ return m_modified_xpc_services; }
 
 int Depot::connect() {
 	m_db = new DarwinupDatabase(m_database_path);
@@ -542,6 +545,17 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback,
 					this->m_modified_extensions = true;
 				}
 
+				if (!this->m_modified_xpc_services &&
+					(strstr(file->path(), ".xpc/") != NULL)) {
+
+					bool modified = (has_suffix(file->path(), "Info.plist") ||
+									 has_suffix(file->path(), "framework.sb"));
+
+					if (modified) {
+						IF_DEBUG("[analyze]    xpc service detected\n");
+						this->m_modified_xpc_services = true;
+					}
+				}
 			}
 
 			// if file == actual, but actual != preceding, then an external
