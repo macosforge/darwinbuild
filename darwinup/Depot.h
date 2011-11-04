@@ -133,7 +133,7 @@ struct Depot {
 	
 	bool    is_dirty();
 	bool    has_modified_extensions();
-	bool	has_modified_xpc_services();
+	bool    has_modified_xpc_services();
 	
 protected:
 
