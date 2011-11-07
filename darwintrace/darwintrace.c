@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005 Apple Computer, Inc. All rights reserved.
+ * Copyright (c) 2005-2011 Apple Inc. All rights reserved.
  *
  * @APPLE_BSD_LICENSE_HEADER_START@
  * 
@@ -32,6 +32,7 @@
 
 #include <crt_externs.h>
 #include <fcntl.h>
+#include <spawn.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -47,7 +48,7 @@
 #define DARWINTRACE_DEBUG_OUTPUT 0
 #define DARWINTRACE_START_FD 101
 #define DARWINTRACE_STOP_FD  200
-#define DARWINTRACE_BUFFER_SIZE	1024
+#define DARWINTRACE_BUFFER_SIZE 1024
 
 #if DARWINTRACE_DEBUG_OUTPUT
 #define dprintf(...) fprintf(stderr, __VA_ARGS__)
@@ -93,11 +94,15 @@ static const char *darwintrace_exceptions[] = {
 static char   **darwintrace_ignores     = NULL;
 static size_t  *darwintrace_ignore_lens = NULL;
 
+/* store environment variables to preserve them on exec */
+static char *darwintrace_dylib_path;
+static char *darwintrace_log_path;
+
 /* check if str starts with one of the exceptions */
 static inline bool darwintrace_except(const char *str) {
   size_t c = sizeof(darwintrace_exceptions)/sizeof(*darwintrace_exceptions); 
   size_t i;
-  for (i = 0; i < c; i++) {				
+  for (i = 0; i < c; i++) {
     if (strncmp(darwintrace_exceptions[i], str, strlen(darwintrace_exceptions[i])) == 0) { 
       return true;
     }
@@ -128,7 +133,7 @@ static inline void darwintrace_free_path(char* path, const char* test) {
 }
 
 static inline void darwintrace_setup() {
-	if (darwintrace_fd != -2) return;
+  if (darwintrace_fd != -2) return;
   
   char* path = getenv("DARWINTRACE_LOG");
   if (path != NULL) {
@@ -145,6 +150,7 @@ static inline void darwintrace_setup() {
         break;
       }
     }
+    darwintrace_log_path = strdup(path);
     errno = olderrno;
   }
 
@@ -179,6 +185,30 @@ static inline void darwintrace_setup() {
         darwintrace_ignore_lens[3] = strlen(darwintrace_ignores[3]);
     } else {
       dprintf("unable to allocate memory for darwintrace_ignores"); 
+    }
+  }
+
+  /* find the install path of the darwintrace dylib for later use */
+  path = getenv("DYLD_INSERT_LIBRARIES");
+  if (path != NULL) {
+    char *ptr = strstr(path, "darwintrace.dylib");
+    if (ptr) {
+      /* scan backward for : or start of string */
+      while (ptr > path) {
+        if (*ptr == ':') {
+          ++ptr;
+          break;
+        }
+        --ptr;
+      }
+
+      darwintrace_dylib_path = strdup(ptr);
+            
+      /* scan forward for : or end of string and terminate */
+      ptr = strchr(darwintrace_dylib_path, ':');
+      if (ptr) {
+        *ptr = 0;
+      }
     }
   }
 }
@@ -267,7 +297,7 @@ int darwintrace_open(const char* path, int flags, ...) {
 	    char realpath[MAXPATHLEN];
 #if DARWINTRACE_LOG_FULL_PATH
 	    int usegetpath = 1;
-#else	  
+#else
 	    int usegetpath = 0;
 #endif
 
@@ -334,11 +364,84 @@ ssize_t darwintrace_readlink(const char * path, char * buf, size_t bufsiz) {
 }
 DARWINTRACE_INTERPOSE(darwintrace_readlink, readlink)
 
+static inline int has_prefix(const char *s, const char *p) {
+  return (strncmp(s, p, strlen(p)) == 0);
+}
 
-int darwintrace_execve(const char* path, char* const argv[], char* const envp[]) {
-	int result;
-	
-	char* redirpath = darwintrace_redirect_path(path);
+/* force the values of several environment variables */
+static char *const *darwintrace_make_environ(char *const envp[]) {
+    static const char *DARWINTRACE_IGNORE_ROOTS = "DARWINTRACE_IGNORE_ROOTS=";
+    static const char *DYLD_INSERT_LIBRARIES = "DYLD_INSERT_LIBRARIES=";
+    static const char *DARWINTRACE_LOG = "DARWINTRACE_LOG=";
+    static const char *DARWINTRACE_PLACEHOLDER = "__DARWINTRACE_PLACEHOLDER=UNUSED";
+
+    char **result = NULL;
+    char *libs = NULL;
+    int count = 0;    
+
+    /* count the environment variables */
+    while (envp[count] != NULL) {
+        if (has_prefix(envp[count], DYLD_INSERT_LIBRARIES)) {
+            libs = envp[count] + strlen(DYLD_INSERT_LIBRARIES);
+        }
+        ++count;
+    }
+    
+    /* allocate size of envp with enough space for three more values and NULL */
+    result = (char **)calloc(count + 4, sizeof(char *));
+    if (result != NULL) {
+        int i = 0;
+        
+        if (darwintrace_log_path) {
+            asprintf(&result[i], "%s%s", DARWINTRACE_LOG, darwintrace_log_path);
+        } else {
+            result[i] = strdup(DARWINTRACE_PLACEHOLDER);
+        }
+        ++i;
+        
+        if (darwintrace_ignores) {
+            asprintf(&result[i], "%s%s", DARWINTRACE_IGNORE_ROOTS, "1");
+        } else {
+            result[i] = strdup(DARWINTRACE_PLACEHOLDER);
+        }
+        ++i;
+        
+        if (darwintrace_dylib_path) {
+            int add_dylib = (strstr(libs, darwintrace_dylib_path) == NULL);
+            asprintf(&result[i],
+                     "%s%s%s%s",
+                     DYLD_INSERT_LIBRARIES,
+                     add_dylib ? darwintrace_dylib_path : "",
+                     (add_dylib && libs) ? ":" : "",
+                     libs ? libs : "");
+        } else {
+            result[i] = strdup(DARWINTRACE_PLACEHOLDER);
+        }
+        ++i;
+        
+        memcpy(&result[i], envp, count * sizeof(char *));
+
+        while (result[i] != NULL) {
+            if (has_prefix(result[i], DARWINTRACE_IGNORE_ROOTS) ||
+                has_prefix(result[i], DYLD_INSERT_LIBRARIES) ||
+                has_prefix(result[i], DARWINTRACE_LOG)) {
+                result[i] = (char *)DARWINTRACE_PLACEHOLDER;
+            }
+            ++i;
+        }
+    }
+
+    return result;
+}
+
+static void darwintrace_free_environ(char *const envp[]) {
+  free(envp[0]);
+  free(envp[1]);
+  free(envp[2]);
+  free((char*)envp);
+}
+
+void darwintrace_log_exec(const char* redirpath, char* const argv[]) {
 	darwintrace_setup();
 	if (darwintrace_fd >= 0) {
 	  struct stat sb;
@@ -348,7 +451,7 @@ int darwintrace_execve(const char* path, char* const argv[], char* const envp[])
 	  int fd;
 #if DARWINTRACE_LOG_FULL_PATH
 	  int usegetpath = 1;
-#else	  
+#else
 	  int usegetpath = 0;
 #endif
 
@@ -382,7 +485,7 @@ int darwintrace_execve(const char* path, char* const argv[], char* const envp[])
 	      darwintrace_cleanup_path(realpath);
 	      darwintrace_logpath(darwintrace_fd, NULL, "execve", realpath);
 	    }
-		
+    
 	    fd = open(redirpath, O_RDONLY, 0);
 	    if (fd != -1) {
 
@@ -456,13 +559,39 @@ int darwintrace_execve(const char* path, char* const argv[], char* const envp[])
 	    }
 	  }
 	}
-  
-	result = execve(redirpath, argv, envp);
-	darwintrace_free_path(redirpath, path);
-	return result;
+}
+
+int darwintrace_execve(const char* path, char* const argv[], char* const envp[]) {
+  int result;
+  char* redirpath = darwintrace_redirect_path(path);
+  darwintrace_log_exec(redirpath, argv);
+  envp = darwintrace_make_environ(envp);
+  result = execve(redirpath, argv, envp);
+  darwintrace_free_environ(envp);
+  darwintrace_free_path(redirpath, path);
+  return result;
 }
 DARWINTRACE_INTERPOSE(darwintrace_execve, execve)
 
+extern int __posix_spawn(pid_t * __restrict, const char * __restrict,
+                         void *,
+                         char *const argv[ __restrict], char *const envp[ __restrict]);
+
+int darwintrace_posix_spawn(pid_t * __restrict pid,
+                const char * __restrict path,
+                void * __restrict desc,
+                char *const argv[__restrict],
+                char *const envp[__restrict]) {
+  int result;
+  char* redirpath = darwintrace_redirect_path(path);
+  darwintrace_log_exec(redirpath, argv);
+  envp = darwintrace_make_environ(envp);
+  result = __posix_spawn(pid, redirpath, desc, argv, envp);
+  darwintrace_free_environ(envp);
+  darwintrace_free_path(redirpath, path);
+  return result;
+}
+DARWINTRACE_INTERPOSE(darwintrace_posix_spawn, __posix_spawn)
 
 /* 
    if darwintrace has been initialized, trap
