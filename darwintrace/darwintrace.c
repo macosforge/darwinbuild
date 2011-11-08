@@ -565,9 +565,9 @@ int darwintrace_execve(const char* path, char* const argv[], char* const envp[])
   int result;
   char* redirpath = darwintrace_redirect_path(path);
   darwintrace_log_exec(redirpath, argv);
-  envp = darwintrace_make_environ(envp);
-  result = execve(redirpath, argv, envp);
-  darwintrace_free_environ(envp);
+  char *const *new_envp = darwintrace_make_environ(envp);
+  result = execve(redirpath, argv, new_envp);
+  darwintrace_free_environ(new_envp);
   darwintrace_free_path(redirpath, path);
   return result;
 }
@@ -585,9 +585,9 @@ int darwintrace_posix_spawn(pid_t * __restrict pid,
   int result;
   char* redirpath = darwintrace_redirect_path(path);
   darwintrace_log_exec(redirpath, argv);
-  envp = darwintrace_make_environ(envp);
-  result = __posix_spawn(pid, redirpath, desc, argv, envp);
-  darwintrace_free_environ(envp);
+  char *const *new_envp = darwintrace_make_environ(envp);
+  result = __posix_spawn(pid, redirpath, desc, argv, new_envp);
+  darwintrace_free_environ(new_envp);
   darwintrace_free_path(redirpath, path);
   return result;
 }

@@ -1,5 +1,8 @@
 Darwin Build Scripts Change History
 -----------------------------------
+Release 26.1 [7-Nov-2011]
+	- darwintrace: compiler warning build fix
+
 Release 26 [6-Nov-2011]
 	- darwintrace: preserve DYLD_INSERT_LIBRARIES and DARWINTRACE_LOG
 	- darwintrace: interpose posix_spawn
