@@ -405,20 +405,22 @@ static char *const *darwintrace_make_environ(char *const envp[]) {
             result[i] = strdup(DARWINTRACE_PLACEHOLDER);
         }
         ++i;
-        
+
         if (darwintrace_dylib_path) {
-            int add_dylib = (strstr(libs, darwintrace_dylib_path) == NULL);
-            asprintf(&result[i],
-                     "%s%s%s%s",
-                     DYLD_INSERT_LIBRARIES,
-                     add_dylib ? darwintrace_dylib_path : "",
-                     (add_dylib && libs) ? ":" : "",
-                     libs ? libs : "");
+            if (libs && strstr(libs, darwintrace_dylib_path)) {
+                /* inserted libraries already contain dylib */
+                result[i] = strdup(DARWINTRACE_PLACEHOLDER);
+            } else {
+                /* otherwise set or insert the dylib path */
+                asprintf(&result[i], "%s%s%s%s",
+                        DYLD_INSERT_LIBRARIES, darwintrace_dylib_path,
+                        libs ? ":" : "", libs ? libs : "");
+            }
         } else {
             result[i] = strdup(DARWINTRACE_PLACEHOLDER);
         }
         ++i;
-        
+
         memcpy(&result[i], envp, count * sizeof(char *));
 
         while (result[i] != NULL) {

@@ -1,5 +1,8 @@
 Darwin Build Scripts Change History
 -----------------------------------
+Release 26.x [9-Nov-2011]
+	- darwintrace: crash in darwintrace_make_environ
+
 Release 26.1 [7-Nov-2011]
 	- darwintrace: compiler warning build fix
 
