@@ -1,5 +1,8 @@
 Darwin Build Scripts Change History
 -----------------------------------
+Release 26.x [9-Nov-2011]
+	- darwintrace: build failure on 10.6, undefined symbol __posix_spawn
+
 Release 26.1 [7-Nov-2011]
 	- darwintrace: compiler warning build fix
 

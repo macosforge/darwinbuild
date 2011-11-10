@@ -573,7 +573,11 @@ int darwintrace_execve(const char* path, char* const argv[], char* const envp[])
 }
 DARWINTRACE_INTERPOSE(darwintrace_execve, execve)
 
-extern int __posix_spawn(pid_t * __restrict, const char * __restrict,
+#if defined(__MAC_OS_X_VERSION_MIN_REQUIRED) && \
+    __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_7
+/* weak import __posix_spawn which only exists on 10.7 or later */
+extern __attribute__((weak_import))
+int __posix_spawn(pid_t * __restrict, const char * __restrict,
                          void *,
                          char *const argv[ __restrict], char *const envp[ __restrict]);
 
@@ -592,6 +596,7 @@ int darwintrace_posix_spawn(pid_t * __restrict pid,
   return result;
 }
 DARWINTRACE_INTERPOSE(darwintrace_posix_spawn, __posix_spawn)
+#endif
 
 /* 
    if darwintrace has been initialized, trap
