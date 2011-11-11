@@ -409,7 +409,8 @@ static char *const *darwintrace_make_environ(char *const envp[]) {
         if (darwintrace_dylib_path) {
             if (libs && strstr(libs, darwintrace_dylib_path)) {
                 /* inserted libraries already contain dylib */
-                result[i] = strdup(DARWINTRACE_PLACEHOLDER);
+                asprintf(&result[i], "%s%s",
+                        DYLD_INSERT_LIBRARIES, libs);
             } else {
                 /* otherwise set or insert the dylib path */
                 asprintf(&result[i], "%s%s%s%s",
