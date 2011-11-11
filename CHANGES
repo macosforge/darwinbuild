@@ -1,5 +1,8 @@
 Darwin Build Scripts Change History
 -----------------------------------
+Release 26.x [X-Nov-2011]
+	- darwintrace: darwintrace_make_environ bug unsets DYLD_INSERT_LIBRARIES
+
 Release 26.2 [9-Nov-2011]
 	- darwintrace: build failure on 10.6, undefined symbol __posix_spawn
 	- darwintrace: crash in darwintrace_make_environ
