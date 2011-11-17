@@ -56,9 +56,18 @@
 #define dprintf(...)
 #endif
 
+#define LION_OR_LATER (defined(__MAC_OS_X_VERSION_MIN_REQUIRED) && \
+__MAC_OS_X_VERSION_MIN_REQUIRED >= 1070)
+
 #define DARWINTRACE_INTERPOSE(_replacement,_replacee) \
-__attribute__((used)) static struct{ const void* replacement; const void* replacee; } _interpose_##_replacee \
-__attribute__ ((section ("__DATA,__interpose"))) = { (const void*)(unsigned long)&_replacement, (const void*)(unsigned long)&_replacee };
+__attribute__((used)) static struct { \
+    const void* replacement; \
+    const void* replacee; \
+} _interpose_##_replacee \
+__attribute__ ((section ("__DATA,__interpose"))) = { \
+    (const void*)(unsigned long)&_replacement, \
+    (const void*)(unsigned long)&_replacee \
+}
 
 static int darwintrace_fd = -2;
 static char darwintrace_progname[DARWINTRACE_BUFFER_SIZE];
@@ -332,7 +341,11 @@ int darwintrace_open(const char* path, int flags, ...) {
 	darwintrace_free_path(redirpath, path);
 	return result;
 }
-DARWINTRACE_INTERPOSE(darwintrace_open, open)
+DARWINTRACE_INTERPOSE(darwintrace_open, open);
+#if LION_OR_LATER
+extern int __open_nocancel(const char* path, int flags, ...);
+DARWINTRACE_INTERPOSE(darwintrace_open, __open_nocancel);
+#endif
 
 
 /* 
@@ -362,7 +375,7 @@ ssize_t darwintrace_readlink(const char * path, char * buf, size_t bufsiz) {
 	darwintrace_free_path(redirpath, path);
 	return result;
 }
-DARWINTRACE_INTERPOSE(darwintrace_readlink, readlink)
+DARWINTRACE_INTERPOSE(darwintrace_readlink, readlink);
 
 static inline int has_prefix(const char *s, const char *p) {
   return (strncmp(s, p, strlen(p)) == 0);
@@ -444,7 +457,7 @@ static void darwintrace_free_environ(char *const envp[]) {
   free((char*)envp);
 }
 
-void darwintrace_log_exec(const char* redirpath, char* const argv[]) {
+static void darwintrace_log_exec(const char* redirpath, char* const argv[]) {
 	darwintrace_setup();
 	if (darwintrace_fd >= 0) {
 	  struct stat sb;
@@ -574,10 +587,9 @@ int darwintrace_execve(const char* path, char* const argv[], char* const envp[])
   darwintrace_free_path(redirpath, path);
   return result;
 }
-DARWINTRACE_INTERPOSE(darwintrace_execve, execve)
+DARWINTRACE_INTERPOSE(darwintrace_execve, execve);
 
-#if defined(__MAC_OS_X_VERSION_MIN_REQUIRED) && \
-    __MAC_OS_X_VERSION_MIN_REQUIRED < __MAC_10_7
+#if LION_OR_LATER
 /* weak import __posix_spawn which only exists on 10.7 or later */
 extern __attribute__((weak_import))
 int __posix_spawn(pid_t * __restrict, const char * __restrict,
@@ -598,7 +610,7 @@ int darwintrace_posix_spawn(pid_t * __restrict pid,
   darwintrace_free_path(redirpath, path);
   return result;
 }
-DARWINTRACE_INTERPOSE(darwintrace_posix_spawn, __posix_spawn)
+DARWINTRACE_INTERPOSE(darwintrace_posix_spawn, __posix_spawn);
 #endif
 
 /* 
@@ -613,4 +625,8 @@ int darwintrace_close(int fd) {
 
   return close(fd);
 }
-DARWINTRACE_INTERPOSE(darwintrace_close, close)
+DARWINTRACE_INTERPOSE(darwintrace_close, close);
+#if LION_OR_LATER
+extern int __close_nocancel(int);
+DARWINTRACE_INTERPOSE(darwintrace_close, __close_nocancel);
+#endif
