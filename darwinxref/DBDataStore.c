@@ -326,7 +326,7 @@ CFArrayRef DBCopyChangedProjectNames(CFStringRef oldbuild, CFStringRef newbuild)
 		"UNION "
 		"SELECT DISTINCT project FROM properties "
 			"WHERE build=%Q "
-			"AND project NOT IN (SELECT project FROM properties WHERE build=%Q) "
+			"AND project NOT IN (SELECT project FROM properties WHERE build=%Q and project != '') "
 		"ORDER BY project", cnewbuild, coldbuild, cnewbuild, coldbuild);
 	free(coldbuild);
 	free(cnewbuild);
