@@ -3464,6 +3464,8 @@
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
+				"INSTALL_PATH[sdk=iphonesimulator*]" = "$(SDKROOT)$(DATDIR)/darwinbuild";
+				LD_DYLIB_INSTALL_NAME = "$(DATDIR)/darwinbuild/darwintrace.dylib";
 				PRODUCT_NAME = darwintrace;
 			};
 			name = Public;
@@ -3655,6 +3657,8 @@
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
+				"INSTALL_PATH[sdk=iphonesimulator*]" = "$(SDKROOT)$(DATDIR)/darwinbuild";
+				LD_DYLIB_INSTALL_NAME = "$(DATDIR)/darwinbuild/darwintrace.dylib";
 				PRODUCT_NAME = darwintrace;
 			};
 			name = Debug;
@@ -3664,6 +3668,8 @@
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
+				"INSTALL_PATH[sdk=iphonesimulator*]" = "$(SDKROOT)$(DATDIR)/darwinbuild";
+				LD_DYLIB_INSTALL_NAME = "$(DATDIR)/darwinbuild/darwintrace.dylib";
 				PRODUCT_NAME = darwintrace;
 			};
 			name = Release;
