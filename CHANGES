@@ -1,5 +1,8 @@
 Darwin Build Scripts Change History
 -----------------------------------
+Release 26.5 [29-Nov-2011]
+        - all: set correct INSTALL_PATH for iOS simulator
+
 Release 26.4 [17-Nov-2011]
 	- darwintrace: files opened with fopen(3) are missing from trace log
 
