@@ -184,7 +184,7 @@ struct File {
 	virtual int remove();
 
 	// Removes any quarantine xattrs present
-	virtual int unquarantine(const char *prefix);
+	int unquarantine(const char *prefix);
 
 	// Prints one line to the output stream indicating
 	// the file mode, ownership, digest and name.
