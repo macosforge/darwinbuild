@@ -1,5 +1,9 @@
 Darwin Build Scripts Change History
 -----------------------------------
+Release 27 [23-Jan-2012]
+	- darwinup: Clear quarantine xattr from installed files.
+	- darwinup: Correctness fix for has_suffix.
+
 Release 26.5 [29-Nov-2011]
         - all: set correct INSTALL_PATH for iOS simulator
 
