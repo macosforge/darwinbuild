@@ -42,6 +42,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <removefile.h>
+#include <sys/xattr.h>
 
 File::File() {
 	m_serial = 0;
@@ -242,6 +243,26 @@ int File::remove() {
 	fprintf(stderr, "%s:%d: call to abstract function File::remove\n", 
 			__FILE__, __LINE__);
 	return -1;
+}
+
+int File::unquarantine(const char *prefix) {
+	int res = 0;
+	Archive *archive = this->archive();
+	const char *srcpath = archive->directory_name(prefix);
+	char path[PATH_MAX];
+	snprintf(path, sizeof(path), "%s/%s", srcpath, this->path());
+
+	res = removexattr(path, "com.apple.quarantine", XATTR_NOFOLLOW);
+	IF_DEBUG("[unquarantine] removexattr %s\n", path);
+	if (res == -1 && errno == ENOATTR) {
+		// Safely ignore ENOATTR, we didn't have the quarantine
+		// xattr set on this file.
+		res = 0;
+	} else if (res != 0) {
+		fprintf(stderr, "%s:%d: %s: %s (%d)\n",
+				__FILE__, __LINE__, m_path, strerror(errno), errno);
+	}
+	return res;
 }
 
 int File::install_info(const char* dest) {

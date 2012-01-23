@@ -434,7 +434,7 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback,
 						"aborting to avoid damaging darwinup metadata.\n");
 				return DEPOT_ERROR;
 			}
-			
+
 			// Perform a three-way-diff between the file to be installed (file),
 			// the file we last installed in this location (preceding),
 			// and the file that actually exists in this location (actual).
@@ -705,6 +705,12 @@ int Depot::backup_file(File* file, void* ctx) {
 int Depot::install_file(File* file, void* ctx) {
 	InstallContext* context = (InstallContext*)ctx;
 	int res = 0;
+
+	// Strip the quarantine xattr off all files to avoid them being rendered useless.
+	if (file->unquarantine(context->depot->m_archives_path) != 0) {
+		fprintf(stderr, "Error: unable to unquarantine file in staging area.\n");
+		return DEPOT_ERROR;
+	}
 
 	if (INFO_TEST(file->info(), FILE_INFO_INSTALL_DATA)) {
 		++context->files_modified;
