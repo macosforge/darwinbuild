@@ -141,8 +141,11 @@ int is_userhost_path(const char* path) {
 }
 
 int has_suffix(const char* str, const char* sfx) {
-	str = strstr(str, sfx);
-	return (str && strcmp(str, sfx) == 0);
+	const char *tmp = str + (strlen(str) - strlen(sfx));
+	if (tmp > str) {
+		return (strcmp(tmp, sfx) == 0);
+	}
+	return false;
 }
 
 int exec_with_args(const char** args) {
