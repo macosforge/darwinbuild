@@ -989,6 +989,11 @@ int Depot::uninstall_file(File* file, void* ctx) {
 				} else {
 					IF_DEBUG("[uninstall]    no changes; leaving in place\n");
 				}
+				if (!context->depot->m_modified_extensions &&
+					(strncmp(file->path(), "/System/Library/Extensions", 26) == 0)) {
+					IF_DEBUG("[uninstall]    kernel extension detected\n");
+					context->depot->m_modified_extensions = true;
+				}
 			}
 			uint32_t info = preceding->info();
 			if (INFO_TEST(info, FILE_INFO_NO_ENTRY | FILE_INFO_ROLLBACK_DATA) &&

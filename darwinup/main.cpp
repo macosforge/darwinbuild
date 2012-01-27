@@ -273,6 +273,7 @@ int main(int argc, char* argv[]) {
 		if (!disable_automation && depot->has_modified_extensions() && res == 0) {
 			char *sle_path;
 			res = join_path(&sle_path, depot->prefix(), "/System/Library/Extensions");
+			IF_DEBUG("Touching /System/Library/Extensions\n");
 			if (res == 0) res = utimes(sle_path, NULL);
 			if (res) {
 				fprintf(stderr, "Warning: unable to touch %s \n", sle_path);
