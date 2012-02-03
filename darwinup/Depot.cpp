@@ -120,7 +120,7 @@ int Depot::create_storage() {
 	}
 	
 	int res = mkdir(m_depot_path, m_depot_mode);
-	if (res) {
+	if (res && errno != EEXIST) {
 		perror(m_depot_path);
 		return res;
 	}
