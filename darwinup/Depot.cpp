@@ -545,14 +545,15 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback,
 					this->m_modified_extensions = true;
 				}
 
-				if (!this->m_modified_xpc_services &&
-					(strstr(file->path(), ".xpc/") != NULL)) {
-
-					bool modified = (has_suffix(file->path(), "Info.plist") ||
-									 has_suffix(file->path(), "framework.sb"));
-
-					if (modified) {
+				if (!this->m_modified_xpc_services) {
+					if ((strstr(file->path(), ".xpc/") != NULL) && has_suffix(file->path(), "Info.plist")) {
 						IF_DEBUG("[analyze]    xpc service detected\n");
+						this->m_modified_xpc_services = true;
+					}
+
+					if ((strncmp(file->path(), "/System/Library/Sandbox/Profiles", 33) == 0) ||
+						(has_suffix(file->path(), "framework.sb"))) {
+						IF_DEBUG("[analyze]    profile modification detected\n");
 						this->m_modified_xpc_services = true;
 					}
 				}

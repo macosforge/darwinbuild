@@ -371,6 +371,14 @@ int update_xpc_services_cache(const char* path) {
 	res = find_base_system_path(&base, path);
 	if (res) return res;
 
+	// xpchelper expects the --root value to *not* end in a slash.
+	if (has_suffix(base, "/")) {
+		char *ptr = strrchr(base, '/');
+		if (ptr) {
+			*ptr = '\0';
+		}
+	}
+
 	if (verbosity) {
 		fprintf(stdout, "Updating xpc services cache for %s ...", base);
 		fflush(stdout);
