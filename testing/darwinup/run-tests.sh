@@ -57,7 +57,7 @@ do
 	tar zxvf $R.tar.gz -C $PREFIX
 done;
 
-for R in 300dirs.tbz2 300files.tbz2 deep-rollback.cpgz deep-rollback-2.xar extension.tar.bz2;
+for R in 300dirs.tbz2 300files.tbz2 deep-rollback.cpgz deep-rollback-2.xar extension.tar.bz2 sandboxprofile.tar.bz2 xpcservice.tar.bz2;
 do
 	cp $R $PREFIX/
 done;
@@ -360,6 +360,27 @@ rm -rf $DEST/System
 echo "DIFF: diffing original test files to dest (should be no diffs) ..."
 $DIFF $ORIG $DEST 2>&1
 
+echo "========== TEST: Install XPC Service =========="
+mkdir -p $DEST/usr/libexec
+mkdir -p $DEST/System
+cp /usr/libexec/xpchelper $DEST/usr/libexec
+$DARWINUP install xpcservice.tar.bz2
+test -f $DEST/System/Library/Caches/com.apple.xpchelper.cache
+$DARWINUP uninstall newest
+rm -rf $DEST/System $DEST/usr
+echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+$DIFF $ORIG $DEST 2>&1
+
+echo "========== TEST: Install Sandbox Profile =========="
+mkdir -p $DEST/usr/libexec
+mkdir -p $DEST/System
+cp /usr/libexec/xpchelper $DEST/usr/libexec
+$DARWINUP install sandboxprofile.tar.bz2
+test -f $DEST/System/Library/Caches/com.apple.xpchelper.cache
+$DARWINUP uninstall newest
+rm -rf $DEST/System $DEST/usr
+echo "DIFF: diffing original test files to dest (should be no diffs) ..."
+$DIFF $ORIG $DEST 2>&1
 
 echo "========== TEST: Forcing object change: file to directory ==========" 
 is_file $DEST/rep_file
