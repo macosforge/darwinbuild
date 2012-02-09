@@ -4,6 +4,7 @@ Release 28 [8-Feb-2012]
 	- darwinup: Display more helpful error if unable to create a depot.
 	- darwinup: Touch /System/Library/Extensions when uninstalling kernel extensions.
 	- darwinup: Run xpchelper on system sandbox profile changes.
+	- darwinup: Don't include actual mach-o binaries in the test suite.
 
 Release 27 [23-Jan-2012]
 	- darwinup: Clear quarantine xattr from installed files.
