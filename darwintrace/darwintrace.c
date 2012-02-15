@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2011 Apple Inc. All rights reserved.
+ * Copyright (c) 2005-2012 Apple Inc. All rights reserved.
  *
  * @APPLE_BSD_LICENSE_HEADER_START@
  * 
@@ -393,11 +393,13 @@ static char *const *darwintrace_make_environ(char *const envp[]) {
     int count = 0;    
 
     /* count the environment variables */
-    while (envp[count] != NULL) {
-        if (has_prefix(envp[count], DYLD_INSERT_LIBRARIES)) {
-            libs = envp[count] + strlen(DYLD_INSERT_LIBRARIES);
+    if (envp) {
+        while (envp[count] != NULL) {
+            if (has_prefix(envp[count], DYLD_INSERT_LIBRARIES)) {
+                libs = envp[count] + strlen(DYLD_INSERT_LIBRARIES);
+            }
+            ++count;
         }
-        ++count;
     }
     
     /* allocate size of envp with enough space for three more values and NULL */
@@ -435,7 +437,9 @@ static char *const *darwintrace_make_environ(char *const envp[]) {
         }
         ++i;
 
-        memcpy(&result[i], envp, count * sizeof(char *));
+        if (envp) {
+            memcpy(&result[i], envp, count * sizeof(char *));
+        }
 
         while (result[i] != NULL) {
             if (has_prefix(result[i], DARWINTRACE_IGNORE_ROOTS) ||
