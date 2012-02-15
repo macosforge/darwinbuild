@@ -1,5 +1,8 @@
 Darwin Build Scripts Change History
 -----------------------------------
+Release 29 [15-Feb-2012]
+	- darwintrace: posix_spawn may have NULL envp parameter
+
 Release 28.1 [9-Feb-2012]
 	- darwinup: Don't include actual mach-o binaries in the test suite.
 
