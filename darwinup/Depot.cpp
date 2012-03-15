@@ -556,7 +556,7 @@ int Depot::analyze_stage(const char* path, Archive* archive, Archive* rollback,
 						this->m_modified_xpc_services = true;
 					}
 
-					if ((strncmp(file->path(), "/System/Library/Sandbox/Profiles", 33) == 0) ||
+					if ((strncmp(file->path(), "/System/Library/Sandbox/Profiles", 32) == 0) ||
 						(has_suffix(file->path(), "framework.sb"))) {
 						IF_DEBUG("[analyze]    profile modification detected\n");
 						this->m_modified_xpc_services = true;
