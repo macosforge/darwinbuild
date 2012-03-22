@@ -32,6 +32,7 @@
 
 #include <crt_externs.h>
 #include <fcntl.h>
+#include <pthread.h>
 #include <spawn.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -141,9 +142,7 @@ static inline void darwintrace_free_path(char* path, const char* test) {
   if (path != test) free(path);
 }
 
-static inline void darwintrace_setup() {
-  if (darwintrace_fd != -2) return;
-  
+static void _darwintrace_setup(void) {
   char* path = getenv("DARWINTRACE_LOG");
   if (path != NULL) {
     int olderrno = errno;
@@ -220,6 +219,11 @@ static inline void darwintrace_setup() {
       }
     }
   }
+}
+
+static inline void darwintrace_setup(void) {
+	static pthread_once_t once = PTHREAD_ONCE_INIT;
+	pthread_once(&once, &_darwintrace_setup);
 }
 
 /* darwintrace_setup must have been called already */
