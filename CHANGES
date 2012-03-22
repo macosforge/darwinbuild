@@ -1,5 +1,8 @@
 Darwin Build Scripts Change History
 -----------------------------------
+Release 31 [22-Mar-2012]
+	- darwintrace: fixed crash when used by multi-threaded applications
+
 Release 30 [15-Mar-2012]
 	- darwinup: not detecting installs into /System/Library/Sandbox/Profiles
 
