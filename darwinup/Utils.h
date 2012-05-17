@@ -41,6 +41,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include <errno.h>
+#include <fcntl.h>
 #include <libgen.h>
 #include <limits.h>
 #include <stdlib.h>
