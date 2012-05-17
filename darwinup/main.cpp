@@ -47,7 +47,7 @@
 
 void usage(char* progname) {
 	fprintf(stderr, "usage:    %s [-v] [-p DIR] [command] [args]          \n", progname);
-	fprintf(stderr, "version: 30                                                    \n");
+	fprintf(stderr, "version: 32                                                    \n");
 	fprintf(stderr, "                                                               \n");
 	fprintf(stderr, "options:                                                       \n");
 #if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060

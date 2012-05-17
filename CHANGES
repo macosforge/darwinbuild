@@ -1,5 +1,8 @@
 Darwin Build Scripts Change History
 -----------------------------------
+Release 32 [17-May-2012]
+	- darwinup: Updated trigger for xpchelper cacher rebuild.
+
 Release 31 [22-Mar-2012]
 	- darwintrace: fixed crash when used by multi-threaded applications
 
