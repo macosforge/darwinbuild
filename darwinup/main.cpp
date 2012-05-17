@@ -107,8 +107,8 @@ uint32_t dryrun;
 int main(int argc, char* argv[]) {
 	char* progname = strdup(basename(argv[0]));      
 	char* path = NULL;
-#if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
 	bool disable_automation = false;
+#if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
 	bool restart = false;
 #endif
 	
@@ -119,19 +119,15 @@ int main(int argc, char* argv[]) {
 	while ((ch = getopt(argc, argv, "fnp:vh")) != -1) {		
 #endif
 		switch (ch) {
-#if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060	
 		case 'd':
 				disable_automation = true;
 				break;
-#endif
 		case 'f':
 				force = 1;
 				break;
 		case 'n':
 				dryrun = 1;
-#if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
 				disable_automation = true;
-#endif
 				break;
 		case 'p':
 				if (optarg[0] != '/') {
@@ -167,8 +163,8 @@ int main(int argc, char* argv[]) {
 
 	if (dryrun) IF_DEBUG("option: dry run\n");
 	if (force)  IF_DEBUG("option: forcing operations\n");
-#if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
 	if (disable_automation) IF_DEBUG("option: helpful automation disabled\n");
+#if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
     if (restart) IF_DEBUG("option: restart when finished\n");
 #endif
 	
@@ -282,13 +278,11 @@ int main(int argc, char* argv[]) {
 			free(sle_path);
 		}
 #endif
-#if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1070
 		if (!disable_automation && depot->has_modified_xpc_services() && res == 0) {
 			res = update_xpc_services_cache(path);
 			if (res) fprintf(stderr, "Warning: could not update xpc services cache.\n");
 			res = 0;
 		}
-#endif
 #if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
 		if (restart && res == 0) {
 			res = tell_finder_to_restart();

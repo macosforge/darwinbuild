@@ -371,37 +371,59 @@ int update_xpc_services_cache(const char* path) {
 	res = find_base_system_path(&base, path);
 	if (res) return res;
 
-	// xpchelper expects the --root value to *not* end in a slash.
-	if (has_suffix(base, "/")) {
-		char *ptr = strrchr(base, '/');
-		if (ptr) {
-			*ptr = '\0';
-		}
-	}
-
-	if (verbosity) {
-		fprintf(stdout, "Updating xpc services cache for %s ...", base);
-		fflush(stdout);
-	}
-
 	char* toolpath;
 	join_path(&toolpath, base, "/usr/libexec/xpchelper");
 
 	struct stat sb;
 	res = stat(toolpath, &sb);
-	if (res) {
-		return 1;
+	if (res || ((sb.st_mode & S_IXUSR) == 0)) {
+		// no xpchelper
+		char* cachedir;
+		join_path(&cachedir, base, "/System/Library/Caches/com.apple.xpcd");
+
+		res = mkdir_p(cachedir);
+		if (!res || errno == EEXIST) {
+			char* cachepath;
+			join_path(&cachepath, cachedir, "xpcd_cache.dylib");
+
+			res = open(cachepath, O_APPEND | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+			if (res >= 0) {
+				close(res);
+			} else {
+				fprintf(stderr, "Error: (%d) failed to touch cache file.\n", errno);
+				res = errno;
+			}
+			free(cachepath);
+		} else {
+			res = errno;
+			fprintf(stderr, "Error: (%d) failed to mkdir_p cache directory.\n", res);
+		}
+		if (verbosity) fprintf(stdout, "Touched xpc cache file.\n");
+		free(cachedir);
+	} else {
+		// xpchelper expects the --root value to *not* end in a slash.
+		if (has_suffix(base, "/")) {
+			char *ptr = strrchr(base, '/');
+			if (ptr) {
+				*ptr = '\0';
+			}
+		}
+
+		if (verbosity) {
+			fprintf(stdout, "Updating xpc services cache for %s ...", base);
+			fflush(stdout);
+		}
+
+		const char* args[] = {
+			toolpath,
+			"--rebuild-cache",
+			"--root", base,
+			NULL
+		};
+		res = exec_with_args(args);
+
+		if (verbosity) fprintf(stdout, "Done updating xpc cache\n");
 	}
-
-	const char* args[] = {
-		toolpath,
-		"--rebuild-cache",
-		"--root", base,
-		NULL
-	};
-	res = exec_with_args(args);
-
-	if (verbosity) fprintf(stdout, "Done updating xpc cache\n");
 
 	free(toolpath);
 	free(base);
