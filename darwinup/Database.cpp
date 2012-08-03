@@ -579,7 +579,7 @@ int Database::sql_once(const char* fmt, ...) {
 	int res = 0;
     va_list args;
     va_start(args, fmt);
-    char* error;
+    char* error = NULL;
     if (this->m_db) {
         char *query = sqlite3_vmprintf(fmt, args);
 		res = sqlite3_exec(this->m_db, query, NULL, NULL, &error);
