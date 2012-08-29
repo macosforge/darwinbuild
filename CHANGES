@@ -1,5 +1,8 @@
 Darwin Build Scripts Change History
 -----------------------------------
+Release 33 [29-Aug-2012]
+	- darwinup: Fix uninitialised variable in Database.cpp.
+
 Release 32 [17-May-2012]
 	- darwinup: Updated trigger for xpchelper cacher rebuild.
 
