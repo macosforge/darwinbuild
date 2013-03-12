@@ -51,8 +51,10 @@
 #define DARWINTRACE_STOP_FD  200
 #define DARWINTRACE_BUFFER_SIZE 1024
 
+extern void _simple_dprintf(int __fd, const char *__fmt, ...);
+
 #if DARWINTRACE_DEBUG_OUTPUT
-#define dprintf(...) fprintf(stderr, __VA_ARGS__)
+#define dprintf(...) _simple_dprintf(STDERR_FILENO, __VA_ARGS__)
 #else
 #define dprintf(...)
 #endif
@@ -236,12 +238,9 @@ static inline void darwintrace_logpath(int fd, const char *procname, char *tag, 
       }
     }
   }
-  char darwintrace_buf[DARWINTRACE_BUFFER_SIZE];
-  int size = snprintf(darwintrace_buf, sizeof(darwintrace_buf),
-                      "%s[%d]\t%s\t%s\n",
-                      procname ? procname : darwintrace_progname, darwintrace_pid,
-                      tag, path);
-  write(fd, darwintrace_buf, size);
+  _simple_dprintf(fd, "%s[%d]\t%s\t%s\n",
+		  procname ? procname : darwintrace_progname, darwintrace_pid,
+		  tag, path);
 }
 
 /* remap resource fork access to the data fork.
