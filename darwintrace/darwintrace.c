@@ -54,7 +54,11 @@
 extern void _simple_dprintf(int __fd, const char *__fmt, ...);
 
 #if DARWINTRACE_DEBUG_OUTPUT
-#define dprintf(...) _simple_dprintf(STDERR_FILENO, __VA_ARGS__)
+#define dprintf(...) do { \
+	pthread_mutex_lock(&darwintrace_log_lock); \
+	 _simple_dprintf(STDERR_FILENO, __VA_ARGS__) \
+	pthread_mutex_unlock(&darwintrace_log_lock); \
+} while (0)
 #else
 #define dprintf(...)
 #endif
@@ -109,6 +113,9 @@ static size_t  *darwintrace_ignore_lens = NULL;
 /* store environment variables to preserve them on exec */
 static char *darwintrace_dylib_path;
 static char *darwintrace_log_path;
+
+/* serialize access to log file */
+static pthread_mutex_t darwintrace_log_lock = PTHREAD_MUTEX_INITIALIZER;
 
 /* check if str starts with one of the exceptions */
 static inline bool darwintrace_except(const char *str) {
@@ -238,9 +245,11 @@ static inline void darwintrace_logpath(int fd, const char *procname, char *tag, 
       }
     }
   }
+  pthread_mutex_lock(&darwintrace_log_lock);
   _simple_dprintf(fd, "%s[%d]\t%s\t%s\n",
 		  procname ? procname : darwintrace_progname, darwintrace_pid,
 		  tag, path);
+  pthread_mutex_unlock(&darwintrace_log_lock);
 }
 
 /* remap resource fork access to the data fork.
