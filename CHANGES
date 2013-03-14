@@ -1,7 +1,8 @@
 Darwin Build Scripts Change History
 -----------------------------------
+Release 34.1 [14-Mar-2013]
 Release 34 [12-Mar-2013]
-	- darwintrace: use _simple_dprintf instead of snprintf.
+	- darwintrace: avoid snprintf(3); manually construct log messages.
 
 Release 33 [29-Aug-2012]
 	- darwinup: Fix uninitialised variable in Database.cpp.
