@@ -51,14 +51,8 @@
 #define DARWINTRACE_STOP_FD  200
 #define DARWINTRACE_BUFFER_SIZE 1024
 
-extern void _simple_dprintf(int __fd, const char *__fmt, ...);
-
 #if DARWINTRACE_DEBUG_OUTPUT
-#define dprintf(...) do { \
-	pthread_mutex_lock(&darwintrace_log_lock); \
-	 _simple_dprintf(STDERR_FILENO, __VA_ARGS__) \
-	pthread_mutex_unlock(&darwintrace_log_lock); \
-} while (0)
+#define dprintf(...) fprintf(stderr, __VA_ARGS__)
 #else
 #define dprintf(...)
 #endif
@@ -113,9 +107,6 @@ static size_t  *darwintrace_ignore_lens = NULL;
 /* store environment variables to preserve them on exec */
 static char *darwintrace_dylib_path;
 static char *darwintrace_log_path;
-
-/* serialize access to log file */
-static pthread_mutex_t darwintrace_log_lock = PTHREAD_MUTEX_INITIALIZER;
 
 /* check if str starts with one of the exceptions */
 static inline bool darwintrace_except(const char *str) {
@@ -245,11 +236,29 @@ static inline void darwintrace_logpath(int fd, const char *procname, char *tag, 
       }
     }
   }
-  pthread_mutex_lock(&darwintrace_log_lock);
-  _simple_dprintf(fd, "%s[%d]\t%s\t%s\n",
-		  procname ? procname : darwintrace_progname, darwintrace_pid,
-		  tag, path);
-  pthread_mutex_unlock(&darwintrace_log_lock);
+  size_t size;
+  char pidstr_bytes[16];
+  char *pidstr = &pidstr_bytes[sizeof(pidstr_bytes)-1];
+  char darwintrace_buf[DARWINTRACE_BUFFER_SIZE];
+
+  pid_t pid = darwintrace_pid;
+  *pidstr = 0;
+  do {
+    --pidstr;
+    *pidstr = '0' + (pid % 10);
+    pid /= 10;
+  } while (pid > 0);
+
+  /* "%s[%d]\t%s\t%s\n" */
+  size = strlcpy(darwintrace_buf, procname ? procname : darwintrace_progname, sizeof(darwintrace_buf));
+  size = strlcat(darwintrace_buf, "[", sizeof(darwintrace_buf));
+  size = strlcat(darwintrace_buf, pidstr, sizeof(darwintrace_buf));
+  size = strlcat(darwintrace_buf, "]\t", sizeof(darwintrace_buf));
+  size = strlcat(darwintrace_buf, tag, sizeof(darwintrace_buf));
+  size = strlcat(darwintrace_buf, "\t", sizeof(darwintrace_buf));
+  size = strlcat(darwintrace_buf, path, sizeof(darwintrace_buf));
+  size = strlcat(darwintrace_buf, "\n", sizeof(darwintrace_buf));
+  write(fd, darwintrace_buf, size);
 }
 
 /* remap resource fork access to the data fork.
