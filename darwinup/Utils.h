@@ -59,7 +59,7 @@ const uint32_t VERBOSE_SQL      = 0x4;
 #define IF_SQL(...) do { extern uint32_t verbosity; if (verbosity & VERBOSE_SQL) fprintf(stderr, "DEBUG: " __VA_ARGS__); } while (0)
 
 int fts_compare(const FTSENT **a, const FTSENT **b);
-int ftsent_filename(FTSENT* ent, char* filename, size_t bufsiz);
+size_t ftsent_filename(FTSENT* ent, char* filename, size_t bufsiz);
 int mkdir_p(const char* path);
 int remove_directory(const char* path);
 int is_directory(const char* path);
@@ -93,8 +93,8 @@ void __data_hex(FILE* f, uint8_t* data, uint32_t size);
 // print a horizontal line to stdout
 void hr();
 
-inline int INFO_TEST(uint32_t word, uint32_t flag) { return ((word & flag) != 0); }
-inline int INFO_SET(uint32_t word, uint32_t flag) { return (word | flag); }
-inline int INFO_CLR(uint32_t word, uint32_t flag) { return (word & (~flag)); }
+inline bool INFO_TEST(uint64_t word, uint64_t flag) { return ((word & flag) != 0); }
+inline uint64_t INFO_SET(uint64_t word, uint64_t flag) { return (word | flag); }
+inline uint64_t INFO_CLR(uint64_t word, uint64_t flag) { return (word & (~flag)); }
 
 #endif

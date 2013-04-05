@@ -115,7 +115,7 @@ static int compare(const FTSENT **a, const FTSENT **b) {
 	return strcmp((*a)->fts_name, (*b)->fts_name);
 }
 
-static int ent_filename(FTSENT* ent, char* filename, size_t bufsiz) {
+static size_t ent_filename(FTSENT* ent, char* filename, size_t bufsiz) {
 	if (ent == NULL) return 0;
 	if (ent->fts_level > 1) {
 		bufsiz = ent_filename(ent->fts_parent, filename, bufsiz);
@@ -147,7 +147,7 @@ static char* calculate_digest(int fd) {
 		if (len == 0) { close(fd); break; }
 		if ((len < 0) && (errno == EINTR)) continue;
 		if (len < 0) { close(fd); return NULL; }
-		CC_SHA1_Update(&c, block, (size_t)len);
+		CC_SHA1_Update(&c, block, (CC_LONG)len);
 	}
 	
 	CC_SHA1_Final(md, &c);
@@ -220,7 +220,7 @@ static char* calculate_unprebound_digest(const char* filename) {
 #include <mach-o/swap.h>
 
 static int register_mach_header(const char* build, const char* project, const char* path, struct fat_arch* fa, int fd, int* isMachO) {
-	int res;
+	ssize_t res;
 	uint32_t magic;
 	int swap = 0;
 	
@@ -313,7 +313,7 @@ static int register_mach_header(const char* build, const char* project, const ch
 		//
 		struct load_command lctmp;
 
-		int res = read(fd, &lctmp, sizeof(struct load_command));
+		ssize_t res = read(fd, &lctmp, sizeof(struct load_command));
 		if (res < sizeof(struct load_command)) { return 0; }
 
 		uint32_t cmd = swap ? OSSwapInt32(lctmp.cmd) : lctmp.cmd;
@@ -524,7 +524,7 @@ static int register_mach_header(const char* build, const char* project, const ch
 }
 
 static int register_libraries(int fd, const char* build, const char* project, const char* filename, int* isMachO) {
-	int res;
+	ssize_t res;
 		
 	uint32_t magic;
 	
@@ -599,7 +599,7 @@ static int prune_old_entries(const char* build, const char* project) {
 }
 
 int register_files(char* build, char* project, char* path) {
-	int res = 0;
+	ssize_t res = 0;
 	int loaded = 0;
 	
 	create_tables();
@@ -623,7 +623,7 @@ int register_files(char* build, char* project, char* path) {
 	while ((ent = fts_read(fts)) != NULL) {
 		char filename[MAXPATHLEN+1];
 		char symlink[MAXPATHLEN+1];
-		int len;
+		ssize_t len;
 		
 		// Filename
 		filename[0] = 0;
@@ -685,7 +685,7 @@ int register_files(char* build, char* project, char* path) {
 
 	fprintf(stderr, "%s - %d files registered.\n", project, loaded);
 	
-	return res;
+	return (int)res;
 }
 
 int register_files_from_stdin(char* build, char* project, char* path) {
@@ -709,7 +709,7 @@ int register_files_from_stdin(char* build, char* project, char* path) {
 		char filename[MAXPATHLEN+1];
 		char fullpath[MAXPATHLEN+1];
 		char symlink[MAXPATHLEN+1];
-		int len;
+		ssize_t len;
 		struct stat sb;
 		char *lastpathcomp = NULL;
 

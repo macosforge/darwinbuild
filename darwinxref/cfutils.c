@@ -82,7 +82,7 @@ CFPropertyListRef read_plist(char* path) {
         if (fd != -1) {
                 struct stat sb;
                 if (stat(path, &sb) != -1) {
-                        off_t size = sb.st_size;
+                        size_t size = (size_t)sb.st_size;
                         void* buffer = mmap(NULL, size, PROT_READ, MAP_FILE | MAP_PRIVATE, fd, (off_t)0);
                         if (buffer != (void*)-1) {
                                 CFDataRef data = CFDataCreateWithBytesNoCopy(NULL, buffer, size, kCFAllocatorNull);
@@ -182,7 +182,7 @@ int writePlist(FILE* f, CFPropertyListRef p, int tabs) {
                 free(utf8);
         } else if (type == CFArrayGetTypeID()) {
                 result += fprintf(f, "(\n");
-                int count = CFArrayGetCount(p);
+                CFIndex count = CFArrayGetCount(p);
                 for (i = 0; i < count; ++i) {
                         CFTypeRef pp = CFArrayGetValueAtIndex(p, i);
                         result += fprintf(f, "%s\t", t);
@@ -193,7 +193,7 @@ int writePlist(FILE* f, CFPropertyListRef p, int tabs) {
         } else if (type == CFDictionaryGetTypeID()) {
                 result += fprintf(f, "{\n");
                 CFArrayRef keys = dictionaryGetSortedKeys(p);
-                int count = CFArrayGetCount(keys);
+                CFIndex count = CFArrayGetCount(keys);
                 for (i = 0; i < count; ++i) {
                         CFStringRef key = CFArrayGetValueAtIndex(keys, i);
 						result += fprintf(f, "\t%s", t);

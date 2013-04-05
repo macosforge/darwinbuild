@@ -80,7 +80,7 @@ static char* calculate_digest(int fd) {
 		if (len == 0) { close(fd); break; }
 		if ((len < 0) && (errno == EINTR)) continue;
 		if (len < 0) { close(fd); return NULL; }
-		CC_SHA1_Update(&c, block, (size_t)len);
+		CC_SHA1_Update(&c, block, (CC_LONG)len);
 	}
 	
 	CC_SHA1_Final(md, &c);
@@ -103,7 +103,7 @@ static void ent_filename(FTSENT* ent, char* filename) {
 }
 #endif
 
-static int ent_filename(FTSENT* ent, char* filename, size_t bufsiz) {
+static size_t ent_filename(FTSENT* ent, char* filename, size_t bufsiz) {
 	if (ent == NULL) return 0;
 	if (ent->fts_level > 1) {
 		bufsiz = ent_filename(ent->fts_parent, filename, bufsiz);
@@ -130,7 +130,7 @@ int main(int argc, char* argv[]) {
 	while ((ent = fts_read(fts)) != NULL) {
 		char filename[MAXPATHLEN+1];
 		char symlink[MAXPATHLEN+1];
-		int len;
+		ssize_t len;
 
 		// Filename
 		filename[0] = 0;

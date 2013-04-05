@@ -100,7 +100,7 @@ void SHA1Digest::digest(unsigned char* md, int fd) {
 	CC_SHA1_CTX c;
 	CC_SHA1_Init(&c);
 	
-	int len;
+	ssize_t len;
 	const unsigned int blocklen = 8192;
 	static uint8_t* block = NULL;
 	if (block == NULL) {
@@ -111,7 +111,7 @@ void SHA1Digest::digest(unsigned char* md, int fd) {
 		if (len == 0) { close(fd); break; }
 		if ((len < 0) && (errno == EINTR)) continue;
 		if (len < 0) { close(fd); return; }
-		CC_SHA1_Update(&c, block, (size_t)len);
+		CC_SHA1_Update(&c, block, (CC_LONG)len);
 	}
 	if (len >= 0) {
 		CC_SHA1_Final(md, &c);
@@ -124,11 +124,11 @@ void SHA1Digest::digest(unsigned char* md, uint8_t* data, uint32_t size) {
 
 SHA1DigestSymlink::SHA1DigestSymlink(const char* filename) {
 	char link[PATH_MAX];
-	int res = readlink(filename, link, PATH_MAX);
+	ssize_t res = readlink(filename, link, PATH_MAX);
 	if (res == -1) {
 		fprintf(stderr, "%s:%d: readlink: %s: %s (%d)\n", __FILE__, __LINE__, filename, strerror(errno), errno);
 	} else {
-		digest(m_data, (uint8_t*)link, res);
+		digest(m_data, (uint8_t*)link, (uint32_t)res);
 	}
 }
 

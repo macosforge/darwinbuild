@@ -227,7 +227,7 @@ sqlite3_stmt* Table::update(sqlite3* db) {
 	strlcat(m_update_sql, ";", size);
 	
 	// prepare
-	int res = sqlite3_prepare_v2(db, m_update_sql, strlen(m_update_sql), &m_prepared_update, NULL);
+	int res = sqlite3_prepare_v2(db, m_update_sql, (int)strlen(m_update_sql), &m_prepared_update, NULL);
 	if (res != SQLITE_OK) {
 		fprintf(stderr, "Error: unable to prepare update statement for table: %s \n", m_name);
 		return NULL;
@@ -281,7 +281,7 @@ sqlite3_stmt* Table::insert(sqlite3* db) {
 	IF_SQL("insert sql: %s \n", m_insert_sql);
 	
 	// prepare
-	int res = sqlite3_prepare_v2(db, m_insert_sql, strlen(m_insert_sql), &m_prepared_insert, NULL);
+	int res = sqlite3_prepare_v2(db, m_insert_sql, (int)strlen(m_insert_sql), &m_prepared_insert, NULL);
 	if (res != SQLITE_OK) {
 		fprintf(stderr, "Error: unable to prepare insert statement for table: %s \n", m_name);
 		return NULL;
@@ -319,7 +319,7 @@ sqlite3_stmt* Table::del(sqlite3* db) {
 	strlcat(m_delete_sql, ";", size);
 	
 	// prepare
-	int res = sqlite3_prepare_v2(db, m_delete_sql, strlen(m_delete_sql), &m_prepared_delete, NULL);
+	int res = sqlite3_prepare_v2(db, m_delete_sql, (int)strlen(m_delete_sql), &m_prepared_delete, NULL);
 	if (res != SQLITE_OK) {
 		fprintf(stderr, "Error: unable to prepare delete statement for table: %s \n", m_name);
 		return NULL;
@@ -347,7 +347,7 @@ sqlite3_stmt* Table::del(sqlite3* db) {
     }
 
 #define __prepare_stmt \
-    int res = sqlite3_prepare_v2(db, query, size, pps, NULL); \
+    int res = sqlite3_prepare_v2(db, query, (int)size, pps, NULL); \
     free(query); \
     if (res != SQLITE_OK) { \
         fprintf(stderr, "Error: unable to prepare statement: %s\n", \

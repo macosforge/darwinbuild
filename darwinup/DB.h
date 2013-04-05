@@ -73,9 +73,9 @@ struct DarwinupDatabase : Database {
 	int      activate_archive(uint64_t serial);
 	int      deactivate_archive(uint64_t serial);
 	int      update_archive(uint64_t serial, uuid_t uuid, const char* name,
-							time_t date_added, uint32_t active, uint32_t info,
+							time_t date_added, uint32_t active, uint64_t info,
 							const char* build);
-	uint64_t insert_archive(uuid_t uuid, uint32_t info, const char* name, 
+	uint64_t insert_archive(uuid_t uuid, uint64_t info, const char* name, 
 							time_t date, const char* build);
 	int      delete_empty_archives();
 	int      delete_archive(Archive* archive);
@@ -90,9 +90,9 @@ struct DarwinupDatabase : Database {
 										  uint64_t** serial);
 	int      get_files(uint8_t*** data, uint32_t* count, Archive* archive, bool reverse);
 	int      file_offset(int column);
-	int      update_file(uint64_t serial, Archive* archive, uint32_t info, mode_t mode, 
+	int      update_file(uint64_t serial, Archive* archive, uint64_t info, mode_t mode,
 						 uid_t uid, gid_t gid, Digest* digest, const char* path);
-	uint64_t insert_file(uint32_t info, mode_t mode, uid_t uid, gid_t gid, 
+	uint64_t insert_file(uint64_t info, mode_t mode, uid_t uid, gid_t gid,
 						 Digest* digest, Archive* archive, const char* path);
 	int      delete_file(uint64_t serial);
 	int      delete_file(File* file);

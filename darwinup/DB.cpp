@@ -105,7 +105,7 @@ int DarwinupDatabase::set_archive_active(uint64_t serial, uint64_t* active) {
 }
 
 int DarwinupDatabase::update_archive(uint64_t serial, uuid_t uuid, const char* name,
-									 time_t date_added, uint32_t active, uint32_t info,
+									 time_t date_added, uint32_t active, uint64_t info,
 									 const char* build) {
 	this->clear_last_archive();
 	return this->update(this->m_archives_table, serial,
@@ -118,7 +118,7 @@ int DarwinupDatabase::update_archive(uint64_t serial, uuid_t uuid, const char* n
 						build);
 }
 
-uint64_t DarwinupDatabase::insert_archive(uuid_t uuid, uint32_t info, const char* name, 
+uint64_t DarwinupDatabase::insert_archive(uuid_t uuid, uint64_t info, const char* name, 
 										  time_t date_added, const char* build) {
 	
 	int res = this->insert(this->m_archives_table,
@@ -184,7 +184,7 @@ File* DarwinupDatabase::make_file(uint8_t* data) {
 		return NULL;
 	}
 
-	File* result = FileFactory(serial, archive, info, (const char*)path, mode, uid, gid, size, digest);
+	File* result = FileFactory(serial, archive, (uint32_t)info, (const char*)path, mode, (uid_t)uid, (gid_t)gid, size, digest);
 	this->m_files_table->free_result(data);
 	
 	return result;
@@ -235,7 +235,7 @@ int DarwinupDatabase::get_file_serial_from_archive(Archive* archive, const char*
 	return DB_ERROR;
 }
 
-int DarwinupDatabase::update_file(uint64_t serial, Archive* archive, uint32_t info, mode_t mode, 
+int DarwinupDatabase::update_file(uint64_t serial, Archive* archive, uint64_t info, mode_t mode, 
 								   uid_t uid, gid_t gid, Digest* digest, const char* path) {
 
 	int res = SQLITE_OK;
@@ -260,7 +260,7 @@ int DarwinupDatabase::update_file(uint64_t serial, Archive* archive, uint32_t in
 	return res;
 }
 										  
-uint64_t DarwinupDatabase::insert_file(uint32_t info, mode_t mode, uid_t uid, gid_t gid, 
+uint64_t DarwinupDatabase::insert_file(uint64_t info, mode_t mode, uid_t uid, gid_t gid, 
 									   Digest* digest, Archive* archive, const char* path) {
 	
 	int res = this->insert(this->m_files_table,

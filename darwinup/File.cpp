@@ -104,7 +104,7 @@ File::~File() {
 
 uint64_t	File::serial()	{ return m_serial; }
 Archive*	File::archive()	{ return m_archive; }
-uint32_t	File::info()	{ return m_info; }
+uint64_t	File::info()	{ return m_info; }
 const char*	File::path()	{ return m_path; }
 mode_t		File::mode()	{ return m_mode; }
 uid_t		File::uid()	{ return m_uid; }
@@ -112,8 +112,8 @@ gid_t		File::gid()	{ return m_gid; }
 off_t		File::size()	{ return m_size; }
 Digest*		File::digest()	{ return m_digest; }
 
-void		File::info_set(uint32_t flag)	{ m_info = INFO_SET(m_info, flag); }
-void		File::info_clr(uint32_t flag)	{ m_info = INFO_CLR(m_info, flag); }
+void		File::info_set(uint64_t flag)	{ m_info = INFO_SET(m_info, flag); }
+void		File::info_clr(uint64_t flag)	{ m_info = INFO_CLR(m_info, flag); }
 void		File::archive(Archive* archive) { m_archive = archive; }
 
 uint32_t File::compare(File* a, File* b) {

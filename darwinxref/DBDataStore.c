@@ -621,7 +621,7 @@ int DBSetPropData(CFStringRef build, CFStringRef project, CFStringRef property, 
 	sqlite3_bind_text(stmt, i++, cbuild, -1, NULL);
 	if (project) sqlite3_bind_text(stmt, i++, cproj, -1, NULL);
 	sqlite3_bind_text(stmt, i++, cprop, -1, NULL);
-	sqlite3_bind_blob(stmt, i++, CFDataGetBytePtr(value), CFDataGetLength(value), NULL);
+	sqlite3_bind_blob(stmt, i++, CFDataGetBytePtr(value), (int)CFDataGetLength(value), NULL);
 	res = sqlite3_step(stmt);
 	if (res != SQLITE_DONE) fprintf(stderr, "%s:%d result = %d\n", __FILE__, __LINE__, res);
 	sqlite3_finalize(stmt);

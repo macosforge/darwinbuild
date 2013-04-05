@@ -35,7 +35,7 @@
 #include <unistd.h>
 
 static int run(CFArrayRef argv) {
-	int res = 0;
+	ssize_t res = 0;
 	CFIndex count = CFArrayGetCount(argv);
 	if (count > 2)  return -1;
 	int xml = 0;
@@ -58,11 +58,11 @@ static int run(CFArrayRef argv) {
 						    kCFPropertyListXMLFormat_v1_0,
 						    0,
 						    NULL);
-	  res = write(STDOUT_FILENO, CFDataGetBytePtr(data), CFDataGetLength(data));
+	  res = write(STDOUT_FILENO, CFDataGetBytePtr(data), (size_t)CFDataGetLength(data));
 	} else {
 		res = writePlist(stdout, plist, 0);
 	}
-	return res;
+	return (int)res;
 }
 
 static CFStringRef usage() {

@@ -84,7 +84,7 @@ char* calculate_digest(int fd) {
 		if (len == 0) { close(fd); break; }
 		if ((len < 0) && (errno == EINTR)) continue;
 		if (len < 0) { close(fd); return NULL; }
-		CC_SHA1_Update(&c, block, (size_t)len);
+		CC_SHA1_Update(&c, block, (CC_LONG)len);
 	}
 	
 	CC_SHA1_Final(md, &c);

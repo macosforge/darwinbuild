@@ -95,7 +95,7 @@ int loadDeps(const char* build, const char* project, const char *root) {
 		  	char fullpath[MAXPATHLEN];
 			char *type, *file;
 			struct stat sb;
-			int typesize = (intptr_t)tab - (intptr_t)line;
+			int typesize = (int)((intptr_t)tab - (intptr_t)line);
 			asprintf(&type, "%.*s", typesize, line);
 			asprintf(&file, "%.*s", (int)size - typesize - 1, tab+1);
 			if (strcmp(type, "open") == 0) {
