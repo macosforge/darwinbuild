@@ -63,7 +63,7 @@ int initialize(int version) {
 	return 0;
 }
 
-static inline int min(int a, int b) {
+static inline size_t min(size_t a, size_t b) {
         return (a < b) ? a : b;
 }
 

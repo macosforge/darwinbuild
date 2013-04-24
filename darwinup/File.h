@@ -130,9 +130,9 @@ struct File {
 	virtual uint64_t serial();
 	
 	// FILE_INFO flags.
-	virtual uint32_t info();
-	virtual void info_set(uint32_t);
-	virtual void info_clr(uint32_t);
+	virtual uint64_t info();
+	virtual void info_set(uint64_t);
+	virtual void info_clr(uint64_t);
 	
 	// Pointer to the Archive this file belongs to.
 	virtual Archive* archive();
@@ -193,7 +193,7 @@ struct File {
 	protected:
 
 	uint64_t	m_serial;
-	uint32_t	m_info;
+	uint64_t	m_info;
 	Archive*	m_archive;
 	char*		m_path;
 	mode_t		m_mode;

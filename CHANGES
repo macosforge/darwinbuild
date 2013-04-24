@@ -1,5 +1,8 @@
 Darwin Build Scripts Change History
 -----------------------------------
+Release 35 [24-Apr-2013]
+	- all: fix implicit integer conversions.
+
 Release 34.1 [14-Mar-2013]
 Release 34 [12-Mar-2013]
 	- darwintrace: avoid snprintf(3); manually construct log messages.

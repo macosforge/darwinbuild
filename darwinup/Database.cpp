@@ -606,7 +606,7 @@ int Database::sql(const char* name, const char* fmt, ...) {
 		va_list args;
 		va_start(args, fmt);
 		char* query = sqlite3_vmprintf(fmt, args);
-		int res = sqlite3_prepare_v2(m_db, query, strlen(query), &stmt, NULL);
+		int res = sqlite3_prepare_v2(m_db, query, (int)strlen(query), &stmt, NULL);
 		va_end(args);
 		if (res != SQLITE_OK) {
 			fprintf(stderr, "Error: unable to prepare statement for query: %s\n"
@@ -890,7 +890,7 @@ int Database::step_once(sqlite3_stmt* stmt, uint8_t* output, uint32_t* used) {
 			current += this->store_column(stmt, i, current);
 		}
 		if (used) {
-			*used = current - output;
+			*used = (uint32_t)(current - output);
 		}
 	}
 

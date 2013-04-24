@@ -116,7 +116,7 @@ int loadFiles(const char* buildparam, const char* path) {
 			// Look for build numbers in the comments
 			regcomp(&regex, "^[[:space:]]*#[[:space:]]*(BUILD[=[:space:]])?[[:space:]]*([^[:space:]]+)[[:space:]]*.*", REG_EXTENDED | REG_ICASE);
 			if (regexec(&regex, line, 3, matches, 0) == 0) {
-				int len = min(matches[2].rm_eo - matches[2].rm_so, PATH_MAX);
+				int len = min((int)matches[2].rm_eo - (int)matches[2].rm_so, PATH_MAX);
 				strncpy(build, line + matches[2].rm_so, len);
 				build[len] = 0;
 				skip = 1;
@@ -130,7 +130,7 @@ int loadFiles(const char* buildparam, const char* path) {
 				build[0] &&
 				regexec(&regex, line, 2, matches, 0) == 0) {
 				char path[PATH_MAX];
-				int len = min(matches[1].rm_eo - matches[1].rm_so, PATH_MAX);
+				int len = min((int)matches[1].rm_eo - (int)matches[1].rm_so, PATH_MAX);
 				strncpy(path, line + matches[1].rm_so, len);
 				path[len] = 0;
 				int res = SQL("INSERT INTO files (build,project,path) VALUES (%Q, %Q, %Q)",
@@ -146,7 +146,7 @@ int loadFiles(const char* buildparam, const char* path) {
 			regcomp(&regex, "^[[:space:]]*([^-]+).*:[[:space:]]*$", REG_EXTENDED | REG_ICASE);
 			if (!skip &&
 				regexec(&regex, line, 3, matches, 0) == 0) {
-				int len = matches[1].rm_eo - matches[1].rm_so;
+				int len = (int)matches[1].rm_eo - (int)matches[1].rm_so;
 				strncpy(project, line + matches[1].rm_so, len);
 				project[len] = 0;
 				int res = SQL("DELETE FROM files WHERE build=%Q AND project=%Q",

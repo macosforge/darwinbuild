@@ -38,7 +38,7 @@ int fts_compare(const FTSENT **a, const FTSENT **b) {
 	return strcmp((*a)->fts_name, (*b)->fts_name);
 }
 
-int ftsent_filename(FTSENT* ent, char* filename, size_t bufsiz) {
+size_t ftsent_filename(FTSENT* ent, char* filename, size_t bufsiz) {
 	if (ent == NULL) return 0;
 	if (ent->fts_level > 1) {
 		bufsiz = ftsent_filename(ent->fts_parent, filename, bufsiz);
@@ -432,7 +432,7 @@ int update_xpc_services_cache(const char* path) {
 
 #if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
 int build_number_for_path(char** build, const char* path) {
-	int res = 0;
+	ssize_t res = 0;
 	char system[PATH_MAX];
 	char* base;
 	
@@ -461,8 +461,8 @@ int build_number_for_path(char** build, const char* path) {
 	int pfd[2];
 	res = pipe(pfd);
 	if (res) {
-		fprintf(stderr, "Error: (%d) failed to create pipe.\n", res);
-		return res;
+		fprintf(stderr, "Error: (%ld) failed to create pipe.\n", res);
+		return (int)res;
 	}
 	exec_with_args_pipe(args, pfd[1]);
 	
@@ -476,11 +476,11 @@ int build_number_for_path(char** build, const char* path) {
 	}
 	close(pfd[0]);
 
-	if (res == 0) return res; // success
+	if (res == 0) return (int)res; // success
 	
 	if (res == -1) {
 		fprintf(stderr, "Error: failed to read build from plist.\n");
-		return res;
+		return (int)res;
 	}
 
 	return -1;

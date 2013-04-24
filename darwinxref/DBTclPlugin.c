@@ -53,10 +53,10 @@ Tcl_Obj* tcl_cfstr(CFStringRef cf) {
 	if (cf) {
 		CFIndex length = CFStringGetLength(cf);
 		CFIndex size = CFStringGetMaximumSizeForEncoding(length, kCFStringEncodingUnicode);
-		UniChar* buffer = (UniChar*)Tcl_Alloc(size);
+		UniChar* buffer = (UniChar*)Tcl_Alloc((unsigned int)size);
 		if (buffer) {
 			CFStringGetCharacters(cf, CFRangeMake(0, length), buffer);
-			tcl_result = Tcl_NewUnicodeObj(buffer, length);
+			tcl_result = Tcl_NewUnicodeObj(buffer, (int)length);
 			Tcl_Free((char*)buffer);
 		}
 	}
@@ -67,10 +67,10 @@ Tcl_Obj* tcl_cfdata(CFDataRef cf) {
 	Tcl_Obj* tcl_result = NULL;
 	if (cf) {
 		CFIndex length = CFDataGetLength(cf);
-		unsigned char* buffer = (unsigned char*)Tcl_Alloc(length);
+		unsigned char* buffer = (unsigned char*)Tcl_Alloc((unsigned int)length);
 		if (buffer) {
 			CFDataGetBytes(cf, CFRangeMake(0, length), (UInt8*)buffer);
-			tcl_result = Tcl_NewByteArrayObj(buffer, length);
+			tcl_result = Tcl_NewByteArrayObj(buffer, (int)length);
 			Tcl_Free((char*)buffer);
 		}
 	}
@@ -80,14 +80,14 @@ Tcl_Obj* tcl_cfdata(CFDataRef cf) {
 
 Tcl_Obj* tcl_cfarray(CFArrayRef array) {
 	Tcl_Obj** objv;
-	int i, objc = CFArrayGetCount(array);
+	CFIndex i, objc = CFArrayGetCount(array);
 	objv = (Tcl_Obj**)malloc(sizeof(Tcl_Obj*) * objc);
 	for (i = 0; i < objc; ++i) {
 		CFStringRef str = CFArrayGetValueAtIndex(array, i);
 		assert(CFGetTypeID(str) == CFStringGetTypeID());
 		objv[i] = tcl_cfstr(str);
 	}
-	Tcl_Obj* list = Tcl_NewListObj(objc, objv);
+	Tcl_Obj* list = Tcl_NewListObj((int)objc, objv);
 	return list;
 }
 

@@ -1001,7 +1001,7 @@ int Depot::uninstall_file(File* file, void* ctx) {
 					context->depot->m_modified_extensions = true;
 				}
 			}
-			uint32_t info = preceding->info();
+			uint64_t info = preceding->info();
 			if (INFO_TEST(info, FILE_INFO_NO_ENTRY | FILE_INFO_ROLLBACK_DATA) &&
 			    !INFO_TEST(info, FILE_INFO_BASE_SYSTEM)) {
 				if (!dryrun && res == 0) {
@@ -1198,13 +1198,13 @@ int Depot::list(int count, char** args) {
 			if (archive) res = this->list_archive(archive, stdout);
 		}
 	}
-	
+
 	return res;
 }
 
 int Depot::print_file(File* file, void* context) {
 	extern uint32_t verbosity;
-	if (verbosity & VERBOSE_DEBUG) fprintf((FILE*)context, "%04x ", file->info());
+	if (verbosity & VERBOSE_DEBUG) fprintf((FILE*)context, "%04llx ", file->info());
 	file->print((FILE*)context);
 	return DEPOT_OK;
 }
