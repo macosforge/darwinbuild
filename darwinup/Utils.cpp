@@ -389,6 +389,7 @@ int update_xpc_services_cache(const char* path) {
 			res = open(cachepath, O_APPEND | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 			if (res >= 0) {
 				close(res);
+				res = 0;
 			} else {
 				fprintf(stderr, "Error: (%d) failed to touch cache file.\n", errno);
 				res = errno;
