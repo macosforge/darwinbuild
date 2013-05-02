@@ -1,5 +1,8 @@
 Darwin Build Scripts Change History
 -----------------------------------
+Release 36 [2-May-2013]
+	- darwinup: fix bad return code from update_xpc_services_cache.
+
 Release 35 [24-Apr-2013]
 	- all: fix implicit integer conversions.
 

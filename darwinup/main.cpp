@@ -116,7 +116,7 @@ int main(int argc, char* argv[]) {
 #if __MAC_OS_X_VERSION_MIN_REQUIRED >= 1060
 	while ((ch = getopt(argc, argv, "dfnp:rvh")) != -1) {
 #else
-	while ((ch = getopt(argc, argv, "fnp:vh")) != -1) {		
+	while ((ch = getopt(argc, argv, "dfnp:vh")) != -1) {
 #endif
 		switch (ch) {
 		case 'd':
