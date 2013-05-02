@@ -42,6 +42,14 @@
 #include <string.h>
 #include <unistd.h>
 
+#if TARGET_OS_EMBEDDED
+# define COMPACT_SUFFIX ".tar"
+# define COMPACT_COMPRESSION ""
+#else
+# define COMPACT_SUFFIX ".tar.bz2"
+# define COMPACT_COMPRESSION "j"
+#endif
+
 extern char** environ;
 
 Archive::Archive(const char* path) {
@@ -110,11 +118,11 @@ int Archive::compact_directory(const char* prefix) {
 	char* tarpath = NULL;
 	char uuidstr[37];
 	uuid_unparse_upper(m_uuid, uuidstr);
-	asprintf(&tarpath, "%s/%s.tar.bz2", prefix, uuidstr);
+	asprintf(&tarpath, "%s/%s" COMPACT_SUFFIX, prefix, uuidstr);
 	if (tarpath) {
 		const char* args[] = {
 			"/usr/bin/tar",
-			"cjf", tarpath,
+			"cf" COMPACT_COMPRESSION, tarpath,
 			"-C", prefix,
 			uuidstr,
 			NULL
@@ -133,11 +141,11 @@ int Archive::expand_directory(const char* prefix) {
 	char* tarpath = NULL;
 	char uuidstr[37];
 	uuid_unparse_upper(m_uuid, uuidstr);
-	asprintf(&tarpath, "%s/%s.tar.bz2", prefix, uuidstr);
+	asprintf(&tarpath, "%s/%s" COMPACT_SUFFIX, prefix, uuidstr);
 	if (tarpath) {
 		const char* args[] = {
 			"/usr/bin/tar",
-			"xjf", tarpath,
+			"xf" COMPACT_COMPRESSION, tarpath,
 			"-C", prefix,
 			"-p",	// --preserve-permissions
 			NULL
@@ -151,6 +159,19 @@ int Archive::expand_directory(const char* prefix) {
 	return res;
 }
 
+int Archive::prune_compacted_archive(const char* prefix) {
+	int res = 0;
+	char* tarpath = NULL;
+	char uuidstr[37];
+	uuid_unparse_upper(m_uuid, uuidstr);
+	asprintf(&tarpath, "%s/%s" COMPACT_SUFFIX, prefix, uuidstr);
+	if (tarpath) {
+		res = unlink(tarpath);
+		if (res) perror(tarpath);
+		free(tarpath);
+	}
+	return res;
+}
 
 int Archive::extract(const char* destdir) {
 	// not implemented

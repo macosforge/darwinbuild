@@ -34,6 +34,7 @@
 #define _ARCHIVE_H
 
 #include <Availability.h>
+#include <TargetConditionals.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <sys/types.h>
@@ -100,7 +101,7 @@ struct Archive {
 	
 	// the OS build this archive was installed onto
 	virtual const char* build();
-	
+
 	// ARCHIVE_INFO flags.
 	virtual uint64_t info();
 	
@@ -131,6 +132,9 @@ struct Archive {
 	
 	// Expands the backing-store directory from its single file.
 	int expand_directory(const char* prefix);
+
+	// Removes the compacted backing-store file from disk.
+	int prune_compacted_archive(const char* prefix);
 
 	protected:
 

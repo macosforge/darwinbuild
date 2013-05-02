@@ -915,13 +915,7 @@ int Depot::prune_archive(Archive* archive) {
 	}
 	
 	// clean up disk
-	char path[PATH_MAX];
-	char uuid[37];
-	uuid_unparse_upper(archive->uuid(), uuid);
-	if (res == 0) snprintf(path, PATH_MAX, "%s/%s.tar.bz2", m_archives_path, uuid);
-	if (res == 0) res = unlink(path);
-	if (res) perror(path);
-	
+	res = archive->prune_compacted_archive(m_archives_path);
 	return res;
 }
 
