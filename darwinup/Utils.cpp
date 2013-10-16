@@ -135,8 +135,8 @@ int is_url_path(const char* path) {
 
 int is_userhost_path(const char* path) {
 	// look for user@host:path
-	char *at = strchr(path, '@');
-	char *colon = strchr(path, ':');
+	const char *at = strchr(path, '@');
+	const char *colon = strchr(path, ':');
 	return at && colon && at < colon;	
 }
 

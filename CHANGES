@@ -1,5 +1,8 @@
 Darwin Build Scripts Change History
 -----------------------------------
+Release 37 [16-Oct-2013]
+	- darwinup: fix C++ 98 conformance issue
+
 Release 36 [2-May-2013]
 	- darwinup: fix bad return code from update_xpc_services_cache.
 	- darwinup: don't run bzip2 compression on (limited cpu) embedded devices.
