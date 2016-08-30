@@ -1,0 +1,36 @@
+Index: 9A581.plist
+===================================================================
+--- 9A581.plist	(revision 361)
++++ 9A581.plist	(working copy)
+@@ -3090,6 +3090,7 @@
+ 		Libc = {
+ 			dependencies = {
+ 				build = (
++					CarbonHeaders,
+ 					CoreOSMakefiles,
+ 					bash,
+ 					bootstrap_cmds,
+@@ -3102,6 +3103,7 @@
+ 					gnumake,
+ 					grep,
+ 					misc_cmds,
++					perl,
+ 					shell_cmds,
+ 					system_cmds,
+ 					text_cmds,
+@@ -3130,6 +3132,7 @@
+ 		Libc_debug = {
+ 			dependencies = {
+ 				build = (
++					CarbonHeaders,
+ 					CoreOSMakefiles,
+ 					bash,
+ 					bootstrap_cmds,
+@@ -3142,6 +3145,7 @@
+ 					gnumake,
+ 					grep,
+ 					misc_cmds,
++					perl,
+ 					shell_cmds,
+ 					system_cmds,
+ 					text_cmds,

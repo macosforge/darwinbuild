@@ -1,0 +1,161 @@
+Only in .: SecurityTool-36576.MacTypes.patch
+Common subdirectories: ../SecurityTool-36576-orig/SecurityTool.xcodeproj and ./SecurityTool.xcodeproj
+diff -c ../SecurityTool-36576-orig/access_utils.c ./access_utils.c
+*** ../SecurityTool-36576-orig/access_utils.c	2009-01-26 05:59:15.000000000 +0100
+--- ./access_utils.c	2010-02-28 11:56:41.000000000 +0100
+***************
+*** 30,35 ****
+--- 30,41 ----
+  #include <Security/SecAccess.h>
+  #include <Security/SecACL.h>
+  
++ // noErr
++ #include <CoreServices/../Frameworks/CarbonCore.framework/Headers/MacTypes.h>
++ 
+  // create_access
+  //
+  // This function creates a SecAccessRef with an array of trusted applications.
+diff -c ../SecurityTool-36576-orig/cmsutil.c ./cmsutil.c
+*** ../SecurityTool-36576-orig/cmsutil.c	2009-01-26 05:59:16.000000000 +0100
+--- ./cmsutil.c	2010-02-28 11:32:24.000000000 +0100
+***************
+*** 77,82 ****
+--- 77,85 ----
+  // SecIdentitySearchCreateWithPolicy
+  #include <Security/SecIdentitySearchPriv.h>
+  
++ // noErr
++ #include <CoreServices/../Frameworks/CarbonCore.framework/Headers/MacTypes.h>
++ 
+  #define SEC_CHECK0(CALL, ERROR) do { if (!(CALL)) { sec_error(ERROR); goto loser; } } while(0)
+  #define SEC_CHECK(CALL, ERROR) do { rv = (CALL); if (rv) { sec_perror(ERROR, rv); goto loser; } } while(0)
+  #define SEC_CHECK2(CALL, ERROR, ARG) do { rv = CALL; if (rv) \
+diff -c ../SecurityTool-36576-orig/identity_find.c ./identity_find.c
+*** ../SecurityTool-36576-orig/identity_find.c	2009-01-26 05:59:16.000000000 +0100
+--- ./identity_find.c	2010-02-28 11:56:37.000000000 +0100
+***************
+*** 47,52 ****
+--- 47,54 ----
+  // SecIdentitySearchCreateWithPolicy
+  #include <Security/SecIdentitySearchPriv.h>
+  
++ // noErr
++ #include <CoreServices/../Frameworks/CarbonCore.framework/Headers/MacTypes.h>
+  
+  SecIdentityRef
+  find_identity(CFTypeRef keychainOrArray,
+diff -c ../SecurityTool-36576-orig/keychain_add.c ./keychain_add.c
+*** ../SecurityTool-36576-orig/keychain_add.c	2009-01-26 05:59:16.000000000 +0100
+--- ./keychain_add.c	2010-02-28 11:30:52.000000000 +0100
+***************
+*** 43,48 ****
+--- 43,49 ----
+  // SecTrustedApplicationCreateApplicationGroup
+  #include <Security/SecTrustedApplicationPriv.h>
+  
++ #include <CoreServices/../Frameworks/CarbonCore.framework/Headers/MacTypes.h>
+  
+  static int
+  do_update_generic_password(const char *keychainName,
+diff -c ../SecurityTool-36576-orig/keychain_delete.c ./keychain_delete.c
+*** ../SecurityTool-36576-orig/keychain_delete.c	2009-01-26 05:59:15.000000000 +0100
+--- ./keychain_delete.c	2010-02-28 11:32:58.000000000 +0100
+***************
+*** 33,38 ****
+--- 33,41 ----
+  #include <Security/SecKeychainItem.h>
+  #include <Security/SecTrustSettings.h>
+  
++ // noErr
++ #include <CoreServices/../Frameworks/CarbonCore.framework/Headers/MacTypes.h>
++ 
+  static int
+  do_delete(CFTypeRef keychainOrArray)
+  {
+diff -c ../SecurityTool-36576-orig/keychain_export.c ./keychain_export.c
+*** ../SecurityTool-36576-orig/keychain_export.c	2009-01-16 17:35:34.000000000 +0100
+--- ./keychain_export.c	2010-02-28 11:32:51.000000000 +0100
+***************
+*** 40,45 ****
+--- 40,48 ----
+  #include <CoreFoundation/CoreFoundation.h>
+  #include <stdio.h>
+  
++ // noErr
++ #include <CoreServices/../Frameworks/CarbonCore.framework/Headers/MacTypes.h>
++ 
+  typedef enum {
+  	IS_Certs,
+  	IS_AllKeys,
+diff -c ../SecurityTool-36576-orig/keychain_find.c ./keychain_find.c
+*** ../SecurityTool-36576-orig/keychain_find.c	2009-01-26 05:59:15.000000000 +0100
+--- ./keychain_find.c	2010-02-28 11:31:37.000000000 +0100
+***************
+*** 42,47 ****
+--- 42,49 ----
+  // SecDigestGetData, SecKeychainSearchCreateForCertificateByEmail, SecCertificateFindByEmail
+  #include <Security/SecCertificatePriv.h>
+  
++ // noErr
++ #include <CoreServices/../Frameworks/CarbonCore.framework/Headers/MacTypes.h>
+  
+  //	find_first_generic_password
+  //
+diff -c ../SecurityTool-36576-orig/keychain_import.c ./keychain_import.c
+*** ../SecurityTool-36576-orig/keychain_import.c	2009-01-26 06:46:33.000000000 +0100
+--- ./keychain_import.c	2010-02-28 11:31:55.000000000 +0100
+***************
+*** 42,47 ****
+--- 42,50 ----
+  // SecTrustedApplicationCreateApplicationGroup
+  #include <Security/SecTrustedApplicationPriv.h>
+  
++ // noErr
++ #include <CoreServices/../Frameworks/CarbonCore.framework/Headers/MacTypes.h>
++ 
+  #define KC_IMPORT_KEY_PASSWORD_MESSAGE      CFSTR("Enter the password for \"%1$@\":")
+  #define KC_IMPORT_KEY_PASSWORD_RETRYMESSAGE CFSTR("Sorry, you entered an invalid password.\n\nEnter the password for \"%1$@\":")
+  
+diff -c ../SecurityTool-36576-orig/keychain_utilities.c ./keychain_utilities.c
+*** ../SecurityTool-36576-orig/keychain_utilities.c	2009-01-26 05:59:16.000000000 +0100
+--- ./keychain_utilities.c	2010-02-28 11:35:54.000000000 +0100
+***************
+*** 41,46 ****
+--- 41,48 ----
+  // SecTrustedApplicationValidateWithPath
+  #include <Security/SecTrustedApplicationPriv.h>
+  
++ // noErr
++ #include <CoreServices/../Frameworks/CarbonCore.framework/Headers/MacTypes.h>
+  
+  void check_obsolete_keychain(const char *kcName)
+  {
+diff -c ../SecurityTool-36576-orig/trusted_cert_add.c ./trusted_cert_add.c
+*** ../SecurityTool-36576-orig/trusted_cert_add.c	2009-02-13 05:10:33.000000000 +0100
+--- ./trusted_cert_add.c	2010-02-28 11:36:12.000000000 +0100
+***************
+*** 92,97 ****
+--- 92,100 ----
+  #include <security_cdsa_utils/cuFileIo.h>
+  #include <CoreFoundation/CoreFoundation.h>
+  
++ // noErr
++ #include <CoreServices/../Frameworks/CarbonCore.framework/Headers/MacTypes.h>
++ 
+  /* r/w files as CFData */
+  static CFDataRef readFileData(
+  	const char *fileName)
+diff -c ../SecurityTool-36576-orig/trusted_cert_dump.c ./trusted_cert_dump.c
+*** ../SecurityTool-36576-orig/trusted_cert_dump.c	2009-01-26 05:59:15.000000000 +0100
+--- ./trusted_cert_dump.c	2010-02-28 11:37:15.000000000 +0100
+***************
+*** 38,43 ****
+--- 38,45 ----
+  // SecCertificateInferLabel
+  #include <Security/SecCertificatePriv.h>
+  
++ // noErr
++ #include <CoreServices/../Frameworks/CarbonCore.framework/Headers/MacTypes.h>
+  
+  /* print cert's label (the one SecCertificate infers) */
+  static OSStatus printCertLabel(

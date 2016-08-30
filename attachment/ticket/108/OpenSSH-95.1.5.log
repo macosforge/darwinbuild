@@ -1,0 +1,140 @@
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+BUILDING OpenSSH-95.1.5~1 on Mon Dec 14 00:58:54 PST 2009
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Build configuration:
+    Build host:           integritas
+    Build tool:           make
+    Build action:         install
+    Build number:         9L30
+    Host kernel version:  Darwin Kernel Version 9.8.0: Wed Jul 15 16:55:01 PDT 2009; root:xnu-1228.15.4~1/RELEASE_I386
+    cc version:           gcc version 4.0.1 (Apple Inc. build 5465)
+    cctools version:      version cctools-667.3.obj, GNU assembler version 1.38
+    make version:         GNU Make 3.81
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Build parameters:
+SRCROOT: /SourceCache/OpenSSH/OpenSSH-95.1.5
+OBJROOT: /private/var/tmp/OpenSSH/OpenSSH-95.1.5.obj
+SYMROOT: /private/var/tmp/OpenSSH/OpenSSH-95.1.5.sym
+DSTROOT: /private/var/tmp/OpenSSH/OpenSSH-95.1.5.root
+RC_ProjectName: OpenSSH
+RC_ProjectSourceVersion: 95.1.5
+RC_ProjectNameAndSourceVersion: OpenSSH-95.1.5
+RC_ProjectBuildVersion: 1
+INSTALLED_PRODUCT_ASIDES: YES
+MACOSX_DEPLOYMENT_TARGET: 10.5
+NEXT_ROOT: 
+RC_ARCHS: ppc i386
+RC_CFLAGS: -pipe -no-cpp-precomp -arch ppc -arch i386
+RC_JASPER: YES
+RC_NONARCH_CFLAGS: -pipe -no-cpp-precomp
+RC_OS: macos
+RC_PRIVATE: /private
+RC_RELEASE: Leopard
+RC_XBS: YES
+RC_i386: YES
+RC_ppc: YES
+SEPARATE_STRIP: YES
+UNAME_RELEASE: 9.0
+UNAME_SYSNAME: Darwin
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Environment variables:
+CHROOTED=YES
+DARWINBUILD_BUILD=9L30
+DARWINXREF_DB_FILE=/usr/local/src/Darwin/9L30/.build/xref.db
+DARWIN_BUILDROOT=/usr/local/src/Darwin/9L30
+DEVELOPER_DIR=/XCD/loper
+DSTROOT=/private/var/tmp/OpenSSH/OpenSSH-95.1.5.root
+GROUP=wheel
+HOME=/var/root
+INSTALLED_PRODUCT_ASIDES=YES
+LOGNAME=root
+MACOSX_DEPLOYMENT_TARGET=10.5
+NEXT_ROOT=
+OBJROOT=/private/var/tmp/OpenSSH/OpenSSH-95.1.5.obj
+PATH=/bin:/sbin:/usr/bin:/usr/sbin/:/usr/local/bin:/usr/local/sbin
+RC_ARCHS=ppc i386
+RC_CFLAGS=-pipe -no-cpp-precomp -arch ppc -arch i386
+RC_JASPER=YES
+RC_NONARCH_CFLAGS=-pipe -no-cpp-precomp
+RC_OS=macos
+RC_PRIVATE=/private
+RC_ProjectBuildVersion=1
+RC_ProjectName=OpenSSH
+RC_ProjectNameAndSourceVersion=OpenSSH-95.1.5
+RC_ProjectSourceVersion=95.1.5
+RC_RELEASE=Leopard
+RC_XBS=YES
+RC_i386=YES
+RC_ppc=YES
+SEPARATE_STRIP=YES
+SHELL=/bin/sh
+SRCROOT=/SourceCache/OpenSSH/OpenSSH-95.1.5
+SYMROOT=/private/var/tmp/OpenSSH/OpenSSH-95.1.5.sym
+UNAME_RELEASE=9.0
+UNAME_SYSNAME=Darwin
+USER=root
+_=/usr/bin/printenv
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Installed Roots:
+CFOpenDirectory      -> 0c25a0dcfa180bfd26f5b6275cc39ce4df39771a
+CoreOSMakefiles      -> dbb4977317027267e5762604b18f05a0198c0b74
+Csu                  -> 1c2236c2e36fdcafc65a8cbd95c7f049e923d475
+DirectoryService     -> 9b30cda900f9571127fa359684145a36a83e11dc
+Kerberos             -> 11f6e1910bbf4334a5e450e84911b8f0984c5662
+LDAPFramework        -> c133b9453caeab300469aebc0ae61d633f4e22ad
+Libc_headers.hdrs    -> 79404e2baf06178e59fa7e73872df6e675d73c4b
+Libinfo.hdrs         -> d911bb129983e481e35aff8a22e1d01782c93a41
+Libm                 -> 7d90dffecd558d133aa75cd2a872621ca1c47b17
+Libnotify.hdrs       -> d924dec66fc451b81311a91a9ba6486f694f1363
+Libsyscall.hdrs      -> 58c55499f7775c39dba8d7954a93d2619e37f90a
+Libsystem            -> ae3fbce2fe5e9793ee9d669a3aa4fccee29baceb
+SystemStubs          -> 0541c508a94818cc7597ae78b1349b05a94cbdf8
+adv_cmds             -> 5f58a79967ff079812ce43ceefc2cf8f8c4d82f4
+architecture.hdrs    -> ea808a324c8d2457bc55189150aa8ec52df00e0e
+awk                  -> 329413f98676bc5a74b1516e08d19fed541ed70f
+bash                 -> aa535fae9e6986ba91773a789aa901d69f650305
+bootstrap_cmds       -> b21930681ec13f1bb229fa52273f4663c7e1ef6a
+bsm                  -> c18bd0abba6b8953085578b8907ff364a14903a1
+cctools              -> 2770299750486b09b5f1b294c6ce2419bef4730c
+cctools_ofiles.hdrs  -> c49dc08e6e96fddb4d4fad03548c1fbb9ed022c8
+configd              -> 7b77acaf740ab406db8593c00222737fdd788abf
+copyfile.hdrs        -> 069d487377595c5ef28ce3d294fba044e7fffacb
+dyld                 -> 871994f59d8d9619bcf31259b1922f7c5389f2e0
+file_cmds            -> 479e72f694fdaa20be9fa059ff2e77edd466b789
+files                -> a74e16641ecb587a36abf2e6f2c4467da1700af8
+gcc                  -> f1055f8d81cb32b211737f2274a9cc89cf7665ee
+gcc_select           -> 12bd4cbda14709c1ffd5fdce69547cd1636bc48d
+gnudiff              -> 04db61d6f555f5469edf1afe5d7175cffcc737b0
+gnumake              -> 5608039be88517611b35e7694b7b015c1209adb5
+gnuzip               -> 1894b28e5a7e52387a49144ed02a29e08ab819b9
+grep                 -> 12ddd47198f46f409870334122b3cc22385c6683
+groff                -> c734d0077bde390f9fd13ba6441d24cacafe05a1
+launchd              -> c151fad6c53ac5ae6b9c099f1e72189b13610326
+ld64                 -> 1d3edd0681f31e544d59b4301cb7fa7a0f3fd283
+libdyld              -> 79ee99ec7f3e8b3f7f0b2712ce7ca62e92f8bf8a
+libgcc               -> 92f5a0e69750f372edd7980cc559a17cb862e7d8
+libiconv             -> 5af87457c8c411fb0354a4a76bebb303c25f0cec
+libresolv            -> 6c9ec0e8a7ca78c8735b192ee1bdc5d18fefd549
+libstdcxx            -> d23396753f76e4e57fe134cb59e327c71bd81fb7
+libutil              -> efb446b4ef8f332d28a785b281f231024d1d4115
+ncurses              -> 49e2dec29d18c48d5b2ac3bdb652773bfba3ac53
+pam                  -> 1cdc9b0d6a88d4840ef9ac3259c9c328886e8a4d
+passwordserver_sasl  -> 2cfb6a96d895122824585edfab47bd8e84b821bf
+perl                 -> 5ed9fcbe6002c17dd21891b4e9f59154745e803c
+shell_cmds           -> 7ee6f073866bbef056089798c00ac9c583d4bc76
+system_cmds          -> 49995c8c994c4c7f24260ff8ccb7f4d06170d475
+tcp_wrappers         -> 232bcdd8cf681612577f6e7445e965c43e669530
+text_cmds            -> c87266a4f64676b995012eaa2a1e3e18e94269c7
+xnu.hdrs             -> 0ce4cdf2b8dd7f0c6e463814b64bbd9dbd6cac49
+zlib                 -> 91e931224468ad0e24c36c35620125fcb3f1ad1a
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+make install  "SRCROOT=/SourceCache/OpenSSH/OpenSSH-95.1.5" "OBJROOT=/private/var/tmp/OpenSSH/OpenSSH-95.1.5.obj" "SYMROOT=/private/var/tmp/OpenSSH/OpenSSH-95.1.5.sym" "DSTROOT=/private/var/tmp/OpenSSH/OpenSSH-95.1.5.root" "RC_ProjectName=OpenSSH" "RC_ProjectSourceVersion=95.1.5" "RC_ProjectNameAndSourceVersion=OpenSSH-95.1.5" "RC_ProjectBuildVersion=1" "INSTALLED_PRODUCT_ASIDES=YES" "MACOSX_DEPLOYMENT_TARGET=10.5" "NEXT_ROOT=" "RC_ARCHS=ppc i386" "RC_CFLAGS=-pipe -no-cpp-precomp -arch ppc -arch i386" "RC_JASPER=YES" "RC_NONARCH_CFLAGS=-pipe -no-cpp-precomp" "RC_OS=macos" "RC_PRIVATE=/private" "RC_RELEASE=Leopard" "RC_XBS=YES" "RC_i386=YES" "RC_ppc=YES" "SEPARATE_STRIP=YES" "UNAME_RELEASE=9.0" "UNAME_SYSNAME=Darwin" < /dev/null
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Build log begins here:
+
+Error: TargetConfig not defined
+make: *** [_targetconfig] Error 1
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ BUILD TIME: 0h 0m 0s
+EXIT STATUS: 2

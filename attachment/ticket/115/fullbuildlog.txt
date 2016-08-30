@@ -1,0 +1,371 @@
+hugh@clau-solace:~ $ cd 10C540/
+hugh@clau-solace:~/10C540 $ sudo -s
+root@clau-solace:~/10C540 # darwinbuild -init 10C540
+Creating build root disk image ...
+Downloading http://svn.macosforge.org/repository/darwinbuild/trunk/plists//10C540.plist ...
+Download complete
+Downloading http://svn.macosforge.org/repository/darwinbuild/trunk/plists//10B504.plist ...
+Download complete
+Downloading http://svn.macosforge.org/repository/darwinbuild/trunk/plists//10A432.plist ...
+Download complete
+Initialization Complete
+root@clau-solace:~/10C540 $ darwinbuild OpenSSH
+*** Attaching build root disk image ...
+/dev/disk2          	GUID_partition_scheme          	
+/dev/disk2s1        	EFI                            	
+/dev/disk2s2        	Apple_HFS                      	/Volumes/BuildRoot_10C540_20100327185513
+*** Fetching Sources ...
+Downloading http://src.macosforge.org/Projects//OpenSSH-142.tar.gz ...
+Download complete
+*** Copying Sources ...
+*** Installing Roots ...
+Downloading http://src.macosforge.org/Roots/10C540//files.root.tar.gz ...
+Download complete
+files - 75 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//bash.root.tar.gz ...
+Download complete
+bash - 23 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//Libsystem.root.tar.gz ...
+Download complete
+Libsystem - 30 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//Libm.root.tar.gz ...
+Downloading http://src.macosforge.org/Roots/10B504//Libm.root.tar.gz ...
+Downloading http://src.macosforge.org/Roots/10A432//Libm.root.tar.gz ...
+Download complete
+Libm - 291 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//dyld.root.tar.gz ...
+Download complete
+dyld - 3 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//libiconv.root.tar.gz ...
+Download complete
+libiconv - 22 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//ncurses.root.tar.gz ...
+Download complete
+ncurses - 3307 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//Csu.root.tar.gz ...
+Download complete
+Csu - 11 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//CF.root.tar.gz ...
+Downloading http://src.macosforge.org/Roots/10B504//CF.root.tar.gz ...
+Downloading http://src.macosforge.org/Roots/10A432//CF.root.tar.gz ...
+Download complete
+CF - 64 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//ICU.root.tar.gz ...
+Download complete
+ICU - 134 files registered.
+Libsystem already loaded and no newer roots have been built.
+Libm already loaded and no newer roots have been built.
+Downloading http://src.macosforge.org/Roots/10C540//libstdcxx.root.tar.gz ...
+Downloading http://src.macosforge.org/Roots/10B504//libstdcxx.root.tar.gz ...
+Downloading http://src.macosforge.org/Roots/10A432//libstdcxx.root.tar.gz ...
+Download complete
+libstdcxx - 622 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//objc4.root.tar.gz ...
+Download complete
+objc4 - 25 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//autozone.root.tar.gz ...
+Download complete
+autozone - 5 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//OpenDirectory.root.tar.gz ...
+Download complete
+OpenDirectory - 17 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//OpenSSL098.root.tar.gz ...
+Download complete
+OpenSSL098 - 1055 files registered.
+dyld already loaded and no newer roots have been built.
+Downloading http://src.macosforge.org/Roots/10C540//zlib.root.tar.gz ...
+Download complete
+zlib - 11 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//Security.root.tar.gz ...
+Downloading http://src.macosforge.org/Roots/10B504//Security.root.tar.gz ...
+Downloading http://src.macosforge.org/Roots/10A432//Security.root.tar.gz ...
+Download complete
+Security - 153 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//SQLite.root.tar.gz ...
+Download complete
+SQLite - 10 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//libedit.root.tar.gz ...
+Download complete
+libedit - 40 files registered.
+ncurses already loaded and no newer roots have been built.
+Downloading http://src.macosforge.org/Roots/10C540//libresolv.root.tar.gz ...
+Download complete
+libresolv - 25 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//tcp_wrappers.root.tar.gz ...
+Download complete
+tcp_wrappers - 21 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//CFOpenDirectory.root.tar.gz ...
+Download complete
+CFOpenDirectory - 16 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//DSPasswordServerFramework.root.tar.gz ...
+Download complete
+DSPasswordServerFramework - 55 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//configd.root.tar.gz ...
+Download complete
+configd - 48 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//passwordserver_sasl.root.tar.gz ...
+Download complete
+passwordserver_sasl - 68 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//DirectoryService.root.tar.gz ...
+Download complete
+DirectoryService - 72 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//IOKitUser.root.tar.gz ...
+Download complete
+IOKitUser - 70 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//libkxld.root.tar.gz ...
+Download complete
+libkxld - 5 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//CPANInternal.root.tar.gz ...
+Download complete
+CPANInternal - 1537 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//TargetConfig.root.tar.gz ...
+Download complete
+TargetConfig - 13 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//adv_cmds.root.tar.gz ...
+Download complete
+adv_cmds - 36 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//libutil.root.tar.gz ...
+Download complete
+libutil - 20 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//awk.root.tar.gz ...
+Download complete
+awk - 6 files registered.
+bash already loaded and no newer roots have been built.
+libiconv already loaded and no newer roots have been built.
+Downloading http://src.macosforge.org/Roots/10C540//bootstrap_cmds.root.tar.gz ...
+Download complete
+bootstrap_cmds - 9 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//cctools.root.tar.gz ...
+Download complete
+cctools - 82 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//file_cmds.root.tar.gz ...
+Download complete
+file_cmds - 68 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//gnudiff.root.tar.gz ...
+Download complete
+gnudiff - 13 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//gnumake.root.tar.gz ...
+Download complete
+gnumake - 43 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//gnuzip.root.tar.gz ...
+Download complete
+gnuzip - 32 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//grep.root.tar.gz ...
+Download complete
+grep - 25 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//groff.root.tar.gz ...
+Download complete
+groff - 405 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//ld64.root.tar.gz ...
+Download complete
+ld64 - 12 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//perl.root.tar.gz ...
+Download complete
+perl - 5107 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//shell_cmds.root.tar.gz ...
+Download complete
+shell_cmds - 211 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//system_cmds.root.tar.gz ...
+Download complete
+system_cmds - 690 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//Libinfo.root.tar.gz ...
+Download complete
+Libinfo - 247 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//text_cmds.root.tar.gz ...
+Download complete
+text_cmds - 70 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//CoreOSMakefiles.root.tar.gz ...
+Download complete
+CoreOSMakefiles - 33 files registered.
+*** Installing Headers ...
+Downloading http://src.macosforge.org/Roots/10C540//CarbonHeaders.hdrs.tar.gz ...
+Download complete
+CarbonHeaders - 28 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//Libc_headers.hdrs.tar.gz ...
+Download complete
+Libc_headers - 154 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//Libsyscall.hdrs.tar.gz ...
+Download complete
+Libsyscall - 35 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//architecture.hdrs.tar.gz ...
+Download complete
+architecture - 60 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//cctools_ofiles.hdrs.tar.gz ...
+Download complete
+cctools_ofiles - 33 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//copyfile.hdrs.tar.gz ...
+Download complete
+copyfile - 3 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//launchd_libs.hdrs.tar.gz ...
+Downloading http://src.macosforge.org/Roots/10C540//launchd_libs.root.tar.gz ...
+Download complete
+launchd_libs - 14 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//libdispatch.hdrs.tar.gz ...
+Download complete
+libdispatch - 16 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//libdyld.hdrs.tar.gz ...
+Downloading http://src.macosforge.org/Roots/10C540//libdyld.root.tar.gz ...
+Download complete
+libdyld - 19 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//xnu.hdrs.tar.gz ...
+Download complete
+xnu - 2023 files registered.
+*** Mounting special filesystems ...
+Mounting devfs ...
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+BUILDING OpenSSH-142~1 on Sat Mar 27 12:06:31 PDT 2010
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Build configuration:
+    Build host:           clau-solace
+    Build tool:           make
+    Build action:         install
+    Build number:         10C540
+    Host kernel version:  Darwin Kernel Version 10.2.0: Tue Nov  3 10:35:19 PST 2009; root:xnu-1486.2.11~1/RELEASE_X86_64
+    cc version:           private/var/tmp/OpenSSH/build-OpenSSH-142~1.sh: line 11: gcc: command not found
+    cctools version:      ools-750.obj, GNU assembler version 1.38
+    make version:         GNU Make 3.81
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Build parameters:
+SRCROOT: /SourceCache/OpenSSH/OpenSSH-142
+OBJROOT: /private/var/tmp/OpenSSH/OpenSSH-142.obj
+SYMROOT: /private/var/tmp/OpenSSH/OpenSSH-142.sym
+DSTROOT: /private/var/tmp/OpenSSH/OpenSSH-142.root
+RC_ProjectName: OpenSSH
+RC_ProjectSourceVersion: 142
+RC_ProjectNameAndSourceVersion: OpenSSH-142
+RC_ProjectBuildVersion: 1
+INSTALLED_PRODUCT_ASIDES: YES
+MACOSX_DEPLOYMENT_TARGET: 10.6
+NEXT_ROOT: 
+RC_ARCHS: i386 x86_64
+RC_CFLAGS: -pipe -arch i386 -arch x86_64
+RC_JASPER: YES
+RC_NONARCH_CFLAGS: -pipe
+RC_OS: macos
+RC_PRIVATE: /private
+RC_RELEASE: SnowLeopard
+RC_TARGET_CONFIG: MacOSX
+RC_XBS: YES
+RC_i386: YES
+RC_x86_64: YES
+SEPARATE_STRIP: YES
+UNAME_RELEASE: 10.0
+UNAME_SYSNAME: Darwin
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Environment variables:
+DARWINBUILD_BUILD=10C540
+DARWINXREF_DB_FILE=/Users/hugh/10C540/.build/xref.db
+DARWIN_BUILDROOT=/Users/hugh/10C540
+DSTROOT=/private/var/tmp/OpenSSH/OpenSSH-142.root
+GROUP=wheel
+HOME=/var/root
+INSTALLED_PRODUCT_ASIDES=YES
+INSTALL_XCODE=NO
+LOGNAME=root
+MACOSX_DEPLOYMENT_TARGET=10.6
+NEXT_ROOT=
+OBJROOT=/private/var/tmp/OpenSSH/OpenSSH-142.obj
+PATH=/bin:/sbin:/usr/bin:/usr/sbin/:/usr/local/bin:/usr/local/sbin
+RC_ARCHS=i386 x86_64
+RC_CFLAGS=-pipe -arch i386 -arch x86_64
+RC_JASPER=YES
+RC_NONARCH_CFLAGS=-pipe
+RC_OS=macos
+RC_PRIVATE=/private
+RC_ProjectBuildVersion=1
+RC_ProjectName=OpenSSH
+RC_ProjectNameAndSourceVersion=OpenSSH-142
+RC_ProjectSourceVersion=142
+RC_RELEASE=SnowLeopard
+RC_TARGET_CONFIG=MacOSX
+RC_XBS=YES
+RC_i386=YES
+RC_x86_64=YES
+SEPARATE_STRIP=YES
+SHELL=/bin/sh
+SRCROOT=/SourceCache/OpenSSH/OpenSSH-142
+SYMROOT=/private/var/tmp/OpenSSH/OpenSSH-142.sym
+UNAME_RELEASE=10.0
+UNAME_SYSNAME=Darwin
+USER=root
+USE_CHROOT=YES
+_=/usr/bin/printenv
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Installed Roots:
+CF                   -> 607fe2316957248f3835cfc440d0a3f378103509
+CFOpenDirectory      -> 34096c77209d47b67b9777a22992f40e0b62c321
+CPANInternal         -> 991ef86e57311bc7bcc257f45783808ea002d16c
+CarbonHeaders.hdrs   -> d51624a603f17fb0b5ab621f01b780f270e9c1b4
+CoreOSMakefiles      -> 4bbe2eb315a2deb0d1acc050de675d0da80d5a6d
+Csu                  -> 128e865cfe79a20ebf564be87c25517e574be2a5
+DSPasswordServerFramework -> 465bbedb761f2d406781373fdb37306442eedaa9
+DirectoryService     -> b87589e18f060b6fbf33ec2c633790c4977aa54b
+ICU                  -> 43b4c1ab65af62236a933e273d2cc6dc48964005
+IOKitUser            -> d7a6c90bec4238c80ac64d52660a21e3cb9e607b
+Libc_headers.hdrs    -> 91f8ad4df1f04601c1aeaafc4b6d97ab19b97d27
+Libinfo              -> 39fb5199d349fb8dbe6df693731cbdd7cc52a5e3
+Libm                 -> a0c2941e018392e6cc1f9f9cb6b948b69d20939b
+Libsyscall.hdrs      -> 2add12b9a65aeaffba7ea2a733489cfc87703a1f
+Libsystem            -> c57b926b58d360da6e122b00634778dd5d39494b
+OpenDirectory        -> b246fb27ca883e36f2167d6d95807995a8ffbc2a
+OpenSSL098           -> a2a2cd9bca741094512c8474881fe08b4f639eed
+SQLite               -> 890101148d01050323e023e8f2f4d677ca558fde
+Security             -> 0b41222d76e793969906f93cccb4423eec20f0c3
+TargetConfig         -> 4c84478d93a03c14756de677130d59556ab8c16a
+adv_cmds             -> 9a13fae54a7152f5b7887de470a82639a70b77b5
+architecture.hdrs    -> a571bea7858ef2c6d87105135b3f0ed5378ffb7c
+autozone             -> c4e49a36c86c171fba1db17124e2c4e4609fd0ab
+awk                  -> 7ef123c64963fa0d51cb23966f4109e974dba461
+bash                 -> ecc10b62b2fcf9996d35b7aa19516c6d04bfb024
+bootstrap_cmds       -> 05ed81722193804e8a3e29a3e29739a14db9b1cd
+cctools              -> f4414f7ffe5ab38787a4beb228d6b9fa4043ac00
+cctools_ofiles.hdrs  -> 346c709884b6fffa28b01718b8b89d6e51046507
+configd              -> e2621707a03968f7b3f71d6c34c1be074f914b40
+copyfile.hdrs        -> 9d61e0f80588c04a8ed45023e071947324db82e2
+dyld                 -> 7e844b85afb68794a338cd8f8a4621587e39b17e
+file_cmds            -> 96b5631dd997c47c46e15cc67d2b1e9c2cee6efb
+files                -> 90fda1e54f61d1673fa57b16e0ab5ca1e90eaaa2
+gnudiff              -> 2be4f77abf4943b07ccb19304aeb170b2ae233c6
+gnumake              -> 28f08f931ecae9e81347c6c178cecb93fa847be8
+gnuzip               -> f1dad4ac7b4c27e4a2217d7cd78c046443ce6398
+grep                 -> ffe527b997978ae1147d96b632d825f0138fafd2
+groff                -> 9dae8c70c82298e7b07722de459a08fdd25b2dd5
+launchd_libs         -> 9181a78bc0a4e945cbbc632dc511a3673d931d3c
+ld64                 -> a0678e53bbdb41d1cee5b5b846899d510d7d1b49
+libdispatch.hdrs     -> 550abda67335822b0773efe1040198ad9d7f444d
+libdyld              -> 2b679afcdf5431cf6a101eecc6e9df32bb5af596
+libedit              -> 34ec53b5b52ce5445fab574a794d5ffc01c6dbcc
+libiconv             -> a4d7a38843d03227f60d219cd1c1d393071b25f3
+libkxld              -> 57b091bfb44facf8d6ec2c36d503d6e7a5ada1a3
+libresolv            -> daf39dd2e104aecc91fc9ab0ca970b0ec5024b1a
+libstdcxx            -> 5ee991596c0684c36b7b19149959ad6444e4a5bb
+libutil              -> 737573c2b6dfff0ae51203a46a17fd02b83a5670
+ncurses              -> ce25b5ccaab3c9922455f8e7a39319995a74c0a7
+objc4                -> 22c3f420c5fd3d296b1267c44c1da8cbc57ebb86
+passwordserver_sasl  -> bb49f6b84db12bbe1712b9968c372f3eb2d1d241
+perl                 -> c9777933ed2fb503a0d2c873afb4b79bb14db599
+shell_cmds           -> cb8aaec2568d5e772f419f9c35c2a3f19eb4e582
+system_cmds          -> 3fc318f8e5c2ba70b978aecb054376229f8a6ca0
+tcp_wrappers         -> 388213fcd6833e8e4aefcae1808f9d9896c5274d
+text_cmds            -> 07935f21c38bfbf1420ae74addd1d1ea236258d7
+xnu.hdrs             -> 5375b8162be3e6e06180eb4bad4bd01a01539c7e
+zlib                 -> bf9a63cca042bf6656be18a883ac0edd1f33fc35
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+make install  "SRCROOT=/SourceCache/OpenSSH/OpenSSH-142" "OBJROOT=/private/var/tmp/OpenSSH/OpenSSH-142.obj" "SYMROOT=/private/var/tmp/OpenSSH/OpenSSH-142.sym" "DSTROOT=/private/var/tmp/OpenSSH/OpenSSH-142.root" "RC_ProjectName=OpenSSH" "RC_ProjectSourceVersion=142" "RC_ProjectNameAndSourceVersion=OpenSSH-142" "RC_ProjectBuildVersion=1" "INSTALLED_PRODUCT_ASIDES=YES" "MACOSX_DEPLOYMENT_TARGET=10.6" "NEXT_ROOT=" "RC_ARCHS=i386 x86_64" "RC_CFLAGS=-pipe -arch i386 -arch x86_64" "RC_JASPER=YES" "RC_NONARCH_CFLAGS=-pipe" "RC_OS=macos" "RC_PRIVATE=/private" "RC_RELEASE=SnowLeopard" "RC_TARGET_CONFIG=MacOSX" "RC_XBS=YES" "RC_i386=YES" "RC_x86_64=YES" "SEPARATE_STRIP=YES" "UNAME_RELEASE=10.0" "UNAME_SYSNAME=Darwin" < /dev/null
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Build log begins here:
+
+TargetConfig: MacOSX
+if [ ! -f "/SourceCache/OpenSSH/OpenSSH-142/Makefile" ]; then make install_source; fi
+Configuring openssh...
+/bin/mkdir -p -m 0755 /private/var/tmp/OpenSSH/OpenSSH-142.obj
+cd /private/var/tmp/OpenSSH/OpenSSH-142.obj && CC="/usr/bin/llvm-gcc-4.2" CFLAGS="-arch i386 -arch x86_64 -g -Os -pipe -fPIE -D_FORTIFY_SOURCE=2" CCFLAGS="-arch i386 -arch x86_64 -g -Os -pipe " CXXFLAGS="-arch i386 -arch x86_64 -g -Os -pipe " LDFLAGS="-arch i386 -arch x86_64            -L. -Lopenbsd-compat -Wl,-pie -framework CoreFoundation -framework OpenDirectory -lresolv"  TEXI2HTML="/usr/bin/texi2html -subdir ."  LD_TRACE_FILE=/dev/null /SourceCache/OpenSSH/OpenSSH-142/openssh/configure --prefix="/usr" --mandir="/usr/share/man" --infodir="/usr/share/info" --disable-dependency-tracking --sysconfdir="/etc" --disable-suid-ssh --with-ssl-dir=/usr/include/openssl --with-random=/dev/urandom --with-tcp-wrappers --with-pam --with-kerberos5 --without-zlib-version-check --with-4in6 --with-audit=bsm CPPFLAGS="-D__APPLE_SACL__ -D_UTMPX_COMPAT -D__APPLE_UTMPX__ -DUSE_CCAPI -D__APPLE_LAUNCHD__ -D__APPLE_MEMBERSHIP__ -D__APPLE_SANDBOX_PRIVSEP_CHILDREN__ -D__APPLE_CROSS_REALM__ -D__APPLE_XSAN__" --with-keychain=apple --disable-libutil --disable-utmp --disable-wtmp --with-privsep-user=_sshd
+checking for gcc... /usr/bin/llvm-gcc-4.2
+checking for C compiler default output file name... 
+configure: error: C compiler cannot create executables
+See `config.log' for more details.
+make: *** [/private/var/tmp/OpenSSH/OpenSSH-142.obj/configure-stamp] Error 77
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ BUILD TIME: 0h 0m 1s
+EXIT STATUS: 2

@@ -1,0 +1,43 @@
+Index: ditto.sh
+===================================================================
+--- ditto.sh	(revision 361)
++++ ditto.sh	(working copy)
+@@ -2,13 +2,18 @@
+ 
+ INDEX=0
+ COUNT=$#
++ARCH=""
++
+ for ARG in "$@" ; do
+ 	INDEX=$(($INDEX + 1))
+-	if [ "$ARG" == "-c" -o "$ARG" == "-x" ]; then
+-		echo "Error: -c and -x are not supported by this ditto." 1>&2
+-		exit 1
++	if [ "$ARG" == "-arch" ]; then
++		INDEX=$(($INDEX + 1))
++		ARCH=${@:$INDEX:1}
+ 	elif [ "${ARG:0:1}" != "-" -o "$ARG" == "--" ]; then
+ 		break
++	else
++		echo "Error: $ARG is not supported by this ditto." 1>&2
++		exit 1
+ 	fi
+ done
+ 
+@@ -21,5 +26,16 @@
+ 		tar cf - -C "$SRC" . | tar xpf - -C "$DST"
+ 	elif [ -f "$SRC" ]; then
+ 		cp -p "$SRC" "$DST"
++		if [ "$ARCH" != "" ]; then
++			if [ -d "$DST" ]; then
++				BASE=$(basename "$SRC")
++				TMPPATH="$DST/$BASE"
++			else
++				TMPPATH="$DST"
++			fi
++			MODES=$(stat -f%p "$TMPPATH" | cut -b3-6)
++			lipo "$TMPPATH" -thin "$ARCH" -o "$TMPPATH"
++			chmod "$MODES" "$TMPPATH"
++		fi
+ 	fi
+ done

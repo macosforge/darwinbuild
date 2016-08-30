@@ -1,0 +1,159 @@
+Last login: Mon Sep 21 16:56:26 on ttys000
+You have mail.
+Snow-Crash:~ snow$ cd /documents/Xcode/darwinbuild/
+-bash: cd: /documents/Xcode/darwinbuild/: No such file or directory
+Snow-Crash:~ snow$ cd documents/Xcode/darwinbuild/
+Snow-Crash:darwinbuild snow$ mkdir 10B504
+Snow-Crash:darwinbuild snow$ cd 10B504
+Snow-Crash:10B504 snow$ sudo darwinbuild -init 10B504
+Password:
+Creating build root disk image ...
+Downloading http://svn.macosforge.org/repository/darwinbuild/trunk/plists//10B504.plist ...
+Download complete
+Downloading http://svn.macosforge.org/repository/darwinbuild/trunk/plists//10A432.plist ...
+Snow-Crash:10B504 snow$ sudo darwinbuild -load Libm
+*** Attaching build root disk image ...
+/dev/disk3          	GUID_partition_scheme          	
+/dev/disk3s1        	EFI                            	
+/dev/disk3s2        	Apple_HFS                      	/Volumes/BuildRoot_10B504_20090921180700
+Downloading http://src.macosforge.org/Roots/10B504//Libm.root.tar.gz ...
+Downloading http://src.macosforge.org/Roots/10A432//Libm.root.tar.gz ...
+Download complete
+Libm - 291 files registered.
+Snow-Crash:10B504 snow$ sudo darwinbuild xnu
+*** Fetching Sources ...
+Downloading http://src.macosforge.org/Projects//xnu-1456.1.26.tar.gz ...
+Download complete
+*** Copying Sources ...
+*** Installing Roots ...
+Downloading http://src.macosforge.org/Roots/10B504//files.root.tar.gz ...
+Downloading http://src.macosforge.org/Roots/10A432//files.root.tar.gz ...
+Download complete
+files - 75 files registered.
+Downloading http://src.macosforge.org/Roots/10B504//bash.root.tar.gz ...
+Downloading http://src.macosforge.org/Roots/10A432//bash.root.tar.gz ...
+Download complete
+bash - 23 files registered.
+Downloading http://src.macosforge.org/Roots/10B504//Libsystem.root.tar.gz ...
+Download complete
+Libsystem - 30 files registered.
+Downloading http://src.macosforge.org/Roots/10B504//dyld.root.tar.gz ...
+Downloading http://src.macosforge.org/Roots/10A432//dyld.root.tar.gz ...
+Download complete
+dyld - 3 files registered.
+Downloading http://src.macosforge.org/Roots/10B504//libiconv.root.tar.gz ...
+Downloading http://src.macosforge.org/Roots/10A432//libiconv.root.tar.gz ...
+Download complete
+libiconv - 22 files registered.
+Downloading http://src.macosforge.org/Roots/10B504//ncurses.root.tar.gz ...
+Downloading http://src.macosforge.org/Roots/10A432//ncurses.root.tar.gz ...
+Download complete
+ncurses - 3307 files registered.
+Downloading http://src.macosforge.org/Roots/10B504//CoreOSMakefiles.root.tar.gz ...
+Downloading http://src.macosforge.org/Roots/10A432//CoreOSMakefiles.root.tar.gz ...
+Download complete
+CoreOSMakefiles - 33 files registered.
+Downloading http://src.macosforge.org/Roots/10B504//perl.root.tar.gz ...
+Downloading http://src.macosforge.org/Roots/10A432//perl.root.tar.gz ...
+Download complete
+perl - 5107 files registered.
+*** Installing Headers ...
+*** Mounting special filesystems ...
+Mounting devfs ...
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+BUILDING xnu-1456.1.26~1 on 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Build configuration:
+    Build host:           
+    Build tool:           make
+    Build action:         install
+    Build number:         10B504
+    Host kernel version:  
+    cc version:           
+    cctools version:      
+sh: line 1: make: command not found
+    make version:         
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Build parameters:
+SRCROOT: /SourceCache/xnu/xnu-1456.1.26
+OBJROOT: /private/var/tmp/xnu/xnu-1456.1.26.obj
+SYMROOT: /private/var/tmp/xnu/xnu-1456.1.26.sym
+DSTROOT: /private/var/tmp/xnu/xnu-1456.1.26.root
+RC_ProjectName: xnu
+RC_ProjectSourceVersion: 1456.1.26
+RC_ProjectNameAndSourceVersion: xnu-1456.1.26
+RC_ProjectBuildVersion: 1
+INSTALLED_PRODUCT_ASIDES: YES
+MACOSX_DEPLOYMENT_TARGET: 10.6
+NEXT_ROOT: 
+RC_ARCHS: i386 x86_64
+RC_CFLAGS: -pipe -arch i386 -arch x86_64
+RC_JASPER: YES
+RC_NONARCH_CFLAGS: -pipe
+RC_OS: macos
+RC_PRIVATE: /private
+RC_RELEASE: SnowLeopard
+RC_XBS: YES
+RC_i386: YES
+RC_x86_64: YES
+SEPARATE_STRIP: YES
+UNAME_RELEASE: 10.0
+UNAME_SYSNAME: Darwin
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Environment variables:
+CHROOTED=YES
+DARWINBUILD_BUILD=10B504
+DARWINXREF_DB_FILE=/Users/snow/Documents/Xcode/darwinbuild/10B504/.build/xref.db
+DARWIN_BUILDROOT=/Users/snow/Documents/Xcode/darwinbuild/10B504
+DSTROOT=/private/var/tmp/xnu/xnu-1456.1.26.root
+GROUP=wheel
+HOME=/var/root
+INSTALLED_PRODUCT_ASIDES=YES
+LOGNAME=root
+MACOSX_DEPLOYMENT_TARGET=10.6
+NEXT_ROOT=
+OBJROOT=/private/var/tmp/xnu/xnu-1456.1.26.obj
+PATH=/bin:/sbin:/usr/bin:/usr/sbin/:/usr/local/bin:/usr/local/sbin
+RC_ARCHS=i386 x86_64
+RC_CFLAGS=-pipe -arch i386 -arch x86_64
+RC_JASPER=YES
+RC_NONARCH_CFLAGS=-pipe
+RC_OS=macos
+RC_PRIVATE=/private
+RC_ProjectBuildVersion=1
+RC_ProjectName=xnu
+RC_ProjectNameAndSourceVersion=xnu-1456.1.26
+RC_ProjectSourceVersion=1456.1.26
+RC_RELEASE=SnowLeopard
+RC_XBS=YES
+RC_i386=YES
+RC_x86_64=YES
+SEPARATE_STRIP=YES
+SHELL=/bin/sh
+SRCROOT=/SourceCache/xnu/xnu-1456.1.26
+SYMROOT=/private/var/tmp/xnu/xnu-1456.1.26.sym
+UNAME_RELEASE=10.0
+UNAME_SYSNAME=Darwin
+USER=root
+_=/usr/bin/printenv
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Installed Roots:
+CoreOSMakefiles      -> f1554566e4c45d7cabe90cd994491cc904baecc5
+Libm                 -> a0c2941e018392e6cc1f9f9cb6b948b69d20939b
+Libsystem            -> 92f9075d3c013d136a977436d3655fa5879549bb
+bash                 -> ff53c1553ae60ec35d49d66c3e1fa5d1f843a205
+dyld                 -> 1d8b8fafd9ab3e53e021f4b9551cdb37daffefdf
+files                -> 321527694dfda06e14d553bd59c028b5546edef3
+libiconv             -> 3bea190790a6e15da37ac3ee85f5d9ae94e521b0
+ncurses              -> 1dfd9b7b25d991380f5562f217d9a0533b16f54d
+perl                 -> d0bb71784847e0c441d28ec65f7a07df8125ae0f
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+make install -sdk  "SRCROOT=/SourceCache/xnu/xnu-1456.1.26" "OBJROOT=/private/var/tmp/xnu/xnu-1456.1.26.obj" "SYMROOT=/private/var/tmp/xnu/xnu-1456.1.26.sym" "DSTROOT=/private/var/tmp/xnu/xnu-1456.1.26.root" "RC_ProjectName=xnu" "RC_ProjectSourceVersion=1456.1.26" "RC_ProjectNameAndSourceVersion=xnu-1456.1.26" "RC_ProjectBuildVersion=1" "INSTALLED_PRODUCT_ASIDES=YES" "MACOSX_DEPLOYMENT_TARGET=10.6" "NEXT_ROOT=" "RC_ARCHS=i386 x86_64" "RC_CFLAGS=-pipe -arch i386 -arch x86_64" "RC_JASPER=YES" "RC_NONARCH_CFLAGS=-pipe" "RC_OS=macos" "RC_PRIVATE=/private" "RC_RELEASE=SnowLeopard" "RC_XBS=YES" "RC_i386=YES" "RC_x86_64=YES" "SEPARATE_STRIP=YES" "UNAME_RELEASE=10.0" "UNAME_SYSNAME=Darwin" < /dev/null
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Build log begins here:
+
+private/var/tmp/xnu/build-xnu-1456.1.26~1.sh: line 99: make: command not found
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+EXIT STATUS: 127
+Snow-Crash:10B504 snow$ 

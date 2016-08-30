@@ -1,0 +1,233 @@
+*** Fetching Sources ...
+Found Tokend-36720.tar.gz in /Users/usuario/Desktop/Third-Party/tokend-pkcs11/src/Sources
+Found Tokend-35209.MacTypes.patch in /Users/usuario/Desktop/Third-Party/tokend-pkcs11/src/Sources
+*** Copying Sources ...
+*** Applying Patch Tokend-35209.MacTypes.patch ...
+patching file ./PIV/PIVDefines.h
+patching file ./PIV/byte_string.h
+patching file ./Tokend/Adornment.h
+patching file ./Tokend/Attribute.h
+patching file ./Tokend/AttributeCoder.h
+patching file ./Tokend/DbValue.h
+patching file ./Tokend/MetaRecord.h
+patching file ./Tokend/PKCS11Object.h
+patching file ./Tokend/Record.h
+patching file ./Tokend/RecordHandle.h
+patching file ./Tokend/SCardError.h
+patching file ./Tokend/Schema.h
+patching file ./Tokend/SelectionPredicate.h
+patching file ./Tokend/Token.h
+patching file ./Tokend/TokenContext.h
+*** Installing Roots ...
+files already loaded and no newer roots have been built.
+bash already loaded and no newer roots have been built.
+Libsystem already loaded and no newer roots have been built.
+Libm already loaded and no newer roots have been built.
+dyld already loaded and no newer roots have been built.
+libiconv already loaded and no newer roots have been built.
+ncurses already loaded and no newer roots have been built.
+CF already loaded and no newer roots have been built.
+ICU already loaded and no newer roots have been built.
+Libsystem already loaded and no newer roots have been built.
+Libm already loaded and no newer roots have been built.
+libstdcxx already loaded and no newer roots have been built.
+objc4 already loaded and no newer roots have been built.
+autozone already loaded and no newer roots have been built.
+CarbonHeaders already loaded and no newer roots have been built.
+Csu already loaded and no newer roots have been built.
+Libc already loaded and no newer roots have been built.
+Libc_headers already loaded and no newer roots have been built.
+Libsyscall already loaded and no newer roots have been built.
+Security already loaded and no newer roots have been built.
+SQLite already loaded and no newer roots have been built.
+dyld already loaded and no newer roots have been built.
+libedit already loaded and no newer roots have been built.
+ncurses already loaded and no newer roots have been built.
+SecurityTokend already loaded and no newer roots have been built.
+SmartCardServices already loaded and no newer roots have been built.
+IOKitUser already loaded and no newer roots have been built.
+libkxld already loaded and no newer roots have been built.
+zlib already loaded and no newer roots have been built.
+IOUSBFamily already loaded and no newer roots have been built.
+libutil already loaded and no newer roots have been built.
+cctools already loaded and no newer roots have been built.
+file_cmds already loaded and no newer roots have been built.
+flex already loaded and no newer roots have been built.
+gcc already loaded and no newer roots have been built.
+libiconv already loaded and no newer roots have been built.
+gcc_select already loaded and no newer roots have been built.
+launchd_libs already loaded and no newer roots have been built.
+DiskArbitration already loaded and no newer roots have been built.
+configd already loaded and no newer roots have been built.
+libdispatch already loaded and no newer roots have been built.
+xnu already loaded and no newer roots have been built.
+libsecurity_cdsa_client already loaded and no newer roots have been built.
+libsecurity_cdsa_utilities already loaded and no newer roots have been built.
+libsecurity_cdsa_utils already loaded and no newer roots have been built.
+libsecurity_utilities already loaded and no newer roots have been built.
+libsecurityd already loaded and no newer roots have been built.
+ld64 already loaded and no newer roots have been built.
+text_cmds already loaded and no newer roots have been built.
+OpenSSL098 already loaded and no newer roots have been built.
+*** Installing Headers ...
+*** Redirecting ...
+DARWINTRACE_REDIRECT="/Users/usuario/Desktop/Third-Party/tokend-pkcs11/src/BuildRoot"
+DARWINTRACE_LOG="/Users/usuario/Desktop/Third-Party/tokend-pkcs11/src/BuildRoot/private/var/tmp/Tokend/Tokend-36720.trace~5"
+DYLD_INSERT_LIBRARIES=/opt/local/share/darwinbuild/darwintrace.dylib
+DYLD_FORCE_FLAT_NAMESPACE=1
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+BUILDING Tokend-36720~5 on Thu May 19 12:46:07 CEST 2011
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Build configuration:
+    Build host:           equipo
+    Build tool:           xcodebuild
+    Build action:         install
+    Build number:         10A432
+    Host kernel version:  Darwin Kernel Version 10.7.0: Sat Jan 29 15:17:16 PST 2011; root:xnu-1504.9.37~1/RELEASE_I386
+    cc version:           gcc version 4.2.1 (Apple Inc. build 5666) (dot 3)
+    cctools version:      ools-795~45, GNU assembler version 1.38
+/Developer/usr/bin/xcodebuild -version 
+2011-05-19 10:46:07.387 xcodebuild[7007:613] Unable to load platform at path /Developer/Platforms/Darwinbuild_10A432_20110513092802.platform
+2011-05-19 10:46:07.388 xcodebuild[7007:613] Unable to load platform at path /Developer/Platforms/Darwinbuild_10A432_20110518104206.platform
+2011-05-19 10:46:07.388 xcodebuild[7007:613] Unable to load platform at path /Developer/Platforms/Darwinbuild_10A432_20110519090518.platform
+2011-05-19 10:46:07.388 xcodebuild[7007:613] Unable to load platform at path /Developer/Platforms/Darwinbuild_10A432_20110519095154.platform
+2011-05-19 10:46:07.388 xcodebuild[7007:613] Unable to load platform at path /Developer/Platforms/Darwinbuild_10A432_20110519111200.platform
+2011-05-19 10:46:07.389 xcodebuild[7007:613] Warning: Platform '<XCPlatformSpecification:0x10340d830:'org.macosforge.darwinbuild.platforms.Darwinbuild_10A432_20110519113920':Default>' is already registered under name 'Darwinbuild_10A432_20110519113920', replacing it with platform '<XCPlatformSpecification:0x103410230:'org.macosforge.darwinbuild.platforms.Darwinbuild_10A432_20110519113920':Default>'.
+2011-05-19 10:46:07.391 xcodebuild[7007:613] Warning: SDK name collision for name 'macosx0.0': SDK at path '/Developer/SDKs/MacOSX10.5.sdk' being superceded by SDK at path '/Developer/SDKs/MacOSX10.6.sdk'.
+    xcode version:        
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Build parameters:
+SRCROOT: /Users/usuario/Desktop/Third-Party/tokend-pkcs11/src/BuildRoot/SourceCache/Tokend/Tokend-36720
+OBJROOT: /Users/usuario/Desktop/Third-Party/tokend-pkcs11/src/BuildRoot/private/var/tmp/Tokend/Tokend-36720.obj
+SYMROOT: /Users/usuario/Desktop/Third-Party/tokend-pkcs11/src/BuildRoot/private/var/tmp/Tokend/Tokend-36720.sym
+DSTROOT: /Users/usuario/Desktop/Third-Party/tokend-pkcs11/src/BuildRoot/private/var/tmp/Tokend/Tokend-36720.root
+RC_ProjectName: Tokend
+RC_ProjectSourceVersion: 36720
+RC_ProjectNameAndSourceVersion: Tokend-36720
+RC_ProjectBuildVersion: 5
+INSTALLED_PRODUCT_ASIDES: YES
+MACOSX_DEPLOYMENT_TARGET: 10.6
+NEXT_ROOT: 
+RC_ARCHS: i386 x86_64
+RC_CFLAGS: -pipe -arch i386 -arch x86_64
+RC_JASPER: YES
+RC_NONARCH_CFLAGS: -pipe
+RC_OS: macos
+RC_PRIVATE: /private
+RC_RELEASE: SnowLeopard
+RC_TARGET_CONFIG: MacOSX
+RC_XBS: YES
+RC_i386: YES
+RC_x86_64: YES
+SEPARATE_STRIP: YES
+UNAME_RELEASE: 10.0
+UNAME_SYSNAME: Darwin
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Environment variables:
+DARWINBUILD_BUILD=10A432
+DARWINXREF_DB_FILE=/Users/usuario/Desktop/Third-Party/tokend-pkcs11/src/.build/xref.db
+DARWIN_BUILDROOT=/Users/usuario/Desktop/Third-Party/tokend-pkcs11/src
+DSTROOT=/Users/usuario/Desktop/Third-Party/tokend-pkcs11/src/BuildRoot/private/var/tmp/Tokend/Tokend-36720.root
+GROUP=wheel
+HOME=/var/root
+INSTALLED_PRODUCT_ASIDES=YES
+INSTALL_XCODE=YES
+LOGNAME=root
+MACOSX_DEPLOYMENT_TARGET=10.6
+NEXT_ROOT=
+OBJROOT=/Users/usuario/Desktop/Third-Party/tokend-pkcs11/src/BuildRoot/private/var/tmp/Tokend/Tokend-36720.obj
+PATH=/bin:/sbin:/usr/bin:/usr/sbin/:/usr/local/bin:/usr/local/sbin
+RC_ARCHS=i386 x86_64
+RC_CFLAGS=-pipe -arch i386 -arch x86_64
+RC_JASPER=YES
+RC_NONARCH_CFLAGS=-pipe
+RC_OS=macos
+RC_PRIVATE=/private
+RC_ProjectBuildVersion=5
+RC_ProjectName=Tokend
+RC_ProjectNameAndSourceVersion=Tokend-36720
+RC_ProjectSourceVersion=36720
+RC_RELEASE=SnowLeopard
+RC_TARGET_CONFIG=MacOSX
+RC_XBS=YES
+RC_i386=YES
+RC_x86_64=YES
+SDKROOT=/Users/usuario/Desktop/Third-Party/tokend-pkcs11/src/BuildRoot
+SEPARATE_STRIP=YES
+SHELL=/bin/sh
+SRCROOT=/Users/usuario/Desktop/Third-Party/tokend-pkcs11/src/BuildRoot/SourceCache/Tokend/Tokend-36720
+SYMROOT=/Users/usuario/Desktop/Third-Party/tokend-pkcs11/src/BuildRoot/private/var/tmp/Tokend/Tokend-36720.sym
+UNAME_RELEASE=10.0
+UNAME_SYSNAME=Darwin
+USER=root
+USE_CHROOT=NO
+_=/usr/bin/printenv
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Installed Roots:
+CF                   -> 607fe2316957248f3835cfc440d0a3f378103509
+CarbonHeaders        -> 6ff019767532bc6b1a77004a7a761ed0df184d92
+CoreOSMakefiles      -> f1554566e4c45d7cabe90cd994491cc904baecc5
+Csu                  -> 1aeb48abba4f7c7eb593ed6b26f58c79f2280e03
+DiskArbitration      -> ae20a4ad7b07a6a723baf33ebcc085cf1978f193
+ICU                  -> 41bdf98729f64560c3143281c96304a03e889b89
+IOKitUser            -> 80f608420da51ce6608a4b2609945952c6e8bbb8
+IOUSBFamily          -> cf5d4605243d68217a7ceb1380171365fe50db5a
+Libc                 -> 4463b27c77961dec32f3494d2dc6e3cfa7a5e112
+Libc_headers         -> 5de71a1f2c1d6ef860101bc6e28ece5386dd36da
+Libm                 -> a0c2941e018392e6cc1f9f9cb6b948b69d20939b
+Libsyscall           -> f09f565b1273dbc4d062aa90902c3c96788164e7
+Libsystem            -> 87f2ffc080caab2a84351e98729a66a42b8ec15a
+OpenSSL098           -> 1ac0bc797853b8a1eb7b837cf6ff25222071b0e6
+SQLite               -> 99e05a0f3429bbb897d713240882b29291f12e35
+Security             -> 0b41222d76e793969906f93cccb4423eec20f0c3
+SecurityTokend       -> a70febbef13c52788903ec917ff584b5302764df
+SmartCardServices    -> 102522cd02e4d2a3ec2ba2c2d2df7a7f624f9a7c
+autozone             -> 8f5afda3a03c26b178fa7bfddc1ab9f0113b0b64
+bash                 -> ff53c1553ae60ec35d49d66c3e1fa5d1f843a205
+cctools              -> adeb106d4e4d3a7925020eded20dd53feb36bc44
+configd              -> 4283eef980a6c113ab33f8aa250a3d19d004465b
+dyld                 -> 1d8b8fafd9ab3e53e021f4b9551cdb37daffefdf
+file_cmds            -> 74e2bc4b6b0195aa7e55cb71ae1ef94b3d72e6ad
+files                -> 321527694dfda06e14d553bd59c028b5546edef3
+flex                 -> e64ac97a24b7848bf55bc00440031f49ef2073fd
+gcc                  -> 5c632204a058cfe77927493546faf819e815788d
+gcc_select           -> 3e280f4aa5931a7874a93c0c54c25c64432e491d
+launchd_libs         -> 94eb569605af5c3690aa75a55f77fa6517821410
+ld64                 -> f80ab2c4fe7105b366df4402d7674c631b59e169
+libdispatch          -> 565695636d2644cb669875ee4df8f310aeaa3096
+libedit              -> 325d0edbc13955e11d8d7b2415d60036283ac6cb
+libiconv             -> 3bea190790a6e15da37ac3ee85f5d9ae94e521b0
+libkxld              -> 4f7264ff81e4d6b148c6cde1ef8ccdec03951079
+libsecurity_cdsa_client -> f6569b5621a1a47394c693601dfaf2bd8fe10736
+libsecurity_cdsa_utilities -> b91d1fb5737cbc55657c21485a2a78d653764094
+libsecurity_cdsa_utils -> 971ea4b81dd80492e89b173d028dfa464bb200d3
+libsecurity_utilities -> 78fec1d6b7582ddcc6261b9e42f04c2e2a0c8d1e
+libsecurityd         -> 29a0f998c2f5d58dfcbee7d13f4763eee43cfea9
+libstdcxx            -> 5ee991596c0684c36b7b19149959ad6444e4a5bb
+libutil              -> 021128595822ba4bd8ec3c26aca9c6a8895482b2
+ncurses              -> 1dfd9b7b25d991380f5562f217d9a0533b16f54d
+objc4                -> 93c95a0dc90009dfde4ba21f2e490e0aaaa487cd
+perl                 -> d0bb71784847e0c441d28ec65f7a07df8125ae0f
+text_cmds            -> e8e7310652cb969f7c536e2da760c708883faee5
+                        xcodebuild
+xnu                  -> 136919c49a80b53c8973a1915b7c8f2bd2ad3470
+zlib                 -> 6c24dc3e9e44dc2bce08cdcdff8f8359b42d9664
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+xcodebuild install -sdk Darwinbuild_10A432_20110519113920 "SRCROOT=/Users/usuario/Desktop/Third-Party/tokend-pkcs11/src/BuildRoot/SourceCache/Tokend/Tokend-36720" "OBJROOT=/Users/usuario/Desktop/Third-Party/tokend-pkcs11/src/BuildRoot/private/var/tmp/Tokend/Tokend-36720.obj" "SYMROOT=/Users/usuario/Desktop/Third-Party/tokend-pkcs11/src/BuildRoot/private/var/tmp/Tokend/Tokend-36720.sym" "DSTROOT=/Users/usuario/Desktop/Third-Party/tokend-pkcs11/src/BuildRoot/private/var/tmp/Tokend/Tokend-36720.root" "RC_ProjectName=Tokend" "RC_ProjectSourceVersion=36720" "RC_ProjectNameAndSourceVersion=Tokend-36720" "RC_ProjectBuildVersion=5" "INSTALLED_PRODUCT_ASIDES=YES" "MACOSX_DEPLOYMENT_TARGET=10.6" "NEXT_ROOT=" "RC_ARCHS=i386 x86_64" "RC_CFLAGS=-pipe -arch i386 -arch x86_64" "RC_JASPER=YES" "RC_NONARCH_CFLAGS=-pipe" "RC_OS=macos" "RC_PRIVATE=/private" "RC_RELEASE=SnowLeopard" "RC_TARGET_CONFIG=MacOSX" "RC_XBS=YES" "RC_i386=YES" "RC_x86_64=YES" "SEPARATE_STRIP=YES" "UNAME_RELEASE=10.0" "UNAME_SYSNAME=Darwin" < /dev/null
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Build log begins here:
+
+/Developer/usr/bin/xcodebuild install -sdk Darwinbuild_10A432_20110519113920 SRCROOT=/Users/usuario/Desktop/Third-Party/tokend-pkcs11/src/BuildRoot/SourceCache/Tokend/Tokend-36720 OBJROOT=/Users/usuario/Desktop/Third-Party/tokend-pkcs11/src/BuildRoot/private/var/tmp/Tokend/Tokend-36720.obj SYMROOT=/Users/usuario/Desktop/Third-Party/tokend-pkcs11/src/BuildRoot/private/var/tmp/Tokend/Tokend-36720.sym DSTROOT=/Users/usuario/Desktop/Third-Party/tokend-pkcs11/src/BuildRoot/private/var/tmp/Tokend/Tokend-36720.root RC_ProjectName=Tokend RC_ProjectSourceVersion=36720 RC_ProjectNameAndSourceVersion=Tokend-36720 RC_ProjectBuildVersion=5 INSTALLED_PRODUCT_ASIDES=YES MACOSX_DEPLOYMENT_TARGET=10.6 NEXT_ROOT= RC_ARCHS=i386 x86_64 RC_CFLAGS=-pipe -arch i386 -arch x86_64 RC_JASPER=YES RC_NONARCH_CFLAGS=-pipe RC_OS=macos RC_PRIVATE=/private RC_RELEASE=SnowLeopard RC_TARGET_CONFIG=MacOSX RC_XBS=YES RC_i386=YES RC_x86_64=YES SEPARATE_STRIP=YES UNAME_RELEASE=10.0 UNAME_SYSNAME=Darwin 
+2011-05-19 10:46:07.947 xcodebuild[7010:60f] Unable to load platform at path /Developer/Platforms/Darwinbuild_10A432_20110513092802.platform
+2011-05-19 10:46:07.953 xcodebuild[7010:60f] Unable to load platform at path /Developer/Platforms/Darwinbuild_10A432_20110518104206.platform
+2011-05-19 10:46:07.953 xcodebuild[7010:60f] Unable to load platform at path /Developer/Platforms/Darwinbuild_10A432_20110519090518.platform
+2011-05-19 10:46:07.954 xcodebuild[7010:60f] Unable to load platform at path /Developer/Platforms/Darwinbuild_10A432_20110519095154.platform
+2011-05-19 10:46:07.954 xcodebuild[7010:60f] Unable to load platform at path /Developer/Platforms/Darwinbuild_10A432_20110519111200.platform
+2011-05-19 10:46:07.955 xcodebuild[7010:60f] Warning: Platform '<XCPlatformSpecification:0x10340f0f0:'org.macosforge.darwinbuild.platforms.Darwinbuild_10A432_20110519113920':Default>' is already registered under name 'Darwinbuild_10A432_20110519113920', replacing it with platform '<XCPlatformSpecification:0x103411b70:'org.macosforge.darwinbuild.platforms.Darwinbuild_10A432_20110519113920':Default>'.
+2011-05-19 10:46:07.956 xcodebuild[7010:60f] Warning: SDK name collision for name 'macosx0.0': SDK at path '/Developer/SDKs/MacOSX10.5.sdk' being superceded by SDK at path '/Developer/SDKs/MacOSX10.6.sdk'.
+/Users/usuario/Desktop/Third-Party/tokend-pkcs11/src/BuildRoot/private/var/tmp/Tokend/build-Tokend-36720~5.sh: line 146:  7010 Segmentation fault      xcodebuild install -sdk Darwinbuild_10A432_20110519113920 "SRCROOT=/Users/usuario/Desktop/Third-Party/tokend-pkcs11/src/BuildRoot/SourceCache/Tokend/Tokend-36720" "OBJROOT=/Users/usuario/Desktop/Third-Party/tokend-pkcs11/src/BuildRoot/private/var/tmp/Tokend/Tokend-36720.obj" "SYMROOT=/Users/usuario/Desktop/Third-Party/tokend-pkcs11/src/BuildRoot/private/var/tmp/Tokend/Tokend-36720.sym" "DSTROOT=/Users/usuario/Desktop/Third-Party/tokend-pkcs11/src/BuildRoot/private/var/tmp/Tokend/Tokend-36720.root" "RC_ProjectName=Tokend" "RC_ProjectSourceVersion=36720" "RC_ProjectNameAndSourceVersion=Tokend-36720" "RC_ProjectBuildVersion=5" "INSTALLED_PRODUCT_ASIDES=YES" "MACOSX_DEPLOYMENT_TARGET=10.6" "NEXT_ROOT=" "RC_ARCHS=i386 x86_64" "RC_CFLAGS=-pipe -arch i386 -arch x86_64" "RC_JASPER=YES" "RC_NONARCH_CFLAGS=-pipe" "RC_OS=macos" "RC_PRIVATE=/private" "RC_RELEASE=SnowLeopard" "RC_TARGET_CONFIG=MacOSX" "RC_XBS=YES" "RC_i386=YES" "RC_x86_64=YES" "SEPARATE_STRIP=YES" "UNAME_RELEASE=10.0" "UNAME_SYSNAME=Darwin" < /dev/null
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ BUILD TIME: 0h 0m 1s
+EXIT STATUS: 139

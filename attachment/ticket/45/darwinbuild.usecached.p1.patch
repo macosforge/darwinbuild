@@ -1,0 +1,234 @@
+--- darwinbuild.orig	2008-12-08 18:13:58.000000000 -0800
++++ darwinbuild	2008-12-08 19:08:14.000000000 -0800
+@@ -106,6 +106,7 @@
+ action="install"
+ target=""
+ configuration=""
++usecached="NO"
+ version=""
+ 
+ ###
+@@ -171,7 +172,7 @@
+ 	usage: flags: [-headers] [-build=X] [-target=X] [-configuration=X]
+ 	              [-logdeps] [-nochroot] [-nopatch] [-noload | -loadonly]
+ 	              [-depsbuild=X [-depsbuild=Y]]
+-	              [-fetch] [-source] [-load]
++	              [-fetch] [-source] [-load] [-usecached]
+ EOF
+ 	exit 1
+ }
+@@ -210,25 +211,26 @@
+ 
+ ###
+ ### Interpret our arguments:
+-###   -headers  Do the installhdrs phase, instead of install
+-###   -fetch    Download necessary source and patch files
+-###   -source   Extract, patch, and stage source
+-###   -nochroot Do not chroot into the BuildRoot when building
+-###   -load     Populate the BuildRoot with one project
+-###   -nopatch  Don't patch sources before building.
+-###   -noload   Don't load dependencies into the chroot.
+-###				Has no effect if -nochroot is specified.
+-###   -loadonly Only load dependencies into the chroot, but
+-###                             don't build.
+-###   -logdeps  Do magic to log the build-time dependencies
+-###   -target=X The makefile or xcode target to build
++###   -headers         Do the installhdrs phase, instead of install
++###   -fetch           Download necessary source and patch files
++###   -source          Extract, patch, and stage source
++###   -nochroot        Do not chroot into the BuildRoot when building
++###   -load            Populate the BuildRoot with one project
++###   -nopatch         Don't patch sources before building.
++###   -noload          Don't load dependencies into the chroot.
++###				       Has no effect if -nochroot is specified.
++###   -loadonly        Only load dependencies into the chroot, but
++###                       don't build.
++###   -logdeps         Do magic to log the build-time dependencies
++###   -target=X        The makefile or xcode target to build
+ ###   -configuration=X The build configuration to use
+-###   -build=X  X is the darwin build number to buld, e.g. 8B15
+-###   -depsbuild=X X is the darwin build number to populate the BuildRoot 
+-###   <project> The name of the project to build
+-###   <version> If specified, the version of the project to build
+-###             this will default to the version associated with the
+-###             currently running build.
++###   -usecached       Use the sources in SourceCache, if present
++###   -build=X         X is the darwin build number to buld, e.g. 8B15
++###   -depsbuild=X     X is the darwin build number to populate the BuildRoot 
++###   <project>        The name of the project to build
++###   <version>        If specified, the version of the project to build
++###                       this will default to the version associated with the
++###                       currently running build.
+ 
+ if [ "$DARWINBUILD_BUILD" != "" ]; then
+ 	build="$DARWINBUILD_BUILD"
+@@ -250,6 +252,8 @@
+ 			target="${ARG/*=/}"
+ 		elif [ "${ARG/=*/}" == "-configuration" ]; then
+ 			configuration="${ARG/*=/}"
++		elif [ "${ARG/=*/}" == "-usecached" ]; then
++			usecached="YES"
+ 		elif [ "${ARG/=*/}" == "-build" ]; then
+ 			build="${ARG/*=/}"
+ 		elif [ "${ARG/=*/}" == "-depsbuild" ]; then
+@@ -425,82 +429,88 @@
+ ### directories have root:wheel ownership, otherwise things may
+ ### not build correctly.
+ ###
+-rm -Rf "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT"
+-mkdir -p "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT"
+-chown root:wheel "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT"
+-
+-###
+-### Install the sources and patches into the BuildRoot
+-###
+-cd "$REAL_SRCROOT/.."
+-echo "*** Copying Sources ..."
+-if [ -d "$SourceCache/$project" ]; then
+-	tar c -C "$SourceCache" "$project" | tar xf - 
+-elif [ "$alias" != "" -a -d "$SourceCache/$alias-$version" ]; then
+-	tar c -C "$SourceCache" "$alias-$version" | tar xf -
+-	rmdir "$REAL_SRCROOT"
+-	ln -fhs "$alias-$version" "$project"
+-elif [ "$alias" != "" ]; then
+-	tar xzf "$SourceCache/$alias-$version.tar.gz"
+-	rmdir "$REAL_SRCROOT"
+-	ln -fhs "$alias-$version" "$project"
+-else
+-	tar xzf "$SourceCache/$filename"
+-fi
++### This may be optionally overridden by specifying the -usecached flag
++### the source is still installed 
++###
++if [ "$usecached" != "YES" ]; then
++	rm -Rf "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT"
++	mkdir -p "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT"
++	chown root:wheel "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT"
++
++	###
++	### Install the sources and patches into the BuildRoot
++	###
++	cd "$REAL_SRCROOT/.."
++	echo "*** Copying Sources ..."
++	if [ -d "$SourceCache/$project" ]; then
++		tar c -C "$SourceCache" "$project" | tar xf - 
++	elif [ "$alias" != "" -a -d "$SourceCache/$alias-$version" ]; then
++		tar c -C "$SourceCache" "$alias-$version" | tar xf -
++		rmdir "$REAL_SRCROOT"
++		ln -fhs "$alias-$version" "$project"
++	elif [ "$alias" != "" ]; then
++		tar xzf "$SourceCache/$alias-$version.tar.gz"
++		rmdir "$REAL_SRCROOT"
++		ln -fhs "$alias-$version" "$project"
++	else
++		tar xzf "$SourceCache/$filename"
++	fi
+ 
+-# you can avoid registering patches in the DB by using "xnu-792--patches.tar.gz"
+-if [ -r "$SourceCache/$project-patches.tar.gz" ]; then
+-	tar xzf "$SourceCache/$project-patches.tar.gz"
+-fi
++	# you can avoid registering patches in the DB by using "xnu-792--patches.tar.gz"
++	if [ -r "$SourceCache/$project-patches.tar.gz" ]; then
++		tar xzf "$SourceCache/$project-patches.tar.gz"
++	fi
+ 
+-###
+-### Apply the patches
+-### Current working directory should be the SRCROOT
+-###
+-cd "$REAL_SRCROOT"
+-if [ "$nopatch" != "YES" ]; then
+-if [ -d "$REAL_SRCROOT/../$project-patches" ]; then
+-	echo "*** Applying Patches ..."
+-	cat $REAL_SRCROOT/../$project-patches/* | patch -p0
+-fi
+-for patchfile in $patchfilenames; do
+-	echo "*** Applying Patch $patchfile ..."
+-	if [ -r "$SourceCache/$patchfile" ]; then
+-	    catprog=""
+-	    case $patchfile in
+-		*.gz)
+-		    catprog="gzip -d -c"
+-		    ;;
+-		*.bz2)
+-		    catprog="bzip2 -d -c"
+-		    ;;
+-		*)
+-		    catprog="cat"
+-		    ;;
+-	    esac
+-	    case $patchfile in
+-		*.p1.patch*)
+-		    $catprog "$SourceCache/$patchfile" | patch -l -f -p1
+-		    ;;
+-		*.patch*)
+-		    $catprog "$SourceCache/$patchfile" | patch -l -f -p0
+-		    ;;
+-		*.add*)
+-		    newfile=`echo $patchfile | sed -e 's/^.*-\([^-]*\)\.add.*/\1/' -e 's,_,/,g'`
+-		    $catprog "$SourceCache/$patchfile" > "./$newfile"
+-		    ;;
+-		*)
+-		    echo "Don't know how to apply $patchfile"
+-		    ;;
+-	    esac
++	###
++	### Apply the patches
++	### Current working directory should be the SRCROOT
++	###
++	cd "$REAL_SRCROOT"
++	if [ "$nopatch" != "YES" ]; then
++		if [ -d "$REAL_SRCROOT/../$project-patches" ]; then
++			echo "*** Applying Patches ..."
++			cat $REAL_SRCROOT/../$project-patches/* | patch -p0
++		fi
++		for patchfile in $patchfilenames; do
++			echo "*** Applying Patch $patchfile ..."
++			if [ -r "$SourceCache/$patchfile" ]; then
++				catprog=""
++				case $patchfile in
++					*.gz)
++						catprog="gzip -d -c"
++						;;
++					*.bz2)
++						catprog="bzip2 -d -c"
++						;;
++					*)
++						catprog="cat"
++						;;
++				esac
++				case $patchfile in
++					*.p1.patch*)
++						$catprog "$SourceCache/$patchfile" | patch -l -f -p1
++						;;
++					*.patch*)
++						$catprog "$SourceCache/$patchfile" | patch -l -f -p0
++						;;
++					*.add*)
++						newfile=`echo $patchfile | sed -e 's/^.*-\([^-]*\)\.add.*/\1/' -e 's,_,/,g'`
++						$catprog "$SourceCache/$patchfile" > "./$newfile"
++						;;
++					*)
++					echo "Don't know how to apply $patchfile"
++					;;
++				esac
++			fi
++		done
+ 	fi
+-done
+-fi
+ 
+-### If we are doing a -source, stop here.
+-if [ "$action" == "source" ]; then
+-	exit
+-fi
++	### If we are doing a -source, stop here.
++	if [ "$action" == "source" ]; then
++		exit
++	fi
++
++fi # [ "$usecached" != "YES" ]
+ 
+ ###
+ ### Look for the build tool: make, xcodebuild

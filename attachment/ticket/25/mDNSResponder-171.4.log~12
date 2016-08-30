@@ -1,0 +1,821 @@
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+BUILDING mDNSResponder-171.4~12 on Thu Sep 11 05:06:01 PDT 2008
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Build configuration:
+    Build host:           bauxite.local
+    Build tool:           make
+    Build action:         install
+    Build number:         9E17
+    Host kernel version:  Darwin Kernel Version 9.4.0: Mon Jun  9 19:30:53 PDT 2008; root:xnu-1228.5.20~1/RELEASE_I386
+    cc version:           gcc version 4.0.1 (Apple Inc. build 5465)
+    cctools version:      version cctools-667.3.obj, GNU assembler version 1.38
+    make version:         GNU Make 3.81
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Build parameters:
+SRCROOT: /SourceCache/mDNSResponder/mDNSResponder-171.4
+OBJROOT: /private/var/tmp/mDNSResponder/mDNSResponder-171.4.obj
+SYMROOT: /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym
+DSTROOT: /private/var/tmp/mDNSResponder/mDNSResponder-171.4.root
+RC_ProjectName: mDNSResponder
+RC_ProjectSourceVersion: 171.4
+RC_ProjectNameAndSourceVersion: mDNSResponder-171.4
+RC_ProjectBuildVersion: 12
+INSTALLED_PRODUCT_ASIDES: YES
+MACOSX_DEPLOYMENT_TARGET: 10.5
+NEXT_ROOT: 
+RC_ARCHS: ppc i386
+RC_CFLAGS: -pipe -no-cpp-precomp -arch ppc -arch i386
+RC_JASPER: YES
+RC_NONARCH_CFLAGS: -pipe -no-cpp-precomp
+RC_OS: macos
+RC_PRIVATE: /private
+RC_RELEASE: Leopard
+RC_XBS: YES
+RC_i386: YES
+RC_ppc: YES
+SEPARATE_STRIP: YES
+UNAME_RELEASE: 9.0
+UNAME_SYSNAME: Darwin
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Environment variables:
+CHROOTED=YES
+DARWINBUILD_BUILD=9E17
+DARWINXREF_DB_FILE=/Volumes/Builds/Build9E17/.build/xref.db
+DARWIN_BUILDROOT=/Volumes/Builds/Build9E17
+DSTROOT=/private/var/tmp/mDNSResponder/mDNSResponder-171.4.root
+GROUP=wheel
+HOME=/var/root
+INSTALLED_PRODUCT_ASIDES=YES
+LOGNAME=root
+MACOSX_DEPLOYMENT_TARGET=10.5
+NEXT_ROOT=
+OBJROOT=/private/var/tmp/mDNSResponder/mDNSResponder-171.4.obj
+PATH=/bin:/sbin:/usr/bin:/usr/sbin/:/usr/local/bin:/usr/local/sbin
+RC_ARCHS=ppc i386
+RC_CFLAGS=-pipe -no-cpp-precomp -arch ppc -arch i386
+RC_JASPER=YES
+RC_NONARCH_CFLAGS=-pipe -no-cpp-precomp
+RC_OS=macos
+RC_PRIVATE=/private
+RC_ProjectBuildVersion=12
+RC_ProjectName=mDNSResponder
+RC_ProjectNameAndSourceVersion=mDNSResponder-171.4
+RC_ProjectSourceVersion=171.4
+RC_RELEASE=Leopard
+RC_XBS=YES
+RC_i386=YES
+RC_ppc=YES
+SEPARATE_STRIP=YES
+SHELL=/bin/sh
+SRCROOT=/SourceCache/mDNSResponder/mDNSResponder-171.4
+SYMROOT=/private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym
+UNAME_RELEASE=9.0
+UNAME_SYSNAME=Darwin
+USER=root
+_=/usr/bin/printenv
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Installed Roots:
+                        07201913197ea22b903667338ec6227992505ed7
+                        082e9b19f97c90dbc4e3e8414b1751d3276feacb
+                        232bcdd8cf681612577f6e7445e965c43e669530
+                        419a8aa897e45a76dd0f030e9f00c22d50772f15
+                        658d7d05c67de41518f2c7291238e6ea7550ba9b
+                        71210a2171f3a52dbf1d8fcc0d17e15a294e05ed
+                        86f91f4b2d92e97069a5297d0f589788701e496d
+Apple3Com3C90x       -> 977a9b3fba97c7bf8b9c9e08c452bb7bfb14916f
+AppleACPIPlatform    -> 76ed6dfcdaaf3f3794ed4cdc5de28590ecca245d
+AppleADBButtons      -> 19c30c6a87cf570e3152dd8c73ed99378f36c1ad
+AppleADBKeyboard     -> 2678e20b3111e595f2a78539851461b90b5b7b9e
+AppleAPIC            -> 7f6267c210b73be80e325ea154e2a2e38825a0e7
+AppleCore99NVRAM     -> 52585122fd31fa23cf8119af4c1db2e842b3ba22
+AppleDisplays        -> 167158c6568dfc0a6927315b108318c284d41536
+AppleFlashNVRAM      -> 414a0ee58c903154e5694fceca25b1562573cb54
+AppleGMACEthernet    -> 93d3654578bd047e10fb634984f8ab19747c9c31
+AppleI2C             -> 5b81e7af2f55fefde15485da8b785173bbea79ca
+AppleI2C.hdrs        -> c9a403c29c803722ad9ca255e89a4a0b029372c5
+AppleI2S             -> 47ac58e5708e1f283b7a87b553ea42dd657afbd3
+AppleIntel8255x      -> 66e1f323454bbab9f05438e5dcc5989c892d14e0
+AppleKauaiATA        -> aa3be68e28ac1a68509c1d66f8dca8bb1fe029da
+AppleKeyLargo        -> cdda298b64e71cc55b42c0e9b640d359d081e874
+AppleKeyswitch       -> d9d398e83495d702646f2759d465e38963c02cff
+AppleKiwiATA         -> 2126e1616e57a311cfebf8ddeb07ff1114bc08b2
+AppleMPIC            -> bd691e79041dd459e0ebdd2cc2c6f5cb529c0038
+AppleMacRISC2PE      -> fa4b557898020500d5858e77d7de9b34f33ab9f6
+AppleMacRiscPCI      -> 8c67d30c62020575aa6bb2c5b597f9e88daaffb6
+AppleMediaBay        -> 945f4399b0721319ec7a84343ff4b87d13cab52a
+ApplePCCard16ATA     -> 2d5041d8616957c3efa35cd9425cb7b405292703
+ApplePCCardATA       -> f3f6cea13cab5a046d28d5f625b5f1d973f42124
+AppleRTC             -> 42fe6c68a16002fc4254e9f259d211002b3b3df5
+AppleRTL8139Ethernet -> fb1b4929f3424650c96633314835d4ab7ea5e1e2
+AppleSMBIOS          -> b14be8346c33c7fa7f976ef6d3d81a21abf29dc9
+AppleSym8xx          -> acc5367c5b2badd8ba01eccb2bca8b3cc8bda2f1
+AppleTalk            -> f1fc5503d6633b86dff0f1ce3551b955f3f74817
+AppleThermal         -> d6faf35b882287a5996a5fa1e53145ec9eb7684a
+BerkeleyDB           -> c07de60f5de57ed740cd7629cc1438b212dfc03a
+BerkeleyDB.hdrs      -> 2745176b92a5bda7603fd64e97606dad0068938f
+BootCache            -> ffecd2d746a35292d73bf84c44514b29c48acb03
+BootX                -> 14202a7a5ae4e5517c094d71d76ecbea916b65dc
+CF                   -> 9e541c1553c34c29fccc276a7dbc735d80a80a48
+CFOpenDirectory      -> f1d9d9551ae6f64b631b48f8b4b508a37a8cc0dc
+CarbonHeaders        -> fc4fcd8d01ea06982d77e80c87d12a1734d7e8c7
+CommonCrypto         -> b26e3e117b4bf230b206bed755757456e48f08be
+CoreOSMakefiles      -> da13d2bf2ea3cf48d70f7543f44d3589760ef5d5
+CrackLib             -> 9bbab67ea02114cdc98e5b1376503a4794f17812
+Csu                  -> f92bd38eed56b8116931c46be534b236d958b680
+DSPasswordServerFramework -> b9bb686082a4353386bc43423341d9c820117f36
+DSTools              -> c2a59edc75e5d7beae0c0f8d95836f6b85c04452
+DirectoryService     -> e799a40a7d20eef63101a6c46fe59896904c3fcb
+DirectoryServiceMIG  -> 3117bef65bebd50f3dd4d74d8a8a2543f7534e7a
+DirectoryServiceMIG.hdrs -> 63a2bade4a4dc1b3f3e65cd355db9502fbb51299
+DiskArbitration      -> 133907411019f6b8791a6bf093d7b55554624cc9
+ICU                  -> c6d15e7840b2eb536f6ef67e27e9c1f7f6f27639
+ICU_debug            -> c00871d827df9c306e434da4ad6d940c5e905422
+ICU_profile          -> 1050c7a05e2f6b4767df09ed094cfa75fd717328
+IOACPIFamily         -> cb48da1a3d92fdefa001860e50fb017a0b86aada
+IOACPIFamily.hdrs    -> a4cbf318a29e5c52d925f69c7525d25ffbfacca8
+IOADBFamily          -> 2ec8cd75edc980cb728083817458b9fd9754c3ff
+IOADBFamily.hdrs     -> fd2467a47460ea78ed0d33426c7af6eee5c0497b
+IOATABlockStorage    -> d1ca5e999a045dd7ff38c3b79bfdea03b15f25f2
+IOATAFamily          -> f3feb636d6e3738851dc093f8c934fff4c1ee0db
+IOATAFamily.hdrs     -> 9c084e51b38875bea4f9197dcbcb9398f29df78b
+IOAudioFamily.hdrs   -> b4d1a38fa7471fadfaa5c977d9f12f2d105d2026
+IOCDStorageFamily    -> 08bff09718917781fd751d0f845a8b51d91c44a6
+IOCDStorageFamily.hdrs -> 37e7bc74a0bd3b0ddf8c34c99a2e4abf915715df
+IODVDStorageFamily   -> 1406f6c5a7b51fb63ca63e65413797fca020ac26
+IODVDStorageFamily.hdrs -> b8780eee3563b847d8ba9b16802b3d48b172238a
+IOFireWireAVC        -> 37ce91ca8f27f0685aee54de23a38258f1bb17f1
+IOFireWireAVC.hdrs   -> b1097381364fa3a3fb591573fca3d00864386849
+IOFireWireFamily     -> 299060f8147a96c091d624e52ca178e41b4a1421
+IOFireWireFamily.hdrs -> e8ddbf3257826023742341a2a3fe5b97ca7bdfbf
+IOFireWireSBP2       -> 54d22e62a583df112f086448264a2fbf8bfeb7e3
+IOFireWireSBP2.hdrs  -> 1957a223eb448fd039b1f28fe4202f0dd495cb02
+IOGraphics           -> 1e75fbd92c51916ac9bd8f9fe967fe26bb505e80
+IOGraphics.hdrs      -> 756ad73badc3973a35011e2252ffa448f8965af9
+IOHIDFamily.hdrs     -> 11b5dd60c3dc51d3029feefa1eaa54aefd39aed5
+IOKitTools           -> 856f0fbe7339cfbb6842baf72fad32d67bb79372
+IONetworkingFamily   -> d7f32e504f0f450c956d0473445d51dc079cd8d9
+IONetworkingFamily.hdrs -> 960b8adaa02c94081cf71ccf09c27fd7e58f2c4b
+IOPCCardFamily       -> 2a475b30b2dfec1f1448fa4b2df82aea3fc68fa6
+IOPCCardFamily.hdrs  -> 1a092c96ca25346f313e1519f9dc8bbeedbffc77
+IOPCIFamily          -> c1d256fcd1df153fadd6449b90348421e3a53c35
+IOPCIFamily.hdrs     -> e48c0ae3b41fbc95f1c27bf67b7bd83d56f78ee2
+IOSCSIArchitectureModelFamily -> 2589c6514f2480873d4a04ae8954406b01c7a236
+IOSCSIParallelFamily.hdrs -> d58bf6a00fa5a42fccba9659d524c5fed18244bb
+IOSerialFamily       -> 75936a843ba41764e4fa48673156b36d12d6fc3c
+IOSerialFamily.hdrs  -> 4d09f40bf7b4245eaa0a2a90d966357477cb7ad2
+IOStorageFamily      -> 15419c3e2940bb78794d143847d95a90eb113072
+IOStorageFamily.hdrs -> 98255d754886bf9607f31356348179a1def3315f
+IOUSBFamily          -> 9201d9fc529e07ae14b4ebb071b4de46d4a8ea47
+IOUSBFamily.hdrs     -> 1faa350ff374d1b4273c840c604ada2b3d4d74e8
+IOUSBMassStorageClass.hdrs -> d2c2c00fc41bbf2a584da19e95307f7862ff573c
+Kerberos             -> 35b148b579dd209e46f829d7dad2654067a0939b
+KerberosHelper       -> 4952072ee3ff5ce3e9dd64db685d0525037614e1
+LDAPFramework        -> 7d4c3d2b41de0a309d32c3a1b9590e074b4d862e
+Libc                 -> af684577ddd3b842b4e2813c1d48313b1ea1c970
+Libc_headers         -> 7d4a358141874cd0e4e284fcac97ddab231cb627
+Libc_man             -> 257f615b00caa96fdb338290e0183f386bdb00cd
+Libcpp_kext          -> 1cbd107722b8cfa2dafaef9c547972e55069266c
+Libinfo              -> b53541ba24d58a54324894b2645847764d91d295
+Libinfo.hdrs         -> d911bb129983e481e35aff8a22e1d01782c93a41
+Libm                 -> 7d90dffecd558d133aa75cd2a872621ca1c47b17
+Libmx                -> 98eaf825fe5d9bcd772e78e5f65fff03d2058950
+Libnotify            -> cc5d8f96092c1d0d1fc0d6fe2f7cd6633c07ebc9
+Libnotify.hdrs       -> d924dec66fc451b81311a91a9ba6486f694f1363
+Librpcsvc            -> 3bf40eccc862446bb3ded0eb2e4b9c404097343d
+Librpcsvc.hdrs       -> 3bf40eccc862446bb3ded0eb2e4b9c404097343d
+Libstreams           -> 8a8001deee8d040aa0dfbf62bc28625b61c7f04f
+Libstreams.hdrs      -> 3a9da37af5bc3cb0f89ccd3b7c0654c4d9153d0d
+Libsyscall           -> ba5ef2c946496fd7d69ff62cf5547ae6033722f1
+Libsyscall.hdrs      -> ff302db561618fc530c3d4c0bf77d35bb79404a5
+Libsystem            -> 45af50f48c9e4d28d6d0dfc97a35f89318dfb9eb
+Liby                 -> 382d7cc4a30e091e893b2ca0f3e3042bce7a59d9
+OpenDirectory        -> 2a355cf040f8acaf68613cfd96a21868a9208132
+OpenSSL              -> 55f97d6df970d2cc15cb092a14d29404bde71cd9
+OpenSSL096           -> 767d1304050504dac527bde647a1b85c2602810b
+PowerManagement.hdrs -> 7131d9d0444be1fec8e2dd5f93872df438680f41
+SCSIHeaderInstaller  -> 9f255d1c0d0475e4d7069e6102b4e8052665f793
+SCSIHeaderInstaller.hdrs -> 9f255d1c0d0475e4d7069e6102b4e8052665f793
+SQLite               -> 9ffabb11b8b71aca0673a44d0f76517ca1b23580
+SystemStubs          -> f5fe33649ec3da2d7fe5fd478000e33c3fed7fc1
+TargetConfig         -> adaa5d0ccb48144d37be32e5b50b86c3a83a9b1c
+TimeZoneData         -> c3300d75bf63394a403413fcbb6aadff0f444d03
+UserNotification     -> e2a38b48125d998eb9cd6e4d78f2e30bb3ace36a
+VirtualAudioDriver   -> 17d8b57843c852b91716aac146ec32bd96c4b55b
+X11misc              -> e7d802c3ca0f6f6639fc7f99856fb88debc0a94a
+adv_cmds             -> 12293ed5af92e33e6388f4bce7e7f186cb4dd44c
+amavisd              -> 453ab89da97d463d549685f142a134e1c6ab848b
+apr                  -> f6657a4d8cac6daa6c56d54991625e24b1f9916d
+architecture         -> 046e8f7cf54251f80e2abd3892d8ce2285c83f0c
+architecture.hdrs    -> 046e8f7cf54251f80e2abd3892d8ce2285c83f0c
+at_cmds              -> eb02ccfddbcc081172df22bd4a18f4a10e82d3dc
+autoconf             -> 8ebf0ecba930c90ae4dd1b8331be4611b886c575
+automake             -> 78852687f72b877585de9662210878daa950ce19
+awk                  -> 23f3b94d3de27ee0befce7a0198b6e236b1b9330
+                        b5c6dbea23a750cd1b3c9e8d206385daa0795468
+bash                 -> ebc10aa6bc17c03ebe1ae71ee56a10e5ddd8f6a7
+basic_cmds           -> 3bafb4a3378485390a7da59738e884592243b229
+bc                   -> 495d52b9d6114ffacf0c3c48f52f1b7970918db8
+bind9                -> 9e7ac3679bbe007ee65ae0584afa1ba6eafc8722
+bison                -> d39f0e0fd4e44fdd338428c198d94a02ff5b0d38
+bison1               -> 8de4182a13d9ef6f8149ffee94914675e71f73b7
+bless                -> c9b671f2bfb928118c3e3f76392ab556146c1fad
+bootp                -> 0211e5172754f43851e3ddaa968c457c40dd5440
+bootstrap_cmds       -> 55502d7e56462614065d20f9a7a6f1698ad6c357
+bsdmake              -> 9f5242bdcab7fb5790e07857e19685a807bec76d
+bsm                  -> ce28136e0d8e576b43ba59d876d96fc7094d4a2c
+bzip2                -> e4ae6f9f4e6a3c17c71985369e94ce58e047c074
+                        c2cccd63516eea1c9bf9ec85f8bfbcef664aaaa2
+                        c6a47964620e7a0ba5843654b6521b377b36b7c6
+cctools              -> b9e15cba64debd385fc645edf4e70a8a46db93d0
+cctools_ofiles       -> d8f566957f7f5f6ba357d4b65bc321e846bef46a
+cctools_ofiles.hdrs  -> c49dc08e6e96fddb4d4fad03548c1fbb9ed022c8
+configd              -> 7b77acaf740ab406db8593c00222737fdd788abf
+configd.hdrs         -> 1427add1ec48edbcd049e463418950c9f042f851
+configd_executables.hdrs -> 1427add1ec48edbcd049e463418950c9f042f851
+copyfile             -> 69d24fcd1a8ee385973e30bec7992cdfa5741630
+copyfile.hdrs        -> 069d487377595c5ef28ce3d294fba044e7fffacb
+cscope               -> a4fc6859fc522a90364610232d9a70aebf1e582f
+cxxfilt              -> 49ad3201c2867be5549bcb1ec106905d022e0145
+                        d34d8d7aaa54f7c7cf5922128390115ea1ac6317
+developer_cmds       -> 23d2636b3137b37aa25ad010ef3bf95636c16a4b
+diffstat             -> c208ac9215bace967600de104cabbc48c09cc0b7
+diskdev_cmds         -> 5d5929605a2b4928170a0ba8e61c1607cb32d6d2
+disklabel            -> feda0d76381725ce5304919a7abc803ab192f251
+distcc               -> e566bb3c13a4cebbc5162fb89d6eb0baa1612fae
+doc_cmds             -> 0bfef9ec537331d2d1d676025b6c5c5c5df0c49e
+dtrace.hdrs          -> b0c5ad8a25ae032c4aa1669f204a955d9281d3ad
+dyld                 -> 5f0f7711c6911bf837a831b402b588fe53238f53
+                        e526d78ffaa47697f06ff4defcdcfd010fa39ebf
+eap8021x             -> 410f6c68e219a9f033d1c726d4b8f1879bc5d01c
+eap8021x.hdrs        -> dbf56b7b00fa1c15d3c368483bfbd240bb698aaf
+efiboot              -> dad8667c9ce4ddbda9858200928d1f5603a3ca9b
+emacs                -> 9714cbd245deece5c72e8d34a2cbca65ace365cf
+enscript             -> 163de6a290d3a8ac695c4eceaaa8d61cc32c67fc
+expat                -> c42ad79ba894c2b1f356a9a4c1b02ba029c84c24
+extenTools           -> c9b0d99d95c927b99d9582f0b59675aa3aad58b6
+                        f1c6c90b7d8ce39453f89b6d9d115c72d400a4e4
+file                 -> a98ac6bf5e9ceaf32c016bd7c4a8b72c3cbbaf99
+file_cmds            -> 05b3f7391c963cb2a95eb6754d32a6013da024cd
+files                -> 6c1e63234cb25aa24942b5fa3a23a9d4b91caee7
+flex                 -> dd5d719165172dd1b313a491a0d47b3b0555b3a6
+freeradius           -> c277c754c36f9fb414e8422f2eec9db4961c086d
+gcc                  -> 8632c4b68888a04d516410d8116dbbe9171b0bf8
+gcc_42               -> e4c02296dadbb94b63aec428a20248f425729803
+gcc_os               -> a511967d1b827eb027b32c565285e582092c5110
+gcc_select           -> 16de1c023bc46aea0cbb0cc752b32ee547c2be8b
+gccfast              -> 5158f661d3a82149f7968d06de9dfae619b2f8f8
+gdbforcw             -> 485dcabf505e9765884f57fdeccc435206b7070e
+glibtool             -> 0a09c1e427bacd4f95faa02b098da7af1db1cdfe
+gm4                  -> 76f10de4f4f01584eccab1fe7be5135d5e61ad32
+gnudiff              -> 4cfe5f0c3d92c0385fcb8adb67cdae613e60acbb
+gnumake              -> 4ef91de34779b8f0be8a97189cda43bcec82583d
+gnutar               -> 282c013e6eedda232bcd789b2e39e6dbc10c9c13
+gnuzip               -> b042c484cd74d9808587b6219e62623b1f0ca34a
+gperf                -> 32e83efa78330adb4c329c1f6331a011c74b53e2
+gpt                  -> 03e41e6999b3a17d5fd07245a9f2dd501d7622bf
+graphviz             -> 56acf6ff33ffa9ccaeab6ff24a31cffef4b52d9e
+grep                 -> 8208798332d9b49083df4ee783b28b12a343a012
+groff                -> b3a343c45423a9a077bd7a0bdff567a04fd1a494
+gssd                 -> 20ac9ca00cb59a961240008dd24ce0bf0b43edc4
+headerdoc            -> c9b2599ed6ba840a0359867556311a2e2c958ec1
+hfs                  -> 080aa965d60471b497c4f45f3584b9bd7637ca5a
+ipv6configuration    -> 04d1e7f7ed087aa31b1ac86c6043b0b00917c722
+isoutil              -> fbff81a086b7a06f421d651b4fdf38289dd91492
+jam                  -> b99ad1f270f778ae4dabc0a4ba5c6a85fceef212
+kext_tools           -> 16307485d546780f75da46b9940037ef126ea093
+keymgr               -> 22fae13b3ab0af5aa974b62720eea93e197434f4
+ksh                  -> 44ed42b06325f219a2c41166652710bacf09d8dd
+launchd              -> 3be8ba7d4b77d11356ff50b60cbf5d52aaa63806
+ld64                 -> 1d3edd0681f31e544d59b4301cb7fa7a0f3fd283
+less                 -> a0fc69e0c6f5549b4e5ddc5cf8b3e7fe40eb6191
+libdyld              -> b4ae560e2b68fc4dd852133ed23a6074788afc93
+libedit              -> 4c1c4194e8b5ff3bd9029e86fedf895d810b06ae
+libffi               -> 25ac8438ef07c698b8ec3fd70eed85320d49966e
+libfs                -> 2859331f6551983dc51b17d59ffaab89bdafeaff
+libgcc               -> bf738c6d5a594f03987e23a742e8e0e9820ee095
+libiconv             -> 2524f89df60a7231da3afcfd85959cc102c4dc1b
+libmd                -> 94482dab4489c97f364fb6eaa7f286acc7a175c7
+libpcap              -> c88a072ce294f8d00680dc4dcd24628f233507d9
+libresolv            -> 0490aaa6217722db3a778a32370855b11f987298
+libresolv.hdrs       -> bce5d522cb6176b05bb2542e802d7b81bf10129a
+libstdcxx            -> bf9d54e5ad919d164928e6b3a0ce1944023cc114
+libtelnet            -> 9fcd86b7563d80314c608a11994e30d754e7e0a5
+libutil              -> 56ebada3f15ef2bda85a2f0b2ad46c6275208fe4
+libxml2              -> c7d75a32b93ee77026bf31e4dcdd478576171574
+libxslt              -> c5ddf5791a59bf48403cb5cc141282b8c22d3e7e
+lsof                 -> fb9b91e5963d9ac883857f327810b6ff63a31696
+mDNSResponder        -> b90ff8f7c8e7172103e6f42957ed817151862373
+mDNSResponder.hdrs   -> b3e55b386ee6fc8b5760eb5546c3496c24ad51bb
+mDNSResponderSystemLibraries.hdrs -> b3e55b386ee6fc8b5760eb5546c3496c24ad51bb
+man                  -> 80a90469c77be40464795515b55b13e6c32f7fab
+misc_cmds            -> 7e6e3fa6b4c5c3bfcaa52f44574da1f47d532aec
+modemccl             -> 91bc9bee0126c27c8aa9a4a968207d3d3bb7540b
+nano                 -> d64efeb87a2b5f731a00e2b11b8cf7d902eb3f4f
+nasm                 -> 47251a4f0e95540119281f8304144b64fecd4788
+ncurses              -> dec891b17c5d3965198a9dfbc01f188d8b001ebf
+neon                 -> 13109242aa372e6a33878f5f412772917b9d5d2d
+netcat               -> f6de992d5333c4282486bb08ae8f08d3e0a216fb
+network_cmds         -> 7b1b7744532ed136e0ddc987a008b0ba35b41557
+notify               -> e04cf5ab98aa2912da5f381f59193dcbd10cbbdb
+ntfs                 -> a22657bf139ae8f0db1f7e3619002fbb075f3f24
+ntp                  -> 3f855514804fcd10189ae46195c0fbd8185cabcf
+objc4                -> 24608b400900390f46b1f09708219b31c99ae05e
+objc4.hdrs           -> 6e2f49c784c8e6293344308b9f17d6c8c8d1818a
+openmpi              -> cef3f1a501da370df0e6dee5439efa8932834590
+pam                  -> 8ca54e6ec1a783ee02efe23ad2a4074ff576516b
+passwordserver_sasl  -> 5964393e171e039e73d6494206ac49f34814f284
+patch_cmds           -> ee02d6b65f28a094c903c4d4ec9a758f7fe9cd0b
+pb_makefiles         -> 0c2ed59ba9d16f4b76816deda18922a1e78bd017
+pbx_jamfiles         -> b7d782d0dd41b803d57ea170268a0aca0c70ba84
+perl                 -> a271dc83f7e56efce2f69d737b385c814a3e8dd4
+portmap              -> 7a37d7f045518856c3ee7b417ba4a69c9468b5c8
+ppp                  -> 7bcc620eeeebd5b92e52d63a6420b9a728a010c3
+project_makefiles    -> 5dad9368e894aacbef74d02560329add15fa0b7f
+rcs                  -> 7cd93d8756f516f7a17cf170a3e1427c0429405f
+remote_cmds          -> 85660008eb537665172dc9b006fa9679886fd66b
+removefile           -> 32eeece2f69bb4242f162ceae71259df148685f5
+rsync                -> d2131d1432c1b2543c3f80b5c38b9aea3a2bfc27
+samba                -> 80869b5a5fdd6fdfca370585b0a9286267ac5b63
+screen               -> 01895bcbf7fe49f4c60d53fcadabdcca5c00a850
+security_systemkeychain -> 74639582712b5a3c2e2e657a3db2b3e3a67dd5a3
+securityd            -> 5cdefff266133accb0541b928ba3e3f65ca51585
+shell_cmds           -> e6dd6a476ac43f5f5f13c3ccac8af206fd341594
+srm                  -> a6502e7a249aad71bc8e4b2409f64090de4c210e
+stmalloc             -> d059b62c01084f4d9f1267b2d54b0209dae82a0b
+sudo                 -> 9951eb860cc8d872dabc1452ce4a6c885d29f1e5
+swig                 -> f63557ec4121cba3556927c40a13818d85a16411
+syslog               -> 59a3f95bf07a9b6f65de22559b3c374fd5ec0c84
+system_cmds          -> 88a1e12b12564985a397494d3f2fdf27218c7295
+system_config        -> a225e465497c3f5308cf3977c8caba448430ecff
+tcp_wrappers         -> 0fc4387b278d1e3ae9d5d34ff9656064c5a73629
+tcsh                 -> 6c822509964e1b149c9e86e1bc33e294960c1ee8
+texi2html            -> b8537a1db93cdf3a7d2ca2ffda3bc6cdf04f39df
+texinfo              -> f515537857b334e828aa37d22f8803152f60bea0
+text_cmds            -> c1366d93ad398e4ebf8d904d7c0d66e1254222c1
+tidy                 -> e73d93fb06670b78294da13bf182602e09434661
+top                  -> 10af2eff35993471892402f76a81766e0dcc25d5
+uucp                 -> ae73768190f5d52c637923f33efae86a7c911d1c
+wxWidgets            -> 10733a0d8d20a310fd84149eb0a8f5ea824e1bc6
+                        xcodebuild
+xelf                 -> bc151457e7252f7461656783d0e686b835e6a84a
+xnu                  -> 5c5f623ffc2907ad2ee087aa1b76bedf0e3c6e69
+xnu.hdrs             -> a28370ee4fc9f71cb56637f34e1fa44f6c445025
+zip                  -> e731bae74fe284ec61188e23e36b59b370376155
+zlib                 -> 4b507be48399aac75ef745473ebea2998cfc27d4
+zsh                  -> 2ab63c9d472fe5d2623e1fbaa56be0446dffbf42
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+make install  "SRCROOT=/SourceCache/mDNSResponder/mDNSResponder-171.4" "OBJROOT=/private/var/tmp/mDNSResponder/mDNSResponder-171.4.obj" "SYMROOT=/private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym" "DSTROOT=/private/var/tmp/mDNSResponder/mDNSResponder-171.4.root" "RC_ProjectName=mDNSResponder" "RC_ProjectSourceVersion=171.4" "RC_ProjectNameAndSourceVersion=mDNSResponder-171.4" "RC_ProjectBuildVersion=12" "INSTALLED_PRODUCT_ASIDES=YES" "MACOSX_DEPLOYMENT_TARGET=10.5" "NEXT_ROOT=" "RC_ARCHS=ppc i386" "RC_CFLAGS=-pipe -no-cpp-precomp -arch ppc -arch i386" "RC_JASPER=YES" "RC_NONARCH_CFLAGS=-pipe -no-cpp-precomp" "RC_OS=macos" "RC_PRIVATE=/private" "RC_RELEASE=Leopard" "RC_XBS=YES" "RC_i386=YES" "RC_ppc=YES" "SEPARATE_STRIP=YES" "UNAME_RELEASE=9.0" "UNAME_SYSNAME=Darwin" < /dev/null
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Build log begins here:
+
+cd "/SourceCache/mDNSResponder/mDNSResponder-171.4/mDNSMacOSX"; xcodebuild install     OBJROOT=/private/var/tmp/mDNSResponder/mDNSResponder-171.4.obj SYMROOT=/private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym DSTROOT=/private/var/tmp/mDNSResponder/mDNSResponder-171.4.root MVERS="mDNSResponder-171.4" SDKROOT=
+=== BUILDING NATIVE TARGET mDNSResponder WITH THE DEFAULT CONFIGURATION (Development) NOT USING PER-CONFIGURATION BUILD DIRECTORIES ===
+
+Checking Dependencies...
+
+SymLink /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/BuiltProducts/mDNSResponder /private/var/tmp/mDNSResponder/mDNSResponder-171.4.root/usr/sbin/mDNSResponder
+    mkdir /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/BuiltProducts
+    cd /SourceCache/mDNSResponder/mDNSResponder-171.4/mDNSMacOSX
+    /bin/ln -sf /private/var/tmp/mDNSResponder/mDNSResponder-171.4.root/usr/sbin/mDNSResponder /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/BuiltProducts/mDNSResponder
+
+PhaseScriptExecution /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build/Script-D284BE510ADD80740027CCDF.sh
+    cd /SourceCache/mDNSResponder/mDNSResponder-171.4/mDNSMacOSX
+    setenv ACTION install
+    setenv ALWAYS_SEARCH_USER_PATHS YES
+    setenv APPLE_INTERNAL_DEVELOPER_DIR /AppleInternal/Developer
+    setenv APPLE_INTERNAL_DIR /AppleInternal
+    setenv APPLE_INTERNAL_DOCUMENTATION_DIR /AppleInternal/Documentation
+    setenv APPLE_INTERNAL_LIBRARY_DIR /AppleInternal/Library
+    setenv APPLE_INTERNAL_TOOLS /AppleInternal/Developer/Tools
+    setenv ARCHS "ppc i386"
+    setenv BUILD_COMPONENTS "headers build"
+    setenv BUILD_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym
+    setenv BUILD_ROOT /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym
+    setenv BUILD_STYLE 
+    setenv BUILD_VARIANTS normal
+    setenv BUILT_PRODUCTS_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/BuiltProducts
+    setenv CACHE_ROOT /private/var/tmp/mDNSResponder/mDNSResponder-171.4.obj/Caches
+    setenv CCHROOT /private/var/tmp/mDNSResponder/mDNSResponder-171.4.obj/Caches
+    setenv CHMOD /bin/chmod
+    setenv CHOWN /usr/sbin/chown
+    setenv CLASS_FILE_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build/JavaClasses
+    setenv CLEAN_PRECOMPS YES
+    setenv COMMAND_MODE legacy
+    setenv COMPOSITE_SDK_DIRS /private/var/tmp/mDNSResponder/mDNSResponder-171.4.obj/Caches/CompositeSDKs
+    setenv CONFIGURATION Development
+    setenv CONFIGURATION_BUILD_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym
+    setenv CONFIGURATION_TEMP_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build
+    setenv COPY_PHASE_STRIP YES
+    setenv COPY_RESOURCES_FROM_STATIC_FRAMEWORKS YES
+    setenv CP /bin/cp
+    setenv CURRENT_ARCH i386
+    setenv CURRENT_VARIANT normal
+    setenv DEBUGGING_SYMBOLS YES
+    setenv DEBUG_INFORMATION_FORMAT dwarf-with-dsym
+    setenv DEPLOYMENT_LOCATION YES
+    setenv DERIVED_FILES_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build/DerivedSources
+    setenv DERIVED_FILE_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build/DerivedSources
+    setenv DERIVED_SOURCES_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build/DerivedSources
+    setenv DEVELOPER_APPLICATIONS_DIR /Developer/Applications
+    setenv DEVELOPER_BIN_DIR /Developer/usr/bin
+    setenv DEVELOPER_DIR /Developer
+    setenv DEVELOPER_FRAMEWORKS_DIR /Developer/Library/Frameworks
+    setenv DEVELOPER_FRAMEWORKS_DIR_QUOTED "\"/Developer/Library/Frameworks\""
+    setenv DEVELOPER_LIBRARY_DIR /Developer/Library
+    setenv DEVELOPER_SDK_DIR /Developer/SDKs
+    setenv DEVELOPER_TOOLS_DIR /Developer/Tools
+    setenv DEVELOPER_USR_DIR /Developer/usr
+    setenv DEVELOPMENT_LANGUAGE English
+    setenv DSTROOT /private/var/tmp/mDNSResponder/mDNSResponder-171.4.root
+    setenv DWARF_DSYM_FILE_NAME mDNSResponder.dSYM
+    setenv DWARF_DSYM_FOLDER_PATH /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym
+    setenv ENABLE_HEADER_DEPENDENCIES YES
+    setenv EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES "*.nib *.lproj *.framework *.gch (*) CVS .svn *.xcodeproj *.xcode *.pbproj *.pbxproj"
+    setenv EXECUTABLE_NAME mDNSResponder
+    setenv EXECUTABLE_PATH mDNSResponder
+    setenv FIXED_FILES_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build/FixedFiles
+    setenv FRAMEWORK_FLAG_PREFIX -framework
+    setenv FRAMEWORK_VERSION A
+    setenv FULL_PRODUCT_NAME mDNSResponder
+    setenv GCC_DYNAMIC_NO_PIC NO
+    setenv GCC_ENABLE_FIX_AND_CONTINUE YES
+    setenv GCC_GENERATE_DEBUGGING_SYMBOLS YES
+    setenv GCC_INLINES_ARE_PRIVATE_EXTERN YES
+    setenv GCC_PFE_FILE_C_DIALECTS "c objective-c c++ objective-c++"
+    setenv GCC_PREPROCESSOR_DEFINITIONS "APPLE_OSX_mDNSResponder=1 __MigTypeCheck=1 mDNSResponderVersion=mDNSResponder-171.4 _LEGACY_NAT_TRAVERSAL_"
+    setenv GCC_SYMBOLS_PRIVATE_EXTERN YES
+    setenv GCC_TREAT_WARNINGS_AS_ERRORS YES
+    setenv GCC_VERSION 4.0
+    setenv GENERATE_PKGINFO_FILE NO
+    setenv GENERATE_PROFILING_CODE NO
+    setenv GID 0
+    setenv GROUP wheel
+    setenv HEADERMAP_INCLUDES_FLAT_ENTRIES_FOR_TARGET_BEING_BUILT YES
+    setenv HEADERMAP_INCLUDES_FRAMEWORK_ENTRIES_FOR_ALL_PRODUCT_TYPES YES
+    setenv HEADERMAP_INCLUDES_NONPUBLIC_NONPRIVATE_HEADERS YES
+    setenv HEADERMAP_INCLUDES_PROJECT_HEADERS YES
+    setenv HEADER_SEARCH_PATHS "../mDNSShared /System/Library/Frameworks/System.framework/PrivateHeaders /AppleInternal/Developer/Headers /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build"
+    setenv INFOPLIST_EXPAND_BUILD_SETTINGS YES
+    setenv INSTALL_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.root/usr/sbin
+    setenv INSTALL_GROUP wheel
+    setenv INSTALL_MODE_FLAG a-w,a+rX
+    setenv INSTALL_OWNER root
+    setenv INSTALL_PATH /usr/sbin
+    setenv INSTALL_ROOT /private/var/tmp/mDNSResponder/mDNSResponder-171.4.root
+    setenv JAVAC_DEFAULT_FLAGS "-J-Xms64m -J-XX:NewSize=4M -J-Dfile.encoding=UTF8"
+    setenv JAVA_APP_STUB /System/Library/Frameworks/JavaVM.framework/Resources/MacOS/JavaApplicationStub
+    setenv JAVA_ARCHIVE_CLASSES YES
+    setenv JAVA_ARCHIVE_TYPE JAR
+    setenv JAVA_COMPILER /usr/bin/javac
+    setenv JAVA_FRAMEWORK_RESOURCES_DIRS Resources
+    setenv JAVA_JAR_FLAGS cv
+    setenv JAVA_SOURCE_SUBDIR .
+    setenv JAVA_USE_DEPENDENCIES YES
+    setenv JAVA_ZIP_FLAGS -urg
+    setenv JIKES_DEFAULT_FLAGS "+E +OLDCSO"
+    setenv LEX /Developer/usr/bin/lex
+    setenv LIBRARY_FLAG_NOSPACE YES
+    setenv LIBRARY_FLAG_PREFIX -l
+    setenv LIBRARY_SEARCH_PATHS "\"/private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build\""
+    setenv LINK_FILE_LIST_normal_i386 /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build/Objects-normal/i386/mDNSResponder.LinkFileList
+    setenv LINK_FILE_LIST_normal_ppc /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build/Objects-normal/ppc/mDNSResponder.LinkFileList
+    setenv LOCAL_ADMIN_APPS_DIR /Applications/Utilities
+    setenv LOCAL_APPS_DIR /Applications
+    setenv LOCAL_DEVELOPER_DIR /Library/Developer
+    setenv LOCAL_LIBRARY_DIR /Library
+    setenv MACOSX_DEPLOYMENT_TARGET 10.4
+    setenv MAC_OS_X_VERSION_ACTUAL 0000
+    setenv MAC_OS_X_VERSION_MAJOR 0000
+    setenv MAC_OS_X_VERSION_MINOR 0000
+    setenv MVERS mDNSResponder-171.4
+    setenv NATIVE_ARCH i386
+    setenv NATIVE_ARCH_32_BIT i386
+    setenv NATIVE_ARCH_64_BIT x86_64
+    setenv NATIVE_ARCH_ACTUAL i386
+    setenv NO_COMMON YES
+    setenv OBJECT_FILE_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build/Objects
+    setenv OBJECT_FILE_DIR_normal /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build/Objects-normal
+    setenv OBJROOT /private/var/tmp/mDNSResponder/mDNSResponder-171.4.obj
+    setenv OPTIMIZATION_LEVEL 0
+    setenv OS MACOS
+    setenv OSAC /usr/bin/osacompile
+    setenv OTHER_CFLAGS " -no-cpp-precomp"
+    setenv OTHER_CPLUSPLUSFLAGS " -no-cpp-precomp"
+    setenv OTHER_LDFLAGS -ldnsinfo
+    setenv PACKAGE_TYPE com.apple.package-type.mach-o-executable
+    setenv PASCAL_STRINGS YES
+    setenv PATH_PREFIXES_EXCLUDED_FROM_HEADER_DEPENDENCIES "/usr/include /usr/local/include /System/Library/Frameworks /System/Library/PrivateFrameworks /Developer/Headers"
+    setenv PFE_FILE_C_DIALECTS c
+    setenv PKGINFO_FILE_PATH /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build/PkgInfo
+    setenv PREBINDING NO
+    setenv PRECOMP_DESTINATION_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build/PrefixHeaders
+    setenv PRODUCT_NAME mDNSResponder
+    setenv PRODUCT_SETTINGS_PATH 
+    setenv PRODUCT_TYPE com.apple.product-type.tool
+    setenv PROJECT mDNSResponder
+    setenv PROJECT_DERIVED_FILE_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.obj/mDNSResponder.build/DerivedSources
+    setenv PROJECT_DIR /SourceCache/mDNSResponder/mDNSResponder-171.4/mDNSMacOSX
+    setenv PROJECT_FILE_PATH /SourceCache/mDNSResponder/mDNSResponder-171.4/mDNSMacOSX/mDNSResponder.xcodeproj
+    setenv PROJECT_NAME mDNSResponder
+    setenv PROJECT_TEMP_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.obj/mDNSResponder.build
+    setenv RECURSIVE_SEARCH_PATHS_FOLLOW_SYMLINKS YES
+    setenv REMOVE_CVS_FROM_RESOURCES YES
+    setenv REMOVE_SVN_FROM_RESOURCES YES
+    setenv RETAIN_RAW_BINARIES YES
+    setenv REZ_COLLECTOR_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build/ResourceManagerResources
+    setenv REZ_EXECUTABLE YES
+    setenv REZ_OBJECTS_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build/ResourceManagerResources/Objects
+    setenv SCRIPT_INPUT_FILE_COUNT 0
+    setenv SCRIPT_OUTPUT_FILE_COUNT 0
+    setenv SDKROOT 
+    setenv SECTORDER_FLAGS "-sectorder __TEXT __text mDNSResponder.order"
+    setenv SED /usr/bin/sed
+    setenv SET_DIR_MODE_OWNER_GROUP YES
+    setenv SET_FILE_MODE_OWNER_GROUP NO
+    setenv SHARED_DERIVED_FILE_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/BuiltProducts/DerivedSources
+    setenv SHARED_PRECOMPS_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.obj/Caches/SharedPrecompiledHeaders
+    setenv SOURCE_ROOT /SourceCache/mDNSResponder/mDNSResponder-171.4/mDNSMacOSX
+    setenv SRCROOT /SourceCache/mDNSResponder/mDNSResponder-171.4/mDNSMacOSX
+    setenv STRIPFLAGS -S
+    setenv STRIP_INSTALLED_PRODUCT YES
+    setenv STRIP_STYLE all
+    setenv SYMBOL_REPOSITORY_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build/SymbolRepositories
+    setenv SYMROOT /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym
+    setenv SYSTEM_ADMIN_APPS_DIR /Applications/Utilities
+    setenv SYSTEM_APPS_DIR /Applications
+    setenv SYSTEM_CORE_SERVICES_DIR /System/Library/CoreServices
+    setenv SYSTEM_DEMOS_DIR /Applications/Extras
+    setenv SYSTEM_DEVELOPER_APPS_DIR /Developer/Applications
+    setenv SYSTEM_DEVELOPER_BIN_DIR /Developer/usr/bin
+    setenv SYSTEM_DEVELOPER_DEMOS_DIR "/Developer/Applications/Utilities/Built Examples"
+    setenv SYSTEM_DEVELOPER_DIR /Developer
+    setenv SYSTEM_DEVELOPER_DOC_DIR "/Developer/ADC Reference Library"
+    setenv SYSTEM_DEVELOPER_GRAPHICS_TOOLS_DIR "/Developer/Applications/Graphics Tools"
+    setenv SYSTEM_DEVELOPER_JAVA_TOOLS_DIR "/Developer/Applications/Java Tools"
+    setenv SYSTEM_DEVELOPER_PERFORMANCE_TOOLS_DIR "/Developer/Applications/Performance Tools"
+    setenv SYSTEM_DEVELOPER_RELEASENOTES_DIR "/Developer/ADC Reference Library/releasenotes"
+    setenv SYSTEM_DEVELOPER_TOOLS /Developer/Tools
+    setenv SYSTEM_DEVELOPER_TOOLS_DOC_DIR "/Developer/ADC Reference Library/documentation/DeveloperTools"
+    setenv SYSTEM_DEVELOPER_TOOLS_RELEASENOTES_DIR "/Developer/ADC Reference Library/releasenotes/DeveloperTools"
+    setenv SYSTEM_DEVELOPER_USR_DIR /Developer/usr
+    setenv SYSTEM_DEVELOPER_UTILITIES_DIR /Developer/Applications/Utilities
+    setenv SYSTEM_DOCUMENTATION_DIR /Library/Documentation
+    setenv SYSTEM_LIBRARY_DIR /System/Library
+    setenv TARGETNAME mDNSResponder
+    setenv TARGET_BUILD_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.root/usr/sbin
+    setenv TARGET_NAME mDNSResponder
+    setenv TARGET_TEMP_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build
+    setenv TEMP_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build
+    setenv TEMP_FILES_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build
+    setenv TEMP_FILE_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build
+    setenv TEMP_ROOT /private/var/tmp/mDNSResponder/mDNSResponder-171.4.obj
+    setenv UID 0
+    setenv UNSTRIPPED_PRODUCT NO
+    setenv USER root
+    setenv USER_APPS_DIR /var/root/Applications
+    setenv USER_LIBRARY_DIR /var/root/Library
+    setenv USE_DYNAMIC_NO_PIC YES
+    setenv VALID_ARCHS "ppc64 ppc7400 ppc970 i386 x86_64 ppc"
+    setenv VERBOSE_PBXCP NO
+    setenv VERSION_INFO_BUILDER root
+    setenv VERSION_INFO_FILE mDNSResponder_vers.c
+    setenv VERSION_INFO_STRING "\"@(#)PROGRAM:mDNSResponder  PROJECT:mDNSResponder-\""
+    setenv WARNING_CFLAGS "-W -Wall -Wmissing-prototypes -Wno-four-char-constants -Wno-unknown-pragmas -Wshadow"
+    setenv XCODE_APP_SUPPORT_DIR /Developer/Library/Xcode
+    setenv XCODE_VERSION_ACTUAL 0300
+    setenv XCODE_VERSION_MAJOR 0300
+    setenv YACC /Developer/usr/bin/yacc
+    setenv YACC_GENERATED_FILE_STEM Standard
+    /bin/sh -c /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build/Script-D284BE510ADD80740027CCDF.sh
+
+PBXCp /private/var/tmp/mDNSResponder/mDNSResponder-171.4.root/usr/share/man/man8/mDNSResponder.8 ../mDNSShared/mDNSResponder.8
+    mkdir /private/var/tmp/mDNSResponder/mDNSResponder-171.4.root/usr/share/man/man8
+    cd /SourceCache/mDNSResponder/mDNSResponder-171.4/mDNSMacOSX
+    /Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp -exclude .DS_Store -exclude CVS -exclude .svn -strip-debug-symbols -resolve-src-symlinks /SourceCache/mDNSResponder/mDNSResponder-171.4/mDNSMacOSX/../mDNSShared/mDNSResponder.8 /private/var/tmp/mDNSResponder/mDNSResponder-171.4.root/usr/share/man/man8
+
+PhaseScriptExecution /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build/Script-D284BE6C0ADD80740027CCDF.sh
+    cd /SourceCache/mDNSResponder/mDNSResponder-171.4/mDNSMacOSX
+    setenv ACTION install
+    setenv ALWAYS_SEARCH_USER_PATHS YES
+    setenv APPLE_INTERNAL_DEVELOPER_DIR /AppleInternal/Developer
+    setenv APPLE_INTERNAL_DIR /AppleInternal
+    setenv APPLE_INTERNAL_DOCUMENTATION_DIR /AppleInternal/Documentation
+    setenv APPLE_INTERNAL_LIBRARY_DIR /AppleInternal/Library
+    setenv APPLE_INTERNAL_TOOLS /AppleInternal/Developer/Tools
+    setenv ARCHS "ppc i386"
+    setenv BUILD_COMPONENTS "headers build"
+    setenv BUILD_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym
+    setenv BUILD_ROOT /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym
+    setenv BUILD_STYLE 
+    setenv BUILD_VARIANTS normal
+    setenv BUILT_PRODUCTS_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/BuiltProducts
+    setenv CACHE_ROOT /private/var/tmp/mDNSResponder/mDNSResponder-171.4.obj/Caches
+    setenv CCHROOT /private/var/tmp/mDNSResponder/mDNSResponder-171.4.obj/Caches
+    setenv CHMOD /bin/chmod
+    setenv CHOWN /usr/sbin/chown
+    setenv CLASS_FILE_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build/JavaClasses
+    setenv CLEAN_PRECOMPS YES
+    setenv COMMAND_MODE legacy
+    setenv COMPOSITE_SDK_DIRS /private/var/tmp/mDNSResponder/mDNSResponder-171.4.obj/Caches/CompositeSDKs
+    setenv CONFIGURATION Development
+    setenv CONFIGURATION_BUILD_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym
+    setenv CONFIGURATION_TEMP_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build
+    setenv COPY_PHASE_STRIP YES
+    setenv COPY_RESOURCES_FROM_STATIC_FRAMEWORKS YES
+    setenv CP /bin/cp
+    setenv CURRENT_ARCH i386
+    setenv CURRENT_VARIANT normal
+    setenv DEBUGGING_SYMBOLS YES
+    setenv DEBUG_INFORMATION_FORMAT dwarf-with-dsym
+    setenv DEPLOYMENT_LOCATION YES
+    setenv DERIVED_FILES_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build/DerivedSources
+    setenv DERIVED_FILE_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build/DerivedSources
+    setenv DERIVED_SOURCES_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build/DerivedSources
+    setenv DEVELOPER_APPLICATIONS_DIR /Developer/Applications
+    setenv DEVELOPER_BIN_DIR /Developer/usr/bin
+    setenv DEVELOPER_DIR /Developer
+    setenv DEVELOPER_FRAMEWORKS_DIR /Developer/Library/Frameworks
+    setenv DEVELOPER_FRAMEWORKS_DIR_QUOTED "\"/Developer/Library/Frameworks\""
+    setenv DEVELOPER_LIBRARY_DIR /Developer/Library
+    setenv DEVELOPER_SDK_DIR /Developer/SDKs
+    setenv DEVELOPER_TOOLS_DIR /Developer/Tools
+    setenv DEVELOPER_USR_DIR /Developer/usr
+    setenv DEVELOPMENT_LANGUAGE English
+    setenv DSTROOT /private/var/tmp/mDNSResponder/mDNSResponder-171.4.root
+    setenv DWARF_DSYM_FILE_NAME mDNSResponder.dSYM
+    setenv DWARF_DSYM_FOLDER_PATH /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym
+    setenv ENABLE_HEADER_DEPENDENCIES YES
+    setenv EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES "*.nib *.lproj *.framework *.gch (*) CVS .svn *.xcodeproj *.xcode *.pbproj *.pbxproj"
+    setenv EXECUTABLE_NAME mDNSResponder
+    setenv EXECUTABLE_PATH mDNSResponder
+    setenv FIXED_FILES_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build/FixedFiles
+    setenv FRAMEWORK_FLAG_PREFIX -framework
+    setenv FRAMEWORK_SEARCH_PATHS /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/BuiltProducts
+    setenv FRAMEWORK_VERSION A
+    setenv FULL_PRODUCT_NAME mDNSResponder
+    setenv GCC_DYNAMIC_NO_PIC NO
+    setenv GCC_ENABLE_FIX_AND_CONTINUE YES
+    setenv GCC_GENERATE_DEBUGGING_SYMBOLS YES
+    setenv GCC_INLINES_ARE_PRIVATE_EXTERN YES
+    setenv GCC_PFE_FILE_C_DIALECTS "c objective-c c++ objective-c++"
+    setenv GCC_PREPROCESSOR_DEFINITIONS "APPLE_OSX_mDNSResponder=1 __MigTypeCheck=1 mDNSResponderVersion=mDNSResponder-171.4 _LEGACY_NAT_TRAVERSAL_"
+    setenv GCC_SYMBOLS_PRIVATE_EXTERN YES
+    setenv GCC_TREAT_WARNINGS_AS_ERRORS YES
+    setenv GCC_VERSION 4.0
+    setenv GENERATE_PKGINFO_FILE NO
+    setenv GENERATE_PROFILING_CODE NO
+    setenv GID 0
+    setenv GROUP wheel
+    setenv HEADERMAP_INCLUDES_FLAT_ENTRIES_FOR_TARGET_BEING_BUILT YES
+    setenv HEADERMAP_INCLUDES_FRAMEWORK_ENTRIES_FOR_ALL_PRODUCT_TYPES YES
+    setenv HEADERMAP_INCLUDES_NONPUBLIC_NONPRIVATE_HEADERS YES
+    setenv HEADERMAP_INCLUDES_PROJECT_HEADERS YES
+    setenv HEADER_SEARCH_PATHS "/private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/BuiltProducts/include ../mDNSShared /System/Library/Frameworks/System.framework/PrivateHeaders /AppleInternal/Developer/Headers /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build"
+    setenv INFOPLIST_EXPAND_BUILD_SETTINGS YES
+    setenv INSTALL_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.root/usr/sbin
+    setenv INSTALL_GROUP wheel
+    setenv INSTALL_MODE_FLAG a-w,a+rX
+    setenv INSTALL_OWNER root
+    setenv INSTALL_PATH /usr/sbin
+    setenv INSTALL_ROOT /private/var/tmp/mDNSResponder/mDNSResponder-171.4.root
+    setenv JAVAC_DEFAULT_FLAGS "-J-Xms64m -J-XX:NewSize=4M -J-Dfile.encoding=UTF8"
+    setenv JAVA_APP_STUB /System/Library/Frameworks/JavaVM.framework/Resources/MacOS/JavaApplicationStub
+    setenv JAVA_ARCHIVE_CLASSES YES
+    setenv JAVA_ARCHIVE_TYPE JAR
+    setenv JAVA_COMPILER /usr/bin/javac
+    setenv JAVA_FRAMEWORK_RESOURCES_DIRS Resources
+    setenv JAVA_JAR_FLAGS cv
+    setenv JAVA_SOURCE_SUBDIR .
+    setenv JAVA_USE_DEPENDENCIES YES
+    setenv JAVA_ZIP_FLAGS -urg
+    setenv JIKES_DEFAULT_FLAGS "+E +OLDCSO"
+    setenv LEX /Developer/usr/bin/lex
+    setenv LIBRARY_FLAG_NOSPACE YES
+    setenv LIBRARY_FLAG_PREFIX -l
+    setenv LIBRARY_SEARCH_PATHS "/private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/BuiltProducts /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build"
+    setenv LINK_FILE_LIST_normal_i386 /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build/Objects-normal/i386/mDNSResponder.LinkFileList
+    setenv LINK_FILE_LIST_normal_ppc /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build/Objects-normal/ppc/mDNSResponder.LinkFileList
+    setenv LOCAL_ADMIN_APPS_DIR /Applications/Utilities
+    setenv LOCAL_APPS_DIR /Applications
+    setenv LOCAL_DEVELOPER_DIR /Library/Developer
+    setenv LOCAL_LIBRARY_DIR /Library
+    setenv MACOSX_DEPLOYMENT_TARGET 10.4
+    setenv MAC_OS_X_VERSION_ACTUAL 0000
+    setenv MAC_OS_X_VERSION_MAJOR 0000
+    setenv MAC_OS_X_VERSION_MINOR 0000
+    setenv MVERS mDNSResponder-171.4
+    setenv NATIVE_ARCH i386
+    setenv NATIVE_ARCH_32_BIT i386
+    setenv NATIVE_ARCH_64_BIT x86_64
+    setenv NATIVE_ARCH_ACTUAL i386
+    setenv NO_COMMON YES
+    setenv OBJECT_FILE_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build/Objects
+    setenv OBJECT_FILE_DIR_normal /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build/Objects-normal
+    setenv OBJROOT /private/var/tmp/mDNSResponder/mDNSResponder-171.4.obj
+    setenv OPTIMIZATION_LEVEL 0
+    setenv OS MACOS
+    setenv OSAC /usr/bin/osacompile
+    setenv OTHER_CFLAGS " -no-cpp-precomp"
+    setenv OTHER_CPLUSPLUSFLAGS " -no-cpp-precomp"
+    setenv OTHER_LDFLAGS -ldnsinfo
+    setenv PACKAGE_TYPE com.apple.package-type.mach-o-executable
+    setenv PASCAL_STRINGS YES
+    setenv PATH_PREFIXES_EXCLUDED_FROM_HEADER_DEPENDENCIES "/usr/include /usr/local/include /System/Library/Frameworks /System/Library/PrivateFrameworks /Developer/Headers"
+    setenv PFE_FILE_C_DIALECTS c
+    setenv PKGINFO_FILE_PATH /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build/PkgInfo
+    setenv PREBINDING NO
+    setenv PRECOMP_DESTINATION_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build/PrefixHeaders
+    setenv PRODUCT_NAME mDNSResponder
+    setenv PRODUCT_SETTINGS_PATH 
+    setenv PRODUCT_TYPE com.apple.product-type.tool
+    setenv PROJECT mDNSResponder
+    setenv PROJECT_DERIVED_FILE_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.obj/mDNSResponder.build/DerivedSources
+    setenv PROJECT_DIR /SourceCache/mDNSResponder/mDNSResponder-171.4/mDNSMacOSX
+    setenv PROJECT_FILE_PATH /SourceCache/mDNSResponder/mDNSResponder-171.4/mDNSMacOSX/mDNSResponder.xcodeproj
+    setenv PROJECT_NAME mDNSResponder
+    setenv PROJECT_TEMP_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.obj/mDNSResponder.build
+    setenv RECURSIVE_SEARCH_PATHS_FOLLOW_SYMLINKS YES
+    setenv REMOVE_CVS_FROM_RESOURCES YES
+    setenv REMOVE_SVN_FROM_RESOURCES YES
+    setenv RETAIN_RAW_BINARIES YES
+    setenv REZ_COLLECTOR_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build/ResourceManagerResources
+    setenv REZ_EXECUTABLE YES
+    setenv REZ_OBJECTS_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build/ResourceManagerResources/Objects
+    setenv REZ_SEARCH_PATHS /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/BuiltProducts
+    setenv SCRIPT_INPUT_FILE_COUNT 0
+    setenv SCRIPT_OUTPUT_FILE_COUNT 0
+    setenv SDKROOT 
+    setenv SECTORDER_FLAGS "-sectorder __TEXT __text mDNSResponder.order"
+    setenv SED /usr/bin/sed
+    setenv SET_DIR_MODE_OWNER_GROUP YES
+    setenv SET_FILE_MODE_OWNER_GROUP NO
+    setenv SHARED_DERIVED_FILE_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/BuiltProducts/DerivedSources
+    setenv SHARED_PRECOMPS_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.obj/Caches/SharedPrecompiledHeaders
+    setenv SOURCE_ROOT /SourceCache/mDNSResponder/mDNSResponder-171.4/mDNSMacOSX
+    setenv SRCROOT /SourceCache/mDNSResponder/mDNSResponder-171.4/mDNSMacOSX
+    setenv STRIPFLAGS -S
+    setenv STRIP_INSTALLED_PRODUCT YES
+    setenv STRIP_STYLE all
+    setenv SYMBOL_REPOSITORY_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build/SymbolRepositories
+    setenv SYMROOT /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym
+    setenv SYSTEM_ADMIN_APPS_DIR /Applications/Utilities
+    setenv SYSTEM_APPS_DIR /Applications
+    setenv SYSTEM_CORE_SERVICES_DIR /System/Library/CoreServices
+    setenv SYSTEM_DEMOS_DIR /Applications/Extras
+    setenv SYSTEM_DEVELOPER_APPS_DIR /Developer/Applications
+    setenv SYSTEM_DEVELOPER_BIN_DIR /Developer/usr/bin
+    setenv SYSTEM_DEVELOPER_DEMOS_DIR "/Developer/Applications/Utilities/Built Examples"
+    setenv SYSTEM_DEVELOPER_DIR /Developer
+    setenv SYSTEM_DEVELOPER_DOC_DIR "/Developer/ADC Reference Library"
+    setenv SYSTEM_DEVELOPER_GRAPHICS_TOOLS_DIR "/Developer/Applications/Graphics Tools"
+    setenv SYSTEM_DEVELOPER_JAVA_TOOLS_DIR "/Developer/Applications/Java Tools"
+    setenv SYSTEM_DEVELOPER_PERFORMANCE_TOOLS_DIR "/Developer/Applications/Performance Tools"
+    setenv SYSTEM_DEVELOPER_RELEASENOTES_DIR "/Developer/ADC Reference Library/releasenotes"
+    setenv SYSTEM_DEVELOPER_TOOLS /Developer/Tools
+    setenv SYSTEM_DEVELOPER_TOOLS_DOC_DIR "/Developer/ADC Reference Library/documentation/DeveloperTools"
+    setenv SYSTEM_DEVELOPER_TOOLS_RELEASENOTES_DIR "/Developer/ADC Reference Library/releasenotes/DeveloperTools"
+    setenv SYSTEM_DEVELOPER_USR_DIR /Developer/usr
+    setenv SYSTEM_DEVELOPER_UTILITIES_DIR /Developer/Applications/Utilities
+    setenv SYSTEM_DOCUMENTATION_DIR /Library/Documentation
+    setenv SYSTEM_LIBRARY_DIR /System/Library
+    setenv TARGETNAME mDNSResponder
+    setenv TARGET_BUILD_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.root/usr/sbin
+    setenv TARGET_NAME mDNSResponder
+    setenv TARGET_TEMP_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build
+    setenv TEMP_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build
+    setenv TEMP_FILES_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build
+    setenv TEMP_FILE_DIR /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build
+    setenv TEMP_ROOT /private/var/tmp/mDNSResponder/mDNSResponder-171.4.obj
+    setenv UID 0
+    setenv UNSTRIPPED_PRODUCT NO
+    setenv USER root
+    setenv USER_APPS_DIR /var/root/Applications
+    setenv USER_LIBRARY_DIR /var/root/Library
+    setenv USE_DYNAMIC_NO_PIC YES
+    setenv VALID_ARCHS "ppc64 ppc7400 ppc970 i386 x86_64 ppc"
+    setenv VERBOSE_PBXCP NO
+    setenv VERSION_INFO_BUILDER root
+    setenv VERSION_INFO_FILE mDNSResponder_vers.c
+    setenv VERSION_INFO_STRING "\"@(#)PROGRAM:mDNSResponder  PROJECT:mDNSResponder-\""
+    setenv WARNING_CFLAGS "-W -Wall -Wmissing-prototypes -Wno-four-char-constants -Wno-unknown-pragmas -Wshadow"
+    setenv XCODE_APP_SUPPORT_DIR /Developer/Library/Xcode
+    setenv XCODE_VERSION_ACTUAL 0300
+    setenv XCODE_VERSION_MAJOR 0300
+    setenv YACC /Developer/usr/bin/yacc
+    setenv YACC_GENERATED_FILE_STEM Standard
+    /bin/sh -c /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder.build/mDNSResponder.build/Script-D284BE6C0ADD80740027CCDF.sh
+
+Ditto /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder /private/var/tmp/mDNSResponder/mDNSResponder-171.4.root/usr/sbin/mDNSResponder
+    cd /SourceCache/mDNSResponder/mDNSResponder-171.4/mDNSMacOSX
+    /usr/bin/ditto -rsrc /private/var/tmp/mDNSResponder/mDNSResponder-171.4.root/usr/sbin/mDNSResponder /private/var/tmp/mDNSResponder/mDNSResponder-171.4.sym/mDNSResponder
+
+SetOwnerAndGroup "root:wheel" /private/var/tmp/mDNSResponder/mDNSResponder-171.4.root/usr/sbin/mDNSResponder
+    cd /SourceCache/mDNSResponder/mDNSResponder-171.4/mDNSMacOSX
+    /usr/sbin/chown -RH root:wheel /private/var/tmp/mDNSResponder/mDNSResponder-171.4.root/usr/sbin/mDNSResponder
+chown: /private/var/tmp/mDNSResponder/mDNSResponder-171.4.root/usr/sbin/mDNSResponder: No such file or directory
+** BUILD FAILED **
+make: *** [install] Error 1
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ BUILD TIME: 0h 0m 1s
+EXIT STATUS: 2

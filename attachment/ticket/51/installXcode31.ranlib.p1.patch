@@ -1,0 +1,12 @@
+--- installXcode31.orig	2008-12-15 10:27:40.000000000 -0800
++++ installXcode31	2008-12-15 10:28:54.000000000 -0800
+@@ -31,7 +31,8 @@
+     mig \
+     strip \
+     yacc \
+-    lex)
++    lex \
++    ranlib)
+     
+ 
+ JAMFILES="/Developer/Makefiles/pbx_jamfiles"

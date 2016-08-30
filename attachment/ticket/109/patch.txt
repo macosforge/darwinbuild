@@ -1,0 +1,26 @@
+Index: Makefile
+===================================================================
+--- Makefile	(revision 670)
++++ Makefile	(working copy)
+@@ -6,9 +6,9 @@ include ../common.mk
+ DATDIR:=$(DATDIR)/darwinbuild
+ 
+ PrefixReplacements = darwinbuild \
+-		     darwinmaster.sh \
+-		     packageRoots.sh \
+-		     thinPackages.sh \
++		     darwinmaster \
++		     packageRoots \
++		     thinPackages \
+ 		     installXcode \
+ 		     installXcode32
+ 
+@@ -20,7 +20,7 @@ manifest: manifest.c
+ prefixes: $(PrefixReplacements)
+ 
+ $(PrefixReplacements): % : %.in
+-	$(SED) -e 's,%%PREFIX%%,$(PREFIX),' $@.in > $@ ;			
++	$(SED) -e 's,%%PREFIX%%,$(PREFIX),' $@.in > $@ ; chmod +x $@
+ 
+ install: all
+ 	[ -d $(BINDIR) ] || $(INSTALL) -d $(INSTALL_DIR_FLAGS) $(BINDIR)

@@ -1,0 +1,805 @@
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+BUILDING IONetworkingFamily-46~6 on Tue Dec  9 22:46:11 PST 2008
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Build configuration:
+    Build host:           pppoe-88-147-217-99.san.ru
+    Build tool:           xcodebuild
+    Build action:         install
+    Build number:         9F33
+    Host kernel version:  Darwin Kernel Version 9.5.0: Sat Dec  6 19:39:54 IST 2008; Voodoo; Release 1.0 :xnu-1228.7.58/BUILD/obj/RELEASE_I386
+    cc version:           gcc version 4.0.1 (Apple Inc. build 5465)
+    cctools version:      workingFamily/build-IONetworkingFamily-46~6.sh: line 13: as: command not found
+    xcode version:        XcodeComponent versions: DevToolsCore-1114.0; DevToolsSupport-1102.0
+BuildVersion: 9M2517
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Build parameters:
+SRCROOT: /SourceCache/IONetworkingFamily/IONetworkingFamily-46
+OBJROOT: /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj
+SYMROOT: /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym
+DSTROOT: /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root
+RC_ProjectName: IONetworkingFamily
+RC_ProjectSourceVersion: 46
+RC_ProjectNameAndSourceVersion: IONetworkingFamily-46
+RC_ProjectBuildVersion: 6
+INSTALLED_PRODUCT_ASIDES: YES
+MACOSX_DEPLOYMENT_TARGET: 10.5
+NEXT_ROOT: 
+RC_ARCHS: ppc i386
+RC_CFLAGS: -pipe -no-cpp-precomp -arch ppc -arch i386
+RC_JASPER: YES
+RC_NONARCH_CFLAGS: -pipe -no-cpp-precomp
+RC_OS: macos
+RC_PRIVATE: /private
+RC_RELEASE: Leopard
+RC_XBS: YES
+RC_i386: YES
+RC_ppc: YES
+SEPARATE_STRIP: YES
+UNAME_RELEASE: 9.0
+UNAME_SYSNAME: Darwin
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Environment variables:
+CHROOTED=YES
+DARWINBUILD_BUILD=9F33
+DARWINXREF_DB_FILE=/Volumes/Builds/9F33/.build/xref.db
+DARWIN_BUILDROOT=/Volumes/Builds/9F33
+DEVELOPER_DIR=/XCD/loper
+DSTROOT=/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root
+GROUP=wheel
+HOME=/var/root
+INSTALLED_PRODUCT_ASIDES=YES
+LOGNAME=root
+MACOSX_DEPLOYMENT_TARGET=10.5
+NEXT_ROOT=
+OBJROOT=/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj
+PATH=/bin:/sbin:/usr/bin:/usr/sbin/:/usr/local/bin:/usr/local/sbin
+RC_ARCHS=ppc i386
+RC_CFLAGS=-pipe -no-cpp-precomp -arch ppc -arch i386
+RC_JASPER=YES
+RC_NONARCH_CFLAGS=-pipe -no-cpp-precomp
+RC_OS=macos
+RC_PRIVATE=/private
+RC_ProjectBuildVersion=6
+RC_ProjectName=IONetworkingFamily
+RC_ProjectNameAndSourceVersion=IONetworkingFamily-46
+RC_ProjectSourceVersion=46
+RC_RELEASE=Leopard
+RC_XBS=YES
+RC_i386=YES
+RC_ppc=YES
+SEPARATE_STRIP=YES
+SHELL=/bin/sh
+SRCROOT=/SourceCache/IONetworkingFamily/IONetworkingFamily-46
+SYMROOT=/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym
+UNAME_RELEASE=9.0
+UNAME_SYSNAME=Darwin
+USER=root
+_=/usr/bin/printenv
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Installed Roots:
+                        960b8adaa02c94081cf71ccf09c27fd7e58f2c4b
+CFOpenDirectory      -> e526d78ffaa47697f06ff4defcdcfd010fa39ebf
+CoreOSMakefiles      -> da13d2bf2ea3cf48d70f7543f44d3589760ef5d5
+DirectoryService     -> e799a40a7d20eef63101a6c46fe59896904c3fcb
+IONetworkingFamily.hdrs -> 2d66d5a55fa4df0bdb816a527d1384faeacde5b2
+Kerberos             -> 35b148b579dd209e46f829d7dad2654067a0939b
+LDAPFramework        -> c133b9453caeab300469aebc0ae61d633f4e22ad
+Libcpp_kext          -> 1cbd107722b8cfa2dafaef9c547972e55069266c
+Libm                 -> 7d90dffecd558d133aa75cd2a872621ca1c47b17
+Libmx                -> 98eaf825fe5d9bcd772e78e5f65fff03d2058950
+Libsystem            -> 45af50f48c9e4d28d6d0dfc97a35f89318dfb9eb
+bash                 -> aa535fae9e6986ba91773a789aa901d69f650305
+bsm                  -> c18bd0abba6b8953085578b8907ff364a14903a1
+configd              -> 7b77acaf740ab406db8593c00222737fdd788abf
+distcc               -> e566bb3c13a4cebbc5162fb89d6eb0baa1612fae
+dyld                 -> 5f0f7711c6911bf837a831b402b588fe53238f53
+file_cmds            -> 479e72f694fdaa20be9fa059ff2e77edd466b789
+files                -> 78391383afab4012d08063426791e089ad2bfe85
+gcc                  -> f1055f8d81cb32b211737f2274a9cc89cf7665ee
+gcc_42               -> c3f864170329b1ba93491d5cea3f6b51972abfa6
+gcc_os               -> ac04572183fdd07b577ba221f792ad6954f7fa00
+gcc_select           -> 12bd4cbda14709c1ffd5fdce69547cd1636bc48d
+jam                  -> b99ad1f270f778ae4dabc0a4ba5c6a85fceef212
+libgcc               -> 92f5a0e69750f372edd7980cc559a17cb862e7d8
+libiconv             -> 5af87457c8c411fb0354a4a76bebb303c25f0cec
+libresolv            -> 6c9ec0e8a7ca78c8735b192ee1bdc5d18fefd549
+libstdcxx            -> d23396753f76e4e57fe134cb59e327c71bd81fb7
+libutil              -> efb446b4ef8f332d28a785b281f231024d1d4115
+ncurses              -> 49e2dec29d18c48d5b2ac3bdb652773bfba3ac53
+pam                  -> 1cdc9b0d6a88d4840ef9ac3259c9c328886e8a4d
+passwordserver_sasl  -> 5964393e171e039e73d6494206ac49f34814f284
+perl                 -> a271dc83f7e56efce2f69d737b385c814a3e8dd4
+shell_cmds           -> 7ee6f073866bbef056089798c00ac9c583d4bc76
+system_cmds          -> f1c6c90b7d8ce39453f89b6d9d115c72d400a4e4
+text_cmds            -> c87266a4f64676b995012eaa2a1e3e18e94269c7
+                        xcodebuild
+xnu                  -> ef44bdbc9b847abd79fee910142a9af88319494c
+zlib                 -> 91e931224468ad0e24c36c35620125fcb3f1ad1a
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+xcodebuild install  "SRCROOT=/SourceCache/IONetworkingFamily/IONetworkingFamily-46" "OBJROOT=/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj" "SYMROOT=/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym" "DSTROOT=/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root" "RC_ProjectName=IONetworkingFamily" "RC_ProjectSourceVersion=46" "RC_ProjectNameAndSourceVersion=IONetworkingFamily-46" "RC_ProjectBuildVersion=6" "INSTALLED_PRODUCT_ASIDES=YES" "MACOSX_DEPLOYMENT_TARGET=10.5" "NEXT_ROOT=" "RC_ARCHS=ppc i386" "RC_CFLAGS=-pipe -no-cpp-precomp -arch ppc -arch i386" "RC_JASPER=YES" "RC_NONARCH_CFLAGS=-pipe -no-cpp-precomp" "RC_OS=macos" "RC_PRIVATE=/private" "RC_RELEASE=Leopard" "RC_XBS=YES" "RC_i386=YES" "RC_ppc=YES" "SEPARATE_STRIP=YES" "UNAME_RELEASE=9.0" "UNAME_SYSNAME=Darwin" < /dev/null
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Build log begins here:
+
+=== BUILDING TOOL TARGET InstallHeaders OF PROJECT IONetworkingFamily WITH THE DEFAULT CONFIGURATION (Default) NOT USING PER-CONFIGURATION BUILD DIRECTORIES ===
+
+Checking Dependencies...
+Jam is deprecated; targets that use Jam should be upgraded to native targets. For more information on doing this, consult the Xcode documentation.
+
+JamToolExecution InstallHeaders
+    cd /SourceCache/IONetworkingFamily/IONetworkingFamily-46
+    /XCD/loper/Private/jam -d2 -k -j2 JAMBASE=/XCD/loper/Makefiles/pbx_jamfiles/ProjectBuilderJambase JAMFILE=/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/InstallHeaders.build/InstallHeaders.jam install ACTION=install _DEFAULT_GCC_VERSION=4.0 GCC_VERSION_IDENTIFIER=__0 CONFIGURATION=Default BUILD_STYLE= "CPP_HEADERMAP_FILE=/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/InstallHeaders.build/IONetworkingFamily Headers.hmap" INSTALLED_PRODUCT_ASIDES=YES MACOSX_DEPLOYMENT_TARGET=10.5 NEXT_ROOT= "RC_ARCHS=ppc i386" "RC_CFLAGS=-pipe -no-cpp-precomp -arch ppc -arch i386" RC_JASPER=YES "RC_NONARCH_CFLAGS=-pipe -no-cpp-precomp" RC_OS=macos RC_PRIVATE=/private RC_ProjectBuildVersion=6 RC_ProjectName=IONetworkingFamily RC_ProjectNameAndSourceVersion=IONetworkingFamily-46 RC_ProjectSourceVersion=46 RC_RELEASE=Leopard RC_XBS=YES RC_i386=YES RC_ppc=YES SEPARATE_STRIP=YES UNAME_RELEASE=9.0 UNAME_SYSNAME=Darwin SRCROOT=/SourceCache/IONetworkingFamily/IONetworkingFamily-46 OBJROOT=/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj SYMROOT=/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym DSTROOT=/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root PLATFORM_DIR= EFFECTIVE_PLATFORM_NAME=
+
+Mkdir /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts
+    /bin/mkdir  -p /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts 
+
+Mkdir /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts 
+
+Mkdir /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network 
+
+Mkdir /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network
+    /bin/mkdir  -p /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network 
+
+SymLink /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/IONetworkingFamily Headers 
+
+SymLink "/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/IONetworkingFamily Headers" "/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/IONetworkingFamily Headers"
+    /bin/ln  -sf "/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/IONetworkingFamily Headers"  "/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/IONetworkingFamily Headers" 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network/IOEthernetController.h 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network/IOEthernetController.h /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IOEthernetController.h
+    /XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp  -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks  /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IOEthernetController.h  /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network/IOEthernetInterface.h 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network/IOEthernetInterface.h /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IOEthernetInterface.h
+    /XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp  -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks  /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IOEthernetInterface.h  /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network/IOKernelDebugger.h 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network/IOKernelDebugger.h /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IOKernelDebugger.h
+    /XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp  -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks  /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IOKernelDebugger.h  /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network/IOMbufMemoryCursor.h 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network/IOMbufMemoryCursor.h /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IOMbufMemoryCursor.h
+    /XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp  -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks  /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IOMbufMemoryCursor.h  /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network/IONetworkController.h 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network/IONetworkController.h /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IONetworkController.h
+    /XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp  -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks  /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IONetworkController.h  /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network/IONetworkData.h 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network/IONetworkData.h /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IONetworkData.h
+    /XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp  -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks  /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IONetworkData.h  /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network/IONetworkInterface.h 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network/IONetworkInterface.h /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IONetworkInterface.h
+    /XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp  -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks  /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IONetworkInterface.h  /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network/IONetworkMedium.h 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network/IONetworkMedium.h /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IONetworkMedium.h
+    /XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp  -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks  /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IONetworkMedium.h  /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network/IOPacketQueue.h /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IOPacketQueue.h
+    /XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp  -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks  /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IOPacketQueue.h  /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network/IOPacketQueue.h 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network/IOOutputQueue.h 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network/IOOutputQueue.h /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IOOutputQueue.h
+    /XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp  -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks  /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IOOutputQueue.h  /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network/IOBasicOutputQueue.h 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network/IOBasicOutputQueue.h /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IOBasicOutputQueue.h
+    /XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp  -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks  /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IOBasicOutputQueue.h  /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network/IOGatedOutputQueue.h 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network/IONetworkStats.h 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network/IOGatedOutputQueue.h /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IOGatedOutputQueue.h
+    /XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp  -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks  /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IOGatedOutputQueue.h  /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network/IONetworkStats.h /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IONetworkStats.h
+    /XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp  -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks  /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IONetworkStats.h  /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network/IOEthernetStats.h 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network/IOEthernetStats.h /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IOEthernetStats.h
+    /XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp  -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks  /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IOEthernetStats.h  /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/IOKit/network 
+
+Mkdir /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/IOKit.framework/Versions/A/PrivateHeaders/network 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/IOKit.framework/Versions/A/PrivateHeaders/network/IOEthernetController.h 
+
+Mkdir /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/IOKit.framework/Versions/A/PrivateHeaders/network
+    /bin/mkdir  -p /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/IOKit.framework/Versions/A/PrivateHeaders/network 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/IOKit.framework/Versions/A/PrivateHeaders/network/IOEthernetController.h /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IOEthernetController.h
+    /XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp  -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks  /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IOEthernetController.h  /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/IOKit.framework/Versions/A/PrivateHeaders/network 
+
+BuildPhase <CopyFiles>IONetworkingFamily Headers 
+
+BuildPhase "<CopyFiles>IONetworkingFamily Headers" "<IONetworkingFamily Headers>IONetworkingFamily Headers"
+    echo  Completed phase "<CopyFiles>"  for "<CopyFiles>IONetworkingFamily Headers" 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/IOKit.framework/Versions/A/PrivateHeaders/network/IOEthernetInterface.h 
+Completed phase <CopyFiles> for <CopyFiles>IONetworkingFamily Headers
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/IOKit.framework/Versions/A/PrivateHeaders/network/IOEthernetInterface.h /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IOEthernetInterface.h
+    /XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp  -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks  /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IOEthernetInterface.h  /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/IOKit.framework/Versions/A/PrivateHeaders/network 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/IOKit.framework/Versions/A/PrivateHeaders/network/IONetworkController.h 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/IOKit.framework/Versions/A/PrivateHeaders/network/IONetworkData.h 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/IOKit.framework/Versions/A/PrivateHeaders/network/IONetworkController.h /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IONetworkController.h
+    /XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp  -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks  /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IONetworkController.h  /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/IOKit.framework/Versions/A/PrivateHeaders/network 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/IOKit.framework/Versions/A/PrivateHeaders/network/IONetworkData.h /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IONetworkData.h
+    /XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp  -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks  /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IONetworkData.h  /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/IOKit.framework/Versions/A/PrivateHeaders/network 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/IOKit.framework/Versions/A/PrivateHeaders/network/IONetworkInterface.h 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/IOKit.framework/Versions/A/PrivateHeaders/network/IONetworkInterface.h /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IONetworkInterface.h
+    /XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp  -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks  /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IONetworkInterface.h  /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/IOKit.framework/Versions/A/PrivateHeaders/network 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/IOKit.framework/Versions/A/PrivateHeaders/network/IONetworkMedium.h 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/IOKit.framework/Versions/A/PrivateHeaders/network/IONetworkMedium.h /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IONetworkMedium.h
+    /XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp  -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks  /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IONetworkMedium.h  /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/IOKit.framework/Versions/A/PrivateHeaders/network 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/IOKit.framework/Versions/A/PrivateHeaders/network/IONetworkUserClient.h 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/IOKit.framework/Versions/A/PrivateHeaders/network/IONetworkUserClient.h /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IONetworkUserClient.h
+    /XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp  -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks  /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IONetworkUserClient.h  /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/IOKit.framework/Versions/A/PrivateHeaders/network 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/IOKit.framework/Versions/A/PrivateHeaders/network/IONetworkStats.h 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/IOKit.framework/Versions/A/PrivateHeaders/network/IONetworkStats.h /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IONetworkStats.h
+    /XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp  -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks  /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IONetworkStats.h  /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/IOKit.framework/Versions/A/PrivateHeaders/network 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/IOKit.framework/Versions/A/PrivateHeaders/network/IOEthernetStats.h 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/IOKit.framework/Versions/A/PrivateHeaders/network/IOEthernetStats.h /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IOEthernetStats.h
+    /XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp  -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks  /SourceCache/IONetworkingFamily/IONetworkingFamily-46/IOEthernetStats.h  /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Frameworks/IOKit.framework/Versions/A/PrivateHeaders/network 
+
+Mkdir /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/InstallHeaders.build/Objects-normal 
+
+Mkdir /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/InstallHeaders.build/JavaClasses 
+
+Mkdir /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/InstallHeaders.build/DerivedSources 
+
+Mkdir /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/InstallHeaders.build/Objects-normal
+    /bin/mkdir  -p /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/InstallHeaders.build/Objects-normal 
+
+Mkdir /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/InstallHeaders.build/JavaClasses
+    /bin/mkdir  -p /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/InstallHeaders.build/JavaClasses 
+
+Mkdir /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/InstallHeaders.build/DerivedSources
+    /bin/mkdir  -p /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/InstallHeaders.build/DerivedSources 
+
+BuildPhase <CopyFiles2>IONetworkingFamily Headers 
+
+PhaseScriptExecution <Execution>/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/InstallHeaders.build/BPTag006-script.sh 
+
+BuildPhase "<CopyFiles2>IONetworkingFamily Headers" "<IONetworkingFamily Headers>IONetworkingFamily Headers"
+    echo  Completed phase "<CopyFiles2>"  for "<CopyFiles2>IONetworkingFamily Headers" 
+Completed phase <CopyFiles2> for <CopyFiles2>IONetworkingFamily Headers
+
+PhaseScriptExecution "<Execution>/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/InstallHeaders.build/BPTag006-script.sh" /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/InstallHeaders.build/BPTag006-script.sh
+    echo "=== Script ==="
+    cat /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/InstallHeaders.build/BPTag006-script.sh 
+    echo "--- Output ---"
+    /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/InstallHeaders.build/BPTag006-script.sh 
+    _result=$?
+    echo "=== Exit code: ${_result} ==="
+    exit ${_result}
+=== Script ===
+#!/bin/sh
+# not all Apple drivers completed the transition to mbuf_t per radar 3940931 in time for tiger.
+# To accomodate them, I left in the transition goo, and use this script to strip it all out
+# for the public headers.  When ready, all this voodoo can be undone by:
+# - manually perform the edit that occurs in the "unifdef" lines below
+# - remove this script phase
+# - change the destination in the copy files phase of InstallHeaders, back to "Headers" instead of "PrivateHeaders"
+# - remove __MBUF_TRANSITION from the project
+
+# first the kernel framework stuff
+TARGET_DIR=$DSTROOT/System/Library/Frameworks/Kernel.framework/Versions/A/Headers/IOKit/network
+mkdir -m 755 -p $TARGET_DIR
+for file in \
+ IOEthernetController.h \
+ IOEthernetInterface.h \
+ IOKernelDebugger.h \
+ IOMbufMemoryCursor.h \
+ IONetworkController.h \
+ IONetworkData.h \
+ IONetworkInterface.h \
+ IONetworkMedium.h \
+ IOPacketQueue.h \
+ IOOutputQueue.h \
+ IOBasicOutputQueue.h \
+ IOGatedOutputQueue.h \
+ IONetworkStats.h \
+ IOEthernetStats.h 
+do
+ unifdef -D__MBUF_TRANSITION_STRIP $file | sed "s/__MBUF_PROTO/mbuf_t/g" >$TARGET_DIR/$file
+ touch -r $file $TARGET_DIR/$file
+done
+
+TARGET_DIR=$DSTROOT/System/Library/Frameworks/IOKit.framework/Versions/A/Headers/network
+mkdir -m 755 -p $TARGET_DIR
+for file in \
+ IOEthernetController.h \
+ IOEthernetInterface.h \
+ IONetworkController.h \
+ IONetworkData.h \
+ IONetworkInterface.h \
+ IONetworkMedium.h \
+ IONetworkUserClient.h \
+ IONetworkStats.h \
+ IOEthernetStats.h 
+do
+ unifdef -D__MBUF_TRANSITION_STRIP $file | sed "s/__MBUF_PROTO/mbuf_t/g" >$TARGET_DIR/$file
+ touch -r $file $TARGET_DIR/$file
+done
+
+--- Output ---
+/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/InstallHeaders.build/BPTag006-script.sh: line 29: unifdef: command not found
+/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/InstallHeaders.build/BPTag006-script.sh: line 29: unifdef: command not found
+/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/InstallHeaders.build/BPTag006-script.sh: line 29: unifdef: command not found
+/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/InstallHeaders.build/BPTag006-script.sh: line 29: unifdef: command not found
+/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/InstallHeaders.build/BPTag006-script.sh: line 29: unifdef: command not found
+/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/InstallHeaders.build/BPTag006-script.sh: line 29: unifdef: command not found
+/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/InstallHeaders.build/BPTag006-script.sh: line 29: unifdef: command not found
+/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/InstallHeaders.build/BPTag006-script.sh: line 29: unifdef: command not found
+/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/InstallHeaders.build/BPTag006-script.sh: line 29: unifdef: command not found
+/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/InstallHeaders.build/BPTag006-script.sh: line 29: unifdef: command not found
+/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/InstallHeaders.build/BPTag006-script.sh: line 29: unifdef: command not found
+/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/InstallHeaders.build/BPTag006-script.sh: line 29: unifdef: command not found
+/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/InstallHeaders.build/BPTag006-script.sh: line 29: unifdef: command not found
+/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/InstallHeaders.build/BPTag006-script.sh: line 29: unifdef: command not found
+/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/InstallHeaders.build/BPTag006-script.sh: line 46: unifdef: command not found
+/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/InstallHeaders.build/BPTag006-script.sh: line 46: unifdef: command not found
+/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/InstallHeaders.build/BPTag006-script.sh: line 46: unifdef: command not found
+/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/InstallHeaders.build/BPTag006-script.sh: line 46: unifdef: command not found
+/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/InstallHeaders.build/BPTag006-script.sh: line 46: unifdef: command not found
+/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/InstallHeaders.build/BPTag006-script.sh: line 46: unifdef: command not found
+/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/InstallHeaders.build/BPTag006-script.sh: line 46: unifdef: command not found
+/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/InstallHeaders.build/BPTag006-script.sh: line 46: unifdef: command not found
+/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/InstallHeaders.build/BPTag006-script.sh: line 46: unifdef: command not found
+=== Exit code: 0 ===
+
+BuildPhase "<Script>IONetworkingFamily Headers" "<IONetworkingFamily Headers>IONetworkingFamily Headers"
+    echo  Completed phase "<Script>"  for "<Script>IONetworkingFamily Headers" 
+
+BuildPhase <Script>IONetworkingFamily Headers 
+Completed phase <Script> for <Script>IONetworkingFamily Headers
+
+
+=== BUILDING BUNDLE TARGET IONetworkingFamily OF PROJECT IONetworkingFamily WITH THE DEFAULT CONFIGURATION (Default) NOT USING PER-CONFIGURATION BUILD DIRECTORIES ===
+
+Checking Dependencies...
+Jam is deprecated; targets that use Jam should be upgraded to native targets. For more information on doing this, consult the Xcode documentation.
+
+JamToolExecution IONetworkingFamily
+    cd /SourceCache/IONetworkingFamily/IONetworkingFamily-46
+    /XCD/loper/Private/jam -d2 -k -j2 JAMBASE=/XCD/loper/Makefiles/pbx_jamfiles/ProjectBuilderJambase JAMFILE=/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/IONetworkingFamily.jam install ACTION=install _DEFAULT_GCC_VERSION=4.0 GCC_VERSION_IDENTIFIER=__0 CONFIGURATION=Default BUILD_STYLE= CPP_HEADERMAP_FILE=/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/IONetworkingFamily.hmap INSTALLED_PRODUCT_ASIDES=YES MACOSX_DEPLOYMENT_TARGET=10.5 NEXT_ROOT= "RC_ARCHS=ppc i386" "RC_CFLAGS=-pipe -no-cpp-precomp -arch ppc -arch i386" RC_JASPER=YES "RC_NONARCH_CFLAGS=-pipe -no-cpp-precomp" RC_OS=macos RC_PRIVATE=/private RC_ProjectBuildVersion=6 RC_ProjectName=IONetworkingFamily RC_ProjectNameAndSourceVersion=IONetworkingFamily-46 RC_ProjectSourceVersion=46 RC_RELEASE=Leopard RC_XBS=YES RC_i386=YES RC_ppc=YES SEPARATE_STRIP=YES UNAME_RELEASE=9.0 UNAME_SYSNAME=Darwin SRCROOT=/SourceCache/IONetworkingFamily/IONetworkingFamily-46 OBJROOT=/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj SYMROOT=/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym DSTROOT=/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root PLATFORM_DIR= EFFECTIVE_PLATFORM_NAME=
+
+SymLink /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/IONetworkingFamily.kext /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/IONetworkingFamily.kext
+    /bin/ln  -sf /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/IONetworkingFamily.kext  /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/IONetworkingFamily.kext 
+
+SymLink /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/IONetworkingFamily.kext 
+
+Mkdir /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/IONetworkingFamily.kext 
+
+PhaseScriptExecution <Execution>/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/BPTag000-script.sh 
+
+Mkdir /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/IONetworkingFamily.kext
+    /bin/mkdir  -p /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/IONetworkingFamily.kext 
+
+PhaseScriptExecution "<Execution>/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/BPTag000-script.sh" /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/BPTag000-script.sh
+    echo "=== Script ==="
+    cat /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/BPTag000-script.sh 
+    echo "--- Output ---"
+    /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/BPTag000-script.sh 
+    _result=$?
+    echo "=== Exit code: ${_result} ==="
+    exit ${_result}
+=== Script ===
+#!/bin/sh
+script="${SYSTEM_DEVELOPER_DIR}/ProjectBuilder Extras/Kernel Extension Support/KEXTPreprocess";
+if [ -x "$script" ]; then
+    . "$script"
+fi
+--- Output ---
+
+Mkdir /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/IONetworkingFamily.kext/Contents 
+=== Exit code: 0 ===
+
+Mkdir /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/IONetworkingFamily.kext/Contents
+    /bin/mkdir  -p /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/IONetworkingFamily.kext/Contents 
+
+BuildPhase <Script>IONetworkingFamily.kext 
+
+BuildPhase "<Script>IONetworkingFamily.kext" "<IONetworkingFamily>IONetworkingFamily.kext"
+    echo  Completed phase "<Script>"  for "<Script>IONetworkingFamily.kext" 
+
+Mkdir /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/IONetworkingFamily.kext/Contents 
+Completed phase <Script> for <Script>IONetworkingFamily.kext
+
+Mkdir /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/IONetworkingFamily.kext/Contents
+    /bin/mkdir  -p /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/IONetworkingFamily.kext/Contents 
+
+BuildPhase <CopyHeaders>IONetworkingFamily.kext 
+
+BuildPhase "<CopyHeaders>IONetworkingFamily.kext" "<IONetworkingFamily>IONetworkingFamily.kext"
+    echo  Completed phase "<CopyHeaders>"  for "<CopyHeaders>IONetworkingFamily.kext" 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/IONetworkingFamily.kext/Contents/Info.plist 
+Completed phase <CopyHeaders> for <CopyHeaders>IONetworkingFamily.kext
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/IONetworkingFamily.kext/Contents/Info.plist /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Info.plist
+    /XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp  -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks  /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Info.plist  /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/IONetworkingFamily.kext/Contents 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/IONetworkingFamily.kext/Contents/Info.plist 
+
+PBXCp /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/IONetworkingFamily.kext/Contents/Info.plist /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Info.plist
+    /XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp  -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks  /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Info.plist  /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/IONetworkingFamily.kext/Contents 
+
+Mkdir /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386 
+
+Mkdir /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386
+    /bin/mkdir  -p /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386 
+
+BuildPhase <CopyResources>IONetworkingFamily.kext 
+
+BuildPhase "<CopyResources>IONetworkingFamily.kext" "<IONetworkingFamily>IONetworkingFamily.kext"
+    echo  Completed phase "<CopyResources>"  for "<CopyResources>IONetworkingFamily.kext" 
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IOEthernetController.o 
+Completed phase <CopyResources> for <CopyResources>IONetworkingFamily.kext
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IOEthernetController.o IOEthernetController.cpp
+    /XCD/loper/usr/bin/g++-4.0  -c -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/IONetworkingFamily.hmap   -F/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts  -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include  -arch i386 -fno-common -nostdinc -Os -Wmost -Wno-four-char-constants -Wno-unknown-pragmas -I/System/Library/Frameworks/Kernel.framework/PrivateHeaders -I/System/Library/Frameworks/Kernel.framework/Headers -fno-builtin -finline -fno-keep-inline-functions -force_cpusubtype_ALL -fno-rtti -fno-exceptions -fcheck-new -msoft-float -fapple-kext -static -DKERNEL -DKERNEL_PRIVATE -DDRIVER_PRIVATE -DAPPLE -DNeXT -pipe "-fmessage-length=0" -g   -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources   "-D__MBUF_TRANSITION_"   IOEthernetController.cpp  -o /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IOEthernetController.o 
+
+Mkdir /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc 
+i686-apple-darwin9-g++-4.0.1: installation problem, cannot exec 'as': No such file or directory
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IOEthernetController.o 
+IOEthernetController.cpp:442: fatal error: error writing to -: Broken pipe
+compilation terminated.
+
+Mkdir /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc
+    /bin/mkdir  -p /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc 
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IOEthernetController.o IOEthernetController.cpp
+    /XCD/loper/usr/bin/g++-4.0  -c -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/IONetworkingFamily.hmap   -F/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts  -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include  -arch ppc -fno-common -nostdinc -Os -Wmost -Wno-four-char-constants -Wno-unknown-pragmas -I/System/Library/Frameworks/Kernel.framework/PrivateHeaders -I/System/Library/Frameworks/Kernel.framework/Headers -fno-builtin -finline -fno-keep-inline-functions -force_cpusubtype_ALL -fno-rtti -fno-exceptions -fcheck-new -msoft-float -fapple-kext -mlong-branch -static -DKERNEL -DKERNEL_PRIVATE -DDRIVER_PRIVATE -DAPPLE -DNeXT -pipe "-fmessage-length=0" -g   -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources   "-D__MBUF_TRANSITION_"   IOEthernetController.cpp  -o /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IOEthernetController.o 
+powerpc-apple-darwin9-g++-4.0.1: installation problem, cannot exec 'as': No such file or directory
+...failed CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IOEthernetController.o ...
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IOEthernetInterface.o 
+IOEthernetController.cpp:442: fatal error: error writing to -: Broken pipe
+compilation terminated.
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IOEthernetInterface.o IOEthernetInterface.cpp
+    /XCD/loper/usr/bin/g++-4.0  -c -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/IONetworkingFamily.hmap   -F/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts  -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include  -arch i386 -fno-common -nostdinc -Os -Wmost -Wno-four-char-constants -Wno-unknown-pragmas -I/System/Library/Frameworks/Kernel.framework/PrivateHeaders -I/System/Library/Frameworks/Kernel.framework/Headers -fno-builtin -finline -fno-keep-inline-functions -force_cpusubtype_ALL -fno-rtti -fno-exceptions -fcheck-new -msoft-float -fapple-kext -static -DKERNEL -DKERNEL_PRIVATE -DDRIVER_PRIVATE -DAPPLE -DNeXT -pipe "-fmessage-length=0" -g   -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources   "-D__MBUF_TRANSITION_"   IOEthernetInterface.cpp  -o /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IOEthernetInterface.o 
+i686-apple-darwin9-g++-4.0.1: installation problem, cannot exec 'as': No such file or directory
+...failed CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IOEthernetController.o ...
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IOEthernetInterface.o 
+IOEthernetInterface.cpp:1342: fatal error: error writing to -: Broken pipe
+compilation terminated.
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IOEthernetInterface.o IOEthernetInterface.cpp
+    /XCD/loper/usr/bin/g++-4.0  -c -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/IONetworkingFamily.hmap   -F/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts  -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include  -arch ppc -fno-common -nostdinc -Os -Wmost -Wno-four-char-constants -Wno-unknown-pragmas -I/System/Library/Frameworks/Kernel.framework/PrivateHeaders -I/System/Library/Frameworks/Kernel.framework/Headers -fno-builtin -finline -fno-keep-inline-functions -force_cpusubtype_ALL -fno-rtti -fno-exceptions -fcheck-new -msoft-float -fapple-kext -mlong-branch -static -DKERNEL -DKERNEL_PRIVATE -DDRIVER_PRIVATE -DAPPLE -DNeXT -pipe "-fmessage-length=0" -g   -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources   "-D__MBUF_TRANSITION_"   IOEthernetInterface.cpp  -o /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IOEthernetInterface.o 
+powerpc-apple-darwin9-g++-4.0.1: installation problem, cannot exec 'as': No such file or directory
+...failed CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IOEthernetInterface.o ...
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IOKernelDebugger.o 
+IOEthernetInterface.cpp:1342: fatal error: error writing to -: Broken pipe
+compilation terminated.
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IOKernelDebugger.o IOKernelDebugger.cpp
+    /XCD/loper/usr/bin/g++-4.0  -c -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/IONetworkingFamily.hmap   -F/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts  -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include  -arch i386 -fno-common -nostdinc -Os -Wmost -Wno-four-char-constants -Wno-unknown-pragmas -I/System/Library/Frameworks/Kernel.framework/PrivateHeaders -I/System/Library/Frameworks/Kernel.framework/Headers -fno-builtin -finline -fno-keep-inline-functions -force_cpusubtype_ALL -fno-rtti -fno-exceptions -fcheck-new -msoft-float -fapple-kext -static -DKERNEL -DKERNEL_PRIVATE -DDRIVER_PRIVATE -DAPPLE -DNeXT -pipe "-fmessage-length=0" -g   -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources   "-D__MBUF_TRANSITION_"   IOKernelDebugger.cpp  -o /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IOKernelDebugger.o 
+i686-apple-darwin9-g++-4.0.1: installation problem, cannot exec 'as': No such file or directory
+...failed CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IOEthernetInterface.o ...
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IOKernelDebugger.o 
+IOKernelDebugger.cpp: In member function 'virtual IOService* IOKDP::probe(IOService*, SInt32*)':
+IOKernelDebugger.cpp:186: warning: 'sprintf' is deprecated (declared at /System/Library/Frameworks/Kernel.framework/PrivateHeaders/libkern/libkern.h:155)
+IOKernelDebugger.cpp:186: warning: 'sprintf' is deprecated (declared at /System/Library/Frameworks/Kernel.framework/PrivateHeaders/libkern/libkern.h:155)
+IOKernelDebugger.cpp: At global scope:
+IOKernelDebugger.cpp:939: fatal error: error writing to -: Broken pipe
+compilation terminated.
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IOKernelDebugger.o IOKernelDebugger.cpp
+    /XCD/loper/usr/bin/g++-4.0  -c -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/IONetworkingFamily.hmap   -F/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts  -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include  -arch ppc -fno-common -nostdinc -Os -Wmost -Wno-four-char-constants -Wno-unknown-pragmas -I/System/Library/Frameworks/Kernel.framework/PrivateHeaders -I/System/Library/Frameworks/Kernel.framework/Headers -fno-builtin -finline -fno-keep-inline-functions -force_cpusubtype_ALL -fno-rtti -fno-exceptions -fcheck-new -msoft-float -fapple-kext -mlong-branch -static -DKERNEL -DKERNEL_PRIVATE -DDRIVER_PRIVATE -DAPPLE -DNeXT -pipe "-fmessage-length=0" -g   -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources   "-D__MBUF_TRANSITION_"   IOKernelDebugger.cpp  -o /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IOKernelDebugger.o 
+powerpc-apple-darwin9-g++-4.0.1: installation problem, cannot exec 'as': No such file or directory
+IOKernelDebugger.cpp: In member function 'virtual IOService* IOKDP::probe(IOService*, SInt32*)':
+IOKernelDebugger.cpp:186: warning: 'sprintf' is deprecated (declared at /System/Library/Frameworks/Kernel.framework/PrivateHeaders/libkern/libkern.h:155)
+IOKernelDebugger.cpp:186: warning: 'sprintf' is deprecated (declared at /System/Library/Frameworks/Kernel.framework/PrivateHeaders/libkern/libkern.h:155)
+...failed CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IOKernelDebugger.o ...
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IOMbufMemoryCursor.o 
+IOKernelDebugger.cpp: At global scope:
+IOKernelDebugger.cpp:939: fatal error: error writing to -: Broken pipe
+compilation terminated.
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IOMbufMemoryCursor.o IOMbufMemoryCursor.cpp
+    /XCD/loper/usr/bin/g++-4.0  -c -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/IONetworkingFamily.hmap   -F/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts  -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include  -arch i386 -fno-common -nostdinc -Os -Wmost -Wno-four-char-constants -Wno-unknown-pragmas -I/System/Library/Frameworks/Kernel.framework/PrivateHeaders -I/System/Library/Frameworks/Kernel.framework/Headers -fno-builtin -finline -fno-keep-inline-functions -force_cpusubtype_ALL -fno-rtti -fno-exceptions -fcheck-new -msoft-float -fapple-kext -static -DKERNEL -DKERNEL_PRIVATE -DDRIVER_PRIVATE -DAPPLE -DNeXT -pipe "-fmessage-length=0" -g   -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources   "-D__MBUF_TRANSITION_"   IOMbufMemoryCursor.cpp  -o /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IOMbufMemoryCursor.o 
+i686-apple-darwin9-g++-4.0.1: installation problem, cannot exec 'as': No such file or directory
+...failed CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IOKernelDebugger.o ...
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IOMbufMemoryCursor.o 
+IOMbufMemoryCursor.cpp:664: fatal error: error writing to -: Broken pipe
+compilation terminated.
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IOMbufMemoryCursor.o IOMbufMemoryCursor.cpp
+    /XCD/loper/usr/bin/g++-4.0  -c -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/IONetworkingFamily.hmap   -F/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts  -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include  -arch ppc -fno-common -nostdinc -Os -Wmost -Wno-four-char-constants -Wno-unknown-pragmas -I/System/Library/Frameworks/Kernel.framework/PrivateHeaders -I/System/Library/Frameworks/Kernel.framework/Headers -fno-builtin -finline -fno-keep-inline-functions -force_cpusubtype_ALL -fno-rtti -fno-exceptions -fcheck-new -msoft-float -fapple-kext -mlong-branch -static -DKERNEL -DKERNEL_PRIVATE -DDRIVER_PRIVATE -DAPPLE -DNeXT -pipe "-fmessage-length=0" -g   -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources   "-D__MBUF_TRANSITION_"   IOMbufMemoryCursor.cpp  -o /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IOMbufMemoryCursor.o 
+powerpc-apple-darwin9-g++-4.0.1: installation problem, cannot exec 'as': No such file or directory
+...failed CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IOMbufMemoryCursor.o ...
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IONetworkController.o 
+IOMbufMemoryCursor.cpp:711: fatal error: error writing to -: Broken pipe
+compilation terminated.
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IONetworkController.o IONetworkController.cpp
+    /XCD/loper/usr/bin/g++-4.0  -c -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/IONetworkingFamily.hmap   -F/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts  -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include  -arch i386 -fno-common -nostdinc -Os -Wmost -Wno-four-char-constants -Wno-unknown-pragmas -I/System/Library/Frameworks/Kernel.framework/PrivateHeaders -I/System/Library/Frameworks/Kernel.framework/Headers -fno-builtin -finline -fno-keep-inline-functions -force_cpusubtype_ALL -fno-rtti -fno-exceptions -fcheck-new -msoft-float -fapple-kext -static -DKERNEL -DKERNEL_PRIVATE -DDRIVER_PRIVATE -DAPPLE -DNeXT -pipe "-fmessage-length=0" -g   -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources   "-D__MBUF_TRANSITION_"   IONetworkController.cpp  -o /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IONetworkController.o 
+i686-apple-darwin9-g++-4.0.1: installation problem, cannot exec 'as': No such file or directory
+...failed CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IOMbufMemoryCursor.o ...
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IONetworkController.o 
+IONetworkController.cpp:2177: fatal error: error writing to -: Broken pipe
+compilation terminated.
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IONetworkController.o IONetworkController.cpp
+    /XCD/loper/usr/bin/g++-4.0  -c -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/IONetworkingFamily.hmap   -F/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts  -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include  -arch ppc -fno-common -nostdinc -Os -Wmost -Wno-four-char-constants -Wno-unknown-pragmas -I/System/Library/Frameworks/Kernel.framework/PrivateHeaders -I/System/Library/Frameworks/Kernel.framework/Headers -fno-builtin -finline -fno-keep-inline-functions -force_cpusubtype_ALL -fno-rtti -fno-exceptions -fcheck-new -msoft-float -fapple-kext -mlong-branch -static -DKERNEL -DKERNEL_PRIVATE -DDRIVER_PRIVATE -DAPPLE -DNeXT -pipe "-fmessage-length=0" -g   -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources   "-D__MBUF_TRANSITION_"   IONetworkController.cpp  -o /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IONetworkController.o 
+powerpc-apple-darwin9-g++-4.0.1: installation problem, cannot exec 'as': No such file or directory
+...failed CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IONetworkController.o ...
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IONetworkData.o 
+IONetworkController.cpp:2177: fatal error: error writing to -: Broken pipe
+compilation terminated.
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IONetworkData.o IONetworkData.cpp
+    /XCD/loper/usr/bin/g++-4.0  -c -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/IONetworkingFamily.hmap   -F/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts  -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include  -arch i386 -fno-common -nostdinc -Os -Wmost -Wno-four-char-constants -Wno-unknown-pragmas -I/System/Library/Frameworks/Kernel.framework/PrivateHeaders -I/System/Library/Frameworks/Kernel.framework/Headers -fno-builtin -finline -fno-keep-inline-functions -force_cpusubtype_ALL -fno-rtti -fno-exceptions -fcheck-new -msoft-float -fapple-kext -static -DKERNEL -DKERNEL_PRIVATE -DDRIVER_PRIVATE -DAPPLE -DNeXT -pipe "-fmessage-length=0" -g   -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources   "-D__MBUF_TRANSITION_"   IONetworkData.cpp  -o /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IONetworkData.o 
+i686-apple-darwin9-g++-4.0.1: installation problem, cannot exec 'as': No such file or directory
+...failed CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IONetworkController.o ...
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IONetworkData.o 
+IONetworkData.cpp:631: fatal error: error writing to -: Broken pipe
+compilation terminated.
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IONetworkData.o IONetworkData.cpp
+    /XCD/loper/usr/bin/g++-4.0  -c -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/IONetworkingFamily.hmap   -F/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts  -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include  -arch ppc -fno-common -nostdinc -Os -Wmost -Wno-four-char-constants -Wno-unknown-pragmas -I/System/Library/Frameworks/Kernel.framework/PrivateHeaders -I/System/Library/Frameworks/Kernel.framework/Headers -fno-builtin -finline -fno-keep-inline-functions -force_cpusubtype_ALL -fno-rtti -fno-exceptions -fcheck-new -msoft-float -fapple-kext -mlong-branch -static -DKERNEL -DKERNEL_PRIVATE -DDRIVER_PRIVATE -DAPPLE -DNeXT -pipe "-fmessage-length=0" -g   -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources   "-D__MBUF_TRANSITION_"   IONetworkData.cpp  -o /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IONetworkData.o 
+powerpc-apple-darwin9-g++-4.0.1: installation problem, cannot exec 'as': No such file or directory
+...failed CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IONetworkData.o ...
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IONetworkInterface.o 
+IONetworkData.cpp:631: fatal error: error writing to -: Broken pipe
+compilation terminated.
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IONetworkInterface.o IONetworkInterface.cpp
+    /XCD/loper/usr/bin/g++-4.0  -c -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/IONetworkingFamily.hmap   -F/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts  -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include  -arch i386 -fno-common -nostdinc -Os -Wmost -Wno-four-char-constants -Wno-unknown-pragmas -I/System/Library/Frameworks/Kernel.framework/PrivateHeaders -I/System/Library/Frameworks/Kernel.framework/Headers -fno-builtin -finline -fno-keep-inline-functions -force_cpusubtype_ALL -fno-rtti -fno-exceptions -fcheck-new -msoft-float -fapple-kext -static -DKERNEL -DKERNEL_PRIVATE -DDRIVER_PRIVATE -DAPPLE -DNeXT -pipe "-fmessage-length=0" -g   -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources   "-D__MBUF_TRANSITION_"   IONetworkInterface.cpp  -o /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IONetworkInterface.o 
+i686-apple-darwin9-g++-4.0.1: installation problem, cannot exec 'as': No such file or directory
+...failed CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IONetworkData.o ...
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IONetworkInterface.o 
+IONetworkInterface.cpp:1984: fatal error: error writing to -: Broken pipe
+compilation terminated.
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IONetworkInterface.o IONetworkInterface.cpp
+    /XCD/loper/usr/bin/g++-4.0  -c -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/IONetworkingFamily.hmap   -F/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts  -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include  -arch ppc -fno-common -nostdinc -Os -Wmost -Wno-four-char-constants -Wno-unknown-pragmas -I/System/Library/Frameworks/Kernel.framework/PrivateHeaders -I/System/Library/Frameworks/Kernel.framework/Headers -fno-builtin -finline -fno-keep-inline-functions -force_cpusubtype_ALL -fno-rtti -fno-exceptions -fcheck-new -msoft-float -fapple-kext -mlong-branch -static -DKERNEL -DKERNEL_PRIVATE -DDRIVER_PRIVATE -DAPPLE -DNeXT -pipe "-fmessage-length=0" -g   -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources   "-D__MBUF_TRANSITION_"   IONetworkInterface.cpp  -o /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IONetworkInterface.o 
+powerpc-apple-darwin9-g++-4.0.1: installation problem, cannot exec 'as': No such file or directory
+...failed CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IONetworkInterface.o ...
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IONetworkMedium.o 
+...failed CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IONetworkMedium.o ...
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IONetworkMedium.o 
+IONetworkInterface.cpp:1984: fatal error: error writing to -: Broken pipe
+compilation terminated.
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IONetworkMedium.o IONetworkMedium.cpp
+    /XCD/loper/usr/bin/g++-4.0  -c -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/IONetworkingFamily.hmap   -F/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts  -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include  -arch i386 -fno-common -nostdinc -Os -Wmost -Wno-four-char-constants -Wno-unknown-pragmas -I/System/Library/Frameworks/Kernel.framework/PrivateHeaders -I/System/Library/Frameworks/Kernel.framework/Headers -fno-builtin -finline -fno-keep-inline-functions -force_cpusubtype_ALL -fno-rtti -fno-exceptions -fcheck-new -msoft-float -fapple-kext -static -DKERNEL -DKERNEL_PRIVATE -DDRIVER_PRIVATE -DAPPLE -DNeXT -pipe "-fmessage-length=0" -g   -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources   "-D__MBUF_TRANSITION_"   IONetworkMedium.cpp  -o /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IONetworkMedium.o 
+i686-apple-darwin9-g++-4.0.1: installation problem, cannot exec 'as': No such file or directory
+IONetworkMedium.cpp: In static member function 'static const OSSymbol* IONetworkMedium::nameForType(IOMediumType)':
+IONetworkMedium.cpp:184: warning: 'sprintf' is deprecated (declared at /System/Library/Frameworks/Kernel.framework/PrivateHeaders/libkern/libkern.h:155)
+IONetworkMedium.cpp:184: warning: 'sprintf' is deprecated (declared at /System/Library/Frameworks/Kernel.framework/PrivateHeaders/libkern/libkern.h:155)
+IONetworkMedium.cpp: At global scope:
+IONetworkMedium.cpp:386: fatal error: error writing to -: Broken pipe
+compilation terminated.
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IONetworkMedium.o IONetworkMedium.cpp
+    /XCD/loper/usr/bin/g++-4.0  -c -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/IONetworkingFamily.hmap   -F/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts  -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include  -arch ppc -fno-common -nostdinc -Os -Wmost -Wno-four-char-constants -Wno-unknown-pragmas -I/System/Library/Frameworks/Kernel.framework/PrivateHeaders -I/System/Library/Frameworks/Kernel.framework/Headers -fno-builtin -finline -fno-keep-inline-functions -force_cpusubtype_ALL -fno-rtti -fno-exceptions -fcheck-new -msoft-float -fapple-kext -mlong-branch -static -DKERNEL -DKERNEL_PRIVATE -DDRIVER_PRIVATE -DAPPLE -DNeXT -pipe "-fmessage-length=0" -g   -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources   "-D__MBUF_TRANSITION_"   IONetworkMedium.cpp  -o /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IONetworkMedium.o 
+powerpc-apple-darwin9-g++-4.0.1: installation problem, cannot exec 'as': No such file or directory
+...failed CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IONetworkInterface.o ...
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IONetworkStack.o 
+IONetworkMedium.cpp: In static member function 'static const OSSymbol* IONetworkMedium::nameForType(IOMediumType)':
+IONetworkMedium.cpp:184: warning: 'sprintf' is deprecated (declared at /System/Library/Frameworks/Kernel.framework/PrivateHeaders/libkern/libkern.h:155)
+IONetworkMedium.cpp:184: warning: 'sprintf' is deprecated (declared at /System/Library/Frameworks/Kernel.framework/PrivateHeaders/libkern/libkern.h:155)
+IONetworkMedium.cpp: At global scope:
+IONetworkMedium.cpp:386: fatal error: error writing to -: Broken pipe
+compilation terminated.
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IONetworkStack.o IONetworkStack.cpp
+    /XCD/loper/usr/bin/g++-4.0  -c -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/IONetworkingFamily.hmap   -F/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts  -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include  -arch i386 -fno-common -nostdinc -Os -Wmost -Wno-four-char-constants -Wno-unknown-pragmas -I/System/Library/Frameworks/Kernel.framework/PrivateHeaders -I/System/Library/Frameworks/Kernel.framework/Headers -fno-builtin -finline -fno-keep-inline-functions -force_cpusubtype_ALL -fno-rtti -fno-exceptions -fcheck-new -msoft-float -fapple-kext -static -DKERNEL -DKERNEL_PRIVATE -DDRIVER_PRIVATE -DAPPLE -DNeXT -pipe "-fmessage-length=0" -g   -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources   "-D__MBUF_TRANSITION_"   IONetworkStack.cpp  -o /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IONetworkStack.o 
+i686-apple-darwin9-g++-4.0.1: installation problem, cannot exec 'as': No such file or directory
+...failed CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IONetworkMedium.o ...
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IONetworkStack.o 
+IONetworkStack.cpp: In static member function 'static void IONetworkStack::registerBSDInterface(IONetworkInterface*)':
+IONetworkStack.cpp:804: warning: 'sprintf' is deprecated (declared at /System/Library/Frameworks/Kernel.framework/PrivateHeaders/libkern/libkern.h:155)
+IONetworkStack.cpp:804: warning: 'sprintf' is deprecated (declared at /System/Library/Frameworks/Kernel.framework/PrivateHeaders/libkern/libkern.h:155)
+IONetworkStack.cpp: At global scope:
+IONetworkStack.cpp:1169: fatal error: error writing to -: Broken pipe
+compilation terminated.
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IONetworkStack.o IONetworkStack.cpp
+    /XCD/loper/usr/bin/g++-4.0  -c -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/IONetworkingFamily.hmap   -F/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts  -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include  -arch ppc -fno-common -nostdinc -Os -Wmost -Wno-four-char-constants -Wno-unknown-pragmas -I/System/Library/Frameworks/Kernel.framework/PrivateHeaders -I/System/Library/Frameworks/Kernel.framework/Headers -fno-builtin -finline -fno-keep-inline-functions -force_cpusubtype_ALL -fno-rtti -fno-exceptions -fcheck-new -msoft-float -fapple-kext -mlong-branch -static -DKERNEL -DKERNEL_PRIVATE -DDRIVER_PRIVATE -DAPPLE -DNeXT -pipe "-fmessage-length=0" -g   -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources   "-D__MBUF_TRANSITION_"   IONetworkStack.cpp  -o /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IONetworkStack.o 
+powerpc-apple-darwin9-g++-4.0.1: installation problem, cannot exec 'as': No such file or directory
+IONetworkStack.cpp: In static member function 'static void IONetworkStack::registerBSDInterface(IONetworkInterface*)':
+IONetworkStack.cpp:804: warning: 'sprintf' is deprecated (declared at /System/Library/Frameworks/Kernel.framework/PrivateHeaders/libkern/libkern.h:155)
+IONetworkStack.cpp:804: warning: 'sprintf' is deprecated (declared at /System/Library/Frameworks/Kernel.framework/PrivateHeaders/libkern/libkern.h:155)
+...failed CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IONetworkStack.o ...
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IONetworkUserClient.o 
+IONetworkStack.cpp: At global scope:
+IONetworkStack.cpp:1169: fatal error: error writing to -: Broken pipe
+compilation terminated.
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IONetworkUserClient.o IONetworkUserClient.cpp
+    /XCD/loper/usr/bin/g++-4.0  -c -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/IONetworkingFamily.hmap   -F/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts  -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include  -arch i386 -fno-common -nostdinc -Os -Wmost -Wno-four-char-constants -Wno-unknown-pragmas -I/System/Library/Frameworks/Kernel.framework/PrivateHeaders -I/System/Library/Frameworks/Kernel.framework/Headers -fno-builtin -finline -fno-keep-inline-functions -force_cpusubtype_ALL -fno-rtti -fno-exceptions -fcheck-new -msoft-float -fapple-kext -static -DKERNEL -DKERNEL_PRIVATE -DDRIVER_PRIVATE -DAPPLE -DNeXT -pipe "-fmessage-length=0" -g   -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources   "-D__MBUF_TRANSITION_"   IONetworkUserClient.cpp  -o /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IONetworkUserClient.o 
+i686-apple-darwin9-g++-4.0.1: installation problem, cannot exec 'as': No such file or directory
+...failed CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IONetworkStack.o ...
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IONetworkUserClient.o 
+IONetworkUserClient.cpp:294: fatal error: error writing to -: Broken pipe
+compilation terminated.
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IONetworkUserClient.o IONetworkUserClient.cpp
+    /XCD/loper/usr/bin/g++-4.0  -c -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/IONetworkingFamily.hmap   -F/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts  -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include  -arch ppc -fno-common -nostdinc -Os -Wmost -Wno-four-char-constants -Wno-unknown-pragmas -I/System/Library/Frameworks/Kernel.framework/PrivateHeaders -I/System/Library/Frameworks/Kernel.framework/Headers -fno-builtin -finline -fno-keep-inline-functions -force_cpusubtype_ALL -fno-rtti -fno-exceptions -fcheck-new -msoft-float -fapple-kext -mlong-branch -static -DKERNEL -DKERNEL_PRIVATE -DDRIVER_PRIVATE -DAPPLE -DNeXT -pipe "-fmessage-length=0" -g   -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources   "-D__MBUF_TRANSITION_"   IONetworkUserClient.cpp  -o /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IONetworkUserClient.o 
+powerpc-apple-darwin9-g++-4.0.1: installation problem, cannot exec 'as': No such file or directory
+...failed CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IONetworkUserClient.o ...
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IOOutputQueue.o 
+IONetworkUserClient.cpp:294: fatal error: error writing to -: Broken pipe
+compilation terminated.
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IOOutputQueue.o IOOutputQueue.cpp
+    /XCD/loper/usr/bin/g++-4.0  -c -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/IONetworkingFamily.hmap   -F/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts  -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include  -arch i386 -fno-common -nostdinc -Os -Wmost -Wno-four-char-constants -Wno-unknown-pragmas -I/System/Library/Frameworks/Kernel.framework/PrivateHeaders -I/System/Library/Frameworks/Kernel.framework/Headers -fno-builtin -finline -fno-keep-inline-functions -force_cpusubtype_ALL -fno-rtti -fno-exceptions -fcheck-new -msoft-float -fapple-kext -static -DKERNEL -DKERNEL_PRIVATE -DDRIVER_PRIVATE -DAPPLE -DNeXT -pipe "-fmessage-length=0" -g   -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources   "-D__MBUF_TRANSITION_"   IOOutputQueue.cpp  -o /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IOOutputQueue.o 
+i686-apple-darwin9-g++-4.0.1: installation problem, cannot exec 'as': No such file or directory
+...failed CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IONetworkUserClient.o ...
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IOOutputQueue.o 
+IOOutputQueue.cpp:904: fatal error: error writing to -: Broken pipe
+compilation terminated.
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IOOutputQueue.o IOOutputQueue.cpp
+    /XCD/loper/usr/bin/g++-4.0  -c -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/IONetworkingFamily.hmap   -F/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts  -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include  -arch ppc -fno-common -nostdinc -Os -Wmost -Wno-four-char-constants -Wno-unknown-pragmas -I/System/Library/Frameworks/Kernel.framework/PrivateHeaders -I/System/Library/Frameworks/Kernel.framework/Headers -fno-builtin -finline -fno-keep-inline-functions -force_cpusubtype_ALL -fno-rtti -fno-exceptions -fcheck-new -msoft-float -fapple-kext -mlong-branch -static -DKERNEL -DKERNEL_PRIVATE -DDRIVER_PRIVATE -DAPPLE -DNeXT -pipe "-fmessage-length=0" -g   -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources   "-D__MBUF_TRANSITION_"   IOOutputQueue.cpp  -o /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IOOutputQueue.o 
+powerpc-apple-darwin9-g++-4.0.1: installation problem, cannot exec 'as': No such file or directory
+...failed CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IOOutputQueue.o ...
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IOPacketQueue.o 
+...failed CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IOPacketQueue.o ...
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IOPacketQueue.o 
+IOOutputQueue.cpp:904: fatal error: error writing to -: Broken pipe
+compilation terminated.
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IOPacketQueue.o IOPacketQueue.cpp
+    /XCD/loper/usr/bin/g++-4.0  -c -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/IONetworkingFamily.hmap   -F/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts  -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include  -arch i386 -fno-common -nostdinc -Os -Wmost -Wno-four-char-constants -Wno-unknown-pragmas -I/System/Library/Frameworks/Kernel.framework/PrivateHeaders -I/System/Library/Frameworks/Kernel.framework/Headers -fno-builtin -finline -fno-keep-inline-functions -force_cpusubtype_ALL -fno-rtti -fno-exceptions -fcheck-new -msoft-float -fapple-kext -static -DKERNEL -DKERNEL_PRIVATE -DDRIVER_PRIVATE -DAPPLE -DNeXT -pipe "-fmessage-length=0" -g   -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources   "-D__MBUF_TRANSITION_"   IOPacketQueue.cpp  -o /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IOPacketQueue.o 
+i686-apple-darwin9-g++-4.0.1: installation problem, cannot exec 'as': No such file or directory
+IOPacketQueue.cpp:270: fatal error: error writing to -: Broken pipe
+compilation terminated.
+
+CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IOPacketQueue.o IOPacketQueue.cpp
+    /XCD/loper/usr/bin/g++-4.0  -c -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/IONetworkingFamily.hmap   -F/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts  -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include  -arch ppc -fno-common -nostdinc -Os -Wmost -Wno-four-char-constants -Wno-unknown-pragmas -I/System/Library/Frameworks/Kernel.framework/PrivateHeaders -I/System/Library/Frameworks/Kernel.framework/Headers -fno-builtin -finline -fno-keep-inline-functions -force_cpusubtype_ALL -fno-rtti -fno-exceptions -fcheck-new -msoft-float -fapple-kext -mlong-branch -static -DKERNEL -DKERNEL_PRIVATE -DDRIVER_PRIVATE -DAPPLE -DNeXT -pipe "-fmessage-length=0" -g   -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources   "-D__MBUF_TRANSITION_"   IOPacketQueue.cpp  -o /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IOPacketQueue.o 
+powerpc-apple-darwin9-g++-4.0.1: installation problem, cannot exec 'as': No such file or directory
+...failed CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IOOutputQueue.o ...
+
+Mkdir /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources 
+
+Mkdir /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources 
+
+KernelModuleGeneratedSource.Create /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources/IONetworkingFamily_info.c 
+
+CompileC /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IONetworkingFamily_info.o 
+...failed CompileC /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IONetworkingFamily_info.o ...
+
+CompileC /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IONetworkingFamily_info.o 
+...failed CompileC /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IONetworkingFamily_info.o ...
+
+Mkdir /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/IONetworkingFamily.kext/Contents/MacOS 
+
+Mkdir /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/IONetworkingFamily.kext/Contents/MacOS 
+
+Mkdir /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions 
+
+Mkdir /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal 
+
+Mkdir /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/JavaClasses 
+IOPacketQueue.cpp:270: fatal error: error writing to -: Broken pipe
+compilation terminated.
+
+Mkdir /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources
+    /bin/mkdir  -p /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources 
+
+Mkdir /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources
+    /bin/mkdir  -p /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources 
+
+KernelModuleGeneratedSource.Create /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources/IONetworkingFamily_info.c
+    /bin/echo "#include <mach/mach_types.h>" > /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources/IONetworkingFamily_info.c 
+    /bin/echo " " >> /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources/IONetworkingFamily_info.c 
+    /bin/echo "extern kern_return_t _start(kmod_info_t *ki, void *data);" >> /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources/IONetworkingFamily_info.c 
+    /bin/echo "extern kern_return_t _stop(kmod_info_t *ki, void *data);" >> /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources/IONetworkingFamily_info.c 
+    if [ 0  != 0 ]; then
+        /bin/echo "__private_extern__ kern_return_t 0(kmod_info_t  *ki, void *data);" >> /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources/IONetworkingFamily_info.c 
+    fi
+    if [ 0  != 0 ]; then
+        /bin/echo "__private_extern__ kern_return_t 0(kmod_info_t  *ki, void *data);" >> /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources/IONetworkingFamily_info.c 
+    fi
+    /bin/echo " " >> /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources/IONetworkingFamily_info.c 
+    /bin/echo "KMOD_EXPLICIT_DECL(com.apple.iokit.IONetworkingFamily,  \"1.6.0\",  _start, _stop)" >> /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources/IONetworkingFamily_info.c 
+    /bin/echo "__private_extern__ kmod_start_func_t *_realmain = 0;"  >> /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources/IONetworkingFamily_info.c 
+    /bin/echo "__private_extern__ kmod_stop_func_t *_antimain = 0;"  >> /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources/IONetworkingFamily_info.c 
+    /bin/echo "__private_extern__ int _kext_apple_cc = __APPLE_CC__ ;" >> /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources/IONetworkingFamily_info.c 
+
+CompileC /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IONetworkingFamily_info.o /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources/IONetworkingFamily_info.c
+    /XCD/loper/usr/bin/gcc-4.0  -c -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/IONetworkingFamily.hmap   -F/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts  -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include  -arch i386 -fno-common -nostdinc -Os -Wmost -Wno-four-char-constants -Wno-unknown-pragmas -I/System/Library/Frameworks/Kernel.framework/PrivateHeaders -I/System/Library/Frameworks/Kernel.framework/Headers -fno-builtin -finline -fno-keep-inline-functions -force_cpusubtype_ALL -msoft-float -static -DKERNEL -DKERNEL_PRIVATE -DDRIVER_PRIVATE -DAPPLE -DNeXT -pipe "-fmessage-length=0" -g   -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources   "-D__MBUF_TRANSITION_"   /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources/IONetworkingFamily_info.c  -o /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/i386/IONetworkingFamily_info.o 
+i686-apple-darwin9-gcc-4.0.1: installation problem, cannot exec 'as': No such file or directory
+/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources/IONetworkingFamily_info.c:9: fatal error: error closing -: Broken pipe
+compilation terminated.
+
+CompileC /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IONetworkingFamily_info.o /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources/IONetworkingFamily_info.c
+    /XCD/loper/usr/bin/gcc-4.0  -c -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/IONetworkingFamily.hmap   -F/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts  -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/include -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/BuiltProducts/include  -arch ppc -fno-common -nostdinc -Os -Wmost -Wno-four-char-constants -Wno-unknown-pragmas -I/System/Library/Frameworks/Kernel.framework/PrivateHeaders -I/System/Library/Frameworks/Kernel.framework/Headers -fno-builtin -finline -fno-keep-inline-functions -force_cpusubtype_ALL -msoft-float -mlong-branch -static -DKERNEL -DKERNEL_PRIVATE -DDRIVER_PRIVATE -DAPPLE -DNeXT -pipe "-fmessage-length=0" -g   -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources -I/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources   "-D__MBUF_TRANSITION_"   /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources/IONetworkingFamily_info.c  -o /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IONetworkingFamily_info.o 
+powerpc-apple-darwin9-gcc-4.0.1: installation problem, cannot exec 'as': No such file or directory
+/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/DerivedSources/IONetworkingFamily_info.c:9: fatal error: error closing -: Broken pipe
+compilation terminated.
+
+Mkdir /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/IONetworkingFamily.kext/Contents/MacOS
+    /bin/mkdir  -p /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/IONetworkingFamily.kext/Contents/MacOS 
+
+Mkdir /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/IONetworkingFamily.kext/Contents/MacOS
+    /bin/mkdir  -p /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.sym/IONetworkingFamily.kext/Contents/MacOS 
+
+Mkdir /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions
+    /bin/mkdir  -p /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions 
+
+Mkdir /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal
+    /bin/mkdir  -p /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal 
+
+Mkdir /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/JavaClasses
+    /bin/mkdir  -p /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/JavaClasses 
+...failed CompileCplusplus /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/ppc/IOPacketQueue.o ...
+...skipped <DeriveAndCompileSources>IONetworkingFamily.kext for lack of <normal-i386>IOEthernetController.o...
+...skipped /private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/Objects-normal/LinkFileList for lack of <normal-i386>IOEthernetController.o...
+...skipped IONetworkingFamily.kext/Contents/MacOS/IONetworkingFamily for lack of <normal-i386>IOEthernetController.o...
+...skipped <aside>IONetworkingFamily.kext/Contents/MacOS/IONetworkingFamily for lack of IONetworkingFamily.kext/Contents/MacOS/IONetworkingFamily...
+...skipped <strip>IONetworkingFamily.kext/Contents/MacOS/IONetworkingFamily for lack of IONetworkingFamily.kext/Contents/MacOS/IONetworkingFamily...
+...skipped <LinkWithFrameworksAndLibraries>IONetworkingFamily.kext for lack of <DeriveAndCompileSources>IONetworkingFamily.kext...
+...skipped <RezResourceManagerFiles>IONetworkingFamily.kext for lack of <LinkWithFrameworksAndLibraries>IONetworkingFamily.kext...
+...skipped <Execution>/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.obj/IONetworkingFamily.build/IONetworkingFamily.build/BPTag006-script.sh for lack of <RezResourceManagerFiles>IONetworkingFamily.kext...
+...skipped <Script2>IONetworkingFamily.kext for lack of <RezResourceManagerFiles>IONetworkingFamily.kext...
+...skipped <Touch>IONetworkingFamily.kext for lack of <Script2>IONetworkingFamily.kext...
+...skipped <ModeOwnerGroup>/private/var/tmp/IONetworkingFamily/IONetworkingFamily-46.root//System/Library/Extensions/IONetworkingFamily.kext for lack of <DeriveAndCompileSources>IONetworkingFamily.kext...
+** BUILD FAILED **
+
+The following build commands failed:
+IONetworkingFamily:
+	JamToolExecution IONetworkingFamily
+(1 failure)
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ BUILD TIME: 0h 0m 16s
+EXIT STATUS: 1

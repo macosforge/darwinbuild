@@ -1,0 +1,45 @@
+cp /System/Library/Frameworks/Foundation.framework to BuildRoot
+
+cp /usr/lib/libobjc.A.dylib BuildRoot/usr/lib/
+
+cp /System/Library/Frameworks/CoreFoundation.framework
+
+/usr/lib/libicucore.A.dylib
+
+/usr/lib/libxml2.2.dylib
+
+/System/Library/Frameworks/CoreServices.framework
+
+/System/Library/Frameworks/Security.framework
+
+/usr/lib/libauto.dylib
+
+/usr/lib/libsqlite3.0.dylib
+
+# all frameworks and all dynamic libraries
+
+cp -rp /System/Library/Frameworks/* BuildRoot/System/Library/Frameworks/
+
+cp /usr/lib/*.dylib BuildRoot/usr/lib/
+
+cp /usr/include/AvailabilityMacros.h BuildRoot/usr/include/
+
+cp /usr/sbin/dtrace BuildRoot/usr/sbin/
+
+cp /System/Library/PrivateFrameworks/* 
+
+cc1: error: /usr/lib/dtrace/dt_cpp.h: No such file or directory^M
+
+========================
+Missing:
+  - lots of framework and dynlib required to run /usr/bin/arch
+
+  - private frameworks for dtrace
+
+  - /usr/include/AvailabilityMacros.h
+    from package com.apple.pkg.DevSDKLeo
+    can't tell what project it's from
+
+  - dtrace
+
+

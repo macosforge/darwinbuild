@@ -1,0 +1,40 @@
+// !$*UTF8*$!
+{
+	binary_sites = (
+		"http://puredarwin.googlecode.com/svn/Roots/10B504pd1/",
+		"http://src.macosforge.org/Roots/10B504/",
+	);
+	build = 10B504pd1;
+	projects = {
+		"compiler-rt" = {
+			dependencies = {
+				build = (
+					CPANInternal,
+					cctools,
+					file_cmds,
+					gcc,
+					gcc_select,
+					gnumake,
+					perl,
+					python,
+					shell_cmds,
+				);
+				header = (
+					CarbonHeaders,
+					Libc_headers,
+					Libm,
+					gcc,
+					xnu,
+				);
+			};
+			source_sites = (
+				"http://llvm.org/svn/llvm-project/compiler-rt/trunk",
+			);
+			version = 88916;
+		};
+	};
+	source_sites = (
+		"http://puredarwin.googlecode.com/svn/trunk/patches/",
+		"http://src.macosforge.org/Projects/",
+	);
+}

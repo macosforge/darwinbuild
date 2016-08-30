@@ -1,0 +1,51 @@
+--- thinPackages.sh.in.orig	2009-01-03 12:37:23.000000000 -0800
++++ thinPackages.sh.in	2009-01-03 14:21:26.000000000 -0800
+@@ -43,10 +43,28 @@
+ ###
+ ### Interpret our arguments:
+ ###   the architecture to thin to
++###   the compression tool to use (default=bzip2 for backward compat)
+ ARCH="$1"
++if [ "$2" == "" ]; then
++	TOOL=bzip2
++else
++	TOOL="$2"
++fi
++
++###
++### Set our archive extension and tar flag
++###
++if [ "$TOOL" == "bzip2" ]; then
++	EXT=bz2
++	TOOLFLAG=j
++else
++	EXT=gz
++	TOOLFLAG=z
++fi
+ 
+-if [ "$ARCH" != "ppc" -a "$ARCH" != "i386" ]; then
+-        echo "usage: $(basename $0) <arch>" 1>&2
++if [ "$ARCH" != "ppc" -a "$ARCH" != "i386" -o "$TOOL" != "gzip" -a "$TOOL" != "bzip2" ]; then
++        echo "usage: $(basename $0) <arch> [tool]" 1>&2
++        echo "       tool = {bzip2, gzip}" 1>&2
+         exit 1
+ fi
+ 
+@@ -66,7 +84,7 @@
+ DESTDIR="${PKGDIR}_$ARCH"
+ 
+ for X in $PKGDIR/*-*.tar.gz ; do
+-	Y=$(basename $X .gz).bz2
++	Y=$(basename $X .gz).$EXT
+ 	if [ $X -nt $DESTDIR/$Y ]; then
+ 		echo "Extracting $Y ..."
+ 		rm -rf "$DESTDIR/tmp"
+@@ -75,7 +93,7 @@
+ 		echo "Thinning $Y ..."
+ 		find "$DESTDIR/tmp" -type f -exec "$THINFILE" "$ARCH" {} ';'
+ 		echo "Archiving $Y ..."
+-		tar cjf "$DESTDIR/$Y" -C "$DESTDIR/tmp" .
++		tar c"$TOOLFLAG"f "$DESTDIR/$Y" -C "$DESTDIR/tmp" .
+ 	#else
+ 	#	echo $Y is up to date
+ 	fi

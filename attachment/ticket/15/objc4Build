@@ -1,0 +1,238 @@
+Viper:/Volumes/Builds/9C31 dmaclach$ sudo darwinbuild objc4
+*** Fetching Sources ...
+Downloading http://src.macosforge.org/Projects//objc4-371.1.tar.gz ...
+Download complete
+*** Copying Sources ...
+*** Installing Roots ...
+Copying gcc from /Volumes/Builds/9C31/Roots/gcc/gcc-5465.root~8 ...
+gcc - 661 files registered.
+*** Installing Headers ...
+*** Mounting special filesystems ...
+Mounting devfs ...
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+BUILDING objc4-371.1~1 on Fri Mar 28 20:57:01 PDT 2008
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Build configuration:
+    Build host:           Viper.local
+    Build tool:           make
+    Build action:         install
+    Build number:         9C31
+    Host kernel version:  Darwin Kernel Version 9.2.0: Tue Feb  5 16:13:22 PST 2008; root:xnu-1228.3.13~1/RELEASE_I386
+    cc version:           gcc version 4.0.1 (Apple Inc. build 5465)
+    cctools version:      version cctools-667.3.obj, GNU assembler version 1.38
+    make version:         GNU Make 3.81
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Build parameters:
+SRCROOT: /SourceCache/objc4/objc4-371.1
+OBJROOT: /private/var/tmp/objc4/objc4-371.1.obj
+SYMROOT: /private/var/tmp/objc4/objc4-371.1.sym
+DSTROOT: /private/var/tmp/objc4/objc4-371.1.root
+RC_ProjectName: objc4
+RC_ProjectSourceVersion: 371.1
+RC_ProjectNameAndSourceVersion: objc4-371.1
+RC_ProjectBuildVersion: 1
+INSTALLED_PRODUCT_ASIDES: YES
+MACOSX_DEPLOYMENT_TARGET: 10.5
+NEXT_ROOT: 
+RC_ARCHS: ppc ppc64 i386 x86_64
+RC_CFLAGS: -pipe -no-cpp-precomp -arch ppc -arch ppc64 -arch i386 -arch x86_64
+RC_JASPER: YES
+RC_NONARCH_CFLAGS: -pipe -no-cpp-precomp
+RC_OS: macos
+RC_PRIVATE: /private
+RC_RELEASE: Leopard
+RC_XBS: YES
+RC_i386: YES
+RC_ppc: YES
+RC_ppc64: YES
+RC_x86_64: YES
+SEPARATE_STRIP: YES
+UNAME_RELEASE: 9.0
+UNAME_SYSNAME: Darwin
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Environment variables:
+CHROOTED=YES
+DARWINBUILD_BUILD=9C31
+DARWINXREF_DB_FILE=/Volumes/Builds/9C31/.build/xref.db
+DARWIN_BUILDROOT=/Volumes/Builds/9C31
+DSTROOT=/private/var/tmp/objc4/objc4-371.1.root
+GROUP=wheel
+HOME=/var/root
+INSTALLED_PRODUCT_ASIDES=YES
+LOGNAME=root
+MACOSX_DEPLOYMENT_TARGET=10.5
+NEXT_ROOT=
+OBJROOT=/private/var/tmp/objc4/objc4-371.1.obj
+PATH=/bin:/sbin:/usr/bin:/usr/sbin/:/usr/local/bin:/usr/local/sbin
+RC_ARCHS=ppc ppc64 i386 x86_64
+RC_CFLAGS=-pipe -no-cpp-precomp -arch ppc -arch ppc64 -arch i386 -arch x86_64
+RC_JASPER=YES
+RC_NONARCH_CFLAGS=-pipe -no-cpp-precomp
+RC_OS=macos
+RC_PRIVATE=/private
+RC_ProjectBuildVersion=1
+RC_ProjectName=objc4
+RC_ProjectNameAndSourceVersion=objc4-371.1
+RC_ProjectSourceVersion=371.1
+RC_RELEASE=Leopard
+RC_XBS=YES
+RC_i386=YES
+RC_ppc64=YES
+RC_ppc=YES
+RC_x86_64=YES
+SEPARATE_STRIP=YES
+SHELL=/bin/sh
+SRCROOT=/SourceCache/objc4/objc4-371.1
+SYMROOT=/private/var/tmp/objc4/objc4-371.1.sym
+UNAME_RELEASE=9.0
+UNAME_SYSNAME=Darwin
+USER=root
+_=/usr/bin/printenv
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Installed Roots:
+                        0095d3e25f3af81b2ff61d7e0f45f55ba9af7688
+CFOpenDirectory      -> e526d78ffaa47697f06ff4defcdcfd010fa39ebf
+CarbonHeaders        -> fc4fcd8d01ea06982d77e80c87d12a1734d7e8c7
+CommonCrypto         -> 912af6013dec27f906150791b90486c9ac18ba51
+CoreOSMakefiles      -> 385a59865e5ed9e942bba126185fdcd057781d2d
+Csu                  -> 1c2236c2e36fdcafc65a8cbd95c7f049e923d475
+DirectoryService     -> 169013c2ecfa45dbb59a3cdb9ba8943944d2d909
+DiskArbitration.hdrs -> d6f8f944b01c58f6adc7626beafdd813416a5c81
+Kerberos             -> 317f6fbe1fc5ceff5e45c8ef31afb8c6611166d7
+LDAPFramework        -> 2a4f9f33aea6968a3869ef622a99e6bd0842f054
+Libc                 -> 7522f126f91941e0f01de3fac6c2643b965020ea
+Libc_debug           -> 02b4669e923be0319a5f40caaaee2133272c5ea1
+Libc_headers.hdrs    -> 7d4a358141874cd0e4e284fcac97ddab231cb627
+Libc_profile         -> 045ff1d7efece01e61ce62f76059371e5322a816
+Libinfo              -> c6acb8365aa475e671b4a76716b75fa3d807c157
+Libinfo.hdrs         -> d911bb129983e481e35aff8a22e1d01782c93a41
+Libm                 -> 77ad9e8a68028cfff19d659e4e7b6eab0fc9ddf9
+Libmx                -> 6ef564f034594239d86e5e4de0295f44c76223eb
+Libnotify            -> db407e57f719b6155651f5569616969a12626b9d
+Libnotify.hdrs       -> d924dec66fc451b81311a91a9ba6486f694f1363
+Librpcsvc.hdrs       -> 3bf40eccc862446bb3ded0eb2e4b9c404097343d
+Libsyscall           -> ad46fd989e7c5ebd8d283203648a4c6e62f443e7
+Libsyscall.hdrs      -> ff302db561618fc530c3d4c0bf77d35bb79404a5
+Libsystem            -> a9f1c3f4d37e878346f10a259b6010008f792678
+SystemStubs          -> 0541c508a94818cc7597ae78b1349b05a94cbdf8
+UserNotification     -> 2f8577a0654500a937f35df82ce253c47472d1d0
+apache1              -> 07f74cf31c8aa75720965457cf3db5eca05aceef
+apr                  -> 2b1da96903e434e2f0d8c9b59191626890069f76
+architecture.hdrs    -> 046e8f7cf54251f80e2abd3892d8ce2285c83f0c
+awk                  -> 329413f98676bc5a74b1516e08d19fed541ed70f
+bash                 -> c21be611623a1f2789358f4c361e87d17e284e04
+bison                -> 03bccb9f9632703a1edbd62d322d183bde83ee8c
+bootstrap_cmds       -> b21930681ec13f1bb229fa52273f4663c7e1ef6a
+bsdmake              -> 2e8304a0ef2379b7dce82a4ec2c1a14581b52ecb
+bsm                  -> c18bd0abba6b8953085578b8907ff364a14903a1
+cctools              -> 2770299750486b09b5f1b294c6ce2419bef4730c
+cctools_ofiles       -> c90828c254a5b885dc5c38bfeff90b4311f5c80f
+cctools_ofiles.hdrs  -> c49dc08e6e96fddb4d4fad03548c1fbb9ed022c8
+configd              -> 9dd519bfb9d44a8f4a45fbb340471a716558d87d
+copyfile             -> 51aa718e7ed5d286b83ff1c49315c54ca2f89fd4
+developer_cmds       -> f5f8da652ec7ad44d773612ff7b909d54a6c2a8a
+dyld                 -> 5f0f7711c6911bf837a831b402b588fe53238f53
+                        f1055f8d81cb32b211737f2274a9cc89cf7665ee
+file                 -> 596b1b11af380e4aa9269200d65195b8f33b42e8
+file_cmds            -> 84826144e2621e187304608ec8c5abeecaef7832
+files                -> c55bcb3635f79cb1c0f74006a0a2237170caf2dc
+flex                 -> e9a6bba5db23a38ae935d1956694a04d24426c43
+gcc                  -> 0cb6d2121436e2fb4c83024453769c8144750e5c
+gcc_os.hdrs          -> 71c3ae015de42d954a568d20501fd58be71e5b27
+gcc_select           -> 12bd4cbda14709c1ffd5fdce69547cd1636bc48d
+glibtool             -> de3ea31cad050107a7c6fee68fe19b3dac7da619
+gm4                  -> b7c32c3a289a22149422539a3ff107ca4cca4e31
+gnudiff              -> 222379a22b8cbf97e14b4e75e18ab8005b24727f
+gnumake              -> 5608039be88517611b35e7694b7b015c1209adb5
+gnutar               -> 282c013e6eedda232bcd789b2e39e6dbc10c9c13
+gnuzip               -> 1894b28e5a7e52387a49144ed02a29e08ab819b9
+grep                 -> 12ddd47198f46f409870334122b3cc22385c6683
+keymgr               -> 22fae13b3ab0af5aa974b62720eea93e197434f4
+launchd              -> c6159361e71e15575f6dbea29e70c55e7beb7206
+ld64                 -> 26c2d2359ceaf485254c089d79cd68f010ac9bc9
+libdyld              -> b4ae560e2b68fc4dd852133ed23a6074788afc93
+libffi.hdrs          -> 0731e6adb720ae64f927a2eef33cdf420fa9dc0d
+libgcc               -> 92f5a0e69750f372edd7980cc559a17cb862e7d8
+libiconv             -> 5af87457c8c411fb0354a4a76bebb303c25f0cec
+libresolv            -> a11efa28995b2050b2c4e17d126f86e7e6a08523
+libstdcxx            -> d23396753f76e4e57fe134cb59e327c71bd81fb7
+libutil              -> efb446b4ef8f332d28a785b281f231024d1d4115
+mDNSResponder        -> b90ff8f7c8e7172103e6f42957ed817151862373
+misc_cmds            -> 2f25239e125c8f34645347242a90a0c7a688b9c4
+ncurses              -> 49e2dec29d18c48d5b2ac3bdb652773bfba3ac53
+openmpi              -> b058d4993c473f0761b232a11a8f2ccdf49d5882
+pam                  -> 914a728c10c8e7b6c75b7898f4e5e18a5d726670
+passwordserver_sasl  -> 5964393e171e039e73d6494206ac49f34814f284
+pb_makefiles         -> 526ff11598665844bd9d3348ba6194a5dd95982c
+perl                 -> a271dc83f7e56efce2f69d737b385c814a3e8dd4
+removefile           -> 0d264bb069bd358f82de5d1a3340ee83a41b6d64
+shell_cmds           -> 7ee6f073866bbef056089798c00ac9c583d4bc76
+system_cmds          -> 38453fe0927f21f9e7298eae4ea5a109bd4053fd
+tcp_wrappers         -> 232bcdd8cf681612577f6e7445e965c43e669530
+texinfo              -> b10918a589ac97b719d3d4cd10bb7346d622f544
+text_cmds            -> f339ace6640fde3cb5c639857b6fb843a5478dc5
+tidy                 -> a6ab6d4cd766aaa8e7860f756d38dd2326b33d8e
+wxWidgets            -> 10733a0d8d20a310fd84149eb0a8f5ea824e1bc6
+xnu                  -> 4c7899e942bdde60dadbbc57a7c40fd86afdef6c
+zlib                 -> afeb832790d88f53624f01bf49a3ee60b0f6a0ba
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+make install  "SRCROOT=/SourceCache/objc4/objc4-371.1" "OBJROOT=/private/var/tmp/objc4/objc4-371.1.obj" "SYMROOT=/private/var/tmp/objc4/objc4-371.1.sym" "DSTROOT=/private/var/tmp/objc4/objc4-371.1.root" "RC_ProjectName=objc4" "RC_ProjectSourceVersion=371.1" "RC_ProjectNameAndSourceVersion=objc4-371.1" "RC_ProjectBuildVersion=1" "INSTALLED_PRODUCT_ASIDES=YES" "MACOSX_DEPLOYMENT_TARGET=10.5" "NEXT_ROOT=" "RC_ARCHS=ppc ppc64 i386 x86_64" "RC_CFLAGS=-pipe -no-cpp-precomp -arch ppc -arch ppc64 -arch i386 -arch x86_64" "RC_JASPER=YES" "RC_NONARCH_CFLAGS=-pipe -no-cpp-precomp" "RC_OS=macos" "RC_PRIVATE=/private" "RC_RELEASE=Leopard" "RC_XBS=YES" "RC_i386=YES" "RC_ppc=YES" "RC_ppc64=YES" "RC_x86_64=YES" "SEPARATE_STRIP=YES" "UNAME_RELEASE=9.0" "UNAME_SYSNAME=Darwin" < /dev/null
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Build log begins here:
+
+Prebuild-setup...
+/bin/mkdir -p /private/var/tmp/objc4/objc4-371.1.sym
+/bin/rm -rf /private/var/tmp/objc4/objc4-371.1.sym/ProjectHeaders
+/bin/mkdir -p /private/var/tmp/objc4/objc4-371.1.sym/ProjectHeaders
+Copying headers from /SourceCache/objc4/objc4-371.1 to /private/var/tmp/objc4/objc4-371.1.sym/ProjectHeaders...
+/bin/cp /SourceCache/objc4/objc4-371.1/runtime/objc-private.h /SourceCache/objc4/objc4-371.1/runtime/objc-config.h /SourceCache/objc4/objc4-371.1/runtime/objc-sel-table.h /SourceCache/objc4/objc4-371.1/runtime/objc-sel-set.h /SourceCache/objc4/objc4-371.1/runtime/objc-rtp.h /SourceCache/objc4/objc4-371.1/runtime/objc-initialize.h /SourceCache/objc4/objc4-371.1/runtime/objc-loadmethod.h /SourceCache/objc4/objc4-371.1/runtime/objc-runtime-new.h /SourceCache/objc4/objc4-371.1/runtime/phash.h /SourceCache/objc4/objc4-371.1/runtime/lookupa.h /SourceCache/objc4/objc4-371.1/runtime/standard.h /SourceCache/objc4/objc4-371.1/runtime/Accessors.subproj/objc-accessors.h /SourceCache/objc4/objc4-371.1/runtime/Accessors.subproj/objc-accessors-table.h /private/var/tmp/objc4/objc4-371.1.sym/ProjectHeaders
+/bin/mkdir -p /private/var/tmp/objc4/objc4-371.1.sym/ProjectHeaders/objc
+/bin/cp /SourceCache/objc4/objc4-371.1/runtime/objc.h /SourceCache/objc4/objc4-371.1/runtime/runtime.h /SourceCache/objc4/objc4-371.1/runtime/message.h /SourceCache/objc4/objc4-371.1/runtime/objc-class.h /SourceCache/objc4/objc4-371.1/runtime/objc-api.h /SourceCache/objc4/objc4-371.1/runtime/objc-load.h /SourceCache/objc4/objc4-371.1/runtime/objc-runtime.h /SourceCache/objc4/objc4-371.1/runtime/Object.h /SourceCache/objc4/objc4-371.1/runtime/objc-sync.h /SourceCache/objc4/objc4-371.1/runtime/objc-exception.h /SourceCache/objc4/objc4-371.1/runtime/objc-auto.h /SourceCache/objc4/objc4-371.1/runtime/Protocol.h /SourceCache/objc4/objc4-371.1/runtime/error.h /SourceCache/objc4/objc4-371.1/runtime/hashtable2.h /SourceCache/objc4/objc4-371.1/runtime/OldClasses.subproj/List.h /private/var/tmp/objc4/objc4-371.1.sym/ProjectHeaders/objc
+/bin/cp /SourceCache/objc4/objc4-371.1/runtime/maptable.h /SourceCache/objc4/objc4-371.1/runtime/objc-auto.h /private/var/tmp/objc4/objc4-371.1.sym/ProjectHeaders/objc
+Building (optimized) ...
+/bin/mkdir -p  /private/var/tmp/objc4/objc4-371.1.obj/.   /private/var/tmp/objc4/objc4-371.1.obj/runtime   /private/var/tmp/objc4/objc4-371.1.obj/runtime/OldClasses.subproj   /private/var/tmp/objc4/objc4-371.1.obj/runtime/Messengers.subproj   /private/var/tmp/objc4/objc4-371.1.obj/runtime/Accessors.subproj   /private/var/tmp/objc4/objc4-371.1.obj/runtime/Auto.subproj 
+Building markgc tool ...
+/usr/bin/cc -std=gnu99 "/SourceCache/objc4/objc4-371.1/markgc.c" -o "/private/var/tmp/objc4/objc4-371.1.obj/markgc"
+    ... /SourceCache/objc4/objc4-371.1/runtime/Object.m
+/usr/bin/cc  -arch ppc  -arch ppc64  -arch i386  -arch x86_64 -Os -DNDEBUG -g -fno-common -fdollars-in-identifiers -pipe  -Wall -Wno-four-char-constants -Wshorten-64-to-32 -Wno-deprecated-declarations -I/private/var/tmp/objc4/objc4-371.1.sym -I. -I/private/var/tmp/objc4/objc4-371.1.sym/ProjectHeaders  -pipe -no-cpp-precomp -arch ppc -arch ppc64 -arch i386 -arch x86_64 "/SourceCache/objc4/objc4-371.1/runtime/Object.m" -c -o "/private/var/tmp/objc4/objc4-371.1.obj/runtime/Object.opt.o"
+/SourceCache/objc4/objc4-371.1/runtime/Object.m:44: warning: incomplete implementation of class 'Object'
+/SourceCache/objc4/objc4-371.1/runtime/Object.m:44: warning: method definition for '-isEqual:' not found
+/SourceCache/objc4/objc4-371.1/runtime/Object.m:44: warning: incomplete implementation of class 'Object'
+/SourceCache/objc4/objc4-371.1/runtime/Object.m:44: warning: method definition for '-isEqual:' not found
+/private/var/tmp/objc4/objc4-371.1.obj/markgc -p "/private/var/tmp/objc4/objc4-371.1.obj/runtime/Object.opt.o"
+patched /private/var/tmp/objc4/objc4-371.1.obj/runtime/Object.opt.o at offset 0x8cb0
+patched /private/var/tmp/objc4/objc4-371.1.obj/runtime/Object.opt.o at offset 0xd16c
+patched /private/var/tmp/objc4/objc4-371.1.obj/runtime/Object.opt.o at offset 0x14c34
+patched /private/var/tmp/objc4/objc4-371.1.obj/runtime/Object.opt.o at offset 0x19214
+    ... /SourceCache/objc4/objc4-371.1/runtime/Protocol.m
+/usr/bin/cc  -arch ppc  -arch ppc64  -arch i386  -arch x86_64 -Os -DNDEBUG -g -fno-common -fdollars-in-identifiers -pipe  -Wall -Wno-four-char-constants -Wshorten-64-to-32 -Wno-deprecated-declarations -I/private/var/tmp/objc4/objc4-371.1.sym -I. -I/private/var/tmp/objc4/objc4-371.1.sym/ProjectHeaders  -pipe -no-cpp-precomp -arch ppc -arch ppc64 -arch i386 -arch x86_64 "/SourceCache/objc4/objc4-371.1/runtime/Protocol.m" -c -o "/private/var/tmp/objc4/objc4-371.1.obj/runtime/Protocol.opt.o"
+In file included from /SourceCache/objc4/objc4-371.1/runtime/Protocol.m:35:
+/SourceCache/objc4/objc4-371.1/runtime/objc-private.h:49:22: error: auto_zone.h: No such file or directory
+In file included from /SourceCache/objc4/objc4-371.1/runtime/Protocol.m:35:
+/SourceCache/objc4/objc4-371.1/runtime/objc-private.h:49:22: error: auto_zone.h: No such file or directory
+In file included from /SourceCache/objc4/objc4-371.1/runtime/Protocol.m:35:
+/SourceCache/objc4/objc4-371.1/runtime/objc-private.h:471: error: syntax error before '*' token
+/SourceCache/objc4/objc4-371.1/runtime/objc-private.h:471: warning: type defaults to 'int' in declaration of 'gc_zone'
+/SourceCache/objc4/objc4-371.1/runtime/objc-private.h:471: warning: data definition has no type or storage class
+In file included from /SourceCache/objc4/objc4-371.1/runtime/Protocol.m:35:
+/SourceCache/objc4/objc4-371.1/runtime/objc-private.h:49:22: error: auto_zone.h: No such file or directory
+In file included from /SourceCache/objc4/objc4-371.1/runtime/Protocol.m:35:
+/SourceCache/objc4/objc4-371.1/runtime/objc-private.h:49:22: error: auto_zone.h: No such file or directory
+In file included from /SourceCache/objc4/objc4-371.1/runtime/Protocol.m:35:
+/SourceCache/objc4/objc4-371.1/runtime/objc-private.h:471: error: syntax error before '*' token
+/SourceCache/objc4/objc4-371.1/runtime/objc-private.h:471: warning: type defaults to 'int' in declaration of 'gc_zone'
+/SourceCache/objc4/objc4-371.1/runtime/objc-private.h:471: warning: data definition has no type or storage class
+In file included from /SourceCache/objc4/objc4-371.1/runtime/Protocol.m:35:
+/SourceCache/objc4/objc4-371.1/runtime/objc-private.h:471: error: syntax error before '*' token
+/SourceCache/objc4/objc4-371.1/runtime/objc-private.h:471: warning: type defaults to 'int' in declaration of 'gc_zone'
+/SourceCache/objc4/objc4-371.1/runtime/objc-private.h:471: warning: data definition has no type or storage class
+In file included from /SourceCache/objc4/objc4-371.1/runtime/Protocol.m:35:
+/SourceCache/objc4/objc4-371.1/runtime/objc-private.h:471: error: syntax error before '*' token
+/SourceCache/objc4/objc4-371.1/runtime/objc-private.h:471: warning: type defaults to 'int' in declaration of 'gc_zone'
+/SourceCache/objc4/objc4-371.1/runtime/objc-private.h:471: warning: data definition has no type or storage class
+lipo: can't open input file: /var/tmp//ccGVv10h.out (No such file or directory)
+make: *** [/private/var/tmp/objc4/objc4-371.1.obj/runtime/Protocol.opt.o] Error 1
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ BUILD TIME: 0h 0m 2s
+EXIT STATUS: 2

@@ -1,0 +1,13 @@
+--- Makefile.orig	2009-11-07 19:31:45.000000000 -0800
++++ Makefile	2009-11-07 19:44:07.000000000 -0800
+@@ -2,9 +2,7 @@
+ 
+ CXXFLAGS=-g -Wall -Werror -Wno-non-virtual-dtor $(CFLAGS)
+ # libredo.o is generated from cctools_ofiles
+-REDO=$(shell if [ -f /usr/local/lib/libredo_prebinding.a ]; then \
+-		echo /usr/local/lib/libredo_prebinding.a ; else \
+-		echo libredo.o ; fi)
++REDO=libredo.o
+ 
+ all: darwinup
+ 

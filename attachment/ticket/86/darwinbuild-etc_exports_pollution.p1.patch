@@ -1,0 +1,16 @@
+--- /opt/local/bin/darwinbuild.orig	2009-06-12 23:55:17.000000000 +0200
++++ /opt/local/bin/darwinbuild	2009-06-13 00:00:40.000000000 +0200
+@@ -169,8 +169,11 @@
+ 	    echo "Adding build root to NFS exports file ..."
+ 	    mkdir -p $NFSDIR
+ 	    mkdir -p BuildRoot
+-	    echo "# Added by darwinbuild on ${stamp}" >> /etc/exports
+-	    echo "${PWDP}/${NFSDIR} -maproot=0:10" >> /etc/exports
++	    grep "${PWDP}/${NFSDIR} -maproot=0:10" /etc/exports > /dev/null 2> /dev/null
++	    if [ ! $? -eq 0 ]; then
++		echo "# Added by darwinbuild on ${stamp}" >> /etc/exports
++		echo "${PWDP}/${NFSDIR} -maproot=0:10" >> /etc/exports
++	    fi
+ 	    nfsd update	    
+ 	    echo "Checking exports file ..."
+ 	    nfsd checkexports

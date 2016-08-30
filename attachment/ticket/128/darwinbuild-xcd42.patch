@@ -1,0 +1,375 @@
+diff -u -r -N darwinbuild-982/darwinbuild/SDKSettings-11.plist darwinbuild-982-upd/darwinbuild/SDKSettings-11.plist
+--- darwinbuild-982/darwinbuild/SDKSettings-11.plist	1969-12-31 16:00:00.000000000 -0800
++++ darwinbuild-982-upd/darwinbuild/SDKSettings-11.plist	2011-11-16 22:30:46.000000000 -0800
+@@ -0,0 +1,42 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++	<key>CanonicalName</key>
++	<string>darwin11</string>
++	<key>CustomProperties</key>
++	<dict>
++		<key>KERNEL_EXTENSION_HEADER_SEARCH_PATHS</key>
++		<string>$(KERNEL_FRAMEWORK)/PrivateHeaders $(KERNEL_FRAMEWORK_HEADERS)</string>
++	</dict>
++	<key>DefaultProperties</key>
++	<dict>
++		<key>DEFAULT_COMPILER</key>
++		<string>com.apple.compilers.llvm.clang.1_0</string>
++		<key>MACOSX_DEPLOYMENT_TARGET</key>
++		<string>10.7</string>
++		<key>PLATFORM_NAME</key>
++		<string>macosx</string>
++	</dict>
++	<key>DisplayName</key>
++	<string>Darwin 11</string>
++	<key>DocSetFeedName</key>
++	<string>Apple Darwin 11</string>
++	<key>DocSetFeedURL</key>
++	<string>http://developer.apple.com/rss/com.apple.adc.documentation.AppleSnowLeopard.atom</string>
++	<key>MaximumDeploymentTarget</key>
++	<string>10.7</string>
++	<key>MinimalDisplayName</key>
++	<string>10.7</string>
++	<key>MinimumSupportedToolsVersion</key>
++	<string>3.2</string>
++	<key>SupportedBuildToolComponents</key>
++	<array>
++		<string>com.apple.compilers.gcc.headers.4_2</string>
++	</array>
++	<key>Version</key>
++	<string>10.7</string>
++	<key>isBaseSDK</key>
++	<string>YES</string>
++</dict>
++</plist>
+diff -u -r -N darwinbuild-982/darwinbuild/installXcode.in darwinbuild-982-upd/darwinbuild/installXcode.in
+--- darwinbuild-982/darwinbuild/installXcode.in	2011-11-16 19:45:03.000000000 -0800
++++ darwinbuild-982-upd/darwinbuild/installXcode.in	2011-11-19 12:16:24.000000000 -0800
+@@ -6,21 +6,25 @@
+ BROOT=$1
+ VER=$(/usr/bin/xcodebuild -version | grep version | cut -d "-" -f 2 | cut -d ";" -f 1 | cut -d "." -f 1)
+ 
+-if [ "$VER" -gt "920" ];
++
++if [ "`echo "$VER" | awk '{print $3}'`" = "4D199" ];
+ then
+-	if [ "$VER" -gt "1000" ];
+-	then
+-		if [ "$VER" -gt "1600" ];
+-		then
+-			"$BINDIR/installXcode32" "$BROOT";
+-		else
+-			"$BINDIR/installXcode31" "$BROOT";	
+-		fi
+-	else
+-		"$BINDIR/installXcode3" "$BROOT";	
+-	fi
++    "$BINDIR/installXcode42" "$BROOT";
+ else
+-	"$BINDIR/installXcode2" "$BROOT";
++    if [ "$VER" -gt "920" ];
++    then
++        if [ "$VER" -gt "1000" ];
++        then
++            if [ "$VER" -gt "1600" ];
++            then
++                "$BINDIR/installXcode32" "$BROOT";
++            else
++                "$BINDIR/installXcode31" "$BROOT";	
++            fi
++        else
++            "$BINDIR/installXcode3" "$BROOT";	
++        fi
++    else
++        "$BINDIR/installXcode2" "$BROOT";
++    fi
+ fi
+-
+-
+diff -u -r -N darwinbuild-982/darwinbuild/installXcode42.in darwinbuild-982-upd/darwinbuild/installXcode42.in
+--- darwinbuild-982/darwinbuild/installXcode42.in	1969-12-31 16:00:00.000000000 -0800
++++ darwinbuild-982-upd/darwinbuild/installXcode42.in	2011-11-16 23:08:25.000000000 -0800
+@@ -0,0 +1,47 @@
++#!/bin/sh
++
++FORCE="YES"
++XCODEBUILD=/Developer/usr/bin/xcodebuild
++BUILDROOT="$1"
++DBROOT=$(dirname $BUILDROOT)
++PLATFORMDIR="${DBROOT}/Platform"
++STAMP=$(date +%Y%m%d%H%M%S)
++BUILD=$(cat $DBROOT/.build/build)
++PLATFORM="darwin11"
++INFOPLIST=%%PREFIX%%/share/darwinbuild/Info.plist
++SDKPLIST=%%PREFIX%%/share/darwinbuild/SDKSettings-11.plist
++
++echo $PLATFORM > "${DBROOT}/.build/platform"
++echo "Installing Platform/SDK $PLATFORM for Xcode 4.2" 
++
++mkdir -p "${PLATFORMDIR}/Developer/SDKs"
++mkdir -p "${PLATFORMDIR}/Developer/Library/Xcode"
++
++rsync -a "/Developer/Platforms/MacOSX.platform/Developer/Library/Xcode/" \
++         "${PLATFORMDIR}/Developer/Library/Xcode"
++
++#sed -e "s,%%PLATFORM%%,${PLATFORM}," $INFOPLIST > "${PLATFORMDIR}/Info.plist"
++#sed -e "s,%%PLATFORM%%,${PLATFORM}," $SDKPLIST > "${BUILDROOT}/SDKSettings.plist"
++cp $INFOPLIST "${PLATFORMDIR}/Info.plist"
++cp $SDKPLIST "${PLATFORMDIR}/SDKSettings.plist"
++
++
++pushd "${PLATFORMDIR}/Developer" > /dev/null
++ln -s ../../BuildRoot/usr/ usr
++popd > /dev/null
++
++pushd "${PLATFORMDIR}/Developer/SDKs" > /dev/null
++ln -s ../../../BuildRoot/ "${PLATFORM}.sdk"
++popd > /dev/null
++
++pushd "/Developer/Platforms" > /dev/null
++ln -s "$PLATFORMDIR" "${PLATFORM}.platform"
++popd > /dev/null
++
++mkdir -p "${DBROOT}/BuildRoot/Developer/"
++pushd "${DBROOT}/BuildRoot/Developer/" > /dev/null
++ln -s ../usr usr
++popd > /dev/null
++
++echo "Completed Platform/SDK install"
++
+diff -u -r -N darwinbuild-982/darwinbuild.xcodeproj/project.pbxproj darwinbuild-982-upd/darwinbuild.xcodeproj/project.pbxproj
+--- darwinbuild-982/darwinbuild.xcodeproj/project.pbxproj	2011-11-16 19:45:02.000000000 -0800
++++ darwinbuild-982-upd/darwinbuild.xcodeproj/project.pbxproj	2011-11-16 22:46:39.000000000 -0800
+@@ -33,6 +33,7 @@
+ 				7227AC3A1098DC6A00BE33D7 /* PBXTargetDependency */,
+ 				7227AC381098DC6A00BE33D7 /* PBXTargetDependency */,
+ 				7227AC361098DC6A00BE33D7 /* PBXTargetDependency */,
++				B51294D81474E43200283C9D /* PBXTargetDependency */,
+ 			);
+ 			name = darwinbuild_scripts;
+ 			productName = darwinbuild_scripts;
+@@ -153,6 +154,7 @@
+ 		72C86C9F109745BC00C66E90 /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72C86BE610965E4F00C66E90 /* Utils.cpp */; };
+ 		72C86CE410974CC800C66E90 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 72C86CE310974CC800C66E90 /* libsqlite3.dylib */; };
+ 		72D05CB811D2680500B33EDD /* query.c in Sources */ = {isa = PBXBuildFile; fileRef = 72D05CA911D2678F00B33EDD /* query.c */; };
++		B51294DA1474E47300283C9D /* SDKSettings-11.plist in CopyFiles */ = {isa = PBXBuildFile; fileRef = B51294CC1474E12D00283C9D /* SDKSettings-11.plist */; };
+ 		DF12E2821119E2B0007587C1 /* DB.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF12E2811119E2B0007587C1 /* DB.cpp */; };
+ 		DFC9772D11138F9400CAE084 /* Column.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DFC9772711138F9400CAE084 /* Column.cpp */; };
+ 		DFC9772E11138F9400CAE084 /* Database.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DFC9772911138F9400CAE084 /* Database.cpp */; };
+@@ -595,6 +597,13 @@
+ 			remoteGlobalIDString = 72D05CAD11D267C400B33EDD;
+ 			remoteInfo = query;
+ 		};
++		B51294D71474E43200283C9D /* PBXContainerItemProxy */ = {
++			isa = PBXContainerItemProxy;
++			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
++			proxyType = 1;
++			remoteGlobalIDString = B51294CE1474E38800283C9D;
++			remoteInfo = installXcode42;
++		};
+ /* End PBXContainerItemProxy section */
+ 
+ /* Begin PBXCopyFilesBuildPhase section */
+@@ -619,6 +628,7 @@
+ 			dstPath = "$(DATDIR)/darwinbuild";
+ 			dstSubfolderSpec = 0;
+ 			files = (
++				B51294DA1474E47300283C9D /* SDKSettings-11.plist in CopyFiles */,
+ 				7227AD1C109A05FA00BE33D7 /* buildlist in CopyFiles */,
+ 				7227AD1D109A05FA00BE33D7 /* buildorder in CopyFiles */,
+ 				7227AD1E109A05FA00BE33D7 /* ditto in CopyFiles */,
+@@ -762,6 +772,9 @@
+ 		72C86CE310974CC800C66E90 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = /usr/lib/libsqlite3.dylib; sourceTree = "<absolute>"; };
+ 		72D05CA911D2678F00B33EDD /* query.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = query.c; sourceTree = "<group>"; };
+ 		72D05CB711D267C400B33EDD /* query.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = query.so; sourceTree = BUILT_PRODUCTS_DIR; };
++		B51294CC1474E12D00283C9D /* SDKSettings-11.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "SDKSettings-11.plist"; path = "darwinbuild/SDKSettings-11.plist"; sourceTree = "<group>"; };
++		B51294CD1474E21000283C9D /* installXcode42.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = installXcode42.in; path = darwinbuild/installXcode42.in; sourceTree = "<group>"; };
++		B51294D51474E38800283C9D /* installXcode42 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = installXcode42; sourceTree = BUILT_PRODUCTS_DIR; };
+ 		DF12E2801119E2B0007587C1 /* DB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DB.h; path = darwinup/DB.h; sourceTree = "<group>"; };
+ 		DF12E2811119E2B0007587C1 /* DB.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DB.cpp; path = darwinup/DB.cpp; sourceTree = "<group>"; };
+ 		DF6BE300132C5EBD00793781 /* close-test */ = {isa = PBXFileReference; lastKnownFileType = text; path = "close-test"; sourceTree = "<group>"; };
+@@ -1052,8 +1065,10 @@
+ 				72C86C2A1096600B00C66E90 /* installXcode3 */,
+ 				72C86C2B1096600B00C66E90 /* installXcode31 */,
+ 				72C86C2C1096600B00C66E90 /* installXcode32.in */,
++				B51294CD1474E21000283C9D /* installXcode42.in */,
+ 				72C86C2E1096600B00C66E90 /* manifest.c */,
+ 				72C86C311096600B00C66E90 /* SDKSettings.plist */,
++				B51294CC1474E12D00283C9D /* SDKSettings-11.plist */,
+ 			);
+ 			name = darwinbuild;
+ 			sourceTree = "<group>";
+@@ -1190,6 +1205,7 @@
+ 				7227AC2E1098DBDF00BE33D7 /* installXcode32 */,
+ 				72D05CB711D267C400B33EDD /* query.so */,
+ 				720BE2F2120C90A700B3C4A5 /* digest */,
++				B51294D51474E38800283C9D /* installXcode42 */,
+ 			);
+ 			name = Products;
+ 			sourceTree = "<group>";
+@@ -1794,7 +1810,7 @@
+ 			isa = PBXNativeTarget;
+ 			buildConfigurationList = 72C86C3D1096607A00C66E90 /* Build configuration list for PBXNativeTarget "darwinbuild" */;
+ 			buildPhases = (
+-				7227AB8F1098A89700BE33D7 /* ShellScript */,
++				7227AB8F1098A89700BE33D7 /* Run Script */,
+ 				7227ABE61098D5E400BE33D7 /* ShellScript */,
+ 			);
+ 			buildRules = (
+@@ -1857,6 +1873,22 @@
+ 			productReference = 72D05CB711D267C400B33EDD /* query.so */;
+ 			productType = "com.apple.product-type.objfile";
+ 		};
++		B51294CE1474E38800283C9D /* installXcode42 */ = {
++			isa = PBXNativeTarget;
++			buildConfigurationList = B51294D11474E38800283C9D /* Build configuration list for PBXNativeTarget "installXcode42" */;
++			buildPhases = (
++				B51294CF1474E38800283C9D /* ShellScript */,
++				B51294D01474E38800283C9D /* ShellScript */,
++			);
++			buildRules = (
++			);
++			dependencies = (
++			);
++			name = installXcode42;
++			productName = darwinbuild;
++			productReference = B51294D51474E38800283C9D /* installXcode42 */;
++			productType = "com.apple.product-type.tool";
++		};
+ /* End PBXNativeTarget section */
+ 
+ /* Begin PBXProject section */
+@@ -1864,6 +1896,7 @@
+ 			isa = PBXProject;
+ 			attributes = {
+ 				BuildIndependentTargetsInParallel = YES;
++				LastUpgradeCheck = 0420;
+ 				ORGANIZATIONNAME = "The DarwinBuild Project";
+ 			};
+ 			buildConfigurationList = 726DD14C10965C5700D5AEAB /* Build configuration list for PBXProject "darwinbuild" */;
+@@ -1919,13 +1952,14 @@
+ 				7227AC151098D8DB00BE33D7 /* thinPackages */,
+ 				7227AC1E1098DB9200BE33D7 /* installXcode */,
+ 				7227AC271098DBDF00BE33D7 /* installXcode32 */,
++				B51294CE1474E38800283C9D /* installXcode42 */,
+ 				720BE2EA120C90A700B3C4A5 /* digest */,
+ 			);
+ 		};
+ /* End PBXProject section */
+ 
+ /* Begin PBXShellScriptBuildPhase section */
+-		7227AB8F1098A89700BE33D7 /* ShellScript */ = {
++		7227AB8F1098A89700BE33D7 /* Run Script */ = {
+ 			isa = PBXShellScriptBuildPhase;
+ 			buildActionMask = 2147483647;
+ 			files = (
+@@ -1933,6 +1967,7 @@
+ 			inputPaths = (
+ 				"$(SRCROOT)/darwinbuild/darwinbuild.in",
+ 			);
++			name = "Run Script";
+ 			outputPaths = (
+ 				"$(DERIVED_FILE_DIR)/darwinbuild",
+ 			);
+@@ -2105,6 +2140,36 @@
+ 			shellPath = /bin/sh;
+ 			shellScript = "/bin/cp $DERIVED_FILE_DIR/installXcode32 $BUILT_PRODUCTS_DIR/installXcode32";
+ 		};
++		B51294CF1474E38800283C9D /* ShellScript */ = {
++			isa = PBXShellScriptBuildPhase;
++			buildActionMask = 2147483647;
++			files = (
++			);
++			inputPaths = (
++				"$(SRCROOT)/darwinbuild/installXcode42.in",
++			);
++			outputPaths = (
++				"$(DERIVED_FILE_DIR)/installXcode42",
++			);
++			runOnlyForDeploymentPostprocessing = 0;
++			shellPath = /bin/sh;
++			shellScript = "/usr/bin/sed -e \"s,%%PREFIX%%,$PREFIX,\" $SRCROOT/darwinbuild/installXcode42.in > $DERIVED_FILE_DIR/installXcode42\n\n/bin/chmod 755 $DERIVED_FILE_DIR/installXcode42\n\n";
++		};
++		B51294D01474E38800283C9D /* ShellScript */ = {
++			isa = PBXShellScriptBuildPhase;
++			buildActionMask = 2147483647;
++			files = (
++			);
++			inputPaths = (
++				"$(DERIVED_FILE_DIR)/installXcode42",
++			);
++			outputPaths = (
++				"$(BUILT_PRODUCTS_DIR)/installXcode42",
++			);
++			runOnlyForDeploymentPostprocessing = 0;
++			shellPath = /bin/sh;
++			shellScript = "/bin/cp $DERIVED_FILE_DIR/installXcode42 $BUILT_PRODUCTS_DIR/installXcode42";
++		};
+ /* End PBXShellScriptBuildPhase section */
+ 
+ /* Begin PBXSourcesBuildPhase section */
+@@ -2667,6 +2732,11 @@
+ 			target = 72D05CAD11D267C400B33EDD /* query */;
+ 			targetProxy = 72D05CB911D2688D00B33EDD /* PBXContainerItemProxy */;
+ 		};
++		B51294D81474E43200283C9D /* PBXTargetDependency */ = {
++			isa = PBXTargetDependency;
++			target = B51294CE1474E38800283C9D /* installXcode42 */;
++			targetProxy = B51294D71474E43200283C9D /* PBXContainerItemProxy */;
++		};
+ /* End PBXTargetDependency section */
+ 
+ /* Begin XCBuildConfiguration section */
+@@ -3705,6 +3775,33 @@
+ 			};
+ 			name = Release;
+ 		};
++		B51294D21474E38800283C9D /* Debug */ = {
++			isa = XCBuildConfiguration;
++			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
++			buildSettings = {
++				INSTALL_PATH = "$(DATDIR)/darwinbuild";
++				PRODUCT_NAME = installXcode42;
++			};
++			name = Debug;
++		};
++		B51294D31474E38800283C9D /* Public */ = {
++			isa = XCBuildConfiguration;
++			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
++			buildSettings = {
++				INSTALL_PATH = "$(DATDIR)/darwinbuild";
++				PRODUCT_NAME = installXcode42;
++			};
++			name = Public;
++		};
++		B51294D41474E38800283C9D /* Release */ = {
++			isa = XCBuildConfiguration;
++			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
++			buildSettings = {
++				INSTALL_PATH = "$(DATDIR)/darwinbuild";
++				PRODUCT_NAME = installXcode42;
++			};
++			name = Release;
++		};
+ /* End XCBuildConfiguration section */
+ 
+ /* Begin XCConfigurationList section */
+@@ -4108,6 +4205,16 @@
+ 			defaultConfigurationIsVisible = 0;
+ 			defaultConfigurationName = Public;
+ 		};
++		B51294D11474E38800283C9D /* Build configuration list for PBXNativeTarget "installXcode42" */ = {
++			isa = XCConfigurationList;
++			buildConfigurations = (
++				B51294D21474E38800283C9D /* Debug */,
++				B51294D31474E38800283C9D /* Public */,
++				B51294D41474E38800283C9D /* Release */,
++			);
++			defaultConfigurationIsVisible = 0;
++			defaultConfigurationName = Public;
++		};
+ /* End XCConfigurationList section */
+ 	};
+ 	rootObject = 726DD14910965C5700D5AEAB /* Project object */;

@@ -1,0 +1,164 @@
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+BUILDING Libsystem-124.1.1~1 on Wed Nov 11 23:18:09 PST 2009
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Build configuration:
+    Build host:           bl2osx.local
+    Build tool:           make
+    Build action:         install
+    Build number:         10B504pd1
+    Host kernel version:  Darwin Kernel Version 10.2.0: Tue Nov  3 10:37:10 PST 2009; root:xnu-1486.2.11~1/RELEASE_I386
+    cc version:           gcc version 4.2.1 (Apple Inc. build 5646)
+    cctools version:      ools-750.obj, GNU assembler version 1.38
+    make version:         GNU Make 3.81
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Build parameters:
+SRCROOT: /SourceCache/Libsystem/Libsystem-124.1.1
+OBJROOT: /private/var/tmp/Libsystem/Libsystem-124.1.1.obj
+SYMROOT: /private/var/tmp/Libsystem/Libsystem-124.1.1.sym
+DSTROOT: /private/var/tmp/Libsystem/Libsystem-124.1.1.root
+RC_ProjectName: Libsystem
+RC_ProjectSourceVersion: 124.1.1
+RC_ProjectNameAndSourceVersion: Libsystem-124.1.1
+RC_ProjectBuildVersion: 1
+INSTALLED_PRODUCT_ASIDES: YES
+MACOSX_DEPLOYMENT_TARGET: 10.6
+NEXT_ROOT: 
+RC_ARCHS: i386 x86_64 ppc
+RC_CFLAGS: -pipe -no-cpp-precomp -arch i386 -arch x86_64 -arch ppc
+RC_JASPER: YES
+RC_NONARCH_CFLAGS: -pipe -no-cpp-precomp
+RC_OS: macos
+RC_PRIVATE: /private
+RC_RELEASE: SnowLeopard
+RC_XBS: YES
+RC_i386: YES
+RC_ppc: YES
+RC_x86_64: YES
+SEPARATE_STRIP: YES
+UNAME_RELEASE: 9.6
+UNAME_SYSNAME: Darwin
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Environment variables:
+DARWINBUILD_BUILD=10B504pd1
+DARWINXREF_DB_FILE=/DarwinBuild/Build10B504pd1/.build/xref.db
+DARWIN_BUILDROOT=/DarwinBuild/Build10B504pd1
+DSTROOT=/private/var/tmp/Libsystem/Libsystem-124.1.1.root
+GROUP=wheel
+HOME=/var/root
+INSTALLED_PRODUCT_ASIDES=YES
+INSTALL_XCODE=NO
+LOGNAME=root
+MACOSX_DEPLOYMENT_TARGET=10.6
+NEXT_ROOT=
+OBJROOT=/private/var/tmp/Libsystem/Libsystem-124.1.1.obj
+PATH=/bin:/sbin:/usr/bin:/usr/sbin/:/usr/local/bin:/usr/local/sbin
+RC_ARCHS=i386 x86_64 ppc
+RC_CFLAGS=-pipe -no-cpp-precomp -arch i386 -arch x86_64 -arch ppc
+RC_JASPER=YES
+RC_NONARCH_CFLAGS=-pipe -no-cpp-precomp
+RC_OS=macos
+RC_PRIVATE=/private
+RC_ProjectBuildVersion=1
+RC_ProjectName=Libsystem
+RC_ProjectNameAndSourceVersion=Libsystem-124.1.1
+RC_ProjectSourceVersion=124.1.1
+RC_RELEASE=SnowLeopard
+RC_XBS=YES
+RC_i386=YES
+RC_ppc=YES
+RC_x86_64=YES
+SEPARATE_STRIP=YES
+SHELL=/bin/sh
+SRCROOT=/SourceCache/Libsystem/Libsystem-124.1.1
+SYMROOT=/private/var/tmp/Libsystem/Libsystem-124.1.1.sym
+UNAME_RELEASE=9.6
+UNAME_SYSNAME=Darwin
+USER=root
+USE_CHROOT=YES
+_=/usr/bin/printenv
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Installed Roots:
+CF                   -> 607fe2316957248f3835cfc440d0a3f378103509
+CPANInternal         -> 8d768da6ad92428e96cdaa7ba4768d4f9c3b0067
+CommonCrypto         -> d8af26560771487d74dd637b1fac8a55bf920c4c
+CoreOSMakefiles      -> f1554566e4c45d7cabe90cd994491cc904baecc5
+DSPasswordServerFramework -> a1b6919632070aa0badb9692e12a29fae8163e81
+DirectoryService     -> 322bab0d3e86c0c54f0ce2378872743c8596442c
+DiskArbitration      -> ae20a4ad7b07a6a723baf33ebcc085cf1978f193
+ICU                  -> 41bdf98729f64560c3143281c96304a03e889b89
+IOKitUser            -> 80f608420da51ce6608a4b2609945952c6e8bbb8
+LDAPFramework        -> 7add51ea53b1fb1f121b5289d85344807ae46956
+Libc                 -> 4463b27c77961dec32f3494d2dc6e3cfa7a5e112
+Libc_debug           -> 8865850e48d08bc4fa054bb6fd133027e86979d2
+Libc_profile         -> 73811e00995f174398e42fa57119d94d04e4af74
+Libinfo              -> 333a34e07143fe6c1da9b8a421712b8485c74628
+Libm                 -> a0c2941e018392e6cc1f9f9cb6b948b69d20939b
+Libnotify            -> 18732c6761011b2630925e1597ee6f53c750b438
+Libsyscall           -> f09f565b1273dbc4d062aa90902c3c96788164e7
+Libsystem            -> 92f9075d3c013d136a977436d3655fa5879549bb
+OpenDirectory        -> 2465402c8c59a3541898617bf99b8b7888dee531
+OpenSSL098           -> 1ac0bc797853b8a1eb7b837cf6ff25222071b0e6
+SQLite               -> 99e05a0f3429bbb897d713240882b29291f12e35
+Security             -> 0b41222d76e793969906f93cccb4423eec20f0c3
+TargetConfig         -> 370273c4290a33be82e2496fb4389522f66dd2e0
+UserNotification     -> 67dce21f8248df8c15b5d2e6e7b7d78f916420b0
+autozone             -> 8f5afda3a03c26b178fa7bfddc1ab9f0113b0b64
+bash                 -> ff53c1553ae60ec35d49d66c3e1fa5d1f843a205
+bootstrap_cmds       -> 117ccc1477ca761443d400c02a49cef7e749316c
+bsdmake              -> 511762ec6b492e2a9d7d36209decf49bafeae5ab
+cctools              -> adeb106d4e4d3a7925020eded20dd53feb36bc44
+cctools_ofiles       -> 5e30c4f2dbc28ac68dcad44660ee4f386c123b80
+configd              -> 4283eef980a6c113ab33f8aa250a3d19d004465b
+configd_libSystem    -> 8d6f17c7cb7c2f9328dd4c4a5daa2e11f4ccc158
+copyfile             -> 44b1714473617193148a6c30fe52cbd9c7c8ce20
+developer_cmds       -> 2836b0d0cda2cd77cbf3aa3d913da4c66dc0bc1f
+dyld                 -> 1d8b8fafd9ab3e53e021f4b9551cdb37daffefdf
+file_cmds            -> 74e2bc4b6b0195aa7e55cb71ae1ef94b3d72e6ad
+files                -> 321527694dfda06e14d553bd59c028b5546edef3
+gcc                  -> 5c632204a058cfe77927493546faf819e815788d
+gcc_select           -> 3e280f4aa5931a7874a93c0c54c25c64432e491d
+gnumake              -> 68783414bd0863ae0a4bc549de37b7f3912ecbe2
+grep                 -> 2d74128a2111f0a91be805c792568a4f6484d5de
+ipsec                -> 5a7536f6a146f15fbba0e375dd1d2eac72d54769
+keymgr               -> b286aa3a9d847e387545c80e194ee05920378dfb
+launchd_libs         -> 94eb569605af5c3690aa75a55f77fa6517821410
+ld64                 -> f80ab2c4fe7105b366df4402d7674c631b59e169
+libdispatch          -> 196f4bbbccab5725c600a970fbe979bf315b9526
+libdyld              -> e7e7a4821347e2da573d4bb57beef754e45abfbe
+libedit              -> 325d0edbc13955e11d8d7b2415d60036283ac6cb
+libgcc               -> 3f3e7057e7c6b0e28506df3be8c008bd2cf431f3
+libiconv             -> 3bea190790a6e15da37ac3ee85f5d9ae94e521b0
+libkxld              -> 4f7264ff81e4d6b148c6cde1ef8ccdec03951079
+libresolv            -> 1d40fdd98114d2e0f791b78034f879864f7054aa
+libstdcxx            -> 5ee991596c0684c36b7b19149959ad6444e4a5bb
+libutil              -> 021128595822ba4bd8ec3c26aca9c6a8895482b2
+mDNSResponderSystemLibraries -> 78526793f0458fc283698ab553e4553eee8b2254
+misc_cmds            -> 9ab6de60429ea56d2b78e2b475c97fa53eb56648
+ncurses              -> 1dfd9b7b25d991380f5562f217d9a0533b16f54d
+objc4                -> 93c95a0dc90009dfde4ba21f2e490e0aaaa487cd
+passwordserver_sasl  -> effc6ac531b01c7e573a2c1e305f7ab0fd4ae577
+perl                 -> d0bb71784847e0c441d28ec65f7a07df8125ae0f
+removefile           -> b39bb828a7ec053c3304f025516e074e8cda1c39
+shell_cmds           -> a11451770a49d33ea6d1a4d91637f44cbc880617
+system_cmds          -> 73d77dbe9fafd77abdbe55bb0a4ee05ffd7d7d08
+text_cmds            -> e8e7310652cb969f7c536e2da760c708883faee5
+xnu                  -> 136919c49a80b53c8973a1915b7c8f2bd2ad3470
+zlib                 -> 6c24dc3e9e44dc2bce08cdcdff8f8359b42d9664
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+make install  "SRCROOT=/SourceCache/Libsystem/Libsystem-124.1.1" "OBJROOT=/private/var/tmp/Libsystem/Libsystem-124.1.1.obj" "SYMROOT=/private/var/tmp/Libsystem/Libsystem-124.1.1.sym" "DSTROOT=/private/var/tmp/Libsystem/Libsystem-124.1.1.root" "RC_ProjectName=Libsystem" "RC_ProjectSourceVersion=124.1.1" "RC_ProjectNameAndSourceVersion=Libsystem-124.1.1" "RC_ProjectBuildVersion=1" "INSTALLED_PRODUCT_ASIDES=YES" "MACOSX_DEPLOYMENT_TARGET=10.6" "NEXT_ROOT=" "RC_ARCHS=i386 x86_64 ppc" "RC_CFLAGS=-pipe -no-cpp-precomp -arch i386 -arch x86_64 -arch ppc" "RC_JASPER=YES" "RC_NONARCH_CFLAGS=-pipe -no-cpp-precomp" "RC_OS=macos" "RC_PRIVATE=/private" "RC_RELEASE=SnowLeopard" "RC_XBS=YES" "RC_i386=YES" "RC_ppc=YES" "RC_x86_64=YES" "SEPARATE_STRIP=YES" "UNAME_RELEASE=9.6" "UNAME_SYSNAME=Darwin" < /dev/null
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Build log begins here:
+
+TargetConfig: MacOSX
+if [ ! -f "/SourceCache/Libsystem/Libsystem-124.1.1/Makefile" ]; then make install_source; fi
+make: xcrun: Command not found
+make: xcrun: Command not found
++ cd /private/var/tmp/Libsystem/Libsystem-124.1.1.obj
++ echo 'main() { __getpid(); return 0; }'
++ -c -pipe -no-cpp-precomp -arch i386 -arch x86_64 -arch ppc fake.c
+/bin/sh: -c: command not found
+make: *** [fake] Error 127
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ BUILD TIME: 0h 0m 0s
+EXIT STATUS: 2

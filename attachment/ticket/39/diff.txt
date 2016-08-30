@@ -1,0 +1,25 @@
+Index: darwinup/Makefile
+===================================================================
+--- darwinup/Makefile	(revision 419)
++++ darwinup/Makefile	(working copy)
+@@ -11,6 +11,8 @@
+ 	[ -d $(BINDIR) ] || $(INSTALL) -d $(INSTALL_DIR_FLAGS) $(BINDIR)
+ 	$(INSTALL) $(INSTALL_EXE_FLAGS) darwinup $(BINDIR)
+ 
++uninstall:
++	true
+ 
+ all: darwinup
+ 
+Index: darwinxref/Makefile
+===================================================================
+--- darwinxref/Makefile	(revision 419)
++++ darwinxref/Makefile	(working copy)
+@@ -67,6 +67,7 @@
+ uninstall:
+ 	rm -f $(BINDIR)/darwinxref
+ 	[ ! -d $(DATDIR) ] || ( cd $(DATDIR) && rm -f $(PLUGIN_OBJECTS) )
++	[ ! -d $(DATDIR)/plugins ] || ( cd $(DATDIR) && rmdir plugins ) 
+ 	-rmdir $(DATDIR)
+ 
+ clean:

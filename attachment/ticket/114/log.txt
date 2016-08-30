@@ -1,0 +1,407 @@
+*** Fetching Sources ...
+Found SmartCardServices-34733.tar.gz in /Users/lroussea/Documents/CodeApple/9L30/Sources
+Found SmartCardServices-34733.MacTypes.patch in /Users/lroussea/Documents/CodeApple/9L30/Sources
+*** Copying Sources ...
+*** Applying Patch SmartCardServices-34733.MacTypes.patch ...
+patching file ./src/PCSC/PCSCDevice.h
+patching file ./src/PCSC/PCSCDriverBundle.h
+patching file ./src/PCSC/hotplug_macosx.cpp
+patching file ./src/PCSC/pcscdmonitor.h
+patching file ./src/PCSC/pcscdserver.h
+patching file ./src/PCSC/reader.h
+patching file ./src/PCSC/readerstate.h
+patching file ./src/PCSC/sys_macosx.cpp
+*** Installing Roots ...
+files already loaded and no newer roots have been built.
+bash already loaded and no newer roots have been built.
+Libsystem already loaded and no newer roots have been built.
+Libm already loaded and no newer roots have been built.
+dyld already loaded and no newer roots have been built.
+libgcc already loaded and no newer roots have been built.
+libstdcxx already loaded and no newer roots have been built.
+libiconv already loaded and no newer roots have been built.
+ncurses already loaded and no newer roots have been built.
+CF already loaded and no newer roots have been built.
+CarbonHeaders already loaded and no newer roots have been built.
+CoreOSMakefiles already loaded and no newer roots have been built.
+Csu already loaded and no newer roots have been built.
+IOKitUser already loaded and no newer roots have been built.
+IOUSBFamily already loaded and no newer roots have been built.
+Libsystem already loaded and no newer roots have been built.
+Libm already loaded and no newer roots have been built.
+dyld already loaded and no newer roots have been built.
+libgcc already loaded and no newer roots have been built.
+libstdcxx already loaded and no newer roots have been built.
+Libc_headers already loaded and no newer roots have been built.
+Libsyscall already loaded and no newer roots have been built.
+OpenSSL already loaded and no newer roots have been built.
+PowerManagement already loaded and no newer roots have been built.
+configd already loaded and no newer roots have been built.
+Security already loaded and no newer roots have been built.
+SystemStubs already loaded and no newer roots have been built.
+adv_cmds already loaded and no newer roots have been built.
+ncurses already loaded and no newer roots have been built.
+architecture already loaded and no newer roots have been built.
+basic_cmds already loaded and no newer roots have been built.
+bootstrap_cmds already loaded and no newer roots have been built.
+cctools already loaded and no newer roots have been built.
+developer_cmds already loaded and no newer roots have been built.
+file_cmds already loaded and no newer roots have been built.
+libutil already loaded and no newer roots have been built.
+files already loaded and no newer roots have been built.
+flex already loaded and no newer roots have been built.
+gcc already loaded and no newer roots have been built.
+libiconv already loaded and no newer roots have been built.
+gcc_42 already loaded and no newer roots have been built.
+gnumake already loaded and no newer roots have been built.
+launchd_libs already loaded and no newer roots have been built.
+ld64 already loaded and no newer roots have been built.
+libsecurity_cdsa_client already loaded and no newer roots have been built.
+libsecurity_cdsa_utilities already loaded and no newer roots have been built.
+libsecurity_cssm already loaded and no newer roots have been built.
+libsecurity_utilities already loaded and no newer roots have been built.
+libsecurityd already loaded and no newer roots have been built.
+misc_cmds already loaded and no newer roots have been built.
+perl already loaded and no newer roots have been built.
+shell_cmds already loaded and no newer roots have been built.
+bsm already loaded and no newer roots have been built.
+libresolv already loaded and no newer roots have been built.
+pam already loaded and no newer roots have been built.
+system_cmds already loaded and no newer roots have been built.
+CFOpenDirectory already loaded and no newer roots have been built.
+DirectoryService already loaded and no newer roots have been built.
+passwordserver_sasl already loaded and no newer roots have been built.
+Kerberos already loaded and no newer roots have been built.
+LDAPFramework already loaded and no newer roots have been built.
+zlib already loaded and no newer roots have been built.
+text_cmds already loaded and no newer roots have been built.
+xnu already loaded and no newer roots have been built.
+*** Installing Headers ...
+*** Mounting special filesystems ...
+Mounting devfs ...
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+BUILDING SmartCardServices-34733~4 on Mon Mar  8 02:18:21 PST 2010
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Build configuration:
+    Build host:           imac-de-jerome-salm.local
+    Build tool:           xcodebuild
+    Build action:         install
+    Build number:         9L30
+    Host kernel version:  Darwin Kernel Version 9.8.0: Wed Jul 15 16:55:01 PDT 2009; root:xnu-1228.15.4~1/RELEASE_I386
+    cc version:           private/var/tmp/SmartCardServices/build-SmartCardServices-34733~4.sh: line 11: gcc: command not found
+    cctools version:      version cctools-667.3.obj, GNU assembler version 1.38
+    xcode version:        Component versions: DevToolsCore-921.0; DevToolsSupport-893.0
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Build parameters:
+SRCROOT: /SourceCache/SmartCardServices/SmartCardServices-34733
+OBJROOT: /private/var/tmp/SmartCardServices/SmartCardServices-34733.obj
+SYMROOT: /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym
+DSTROOT: /private/var/tmp/SmartCardServices/SmartCardServices-34733.root
+RC_ProjectName: SmartCardServices
+RC_ProjectSourceVersion: 34733
+RC_ProjectNameAndSourceVersion: SmartCardServices-34733
+RC_ProjectBuildVersion: 4
+INSTALLED_PRODUCT_ASIDES: YES
+MACOSX_DEPLOYMENT_TARGET: 10.5
+NEXT_ROOT: 
+RC_ARCHS: ppc i386
+RC_CFLAGS: -pipe -no-cpp-precomp -arch ppc -arch i386
+RC_JASPER: YES
+RC_NONARCH_CFLAGS: -pipe -no-cpp-precomp
+RC_OS: macos
+RC_PRIVATE: /private
+RC_RELEASE: Leopard
+RC_XBS: YES
+RC_i386: YES
+RC_ppc: YES
+SEPARATE_STRIP: YES
+UNAME_RELEASE: 9.0
+UNAME_SYSNAME: Darwin
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Environment variables:
+CHROOTED=YES
+DARWINBUILD_BUILD=9L30
+DARWINXREF_DB_FILE=/Users/lroussea/Documents/CodeApple/9L30/.build/xref.db
+DARWIN_BUILDROOT=/Users/lroussea/Documents/CodeApple/9L30
+DEVELOPER_DIR=/XCD/loper
+DSTROOT=/private/var/tmp/SmartCardServices/SmartCardServices-34733.root
+GROUP=wheel
+HOME=/var/root
+INSTALLED_PRODUCT_ASIDES=YES
+LOGNAME=root
+MACOSX_DEPLOYMENT_TARGET=10.5
+NEXT_ROOT=
+OBJROOT=/private/var/tmp/SmartCardServices/SmartCardServices-34733.obj
+PATH=/bin:/sbin:/usr/bin:/usr/sbin/:/usr/local/bin:/usr/local/sbin
+RC_ARCHS=ppc i386
+RC_CFLAGS=-pipe -no-cpp-precomp -arch ppc -arch i386
+RC_JASPER=YES
+RC_NONARCH_CFLAGS=-pipe -no-cpp-precomp
+RC_OS=macos
+RC_PRIVATE=/private
+RC_ProjectBuildVersion=4
+RC_ProjectName=SmartCardServices
+RC_ProjectNameAndSourceVersion=SmartCardServices-34733
+RC_ProjectSourceVersion=34733
+RC_RELEASE=Leopard
+RC_XBS=YES
+RC_i386=YES
+RC_ppc=YES
+SEPARATE_STRIP=YES
+SHELL=/bin/sh
+SRCROOT=/SourceCache/SmartCardServices/SmartCardServices-34733
+SYMROOT=/private/var/tmp/SmartCardServices/SmartCardServices-34733.sym
+UNAME_RELEASE=9.0
+UNAME_SYSNAME=Darwin
+USER=root
+_=/usr/bin/printenv
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Installed Roots:
+CF                   -> 93875e2c155676766d4b6fb59daba71ce907ebc0
+CFOpenDirectory      -> 0c25a0dcfa180bfd26f5b6275cc39ce4df39771a
+CarbonHeaders        -> 9ad461d85a524828f009f4a3cb024614178ea538
+CoreOSMakefiles      -> dbb4977317027267e5762604b18f05a0198c0b74
+Csu                  -> 1c2236c2e36fdcafc65a8cbd95c7f049e923d475
+DirectoryService     -> 9b30cda900f9571127fa359684145a36a83e11dc
+IOKitUser            -> 6d7d43f15d6f6ef7cbaeddc46b42654311b03715
+IOUSBFamily          -> c5d1dd5794e0e1eff86579bb78a4a37a5efe900b
+Kerberos             -> 11f6e1910bbf4334a5e450e84911b8f0984c5662
+LDAPFramework        -> c133b9453caeab300469aebc0ae61d633f4e22ad
+Libc_headers         -> 79404e2baf06178e59fa7e73872df6e675d73c4b
+Libm                 -> 7d90dffecd558d133aa75cd2a872621ca1c47b17
+Libsyscall           -> f725a9d0133a8bf041832d58dc9861cfa64e3b46
+Libsystem            -> ae3fbce2fe5e9793ee9d669a3aa4fccee29baceb
+OpenSSL              -> 2b2617f00a84a924fbd46f3196a26579de249276
+PowerManagement      -> 5011fdc2da411e55e4d4764ea86d805a0b66a3aa
+Security             -> aacc876869628403ad5b694b2c63e51608faa277
+SystemStubs          -> 0541c508a94818cc7597ae78b1349b05a94cbdf8
+adv_cmds             -> 5f58a79967ff079812ce43ceefc2cf8f8c4d82f4
+architecture         -> ea808a324c8d2457bc55189150aa8ec52df00e0e
+bash                 -> aa535fae9e6986ba91773a789aa901d69f650305
+basic_cmds           -> 183bfe5b452b4cad8baa177bbc3eac84b00f753c
+bootstrap_cmds       -> b21930681ec13f1bb229fa52273f4663c7e1ef6a
+bsm                  -> c18bd0abba6b8953085578b8907ff364a14903a1
+cctools              -> 2770299750486b09b5f1b294c6ce2419bef4730c
+configd              -> 7b77acaf740ab406db8593c00222737fdd788abf
+developer_cmds       -> d17beca19a0e2d5a9b80739c5ab0ae2901571bb1
+dyld                 -> 871994f59d8d9619bcf31259b1922f7c5389f2e0
+file_cmds            -> 479e72f694fdaa20be9fa059ff2e77edd466b789
+files                -> a74e16641ecb587a36abf2e6f2c4467da1700af8
+flex                 -> abf3de4cac1d29242a8c6e549dd92147360453e1
+gcc                  -> f1055f8d81cb32b211737f2274a9cc89cf7665ee
+gcc_42               -> c3f864170329b1ba93491d5cea3f6b51972abfa6
+gcc_os               -> ac04572183fdd07b577ba221f792ad6954f7fa00
+gnumake              -> 5608039be88517611b35e7694b7b015c1209adb5
+launchd_libs         -> db0e8e3ff621d0353f79dce6afc7def8719a0724
+ld64                 -> 1d3edd0681f31e544d59b4301cb7fa7a0f3fd283
+libgcc               -> 92f5a0e69750f372edd7980cc559a17cb862e7d8
+libiconv             -> 5af87457c8c411fb0354a4a76bebb303c25f0cec
+libresolv            -> 6c9ec0e8a7ca78c8735b192ee1bdc5d18fefd549
+libsecurity_cdsa_client -> 260e0da686e8a6a4a773ee1d0b6c4bf7d101cba1
+libsecurity_cdsa_utilities -> e80dccc4556ad606b7ec8e806478349121a15837
+libsecurity_cssm     -> 5cc74ebfe9bf1dc8e0af690eb5ebf4a26f9d0d4d
+libsecurity_utilities -> a2ca40bb9dd306625d695fe1539b51210678154e
+libsecurityd         -> a0f91a21c6100905b78f0bab502f55511d5a58b8
+libstdcxx            -> d23396753f76e4e57fe134cb59e327c71bd81fb7
+libutil              -> efb446b4ef8f332d28a785b281f231024d1d4115
+misc_cmds            -> 2f25239e125c8f34645347242a90a0c7a688b9c4
+ncurses              -> 49e2dec29d18c48d5b2ac3bdb652773bfba3ac53
+pam                  -> 1cdc9b0d6a88d4840ef9ac3259c9c328886e8a4d
+passwordserver_sasl  -> 2cfb6a96d895122824585edfab47bd8e84b821bf
+perl                 -> 5ed9fcbe6002c17dd21891b4e9f59154745e803c
+shell_cmds           -> 7ee6f073866bbef056089798c00ac9c583d4bc76
+system_cmds          -> 49995c8c994c4c7f24260ff8ccb7f4d06170d475
+text_cmds            -> c87266a4f64676b995012eaa2a1e3e18e94269c7
+                        xcodebuild
+xnu                  -> c3907dab813c4d725b2275d98ad94675b51dbd99
+zlib                 -> 91e931224468ad0e24c36c35620125fcb3f1ad1a
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+xcodebuild install  "SRCROOT=/SourceCache/SmartCardServices/SmartCardServices-34733" "OBJROOT=/private/var/tmp/SmartCardServices/SmartCardServices-34733.obj" "SYMROOT=/private/var/tmp/SmartCardServices/SmartCardServices-34733.sym" "DSTROOT=/private/var/tmp/SmartCardServices/SmartCardServices-34733.root" "RC_ProjectName=SmartCardServices" "RC_ProjectSourceVersion=34733" "RC_ProjectNameAndSourceVersion=SmartCardServices-34733" "RC_ProjectBuildVersion=4" "INSTALLED_PRODUCT_ASIDES=YES" "MACOSX_DEPLOYMENT_TARGET=10.5" "NEXT_ROOT=" "RC_ARCHS=ppc i386" "RC_CFLAGS=-pipe -no-cpp-precomp -arch ppc -arch i386" "RC_JASPER=YES" "RC_NONARCH_CFLAGS=-pipe -no-cpp-precomp" "RC_OS=macos" "RC_PRIVATE=/private" "RC_RELEASE=Leopard" "RC_XBS=YES" "RC_i386=YES" "RC_ppc=YES" "SEPARATE_STRIP=YES" "UNAME_RELEASE=9.0" "UNAME_SYSNAME=Darwin" < /dev/null
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Build log begins here:
+
+=== BUILDING FRAMEWORK TARGET PCSC WITH THE DEFAULT CONFIGURATION (Default) NOT USING PER-CONFIGURATION BUILD DIRECTORIES ===
+
+Checking Dependencies...
+2010-03-08 02:18:21.865 xcodebuild[732:713] _XCDistributedBuildHostInfoTask encountered an error: Error Domain=NSPOSIXErrorDomain Code=2 UserInfo=0x56144b0 "Operation could not be completed. No such file or directory"
+2010-03-08 02:18:21.876 xcodebuild[732:713] _XCDistributedBuildHostInfoTask encountered an error: Error Domain=NSPOSIXErrorDomain Code=2 UserInfo=0x5570e90 "Operation could not be completed. No such file or directory"
+
+JamToolExecution PCSC
+    cd /SourceCache/SmartCardServices/SmartCardServices-34733
+    /XCD/loper/Private/jam -d2 -j2 JAMBASE=/XCD/loper/Makefiles/pbx_jamfiles/ProjectBuilderJambase JAMFILE=/private/var/tmp/SmartCardServices/SmartCardServices-34733.obj/SmartCardServices.build/PCSC.build/PCSC.jam install ACTION=install _DEFAULT_GCC_VERSION=3.3 GCC_VERSION_IDENTIFIER=__3 CONFIGURATION=Default BUILD_STYLE= CPP_HEADERMAP_FILE=/private/var/tmp/SmartCardServices/SmartCardServices-34733.obj/SmartCardServices.build/PCSC.build/PCSC.hmap INSTALLED_PRODUCT_ASIDES=YES MACOSX_DEPLOYMENT_TARGET=10.5 NEXT_ROOT= "RC_ARCHS=ppc i386" "RC_CFLAGS=-pipe -no-cpp-precomp -arch ppc -arch i386" RC_JASPER=YES "RC_NONARCH_CFLAGS=-pipe -no-cpp-precomp" RC_OS=macos RC_PRIVATE=/private RC_ProjectBuildVersion=4 RC_ProjectName=SmartCardServices RC_ProjectNameAndSourceVersion=SmartCardServices-34733 RC_ProjectSourceVersion=34733 RC_RELEASE=Leopard RC_XBS=YES RC_i386=YES RC_ppc=YES SEPARATE_STRIP=YES UNAME_RELEASE=9.0 UNAME_SYSNAME=Darwin SRCROOT=/SourceCache/SmartCardServices/SmartCardServices-34733 OBJROOT=/private/var/tmp/SmartCardServices/SmartCardServices-34733.obj SYMROOT=/private/var/tmp/SmartCardServices/SmartCardServices-34733.sym DSTROOT=/private/var/tmp/SmartCardServices/SmartCardServices-34733.root
+
+Mkdir /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/BuiltProducts
+    /bin/mkdir  -p /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/BuiltProducts 
+
+Mkdir /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework
+    /bin/mkdir  -p /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework 
+
+SymLink /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/BuiltProducts/PCSC.framework /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework
+    /bin/ln  -sf /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework  /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/BuiltProducts/PCSC.framework 
+
+Mkdir /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/PCSC.framework/Versions/A
+    /bin/mkdir  -p /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/PCSC.framework/Versions/A 
+
+Mkdir /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework/Versions/A
+    /bin/mkdir  -p /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework/Versions/A 
+
+Mkdir /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/BuiltProducts 
+
+Mkdir /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework 
+
+SymLink /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/BuiltProducts/PCSC.framework 
+
+Mkdir /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/PCSC.framework/Versions/A 
+
+Mkdir /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework/Versions/A 
+
+SymLink /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/PCSC.framework/Versions/Current 
+
+SymLink /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/PCSC.framework/Versions/Current A
+    /bin/ln  -sf A  /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/PCSC.framework/Versions/Current 
+
+SymLink /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework/Versions/Current 
+
+SymLink /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework/Versions/Current A
+    /bin/ln  -sf A  /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework/Versions/Current 
+
+Mkdir /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework/Versions/A/Headers 
+
+Mkdir /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework/Versions/A/Headers
+    /bin/mkdir  -p /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework/Versions/A/Headers 
+
+Mkdir /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/PCSC.framework/Versions/A/Headers 
+
+Mkdir /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/PCSC.framework/Versions/A/Headers
+    /bin/mkdir  -p /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/PCSC.framework/Versions/A/Headers 
+
+SymLink /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework/Headers 
+
+SymLink /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework/Headers Versions/Current/Headers
+    /bin/ln  -sf Versions/Current/Headers  /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework/Headers 
+
+SymLink /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/PCSC.framework/Headers 
+
+SymLink /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/PCSC.framework/Headers Versions/Current/Headers
+    /bin/ln  -sf Versions/Current/Headers  /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/PCSC.framework/Headers 
+
+PBXCp /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework/Versions/A/Headers/pcsclite.h 
+
+PBXCp /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework/Versions/A/Headers/pcsclite.h src/PCSC/pcsclite.h
+    /XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp  -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks  src/PCSC/pcsclite.h  /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework/Versions/A/Headers 
+
+PBXCp /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/PCSC.framework/Versions/A/Headers/pcsclite.h 
+
+PBXCp /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/PCSC.framework/Versions/A/Headers/pcsclite.h src/PCSC/pcsclite.h
+    /XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp  -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks  src/PCSC/pcsclite.h  /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/PCSC.framework/Versions/A/Headers 
+
+PBXCp /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework/Versions/A/Headers/mscdefines.h 
+
+PBXCp /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework/Versions/A/Headers/mscdefines.h src/PCSC/mscdefines.h
+    /XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp  -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks  src/PCSC/mscdefines.h  /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework/Versions/A/Headers 
+
+PBXCp /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/PCSC.framework/Versions/A/Headers/mscdefines.h 
+
+PBXCp /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/PCSC.framework/Versions/A/Headers/mscdefines.h src/PCSC/mscdefines.h
+    /XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp  -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks  src/PCSC/mscdefines.h  /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/PCSC.framework/Versions/A/Headers 
+
+PBXCp /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework/Versions/A/Headers/musclecard.h 
+
+PBXCp /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework/Versions/A/Headers/musclecard.h src/PCSC/musclecard.h
+    /XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp  -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks  src/PCSC/musclecard.h  /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework/Versions/A/Headers 
+
+PBXCp /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/PCSC.framework/Versions/A/Headers/musclecard.h 
+
+PBXCp /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/PCSC.framework/Versions/A/Headers/musclecard.h src/PCSC/musclecard.h
+    /XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp  -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks  src/PCSC/musclecard.h  /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/PCSC.framework/Versions/A/Headers 
+
+PBXCp /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework/Versions/A/Headers/winscard.h 
+
+PBXCp /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework/Versions/A/Headers/winscard.h src/PCSC/winscard.h
+    /XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp  -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks  src/PCSC/winscard.h  /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework/Versions/A/Headers 
+
+PBXCp /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/PCSC.framework/Versions/A/Headers/winscard.h 
+
+PBXCp /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/PCSC.framework/Versions/A/Headers/winscard.h src/PCSC/winscard.h
+    /XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp  -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks  src/PCSC/winscard.h  /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/PCSC.framework/Versions/A/Headers 
+
+PBXCp /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework/Versions/A/Headers/wintypes.h src/PCSC/wintypes.h
+    /XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp  -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks  src/PCSC/wintypes.h  /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework/Versions/A/Headers 
+
+PBXCp /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework/Versions/A/Headers/wintypes.h 
+
+PBXCp /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/PCSC.framework/Versions/A/Headers/wintypes.h 
+
+PBXCp /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/PCSC.framework/Versions/A/Headers/wintypes.h src/PCSC/wintypes.h
+    /XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp  -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks  src/PCSC/wintypes.h  /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/PCSC.framework/Versions/A/Headers 
+
+Mkdir /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework/Versions/A/Resources 
+
+Mkdir /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework/Versions/A/Resources
+    /bin/mkdir  -p /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework/Versions/A/Resources 
+
+BuildPhase <CopyHeaders>PCSC.framework 
+
+Mkdir /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/PCSC.framework/Versions/A/Resources 
+
+BuildPhase "<CopyHeaders>PCSC.framework" "<PCSC>PCSC.framework"
+    echo  Completed phase "<CopyHeaders>"  for "<CopyHeaders>PCSC.framework" 
+Completed phase <CopyHeaders> for <CopyHeaders>PCSC.framework
+
+Mkdir /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/PCSC.framework/Versions/A/Resources
+    /bin/mkdir  -p /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/PCSC.framework/Versions/A/Resources 
+
+SymLink /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework/Resources 
+
+SymLink /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework/Resources Versions/Current/Resources
+    /bin/ln  -sf Versions/Current/Resources  /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework/Resources 
+
+SymLink /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/PCSC.framework/Resources 
+
+SymLink /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/PCSC.framework/Resources Versions/Current/Resources
+    /bin/ln  -sf Versions/Current/Resources  /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/PCSC.framework/Resources 
+
+PBXCp /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework/Versions/A/Resources/Info.plist 
+
+PBXCp /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework/Versions/A/Resources/Info.plist /private/var/tmp/SmartCardServices/SmartCardServices-34733.obj/SmartCardServices.build/PCSC.build/Info.plist
+    /XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp  -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks  /private/var/tmp/SmartCardServices/SmartCardServices-34733.obj/SmartCardServices.build/PCSC.build/Info.plist  /private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/PCSC.framework/Versions/A/Resources 
+
+PBXCp /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/PCSC.framework/Versions/A/Resources/Info.plist 
+
+PBXCp /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/PCSC.framework/Versions/A/Resources/Info.plist /private/var/tmp/SmartCardServices/SmartCardServices-34733.obj/SmartCardServices.build/PCSC.build/Info.plist
+    /XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp  -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks  /private/var/tmp/SmartCardServices/SmartCardServices-34733.obj/SmartCardServices.build/PCSC.build/Info.plist  /private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/PCSC.framework/Versions/A/Resources 
+
+Mkdir /private/var/tmp/SmartCardServices/SmartCardServices-34733.obj/SmartCardServices.build/PCSC.build/Objects-normal/i386 
+
+Mkdir /private/var/tmp/SmartCardServices/SmartCardServices-34733.obj/SmartCardServices.build/PCSC.build/Objects-normal/i386
+    /bin/mkdir  -p /private/var/tmp/SmartCardServices/SmartCardServices-34733.obj/SmartCardServices.build/PCSC.build/Objects-normal/i386 
+
+BuildPhase <CopyResources>PCSC.framework 
+
+BuildPhase "<CopyResources>PCSC.framework" "<PCSC>PCSC.framework"
+    echo  Completed phase "<CopyResources>"  for "<CopyResources>PCSC.framework" 
+
+CompileCplusplus /private/var/tmp/SmartCardServices/SmartCardServices-34733.obj/SmartCardServices.build/PCSC.build/Objects-normal/i386/readerstate.o 
+Completed phase <CopyResources> for <CopyResources>PCSC.framework
+
+CompileCplusplus /private/var/tmp/SmartCardServices/SmartCardServices-34733.obj/SmartCardServices.build/PCSC.build/Objects-normal/i386/readerstate.o src/PCSC/readerstate.cpp
+    /usr/bin/g++-3.3  -c -Wp,-header-mapfile,/private/var/tmp/SmartCardServices/SmartCardServices-34733.obj/SmartCardServices.build/PCSC.build/PCSC.hmap   -F/private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/BuiltProducts -F/usr/local/SecurityPieces/Frameworks  -I/private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/BuiltProducts/include -I/private/var/tmp/SmartCardServices/SmartCardServices-34733.root//System/Library/Frameworks/include -I/private/var/tmp/SmartCardServices/SmartCardServices-34733.sym/BuiltProducts/include -Isrc/PCSC  -arch i386 -fno-common -fpascal-strings -Os -Wmost -Wno-four-char-constants -Wno-unknown-pragmas -pipe "-fmessage-length=0" -g  -pipe -no-cpp-precomp  -I/private/var/tmp/SmartCardServices/SmartCardServices-34733.obj/SmartCardServices.build/PCSC.build/DerivedSources -I/private/var/tmp/SmartCardServices/SmartCardServices-34733.obj/SmartCardServices.build/PCSC.build/DerivedSources   "-DNDEBUG" "-Os" "-finline-functions" "-DPCSC_DEBUG=1" "-DUSE_SYSLOG=1" "-DUSE_DAEMON=1"   src/PCSC/readerstate.cpp  -o /private/var/tmp/SmartCardServices/SmartCardServices-34733.obj/SmartCardServices.build/PCSC.build/Objects-normal/i386/readerstate.o 
+
+Mkdir /private/var/tmp/SmartCardServices/SmartCardServices-34733.obj/SmartCardServices.build/PCSC.build/Objects-normal/ppc 
+
+CompileCplusplus /private/var/tmp/SmartCardServices/SmartCardServices-34733.obj/SmartCardServices.build/PCSC.build/Objects-normal/ppc/readerstate.o 
+In file included from /usr/include/assert.h:44,
+                 from /usr/local/SecurityPieces/Frameworks/security_utilities.framework/Headers/utility_config.h:32,
+                 from /usr/local/SecurityPieces/Frameworks/security_utilities.framework/Headers/utilities.h:31,
+                 from /usr/local/SecurityPieces/Frameworks/security_utilities.framework/Headers/threading.h:35,
+                 from src/PCSC/readerstate.h:62,
+                 from src/PCSC/readerstate.cpp:29:
+/usr/include/stdlib.h:283: error: parse error before `(' token
+
+Mkdir /private/var/tmp/SmartCardServices/SmartCardServices-34733.obj/SmartCardServices.build/PCSC.build/Objects-normal/ppc
+    /bin/mkdir  -p /private/var/tmp/SmartCardServices/SmartCardServices-34733.obj/SmartCardServices.build/PCSC.build/Objects-normal/ppc 
+** BUILD FAILED **
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ BUILD TIME: 0h 0m 1s
+EXIT STATUS: 1

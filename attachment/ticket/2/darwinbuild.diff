@@ -1,0 +1,67 @@
+Index: darwinbuild/darwinbuild
+===================================================================
+--- darwinbuild/darwinbuild	(revision 361)
++++ darwinbuild/darwinbuild	(working copy)
+@@ -203,7 +203,7 @@
+ 	SourceCache="$DARWIN_BUILDROOT/Sources"
+ fi
+ 
+-if [ ! -e $SourceCache ]; then
++if [ ! -e "$SourceCache" ]; then
+ 	mkdir -p "$SourceCache"
+ fi
+ 
+@@ -287,7 +287,7 @@
+ ### a cached value.
+ ###
+ if [ "$build" == "" -a -f "$DARWIN_BUILDROOT/.build/build" ]; then
+-	build="$(cat $DARWIN_BUILDROOT/.build/build)"
++	build="$(cat "$DARWIN_BUILDROOT/.build/build")"
+ fi
+ 
+ ###
+@@ -403,10 +403,10 @@
+ else
+ 	prefix=""
+ fi
+-export SRCROOT="${REAL_SRCROOT/$prefix/}"
+-export OBJROOT="${REAL_OBJROOT/$prefix/}"
+-export SYMROOT="${REAL_SYMROOT/$prefix/}"
+-export DSTROOT="${REAL_DSTROOT/$prefix/}"
++export SRCROOT="\"${REAL_SRCROOT/$prefix/}\""
++export OBJROOT="\"${REAL_OBJROOT/$prefix/}\""
++export SYMROOT="\"${REAL_SYMROOT/$prefix/}\""
++export DSTROOT="\"${REAL_DSTROOT/$prefix/}\""
+ 
+ ###
+ ### Remove any pre-existing directories that might be in the way
+@@ -743,9 +743,10 @@
+ 	exit \$EXIT_STATUS
+ EOF
+ 
+-chmod ugo+x $SCRIPT
++chmod ugo+x "$SCRIPT"
+ 
+ 
++
+ ExitHandler() {
+ 	### Once for fdsec
+ 	[ -z "$(echo $BuildRoot/dev/*)" ] || umount "$BuildRoot/dev"
+@@ -797,14 +798,14 @@
+ 	###
+ 	### Actually invoke the build tool here
+ 	###
+-	chroot -u root -g wheel $BuildRoot $vartmp/$projnam/build-$project~$build_version.sh 2>&1 | tee -a "$LOG"
++	chroot -u root -g wheel "$BuildRoot" $vartmp/$projnam/build-$project~$build_version.sh 2>&1 | tee -a "$LOG"
+ 	EXIT_STATUS="${PIPESTATUS[0]}"
+ 
+ else
+ 	###
+ 	### Actually invoke the build tool here
+ 	###
+-	$BuildRoot/$vartmp/$projnam/build-$project~$build_version.sh 2>&1 | tee -a "$LOG"
++	"$BuildRoot/$vartmp/$projnam/build-$project~$build_version.sh" 2>&1 | tee -a "$LOG"
+ 	EXIT_STATUS="${PIPESTATUS[0]}"
+ 
+ 	###
+

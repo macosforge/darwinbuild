@@ -1,0 +1,223 @@
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+BUILDING ICU-8.11~1 on Wed Sep 10 15:08:20 PDT 2008
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Build configuration:
+    Build host:      D975XBX2KR.local
+    Build tool:      make
+    Build action:    install
+    Build number:    9A581
+    cc version:      gcc version 4.0.1 (Apple Inc. build 5465)
+    cctools version: version cctools-667.3.obj, GNU assembler version 1.38
+    make version:    GNU Make 3.81
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Build parameters:
+SRCROOT: /SourceCache/ICU/ICU-8.11
+OBJROOT: /private/var/tmp/ICU/ICU-8.11.obj
+SYMROOT: /private/var/tmp/ICU/ICU-8.11.sym
+DSTROOT: /private/var/tmp/ICU/ICU-8.11.root
+RC_ProjectName: ICU
+RC_ProjectSourceVersion: 8.11
+RC_ProjectNameAndSourceVersion: ICU-8.11
+RC_ProjectBuildVersion: 1
+INSTALLED_PRODUCT_ASIDES: YES
+MACOSX_DEPLOYMENT_TARGET: 10.5
+NEXT_ROOT: 
+RC_ARCHS: ppc ppc64 i386 x86_64
+RC_CFLAGS: -pipe -no-cpp-precomp -arch ppc -arch ppc64 -arch i386 -arch x86_64
+RC_JASPER: YES
+RC_NONARCH_CFLAGS: -pipe -no-cpp-precomp
+RC_OS: macos
+RC_PRIVATE: /private
+RC_RELEASE: Leopard
+RC_XBS: YES
+RC_i386: YES
+RC_ppc: YES
+RC_ppc64: YES
+RC_x86_64: YES
+SEPARATE_STRIP: YES
+UNAME_RELEASE: 9.0
+UNAME_SYSNAME: Darwin
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Environment variables:
+CHROOTED=YES
+DARWINBUILD_BUILD=9A581
+DARWINXREF_DB_FILE=/9A581/.build/xref.db
+DARWIN_BUILDROOT=/9A581
+DSTROOT=/private/var/tmp/ICU/ICU-8.11.root
+GROUP=wheel
+HOME=/var/root
+INSTALLED_PRODUCT_ASIDES=YES
+LOGNAME=root
+MACOSX_DEPLOYMENT_TARGET=10.5
+NEXT_ROOT=
+OBJROOT=/private/var/tmp/ICU/ICU-8.11.obj
+PATH=/bin:/sbin:/usr/bin:/usr/sbin/:/usr/local/bin:/usr/local/sbin
+RC_ARCHS=ppc ppc64 i386 x86_64
+RC_CFLAGS=-pipe -no-cpp-precomp -arch ppc -arch ppc64 -arch i386 -arch x86_64
+RC_JASPER=YES
+RC_NONARCH_CFLAGS=-pipe -no-cpp-precomp
+RC_OS=macos
+RC_PRIVATE=/private
+RC_ProjectBuildVersion=1
+RC_ProjectName=ICU
+RC_ProjectNameAndSourceVersion=ICU-8.11
+RC_ProjectSourceVersion=8.11
+RC_RELEASE=Leopard
+RC_XBS=YES
+RC_i386=YES
+RC_ppc64=YES
+RC_ppc=YES
+RC_x86_64=YES
+SEPARATE_STRIP=YES
+SHELL=/bin/sh
+SRCROOT=/SourceCache/ICU/ICU-8.11
+SYMROOT=/private/var/tmp/ICU/ICU-8.11.sym
+UNAME_RELEASE=9.0
+UNAME_SYSNAME=Darwin
+USER=root
+_=/usr/bin/printenv
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Installed Roots:
+                        12bd4cbda14709c1ffd5fdce69547cd1636bc48d
+                        16307485d546780f75da46b9940037ef126ea093
+                        169013c2ecfa45dbb59a3cdb9ba8943944d2d909
+                        1894b28e5a7e52387a49144ed02a29e08ab819b9
+                        1cbd107722b8cfa2dafaef9c547972e55069266c
+                        26c2d2359ceaf485254c089d79cd68f010ac9bc9
+                        2770299750486b09b5f1b294c6ce2419bef4730c
+                        2a4f9f33aea6968a3869ef622a99e6bd0842f054
+                        316ac227bf8839426bb8b507e099fe941d3b53f3
+                        317f6fbe1fc5ceff5e45c8ef31afb8c6611166d7
+                        329413f98676bc5a74b1516e08d19fed541ed70f
+                        38453fe0927f21f9e7298eae4ea5a109bd4053fd
+                        49e2dec29d18c48d5b2ac3bdb652773bfba3ac53
+                        5608039be88517611b35e7694b7b015c1209adb5
+                        5748a8daf25254b3f5212871dab9eee2d296ee5e
+                        5964393e171e039e73d6494206ac49f34814f284
+                        5af87457c8c411fb0354a4a76bebb303c25f0cec
+                        5f0f7711c6911bf837a831b402b588fe53238f53
+                        6ef564f034594239d86e5e4de0295f44c76223eb
+                        77ad9e8a68028cfff19d659e4e7b6eab0fc9ddf9
+                        7ee6f073866bbef056089798c00ac9c583d4bc76
+                        84826144e2621e187304608ec8c5abeecaef7832
+                        914a728c10c8e7b6c75b7898f4e5e18a5d726670
+                        92f5a0e69750f372edd7980cc559a17cb862e7d8
+                        960b8adaa02c94081cf71ccf09c27fd7e58f2c4b
+                        9dd519bfb9d44a8f4a45fbb340471a716558d87d
+CFOpenDirectory      -> e526d78ffaa47697f06ff4defcdcfd010fa39ebf
+DirectoryService     -> 169013c2ecfa45dbb59a3cdb9ba8943944d2d909
+DiskArbitration      -> ae66cfbba2380e370b6fbcbec8e136a0e3082758
+IONetworkingFamily.hdrs -> 960b8adaa02c94081cf71ccf09c27fd7e58f2c4b
+Kerberos             -> 317f6fbe1fc5ceff5e45c8ef31afb8c6611166d7
+LDAPFramework        -> 2a4f9f33aea6968a3869ef622a99e6bd0842f054
+Libcpp_kext          -> 1cbd107722b8cfa2dafaef9c547972e55069266c
+Libm                 -> 77ad9e8a68028cfff19d659e4e7b6eab0fc9ddf9
+Libmx                -> 6ef564f034594239d86e5e4de0295f44c76223eb
+Libsystem            -> a9f1c3f4d37e878346f10a259b6010008f792678
+                        a11efa28995b2050b2c4e17d126f86e7e6a08523
+                        a271dc83f7e56efce2f69d737b385c814a3e8dd4
+                        a9f1c3f4d37e878346f10a259b6010008f792678
+                        ac04572183fdd07b577ba221f792ad6954f7fa00
+adv_cmds             -> 5748a8daf25254b3f5212871dab9eee2d296ee5e
+                        ae66cfbba2380e370b6fbcbec8e136a0e3082758
+                        afeb832790d88f53624f01bf49a3ee60b0f6a0ba
+awk                  -> 329413f98676bc5a74b1516e08d19fed541ed70f
+                        b21930681ec13f1bb229fa52273f4663c7e1ef6a
+                        b99ad1f270f778ae4dabc0a4ba5c6a85fceef212
+bash                 -> c21be611623a1f2789358f4c361e87d17e284e04
+bootstrap_cmds       -> b21930681ec13f1bb229fa52273f4663c7e1ef6a
+bsm                  -> c18bd0abba6b8953085578b8907ff364a14903a1
+                        c18bd0abba6b8953085578b8907ff364a14903a1
+                        c21be611623a1f2789358f4c361e87d17e284e04
+                        c55bcb3635f79cb1c0f74006a0a2237170caf2dc
+                        c90828c254a5b885dc5c38bfeff90b4311f5c80f
+cctools              -> 2770299750486b09b5f1b294c6ce2419bef4730c
+cctools_ofiles       -> c90828c254a5b885dc5c38bfeff90b4311f5c80f
+configd              -> 9dd519bfb9d44a8f4a45fbb340471a716558d87d
+                        d23396753f76e4e57fe134cb59e327c71bd81fb7
+developer_cmds       -> f5f8da652ec7ad44d773612ff7b909d54a6c2a8a
+distcc               -> e566bb3c13a4cebbc5162fb89d6eb0baa1612fae
+dyld                 -> 5f0f7711c6911bf837a831b402b588fe53238f53
+                        e39563b8ba9cb6051b3f9c9500c4de8666500eb0
+                        e526d78ffaa47697f06ff4defcdcfd010fa39ebf
+                        e566bb3c13a4cebbc5162fb89d6eb0baa1612fae
+                        efb446b4ef8f332d28a785b281f231024d1d4115
+                        f1055f8d81cb32b211737f2274a9cc89cf7665ee
+                        f339ace6640fde3cb5c639857b6fb843a5478dc5
+                        f5f8da652ec7ad44d773612ff7b909d54a6c2a8a
+file_cmds            -> 84826144e2621e187304608ec8c5abeecaef7832
+files                -> c55bcb3635f79cb1c0f74006a0a2237170caf2dc
+gcc                  -> f1055f8d81cb32b211737f2274a9cc89cf7665ee
+gcc_os               -> ac04572183fdd07b577ba221f792ad6954f7fa00
+gcc_select           -> 12bd4cbda14709c1ffd5fdce69547cd1636bc48d
+gnumake              -> 5608039be88517611b35e7694b7b015c1209adb5
+gnuzip               -> 1894b28e5a7e52387a49144ed02a29e08ab819b9
+jam                  -> b99ad1f270f778ae4dabc0a4ba5c6a85fceef212
+kext_tools           -> 16307485d546780f75da46b9940037ef126ea093
+ld64                 -> 26c2d2359ceaf485254c089d79cd68f010ac9bc9
+libgcc               -> 92f5a0e69750f372edd7980cc559a17cb862e7d8
+libiconv             -> 5af87457c8c411fb0354a4a76bebb303c25f0cec
+libresolv            -> a11efa28995b2050b2c4e17d126f86e7e6a08523
+libstdcxx            -> d23396753f76e4e57fe134cb59e327c71bd81fb7
+libutil              -> efb446b4ef8f332d28a785b281f231024d1d4115
+ncurses              -> 49e2dec29d18c48d5b2ac3bdb652773bfba3ac53
+pam                  -> 914a728c10c8e7b6c75b7898f4e5e18a5d726670
+passwordserver_sasl  -> 5964393e171e039e73d6494206ac49f34814f284
+perl                 -> a271dc83f7e56efce2f69d737b385c814a3e8dd4
+shell_cmds           -> 7ee6f073866bbef056089798c00ac9c583d4bc76
+system_cmds          -> 38453fe0927f21f9e7298eae4ea5a109bd4053fd
+tcsh                 -> e39563b8ba9cb6051b3f9c9500c4de8666500eb0
+text_cmds            -> f339ace6640fde3cb5c639857b6fb843a5478dc5
+                        xcodebuild
+xnu                  -> 316ac227bf8839426bb8b507e099fe941d3b53f3
+zlib                 -> afeb832790d88f53624f01bf49a3ee60b0f6a0ba
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+make install  "SRCROOT=/SourceCache/ICU/ICU-8.11" "OBJROOT=/private/var/tmp/ICU/ICU-8.11.obj" "SYMROOT=/private/var/tmp/ICU/ICU-8.11.sym" "DSTROOT=/private/var/tmp/ICU/ICU-8.11.root" "RC_ProjectName=ICU" "RC_ProjectSourceVersion=8.11" "RC_ProjectNameAndSourceVersion=ICU-8.11" "RC_ProjectBuildVersion=1" "INSTALLED_PRODUCT_ASIDES=YES" "MACOSX_DEPLOYMENT_TARGET=10.5" "NEXT_ROOT=" "RC_ARCHS=ppc ppc64 i386 x86_64" "RC_CFLAGS=-pipe -no-cpp-precomp -arch ppc -arch ppc64 -arch i386 -arch x86_64" "RC_JASPER=YES" "RC_NONARCH_CFLAGS=-pipe -no-cpp-precomp" "RC_OS=macos" "RC_PRIVATE=/private" "RC_RELEASE=Leopard" "RC_XBS=YES" "RC_i386=YES" "RC_ppc=YES" "RC_ppc64=YES" "RC_x86_64=YES" "SEPARATE_STRIP=YES" "UNAME_RELEASE=9.0" "UNAME_SYSNAME=Darwin"
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Build log begins here:
+
+if test ! -d /private/var/tmp/ICU/ICU-8.11.obj; then \
+		mkdir -p /private/var/tmp/ICU/ICU-8.11.obj; \
+	fi;
+if test "NO" = "YES"; then \
+		cp -Rpf /SourceCache/ICU/ICU-8.11/icuSources/* /private/var/tmp/ICU/ICU-8.11.obj; \
+		(cd /private/var/tmp/ICU/ICU-8.11.obj/data/unidata; mv base_unidata/*.txt .;); \
+		(cd /private/var/tmp/ICU/ICU-8.11.obj; CPPFLAGS="-DU_ICU_VERSION_BUILDLEVEL_NUM=11 -DSTD_INSPIRED -DMAC_OS_X_VERSION_MIN_REQUIRED=1040" APPLE_INTERNAL_DIR="/AppleInternal" CFLAGS="-DICU_DATA_DIR=\"\\\"/usr/share/icu/\\\"\" -g -Os -fno-exceptions -fvisibility=hidden " CXXFLAGS="-DICU_DATA_DIR=\"\\\"/usr/share/icu/\\\"\" -g -Os -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden " RC_ARCHS="ppc ppc64 i386 x86_64" TZDATA="" DYLD_LIBRARY_PATH="/private/var/tmp/ICU/ICU-8.11.root/usr/local/lib" ./runConfigureICU Cygwin/MSVC --disable-renaming --disable-extras --disable-layout --disable-samples --with-data-packaging=archive --prefix=/usr/local  --srcdir=/SourceCache/ICU/ICU-8.11/icuSources;) \
+	else \
+		(cd /private/var/tmp/ICU/ICU-8.11.obj; CPPFLAGS="-DU_ICU_VERSION_BUILDLEVEL_NUM=11 -DSTD_INSPIRED -DMAC_OS_X_VERSION_MIN_REQUIRED=1040" APPLE_INTERNAL_DIR="/AppleInternal" CFLAGS="-DICU_DATA_DIR=\"\\\"/usr/share/icu/\\\"\" -g -Os -fno-exceptions -fvisibility=hidden " CXXFLAGS="-DICU_DATA_DIR=\"\\\"/usr/share/icu/\\\"\" -g -Os -fno-exceptions -fno-rtti -fvisibility=hidden -fvisibility-inlines-hidden " RC_ARCHS="ppc ppc64 i386 x86_64" TZDATA="" DYLD_LIBRARY_PATH="/private/var/tmp/ICU/ICU-8.11.root/usr/local/lib" /SourceCache/ICU/ICU-8.11/icuSources/runConfigureICU MacOSX --disable-renaming --disable-extras --disable-layout --disable-samples --with-data-packaging=archive --prefix=/usr/local  --srcdir=/SourceCache/ICU/ICU-8.11/icuSources;) \
+	fi;
+Running ./configure  --disable-renaming --disable-extras --disable-layout --disable-samples --with-data-packaging=archive --prefix=/usr/local --srcdir=/SourceCache/ICU/ICU-8.11/icuSources for MacOS X (Darwin) using the GNU C++ compiler
+
+checking for ICU version numbers... release 3.6, library 36.0
+checking build system type... i386-apple-darwin9.0
+checking host system type... i386-apple-darwin9.0
+checking for gcc... gcc
+checking for C compiler default output file name... configure: error: C compiler cannot create executables
+See `config.log' for more details.
+
+If the result of the above commands looks okay to you, go to the directory
+source in the ICU distribution to build ICU. Please remember that ICU needs
+GNU make to build properly...
+if test "NO" = "YES"; then \
+		(cd /private/var/tmp/ICU/ICU-8.11.obj/common/unicode/; \
+			cp /SourceCache/ICU/ICU-8.11/icuSources/common/unicode/uconfig.h . ; \
+			patch </SourceCache/ICU/ICU-8.11/minimalpatchconfig.txt;) \
+	elif test "NO" = "YES"; then \
+		(cd /private/var/tmp/ICU/ICU-8.11.obj/common/unicode/; \
+			cp /SourceCache/ICU/ICU-8.11/icuSources/common/unicode/uconfig.h . ; \
+			patch </SourceCache/ICU/ICU-8.11/windowspatchconfig.txt;) \
+	else \
+		(cd /private/var/tmp/ICU/ICU-8.11.obj/common/unicode/; \
+			cp /SourceCache/ICU/ICU-8.11/icuSources/common/unicode/uconfig.h . ; \
+			patch </SourceCache/ICU/ICU-8.11/patchconfig.txt;) \
+	fi; \
+	if test -f /SourceCache/ICU/ICU-8.11/icuSources/common/Makefile.local; then \
+		cp -p /SourceCache/ICU/ICU-8.11/icuSources/common/Makefile.local /private/var/tmp/ICU/ICU-8.11.obj/common/ ; \
+	fi; 
+/bin/sh: line 0: cd: /private/var/tmp/ICU/ICU-8.11.obj/common/unicode/: No such file or directory
+/bin/sh: patch: command not found
+cp: directory /private/var/tmp/ICU/ICU-8.11.obj/common does not exist
+make: *** [/private/var/tmp/ICU/ICU-8.11.obj/Makefile] Error 1
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+EXIT STATUS: 2

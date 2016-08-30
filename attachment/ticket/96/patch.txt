@@ -1,0 +1,23 @@
+Index: manifest.c
+===================================================================
+--- manifest.c	(revision 595)
++++ manifest.c	(working copy)
+@@ -84,10 +84,14 @@ static char* calculate_digest(int fd) {
+ 		block = malloc(blocklen);
+ 	}
+ 	while(1) {
+-		len = read(fd, block, blocklen);
+-		if (len == 0) { close(fd); break; }
+-		if ((len < 0) && (errno == EINTR)) continue;
+-		if (len < 0) { close(fd); return NULL; }
++		ssize_t read_len;
++
++		read_len = read(fd, block, blocklen);
++		if (read_len == 0) { close(fd); break; }
++		if ((read_len < 0) && (errno == EINTR)) continue;
++		if (read_len < 0) { close(fd); return NULL; }
++
++		len = read_len;
+ 		EVP_DigestUpdate(&ctx, block, len);
+ 	}
+ 

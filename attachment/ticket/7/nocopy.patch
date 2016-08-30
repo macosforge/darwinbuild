@@ -1,0 +1,103 @@
+Index: darwinbuild
+===================================================================
+--- darwinbuild	(revision 361)
++++ darwinbuild	(working copy)
+@@ -101,6 +101,7 @@
+ logdeps=""
+ nopatch=""
+ noload=""
++nocopy=""
+ loadonly=""
+ projnam=""
+ action="install"
+@@ -169,7 +170,7 @@
+ 	usage: $(basename $0) [flags] <project> [<version>]
+ 	usage: flags: [-headers] [-build=X] [-target=X]
+ 	              [-logdeps] [-nochroot] [-nopatch] [-noload | -loadonly]
+-	              [-depsbuild=X [-depsbuild=Y]]
++	              [-nocopy] [-depsbuild=X [-depsbuild=Y]]
+ 	              [-fetch] [-source]
+ EOF
+ 	exit 1
+@@ -219,6 +220,9 @@
+ ###				Has no effect if -nochroot is specified.
+ ###   -loadonly Only load dependencies into the chroot, but
+ ###                             don't build.
++###   -nocopy   Don't copy the sources in before building. Useful 
++###				if you have patched your local copy, and don't want
++###				them overwritten.
+ ###   -logdeps  Do magic to log the build-time dependencies
+ ###   -target=X The makefile or xcode target to build
+ ###   -build=X  X is the darwin build number to buld, e.g. 8B15
+@@ -266,6 +270,8 @@
+ 			loadonly="YES"
+ 		elif [ "$ARG" == "-logdeps" ]; then
+ 			logdeps="YES"
++		elif [ "$ARG" == "-nocopy" ]; then
++			nocopy="YES"
+ 		elif [ "${ARG:0:1}" != "-" ]; then
+ 			projnam="$ARG"
+ 		else
+@@ -408,33 +414,35 @@
+ export SYMROOT="${REAL_SYMROOT/$prefix/}"
+ export DSTROOT="${REAL_DSTROOT/$prefix/}"
+ 
+-###
+-### Remove any pre-existing directories that might be in the way
+-### and create new directories in their place.  Make sure the
+-### directories have root:wheel ownership, otherwise things may
+-### not build correctly.
+-###
+-rm -Rf "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT"
+-mkdir -p "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT"
+-chown root:wheel "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT"
+-
+-###
+-### Install the sources and patches into the BuildRoot
+-###
+-cd "$REAL_SRCROOT/.."
+-echo "*** Copying Sources ..."
+-if [ -d "$SourceCache/$project" ]; then
+-	tar c -C "$SourceCache" "$project" | tar xf - 
+-elif [ "$alias" != "" -a -d "$SourceCache/$alias-$version" ]; then
+-	tar c -C "$SourceCache" "$alias-$version" | tar xf -
+-	rmdir "$REAL_SRCROOT"
+-	ln -fhs "$alias-$version" "$project"
+-elif [ "$alias" != "" ]; then
+-	tar xzf "$SourceCache/$alias-$version.tar.gz"
+-	rmdir "$REAL_SRCROOT"
+-	ln -fhs "$alias-$version" "$project"
+-else
+-	tar xzf "$SourceCache/$filename"
++if [ "$nocopy" != "YES" ]; then
++	###
++	### Remove any pre-existing directories that might be in the way
++	### and create new directories in their place.  Make sure the
++	### directories have root:wheel ownership, otherwise things may
++	### not build correctly.
++	###
++	rm -Rf "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT"
++	mkdir -p "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT"
++	chown root:wheel "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT"
++	
++	###
++	### Install the sources and patches into the BuildRoot
++	###
++	cd "$REAL_SRCROOT/.."
++	echo "*** Copying Sources ..."
++	if [ -d "$SourceCache/$project" ]; then
++		tar c -C "$SourceCache" "$project" | tar xf - 
++	elif [ "$alias" != "" -a -d "$SourceCache/$alias-$version" ]; then
++		tar c -C "$SourceCache" "$alias-$version" | tar xf -
++		rmdir "$REAL_SRCROOT"
++		ln -fhs "$alias-$version" "$project"
++	elif [ "$alias" != "" ]; then
++		tar xzf "$SourceCache/$alias-$version.tar.gz"
++		rmdir "$REAL_SRCROOT"
++		ln -fhs "$alias-$version" "$project"
++	else
++		tar xzf "$SourceCache/$filename"
++	fi
+ fi
+ 
+ # you can avoid registering patches in the DB by using "xnu-792--patches.tar.gz"

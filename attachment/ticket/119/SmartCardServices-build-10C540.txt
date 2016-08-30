@@ -1,0 +1,301 @@
+luminilocal:10C540 harningt$ sudo darwinbuild SmartCardServices
+*** Attaching build root disk image ...
+/dev/disk11         	GUID_partition_scheme          	
+/dev/disk11s1       	EFI                            	
+/dev/disk11s2       	Apple_HFS                      	/Volumes/BuildRoot_10C540_20100823151849
+*** Fetching Sources ...
+Downloading http://src.macosforge.org/Projects//SmartCardServices-36160.tar.gz ...
+Download complete
+*** Copying Sources ...
+*** Installing Xcode Tools ...
+2010-08-23 15:19:50.475 xcodebuild[26911:60f] Unable to load platform at path /Developer/Platforms/Darwinbuild_10C540_20100823131532.platform
+Installing Platform/SDK Darwinbuild_10C540_20100823151951 for Xcode 3.2
+Completed Platform/SDK install
+*** Installing Roots ...
+Downloading http://src.macosforge.org/Roots/10C540//files.root.tar.gz ...
+Download complete
+files - 75 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//bash.root.tar.gz ...
+Download complete
+bash - 23 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//Libsystem.root.tar.gz ...
+Download complete
+Libsystem - 30 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//Libm.root.tar.gz ...
+Downloading http://src.macosforge.org/Roots/10B504//Libm.root.tar.gz ...
+Downloading http://src.macosforge.org/Roots/10A432//Libm.root.tar.gz ...
+Download complete
+Libm - 291 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//dyld.root.tar.gz ...
+Download complete
+dyld - 3 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//libiconv.root.tar.gz ...
+Download complete
+libiconv - 22 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//ncurses.root.tar.gz ...
+Download complete
+ncurses - 3307 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//CF.root.tar.gz ...
+Downloading http://src.macosforge.org/Roots/10B504//CF.root.tar.gz ...
+Downloading http://src.macosforge.org/Roots/10A432//CF.root.tar.gz ...
+Download complete
+CF - 64 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//ICU.root.tar.gz ...
+Download complete
+ICU - 134 files registered.
+Libsystem already loaded and no newer roots have been built.
+Libm already loaded and no newer roots have been built.
+Downloading http://src.macosforge.org/Roots/10C540//libstdcxx.root.tar.gz ...
+Downloading http://src.macosforge.org/Roots/10B504//libstdcxx.root.tar.gz ...
+Downloading http://src.macosforge.org/Roots/10A432//libstdcxx.root.tar.gz ...
+Download complete
+libstdcxx - 622 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//objc4.root.tar.gz ...
+Download complete
+objc4 - 25 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//autozone.root.tar.gz ...
+Download complete
+autozone - 5 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//CarbonHeaders.root.tar.gz ...
+Download complete
+CarbonHeaders - 28 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//Csu.root.tar.gz ...
+Download complete
+Csu - 11 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//IOKitUser.root.tar.gz ...
+Download complete
+IOKitUser - 70 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//libkxld.root.tar.gz ...
+Download complete
+libkxld - 5 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//zlib.root.tar.gz ...
+Download complete
+zlib - 11 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//IOUSBFamily.root.tar.gz ...
+Downloading http://src.macosforge.org/Roots/10B504//IOUSBFamily.root.tar.gz ...
+Downloading http://src.macosforge.org/Roots/10A432//IOUSBFamily.root.tar.gz ...
+Download complete
+IOUSBFamily - 117 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//Security.root.tar.gz ...
+Downloading http://src.macosforge.org/Roots/10B504//Security.root.tar.gz ...
+Downloading http://src.macosforge.org/Roots/10A432//Security.root.tar.gz ...
+Download complete
+Security - 153 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//SQLite.root.tar.gz ...
+Download complete
+SQLite - 10 files registered.
+dyld already loaded and no newer roots have been built.
+Downloading http://src.macosforge.org/Roots/10C540//libedit.root.tar.gz ...
+Download complete
+libedit - 40 files registered.
+ncurses already loaded and no newer roots have been built.
+Downloading http://src.macosforge.org/Roots/10C540//libutil.root.tar.gz ...
+Download complete
+libutil - 20 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//Libc_headers.root.tar.gz ...
+Download complete
+Libc_headers - 154 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//Libsyscall.root.tar.gz ...
+Download complete
+Libsyscall - 42 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//SmartCardServices.root.tar.gz ...
+Download complete
+SmartCardServices - 25 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//cctools.root.tar.gz ...
+Download complete
+cctools - 82 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//file_cmds.root.tar.gz ...
+Download complete
+file_cmds - 68 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//flex.root.tar.gz ...
+Download complete
+flex - 16 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//gcc.root.tar.gz ...
+Download complete
+gcc - 652 files registered.
+libiconv already loaded and no newer roots have been built.
+Downloading http://src.macosforge.org/Roots/10C540//gcc_select.root.tar.gz ...
+Download complete
+gcc_select - 20 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//launchd_libs.root.tar.gz ...
+Download complete
+launchd_libs - 14 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//DiskArbitration.root.tar.gz ...
+Download complete
+DiskArbitration - 24 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//configd.root.tar.gz ...
+Download complete
+configd - 48 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//libdispatch.root.tar.gz ...
+Download complete
+libdispatch - 75 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//xnu.root.tar.gz ...
+Download complete
+xnu - 2368 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//libsecurity_cdsa_client.root.tar.gz ...
+Download complete
+libsecurity_cdsa_client - 33 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//libsecurity_cdsa_utilities.root.tar.gz ...
+Download complete
+libsecurity_cdsa_utilities - 57 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//libsecurity_cdsa_utils.root.tar.gz ...
+Download complete
+libsecurity_cdsa_utils - 18 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//libsecurity_utilities.root.tar.gz ...
+Download complete
+libsecurity_utilities - 78 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//libsecurityd.root.tar.gz ...
+Download complete
+libsecurityd - 50 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//CoreOSMakefiles.root.tar.gz ...
+Download complete
+CoreOSMakefiles - 33 files registered.
+Downloading http://src.macosforge.org/Roots/10C540//perl.root.tar.gz ...
+Download complete
+perl - 5107 files registered.
+*** Installing Headers ...
+*** Redirecting ...
+DARWINTRACE_REDIRECT="/Users/harningt/applesrc/10C540/BuildRoot"
+DARWINTRACE_LOG="/Users/harningt/applesrc/10C540/BuildRoot/private/var/tmp/SmartCardServices/SmartCardServices-36160.trace~1"
+DYLD_INSERT_LIBRARIES=/usr/local/share/darwinbuild/darwintrace.dylib
+DYLD_FORCE_FLAT_NAMESPACE=1
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+BUILDING SmartCardServices-36160~1 on Mon Aug 23 15:26:44 EDT 2010
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Build configuration:
+    Build host:           luminilocal.local
+    Build tool:           xcodebuild
+    Build action:         install
+    Build number:         10C540
+    Host kernel version:  Darwin Kernel Version 10.4.0: Fri Apr 23 18:28:53 PDT 2010; root:xnu-1504.7.4~1/RELEASE_I386
+    cc version:           gcc version 4.2.1 (Apple Inc. build 5646)
+    cctools version:      ools-750~70, GNU assembler version 1.38
+2010-08-23 19:26:46.565 xcodebuild[27491:607] Warning: Platform '<XCPlatformSpecification:0xb069b0:'org.macosforge.darwinbuild.platforms.Darwinbuild_10C540_20100823151951':Default>' is already registered under name 'Darwinbuild_10C540_20100823151951', replacing it with platform '<XCPlatformSpecification:0xb07cf0:'org.macosforge.darwinbuild.platforms.Darwinbuild_10C540_20100823151951':Default>'.
+2010-08-23 19:26:46.722 xcodebuild[27491:607] Warning: SDK name collision for name 'macosx0.0': SDK at path '/Developer/SDKs/MacOSX10.5.sdk' being superceded by SDK at path '/Developer/SDKs/MacOSX10.6.sdk'.
+/Developer/usr/bin/xcodebuild fails with 10 - No child processes
+    xcode version:        
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Build parameters:
+SRCROOT: /Users/harningt/applesrc/10C540/BuildRoot/SourceCache/SmartCardServices/SmartCardServices-36160
+OBJROOT: /Users/harningt/applesrc/10C540/BuildRoot/private/var/tmp/SmartCardServices/SmartCardServices-36160.obj
+SYMROOT: /Users/harningt/applesrc/10C540/BuildRoot/private/var/tmp/SmartCardServices/SmartCardServices-36160.sym
+DSTROOT: /Users/harningt/applesrc/10C540/BuildRoot/private/var/tmp/SmartCardServices/SmartCardServices-36160.root
+RC_ProjectName: SmartCardServices
+RC_ProjectSourceVersion: 36160
+RC_ProjectNameAndSourceVersion: SmartCardServices-36160
+RC_ProjectBuildVersion: 1
+INSTALLED_PRODUCT_ASIDES: YES
+MACOSX_DEPLOYMENT_TARGET: 10.6
+NEXT_ROOT: 
+RC_ARCHS: i386 x86_64
+RC_CFLAGS: -pipe -arch i386 -arch x86_64
+RC_JASPER: YES
+RC_NONARCH_CFLAGS: -pipe
+RC_OS: macos
+RC_PRIVATE: /private
+RC_RELEASE: SnowLeopard
+RC_TARGET_CONFIG: MacOSX
+RC_XBS: YES
+RC_i386: YES
+RC_x86_64: YES
+SEPARATE_STRIP: YES
+UNAME_RELEASE: 10.0
+UNAME_SYSNAME: Darwin
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Environment variables:
+DARWINBUILD_BUILD=10C540
+DARWINXREF_DB_FILE=/Users/harningt/applesrc/10C540/.build/xref.db
+DARWIN_BUILDROOT=/Users/harningt/applesrc/10C540
+DSTROOT=/Users/harningt/applesrc/10C540/BuildRoot/private/var/tmp/SmartCardServices/SmartCardServices-36160.root
+GROUP=wheel
+HOME=/var/root
+INSTALLED_PRODUCT_ASIDES=YES
+INSTALL_XCODE=YES
+LOGNAME=root
+MACOSX_DEPLOYMENT_TARGET=10.6
+NEXT_ROOT=
+OBJROOT=/Users/harningt/applesrc/10C540/BuildRoot/private/var/tmp/SmartCardServices/SmartCardServices-36160.obj
+PATH=/bin:/sbin:/usr/bin:/usr/sbin/:/usr/local/bin:/usr/local/sbin
+RC_ARCHS=i386 x86_64
+RC_CFLAGS=-pipe -arch i386 -arch x86_64
+RC_JASPER=YES
+RC_NONARCH_CFLAGS=-pipe
+RC_OS=macos
+RC_PRIVATE=/private
+RC_ProjectBuildVersion=1
+RC_ProjectName=SmartCardServices
+RC_ProjectNameAndSourceVersion=SmartCardServices-36160
+RC_ProjectSourceVersion=36160
+RC_RELEASE=SnowLeopard
+RC_TARGET_CONFIG=MacOSX
+RC_XBS=YES
+RC_i386=YES
+RC_x86_64=YES
+SDKROOT=/Users/harningt/applesrc/10C540/BuildRoot
+SEPARATE_STRIP=YES
+SHELL=/bin/sh
+SRCROOT=/Users/harningt/applesrc/10C540/BuildRoot/SourceCache/SmartCardServices/SmartCardServices-36160
+SYMROOT=/Users/harningt/applesrc/10C540/BuildRoot/private/var/tmp/SmartCardServices/SmartCardServices-36160.sym
+UNAME_RELEASE=10.0
+UNAME_SYSNAME=Darwin
+USER=root
+USE_CHROOT=NO
+_=/usr/bin/printenv
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Installed Roots:
+CF                   -> 607fe2316957248f3835cfc440d0a3f378103509
+CarbonHeaders        -> d51624a603f17fb0b5ab621f01b780f270e9c1b4
+CoreOSMakefiles      -> 4bbe2eb315a2deb0d1acc050de675d0da80d5a6d
+Csu                  -> 128e865cfe79a20ebf564be87c25517e574be2a5
+DiskArbitration      -> 5682eb76e59f0e72e36ca158044f68c479cbb6fd
+ICU                  -> 43b4c1ab65af62236a933e273d2cc6dc48964005
+IOKitUser            -> d7a6c90bec4238c80ac64d52660a21e3cb9e607b
+IOUSBFamily          -> cf5d4605243d68217a7ceb1380171365fe50db5a
+Libc_headers         -> 91f8ad4df1f04601c1aeaafc4b6d97ab19b97d27
+Libm                 -> a0c2941e018392e6cc1f9f9cb6b948b69d20939b
+Libsyscall           -> db717a8211bc633d6b2146207d827b358333cf3b
+Libsystem            -> c57b926b58d360da6e122b00634778dd5d39494b
+SQLite               -> 890101148d01050323e023e8f2f4d677ca558fde
+Security             -> 0b41222d76e793969906f93cccb4423eec20f0c3
+SmartCardServices    -> f60aaba40394c22ba3b8d6e6ec0ff0f709abbcfe
+autozone             -> c4e49a36c86c171fba1db17124e2c4e4609fd0ab
+bash                 -> ecc10b62b2fcf9996d35b7aa19516c6d04bfb024
+cctools              -> f4414f7ffe5ab38787a4beb228d6b9fa4043ac00
+configd              -> e2621707a03968f7b3f71d6c34c1be074f914b40
+dyld                 -> 7e844b85afb68794a338cd8f8a4621587e39b17e
+file_cmds            -> 96b5631dd997c47c46e15cc67d2b1e9c2cee6efb
+files                -> 90fda1e54f61d1673fa57b16e0ab5ca1e90eaaa2
+flex                 -> ed749a1d3d689928d49b2225bf37196f5ffd21d5
+gcc                  -> 7fc9e1d1a6217429af6ae884d18c2646b9138849
+gcc_select           -> 2fead55522e60a66385715b0bcd738f269cdb95d
+launchd_libs         -> 9181a78bc0a4e945cbbc632dc511a3673d931d3c
+libdispatch          -> 8fc18f168d5b23baf92ddc9331d6ff002ac99dbb
+libedit              -> 34ec53b5b52ce5445fab574a794d5ffc01c6dbcc
+libiconv             -> a4d7a38843d03227f60d219cd1c1d393071b25f3
+libkxld              -> 57b091bfb44facf8d6ec2c36d503d6e7a5ada1a3
+libsecurity_cdsa_client -> 58fa18e0cf057d4459ac779856ea4c8e0b1ffa64
+libsecurity_cdsa_utilities -> 4fc89e6df3e1da88d88aed1ac2fbe3711ad860e8
+libsecurity_cdsa_utils -> a6a39011c5c9e102f1281680ef2f59b75f41f987
+libsecurity_utilities -> 010c1b5220d7ff66566b04381f4aba6929bb5471
+libsecurityd         -> f36ae5d6aa05b9380d637fd98d01a641bf0ea587
+libstdcxx            -> 5ee991596c0684c36b7b19149959ad6444e4a5bb
+libutil              -> 737573c2b6dfff0ae51203a46a17fd02b83a5670
+ncurses              -> ce25b5ccaab3c9922455f8e7a39319995a74c0a7
+objc4                -> 22c3f420c5fd3d296b1267c44c1da8cbc57ebb86
+perl                 -> c9777933ed2fb503a0d2c873afb4b79bb14db599
+                        xcodebuild
+xnu                  -> a091ceb4726af49bb03aa2f0b3b1b0bedf2aea38
+zlib                 -> bf9a63cca042bf6656be18a883ac0edd1f33fc35
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+xcodebuild install -sdk Darwinbuild_10C540_20100823151951 "SRCROOT=/Users/harningt/applesrc/10C540/BuildRoot/SourceCache/SmartCardServices/SmartCardServices-36160" "OBJROOT=/Users/harningt/applesrc/10C540/BuildRoot/private/var/tmp/SmartCardServices/SmartCardServices-36160.obj" "SYMROOT=/Users/harningt/applesrc/10C540/BuildRoot/private/var/tmp/SmartCardServices/SmartCardServices-36160.sym" "DSTROOT=/Users/harningt/applesrc/10C540/BuildRoot/private/var/tmp/SmartCardServices/SmartCardServices-36160.root" "RC_ProjectName=SmartCardServices" "RC_ProjectSourceVersion=36160" "RC_ProjectNameAndSourceVersion=SmartCardServices-36160" "RC_ProjectBuildVersion=1" "INSTALLED_PRODUCT_ASIDES=YES" "MACOSX_DEPLOYMENT_TARGET=10.6" "NEXT_ROOT=" "RC_ARCHS=i386 x86_64" "RC_CFLAGS=-pipe -arch i386 -arch x86_64" "RC_JASPER=YES" "RC_NONARCH_CFLAGS=-pipe" "RC_OS=macos" "RC_PRIVATE=/private" "RC_RELEASE=SnowLeopard" "RC_TARGET_CONFIG=MacOSX" "RC_XBS=YES" "RC_i386=YES" "RC_x86_64=YES" "SEPARATE_STRIP=YES" "UNAME_RELEASE=10.0" "UNAME_SYSNAME=Darwin" < /dev/null
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Build log begins here:
+
+2010-08-23 19:26:50.582 xcodebuild[27495:607] Warning: Platform '<XCPlatformSpecification:0xbf2500:'org.macosforge.darwinbuild.platforms.Darwinbuild_10C540_20100823151951':Default>' is already registered under name 'Darwinbuild_10C540_20100823151951', replacing it with platform '<XCPlatformSpecification:0xbf4c90:'org.macosforge.darwinbuild.platforms.Darwinbuild_10C540_20100823151951':Default>'.
+2010-08-23 19:26:50.588 xcodebuild[27495:607] Warning: SDK name collision for name 'macosx0.0': SDK at path '/Developer/SDKs/MacOSX10.5.sdk' being superceded by SDK at path '/Developer/SDKs/MacOSX10.6.sdk'.
+/Developer/usr/bin/xcodebuild fails with 10 - No child processes
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ BUILD TIME: 0h 0m 2s
+EXIT STATUS: 69

@@ -1,0 +1,813 @@
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+BUILDING cxxfilt-7~4 on Wed Dec  3 11:05:38 PST 2008
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Build configuration:
+    Build host:           jtgvn81
+    Build tool:           make
+    Build action:         install
+    Build number:         9F33pd1
+    Host kernel version:  Darwin Kernel Version 9.5.0: Wed Sep  3 11:31:44 PDT 2008; root:xnu-1228.7.58~1/RELEASE_PPC
+    cc version:           gcc version 4.0.1 (Apple Inc. build 5465)
+    cctools version:      version cctools-667.3.obj, GNU assembler version 1.38
+    make version:         GNU Make 3.81
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Build parameters:
+SRCROOT: /SourceCache/cxxfilt/cxxfilt-7
+OBJROOT: /private/var/tmp/cxxfilt/cxxfilt-7.obj
+SYMROOT: /private/var/tmp/cxxfilt/cxxfilt-7.sym
+DSTROOT: /private/var/tmp/cxxfilt/cxxfilt-7.root
+RC_ProjectName: cxxfilt
+RC_ProjectSourceVersion: 7
+RC_ProjectNameAndSourceVersion: cxxfilt-7
+RC_ProjectBuildVersion: 4
+INSTALLED_PRODUCT_ASIDES: YES
+MACOSX_DEPLOYMENT_TARGET: 10.5
+NEXT_ROOT: 
+RC_ARCHS: ppc i386
+RC_CFLAGS: -pipe -no-cpp-precomp -arch ppc -arch i386
+RC_JASPER: YES
+RC_NONARCH_CFLAGS: -pipe -no-cpp-precomp
+RC_OS: macos
+RC_PRIVATE: /private
+RC_RELEASE: Leopard
+RC_XBS: YES
+RC_i386: YES
+RC_ppc: YES
+SEPARATE_STRIP: YES
+UNAME_RELEASE: 9.5
+UNAME_SYSNAME: Darwin
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Environment variables:
+CHROOTED=YES
+DARWINBUILD_BUILD=9F33pd1
+DARWINXREF_DB_FILE=/Volumes/DarwinBuild/Build9F33/.build/xref.db
+DARWIN_BUILDROOT=/Volumes/DarwinBuild/Build9F33
+DEVELOPER_DIR=/XCD/loper
+DSTROOT=/private/var/tmp/cxxfilt/cxxfilt-7.root
+GROUP=wheel
+HOME=/var/root
+INSTALLED_PRODUCT_ASIDES=YES
+LOGNAME=root
+MACOSX_DEPLOYMENT_TARGET=10.5
+NEXT_ROOT=
+OBJROOT=/private/var/tmp/cxxfilt/cxxfilt-7.obj
+PATH=/bin:/sbin:/usr/bin:/usr/sbin/:/usr/local/bin:/usr/local/sbin
+RC_ARCHS=ppc i386
+RC_CFLAGS=-pipe -no-cpp-precomp -arch ppc -arch i386
+RC_JASPER=YES
+RC_NONARCH_CFLAGS=-pipe -no-cpp-precomp
+RC_OS=macos
+RC_PRIVATE=/private
+RC_ProjectBuildVersion=4
+RC_ProjectName=cxxfilt
+RC_ProjectNameAndSourceVersion=cxxfilt-7
+RC_ProjectSourceVersion=7
+RC_RELEASE=Leopard
+RC_XBS=YES
+RC_i386=YES
+RC_ppc=YES
+SEPARATE_STRIP=YES
+SHELL=/bin/sh
+SRCROOT=/SourceCache/cxxfilt/cxxfilt-7
+SYMROOT=/private/var/tmp/cxxfilt/cxxfilt-7.sym
+UNAME_RELEASE=9.5
+UNAME_SYSNAME=Darwin
+USER=root
+_=/usr/bin/printenv
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Installed Roots:
+                        031e4b028c6316b573f1a5cfa95782ae9f4e4af4
+                        03bccb9f9632703a1edbd62d322d183bde83ee8c
+                        04db61d6f555f5469edf1afe5d7175cffcc737b0
+                        0541c508a94818cc7597ae78b1349b05a94cbdf8
+                        0719301a0af7fc1efb7ffe2883318dfed6ce1592
+                        082e9b19f97c90dbc4e3e8414b1751d3276feacb
+                        12ddd47198f46f409870334122b3cc22385c6683
+                        1591239e7c94656f87e454172c902d91d3b49be7
+                        183bfe5b452b4cad8baa177bbc3eac84b00f753c
+                        1894b28e5a7e52387a49144ed02a29e08ab819b9
+                        19c2e6cbdda2f6e41b63e872c64dfbe6705fb0ab
+                        1aadd149795d5f5236ab877612b0f17505f98063
+                        1b8f42ff53aca9a69acf527968f566296dba0ae8
+                        1c2236c2e36fdcafc65a8cbd95c7f049e923d475
+                        1cbd107722b8cfa2dafaef9c547972e55069266c
+                        1cdc9b0d6a88d4840ef9ac3259c9c328886e8a4d
+                        1ef825d0664c37de2298df3384f5ebdfd449da8a
+                        22fae13b3ab0af5aa974b62720eea93e197434f4
+                        232bcdd8cf681612577f6e7445e965c43e669530
+                        2382ee5c1e2fb9a4c686b27e6cc2330bc8a85c45
+                        25ac8438ef07c698b8ec3fd70eed85320d49966e
+                        2859331f6551983dc51b17d59ffaab89bdafeaff
+                        2e8304a0ef2379b7dce82a4ec2c1a14581b52ecb
+                        2ea70fc16e81329287f512ca79a6522b7a5ff4a7
+                        2f25239e125c8f34645347242a90a0c7a688b9c4
+                        2f8577a0654500a937f35df82ce253c47472d1d0
+                        3743cd7ed4ec1fdc4d9093d910e7748ff83b33e0
+                        3a5f08327cdf41654885ac44137161fea78b6e70
+                        3b33a473693974bcf0ac607e0f5d49c6d8472399
+                        40107ba470becd52bb41aacfdffc17cf28e978f8
+                        49e2dec29d18c48d5b2ac3bdb652773bfba3ac53
+                        526ff11598665844bd9d3348ba6194a5dd95982c
+                        55f97d6df970d2cc15cb092a14d29404bde71cd9
+                        5661db1bcdabae80824e7a2407442e4daab3ea57
+                        596b1b11af380e4aa9269200d65195b8f33b42e8
+                        5af87457c8c411fb0354a4a76bebb303c25f0cec
+                        5d318d91d86a1978ad3517cef79b6fbaafa47c05
+                        5ea1fbc1f5166411b40e15689e44945cfcf574ff
+                        5f58a79967ff079812ce43ceefc2cf8f8c4d82f4
+                        5fba7911f119e8447716cb426898fd848a58ca23
+                        6c9ec0e8a7ca78c8735b192ee1bdc5d18fefd549
+                        6d12d275a071e345ec7b41ec2d1df1a4f14b0c6a
+                        6e9445c341d5eeedfe6b91ee1782d5bd66a8b5d7
+                        6fae457c992b340409a826f8e482b801a02033ad
+                        767d1304050504dac527bde647a1b85c2602810b
+                        7d90dffecd558d133aa75cd2a872621ca1c47b17
+                        82cc210412eefbf5ccf70f6731744b6725435bb3
+                        8ab14e315b9f9c118e47dd82d105fa33aea4c038
+                        912af6013dec27f906150791b90486c9ac18ba51
+                        9a05fc8fa5f9d760a0d2e895db550754c78ebae5
+                        9e51fe6d38ecf7bd23667b7acc2a2cf34b6fe8e2
+Apple16X50Serial     -> 66e77438019df051e780e01a4b18dea15449887f
+Apple3Com3C90x       -> 6419f56479baf44474d148e476c8271b05a1f938
+AppleACPIPlatform    -> 76ed6dfcdaaf3f3794ed4cdc5de28590ecca245d
+AppleADBButtons      -> 7670619a01a41d774e8120fc32811ce9ced133c2
+AppleADBKeyboard     -> 0792b5ccd699c6da65128b5eb1f51e040b2a5253
+AppleADBMouse        -> 698a8d74cb82611be7557f5a7961e46fef195013
+AppleAPIC            -> a9055be6ddf1a396b47c9e01e0abd16c8870f615
+AppleCore99NVRAM     -> b744b49cc59b12c112c5a9ed607b7bf0e2ac105e
+AppleDisplays        -> 641d1bf9c6ae10204814879c4be2fd6ed68ce3e1
+AppleFan             -> f91faae8dcfca10fa398d7e7e9cfd133832e242d
+AppleFileSystemDriver -> da7dfeb7d5107e25bed48a32bf362b32d2c5d3a8
+AppleFlashNVRAM      -> a52e7f90f2fae558a1e465e60ecd6dc5fe9aa9d2
+AppleGMACEthernet    -> 31359a3135c604c471c3fcf1c6d75d9f732728c1
+AppleGPIO            -> d65a25d065b77fb8b3e41e8f0dccb19a0c658420
+AppleHWSensor        -> d3472d35589fa595574180b251a4a7ee4bfda41e
+AppleI2C             -> 997d58ab59f77a3775dbc703428e8be58601ddc5
+AppleI2S             -> 79f974d5791f1256469919ac81afab5196a11e84
+AppleIntel8255x      -> 8c7577e45451ba993651565cab63130fb8b6f2f1
+AppleIntelPIIXATA    -> 4b09c8f5f06b095ae0350a5bd8865c6e2b644ba6
+AppleK2SATA          -> 2ab5330a21875dc0741baff397779a4a0ca83781
+AppleK2SATARoot      -> 4e72b36cd5ddf4062cdb58cd1e786c1c11243f4b
+AppleKauaiATA        -> 1f222cf17b25d88810b30381283b53eeded6c8d8
+AppleKeyLargo        -> 1f45b3e6341b2a5b906f7336b8fdc80e7b2ce1f9
+AppleKeyswitch       -> bccf334636b29f320dfc0505a1bb2da13822b8b7
+AppleKiwiATA         -> 636c54193ee84a8b477eb755af29285878848b82
+AppleKiwiRoot        -> 73ac48428cd94a862c2e7dd3a4c1821160aeb257
+AppleMPIC            -> 8218ca2abd1755b97b7a73c9c221a8f99a21489c
+AppleMacRISC2PE      -> 1996c2bf13f64d859709199a8d15189dd2d09428
+AppleMacRiscPCI      -> 7464a8ac3436697619f5fada149d4428b3d41be6
+AppleMediaBay        -> c8e70d7798d6e746927bbdb59133b47acfd23e9d
+ApplePCCard16ATA     -> 564154329545195081566162ed419a67e78abd9c
+ApplePCCardATA       -> 76153d3c4b022c2dfe36c253a4ca5233389df859
+AppleRAID            -> 809749feec65be5b5d9a9f1b1e913d09e1932810
+AppleRS232Serial     -> c92e24cefc8670401d47f4dc31bbb1804dd67881
+AppleRTC             -> 42fe6c68a16002fc4254e9f259d211002b3b3df5
+AppleRTL8139Ethernet -> c6eb6043836e9ff7e5414471d26ce19a6eed5c3e
+AppleSCCSerial       -> f3e7eb1f2246a9495482595f550e36407daadd8b
+AppleSMBIOS          -> 5e51febac356e8f9517aed5f17f754999476fa6a
+AppleSym8xx          -> 00283b4125e22240f0356d296fab81d3f9d94d5e
+AppleTalk            -> f1fc5503d6633b86dff0f1ce3551b955f3f74817
+AppleThermal         -> 302866593f5a50be2f77646434df4acdf3909fb7
+AppleUSBAudio        -> 72579c8c6a5fa40ca3dfa058153229ec43a60916
+AppleUSBCDCDriver    -> 1d98570b58aa4fb1a4e57851b42e3baf13ed08db
+AppleUSBIrDA         -> c775de6fbc7d3ebbc240b73f05bcee0f749da0e5
+AppleVIA             -> 926275bb2ce6936328838a5dd283179222d7a105
+BerkeleyDB           -> 26643a2dacc91683f10631daec95d5dea861afb5
+BootCache            -> 0bf36477d1d562b473d9adf02bcd974ebba0f845
+BootX                -> f14fb523cdf7371139c2100a769d108aa45b0a10
+CF                   -> ad856603bfe875e3ac9cf6b855c325a80ad9f5c9
+CFOpenDirectory      -> e526d78ffaa47697f06ff4defcdcfd010fa39ebf
+CPAN                 -> 82b2bbd3a4d9d3169bf22972676e05a31cd3d3a1
+CPANInternal         -> 2afa14333d6bf81285aad2f6ce4aee2c0ede0d66
+CarbonHeaders        -> 497d7c15e30fb619db64a0a661fd811490579b91
+ChatServer           -> 7f8775742994ed9e1d23883857d73eaf771c2dbe
+Chess                -> 754e8da810013f0c6d1e4601025a55aa68c40445
+CommonCrypto         -> 295a4439b1fbd5c5aa84734c996933d6a6419471
+CoreOSMakefiles      -> da13d2bf2ea3cf48d70f7543f44d3589760ef5d5
+CrackLib             -> d8c0d443624c6741babaace708f085368845a10e
+Csu                  -> f92bd38eed56b8116931c46be534b236d958b680
+CyrusIMAP            -> e5dea4f04d551b58db9fa7b3155bc6316a8a1c62
+DSPasswordServerFramework -> b9bb686082a4353386bc43423341d9c820117f36
+DSPasswordServerPlugin -> e16d0c3902a4cf7aab7ff93039c7f377c7b956b8
+DSTools              -> c2a59edc75e5d7beae0c0f8d95836f6b85c04452
+DirectoryService     -> e799a40a7d20eef63101a6c46fe59896904c3fcb
+DirectoryServiceDaemon -> 22d722b12725a50f495abbe4e2f7d6a7926dcb2f
+DirectoryServiceMIG  -> 3117bef65bebd50f3dd4d74d8a8a2543f7534e7a
+DiskArbitration      -> 133907411019f6b8791a6bf093d7b55554624cc9
+DynamicPowerStep     -> 98605bdc8237b2d6fb863bd6750e5cebcb9a455d
+ICU                  -> 6cbaf2ce25777ab906a804627b0370394e5c4f8b
+IOACPIFamily         -> a17f5490d43ff2767fa15f5f8808958d58ae659f
+IOADBFamily          -> e39af322b5b04cf7324f09fe67e4cf3edaf94323
+IOATABlockStorage    -> d1ca5e999a045dd7ff38c3b79bfdea03b15f25f2
+IOATAFamily          -> 2c1bad6dfdbd8c6aa87cd4ac0c0a6c95a1974b43
+IOATAPIProtocolTransport -> 175cfb3ce8c720d6d6a24651b6da4ca57a494f4e
+IOAudioFamily        -> 36fbece743adf60a722dde2443ddc1308d88f238
+IOBDStorageFamily    -> 907856b7a54a761dfb3f4580f139a9ac1f926bbc
+IOCDStorageFamily    -> 6aa9bc3f6339accd2b0f27fdde5a67033266f67e
+IODVDStorageFamily   -> 678ff39dd967326b9f5c18de5d6eeef1ffd72dbe
+IOFWDVComponents     -> 0d636cd6c54871c9efa5b7b1d9c9ffc3a99f6c32
+IOFireWireAVC        -> 16c4f181c200807d3a777da63e03415148ffd2f1
+IOFireWireFamily     -> a77bcadd39d3270fb9151569ace300e0fd8372e0
+IOFireWireIP         -> c55f4600a47ec1f4223d1ba5e00f3c6127fabfbd
+IOFireWireSBP2       -> 86e84a3996c970e4f5da5191bb9ded1681886e91
+IOFireWireSerialBusProtocolTransport -> 4a7a907d3b1a197910fc32596cdc0b89a57afe87
+IOGraphics           -> d8a115f33f0c938a2df6573b06d9ba76445200f8
+IOHIDFamily          -> e23700b7c9dee2ba7ddb23d0de0bdebfeecae2e8
+IOKitTools           -> 856f0fbe7339cfbb6842baf72fad32d67bb79372
+IONetworkingFamily   -> 313ef54e195335499316aa4b62d629f2c42963a2
+IOPCCardFamily       -> 955c4e4e1742e1a1a1e995f9cc532b37e494544d
+IOPCIFamily          -> 55c654efa99eeed89f757dcc1b45e19bdf0f7159
+IOSCSIArchitectureModelFamily -> 2589c6514f2480873d4a04ae8954406b01c7a236
+IOSCSIParallelFamily -> f5fedd88e7fb6fc2cba38bbaaca0e171cf64a88a
+IOSerialFamily       -> adcc789b953bae21fb06127a797bb982ff31281d
+IOStorageFamily      -> 3b183be0f6b9e675d126d9026947fba8b74838ae
+IOUSBFamily          -> c5d1dd5794e0e1eff86579bb78a4a37a5efe900b
+IOUSBMassStorageClass -> d83efaf58014d0dbb6bbbd96aa79b3cb56f2f0ac
+JavaScriptCore       -> 707540bdfd208e7483eb0c9dce48b56b51261bb1
+JavaScriptGlue       -> dce26c9758eca568ba51f43b83ba3e1f398cdfc3
+Kerberos             -> 35b148b579dd209e46f829d7dad2654067a0939b
+KerberosHelper       -> 4952072ee3ff5ce3e9dd64db685d0525037614e1
+KeyLargoATA          -> abd2c6d6201ec61528bc5af6a8560ae46a031580
+LDAPFramework        -> c133b9453caeab300469aebc0ae61d633f4e22ad
+Libc                 -> af684577ddd3b842b4e2813c1d48313b1ea1c970
+Libc_debug           -> a6edc926d33da8f197d7c3b0e3d1d605e6c915d8
+Libc_headers         -> 7d4a358141874cd0e4e284fcac97ddab231cb627
+Libc_man             -> 257f615b00caa96fdb338290e0183f386bdb00cd
+Libc_profile         -> 72c1526eb3db1b4699314beb2e4b751f03e459a5
+Libcpp_kext          -> b44bb2a720d814f1e94f0a53eb940e6912f7200e
+Libinfo              -> 5320964a15796620751ff8e070091ff1350059df
+Libm                 -> dd84aa1b2b47fa7657d4223d01903c0c0914b868
+Libmx                -> 98eaf825fe5d9bcd772e78e5f65fff03d2058950
+Libnotify            -> db407e57f719b6155651f5569616969a12626b9d
+Librpcsvc            -> 3bf40eccc862446bb3ded0eb2e4b9c404097343d
+Libstreams           -> 84d92781eae04f54ce9b7c0407c0da592f81265c
+Libsyscall           -> 5c13aad70cbff074897e69878a5fbfd57164da00
+Libsystem            -> 45af50f48c9e4d28d6d0dfc97a35f89318dfb9eb
+Liby                 -> 2206ef33d83efdc41cf60501c9b8876daa995929
+MySQL                -> 4f6910de3bf07d04e5ab08c089f429a968e0bd92
+NFS                  -> fc986357073179eaf7efc5ca6234f576b6e95d85
+OpenDirectory        -> 779fca34e5e723b33a535cdd2b1d1cb4959334e6
+OpenLDAP             -> f046d4d6a08f1e03049c8c7abcd1c65ce83a75ad
+OpenSSH              -> e4d7a2b07410102e5023af22cc382429a9f1c4a5
+OpenSSL              -> d836f443fd6842c69cf6113fc00cfcd16301d623
+OpenSSL096           -> 58bb279860c0d850aa59d5fdb5b15ec387e13b82
+PowerManagement      -> 5011fdc2da411e55e4d4764ea86d805a0b66a3aa
+PyRSS2Gen            -> 0f936e590c263c2982973cf5ffa57d0feb6bf52e
+RubyCocoa            -> 9e7b03cdc78cb26d081bed80d37ed7f4066ff6b1
+RubyGems             -> 5c165cb23d519f5fa92628020a77fe1e08753544
+RubyOnRails          -> e5823934bdfbffbbadc3d398d3c9e4ac404bbee0
+SCSIHeaderInstaller  -> 9f255d1c0d0475e4d7069e6102b4e8052665f793
+SQLite               -> 9ffabb11b8b71aca0673a44d0f76517ca1b23580
+Security             -> c7b362e9384f116818d859b521318b4d030f367a
+SpamAssassin         -> de53562269aea7e1cdab52f17b3de83a8f7cde9c
+SquirrelMail         -> ff4b6e87081b4036853a10c0f8525b9480fa980c
+SystemStubs          -> d32af41605203dd784896a6b287406cb0ba245f1
+TargetConfig         -> 7f4fe35dfedd3dc194c07166a2f59f9b263c377c
+TimeZoneData         -> 3214be6d74934e126d3e3568a6a4690a672a5455
+Twisted              -> 15be0d0172a6045616e1803c912ffdf6d97bbffc
+TwistedWords         -> 19ac64cb2b6beeaef4cf058525721325ea9b24af
+TwistedXish          -> 3fe72fbbb98967710573ccbce13e26a111de11d8
+UserNotification     -> 0433e62273a514abff68b556e1495b524beb7a1d
+VirtualAudioDriver   -> c17595dce98e7602d55969033518b4e657e5e0e3
+WebCore              -> 2883636923517b821b93ffd2fbab7498db2a8601
+X11apps              -> 3325cd4fb935c785811ada52c924c176859f6202
+X11fonts             -> 34ab85f2ab0ebb91e63f0d579b847e5e5f31893b
+X11misc              -> e7d802c3ca0f6f6639fc7f99856fb88debc0a94a
+X11server            -> da9b30d9e452c507823305ee442cf4fab13b540a
+                        a1875529997372f20b4073284bbcc89acf09f9fe
+                        a433e18c747e7d08837372ae7490a017aca7f7d6
+                        a601bb59574db261337d3da4532b3f6d935f622c
+                        a7c386d48ed22262cfe2cbec8325d899b45b54d6
+                        aa535fae9e6986ba91773a789aa901d69f650305
+                        aceb575e9edeb21d873811e561398443145e4d53
+adv_cmds             -> 7ee89531f18778b3f08f8e6843d1ed9bc2e827f8
+amavisd              -> 75e34af5573aa21c6f1bb2c39b7df6ba8e2e8efc
+apache1              -> b08adade07dea3b89a1e3009ad8817952a711e53
+apache_mod_fastcgi   -> 605c5dcb0ba285753c4a30723fec2175bbf9b600
+apache_mod_ssl       -> 36a817e7130553866bbdfb38e0fb705dd2a0d666
+apr                  -> 2b1da96903e434e2f0d8c9b59191626890069f76
+architecture         -> 046e8f7cf54251f80e2abd3892d8ce2285c83f0c
+at_cmds              -> eb02ccfddbcc081172df22bd4a18f4a10e82d3dc
+autoconf             -> 5ff7a153fd6fcc09bae35df3280babcfb13c4ed0
+autofs               -> 09611a233466287cefe109ddfd2d458991364fd5
+automake             -> b1af4b1dfcd9f60cdd6aa50f0666e62fa553a248
+autozone             -> ed1ecf86d5bd0abc26a18a7914c72f719bce4d0b
+awk                  -> 329413f98676bc5a74b1516e08d19fed541ed70f
+                        b058d4993c473f0761b232a11a8f2ccdf49d5882
+                        b21930681ec13f1bb229fa52273f4663c7e1ef6a
+                        b3af6589fedb4f22cb5dd646dd34ed20f0ad1f98
+                        b5852c8a9cd109e15c59c9f53f9c438418f0da75
+                        b7c32c3a289a22149422539a3ff107ca4cca4e31
+                        b99ad1f270f778ae4dabc0a4ba5c6a85fceef212
+bash                 -> 707e74a1d2c7c286c4435845e59521a05d9b6581
+basic_cmds           -> 997850abea855c2c282963e2ce9847878d6ec7c6
+bc                   -> b6deb545ed667cf228edb1c67347df3b905aaf68
+bind9                -> 2222ecb89c360b4b1b1ab51a72058061e4009487
+bison                -> 58b3947e33406262035edfec4af6612c81cb4129
+bison1               -> acfb9ded135981f3ee298a47ed8d569cc4873f4b
+bless                -> c9b671f2bfb928118c3e3f76392ab556146c1fad
+bootp                -> 0211e5172754f43851e3ddaa968c457c40dd5440
+bootstrap_cmds       -> 135bda2416f91561b91f2f9ee1dcb52a99dc4f3d
+bsdmake              -> 9f5242bdcab7fb5790e07857e19685a807bec76d
+bsm                  -> d4fc3c94b1482756247b3cd7f18823028ee9f8ff
+bzip2                -> 7eb10acb351f1eba90b61bf1a88350007f95ba8d
+                        c18bd0abba6b8953085578b8907ff364a14903a1
+                        c639c30f72725c0e88e8241c06e275c36cf13109
+                        c734d0077bde390f9fd13ba6441d24cacafe05a1
+                        c997cea7fd6ed72d6513d68ee57e87b6a37300c6
+cctools              -> 2770299750486b09b5f1b294c6ce2419bef4730c
+cctools_ofiles       -> c90828c254a5b885dc5c38bfeff90b4311f5c80f
+cddafs               -> 00c9dcac392df257aeaef8f9ae70f015e79dd4e3
+clamav               -> 475f20273022e9c987795ab6de7585c3a43e2041
+configd              -> 7b77acaf740ab406db8593c00222737fdd788abf
+configd_executables  -> 48e3a162fca36bace3060badbe239684f079f183
+copyfile             -> 69d24fcd1a8ee385973e30bec7992cdfa5741630
+cron                 -> 58076352d6cd022b641039127da8de946fb16f05
+crontabs             -> 2e9650b124146c7019d4ca0d94c72cedcbc0c146
+cscope               -> b1683d2724042e2fc768a46a95825295e1e535e8
+curl                 -> 4983ef6a7b1d912880655b37c06468c4af8f0de2
+cvs                  -> ffaea3710d1734de03beb48f330dc85f86cac5b2
+cvs_wrapped          -> 68d1966200b822b3ca1bd1972b8d2c28f49c76a2
+cxxfilt              -> 2ddad3784858128cbefcd57fee5ba28309d0cf44
+                        d17beca19a0e2d5a9b80739c5ab0ae2901571bb1
+                        dd2c44e676bf6b7016893f4d1834473940e8db9a
+                        de037eb1408dbbd8bd854759a5d1dd5787a18cf1
+                        de3ea31cad050107a7c6fee68fe19b3dac7da619
+developer_cmds       -> fac2e388c30faa5be3cc4f4520b072ed47b13931
+diffstat             -> 7b3fe7f6234cb73ef562bc8b6dba2b2d660c57cd
+diskdev_cmds         -> ff18779b5eac52adf1657d3fb37179caa89ed59f
+disklabel            -> ea570f18100fddf200c2b55ce6b3d69d237a605c
+distcc               -> f626909d75ce3addc826e1a84d02be8365de2c35
+doc_cmds             -> d32b1baf5e0798a52d5583596891632312177a27
+drvAppleCMD646Root   -> 08780ab43ba687c8eaa234baf5995b57a515ea8b
+dyld                 -> 5f0f7711c6911bf837a831b402b588fe53238f53
+                        e3eda37ad5aa638ba44cd41fb94013b6fe6552d0
+                        e566bb3c13a4cebbc5162fb89d6eb0baa1612fae
+eap8021x             -> 1e1ff0cbec65b8883bff98c197c47b9abbe29e86
+                        ece80c78bd9853f873219a484a6dac2c94791c32
+efax                 -> a9c30f5bf27d1b7da8a7d6fee05890030fff6c29
+                        efb446b4ef8f332d28a785b281f231024d1d4115
+efiboot              -> dad8667c9ce4ddbda9858200928d1f5603a3ca9b
+emacs                -> 9714cbd245deece5c72e8d34a2cbca65ace365cf
+enscript             -> 4ee479d9d52cec33bdf5f5fec4efaa46e58be93f
+expat                -> cda55e6eb327eb507b1730ced6e3e916cd74dd1f
+extenTools           -> 5af64d578fa172c8bb9cfe34334533ef48cf0a89
+                        f122e1d6f8b25507fea6cc926d2773b68742cb4b
+                        f1a922b5576b737a19c0005eb77d9b2c170c2e88
+                        f593d9dba88c8f3dbe17d1ec1866ae81d8aa7abe
+                        fc511268332efceeadc937277391a58e5d4af0b7
+                        fe4ddad6c91296465f61c4c12405e48f4e2f2138
+fetchmail            -> 61d193a05afd983e5ef1e33d0bee56a9f05293a7
+file                 -> e0002db89c681eea72494e2f4fe662d5f8db8782
+file_cmds            -> 479e72f694fdaa20be9fa059ff2e77edd466b789
+files                -> 78391383afab4012d08063426791e089ad2bfe85
+flex                 -> 002ca63c6cfba54bc2f8b800222ef7617db79a14
+freeradius           -> c277c754c36f9fb414e8422f2eec9db4961c086d
+gcc                  -> f1055f8d81cb32b211737f2274a9cc89cf7665ee
+gcc_42               -> c3f864170329b1ba93491d5cea3f6b51972abfa6
+gcc_os               -> ac04572183fdd07b577ba221f792ad6954f7fa00
+gcc_select           -> 12bd4cbda14709c1ffd5fdce69547cd1636bc48d
+gccfast              -> d08969b374f0e452491995f31b0bcb7ccf87ac90
+gdb                  -> 10ce9587b72387b81c8c058e189c0e08a683a392
+gdbforcw             -> ac6a96d115ce133c0037544876454dd304baaef4
+glibtool             -> 6f5b1331fb449d0af049a283af2b6b1a8c174202
+gm4                  -> 48f3f705e4d4301eab6a75dfd49e769ca2d2081e
+gnudiff              -> 7a2f5fb4591d1a01d1ccc252b2ae4fb2e8605bd6
+gnumake              -> 5608039be88517611b35e7694b7b015c1209adb5
+gnuserv              -> d9beb6c3ec9ce8e57cd999a34a6a83b471d797be
+gnutar               -> 282c013e6eedda232bcd789b2e39e6dbc10c9c13
+gnuzip               -> 060a3eddbe41e49a1795f11a43ddea97ab5e358f
+gperf                -> 17dfb3cd78b2f4da631a2a442e366b3ff18b17dc
+gpt                  -> 4ddbe1c606f2368d5a8ba9009fc641b4274ab721
+graphviz             -> f95c35920a081dd642959c0f23414ebefa9fe3af
+grep                 -> ec597728e5d742729bc282becc6f00be20525e9e
+groff                -> 391ed0f98c84fd1695ec542ea85f64e8aea02cdc
+gssd                 -> 5056464207acc7cafd4a509418e0849a29b248c3
+headerdoc            -> 6a19c0bef159f944ab1963c3f97130fa39b4c041
+hfs                  -> 16c2e6a15a098ad8896519a20143e67ab3a555b8
+ipsec                -> 3237d1105b2a5bf258d2f940fd0b30bb2537a1f3
+ipv6configuration    -> 61763793096761cd8938bc4ca0afaf34ab0b311a
+isoutil              -> 9a5d7857ac319d3edbdec032d6cb5709fc63bcc2
+jam                  -> 955b50d3889ad631a4081940c489871186f8e6e7
+kext_tools           -> 16307485d546780f75da46b9940037ef126ea093
+keymgr               -> fad71594d8ff4e3dbc065847f0ee69cb794b1f51
+ksh                  -> ae1b3446e9987f6b14ead0d8b6a6d68527e4eb27
+launchd              -> 81bda40295fbdf6f9964bf15a6e558613c1b85c5
+ld64                 -> 1d3edd0681f31e544d59b4301cb7fa7a0f3fd283
+less                 -> 1af4e2045f89ec7d18a9bfe6db60b7e7f76985ee
+libdyld              -> b4ae560e2b68fc4dd852133ed23a6074788afc93
+libedit              -> ae2cfd5a853a9bbb91043ef488ba6f9012763893
+libffi               -> 8c13e36d47f4156f0c708478ee64d772c0d0dfbe
+libfs                -> f5cd66744e7ef3bb149aec9538ccc3e41e9dab16
+libgcc               -> 92f5a0e69750f372edd7980cc559a17cb862e7d8
+libiconv             -> 9fc57a6329834e9cc79458678545b9f5948135f0
+libmd                -> bddffaac9cdb8a438957b0d39685a5e0eb8f9f14
+libpcap              -> 3501ae1804c54090beedbe1d4a65fb6782df0c05
+libresolv            -> a2704e0be32b29e2741f86dcf7c532406bb4f348
+libsecurity_apple_x509_tp -> e282a7885f342036f0b46dd157a3266a29797515
+libsecurity_cdsa_utilities -> 00d75788a7e88af62fb81d20b59f135e97210eea
+libsecurity_checkpw  -> 7ed6293a321f03faf08d2be7150620e1d0f8f82d
+libsecurity_keychain -> 3fd53508f1509fd186dc321a7a7f443c33788527
+libsecurity_utilities -> ab1c55e64d2c06acc1deae568d7efcf3e5328281
+libsecurityd         -> 30f564239811c130c5fe5de25e6ef5747bc7e894
+libstdcxx            -> d23396753f76e4e57fe134cb59e327c71bd81fb7
+libtelnet            -> 07201913197ea22b903667338ec6227992505ed7
+libutil              -> 56ebada3f15ef2bda85a2f0b2ad46c6275208fe4
+libxml2              -> c7d75a32b93ee77026bf31e4dcdd478576171574
+libxslt              -> ec7f26b952a70f4f6f23fecd1c6ea4e6a49819c1
+lsof                 -> 45bbafb8521b2172a75f600c81c2fc593541ccce
+lukemftp             -> fcb847732451c8455317e16da283dfbfda101306
+lukemftpd            -> 80eb5488eb5e7e866bece62ccdf2b1ec4ce48e84
+mDNSResponder        -> b90ff8f7c8e7172103e6f42957ed817151862373
+mDNSResponderSystemLibraries -> c4e5c860830e1c6611eab02ef9df88c474ec2759
+mail_cmds            -> 58f757a3a861a2ad84a0304dba0941da8b919410
+mailman              -> f9d532b31dcb88a289db02c339c6f2838e66b292
+man                  -> c6b623e789d9d6a4666c6541e75c3d384c8f06ba
+misc_cmds            -> 7e6e3fa6b4c5c3bfcaa52f44574da1f47d532aec
+modemccl             -> 91bc9bee0126c27c8aa9a4a968207d3d3bb7540b
+msdosfs              -> 58ce3651b21d781b047f1389a9c63760a1be56d1
+nano                 -> 06a2a2b29e194bceb79fe6eab713c8e2f1e1f075
+nasm                 -> 179b06108542658c9a83e92526c5a039336139f1
+ncurses              -> 7cb99feea20b1321fc7b4cc3d98777a6c6088bfb
+neon                 -> bdc8268c4d63a8b86a768f255e5466521ea4957a
+net_snmp             -> 17bb876cc945aada4e7a35734aa5c9fe36a13559
+netcat               -> 93b34d3fbd2e3c7b0988ee7295d4af363ae38358
+netinfo              -> f7a52bb25ee553ea806b8117db8b9d129d033405
+network_cmds         -> 7b1b7744532ed136e0ddc987a008b0ba35b41557
+notify               -> 3c116cc56a76094f8411bc8d85fc0c2bc8c9c019
+ntfs                 -> b1475d6c53db525b8c11f9ec26e17cbc5dc216d3
+ntp                  -> 115a4b04944486cb19ccd2569b380da2333a5bf7
+objc4                -> 317caffa821a920a511fe6578f5ce86744e9a113
+openmpi              -> 34e239acda8af7b280969b9f47bc0ac0a52ba4ae
+pam                  -> c885543094bf56e1848809d9a7b86206e31b85a8
+pam_modules          -> 82e52b8d0e80fea14dc86aef79b7c2ef3958934a
+passwordserver_sasl  -> 5964393e171e039e73d6494206ac49f34814f284
+passwordserver_saslextra -> 71ef5bf9f8ccb257fc3b24e32682019208961978
+passwordserver_saslkerberos -> aa07e9e311d159d47b82722e7832c7a2f749f0eb
+patch_cmds           -> 8432c2f5898abf26337a722c4d364ffaceb6cb4a
+pb_makefiles         -> 0c2ed59ba9d16f4b76816deda18922a1e78bd017
+pbx_jamfiles         -> b7d782d0dd41b803d57ea170268a0aca0c70ba84
+pdisk                -> 631d2eb60fb30ad8a765e99e5754c4fc0a5e84d6
+perl                 -> a271dc83f7e56efce2f69d737b385c814a3e8dd4
+portmap              -> 7a37d7f045518856c3ee7b417ba4a69c9468b5c8
+postfix              -> 2b61bd21d3ecb30a220ab6b3735efc2151d352b3
+ppp                  -> 7bcc620eeeebd5b92e52d63a6420b9a728a010c3
+procmail             -> 815d10dc8a536d3d2c8086d761cdc8bbf544432a
+project_makefiles    -> cd238b10c16ec5ca539c2742446bf339d575588f
+pyOpenSSL            -> 41e21d877e9d7fcba952eb2bc8bd4d67756b9e21
+pyobjc               -> 3ea4f2ad01aa89d4b09e7ba9235929571a5e52f3
+python               -> a405acbf45b79acd9de18f32dd1c6f378723cb09
+python23             -> b9cdc116933663f1e8ed744f9fdaa3af1a9306ee
+python_dateutil      -> 6706616166f345f73794ba9c7b5c5a3591bc30be
+python_modules       -> 01ed81181c37e0514722fce42310c5611b6e042f
+rcs                  -> c5f42fbc226f53aaf40d5f84c40319c9994f8738
+remote_cmds          -> 68b5f31b05f8b000df76903c04a2f1852e477e44
+removefile           -> b530308019f6f581b420f6b3338126cdd04ee700
+rsync                -> b4cb567110e0f984f7c89159dfc277f18e9705e5
+ruby_dnssd           -> 5d9328215733b287dd0b3c8b89a864e8e6dac744
+ruby_libxml          -> 164af7394a82934eaefaba621910f8d8a507df5f
+samba                -> 240c7a984aab423b4a7c8e67c89040a06698ad08
+screen               -> 841f9a4c14ccc984f424d1d578b3d8a78b5308ec
+security_authtrampoline -> 617c37e57cde3940367390e51018edde8c4f8f07
+security_certificates -> 710d949fc1092613500836f087b095ff8ccb58b2
+security_dotmac_tp   -> 971b28b130540e11a8bcd038dfee1a8676af8ee9
+security_systemkeychain -> 74639582712b5a3c2e2e657a3db2b3e3a67dd5a3
+securityd            -> 5cdefff266133accb0541b928ba3e3f65ca51585
+shell_cmds           -> 7ee6f073866bbef056089798c00ac9c583d4bc76
+smb                  -> 87b40c7799711564d5f727fe4d5fc5830fe09815
+srm                  -> 556fc2511da0199c3eb99f9cd361c5caddd6cf85
+stmalloc             -> 44df3878400dfa9c4da8bdb72d1a07755d52afda
+subversion           -> 55fcc4f71f6d606e236ba32968855cee0c0ccee5
+sudo                 -> 210452998e0c645cbd18724ead63df93338d42e9
+svk                  -> f64a12e13cbb64fe48fb8d4e51157c98c7405b56
+swig                 -> a668cc81b5c5bad712201aa81ba29a3642a88f70
+syslog               -> 1297b2bd11430dcf1101220845469752b388d856
+system_cmds          -> f1c6c90b7d8ce39453f89b6d9d115c72d400a4e4
+system_config        -> a225e465497c3f5308cf3977c8caba448430ecff
+tcp_wrappers         -> 37856be643d139d696619c8e24f9ac945eaa4e69
+tcpdump              -> 22dc5629ac157623140ff47970e988a4122bf0ba
+tcsh                 -> e39563b8ba9cb6051b3f9c9500c4de8666500eb0
+texi2html            -> de922ac0a56bfea82b851e2d14dab6c86738fa05
+texinfo              -> b10918a589ac97b719d3d4cd10bb7346d622f544
+text_cmds            -> c87266a4f64676b995012eaa2a1e3e18e94269c7
+tidy                 -> e73d93fb06670b78294da13bf182602e09434661
+top                  -> 71210a2171f3a52dbf1d8fcc0d17e15a294e05ed
+usertemplate         -> e16700068e04c362421e7d6bea2e4c5fbe80c565
+uucp                 -> dd4d352464ac1f21aa5d903722d89deca3025e1f
+vim                  -> 6a82c82d8f25133545c5a6dd132f23c47066163f
+webdavfs             -> 40a64508ccdd110b2e190745766ce38b1cd8934e
+wxWidgets            -> 10733a0d8d20a310fd84149eb0a8f5ea824e1bc6
+                        xcodebuild
+xelf                 -> f6e25ae94dc912244ee92e2503dd59bef66c1f0d
+xnu                  -> ef44bdbc9b847abd79fee910142a9af88319494c
+zfs                  -> 357e1b5fe841cccb97a176b06330c19b7086a8cb
+zip                  -> 43a462b88908f7d118a11bd022f3a891e7027a83
+zlib                 -> 91e931224468ad0e24c36c35620125fcb3f1ad1a
+zsh                  -> 1c197378e618fe0ff069f3bb0df1044af7a5b5c6
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+make install  "SRCROOT=/SourceCache/cxxfilt/cxxfilt-7" "OBJROOT=/private/var/tmp/cxxfilt/cxxfilt-7.obj" "SYMROOT=/private/var/tmp/cxxfilt/cxxfilt-7.sym" "DSTROOT=/private/var/tmp/cxxfilt/cxxfilt-7.root" "RC_ProjectName=cxxfilt" "RC_ProjectSourceVersion=7" "RC_ProjectNameAndSourceVersion=cxxfilt-7" "RC_ProjectBuildVersion=4" "INSTALLED_PRODUCT_ASIDES=YES" "MACOSX_DEPLOYMENT_TARGET=10.5" "NEXT_ROOT=" "RC_ARCHS=ppc i386" "RC_CFLAGS=-pipe -no-cpp-precomp -arch ppc -arch i386" "RC_JASPER=YES" "RC_NONARCH_CFLAGS=-pipe -no-cpp-precomp" "RC_OS=macos" "RC_PRIVATE=/private" "RC_RELEASE=Leopard" "RC_XBS=YES" "RC_i386=YES" "RC_ppc=YES" "SEPARATE_STRIP=YES" "UNAME_RELEASE=9.5" "UNAME_SYSNAME=Darwin" < /dev/null
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Build log begins here:
+
+if [ ! -f "/SourceCache/cxxfilt/cxxfilt-7/Makefile" ]; then make install_source; fi
+/bin/mkdir -p -m 0755 /private/var/tmp/cxxfilt/cxxfilt-7.obj
+for arch in ppc i386 ; do \
+		echo "Configuring cxxfilt for $arch..." && \
+		/bin/mkdir -p -m 0755 /private/var/tmp/cxxfilt/cxxfilt-7.obj/$arch && \
+		cd /private/var/tmp/cxxfilt/cxxfilt-7.obj/$arch && \
+		CFLAGS=" -g -Os -pipe " CCFLAGS=" -g -Os -pipe " CXXFLAGS=" -g -Os -pipe " LDFLAGS="            "  TEXI2HTML="/usr/bin/texi2html -subdir ."  CC="/usr/bin/cc -arch $arch" CXX="/usr/bin/cc -arch $arch"  AS="as -arch $arch" LD="ld -arch $arch" NM="nm -arch $arch" AR=/usr/bin/ar STRIP=/usr/bin/strip RANLIB=ranlib /SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure --prefix="/usr/local" --mandir="/usr/share/man" --infodir="/usr/share/info" --build=`/usr/bin/arch | /usr/bin/sed -e s/ppc/powerpc/ -e s/i386/i686/`-apple-darwin --host=`echo $arch | /usr/bin/sed -e s/ppc/powerpc/ -e s/i386/i686/`-apple-darwin --target=mn10300-elf --without-target-subdir --enable-install-libiberty --disable-nls  || exit 1 ; \
+	done
+Configuring cxxfilt for ppc...
+dyld: Library not loaded: /System/Library/Frameworks/Foundation.framework/Versions/C/Foundation
+  Referenced from: /usr/bin/arch
+  Reason: image not found
+creating cache ./config.cache
+checking host system type... powerpc-apple-darwin
+checking target system type... mn10300-unknown-elf
+checking build system type... config.sub: invalid option -apple-darwin
+Try `config.sub --help' for more information.
+checking for a BSD compatible install... /usr/bin/install -c
+checking whether ln works... yes
+checking whether ln -s works... yes
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 2125: test: too many arguments
+checking for gnatbind... no
+checking whether compiler driver understands Ada... no
+checking how to compare bootstrapped objects... cmp --ignore-initial=16 $$f1 $$f2
+checking for bison... bison -y
+checking for bison... bison
+checking for gm4... gm4
+checking for flex... flex
+checking for flex... flex
+checking for makeinfo... makeinfo
+checking for expect... no
+checking for runtest... no
+checking for powerpc-apple-darwin-ar... /usr/bin/ar
+checking for powerpc-apple-darwin-as... as -arch ppc
+checking for powerpc-apple-darwin-dlltool... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 4132: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 4168: test: too many arguments
+checking for powerpc-apple-darwin-ld... ld -arch ppc
+checking for powerpc-apple-darwin-lipo... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 4282: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 4318: test: too many arguments
+checking for powerpc-apple-darwin-nm... nm -arch ppc
+checking for powerpc-apple-darwin-ranlib... ranlib
+checking for powerpc-apple-darwin-strip... /usr/bin/strip
+checking for powerpc-apple-darwin-windres... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 4572: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 4608: test: too many arguments
+checking for powerpc-apple-darwin-objcopy... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 4647: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 4683: test: too many arguments
+checking for powerpc-apple-darwin-objdump... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 4722: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 4758: test: too many arguments
+checking for mn10300-elf-cc... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 4834: test: too many arguments
+checking for mn10300-elf-gcc... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 4834: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 4871: test: too many arguments
+checking for mn10300-elf-c++... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 4925: test: too many arguments
+checking for mn10300-elf-g++... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 4925: test: too many arguments
+checking for mn10300-elf-cxx... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 4925: test: too many arguments
+checking for mn10300-elf-gxx... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 4925: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 4962: test: too many arguments
+checking for mn10300-elf-gcc... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5016: test: too many arguments
+checking for mn10300-elf-gcj... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5102: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5139: test: too many arguments
+checking for mn10300-elf-gfortran... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5193: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5230: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5267: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5279: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5312: test: too many arguments
+checking for ar... no
+checking for mn10300-elf-ar... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5403: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5440: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5465: test: too many arguments
+checking for as... no
+checking for mn10300-elf-as... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5556: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5593: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5618: test: too many arguments
+checking for dlltool... no
+checking for mn10300-elf-dlltool... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5709: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5746: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5771: test: too many arguments
+checking for ld... no
+checking for mn10300-elf-ld... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5862: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5899: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5924: test: too many arguments
+checking for lipo... no
+checking for mn10300-elf-lipo... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 6015: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 6052: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 6077: test: too many arguments
+checking for nm... no
+checking for mn10300-elf-nm... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 6168: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 6205: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 6230: test: too many arguments
+checking for objdump... no
+checking for mn10300-elf-objdump... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 6321: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 6358: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 6383: test: too many arguments
+checking for ranlib... no
+checking for mn10300-elf-ranlib... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 6474: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 6511: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 6536: test: too many arguments
+checking for strip... no
+checking for mn10300-elf-strip... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 6627: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 6664: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 6689: test: too many arguments
+checking for windres... no
+checking for mn10300-elf-windres... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 6780: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 6817: test: too many arguments
+checking where to find the target ar... pre-installed
+checking where to find the target as... pre-installed
+checking where to find the target cc... pre-installed
+checking where to find the target c++... pre-installed
+checking where to find the target c++ for libstdc++... pre-installed
+checking where to find the target dlltool... pre-installed
+checking where to find the target gcc... pre-installed
+checking where to find the target gcj... pre-installed
+checking where to find the target gfortran... pre-installed
+checking where to find the target ld... pre-installed
+checking where to find the target lipo... pre-installed
+checking where to find the target nm... pre-installed
+checking where to find the target objdump... pre-installed
+checking where to find the target ranlib... pre-installed
+checking where to find the target strip... pre-installed
+checking where to find the target windres... pre-installed
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 7391: test: too many arguments
+checking whether to enable maintainer-specific portions of Makefiles... no
+updating cache ./config.cache
+creating ./config.status
+creating Makefile
+sed: 65: conftest.s1: unescaped newline inside substitute pattern
+Configuring cxxfilt for i386...
+dyld: Library not loaded: /System/Library/Frameworks/Foundation.framework/Versions/C/Foundation
+  Referenced from: /usr/bin/arch
+  Reason: image not found
+creating cache ./config.cache
+checking host system type... i686-apple-darwin
+checking target system type... mn10300-unknown-elf
+checking build system type... config.sub: invalid option -apple-darwin
+Try `config.sub --help' for more information.
+checking for a BSD compatible install... /usr/bin/install -c
+checking whether ln works... yes
+checking whether ln -s works... yes
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 2125: test: too many arguments
+checking for gnatbind... no
+checking whether compiler driver understands Ada... no
+checking how to compare bootstrapped objects... cmp --ignore-initial=16 $$f1 $$f2
+checking for bison... bison -y
+checking for bison... bison
+checking for gm4... gm4
+checking for flex... flex
+checking for flex... flex
+checking for makeinfo... makeinfo
+checking for expect... no
+checking for runtest... no
+checking for i686-apple-darwin-ar... /usr/bin/ar
+checking for i686-apple-darwin-as... as -arch i386
+checking for i686-apple-darwin-dlltool... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 4132: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 4168: test: too many arguments
+checking for i686-apple-darwin-ld... ld -arch i386
+checking for i686-apple-darwin-lipo... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 4282: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 4318: test: too many arguments
+checking for i686-apple-darwin-nm... nm -arch i386
+checking for i686-apple-darwin-ranlib... ranlib
+checking for i686-apple-darwin-strip... /usr/bin/strip
+checking for i686-apple-darwin-windres... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 4572: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 4608: test: too many arguments
+checking for i686-apple-darwin-objcopy... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 4647: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 4683: test: too many arguments
+checking for i686-apple-darwin-objdump... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 4722: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 4758: test: too many arguments
+checking for mn10300-elf-cc... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 4834: test: too many arguments
+checking for mn10300-elf-gcc... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 4834: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 4871: test: too many arguments
+checking for mn10300-elf-c++... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 4925: test: too many arguments
+checking for mn10300-elf-g++... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 4925: test: too many arguments
+checking for mn10300-elf-cxx... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 4925: test: too many arguments
+checking for mn10300-elf-gxx... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 4925: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 4962: test: too many arguments
+checking for mn10300-elf-gcc... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5016: test: too many arguments
+checking for mn10300-elf-gcj... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5102: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5139: test: too many arguments
+checking for mn10300-elf-gfortran... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5193: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5230: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5267: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5279: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5312: test: too many arguments
+checking for ar... no
+checking for mn10300-elf-ar... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5403: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5440: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5465: test: too many arguments
+checking for as... no
+checking for mn10300-elf-as... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5556: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5593: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5618: test: too many arguments
+checking for dlltool... no
+checking for mn10300-elf-dlltool... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5709: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5746: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5771: test: too many arguments
+checking for ld... no
+checking for mn10300-elf-ld... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5862: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5899: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 5924: test: too many arguments
+checking for lipo... no
+checking for mn10300-elf-lipo... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 6015: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 6052: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 6077: test: too many arguments
+checking for nm... no
+checking for mn10300-elf-nm... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 6168: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 6205: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 6230: test: too many arguments
+checking for objdump... no
+checking for mn10300-elf-objdump... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 6321: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 6358: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 6383: test: too many arguments
+checking for ranlib... no
+checking for mn10300-elf-ranlib... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 6474: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 6511: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 6536: test: too many arguments
+checking for strip... no
+checking for mn10300-elf-strip... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 6627: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 6664: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 6689: test: too many arguments
+checking for windres... no
+checking for mn10300-elf-windres... no
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 6780: test: too many arguments
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 6817: test: too many arguments
+checking where to find the target ar... pre-installed
+checking where to find the target as... pre-installed
+checking where to find the target cc... pre-installed
+checking where to find the target c++... pre-installed
+checking where to find the target c++ for libstdc++... pre-installed
+checking where to find the target dlltool... pre-installed
+checking where to find the target gcc... pre-installed
+checking where to find the target gcj... pre-installed
+checking where to find the target gfortran... pre-installed
+checking where to find the target ld... pre-installed
+checking where to find the target lipo... pre-installed
+checking where to find the target nm... pre-installed
+checking where to find the target objdump... pre-installed
+checking where to find the target ranlib... pre-installed
+checking where to find the target strip... pre-installed
+checking where to find the target windres... pre-installed
+/SourceCache/cxxfilt/cxxfilt-7/cxxfilt/configure: line 7391: test: too many arguments
+checking whether to enable maintainer-specific portions of Makefiles... no
+updating cache ./config.cache
+creating ./config.status
+creating Makefile
+sed: 65: conftest.s1: unescaped newline inside substitute pattern
+touch /private/var/tmp/cxxfilt/cxxfilt-7.obj/configure-stamp
+for arch in ppc i386 ; do \
+		echo "Building cxxfilt for $arch..." && \
+		make -C /private/var/tmp/cxxfilt/cxxfilt-7.obj/$arch CFLAGS=" -g -Os -pipe " CCFLAGS=" -g -Os -pipe " CXXFLAGS=" -g -Os -pipe " LDFLAGS="            "  TEXI2HTML="/usr/bin/texi2html -subdir ."  CC="/usr/bin/cc -arch $arch" CXX="/usr/bin/cc -arch $arch"  AS="as -arch $arch" LD="ld -arch $arch" NM="nm -arch $arch" AR=/usr/bin/ar STRIP=/usr/bin/strip RANLIB=ranlib || exit 1; \
+	done
+Building cxxfilt for ppc...
+make[1]: *** No targets.  Stop.
+make: *** [build] Error 1
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ BUILD TIME: 0h 0m 17s
+EXIT STATUS: 2

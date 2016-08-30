@@ -1,0 +1,1012 @@
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+BUILDING bootp-170.1~6 on Sun Mar  8 01:35:43 PST 2009
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Build configuration:
+    Build host:           bauxite.local
+    Build tool:           xcodebuild
+    Build action:         install
+    Build number:         9G55pd1
+    Host kernel version:  Darwin Kernel Version 9.6.0: Mon Nov 24 17:37:00 PST 2008; root:xnu-1228.9.59~1/RELEASE_I386
+    cc version:           gcc version 4.0.1 (Apple Inc. build 5465)
+    cctools version:      version cctools-667.3.obj, GNU assembler version 1.38
+    xcode version:        XcodeComponent versions: DevToolsCore-1148.0; DevToolsSupport-1102.0
+BuildVersion: 9M2621
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Build parameters:
+SRCROOT: /SourceCache/bootp/bootp-170.1
+OBJROOT: /private/var/tmp/bootp/bootp-170.1.obj
+SYMROOT: /private/var/tmp/bootp/bootp-170.1.sym
+DSTROOT: /private/var/tmp/bootp/bootp-170.1.root
+RC_ProjectName: bootp
+RC_ProjectSourceVersion: 170.1
+RC_ProjectNameAndSourceVersion: bootp-170.1
+RC_ProjectBuildVersion: 6
+INSTALLED_PRODUCT_ASIDES: YES
+MACOSX_DEPLOYMENT_TARGET: 10.5
+NEXT_ROOT: 
+RC_ARCHS: ppc i386
+RC_CFLAGS: -pipe -no-cpp-precomp -arch ppc -arch i386
+RC_JASPER: YES
+RC_NONARCH_CFLAGS: -pipe -no-cpp-precomp
+RC_OS: macos
+RC_PRIVATE: /private
+RC_RELEASE: Leopard
+RC_XBS: YES
+RC_i386: YES
+RC_ppc: YES
+SEPARATE_STRIP: YES
+UNAME_RELEASE: 9.6
+UNAME_SYSNAME: Darwin
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Environment variables:
+CHROOTED=YES
+DARWINBUILD_BUILD=9G55pd1
+DARWINXREF_DB_FILE=/Volumes/dbufs/9G55/.build/xref.db
+DARWIN_BUILDROOT=/Volumes/dbufs/9G55
+DEVELOPER_DIR=/XCD/loper
+DSTROOT=/private/var/tmp/bootp/bootp-170.1.root
+GROUP=wheel
+HOME=/var/root
+INSTALLED_PRODUCT_ASIDES=YES
+LOGNAME=root
+MACOSX_DEPLOYMENT_TARGET=10.5
+NEXT_ROOT=
+OBJROOT=/private/var/tmp/bootp/bootp-170.1.obj
+PATH=/bin:/sbin:/usr/bin:/usr/sbin/:/usr/local/bin:/usr/local/sbin
+RC_ARCHS=ppc i386
+RC_CFLAGS=-pipe -no-cpp-precomp -arch ppc -arch i386
+RC_JASPER=YES
+RC_NONARCH_CFLAGS=-pipe -no-cpp-precomp
+RC_OS=macos
+RC_PRIVATE=/private
+RC_ProjectBuildVersion=6
+RC_ProjectName=bootp
+RC_ProjectNameAndSourceVersion=bootp-170.1
+RC_ProjectSourceVersion=170.1
+RC_RELEASE=Leopard
+RC_XBS=YES
+RC_i386=YES
+RC_ppc=YES
+SEPARATE_STRIP=YES
+SHELL=/bin/sh
+SRCROOT=/SourceCache/bootp/bootp-170.1
+SYMROOT=/private/var/tmp/bootp/bootp-170.1.sym
+UNAME_RELEASE=9.6
+UNAME_SYSNAME=Darwin
+USER=root
+_=/usr/bin/printenv
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Installed Roots:
+                        23bf641936b14f0acda87c7a88bc0334fedd0f1a
+                        78748460caf618b7ce0812305ed7828fd87e113d
+Apple16X50Serial     -> 15be871843f0c64d844ceb5ad83a7086c2945d8d
+Apple3Com3C90x       -> 6419f56479baf44474d148e476c8271b05a1f938
+AppleACPIPlatform    -> 76ed6dfcdaaf3f3794ed4cdc5de28590ecca245d
+AppleADBButtons      -> 7670619a01a41d774e8120fc32811ce9ced133c2
+AppleADBKeyboard     -> 0792b5ccd699c6da65128b5eb1f51e040b2a5253
+AppleADBMouse        -> 698a8d74cb82611be7557f5a7961e46fef195013
+AppleAPIC            -> 07555b243d0abfdef3b4b9b3ecc12457c7f54941
+AppleCore99NVRAM     -> b744b49cc59b12c112c5a9ed607b7bf0e2ac105e
+AppleDisplays        -> 641d1bf9c6ae10204814879c4be2fd6ed68ce3e1
+AppleFan             -> f91faae8dcfca10fa398d7e7e9cfd133832e242d
+AppleFileSystemDriver -> da7dfeb7d5107e25bed48a32bf362b32d2c5d3a8
+AppleFlashNVRAM      -> a52e7f90f2fae558a1e465e60ecd6dc5fe9aa9d2
+AppleGMACEthernet    -> 31359a3135c604c471c3fcf1c6d75d9f732728c1
+AppleGPIO            -> d65a25d065b77fb8b3e41e8f0dccb19a0c658420
+AppleHWSensor        -> d7254af6b7c4f1a2b7949039df9db125ec0e4ca3
+AppleI2C             -> 997d58ab59f77a3775dbc703428e8be58601ddc5
+AppleI2S             -> 79f974d5791f1256469919ac81afab5196a11e84
+AppleIntel8255x      -> 8c7577e45451ba993651565cab63130fb8b6f2f1
+AppleIntelPIIXATA    -> 4b09c8f5f06b095ae0350a5bd8865c6e2b644ba6
+AppleK2SATA          -> 2ab5330a21875dc0741baff397779a4a0ca83781
+AppleK2SATARoot      -> 4e72b36cd5ddf4062cdb58cd1e786c1c11243f4b
+AppleKauaiATA        -> 1f222cf17b25d88810b30381283b53eeded6c8d8
+AppleKeyLargo        -> 1f45b3e6341b2a5b906f7336b8fdc80e7b2ce1f9
+AppleKeyswitch       -> bccf334636b29f320dfc0505a1bb2da13822b8b7
+AppleKiwiATA         -> 636c54193ee84a8b477eb755af29285878848b82
+AppleKiwiRoot        -> 73ac48428cd94a862c2e7dd3a4c1821160aeb257
+AppleMPIC            -> 8218ca2abd1755b97b7a73c9c221a8f99a21489c
+AppleMacRISC2PE      -> 1996c2bf13f64d859709199a8d15189dd2d09428
+AppleMacRiscPCI      -> 7464a8ac3436697619f5fada149d4428b3d41be6
+AppleMediaBay        -> c8e70d7798d6e746927bbdb59133b47acfd23e9d
+ApplePCCard16ATA     -> 564154329545195081566162ed419a67e78abd9c
+ApplePCCardATA       -> 76153d3c4b022c2dfe36c253a4ca5233389df859
+ApplePS2Controller   -> b02371542aa13a4133a8fb26a056d709d07b81a3
+AppleRAID            -> 809749feec65be5b5d9a9f1b1e913d09e1932810
+AppleRS232Serial     -> c92e24cefc8670401d47f4dc31bbb1804dd67881
+AppleRTC             -> 42fe6c68a16002fc4254e9f259d211002b3b3df5
+AppleRTL8139Ethernet -> c6eb6043836e9ff7e5414471d26ce19a6eed5c3e
+AppleSCCSerial       -> f3e7eb1f2246a9495482595f550e36407daadd8b
+AppleSMBIOS          -> de422e235f8861d8f57fc354af61a12c38eded3b
+AppleSym8xx          -> 00283b4125e22240f0356d296fab81d3f9d94d5e
+AppleTalk            -> f1fc5503d6633b86dff0f1ce3551b955f3f74817
+AppleThermal         -> 302866593f5a50be2f77646434df4acdf3909fb7
+AppleUSBAudio        -> 3b197920142754f0659d6bcbcd2de55458bb4e8c
+AppleUSBCDCDriver    -> b822499d9e4af74c0bb14e9148b795c0c22166ce
+AppleVIA             -> 926275bb2ce6936328838a5dd283179222d7a105
+BerkeleyDB           -> 082e9b19f97c90dbc4e3e8414b1751d3276feacb
+BootCache            -> 0bf36477d1d562b473d9adf02bcd974ebba0f845
+BootX                -> f14fb523cdf7371139c2100a769d108aa45b0a10
+CF                   -> 4afd460f95cb1a1868d8b30822d7870ea0f17a27
+CFOpenDirectory      -> e526d78ffaa47697f06ff4defcdcfd010fa39ebf
+CPAN                 -> 82b2bbd3a4d9d3169bf22972676e05a31cd3d3a1
+CPANInternal         -> 2afa14333d6bf81285aad2f6ce4aee2c0ede0d66
+CarbonHeaders        -> 9ad461d85a524828f009f4a3cb024614178ea538
+ChatServer           -> 7f8775742994ed9e1d23883857d73eaf771c2dbe
+Chess                -> c3c4bdb455aada26dfe284545553753b84a37667
+CommonCrypto         -> 912af6013dec27f906150791b90486c9ac18ba51
+CoreOSMakefiles      -> dbb4977317027267e5762604b18f05a0198c0b74
+CrackLib             -> dd2c44e676bf6b7016893f4d1834473940e8db9a
+Csu                  -> 1c2236c2e36fdcafc65a8cbd95c7f049e923d475
+CyrusIMAP            -> e5dea4f04d551b58db9fa7b3155bc6316a8a1c62
+DSPasswordServerFramework -> b9bb686082a4353386bc43423341d9c820117f36
+DSPasswordServerPlugin -> eb3c2949b41ddf5edc812dba5e8342518f5a8013
+DSTools              -> c2a59edc75e5d7beae0c0f8d95836f6b85c04452
+DirectoryService     -> 3714c5194178cc483820d16a7a38b51bf07d53b4
+DirectoryServiceDaemon -> 392973515f231e6a0388ae91ac0b1742b0462a9a
+DirectoryServiceMIG  -> 5c030d7caae7a091fcf9ebf6532c2bc8f9d1e3d9
+DiskArbitration      -> 133907411019f6b8791a6bf093d7b55554624cc9
+DiskArbitration.hdrs -> d6f8f944b01c58f6adc7626beafdd813416a5c81
+DynamicPowerStep     -> 98605bdc8237b2d6fb863bd6750e5cebcb9a455d
+ICU                  -> bfdf8d91058b430b528f7af2b318b9b457703ff9
+IOACPIFamily         -> a17f5490d43ff2767fa15f5f8808958d58ae659f
+IOADBFamily          -> e39af322b5b04cf7324f09fe67e4cf3edaf94323
+IOATABlockStorage    -> d1ca5e999a045dd7ff38c3b79bfdea03b15f25f2
+IOATAFamily          -> 2c1bad6dfdbd8c6aa87cd4ac0c0a6c95a1974b43
+IOATAPIProtocolTransport -> 175cfb3ce8c720d6d6a24651b6da4ca57a494f4e
+IOAudioFamily        -> 0407f2320d43c160189593328843ced9953a9cad
+IOBDStorageFamily    -> 907856b7a54a761dfb3f4580f139a9ac1f926bbc
+IOCDStorageFamily    -> 6aa9bc3f6339accd2b0f27fdde5a67033266f67e
+IODVDStorageFamily   -> 678ff39dd967326b9f5c18de5d6eeef1ffd72dbe
+IOFWDVComponents     -> 0d636cd6c54871c9efa5b7b1d9c9ffc3a99f6c32
+IOFireWireAVC        -> 24ccfd68f6fedca32ffe1f435612c5e2d43fddc2
+IOFireWireFamily     -> a77bcadd39d3270fb9151569ace300e0fd8372e0
+IOFireWireIP         -> 1e922784f09a37adbb415487ade39ffda8433659
+IOFireWireSBP2       -> 86e84a3996c970e4f5da5191bb9ded1681886e91
+IOFireWireSerialBusProtocolTransport -> e05419b6879d9aa86546743ea4d2dd640724bd9d
+IOGraphics           -> 235b1077b2dc997897863121df17be319c152ca2
+IOGraphics.hdrs      -> 2e969a60923b4318236b74e7eeb848d201a74e95
+IOHIDFamily          -> e23700b7c9dee2ba7ddb23d0de0bdebfeecae2e8
+IOHIDFamily.hdrs     -> e758e8d51f78fb63319684d3093e971d67c347ed
+IOI2CFamily          -> 8a03cd8d672178aa7ca2b58822d392766b4f01bd
+IOKitTools           -> 856f0fbe7339cfbb6842baf72fad32d67bb79372
+IOKitUser.hdrs       -> f039b1e72a23f95cee9bf880d319634b56250504
+IONetworkingFamily   -> 07e0596b5fffe24add6e31a414827ec2b9df9d4a
+IOPCCardFamily       -> 955c4e4e1742e1a1a1e995f9cc532b37e494544d
+IOPCIFamily          -> 14d27df1364d72b77b321e582f4e640937a3d284
+IOSCSIArchitectureModelFamily -> 2589c6514f2480873d4a04ae8954406b01c7a236
+IOSCSIParallelFamily -> eabd13705fc3b32a196d050e5fc145cc756423ec
+IOSerialFamily       -> c5811342d0257e5946e88d8c860486f3c45907fc
+IOStorageFamily      -> 3b183be0f6b9e675d126d9026947fba8b74838ae
+IOUSBFamily          -> c5d1dd5794e0e1eff86579bb78a4a37a5efe900b
+IOUSBMassStorageClass -> c997cea7fd6ed72d6513d68ee57e87b6a37300c6
+JavaScriptCore       -> 707540bdfd208e7483eb0c9dce48b56b51261bb1
+JavaScriptGlue       -> dce26c9758eca568ba51f43b83ba3e1f398cdfc3
+Kerberos             -> b8a755d816f15c6f63d2fa87d80d4f3909587de7
+KerberosHelper       -> 4952072ee3ff5ce3e9dd64db685d0525037614e1
+KeyLargoATA          -> abd2c6d6201ec61528bc5af6a8560ae46a031580
+LDAPFramework        -> c133b9453caeab300469aebc0ae61d633f4e22ad
+Libc                 -> af684577ddd3b842b4e2813c1d48313b1ea1c970
+Libc_debug           -> a6edc926d33da8f197d7c3b0e3d1d605e6c915d8
+Libc_headers         -> 9f2110f15634f99492ae162397c76b130d7a8fc7
+Libc_headers.hdrs    -> 9f2110f15634f99492ae162397c76b130d7a8fc7
+Libc_man             -> 7c8670be306adad0adf420a534294a46e636f326
+Libc_profile         -> 72c1526eb3db1b4699314beb2e4b751f03e459a5
+Libcpp_kext          -> 1cbd107722b8cfa2dafaef9c547972e55069266c
+Libinfo              -> 5320964a15796620751ff8e070091ff1350059df
+Libinfo.hdrs         -> d911bb129983e481e35aff8a22e1d01782c93a41
+Libm                 -> 7d90dffecd558d133aa75cd2a872621ca1c47b17
+Libmx                -> 98eaf825fe5d9bcd772e78e5f65fff03d2058950
+Libnotify            -> db407e57f719b6155651f5569616969a12626b9d
+Librpcsvc            -> 3bf40eccc862446bb3ded0eb2e4b9c404097343d
+Libstreams           -> 6fae457c992b340409a826f8e482b801a02033ad
+Libsyscall           -> bd1dde5e5498daec6a3991ae2ce7eaec32ab2a83
+Libsyscall.hdrs      -> ff302db561618fc530c3d4c0bf77d35bb79404a5
+Libsystem            -> 45af50f48c9e4d28d6d0dfc97a35f89318dfb9eb
+Liby                 -> 0719301a0af7fc1efb7ffe2883318dfed6ce1592
+MySQL                -> 6ef50aebee3f406a403362fef600d74d6b3eda39
+NFS                  -> 1ef825d0664c37de2298df3384f5ebdfd449da8a
+OpenDirectory        -> 779fca34e5e723b33a535cdd2b1d1cb4959334e6
+OpenLDAP             -> f046d4d6a08f1e03049c8c7abcd1c65ce83a75ad
+OpenSSH              -> e4daf2743e14cb1b2d4fc0b841d66f447b170184
+OpenSSL              -> 55f97d6df970d2cc15cb092a14d29404bde71cd9
+OpenSSL096           -> 767d1304050504dac527bde647a1b85c2602810b
+PowerManagement      -> 5011fdc2da411e55e4d4764ea86d805a0b66a3aa
+PyRSS2Gen            -> 0f936e590c263c2982973cf5ffa57d0feb6bf52e
+RubyCocoa            -> 9e7b03cdc78cb26d081bed80d37ed7f4066ff6b1
+RubyGems             -> 5c165cb23d519f5fa92628020a77fe1e08753544
+RubyOnRails          -> e5823934bdfbffbbadc3d398d3c9e4ac404bbee0
+SCSIHeaderInstaller  -> 9f255d1c0d0475e4d7069e6102b4e8052665f793
+SQLite               -> 9ffabb11b8b71aca0673a44d0f76517ca1b23580
+Security             -> c7b362e9384f116818d859b521318b4d030f367a
+SpamAssassin         -> de53562269aea7e1cdab52f17b3de83a8f7cde9c
+SquirrelMail         -> ff4b6e87081b4036853a10c0f8525b9480fa980c
+SystemStubs          -> 0541c508a94818cc7597ae78b1349b05a94cbdf8
+TargetConfig         -> 7f4fe35dfedd3dc194c07166a2f59f9b263c377c
+TimeZoneData         -> cb46e036a719e08707ff245b1ea35ff448de9b26
+Twisted              -> 15be0d0172a6045616e1803c912ffdf6d97bbffc
+TwistedWords         -> 19ac64cb2b6beeaef4cf058525721325ea9b24af
+TwistedXish          -> 3fe72fbbb98967710573ccbce13e26a111de11d8
+UserNotification     -> 2f8577a0654500a937f35df82ce253c47472d1d0
+VirtualAudioDriver   -> c17595dce98e7602d55969033518b4e657e5e0e3
+WebCore              -> 2883636923517b821b93ffd2fbab7498db2a8601
+X11apps              -> 3325cd4fb935c785811ada52c924c176859f6202
+X11fonts             -> 34ab85f2ab0ebb91e63f0d579b847e5e5f31893b
+X11misc              -> e7d802c3ca0f6f6639fc7f99856fb88debc0a94a
+X11server            -> da9b30d9e452c507823305ee442cf4fab13b540a
+                        ad856603bfe875e3ac9cf6b855c325a80ad9f5c9
+adv_cmds             -> 5f58a79967ff079812ce43ceefc2cf8f8c4d82f4
+amavisd              -> 75e34af5573aa21c6f1bb2c39b7df6ba8e2e8efc
+apache               -> 63a9da3868b99bb426549cc2c8eeb89f9246518e
+apache1              -> a1875529997372f20b4073284bbcc89acf09f9fe
+apache_mod_fastcgi   -> 605c5dcb0ba285753c4a30723fec2175bbf9b600
+apache_mod_php4      -> 457c791d1ce21d341e405bae68cf09dc74261593
+apr                  -> 2b1da96903e434e2f0d8c9b59191626890069f76
+architecture         -> ea808a324c8d2457bc55189150aa8ec52df00e0e
+architecture.hdrs    -> ea808a324c8d2457bc55189150aa8ec52df00e0e
+at_cmds              -> eb02ccfddbcc081172df22bd4a18f4a10e82d3dc
+autoconf             -> 3b33a473693974bcf0ac607e0f5d49c6d8472399
+autofs               -> 09611a233466287cefe109ddfd2d458991364fd5
+automake             -> b1af4b1dfcd9f60cdd6aa50f0666e62fa553a248
+autozone             -> e23545ba88a15fe529fc1ca9546266d782b161dc
+awk                  -> 329413f98676bc5a74b1516e08d19fed541ed70f
+                        b5852c8a9cd109e15c59c9f53f9c438418f0da75
+bash                 -> aa535fae9e6986ba91773a789aa901d69f650305
+basic_cmds           -> 183bfe5b452b4cad8baa177bbc3eac84b00f753c
+bc                   -> b6deb545ed667cf228edb1c67347df3b905aaf68
+bind9                -> 2222ecb89c360b4b1b1ab51a72058061e4009487
+bison                -> d9dee160a69e0dfb9864c61b88f0975382063bd1
+bison1               -> acfb9ded135981f3ee298a47ed8d569cc4873f4b
+bless                -> 2d73ee228073dba758bcc80fefe4bfb376378c42
+bootp                -> 0211e5172754f43851e3ddaa968c457c40dd5440
+bootstrap_cmds       -> b21930681ec13f1bb229fa52273f4663c7e1ef6a
+bsdmake              -> 9f5242bdcab7fb5790e07857e19685a807bec76d
+bsm                  -> c18bd0abba6b8953085578b8907ff364a14903a1
+bzip2                -> a76e65adeb5c6e89748456ae1542cc00944f5c99
+cctools              -> 2770299750486b09b5f1b294c6ce2419bef4730c
+cctools_ofiles       -> c90828c254a5b885dc5c38bfeff90b4311f5c80f
+cctools_ofiles.hdrs  -> c49dc08e6e96fddb4d4fad03548c1fbb9ed022c8
+cddafs               -> 00c9dcac392df257aeaef8f9ae70f015e79dd4e3
+clamav               -> b6ba8017b934ad1a8e84c6196e8f00d4d4dc9cbd
+configd              -> 7b77acaf740ab406db8593c00222737fdd788abf
+configd_executables  -> 48e3a162fca36bace3060badbe239684f079f183
+copyfile             -> 69d24fcd1a8ee385973e30bec7992cdfa5741630
+cron                 -> 58076352d6cd022b641039127da8de946fb16f05
+crontabs             -> 82cc210412eefbf5ccf70f6731744b6725435bb3
+cscope               -> 19c2e6cbdda2f6e41b63e872c64dfbe6705fb0ab
+curl                 -> a9a9879c34fbb1c64ef6eb10fc1430dfbf75ca93
+cvs                  -> 5fba7911f119e8447716cb426898fd848a58ca23
+cvs_wrapped          -> 1b8f42ff53aca9a69acf527968f566296dba0ae8
+cxxfilt              -> 2ddad3784858128cbefcd57fee5ba28309d0cf44
+                        d298da1a7327ac1dfa1635c89b61f5deefd4f2c1
+developer_cmds       -> d17beca19a0e2d5a9b80739c5ab0ae2901571bb1
+diffstat             -> 5d318d91d86a1978ad3517cef79b6fbaafa47c05
+diskdev_cmds         -> ff18779b5eac52adf1657d3fb37179caa89ed59f
+disklabel            -> ea570f18100fddf200c2b55ce6b3d69d237a605c
+distcc               -> e566bb3c13a4cebbc5162fb89d6eb0baa1612fae
+doc_cmds             -> 2382ee5c1e2fb9a4c686b27e6cc2330bc8a85c45
+drvAppleCMD646Root   -> 08780ab43ba687c8eaa234baf5995b57a515ea8b
+dyld                 -> 871994f59d8d9619bcf31259b1922f7c5389f2e0
+eap8021x             -> a97e4f08860bcd030c1cf195f2f6a53f3dc8d6e8
+efax                 -> a9c30f5bf27d1b7da8a7d6fee05890030fff6c29
+efiboot              -> dad8667c9ce4ddbda9858200928d1f5603a3ca9b
+emacs                -> 9714cbd245deece5c72e8d34a2cbca65ace365cf
+enscript             -> ece80c78bd9853f873219a484a6dac2c94791c32
+extenTools           -> 2ea70fc16e81329287f512ca79a6522b7a5ff4a7
+fetchmail            -> 61d193a05afd983e5ef1e33d0bee56a9f05293a7
+file                 -> 596b1b11af380e4aa9269200d65195b8f33b42e8
+file_cmds            -> 479e72f694fdaa20be9fa059ff2e77edd466b789
+files                -> 3d0d77907b88198407dec0041820f8c5293eb265
+flex                 -> 078f387d34b370dd586bf689f4395df47a4118f2
+freeradius           -> c277c754c36f9fb414e8422f2eec9db4961c086d
+gcc                  -> f1055f8d81cb32b211737f2274a9cc89cf7665ee
+gcc_42               -> c3f864170329b1ba93491d5cea3f6b51972abfa6
+gcc_os               -> ac04572183fdd07b577ba221f792ad6954f7fa00
+gcc_select           -> 12bd4cbda14709c1ffd5fdce69547cd1636bc48d
+gccfast              -> d08969b374f0e452491995f31b0bcb7ccf87ac90
+gdb                  -> 10ce9587b72387b81c8c058e189c0e08a683a392
+gdbforcw             -> ac6a96d115ce133c0037544876454dd304baaef4
+glibtool             -> de3ea31cad050107a7c6fee68fe19b3dac7da619
+gm4                  -> b7c32c3a289a22149422539a3ff107ca4cca4e31
+gnudiff              -> 04db61d6f555f5469edf1afe5d7175cffcc737b0
+gnumake              -> 6e288dc13ef4001bb8eb828565bb39e4a9634106
+gnuserv              -> d9beb6c3ec9ce8e57cd999a34a6a83b471d797be
+gnutar               -> de3203ad0b51f891d07325d2ea48c768e050d785
+gnuzip               -> 1894b28e5a7e52387a49144ed02a29e08ab819b9
+gperf                -> 3a5f08327cdf41654885ac44137161fea78b6e70
+gpt                  -> 4ddbe1c606f2368d5a8ba9009fc641b4274ab721
+graphviz             -> 40107ba470becd52bb41aacfdffc17cf28e978f8
+grep                 -> 12ddd47198f46f409870334122b3cc22385c6683
+groff                -> c734d0077bde390f9fd13ba6441d24cacafe05a1
+gssd                 -> 5056464207acc7cafd4a509418e0849a29b248c3
+headerdoc            -> 6a19c0bef159f944ab1963c3f97130fa39b4c041
+hfs                  -> 4d27818502cd89dcc383d8fb44d8dc0e1ec1aef0
+ipsec                -> 3237d1105b2a5bf258d2f940fd0b30bb2537a1f3
+ipv6configuration    -> 61763793096761cd8938bc4ca0afaf34ab0b311a
+isoutil              -> 9a5d7857ac319d3edbdec032d6cb5709fc63bcc2
+jam                  -> b99ad1f270f778ae4dabc0a4ba5c6a85fceef212
+kext_tools           -> 16307485d546780f75da46b9940037ef126ea093
+keymaps              -> 8e8bf1feb111d3df482f38378a8c7ecff9fe68cf
+keymgr               -> 22fae13b3ab0af5aa974b62720eea93e197434f4
+ksh                  -> fc511268332efceeadc937277391a58e5d4af0b7
+launchd              -> c758ae49bdc2223c12872d965771f5f70e16e62e
+launchd_libs         -> ee41abd1d7a52b8aaa59acb58120121dd1d0e42c
+ld64                 -> 1d3edd0681f31e544d59b4301cb7fa7a0f3fd283
+less                 -> a433e18c747e7d08837372ae7490a017aca7f7d6
+libdyld              -> 79ee99ec7f3e8b3f7f0b2712ce7ca62e92f8bf8a
+libelf               -> 44eca3f49421da397a2d0427286c42785202d86d
+libffi               -> 25ac8438ef07c698b8ec3fd70eed85320d49966e
+libfs                -> 2859331f6551983dc51b17d59ffaab89bdafeaff
+libgcc               -> 92f5a0e69750f372edd7980cc559a17cb862e7d8
+libiconv             -> 5af87457c8c411fb0354a4a76bebb303c25f0cec
+libmd                -> bddffaac9cdb8a438957b0d39685a5e0eb8f9f14
+libresolv            -> 6c9ec0e8a7ca78c8735b192ee1bdc5d18fefd549
+libsecurity_apple_x509_tp -> e282a7885f342036f0b46dd157a3266a29797515
+libsecurity_cdsa_utilities -> 00d75788a7e88af62fb81d20b59f135e97210eea
+libsecurity_cdsa_utils -> 4a0998fd41b47c15cb999e2946c0cea834557db1
+libsecurity_cdsa_utils.hdrs -> 9f06e682273e490b45b94a024f66e30159f6780a
+libsecurity_checkpw  -> 7ed6293a321f03faf08d2be7150620e1d0f8f82d
+libsecurity_keychain -> 3fd53508f1509fd186dc321a7a7f443c33788527
+libsecurity_utilities -> ab1c55e64d2c06acc1deae568d7efcf3e5328281
+libsecurityd         -> 30f564239811c130c5fe5de25e6ef5747bc7e894
+libstdcxx            -> d23396753f76e4e57fe134cb59e327c71bd81fb7
+libtelnet            -> 07201913197ea22b903667338ec6227992505ed7
+libutil              -> efb446b4ef8f332d28a785b281f231024d1d4115
+libxml2              -> c7d75a32b93ee77026bf31e4dcdd478576171574
+libxslt              -> 3b6f3ee12bdb4f00fa85efabe3ac2ee3ccd447b6
+lsof                 -> f593d9dba88c8f3dbe17d1ec1866ae81d8aa7abe
+lukemftp             -> 3743cd7ed4ec1fdc4d9093d910e7748ff83b33e0
+lukemftpd            -> 80eb5488eb5e7e866bece62ccdf2b1ec4ce48e84
+mDNSResponder        -> 62d3577f1a1fc9c830aaf4b353562e742afce1fd
+mDNSResponderSystemLibraries -> c4bd4cbdaf3ff9cccde96a96ba08aeab4374295d
+mail_cmds            -> de037eb1408dbbd8bd854759a5d1dd5787a18cf1
+mailman              -> f9d532b31dcb88a289db02c339c6f2838e66b292
+man                  -> b3af6589fedb4f22cb5dd646dd34ed20f0ad1f98
+misc_cmds            -> 2f25239e125c8f34645347242a90a0c7a688b9c4
+modemccl             -> 91bc9bee0126c27c8aa9a4a968207d3d3bb7540b
+msdosfs              -> 58ce3651b21d781b047f1389a9c63760a1be56d1
+nano                 -> aceb575e9edeb21d873811e561398443145e4d53
+nasm                 -> 179b06108542658c9a83e92526c5a039336139f1
+ncurses              -> 49e2dec29d18c48d5b2ac3bdb652773bfba3ac53
+net_snmp             -> 17bb876cc945aada4e7a35734aa5c9fe36a13559
+netcat               -> 93b34d3fbd2e3c7b0988ee7295d4af363ae38358
+netinfo              -> f7a52bb25ee553ea806b8117db8b9d129d033405
+network_cmds         -> 7b1b7744532ed136e0ddc987a008b0ba35b41557
+notify               -> 3c116cc56a76094f8411bc8d85fc0c2bc8c9c019
+ntfs                 -> b1475d6c53db525b8c11f9ec26e17cbc5dc216d3
+ntp                  -> 115a4b04944486cb19ccd2569b380da2333a5bf7
+objc4                -> 317caffa821a920a511fe6578f5ce86744e9a113
+openmpi              -> b058d4993c473f0761b232a11a8f2ccdf49d5882
+pam                  -> 1cdc9b0d6a88d4840ef9ac3259c9c328886e8a4d
+pam_modules          -> 82e52b8d0e80fea14dc86aef79b7c2ef3958934a
+passwordserver_sasl  -> 2cfb6a96d895122824585edfab47bd8e84b821bf
+passwordserver_saslextra -> b3627091593821c651be5e2b44e1cee4508caab1
+passwordserver_saslkerberos -> 425fd4e1ea274484fc45d63372dccfe122702862
+patch_cmds           -> 8432c2f5898abf26337a722c4d364ffaceb6cb4a
+pb_makefiles         -> 526ff11598665844bd9d3348ba6194a5dd95982c
+pbx_jamfiles         -> b7d782d0dd41b803d57ea170268a0aca0c70ba84
+pdisk                -> 631d2eb60fb30ad8a765e99e5754c4fc0a5e84d6
+perl                 -> a271dc83f7e56efce2f69d737b385c814a3e8dd4
+portmap              -> 7a37d7f045518856c3ee7b417ba4a69c9468b5c8
+postfix              -> 2b61bd21d3ecb30a220ab6b3735efc2151d352b3
+ppp                  -> 7bcc620eeeebd5b92e52d63a6420b9a728a010c3
+procmail             -> e3eda37ad5aa638ba44cd41fb94013b6fe6552d0
+project_makefiles    -> cd238b10c16ec5ca539c2742446bf339d575588f
+pyOpenSSL            -> 031e4b028c6316b573f1a5cfa95782ae9f4e4af4
+pyobjc               -> 3ea4f2ad01aa89d4b09e7ba9235929571a5e52f3
+python23             -> b9cdc116933663f1e8ed744f9fdaa3af1a9306ee
+python_dateutil      -> 6706616166f345f73794ba9c7b5c5a3591bc30be
+python_modules       -> 01ed81181c37e0514722fce42310c5611b6e042f
+rcs                  -> a7c386d48ed22262cfe2cbec8325d899b45b54d6
+remote_cmds          -> 5ea1fbc1f5166411b40e15689e44945cfcf574ff
+removefile           -> 6d12d275a071e345ec7b41ec2d1df1a4f14b0c6a
+rsync                -> fe4ddad6c91296465f61c4c12405e48f4e2f2138
+ruby_dnssd           -> 5d9328215733b287dd0b3c8b89a864e8e6dac744
+ruby_libxml          -> 164af7394a82934eaefaba621910f8d8a507df5f
+samba                -> 1591239e7c94656f87e454172c902d91d3b49be7
+screen               -> f1a922b5576b737a19c0005eb77d9b2c170c2e88
+security_certificates -> 5a7d004e34c31587acbc407695fda2915d41c3f8
+security_dotmac_tp   -> 971b28b130540e11a8bcd038dfee1a8676af8ee9
+security_systemkeychain -> 74639582712b5a3c2e2e657a3db2b3e3a67dd5a3
+securityd            -> 5cdefff266133accb0541b928ba3e3f65ca51585
+shell_cmds           -> 7ee6f073866bbef056089798c00ac9c583d4bc76
+smb                  -> faeb5c0cc244c514c44b4bec3b0bd3a4ba4e1ed4
+srm                  -> 6e9445c341d5eeedfe6b91ee1782d5bd66a8b5d7
+stmalloc             -> 9a05fc8fa5f9d760a0d2e895db550754c78ebae5
+sudo                 -> c639c30f72725c0e88e8241c06e275c36cf13109
+svk                  -> f64a12e13cbb64fe48fb8d4e51157c98c7405b56
+swig                 -> 8ab14e315b9f9c118e47dd82d105fa33aea4c038
+syslog               -> 1297b2bd11430dcf1101220845469752b388d856
+system_cmds          -> f1c6c90b7d8ce39453f89b6d9d115c72d400a4e4
+system_config        -> a225e465497c3f5308cf3977c8caba448430ecff
+tcp_wrappers         -> 232bcdd8cf681612577f6e7445e965c43e669530
+tcpdump              -> 1aadd149795d5f5236ab877612b0f17505f98063
+tcsh                 -> e39563b8ba9cb6051b3f9c9500c4de8666500eb0
+texi2html            -> de922ac0a56bfea82b851e2d14dab6c86738fa05
+texinfo              -> b10918a589ac97b719d3d4cd10bb7346d622f544
+text_cmds            -> c87266a4f64676b995012eaa2a1e3e18e94269c7
+tidy                 -> e73d93fb06670b78294da13bf182602e09434661
+top                  -> 5104587f6a70c40194681f2096c5d8d3b917a3d5
+usertemplate         -> e16700068e04c362421e7d6bea2e4c5fbe80c565
+uucp                 -> dd4d352464ac1f21aa5d903722d89deca3025e1f
+vim                  -> d3abd8c176065fe7e11835a65581f49d1eee664a
+webdavfs             -> 2fdec2f72399dc1a4988bb6e15a9d3fc86bd45b7
+wxWidgets            -> 10733a0d8d20a310fd84149eb0a8f5ea824e1bc6
+                        xcodebuild
+xelf                 -> f6e25ae94dc912244ee92e2503dd59bef66c1f0d
+xnu                  -> 966c26f2d565e6f737569e65170268820db54659
+zip                  -> 43a462b88908f7d118a11bd022f3a891e7027a83
+zlib                 -> 91e931224468ad0e24c36c35620125fcb3f1ad1a
+zsh                  -> 1c197378e618fe0ff069f3bb0df1044af7a5b5c6
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+xcodebuild install -target IPConfiguration "SRCROOT=/SourceCache/bootp/bootp-170.1" "OBJROOT=/private/var/tmp/bootp/bootp-170.1.obj" "SYMROOT=/private/var/tmp/bootp/bootp-170.1.sym" "DSTROOT=/private/var/tmp/bootp/bootp-170.1.root" "RC_ProjectName=bootp" "RC_ProjectSourceVersion=170.1" "RC_ProjectNameAndSourceVersion=bootp-170.1" "RC_ProjectBuildVersion=6" "INSTALLED_PRODUCT_ASIDES=YES" "MACOSX_DEPLOYMENT_TARGET=10.5" "NEXT_ROOT=" "RC_ARCHS=ppc i386" "RC_CFLAGS=-pipe -no-cpp-precomp -arch ppc -arch i386" "RC_JASPER=YES" "RC_NONARCH_CFLAGS=-pipe -no-cpp-precomp" "RC_OS=macos" "RC_PRIVATE=/private" "RC_RELEASE=Leopard" "RC_XBS=YES" "RC_i386=YES" "RC_ppc=YES" "SEPARATE_STRIP=YES" "UNAME_RELEASE=9.6" "UNAME_SYSNAME=Darwin" < /dev/null
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Build log begins here:
+
+=== BUILDING NATIVE TARGET bootplib OF PROJECT bootp WITH THE DEFAULT CONFIGURATION (Release) NOT USING PER-CONFIGURATION BUILD DIRECTORIES ===
+
+Checking Dependencies...
+
+SymLink /private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/libbootplib.a /private/var/tmp/bootp/bootp-170.1.obj/UninstalledProducts/libbootplib.a
+    mkdir /private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts
+    cd /SourceCache/bootp/bootp-170.1
+    /bin/ln -sf /private/var/tmp/bootp/bootp-170.1.obj/UninstalledProducts/libbootplib.a /private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/libbootplib.a
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/arp.o /SourceCache/bootp/bootp-170.1/bootplib/arp.c normal ppc c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch ppc -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mtune=G4 -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/arp.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/arp.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/bootp_transmit.o /SourceCache/bootp/bootp-170.1/bootplib/bootp_transmit.c normal ppc c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch ppc -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mtune=G4 -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/bootp_transmit.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/bootp_transmit.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/bpflib.o /SourceCache/bootp/bootp-170.1/bootplib/bpflib.c normal ppc c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch ppc -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mtune=G4 -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/bpflib.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/bpflib.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/bsdplib.o /SourceCache/bootp/bootp-170.1/bootplib/bsdplib.c normal ppc c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch ppc -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mtune=G4 -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/bsdplib.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/bsdplib.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/cfutil.o /SourceCache/bootp/bootp-170.1/bootplib/cfutil.c normal ppc c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch ppc -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mtune=G4 -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/cfutil.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/cfutil.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/dhcp_options.o /SourceCache/bootp/bootp-170.1/bootplib/dhcp_options.c normal ppc c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch ppc -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mtune=G4 -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/dhcp_options.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/dhcp_options.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/dhcplib.o /SourceCache/bootp/bootp-170.1/bootplib/dhcplib.c normal ppc c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch ppc -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mtune=G4 -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/dhcplib.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/dhcplib.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/DNSNameList.o /SourceCache/bootp/bootp-170.1/bootplib/DNSNameList.c normal ppc c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch ppc -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mtune=G4 -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/DNSNameList.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/DNSNameList.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/dynarray.o /SourceCache/bootp/bootp-170.1/bootplib/dynarray.c normal ppc c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch ppc -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mtune=G4 -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/dynarray.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/dynarray.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/host_identifier.o /SourceCache/bootp/bootp-170.1/bootplib/host_identifier.c normal ppc c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch ppc -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mtune=G4 -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/host_identifier.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/host_identifier.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/hostlist.o /SourceCache/bootp/bootp-170.1/bootplib/hostlist.c normal ppc c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch ppc -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mtune=G4 -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/hostlist.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/hostlist.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/in_cksum.o /SourceCache/bootp/bootp-170.1/bootplib/in_cksum.c normal ppc c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch ppc -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mtune=G4 -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/in_cksum.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/in_cksum.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/inetroute.o /SourceCache/bootp/bootp-170.1/bootplib/inetroute.c normal ppc c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch ppc -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mtune=G4 -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/inetroute.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/inetroute.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/interfaces.o /SourceCache/bootp/bootp-170.1/bootplib/interfaces.c normal ppc c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch ppc -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mtune=G4 -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/interfaces.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/interfaces.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/ioregpath.o /SourceCache/bootp/bootp-170.1/bootplib/ioregpath.c normal ppc c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch ppc -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mtune=G4 -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/ioregpath.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/ioregpath.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/ipcfg.o /SourceCache/bootp/bootp-170.1/bootplib/ipcfg.c normal ppc c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch ppc -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mtune=G4 -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/ipcfg.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/ipcfg.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/macnc_options.o /SourceCache/bootp/bootp-170.1/bootplib/macnc_options.c normal ppc c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch ppc -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mtune=G4 -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/macnc_options.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/macnc_options.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/nbimages.o /SourceCache/bootp/bootp-170.1/bootplib/nbimages.c normal ppc c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch ppc -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mtune=G4 -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/nbimages.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/nbimages.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/nbsp.o /SourceCache/bootp/bootp-170.1/bootplib/nbsp.c normal ppc c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch ppc -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mtune=G4 -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/nbsp.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/nbsp.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/netinfo.o /SourceCache/bootp/bootp-170.1/bootplib/netinfo.c normal ppc c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch ppc -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mtune=G4 -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/netinfo.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/netinfo.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/NICache.o /SourceCache/bootp/bootp-170.1/bootplib/NICache.c normal ppc c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch ppc -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mtune=G4 -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/NICache.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/NICache.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/ptrlist.o /SourceCache/bootp/bootp-170.1/bootplib/ptrlist.c normal ppc c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch ppc -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mtune=G4 -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/ptrlist.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/ptrlist.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/subnets.o /SourceCache/bootp/bootp-170.1/bootplib/subnets.c normal ppc c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch ppc -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mtune=G4 -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/subnets.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/subnets.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/tftplib.o /SourceCache/bootp/bootp-170.1/bootplib/tftplib.c normal ppc c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch ppc -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mtune=G4 -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/tftplib.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/tftplib.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/util.o /SourceCache/bootp/bootp-170.1/bootplib/util.c normal ppc c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch ppc -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mtune=G4 -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/util.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/util.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/arp.o /SourceCache/bootp/bootp-170.1/bootplib/arp.c normal i386 c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/arp.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/arp.o
+
+Libtool /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/libbootplib.a normal ppc
+    cd /SourceCache/bootp/bootp-170.1
+    setenv MACOSX_DEPLOYMENT_TARGET 10.5
+    /XCD/loper/usr/bin/libtool -static -arch_only ppc -L/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -filelist /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/bootplib.LinkFileList -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/libbootplib.a
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/bootp_transmit.o /SourceCache/bootp/bootp-170.1/bootplib/bootp_transmit.c normal i386 c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/bootp_transmit.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/bootp_transmit.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/bpflib.o /SourceCache/bootp/bootp-170.1/bootplib/bpflib.c normal i386 c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/bpflib.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/bpflib.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/bsdplib.o /SourceCache/bootp/bootp-170.1/bootplib/bsdplib.c normal i386 c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/bsdplib.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/bsdplib.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/cfutil.o /SourceCache/bootp/bootp-170.1/bootplib/cfutil.c normal i386 c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/cfutil.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/cfutil.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/dhcp_options.o /SourceCache/bootp/bootp-170.1/bootplib/dhcp_options.c normal i386 c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/dhcp_options.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/dhcp_options.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/dhcplib.o /SourceCache/bootp/bootp-170.1/bootplib/dhcplib.c normal i386 c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/dhcplib.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/dhcplib.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/DNSNameList.o /SourceCache/bootp/bootp-170.1/bootplib/DNSNameList.c normal i386 c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/DNSNameList.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/DNSNameList.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/dynarray.o /SourceCache/bootp/bootp-170.1/bootplib/dynarray.c normal i386 c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/dynarray.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/dynarray.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/host_identifier.o /SourceCache/bootp/bootp-170.1/bootplib/host_identifier.c normal i386 c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/host_identifier.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/host_identifier.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/hostlist.o /SourceCache/bootp/bootp-170.1/bootplib/hostlist.c normal i386 c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/hostlist.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/hostlist.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/in_cksum.o /SourceCache/bootp/bootp-170.1/bootplib/in_cksum.c normal i386 c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/in_cksum.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/in_cksum.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/inetroute.o /SourceCache/bootp/bootp-170.1/bootplib/inetroute.c normal i386 c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/inetroute.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/inetroute.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/interfaces.o /SourceCache/bootp/bootp-170.1/bootplib/interfaces.c normal i386 c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/interfaces.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/interfaces.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/ioregpath.o /SourceCache/bootp/bootp-170.1/bootplib/ioregpath.c normal i386 c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/ioregpath.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/ioregpath.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/ipcfg.o /SourceCache/bootp/bootp-170.1/bootplib/ipcfg.c normal i386 c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/ipcfg.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/ipcfg.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/macnc_options.o /SourceCache/bootp/bootp-170.1/bootplib/macnc_options.c normal i386 c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/macnc_options.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/macnc_options.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/nbimages.o /SourceCache/bootp/bootp-170.1/bootplib/nbimages.c normal i386 c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/nbimages.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/nbimages.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/nbsp.o /SourceCache/bootp/bootp-170.1/bootplib/nbsp.c normal i386 c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/nbsp.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/nbsp.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/netinfo.o /SourceCache/bootp/bootp-170.1/bootplib/netinfo.c normal i386 c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/netinfo.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/netinfo.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/NICache.o /SourceCache/bootp/bootp-170.1/bootplib/NICache.c normal i386 c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/NICache.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/NICache.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/ptrlist.o /SourceCache/bootp/bootp-170.1/bootplib/ptrlist.c normal i386 c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/ptrlist.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/ptrlist.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/subnets.o /SourceCache/bootp/bootp-170.1/bootplib/subnets.c normal i386 c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/subnets.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/subnets.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/tftplib.o /SourceCache/bootp/bootp-170.1/bootplib/tftplib.c normal i386 c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/tftplib.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/tftplib.o
+
+CompileC /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/util.o /SourceCache/bootp/bootp-170.1/bootplib/util.c normal i386 c com.apple.compilers.gcc.4_0
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/gcc-4.0 -x c -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -mmacosx-version-min=10.5 -gdwarf-2 -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/bootplib.hmap -Wall -Wno-four-char-constants -Wno-unknown-pragmas -F/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -I/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include -I/XCD/SY/Library/Frameworks/System.framework/PrivateHeaders -I/private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/DerivedSources -c /SourceCache/bootp/bootp-170.1/bootplib/util.c -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/util.o
+
+Libtool /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/libbootplib.a normal i386
+    cd /SourceCache/bootp/bootp-170.1
+    setenv MACOSX_DEPLOYMENT_TARGET 10.5
+    /XCD/loper/usr/bin/libtool -static -arch_only i386 -L/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts -filelist /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/bootplib.LinkFileList -o /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/libbootplib.a
+
+CreateUniversalBinary /private/var/tmp/bootp/bootp-170.1.obj/UninstalledProducts/libbootplib.a normal "ppc i386"
+    mkdir /private/var/tmp/bootp/bootp-170.1.obj/UninstalledProducts
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/libtool -static /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/ppc/libbootplib.a /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/bootplib.build/Objects-normal/i386/libbootplib.a -o /private/var/tmp/bootp/bootp-170.1.obj/UninstalledProducts/libbootplib.a
+
+Ditto /private/var/tmp/bootp/bootp-170.1.sym/libbootplib.a /private/var/tmp/bootp/bootp-170.1.obj/UninstalledProducts/libbootplib.a
+    cd /SourceCache/bootp/bootp-170.1
+    /usr/bin/ditto -rsrc /private/var/tmp/bootp/bootp-170.1.obj/UninstalledProducts/libbootplib.a /private/var/tmp/bootp/bootp-170.1.sym/libbootplib.a
+
+Stripping /private/var/tmp/bootp/bootp-170.1.obj/UninstalledProducts/libbootplib.a
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/usr/bin/strip -S -S /private/var/tmp/bootp/bootp-170.1.obj/UninstalledProducts/libbootplib.a
+
+SetOwnerAndGroup "root:wheel" /private/var/tmp/bootp/bootp-170.1.obj/UninstalledProducts/libbootplib.a
+    cd /SourceCache/bootp/bootp-170.1
+    /usr/sbin/chown -RH root:wheel /private/var/tmp/bootp/bootp-170.1.obj/UninstalledProducts/libbootplib.a
+
+SetMode u+w,go-w,a+rX /private/var/tmp/bootp/bootp-170.1.obj/UninstalledProducts/libbootplib.a
+    cd /SourceCache/bootp/bootp-170.1
+    /bin/chmod -RH u+w,go-w,a+rX /private/var/tmp/bootp/bootp-170.1.obj/UninstalledProducts/libbootplib.a
+
+
+=== BUILDING NATIVE TARGET IPConfiguration OF PROJECT bootp WITH THE DEFAULT CONFIGURATION (Release) NOT USING PER-CONFIGURATION BUILD DIRECTORIES ===
+
+Checking Dependencies...
+
+Processing /private/var/tmp/bootp/bootp-170.1.root/XCD/SY/Library/SystemConfiguration/IPConfiguration.bundle/Contents/Info.plist IPConfiguration.bproj/Info.plist
+    mkdir /private/var/tmp/bootp/bootp-170.1.root/XCD/SY/Library/SystemConfiguration/IPConfiguration.bundle/Contents
+    cd /SourceCache/bootp/bootp-170.1
+    <com.apple.tools.info-plist-utility> IPConfiguration.bproj/Info.plist -expandbuildsettings -o /private/var/tmp/bootp/bootp-170.1.root/XCD/SY/Library/SystemConfiguration/IPConfiguration.bundle/Contents/Info.plist
+
+SymLink /private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/IPConfiguration.bundle /private/var/tmp/bootp/bootp-170.1.root/XCD/SY/Library/SystemConfiguration/IPConfiguration.bundle
+    cd /SourceCache/bootp/bootp-170.1
+    /bin/ln -sf /private/var/tmp/bootp/bootp-170.1.root/XCD/SY/Library/SystemConfiguration/IPConfiguration.bundle /private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/IPConfiguration.bundle
+
+PhaseScriptExecution /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/IPConfiguration.build/Script-F948E62B0C98A737001DE386.sh
+    cd /SourceCache/bootp/bootp-170.1
+    setenv ACTION install
+    setenv ALTERNATE_GROUP wheel
+    setenv ALTERNATE_MODE u+w,go-w,a+rX
+    setenv ALTERNATE_OWNER root
+    setenv ALWAYS_SEARCH_USER_PATHS YES
+    setenv APPLE_INTERNAL_DEVELOPER_DIR /AppleInternal/XCD/loper
+    setenv APPLE_INTERNAL_DIR /AppleInternal
+    setenv APPLE_INTERNAL_DOCUMENTATION_DIR /AppleInternal/Documentation
+    setenv APPLE_INTERNAL_LIBRARY_DIR /AppleInternal/Library
+    setenv APPLE_INTERNAL_TOOLS /AppleInternal/XCD/loper/Tools
+    setenv APPLY_RULES_IN_COPY_FILES NO
+    setenv ARCHS "ppc i386"
+    setenv ARCHS_STANDARD_32_64_BIT "i386 x86_64 ppc ppc64"
+    setenv ARCHS_STANDARD_32_BIT "i386 ppc"
+    setenv ARCHS_STANDARD_64_BIT "x86_64 ppc64"
+    setenv BUILD_COMPONENTS "headers build"
+    setenv BUILD_DIR /private/var/tmp/bootp/bootp-170.1.sym
+    setenv BUILD_ROOT /private/var/tmp/bootp/bootp-170.1.sym
+    setenv BUILD_STYLE 
+    setenv BUILD_VARIANTS normal
+    setenv BUILT_PRODUCTS_DIR /private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts
+    setenv CACHE_ROOT com.apple.Xcode.0
+    setenv CCHROOT /private/var/tmp/bootp/bootp-170.1.obj/Caches
+    setenv CHMOD /bin/chmod
+    setenv CHOWN /usr/sbin/chown
+    setenv CLASS_FILE_DIR /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/IPConfiguration.build/JavaClasses
+    setenv CLEAN_PRECOMPS YES
+    setenv CLONE_HEADERS NO
+    setenv CODE_SIGNING_ALLOWED YES
+    setenv COMMAND_MODE legacy
+    setenv COMPOSITE_SDK_DIRS com.apple.Xcode.0/CompositeSDKs
+    setenv CONFIGURATION Release
+    setenv CONFIGURATION_BUILD_DIR /private/var/tmp/bootp/bootp-170.1.sym
+    setenv CONFIGURATION_TEMP_DIR /private/var/tmp/bootp/bootp-170.1.obj/bootp.build
+    setenv CONTENTS_FOLDER_PATH IPConfiguration.bundle/Contents
+    setenv COPYING_PRESERVES_HFS_DATA NO
+    setenv COPY_PHASE_STRIP YES
+    setenv COPY_RESOURCES_FROM_STATIC_FRAMEWORKS YES
+    setenv CP /bin/cp
+    setenv CURRENT_ARCH i386
+    setenv CURRENT_VARIANT normal
+    setenv DEAD_CODE_STRIPPING YES
+    setenv DEBUGGING_SYMBOLS YES
+    setenv DEBUG_INFORMATION_FORMAT dwarf-with-dsym
+    setenv DEPLOYMENT_LOCATION YES
+    setenv DEPLOYMENT_POSTPROCESSING YES
+    setenv DERIVED_FILES_DIR /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/IPConfiguration.build/DerivedSources
+    setenv DERIVED_FILE_DIR /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/IPConfiguration.build/DerivedSources
+    setenv DERIVED_SOURCES_DIR /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/IPConfiguration.build/DerivedSources
+    setenv DEVELOPER_APPLICATIONS_DIR /XCD/loper/Applications
+    setenv DEVELOPER_BIN_DIR /XCD/loper/usr/bin
+    setenv DEVELOPER_DIR /XCD/loper
+    setenv DEVELOPER_FRAMEWORKS_DIR /XCD/loper/Library/Frameworks
+    setenv DEVELOPER_FRAMEWORKS_DIR_QUOTED "\"/XCD/loper/Library/Frameworks\""
+    setenv DEVELOPER_LIBRARY_DIR /XCD/loper/Library
+    setenv DEVELOPER_SDK_DIR /XCD/loper/SDKs
+    setenv DEVELOPER_TOOLS_DIR /XCD/loper/Tools
+    setenv DEVELOPER_USR_DIR /XCD/loper/usr
+    setenv DEVELOPMENT_LANGUAGE English
+    setenv DOCUMENTATION_FOLDER_PATH /Documentation
+    setenv DO_HEADER_SCANNING_IN_JAM NO
+    setenv DSTROOT /private/var/tmp/bootp/bootp-170.1.root
+    setenv DWARF_DSYM_FILE_NAME IPConfiguration.bundle.dSYM
+    setenv DWARF_DSYM_FOLDER_PATH /private/var/tmp/bootp/bootp-170.1.sym
+    setenv ENABLE_HEADER_DEPENDENCIES YES
+    setenv ENABLE_OPENMP_SUPPORT NO
+    setenv EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES "*.nib *.lproj *.framework *.gch (*) CVS .svn *.xcodeproj *.xcode *.pbproj *.pbxproj"
+    setenv EXECUTABLES_FOLDER_PATH IPConfiguration.bundle/Contents/Executables
+    setenv EXECUTABLE_FOLDER_PATH IPConfiguration.bundle/Contents/MacOS
+    setenv EXECUTABLE_NAME IPConfiguration
+    setenv EXECUTABLE_PATH IPConfiguration.bundle/Contents/MacOS/IPConfiguration
+    setenv FILE_LIST /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/IPConfiguration.build/Objects/LinkFileList
+    setenv FIXED_FILES_DIR /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/IPConfiguration.build/FixedFiles
+    setenv FRAMEWORKS_FOLDER_PATH IPConfiguration.bundle/Contents/Frameworks
+    setenv FRAMEWORK_FLAG_PREFIX -framework
+    setenv FRAMEWORK_SEARCH_PATHS "\"/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts\" /private/var/tmp/bootp/bootp-170.1.sym  \"/XCD/SY/Library/PrivateFrameworks\" \"/XCD/SY/Library/PrivateFrameworks\""
+    setenv FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 "\"/XCD/SY/Library/PrivateFrameworks\""
+    setenv FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 "\"/XCD/SY/Library/PrivateFrameworks\""
+    setenv FRAMEWORK_VERSION A
+    setenv FULL_PRODUCT_NAME IPConfiguration.bundle
+    setenv GCC3_VERSION 3.3
+    setenv GCC_INLINES_ARE_PRIVATE_EXTERN YES
+    setenv GCC_PFE_FILE_C_DIALECTS "c objective-c c++ objective-c++"
+    setenv GCC_TREAT_WARNINGS_AS_ERRORS NO
+    setenv GCC_VERSION 4.0
+    setenv GENERATE_MASTER_OBJECT_FILE NO
+    setenv GENERATE_PKGINFO_FILE NO
+    setenv GENERATE_PROFILING_CODE NO
+    setenv GID 0
+    setenv GROUP wheel
+    setenv HEADERMAP_INCLUDES_FLAT_ENTRIES_FOR_TARGET_BEING_BUILT YES
+    setenv HEADERMAP_INCLUDES_FRAMEWORK_ENTRIES_FOR_ALL_PRODUCT_TYPES YES
+    setenv HEADERMAP_INCLUDES_NONPUBLIC_NONPRIVATE_HEADERS YES
+    setenv HEADERMAP_INCLUDES_PROJECT_HEADERS YES
+    setenv HEADER_SEARCH_PATHS "\"/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/include\" /private/var/tmp/bootp/bootp-170.1.sym /XCD/SY/Library/Frameworks/IOKit.framework/PrivateHeaders /XCD/SY/Library/Frameworks/System.framework/PrivateHeaders"
+    setenv ICONV /usr/bin/iconv
+    setenv INFOPLIST_EXPAND_BUILD_SETTINGS YES
+    setenv INFOPLIST_FILE IPConfiguration.bproj/Info.plist
+    setenv INFOPLIST_OUTPUT_FORMAT same-as-input
+    setenv INFOPLIST_PATH IPConfiguration.bundle/Contents/Info.plist
+    setenv INFOPLIST_PREPROCESS NO
+    setenv INFOSTRINGS_PATH /InfoPlist.strings
+    setenv INSTALLED_PRODUCT_ASIDES YES
+    setenv INSTALL_DIR /private/var/tmp/bootp/bootp-170.1.root/XCD/SY/Library/SystemConfiguration
+    setenv INSTALL_GROUP wheel
+    setenv INSTALL_MODE_FLAG u+w,go-w,a+rX
+    setenv INSTALL_OWNER root
+    setenv INSTALL_PATH /XCD/SY/Library/SystemConfiguration
+    setenv INSTALL_ROOT /private/var/tmp/bootp/bootp-170.1.root
+    setenv JAVAC_DEFAULT_FLAGS "-J-Xms64m -J-XX:NewSize=4M -J-Dfile.encoding=UTF8"
+    setenv JAVA_APP_STUB /XCD/SY/Library/Frameworks/JavaVM.framework/Resources/MacOS/JavaApplicationStub
+    setenv JAVA_ARCHIVE_CLASSES YES
+    setenv JAVA_ARCHIVE_TYPE JAR
+    setenv JAVA_COMPILER /usr/bin/javac
+    setenv JAVA_FOLDER_PATH IPConfiguration.bundle/Contents/Resources/Java
+    setenv JAVA_FRAMEWORK_RESOURCES_DIRS Resources
+    setenv JAVA_JAR_FLAGS cv
+    setenv JAVA_SOURCE_SUBDIR .
+    setenv JAVA_USE_DEPENDENCIES YES
+    setenv JAVA_ZIP_FLAGS -urg
+    setenv JIKES_DEFAULT_FLAGS "+E +OLDCSO"
+    setenv KEEP_PRIVATE_EXTERNS NO
+    setenv LD_GENERATE_MAP_FILE NO
+    setenv LD_MAP_FILE_PATH /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/IPConfiguration.build/IPConfiguration-LinkMap-normal-i386.txt
+    setenv LD_OPENMP_FLAGS -fopenmp
+    setenv LEX /XCD/loper/usr/bin/lex
+    setenv LIBRARY_FLAG_NOSPACE YES
+    setenv LIBRARY_FLAG_PREFIX -l
+    setenv LIBRARY_SEARCH_PATHS "\"/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts\" "
+    setenv LINKER_DISPLAYS_MANGLED_NAMES NO
+    setenv LINK_FILE_LIST_normal_i386 /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/IPConfiguration.build/Objects-normal/i386/IPConfiguration.LinkFileList
+    setenv LINK_FILE_LIST_normal_ppc /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/IPConfiguration.build/Objects-normal/ppc/IPConfiguration.LinkFileList
+    setenv LINK_WITH_STANDARD_LIBRARIES YES
+    setenv LOCAL_ADMIN_APPS_DIR /Applications/Utilities
+    setenv LOCAL_APPS_DIR /Applications
+    setenv LOCAL_DEVELOPER_DIR /Library/XCD/loper
+    setenv LOCAL_LIBRARY_DIR /Library
+    setenv MACH_O_TYPE mh_bundle
+    setenv MACOSX_DEPLOYMENT_TARGET 10.5
+    setenv MAC_OS_X_VERSION_ACTUAL 1056
+    setenv MAC_OS_X_VERSION_MAJOR 1050
+    setenv MAC_OS_X_VERSION_MINOR 0500
+    setenv NATIVE_ARCH i386
+    setenv NATIVE_ARCH_32_BIT i386
+    setenv NATIVE_ARCH_64_BIT x86_64
+    setenv NATIVE_ARCH_ACTUAL i386
+    setenv NO_COMMON YES
+    setenv OBJECT_FILE_DIR /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/IPConfiguration.build/Objects
+    setenv OBJECT_FILE_DIR_normal /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/IPConfiguration.build/Objects-normal
+    setenv OBJROOT /private/var/tmp/bootp/bootp-170.1.obj
+    setenv ONLY_ACTIVE_ARCH NO
+    setenv OPTIMIZATION_LEVEL 0
+    setenv OS MACOS
+    setenv OSAC /usr/bin/osacompile
+    setenv OTHER_LDFLAGS "-framework Apple80211"
+    setenv PACKAGE_TYPE com.apple.package-type.wrapper
+    setenv PASCAL_STRINGS YES
+    setenv PATH_PREFIXES_EXCLUDED_FROM_HEADER_DEPENDENCIES "/usr/include /usr/local/include /XCD/SY/Library/Frameworks /XCD/SY/Library/PrivateFrameworks /XCD/loper/Headers"
+    setenv PBDEVELOPMENTPLIST_PATH IPConfiguration.bundle/Contents/pbdevelopment.plist
+    setenv PFE_FILE_C_DIALECTS c
+    setenv PKGINFO_FILE_PATH /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/IPConfiguration.build/PkgInfo
+    setenv PKGINFO_PATH IPConfiguration.bundle/Contents/PkgInfo
+    setenv PLATFORM_DEVELOPER_APPLICATIONS_DIR /XCD/loper/Applications
+    setenv PLATFORM_DEVELOPER_BIN_DIR /XCD/loper/usr/bin
+    setenv PLATFORM_DEVELOPER_LIBRARY_DIR /XCD/loper/Library
+    setenv PLATFORM_DEVELOPER_SDK_DIR /XCD/loper/SDKs
+    setenv PLATFORM_DEVELOPER_TOOLS_DIR /XCD/loper/Tools
+    setenv PLATFORM_DEVELOPER_USR_DIR /XCD/loper/usr
+    setenv PLATFORM_NAME macosx
+    setenv PLIST_FILE_OUTPUT_FORMAT same-as-input
+    setenv PLUGINS_FOLDER_PATH IPConfiguration.bundle/Contents/PlugIns
+    setenv PREBINDING YES
+    setenv PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR YES
+    setenv PRECOMP_DESTINATION_DIR /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/IPConfiguration.build/PrefixHeaders
+    setenv PRESERVE_DEAD_CODE_INITS_AND_TERMS NO
+    setenv PRIVATE_HEADERS_FOLDER_PATH IPConfiguration.bundle/Contents/PrivateHeaders
+    setenv PRODUCT_NAME IPConfiguration
+    setenv PRODUCT_SETTINGS_PATH /SourceCache/bootp/bootp-170.1/IPConfiguration.bproj/Info.plist
+    setenv PRODUCT_TYPE com.apple.product-type.bundle
+    setenv PROFILING_CODE NO
+    setenv PROJECT bootp
+    setenv PROJECT_DERIVED_FILE_DIR /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/DerivedSources
+    setenv PROJECT_DIR /SourceCache/bootp/bootp-170.1
+    setenv PROJECT_FILE_PATH /SourceCache/bootp/bootp-170.1/bootp.xcodeproj
+    setenv PROJECT_NAME bootp
+    setenv PROJECT_TEMP_DIR /private/var/tmp/bootp/bootp-170.1.obj/bootp.build
+    setenv PUBLIC_HEADERS_FOLDER_PATH IPConfiguration.bundle/Contents/Headers
+    setenv RC_ARCHS "ppc i386"
+    setenv RC_CFLAGS "-pipe -no-cpp-precomp -arch ppc -arch i386"
+    setenv RC_JASPER YES
+    setenv RC_NONARCH_CFLAGS "-pipe -no-cpp-precomp"
+    setenv RC_OS macos
+    setenv RC_PRIVATE /private
+    setenv RC_ProjectBuildVersion 6
+    setenv RC_ProjectName bootp
+    setenv RC_ProjectNameAndSourceVersion bootp-170.1
+    setenv RC_ProjectSourceVersion 170.1
+    setenv RC_RELEASE Leopard
+    setenv RC_XBS YES
+    setenv RC_i386 YES
+    setenv RC_ppc YES
+    setenv RECURSIVE_SEARCH_PATHS_FOLLOW_SYMLINKS YES
+    setenv REMOVE_CVS_FROM_RESOURCES YES
+    setenv REMOVE_SVN_FROM_RESOURCES YES
+    setenv RETAIN_RAW_BINARIES YES
+    setenv REZ_COLLECTOR_DIR /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/IPConfiguration.build/ResourceManagerResources
+    setenv REZ_OBJECTS_DIR /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/IPConfiguration.build/ResourceManagerResources/Objects
+    setenv REZ_SEARCH_PATHS "\"/private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts\" "
+    setenv SCAN_ALL_SOURCE_FILES_FOR_INCLUDES NO
+    setenv SCRIPTS_FOLDER_PATH IPConfiguration.bundle/Contents/Resources/Scripts
+    setenv SCRIPT_INPUT_FILE_0 /SourceCache/bootp/bootp-170.1/this
+    setenv SCRIPT_INPUT_FILE_COUNT 1
+    setenv SCRIPT_OUTPUT_FILE_COUNT 0
+    setenv SDKROOT 
+    setenv SED /usr/bin/sed
+    setenv SEPARATE_STRIP YES
+    setenv SEPARATE_SYMBOL_EDIT NO
+    setenv SET_DIR_MODE_OWNER_GROUP YES
+    setenv SET_FILE_MODE_OWNER_GROUP NO
+    setenv SHARED_DERIVED_FILE_DIR /private/var/tmp/bootp/bootp-170.1.sym/BuiltProducts/DerivedSources
+    setenv SHARED_FRAMEWORKS_FOLDER_PATH IPConfiguration.bundle/Contents/SharedFrameworks
+    setenv SHARED_PRECOMPS_DIR com.apple.Xcode.0/SharedPrecompiledHeaders
+    setenv SHARED_SUPPORT_FOLDER_PATH IPConfiguration.bundle/Contents/SharedSupport
+    setenv SKIP_INSTALL NO
+    setenv SOURCE_ROOT /SourceCache/bootp/bootp-170.1
+    setenv SRCROOT /SourceCache/bootp/bootp-170.1
+    setenv STANDARD_C_PLUS_PLUS_LIBRARY_TYPE dynamic
+    setenv STRINGS_FILE_OUTPUT_ENCODING UTF-16
+    setenv STRIPFLAGS -S
+    setenv STRIP_INSTALLED_PRODUCT YES
+    setenv STRIP_STYLE non-global
+    setenv SYMBOL_REPOSITORY_DIR /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/IPConfiguration.build/SymbolRepositories
+    setenv SYMROOT /private/var/tmp/bootp/bootp-170.1.sym
+    setenv SYSTEM_ADMIN_APPS_DIR /Applications/Utilities
+    setenv SYSTEM_APPS_DIR /Applications
+    setenv SYSTEM_CORE_SERVICES_DIR /XCD/SY/Library/CoreServices
+    setenv SYSTEM_DEMOS_DIR /Applications/Extras
+    setenv SYSTEM_DEVELOPER_APPS_DIR /XCD/loper/Applications
+    setenv SYSTEM_DEVELOPER_BIN_DIR /XCD/loper/usr/bin
+    setenv SYSTEM_DEVELOPER_DEMOS_DIR "/XCD/loper/Applications/Utilities/Built Examples"
+    setenv SYSTEM_DEVELOPER_DIR /XCD/loper
+    setenv SYSTEM_DEVELOPER_DOC_DIR "/XCD/loper/ADC Reference Library"
+    setenv SYSTEM_DEVELOPER_GRAPHICS_TOOLS_DIR "/XCD/loper/Applications/Graphics Tools"
+    setenv SYSTEM_DEVELOPER_JAVA_TOOLS_DIR "/XCD/loper/Applications/Java Tools"
+    setenv SYSTEM_DEVELOPER_PERFORMANCE_TOOLS_DIR "/XCD/loper/Applications/Performance Tools"
+    setenv SYSTEM_DEVELOPER_RELEASENOTES_DIR "/XCD/loper/ADC Reference Library/releasenotes"
+    setenv SYSTEM_DEVELOPER_TOOLS /XCD/loper/Tools
+    setenv SYSTEM_DEVELOPER_TOOLS_DOC_DIR "/XCD/loper/ADC Reference Library/documentation/DeveloperTools"
+    setenv SYSTEM_DEVELOPER_TOOLS_RELEASENOTES_DIR "/XCD/loper/ADC Reference Library/releasenotes/DeveloperTools"
+    setenv SYSTEM_DEVELOPER_USR_DIR /XCD/loper/usr
+    setenv SYSTEM_DEVELOPER_UTILITIES_DIR /XCD/loper/Applications/Utilities
+    setenv SYSTEM_DOCUMENTATION_DIR /Library/Documentation
+    setenv SYSTEM_LIBRARY_DIR /XCD/SY/Library
+    setenv TARGETNAME IPConfiguration
+    setenv TARGET_BUILD_DIR /private/var/tmp/bootp/bootp-170.1.root/XCD/SY/Library/SystemConfiguration
+    setenv TARGET_NAME IPConfiguration
+    setenv TARGET_TEMP_DIR /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/IPConfiguration.build
+    setenv TEMP_DIR /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/IPConfiguration.build
+    setenv TEMP_FILES_DIR /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/IPConfiguration.build
+    setenv TEMP_FILE_DIR /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/IPConfiguration.build
+    setenv TEMP_ROOT /private/var/tmp/bootp/bootp-170.1.obj
+    setenv UID 0
+    setenv UNAME_RELEASE 9.6
+    setenv UNAME_SYSNAME Darwin
+    setenv UNLOCALIZED_RESOURCES_FOLDER_PATH IPConfiguration.bundle/Contents/Resources
+    setenv UNSTRIPPED_PRODUCT NO
+    setenv USER root
+    setenv USER_APPS_DIR /var/root/Applications
+    setenv USER_LIBRARY_DIR /var/root/Library
+    setenv USE_DYNAMIC_NO_PIC YES
+    setenv USE_HEADERMAP YES
+    setenv USE_HEADER_SYMLINKS NO
+    setenv VALID_ARCHS "i386 ppc"
+    setenv VERBOSE_PBXCP NO
+    setenv VERSIONPLIST_PATH IPConfiguration.bundle/Contents/version.plist
+    setenv VERSION_INFO_BUILDER root
+    setenv VERSION_INFO_FILE IPConfiguration_vers.c
+    setenv VERSION_INFO_STRING "\"@(#)PROGRAM:IPConfiguration  PROJECT:bootp-\""
+    setenv WARNING_CFLAGS "-Wall -Wno-four-char-constants -Wno-unknown-pragmas"
+    setenv WRAPPER_EXTENSION bundle
+    setenv WRAPPER_NAME IPConfiguration.bundle
+    setenv WRAPPER_SUFFIX .bundle
+    setenv XCODE_APP_SUPPORT_DIR /XCD/loper/Library/Xcode
+    setenv XCODE_VERSION_ACTUAL 0310
+    setenv XCODE_VERSION_MAJOR 0300
+    setenv YACC /XCD/loper/usr/bin/yacc
+    /bin/sh -c /private/var/tmp/bootp/bootp-170.1.obj/bootp.build/IPConfiguration.build/Script-F948E62B0C98A737001DE386.sh
+
+CpResource /private/var/tmp/bootp/bootp-170.1.root/XCD/SY/Library/SystemConfiguration/IPConfiguration.bundle/Contents/Resources/IPConfiguration.xml IPConfiguration.bproj/IPConfiguration.xml
+    mkdir /private/var/tmp/bootp/bootp-170.1.root/XCD/SY/Library/SystemConfiguration/IPConfiguration.bundle/Contents/Resources
+    cd /SourceCache/bootp/bootp-170.1
+    /XCD/loper/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp -exclude .DS_Store -exclude CVS -exclude .svn -strip-debug-symbols -resolve-src-symlinks /SourceCache/bootp/bootp-170.1/IPConfiguration.bproj/IPConfiguration.xml /private/var/tmp/bootp/bootp-170.1.root/XCD/SY/Library/SystemConfiguration/IPConfiguration.bundle/Contents/Resources
+
+CopyStringsFile /private/var/tmp/bootp/bootp-170.1.root/XCD/SY/Library/SystemConfiguration/IPConfiguration.bundle/Contents/Resources/English.lproj/Localizable.strings IPConfiguration.bproj/English.lproj/Localizable.strings
+    mkdir /private/var/tmp/bootp/bootp-170.1.root/XCD/SY/Library/SystemConfiguration/IPConfiguration.bundle/Contents/Resources/English.lproj
+    cd /SourceCache/bootp/bootp-170.1
+    setenv ICONV /usr/bin/iconv
+    /XCD/loper/Library/Xcode/Plug-ins/CoreBuildTasks.xcplugin/Contents/Resources/copystrings --validate --inputencoding MACINTOSH --outputencoding UTF-16 IPConfiguration.bproj/English.lproj/Localizable.strings --outdir /private/var/tmp/bootp/bootp-170.1.root/XCD/SY/Library/SystemConfiguration/IPConfiguration.bundle/Contents/Resources/English.lproj
+/XCD/loper/Library/Xcode/Plug-ins/CoreBuildTasks.xcplugin/Contents/Resources/copystrings:17:in `require': no such file to load -- optparse (LoadError)
+	from /XCD/loper/Library/Xcode/Plug-ins/CoreBuildTasks.xcplugin/Contents/Resources/copystrings:17
+** BUILD FAILED **
+
+The following build commands failed:
+IPConfiguration:
+	CopyStringsFile /private/var/tmp/bootp/bootp-170.1.root/XCD/SY/Library/SystemConfiguration/IPConfiguration.bundle/Contents/Resources/English.lproj/Localizable.strings IPConfiguration.bproj/English.lproj/Localizable.strings
+(1 failure)
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ BUILD TIME: 0h 0m 13s
+EXIT STATUS: 1

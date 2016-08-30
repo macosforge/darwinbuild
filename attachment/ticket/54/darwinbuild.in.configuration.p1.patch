@@ -1,0 +1,65 @@
+--- darwinbuild.in.orig	2009-01-02 18:30:18.000000000 -0800
++++ darwinbuild.in	2009-01-02 18:34:29.000000000 -0800
+@@ -105,6 +105,7 @@
+ projnam=""
+ action="install"
+ target=""
++configuration=""
+ version=""
+ 
+ ###
+@@ -167,7 +168,7 @@
+ function PrintUsage() {
+ 	cat <<-EOF 1>&2
+ 	usage: $(basename $0) [flags] <project> [<version>]
+-	usage: flags: [-headers] [-build=X] [-target=X]
++	usage: flags: [-headers] [-build=X] [-target=X] [-configuration=X]
+ 	              [-logdeps] [-nochroot] [-nopatch] [-noload | -loadonly]
+ 	              [-depsbuild=X [-depsbuild=Y]]
+ 	              [-fetch] [-source] [-load]
+@@ -221,6 +222,7 @@
+ ###                             don't build.
+ ###   -logdeps  Do magic to log the build-time dependencies
+ ###   -target=X The makefile or xcode target to build
++###   -configuration=X The build configuration to use
+ ###   -build=X  X is the darwin build number to buld, e.g. 8B15
+ ###   -depsbuild=X X is the darwin build number to populate the BuildRoot 
+ ###   <project> The name of the project to build
+@@ -246,6 +248,8 @@
+ 			action="source"
+ 		elif [ "${ARG/=*/}" == "-target" ]; then
+ 			target="${ARG/*=/}"
++		elif [ "${ARG/=*/}" == "-configuration" ]; then
++			configuration="${ARG/*=/}"
+ 		elif [ "${ARG/=*/}" == "-build" ]; then
+ 			build="${ARG/*=/}"
+ 		elif [ "${ARG/=*/}" == "-depsbuild" ]; then
+@@ -342,6 +346,13 @@
+ fi
+ 
+ #
++# Look for an alternate build configuration in the database
++#
++if [ "$configuration" == "" -a "$action" == "install" ]; then
++	configuration=$($DARWINXREF configuration "$projnam")
++fi
++
++#
+ # Sanity check to make sure we actually have a project to build.
+ #
+ if [ "$project" == "" ]; then
+@@ -612,6 +623,14 @@
+ 	action="$target"
+ fi
+ 
++#
++# append build configuration to $action, if any
++# this is only applicable to xcodebuild
++#
++if [ "$buildtool" == "xcodebuild" -a "$configuration" != "" ]; then
++	build_string="$build_string -configuration $configuration"
++fi
++
+ ###
+ ### Write out the build script that will be used.
+ ### This may or may not be executed in a chroot.

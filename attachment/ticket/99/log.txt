@@ -1,0 +1,1351 @@
+=== BUILDING AGGREGATE TARGET libredo_prebinding.a OF PROJECT darwinbuild WITH THE DEFAULT CONFIGURATION (Public) ===
+
+Checking Dependencies...
+
+PhaseScriptExecution /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/libredo_prebinding.a.build/Script-7227AC7D1098EF6400BE33D7.sh
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    setenv ACTION build
+    setenv ALTERNATE_GROUP wheel
+    setenv ALTERNATE_MODE u+w,go-w,a+rX
+    setenv ALTERNATE_OWNER root
+    setenv ALWAYS_SEARCH_USER_PATHS YES
+    setenv APPLE_INTERNAL_DEVELOPER_DIR /AppleInternal/Developer
+    setenv APPLE_INTERNAL_DIR /AppleInternal
+    setenv APPLE_INTERNAL_DOCUMENTATION_DIR /AppleInternal/Documentation
+    setenv APPLE_INTERNAL_LIBRARY_DIR /AppleInternal/Library
+    setenv APPLE_INTERNAL_TOOLS /AppleInternal/Developer/Tools
+    setenv APPLY_RULES_IN_COPY_FILES NO
+    setenv ARCHS "ppc ppc64 x86_64 i386"
+    setenv ARCHS_STANDARD_32_64_BIT "i386 x86_64 ppc ppc64"
+    setenv ARCHS_STANDARD_32_BIT "i386 ppc"
+    setenv ARCHS_STANDARD_64_BIT "x86_64 ppc64"
+    setenv BINDIR /usr/local/bin
+    setenv BUILD_COMPONENTS "headers build"
+    setenv BUILD_DIR /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build
+    setenv BUILD_ROOT /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build
+    setenv BUILD_STYLE Public
+    setenv BUILD_VARIANTS normal
+    setenv BUILT_PRODUCTS_DIR /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public
+    setenv CACHE_ROOT /var/folders/zz/zzzivhrRnAmviuee+++++++++++/-Caches-/com.apple.Xcode.0
+    setenv CCHROOT /var/folders/zz/zzzivhrRnAmviuee+++++++++++/-Caches-/com.apple.Xcode.0
+    setenv CHMOD /bin/chmod
+    setenv CHOWN /usr/sbin/chown
+    setenv CLASS_FILE_DIR /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/libredo_prebinding.a.build/JavaClasses
+    setenv CLEAN_PRECOMPS YES
+    setenv CLONE_HEADERS NO
+    setenv COMMAND_MODE legacy
+    setenv COMPOSITE_SDK_DIRS /var/folders/zz/zzzivhrRnAmviuee+++++++++++/-Caches-/com.apple.Xcode.0/CompositeSDKs
+    setenv CONFIGURATION Public
+    setenv CONFIGURATION_BUILD_DIR /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public
+    setenv CONFIGURATION_TEMP_DIR /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public
+    setenv COPYING_PRESERVES_HFS_DATA NO
+    setenv COPY_PHASE_STRIP NO
+    setenv COPY_RESOURCES_FROM_STATIC_FRAMEWORKS YES
+    setenv CP /bin/cp
+    setenv CURRENT_ARCH i386
+    setenv CURRENT_VARIANT normal
+    setenv DATDIR /usr/local/share
+    setenv DEAD_CODE_STRIPPING NO
+    setenv DEBUGGING_SYMBOLS YES
+    setenv DEBUG_INFORMATION_FORMAT dwarf-with-dsym
+    setenv DEPLOYMENT_LOCATION YES
+    setenv DEPLOYMENT_POSTPROCESSING NO
+    setenv DERIVED_FILES_DIR /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/libredo_prebinding.a.build/DerivedSources
+    setenv DERIVED_FILE_DIR /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/libredo_prebinding.a.build/DerivedSources
+    setenv DERIVED_SOURCES_DIR /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/libredo_prebinding.a.build/DerivedSources
+    setenv DEVELOPER_APPLICATIONS_DIR /Developer/Applications
+    setenv DEVELOPER_BIN_DIR /Developer/usr/bin
+    setenv DEVELOPER_DIR /Developer
+    setenv DEVELOPER_FRAMEWORKS_DIR /Developer/Library/Frameworks
+    setenv DEVELOPER_FRAMEWORKS_DIR_QUOTED "\"/Developer/Library/Frameworks\""
+    setenv DEVELOPER_LIBRARY_DIR /Developer/Library
+    setenv DEVELOPER_SDK_DIR /Developer/SDKs
+    setenv DEVELOPER_TOOLS_DIR /Developer/Tools
+    setenv DEVELOPER_USR_DIR /Developer/usr
+    setenv DEVELOPMENT_LANGUAGE English
+    setenv DO_HEADER_SCANNING_IN_JAM NO
+    setenv DSTROOT /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public
+    setenv DWARF_DSYM_FILE_NAME .dSYM
+    setenv DWARF_DSYM_FOLDER_PATH /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public
+    setenv ENABLE_HEADER_DEPENDENCIES YES
+    setenv ENABLE_OPENMP_SUPPORT NO
+    setenv EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES "*.nib *.lproj *.framework *.gch (*) CVS .svn *.xcodeproj *.xcode *.pbproj *.pbxproj"
+    setenv FILE_LIST /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/libredo_prebinding.a.build/Objects/LinkFileList
+    setenv FIXED_FILES_DIR /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/libredo_prebinding.a.build/FixedFiles
+    setenv FRAMEWORK_VERSION A
+    setenv GCC3_VERSION 3.3
+    setenv GCC_C_LANGUAGE_STANDARD c99
+    setenv GCC_ENABLE_PASCAL_STRINGS NO
+    setenv GCC_PFE_FILE_C_DIALECTS "c objective-c c++ objective-c++"
+    setenv GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS YES
+    setenv GCC_TREAT_WARNINGS_AS_ERRORS YES
+    setenv GCC_VERSION 4.0
+    setenv GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS YES
+    setenv GCC_WARN_ABOUT_MISSING_NEWLINE YES
+    setenv GCC_WARN_ABOUT_RETURN_TYPE YES
+    setenv GCC_WARN_CHECK_SWITCH_STATEMENTS YES
+    setenv GCC_WARN_FOUR_CHARACTER_CONSTANTS YES
+    setenv GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED YES
+    setenv GCC_WARN_MISSING_PARENTHESES YES
+    setenv GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR YES
+    setenv GCC_WARN_PROTOTYPE_CONVERSION NO
+    setenv GCC_WARN_SIGN_COMPARE NO
+    setenv GCC_WARN_STRICT_SELECTOR_MATCH YES
+    setenv GCC_WARN_UNDECLARED_SELECTOR YES
+    setenv GCC_WARN_UNKNOWN_PRAGMAS YES
+    setenv GCC_WARN_UNUSED_FUNCTION YES
+    setenv GCC_WARN_UNUSED_LABEL YES
+    setenv GCC_WARN_UNUSED_VALUE YES
+    setenv GCC_WARN_UNUSED_VARIABLE YES
+    setenv GENERATE_MASTER_OBJECT_FILE NO
+    setenv GENERATE_PKGINFO_FILE NO
+    setenv GENERATE_PROFILING_CODE NO
+    setenv GID 0
+    setenv GROUP wheel
+    setenv HEADERMAP_INCLUDES_FLAT_ENTRIES_FOR_TARGET_BEING_BUILT YES
+    setenv HEADERMAP_INCLUDES_FRAMEWORK_ENTRIES_FOR_ALL_PRODUCT_TYPES YES
+    setenv HEADERMAP_INCLUDES_NONPUBLIC_NONPRIVATE_HEADERS YES
+    setenv HEADERMAP_INCLUDES_PROJECT_HEADERS YES
+    setenv ICONV /usr/bin/iconv
+    setenv INCDIR /usr/local/include
+    setenv INFOPLIST_EXPAND_BUILD_SETTINGS YES
+    setenv INFOPLIST_OUTPUT_FORMAT same-as-input
+    setenv INFOPLIST_PREPROCESS NO
+    setenv INSTALL_DIR /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public
+    setenv INSTALL_GROUP wheel
+    setenv INSTALL_MODE_FLAG u+w,go-w,a+rX
+    setenv INSTALL_OWNER root
+    setenv INSTALL_ROOT /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public
+    setenv JAVAC_DEFAULT_FLAGS "-J-Xms64m -J-XX:NewSize=4M -J-Dfile.encoding=UTF8"
+    setenv JAVA_APP_STUB /System/Library/Frameworks/JavaVM.framework/Resources/MacOS/JavaApplicationStub
+    setenv JAVA_ARCHIVE_CLASSES YES
+    setenv JAVA_ARCHIVE_TYPE JAR
+    setenv JAVA_COMPILER /usr/bin/javac
+    setenv JAVA_FRAMEWORK_RESOURCES_DIRS Resources
+    setenv JAVA_JAR_FLAGS cv
+    setenv JAVA_SOURCE_SUBDIR .
+    setenv JAVA_USE_DEPENDENCIES YES
+    setenv JAVA_ZIP_FLAGS -urg
+    setenv JIKES_DEFAULT_FLAGS "+E +OLDCSO"
+    setenv KEEP_PRIVATE_EXTERNS NO
+    setenv LD_GENERATE_MAP_FILE NO
+    setenv LD_MAP_FILE_PATH /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/libredo_prebinding.a.build/libredo_prebinding.a-LinkMap-normal-i386.txt
+    setenv LEX /Developer/usr/bin/lex
+    setenv LINKER_DISPLAYS_MANGLED_NAMES NO
+    setenv LINK_FILE_LIST_normal_i386 
+    setenv LINK_FILE_LIST_normal_ppc 
+    setenv LINK_FILE_LIST_normal_ppc64 
+    setenv LINK_FILE_LIST_normal_x86_64 
+    setenv LINK_WITH_STANDARD_LIBRARIES YES
+    setenv LOCAL_ADMIN_APPS_DIR /Applications/Utilities
+    setenv LOCAL_APPS_DIR /Applications
+    setenv LOCAL_DEVELOPER_DIR /Library/Developer
+    setenv LOCAL_LIBRARY_DIR /Library
+    setenv MAC_OS_X_VERSION_ACTUAL 1058
+    setenv MAC_OS_X_VERSION_MAJOR 1050
+    setenv MAC_OS_X_VERSION_MINOR 0500
+    setenv NATIVE_ARCH ppc
+    setenv NATIVE_ARCH_32_BIT ppc
+    setenv NATIVE_ARCH_64_BIT ppc64
+    setenv NATIVE_ARCH_ACTUAL ppc
+    setenv NO_COMMON YES
+    setenv OBJECT_FILE_DIR /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/libredo_prebinding.a.build/Objects
+    setenv OBJECT_FILE_DIR_normal /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/libredo_prebinding.a.build/Objects-normal
+    setenv OBJROOT /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build
+    setenv ONLY_ACTIVE_ARCH NO
+    setenv OPTIMIZATION_LEVEL 0
+    setenv OS MACOS
+    setenv OSAC /usr/bin/osacompile
+    setenv PASCAL_STRINGS YES
+    setenv PATH_PREFIXES_EXCLUDED_FROM_HEADER_DEPENDENCIES "/usr/include /usr/local/include /System/Library/Frameworks /System/Library/PrivateFrameworks /Developer/Headers"
+    setenv PKGINFO_FILE_PATH /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/libredo_prebinding.a.build/PkgInfo
+    setenv PLATFORM_DEVELOPER_APPLICATIONS_DIR /Developer/Applications
+    setenv PLATFORM_DEVELOPER_BIN_DIR /Developer/usr/bin
+    setenv PLATFORM_DEVELOPER_LIBRARY_DIR /Developer/Library
+    setenv PLATFORM_DEVELOPER_SDK_DIR /Developer/SDKs
+    setenv PLATFORM_DEVELOPER_TOOLS_DIR /Developer/Tools
+    setenv PLATFORM_DEVELOPER_USR_DIR /Developer/usr
+    setenv PLATFORM_NAME macosx
+    setenv PLIST_FILE_OUTPUT_FORMAT same-as-input
+    setenv PREBINDING YES
+    setenv PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR YES
+    setenv PRECOMP_DESTINATION_DIR /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/libredo_prebinding.a.build/PrefixHeaders
+    setenv PREFIX /usr/local
+    setenv PRESERVE_DEAD_CODE_INITS_AND_TERMS NO
+    setenv PRODUCT_NAME libredo_prebinding.a
+    setenv PRODUCT_SETTINGS_PATH 
+    setenv PROFILING_CODE NO
+    setenv PROJECT darwinbuild
+    setenv PROJECT_DERIVED_FILE_DIR /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/DerivedSources
+    setenv PROJECT_DIR /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    setenv PROJECT_FILE_PATH /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinbuild.xcodeproj
+    setenv PROJECT_NAME darwinbuild
+    setenv PROJECT_TEMP_DIR /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build
+    setenv RECURSIVE_SEARCH_PATHS_FOLLOW_SYMLINKS YES
+    setenv REMOVE_CVS_FROM_RESOURCES YES
+    setenv REMOVE_SVN_FROM_RESOURCES YES
+    setenv REZ_COLLECTOR_DIR /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/libredo_prebinding.a.build/ResourceManagerResources
+    setenv REZ_OBJECTS_DIR /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/libredo_prebinding.a.build/ResourceManagerResources/Objects
+    setenv SCAN_ALL_SOURCE_FILES_FOR_INCLUDES NO
+    setenv SCRIPT_INPUT_FILE_COUNT 0
+    setenv SCRIPT_OUTPUT_FILE_COUNT 0
+    setenv SDKROOT 
+    setenv SED /usr/bin/sed
+    setenv SEPARATE_STRIP NO
+    setenv SEPARATE_SYMBOL_EDIT NO
+    setenv SET_DIR_MODE_OWNER_GROUP YES
+    setenv SET_FILE_MODE_OWNER_GROUP NO
+    setenv SHARED_DERIVED_FILE_DIR /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/DerivedSources
+    setenv SHARED_PRECOMPS_DIR /var/folders/zz/zzzivhrRnAmviuee+++++++++++/-Caches-/com.apple.Xcode.0/SharedPrecompiledHeaders
+    setenv SKIP_INSTALL YES
+    setenv SOURCE_ROOT /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    setenv SRCROOT /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    setenv STANDARD_C_PLUS_PLUS_LIBRARY_TYPE dynamic
+    setenv STRINGS_FILE_OUTPUT_ENCODING UTF-16
+    setenv STRIP_INSTALLED_PRODUCT NO
+    setenv STRIP_STYLE non-global
+    setenv SYMBOL_REPOSITORY_DIR /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/libredo_prebinding.a.build/SymbolRepositories
+    setenv SYMROOT /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build
+    setenv SYSTEM_ADMIN_APPS_DIR /Applications/Utilities
+    setenv SYSTEM_APPS_DIR /Applications
+    setenv SYSTEM_CORE_SERVICES_DIR /System/Library/CoreServices
+    setenv SYSTEM_DEMOS_DIR /Applications/Extras
+    setenv SYSTEM_DEVELOPER_APPS_DIR /Developer/Applications
+    setenv SYSTEM_DEVELOPER_BIN_DIR /Developer/usr/bin
+    setenv SYSTEM_DEVELOPER_DEMOS_DIR "/Developer/Applications/Utilities/Built Examples"
+    setenv SYSTEM_DEVELOPER_DIR /Developer
+    setenv SYSTEM_DEVELOPER_DOC_DIR "/Developer/ADC Reference Library"
+    setenv SYSTEM_DEVELOPER_GRAPHICS_TOOLS_DIR "/Developer/Applications/Graphics Tools"
+    setenv SYSTEM_DEVELOPER_JAVA_TOOLS_DIR "/Developer/Applications/Java Tools"
+    setenv SYSTEM_DEVELOPER_PERFORMANCE_TOOLS_DIR "/Developer/Applications/Performance Tools"
+    setenv SYSTEM_DEVELOPER_RELEASENOTES_DIR "/Developer/ADC Reference Library/releasenotes"
+    setenv SYSTEM_DEVELOPER_TOOLS /Developer/Tools
+    setenv SYSTEM_DEVELOPER_TOOLS_DOC_DIR "/Developer/ADC Reference Library/documentation/DeveloperTools"
+    setenv SYSTEM_DEVELOPER_TOOLS_RELEASENOTES_DIR "/Developer/ADC Reference Library/releasenotes/DeveloperTools"
+    setenv SYSTEM_DEVELOPER_USR_DIR /Developer/usr
+    setenv SYSTEM_DEVELOPER_UTILITIES_DIR /Developer/Applications/Utilities
+    setenv SYSTEM_DOCUMENTATION_DIR /Library/Documentation
+    setenv SYSTEM_LIBRARY_DIR /System/Library
+    setenv TARGETNAME libredo_prebinding.a
+    setenv TARGET_BUILD_DIR /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/UninstalledProducts
+    setenv TARGET_NAME libredo_prebinding.a
+    setenv TARGET_TEMP_DIR /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/libredo_prebinding.a.build
+    setenv TEMP_DIR /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/libredo_prebinding.a.build
+    setenv TEMP_FILES_DIR /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/libredo_prebinding.a.build
+    setenv TEMP_FILE_DIR /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/libredo_prebinding.a.build
+    setenv TEMP_ROOT /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build
+    setenv UID 0
+    setenv UNSTRIPPED_PRODUCT NO
+    setenv USER root
+    setenv USER_APPS_DIR /Users/tdgi/Applications
+    setenv USER_LIBRARY_DIR /Users/tdgi/Library
+    setenv USE_DYNAMIC_NO_PIC YES
+    setenv USE_HEADERMAP YES
+    setenv USE_HEADER_SYMLINKS NO
+    setenv VALID_ARCHS "i386 ppc ppc64 ppc7400 ppc970 x86_64"
+    setenv VERBOSE_PBXCP NO
+    setenv VERSION_INFO_BUILDER root
+    setenv VERSION_INFO_FILE libredo_prebinding.a_vers.c
+    setenv VERSION_INFO_STRING "\"@(#)PROGRAM:libredo_prebinding.a  PROJECT:darwinbuild-\""
+    setenv WARNING_CFLAGS -Wall
+    setenv XCODE_APP_SUPPORT_DIR /Developer/Library/Xcode
+    setenv XCODE_VERSION_ACTUAL 0313
+    setenv XCODE_VERSION_MAJOR 0300
+    setenv XCODE_VERSION_MINOR 0310
+    setenv YACC /Developer/usr/bin/yacc
+    /bin/sh -c /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/libredo_prebinding.a.build/Script-7227AC7D1098EF6400BE33D7.sh
++ BUILD=10A432
++ HOST=src.macosforge.org
++ '[' -f /usr/local/lib/libredo_prebinding.a ']'
++ exit 0
+
+
+=== BUILDING NATIVE TARGET darwinup OF PROJECT darwinbuild WITH THE DEFAULT CONFIGURATION (Public) ===
+
+Checking Dependencies...
+
+CompileC build/darwinbuild.build/Public/darwinup.build/Objects-normal/ppc/Archive.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Archive.cpp normal ppc c++ com.apple.compilers.gcc.4_0
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -x c++ -arch ppc -fmessage-length=0 -pipe -Wno-trigraphs -Os -mdynamic-no-pic -Werror -Wreturn-type -Wmissing-braces -Wparentheses -Wswitch -Wunused-function -Wunused-label -Wunused-variable -Wunused-value -Wunknown-pragmas -Wfour-char-constants -Wnewline-eof -fvisibility=hidden -fvisibility-inlines-hidden -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/darwinup.hmap -Wall -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/include -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/DerivedSources/ppc -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/DerivedSources -c /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Archive.cpp -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/Objects-normal/ppc/Archive.o
+cc1plus: warnings being treated as errors
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:48: warning: ‘struct Digest’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:89: warning: ‘struct SHA1Digest’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:109: warning: ‘struct SHA1DigestMachO’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:121: warning: ‘struct SHA1DigestSymlink’ has virtual functions but non-virtual destructor
+
+CompileC build/darwinbuild.build/Public/darwinup.build/Objects-normal/ppc/Depot.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Depot.cpp normal ppc c++ com.apple.compilers.gcc.4_0
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -x c++ -arch ppc -fmessage-length=0 -pipe -Wno-trigraphs -Os -mdynamic-no-pic -Werror -Wreturn-type -Wmissing-braces -Wparentheses -Wswitch -Wunused-function -Wunused-label -Wunused-variable -Wunused-value -Wunknown-pragmas -Wfour-char-constants -Wnewline-eof -fvisibility=hidden -fvisibility-inlines-hidden -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/darwinup.hmap -Wall -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/include -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/DerivedSources/ppc -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/DerivedSources -c /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Depot.cpp -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/Objects-normal/ppc/Depot.o
+cc1plus: warnings being treated as errors
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:48: warning: ‘struct Digest’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:89: warning: ‘struct SHA1Digest’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:109: warning: ‘struct SHA1DigestMachO’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:121: warning: ‘struct SHA1DigestSymlink’ has virtual functions but non-virtual destructor
+
+CompileC build/darwinbuild.build/Public/darwinup.build/Objects-normal/ppc/Digest.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.cpp normal ppc c++ com.apple.compilers.gcc.4_0
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -x c++ -arch ppc -fmessage-length=0 -pipe -Wno-trigraphs -Os -mdynamic-no-pic -Werror -Wreturn-type -Wmissing-braces -Wparentheses -Wswitch -Wunused-function -Wunused-label -Wunused-variable -Wunused-value -Wunknown-pragmas -Wfour-char-constants -Wnewline-eof -fvisibility=hidden -fvisibility-inlines-hidden -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/darwinup.hmap -Wall -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/include -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/DerivedSources/ppc -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/DerivedSources -c /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.cpp -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/Objects-normal/ppc/Digest.o
+cc1plus: warnings being treated as errors
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:48: warning: ‘struct Digest’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:89: warning: ‘struct SHA1Digest’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:109: warning: ‘struct SHA1DigestMachO’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:121: warning: ‘struct SHA1DigestSymlink’ has virtual functions but non-virtual destructor
+
+CompileC build/darwinbuild.build/Public/darwinup.build/Objects-normal/ppc/File.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/File.cpp normal ppc c++ com.apple.compilers.gcc.4_0
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -x c++ -arch ppc -fmessage-length=0 -pipe -Wno-trigraphs -Os -mdynamic-no-pic -Werror -Wreturn-type -Wmissing-braces -Wparentheses -Wswitch -Wunused-function -Wunused-label -Wunused-variable -Wunused-value -Wunknown-pragmas -Wfour-char-constants -Wnewline-eof -fvisibility=hidden -fvisibility-inlines-hidden -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/darwinup.hmap -Wall -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/include -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/DerivedSources/ppc -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/DerivedSources -c /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/File.cpp -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/Objects-normal/ppc/File.o
+cc1plus: warnings being treated as errors
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:48: warning: ‘struct Digest’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:89: warning: ‘struct SHA1Digest’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:109: warning: ‘struct SHA1DigestMachO’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:121: warning: ‘struct SHA1DigestSymlink’ has virtual functions but non-virtual destructor
+
+CompileC build/darwinbuild.build/Public/darwinup.build/Objects-normal/ppc64/Archive.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Archive.cpp normal ppc64 c++ com.apple.compilers.gcc.4_0
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -x c++ -arch ppc64 -fmessage-length=0 -pipe -Wno-trigraphs -Os -mdynamic-no-pic -Werror -Wreturn-type -Wmissing-braces -Wparentheses -Wswitch -Wunused-function -Wunused-label -Wunused-variable -Wunused-value -Wunknown-pragmas -Wfour-char-constants -Wnewline-eof -fvisibility=hidden -fvisibility-inlines-hidden -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/darwinup.hmap -Wall -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/include -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/DerivedSources/ppc64 -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/DerivedSources -c /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Archive.cpp -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/Objects-normal/ppc64/Archive.o
+cc1plus: warnings being treated as errors
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:48: warning: ‘struct Digest’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:89: warning: ‘struct SHA1Digest’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:109: warning: ‘struct SHA1DigestMachO’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:121: warning: ‘struct SHA1DigestSymlink’ has virtual functions but non-virtual destructor
+
+CompileC build/darwinbuild.build/Public/darwinup.build/Objects-normal/ppc64/Depot.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Depot.cpp normal ppc64 c++ com.apple.compilers.gcc.4_0
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -x c++ -arch ppc64 -fmessage-length=0 -pipe -Wno-trigraphs -Os -mdynamic-no-pic -Werror -Wreturn-type -Wmissing-braces -Wparentheses -Wswitch -Wunused-function -Wunused-label -Wunused-variable -Wunused-value -Wunknown-pragmas -Wfour-char-constants -Wnewline-eof -fvisibility=hidden -fvisibility-inlines-hidden -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/darwinup.hmap -Wall -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/include -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/DerivedSources/ppc64 -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/DerivedSources -c /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Depot.cpp -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/Objects-normal/ppc64/Depot.o
+cc1plus: warnings being treated as errors
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:48: warning: ‘struct Digest’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:89: warning: ‘struct SHA1Digest’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:109: warning: ‘struct SHA1DigestMachO’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:121: warning: ‘struct SHA1DigestSymlink’ has virtual functions but non-virtual destructor
+
+CompileC build/darwinbuild.build/Public/darwinup.build/Objects-normal/ppc64/Digest.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.cpp normal ppc64 c++ com.apple.compilers.gcc.4_0
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -x c++ -arch ppc64 -fmessage-length=0 -pipe -Wno-trigraphs -Os -mdynamic-no-pic -Werror -Wreturn-type -Wmissing-braces -Wparentheses -Wswitch -Wunused-function -Wunused-label -Wunused-variable -Wunused-value -Wunknown-pragmas -Wfour-char-constants -Wnewline-eof -fvisibility=hidden -fvisibility-inlines-hidden -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/darwinup.hmap -Wall -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/include -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/DerivedSources/ppc64 -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/DerivedSources -c /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.cpp -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/Objects-normal/ppc64/Digest.o
+cc1plus: warnings being treated as errors
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:48: warning: ‘struct Digest’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:89: warning: ‘struct SHA1Digest’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:109: warning: ‘struct SHA1DigestMachO’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:121: warning: ‘struct SHA1DigestSymlink’ has virtual functions but non-virtual destructor
+
+CompileC build/darwinbuild.build/Public/darwinup.build/Objects-normal/ppc64/File.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/File.cpp normal ppc64 c++ com.apple.compilers.gcc.4_0
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -x c++ -arch ppc64 -fmessage-length=0 -pipe -Wno-trigraphs -Os -mdynamic-no-pic -Werror -Wreturn-type -Wmissing-braces -Wparentheses -Wswitch -Wunused-function -Wunused-label -Wunused-variable -Wunused-value -Wunknown-pragmas -Wfour-char-constants -Wnewline-eof -fvisibility=hidden -fvisibility-inlines-hidden -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/darwinup.hmap -Wall -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/include -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/DerivedSources/ppc64 -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/DerivedSources -c /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/File.cpp -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/Objects-normal/ppc64/File.o
+cc1plus: warnings being treated as errors
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:48: warning: ‘struct Digest’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:89: warning: ‘struct SHA1Digest’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:109: warning: ‘struct SHA1DigestMachO’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:121: warning: ‘struct SHA1DigestSymlink’ has virtual functions but non-virtual destructor
+
+CompileC build/darwinbuild.build/Public/darwinup.build/Objects-normal/x86_64/Archive.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Archive.cpp normal x86_64 c++ com.apple.compilers.gcc.4_0
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -x c++ -arch x86_64 -fmessage-length=0 -pipe -Wno-trigraphs -fasm-blocks -Os -mdynamic-no-pic -Werror -Wreturn-type -Wmissing-braces -Wparentheses -Wswitch -Wunused-function -Wunused-label -Wunused-variable -Wunused-value -Wunknown-pragmas -Wfour-char-constants -Wnewline-eof -fvisibility=hidden -fvisibility-inlines-hidden -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/darwinup.hmap -Wall -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/include -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/DerivedSources/x86_64 -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/DerivedSources -c /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Archive.cpp -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/Objects-normal/x86_64/Archive.o
+cc1plus: warnings being treated as errors
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:48: warning: ‘struct Digest’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:89: warning: ‘struct SHA1Digest’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:109: warning: ‘struct SHA1DigestMachO’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:121: warning: ‘struct SHA1DigestSymlink’ has virtual functions but non-virtual destructor
+
+CompileC build/darwinbuild.build/Public/darwinup.build/Objects-normal/x86_64/Depot.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Depot.cpp normal x86_64 c++ com.apple.compilers.gcc.4_0
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -x c++ -arch x86_64 -fmessage-length=0 -pipe -Wno-trigraphs -fasm-blocks -Os -mdynamic-no-pic -Werror -Wreturn-type -Wmissing-braces -Wparentheses -Wswitch -Wunused-function -Wunused-label -Wunused-variable -Wunused-value -Wunknown-pragmas -Wfour-char-constants -Wnewline-eof -fvisibility=hidden -fvisibility-inlines-hidden -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/darwinup.hmap -Wall -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/include -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/DerivedSources/x86_64 -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/DerivedSources -c /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Depot.cpp -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/Objects-normal/x86_64/Depot.o
+cc1plus: warnings being treated as errors
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:48: warning: ‘struct Digest’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:89: warning: ‘struct SHA1Digest’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:109: warning: ‘struct SHA1DigestMachO’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:121: warning: ‘struct SHA1DigestSymlink’ has virtual functions but non-virtual destructor
+
+CompileC build/darwinbuild.build/Public/darwinup.build/Objects-normal/x86_64/Digest.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.cpp normal x86_64 c++ com.apple.compilers.gcc.4_0
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -x c++ -arch x86_64 -fmessage-length=0 -pipe -Wno-trigraphs -fasm-blocks -Os -mdynamic-no-pic -Werror -Wreturn-type -Wmissing-braces -Wparentheses -Wswitch -Wunused-function -Wunused-label -Wunused-variable -Wunused-value -Wunknown-pragmas -Wfour-char-constants -Wnewline-eof -fvisibility=hidden -fvisibility-inlines-hidden -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/darwinup.hmap -Wall -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/include -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/DerivedSources/x86_64 -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/DerivedSources -c /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.cpp -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/Objects-normal/x86_64/Digest.o
+cc1plus: warnings being treated as errors
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:48: warning: ‘struct Digest’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:89: warning: ‘struct SHA1Digest’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:109: warning: ‘struct SHA1DigestMachO’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:121: warning: ‘struct SHA1DigestSymlink’ has virtual functions but non-virtual destructor
+
+CompileC build/darwinbuild.build/Public/darwinup.build/Objects-normal/x86_64/File.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/File.cpp normal x86_64 c++ com.apple.compilers.gcc.4_0
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -x c++ -arch x86_64 -fmessage-length=0 -pipe -Wno-trigraphs -fasm-blocks -Os -mdynamic-no-pic -Werror -Wreturn-type -Wmissing-braces -Wparentheses -Wswitch -Wunused-function -Wunused-label -Wunused-variable -Wunused-value -Wunknown-pragmas -Wfour-char-constants -Wnewline-eof -fvisibility=hidden -fvisibility-inlines-hidden -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/darwinup.hmap -Wall -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/include -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/DerivedSources/x86_64 -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/DerivedSources -c /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/File.cpp -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/Objects-normal/x86_64/File.o
+cc1plus: warnings being treated as errors
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:48: warning: ‘struct Digest’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:89: warning: ‘struct SHA1Digest’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:109: warning: ‘struct SHA1DigestMachO’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:121: warning: ‘struct SHA1DigestSymlink’ has virtual functions but non-virtual destructor
+
+CompileC build/darwinbuild.build/Public/darwinup.build/Objects-normal/i386/Archive.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Archive.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -x c++ -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fasm-blocks -Os -mdynamic-no-pic -Werror -Wreturn-type -Wmissing-braces -Wparentheses -Wswitch -Wunused-function -Wunused-label -Wunused-variable -Wunused-value -Wunknown-pragmas -Wfour-char-constants -Wnewline-eof -fvisibility=hidden -fvisibility-inlines-hidden -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/darwinup.hmap -Wall -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/include -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/DerivedSources/i386 -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/DerivedSources -c /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Archive.cpp -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/Objects-normal/i386/Archive.o
+cc1plus: warnings being treated as errors
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:48: warning: ‘struct Digest’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:89: warning: ‘struct SHA1Digest’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:109: warning: ‘struct SHA1DigestMachO’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:121: warning: ‘struct SHA1DigestSymlink’ has virtual functions but non-virtual destructor
+
+CompileC build/darwinbuild.build/Public/darwinup.build/Objects-normal/i386/Depot.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Depot.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -x c++ -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fasm-blocks -Os -mdynamic-no-pic -Werror -Wreturn-type -Wmissing-braces -Wparentheses -Wswitch -Wunused-function -Wunused-label -Wunused-variable -Wunused-value -Wunknown-pragmas -Wfour-char-constants -Wnewline-eof -fvisibility=hidden -fvisibility-inlines-hidden -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/darwinup.hmap -Wall -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/include -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/DerivedSources/i386 -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/DerivedSources -c /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Depot.cpp -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/Objects-normal/i386/Depot.o
+cc1plus: warnings being treated as errors
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:48: warning: ‘struct Digest’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:89: warning: ‘struct SHA1Digest’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:109: warning: ‘struct SHA1DigestMachO’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:121: warning: ‘struct SHA1DigestSymlink’ has virtual functions but non-virtual destructor
+
+CompileC build/darwinbuild.build/Public/darwinup.build/Objects-normal/i386/Digest.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -x c++ -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fasm-blocks -Os -mdynamic-no-pic -Werror -Wreturn-type -Wmissing-braces -Wparentheses -Wswitch -Wunused-function -Wunused-label -Wunused-variable -Wunused-value -Wunknown-pragmas -Wfour-char-constants -Wnewline-eof -fvisibility=hidden -fvisibility-inlines-hidden -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/darwinup.hmap -Wall -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/include -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/DerivedSources/i386 -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/DerivedSources -c /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.cpp -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/Objects-normal/i386/Digest.o
+cc1plus: warnings being treated as errors
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:48: warning: ‘struct Digest’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:89: warning: ‘struct SHA1Digest’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:109: warning: ‘struct SHA1DigestMachO’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:121: warning: ‘struct SHA1DigestSymlink’ has virtual functions but non-virtual destructor
+
+CompileC build/darwinbuild.build/Public/darwinup.build/Objects-normal/i386/File.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/File.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -x c++ -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fasm-blocks -Os -mdynamic-no-pic -Werror -Wreturn-type -Wmissing-braces -Wparentheses -Wswitch -Wunused-function -Wunused-label -Wunused-variable -Wunused-value -Wunknown-pragmas -Wfour-char-constants -Wnewline-eof -fvisibility=hidden -fvisibility-inlines-hidden -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/darwinup.hmap -Wall -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/include -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/DerivedSources/i386 -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/DerivedSources -c /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/File.cpp -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinup.build/Objects-normal/i386/File.o
+cc1plus: warnings being treated as errors
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:48: warning: ‘struct Digest’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:89: warning: ‘struct SHA1Digest’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:109: warning: ‘struct SHA1DigestMachO’ has virtual functions but non-virtual destructor
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.h:121: warning: ‘struct SHA1DigestSymlink’ has virtual functions but non-virtual destructor
+
+
+=== BUILDING NATIVE TARGET darwintrace OF PROJECT darwinbuild WITH THE DEFAULT CONFIGURATION (Public) ===
+
+Checking Dependencies...
+
+
+=== BUILDING NATIVE TARGET darwinxref OF PROJECT darwinbuild WITH THE DEFAULT CONFIGURATION (Public) ===
+
+Checking Dependencies...
+
+CompileC build/darwinbuild.build/Public/darwinxref.build/Objects-normal/ppc/main.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c normal ppc c com.apple.compilers.gcc.4_0
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -x c -arch ppc -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -Os -mdynamic-no-pic -Werror -Werror-implicit-function-declaration -Wreturn-type -Wmissing-braces -Wparentheses -Wswitch -Wunused-function -Wunused-label -Wunused-variable -Wunused-value -Wunknown-pragmas -Wfour-char-constants -Wnewline-eof -gdwarf-2 -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinxref.build/darwinxref.hmap -Wall -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/include -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinxref.build/DerivedSources/ppc -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinxref.build/DerivedSources -DHAVE_TCL_PLUGINS=1 -DDEFAULT_PLUGIN_PATH=\"/usr/local/share/darwinxref/plugins\" -DDEFAULT_DB_FILE=\".build/xref.db\" -c /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinxref.build/Objects-normal/ppc/main.o
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c: In function ‘main’:
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c:56: error: stray ‘\’ in program
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c:56: error: missing terminating " character
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c:56: error: syntax error before ‘;’ token
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c:57: error: stray ‘\’ in program
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c:57: error: missing terminating " character
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c:57: error: syntax error before ‘;’ token
+
+CompileC build/darwinbuild.build/Public/darwinxref.build/Objects-normal/ppc64/main.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c normal ppc64 c com.apple.compilers.gcc.4_0
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -x c -arch ppc64 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -Os -mdynamic-no-pic -Werror -Werror-implicit-function-declaration -Wreturn-type -Wmissing-braces -Wparentheses -Wswitch -Wunused-function -Wunused-label -Wunused-variable -Wunused-value -Wunknown-pragmas -Wfour-char-constants -Wnewline-eof -gdwarf-2 -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinxref.build/darwinxref.hmap -Wall -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/include -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinxref.build/DerivedSources/ppc64 -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinxref.build/DerivedSources -DHAVE_TCL_PLUGINS=1 -DDEFAULT_PLUGIN_PATH=\"/usr/local/share/darwinxref/plugins\" -DDEFAULT_DB_FILE=\".build/xref.db\" -c /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinxref.build/Objects-normal/ppc64/main.o
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c: In function ‘main’:
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c:56: error: stray ‘\’ in program
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c:56: error: missing terminating " character
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c:56: error: syntax error before ‘;’ token
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c:57: error: stray ‘\’ in program
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c:57: error: missing terminating " character
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c:57: error: syntax error before ‘;’ token
+
+CompileC build/darwinbuild.build/Public/darwinxref.build/Objects-normal/x86_64/main.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c normal x86_64 c com.apple.compilers.gcc.4_0
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -x c -arch x86_64 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fasm-blocks -Os -mdynamic-no-pic -Werror -Werror-implicit-function-declaration -Wreturn-type -Wmissing-braces -Wparentheses -Wswitch -Wunused-function -Wunused-label -Wunused-variable -Wunused-value -Wunknown-pragmas -Wfour-char-constants -Wnewline-eof -gdwarf-2 -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinxref.build/darwinxref.hmap -Wall -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/include -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinxref.build/DerivedSources/x86_64 -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinxref.build/DerivedSources -DHAVE_TCL_PLUGINS=1 -DDEFAULT_PLUGIN_PATH=\"/usr/local/share/darwinxref/plugins\" -DDEFAULT_DB_FILE=\".build/xref.db\" -c /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinxref.build/Objects-normal/x86_64/main.o
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c: In function ‘main’:
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c:56: error: syntax error at ‘OTHER’ token
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c:56: error: syntax error at ‘OTHER’ token
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c:56: error: syntax error before ‘;’ token
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c:57: error: syntax error at ‘OTHER’ token
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c:57: error: syntax error at ‘OTHER’ token
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c:57: error: syntax error before ‘;’ token
+
+CompileC build/darwinbuild.build/Public/darwinxref.build/Objects-normal/i386/main.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c normal i386 c com.apple.compilers.gcc.4_0
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -x c -arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fasm-blocks -Os -mdynamic-no-pic -Werror -Werror-implicit-function-declaration -Wreturn-type -Wmissing-braces -Wparentheses -Wswitch -Wunused-function -Wunused-label -Wunused-variable -Wunused-value -Wunknown-pragmas -Wfour-char-constants -Wnewline-eof -gdwarf-2 -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinxref.build/darwinxref.hmap -Wall -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/include -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinxref.build/DerivedSources/i386 -I/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinxref.build/DerivedSources -DHAVE_TCL_PLUGINS=1 -DDEFAULT_PLUGIN_PATH=\"/usr/local/share/darwinxref/plugins\" -DDEFAULT_DB_FILE=\".build/xref.db\" -c /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/darwinxref.build/Objects-normal/i386/main.o
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c: In function ‘main’:
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c:56: error: syntax error at ‘OTHER’ token
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c:56: error: syntax error at ‘OTHER’ token
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c:56: error: syntax error before ‘;’ token
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c:57: error: syntax error at ‘OTHER’ token
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c:57: error: syntax error at ‘OTHER’ token
+/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c:57: error: syntax error before ‘;’ token
+
+
+=== BUILDING AGGREGATE TARGET tcl_plugins OF PROJECT darwinbuild WITH THE DEFAULT CONFIGURATION (Public) ===
+
+Checking Dependencies...
+
+
+=== BUILDING NATIVE TARGET configuration OF PROJECT darwinbuild WITH THE DEFAULT CONFIGURATION (Public) ===
+
+Checking Dependencies...
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/configuration.build/Objects-normal/ppc/configuration.so normal ppc
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/configuration.build/Objects-normal/ppc/configuration.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/configuration.build/Objects-normal/ppc/configuration.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/configuration.build/Objects-normal/ppc64/configuration.so normal ppc64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/configuration.build/Objects-normal/ppc64/configuration.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/configuration.build/Objects-normal/ppc64/configuration.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/configuration.build/Objects-normal/x86_64/configuration.so normal x86_64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch x86_64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/configuration.build/Objects-normal/x86_64/configuration.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/configuration.build/Objects-normal/x86_64/configuration.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/configuration.build/Objects-normal/i386/configuration.so normal i386
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch i386 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/configuration.build/Objects-normal/i386/configuration.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/configuration.build/Objects-normal/i386/configuration.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+
+=== BUILDING NATIVE TARGET dependencies OF PROJECT darwinbuild WITH THE DEFAULT CONFIGURATION (Public) ===
+
+Checking Dependencies...
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/dependencies.build/Objects-normal/ppc/dependencies.so normal ppc
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/dependencies.build/Objects-normal/ppc/dependencies.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/dependencies.build/Objects-normal/ppc/dependencies.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/dependencies.build/Objects-normal/ppc64/dependencies.so normal ppc64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/dependencies.build/Objects-normal/ppc64/dependencies.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/dependencies.build/Objects-normal/ppc64/dependencies.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/dependencies.build/Objects-normal/x86_64/dependencies.so normal x86_64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch x86_64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/dependencies.build/Objects-normal/x86_64/dependencies.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/dependencies.build/Objects-normal/x86_64/dependencies.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/dependencies.build/Objects-normal/i386/dependencies.so normal i386
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch i386 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/dependencies.build/Objects-normal/i386/dependencies.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/dependencies.build/Objects-normal/i386/dependencies.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+
+=== BUILDING NATIVE TARGET diff OF PROJECT darwinbuild WITH THE DEFAULT CONFIGURATION (Public) ===
+
+Checking Dependencies...
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/diff.build/Objects-normal/ppc/diff.so normal ppc
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/diff.build/Objects-normal/ppc/diff.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/diff.build/Objects-normal/ppc/diff.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/diff.build/Objects-normal/ppc64/diff.so normal ppc64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/diff.build/Objects-normal/ppc64/diff.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/diff.build/Objects-normal/ppc64/diff.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/diff.build/Objects-normal/x86_64/diff.so normal x86_64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch x86_64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/diff.build/Objects-normal/x86_64/diff.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/diff.build/Objects-normal/x86_64/diff.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/diff.build/Objects-normal/i386/diff.so normal i386
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch i386 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/diff.build/Objects-normal/i386/diff.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/diff.build/Objects-normal/i386/diff.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+
+=== BUILDING NATIVE TARGET dot OF PROJECT darwinbuild WITH THE DEFAULT CONFIGURATION (Public) ===
+
+Checking Dependencies...
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/dot.build/Objects-normal/ppc/dot.so normal ppc
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/dot.build/Objects-normal/ppc/dot.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/dot.build/Objects-normal/ppc/dot.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/dot.build/Objects-normal/ppc64/dot.so normal ppc64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/dot.build/Objects-normal/ppc64/dot.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/dot.build/Objects-normal/ppc64/dot.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/dot.build/Objects-normal/x86_64/dot.so normal x86_64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch x86_64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/dot.build/Objects-normal/x86_64/dot.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/dot.build/Objects-normal/x86_64/dot.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/dot.build/Objects-normal/i386/dot.so normal i386
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch i386 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/dot.build/Objects-normal/i386/dot.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/dot.build/Objects-normal/i386/dot.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+
+=== BUILDING NATIVE TARGET edit OF PROJECT darwinbuild WITH THE DEFAULT CONFIGURATION (Public) ===
+
+Checking Dependencies...
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/edit.build/Objects-normal/ppc/edit.so normal ppc
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/edit.build/Objects-normal/ppc/edit.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/edit.build/Objects-normal/ppc/edit.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/edit.build/Objects-normal/ppc64/edit.so normal ppc64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/edit.build/Objects-normal/ppc64/edit.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/edit.build/Objects-normal/ppc64/edit.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/edit.build/Objects-normal/x86_64/edit.so normal x86_64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch x86_64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/edit.build/Objects-normal/x86_64/edit.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/edit.build/Objects-normal/x86_64/edit.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/edit.build/Objects-normal/i386/edit.so normal i386
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch i386 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/edit.build/Objects-normal/i386/edit.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/edit.build/Objects-normal/i386/edit.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+
+=== BUILDING NATIVE TARGET environment OF PROJECT darwinbuild WITH THE DEFAULT CONFIGURATION (Public) ===
+
+Checking Dependencies...
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/environment.build/Objects-normal/ppc/environment.so normal ppc
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/environment.build/Objects-normal/ppc/environment.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/environment.build/Objects-normal/ppc/environment.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/environment.build/Objects-normal/ppc64/environment.so normal ppc64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/environment.build/Objects-normal/ppc64/environment.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/environment.build/Objects-normal/ppc64/environment.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/environment.build/Objects-normal/x86_64/environment.so normal x86_64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch x86_64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/environment.build/Objects-normal/x86_64/environment.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/environment.build/Objects-normal/x86_64/environment.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/environment.build/Objects-normal/i386/environment.so normal i386
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch i386 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/environment.build/Objects-normal/i386/environment.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/environment.build/Objects-normal/i386/environment.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+
+=== BUILDING NATIVE TARGET exportFiles OF PROJECT darwinbuild WITH THE DEFAULT CONFIGURATION (Public) ===
+
+Checking Dependencies...
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportFiles.build/Objects-normal/ppc/exportFiles.so normal ppc
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportFiles.build/Objects-normal/ppc/exportFiles.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportFiles.build/Objects-normal/ppc/exportFiles.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportFiles.build/Objects-normal/ppc64/exportFiles.so normal ppc64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportFiles.build/Objects-normal/ppc64/exportFiles.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportFiles.build/Objects-normal/ppc64/exportFiles.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportFiles.build/Objects-normal/x86_64/exportFiles.so normal x86_64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch x86_64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportFiles.build/Objects-normal/x86_64/exportFiles.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportFiles.build/Objects-normal/x86_64/exportFiles.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportFiles.build/Objects-normal/i386/exportFiles.so normal i386
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch i386 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportFiles.build/Objects-normal/i386/exportFiles.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportFiles.build/Objects-normal/i386/exportFiles.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+
+=== BUILDING NATIVE TARGET exportIndex OF PROJECT darwinbuild WITH THE DEFAULT CONFIGURATION (Public) ===
+
+Checking Dependencies...
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportIndex.build/Objects-normal/ppc/exportIndex.so normal ppc
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportIndex.build/Objects-normal/ppc/exportIndex.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportIndex.build/Objects-normal/ppc/exportIndex.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportIndex.build/Objects-normal/ppc64/exportIndex.so normal ppc64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportIndex.build/Objects-normal/ppc64/exportIndex.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportIndex.build/Objects-normal/ppc64/exportIndex.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportIndex.build/Objects-normal/x86_64/exportIndex.so normal x86_64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch x86_64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportIndex.build/Objects-normal/x86_64/exportIndex.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportIndex.build/Objects-normal/x86_64/exportIndex.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportIndex.build/Objects-normal/i386/exportIndex.so normal i386
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch i386 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportIndex.build/Objects-normal/i386/exportIndex.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportIndex.build/Objects-normal/i386/exportIndex.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+
+=== BUILDING NATIVE TARGET exportProject OF PROJECT darwinbuild WITH THE DEFAULT CONFIGURATION (Public) ===
+
+Checking Dependencies...
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportProject.build/Objects-normal/ppc/exportProject.so normal ppc
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportProject.build/Objects-normal/ppc/exportProject.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportProject.build/Objects-normal/ppc/exportProject.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportProject.build/Objects-normal/ppc64/exportProject.so normal ppc64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportProject.build/Objects-normal/ppc64/exportProject.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportProject.build/Objects-normal/ppc64/exportProject.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportProject.build/Objects-normal/x86_64/exportProject.so normal x86_64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch x86_64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportProject.build/Objects-normal/x86_64/exportProject.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportProject.build/Objects-normal/x86_64/exportProject.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportProject.build/Objects-normal/i386/exportProject.so normal i386
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch i386 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportProject.build/Objects-normal/i386/exportProject.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportProject.build/Objects-normal/i386/exportProject.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+
+=== BUILDING NATIVE TARGET findFile OF PROJECT darwinbuild WITH THE DEFAULT CONFIGURATION (Public) ===
+
+Checking Dependencies...
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/findFile.build/Objects-normal/ppc/findFile.so normal ppc
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/findFile.build/Objects-normal/ppc/findFile.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/findFile.build/Objects-normal/ppc/findFile.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/findFile.build/Objects-normal/ppc64/findFile.so normal ppc64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/findFile.build/Objects-normal/ppc64/findFile.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/findFile.build/Objects-normal/ppc64/findFile.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/findFile.build/Objects-normal/x86_64/findFile.so normal x86_64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch x86_64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/findFile.build/Objects-normal/x86_64/findFile.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/findFile.build/Objects-normal/x86_64/findFile.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/findFile.build/Objects-normal/i386/findFile.so normal i386
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch i386 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/findFile.build/Objects-normal/i386/findFile.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/findFile.build/Objects-normal/i386/findFile.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+
+=== BUILDING NATIVE TARGET inherits OF PROJECT darwinbuild WITH THE DEFAULT CONFIGURATION (Public) ===
+
+Checking Dependencies...
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/inherits.build/Objects-normal/ppc/inherits.so normal ppc
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/inherits.build/Objects-normal/ppc/inherits.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/inherits.build/Objects-normal/ppc/inherits.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/inherits.build/Objects-normal/ppc64/inherits.so normal ppc64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/inherits.build/Objects-normal/ppc64/inherits.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/inherits.build/Objects-normal/ppc64/inherits.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/inherits.build/Objects-normal/x86_64/inherits.so normal x86_64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch x86_64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/inherits.build/Objects-normal/x86_64/inherits.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/inherits.build/Objects-normal/x86_64/inherits.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/inherits.build/Objects-normal/i386/inherits.so normal i386
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch i386 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/inherits.build/Objects-normal/i386/inherits.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/inherits.build/Objects-normal/i386/inherits.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+
+=== BUILDING NATIVE TARGET loadDeps OF PROJECT darwinbuild WITH THE DEFAULT CONFIGURATION (Public) ===
+
+Checking Dependencies...
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadDeps.build/Objects-normal/ppc/loadDeps.so normal ppc
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadDeps.build/Objects-normal/ppc/loadDeps.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadDeps.build/Objects-normal/ppc/loadDeps.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadDeps.build/Objects-normal/ppc64/loadDeps.so normal ppc64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadDeps.build/Objects-normal/ppc64/loadDeps.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadDeps.build/Objects-normal/ppc64/loadDeps.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadDeps.build/Objects-normal/x86_64/loadDeps.so normal x86_64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch x86_64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadDeps.build/Objects-normal/x86_64/loadDeps.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadDeps.build/Objects-normal/x86_64/loadDeps.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadDeps.build/Objects-normal/i386/loadDeps.so normal i386
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch i386 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadDeps.build/Objects-normal/i386/loadDeps.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadDeps.build/Objects-normal/i386/loadDeps.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+
+=== BUILDING NATIVE TARGET loadFiles OF PROJECT darwinbuild WITH THE DEFAULT CONFIGURATION (Public) ===
+
+Checking Dependencies...
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadFiles.build/Objects-normal/ppc/loadFiles.so normal ppc
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadFiles.build/Objects-normal/ppc/loadFiles.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadFiles.build/Objects-normal/ppc/loadFiles.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadFiles.build/Objects-normal/ppc64/loadFiles.so normal ppc64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadFiles.build/Objects-normal/ppc64/loadFiles.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadFiles.build/Objects-normal/ppc64/loadFiles.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadFiles.build/Objects-normal/x86_64/loadFiles.so normal x86_64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch x86_64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadFiles.build/Objects-normal/x86_64/loadFiles.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadFiles.build/Objects-normal/x86_64/loadFiles.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadFiles.build/Objects-normal/i386/loadFiles.so normal i386
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch i386 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadFiles.build/Objects-normal/i386/loadFiles.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadFiles.build/Objects-normal/i386/loadFiles.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+
+=== BUILDING NATIVE TARGET loadIndex OF PROJECT darwinbuild WITH THE DEFAULT CONFIGURATION (Public) ===
+
+Checking Dependencies...
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadIndex.build/Objects-normal/ppc/loadIndex.so normal ppc
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadIndex.build/Objects-normal/ppc/loadIndex.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadIndex.build/Objects-normal/ppc/loadIndex.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadIndex.build/Objects-normal/ppc64/loadIndex.so normal ppc64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadIndex.build/Objects-normal/ppc64/loadIndex.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadIndex.build/Objects-normal/ppc64/loadIndex.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadIndex.build/Objects-normal/x86_64/loadIndex.so normal x86_64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch x86_64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadIndex.build/Objects-normal/x86_64/loadIndex.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadIndex.build/Objects-normal/x86_64/loadIndex.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadIndex.build/Objects-normal/i386/loadIndex.so normal i386
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch i386 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadIndex.build/Objects-normal/i386/loadIndex.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadIndex.build/Objects-normal/i386/loadIndex.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+
+=== BUILDING NATIVE TARGET mergeBuild OF PROJECT darwinbuild WITH THE DEFAULT CONFIGURATION (Public) ===
+
+Checking Dependencies...
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/mergeBuild.build/Objects-normal/ppc/mergeBuild.so normal ppc
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/mergeBuild.build/Objects-normal/ppc/mergeBuild.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/mergeBuild.build/Objects-normal/ppc/mergeBuild.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/mergeBuild.build/Objects-normal/ppc64/mergeBuild.so normal ppc64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/mergeBuild.build/Objects-normal/ppc64/mergeBuild.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/mergeBuild.build/Objects-normal/ppc64/mergeBuild.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/mergeBuild.build/Objects-normal/x86_64/mergeBuild.so normal x86_64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch x86_64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/mergeBuild.build/Objects-normal/x86_64/mergeBuild.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/mergeBuild.build/Objects-normal/x86_64/mergeBuild.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/mergeBuild.build/Objects-normal/i386/mergeBuild.so normal i386
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch i386 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/mergeBuild.build/Objects-normal/i386/mergeBuild.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/mergeBuild.build/Objects-normal/i386/mergeBuild.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+
+=== BUILDING NATIVE TARGET original OF PROJECT darwinbuild WITH THE DEFAULT CONFIGURATION (Public) ===
+
+Checking Dependencies...
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/original.build/Objects-normal/ppc/original.so normal ppc
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/original.build/Objects-normal/ppc/original.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/original.build/Objects-normal/ppc/original.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/original.build/Objects-normal/ppc64/original.so normal ppc64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/original.build/Objects-normal/ppc64/original.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/original.build/Objects-normal/ppc64/original.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/original.build/Objects-normal/x86_64/original.so normal x86_64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch x86_64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/original.build/Objects-normal/x86_64/original.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/original.build/Objects-normal/x86_64/original.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/original.build/Objects-normal/i386/original.so normal i386
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch i386 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/original.build/Objects-normal/i386/original.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/original.build/Objects-normal/i386/original.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+
+=== BUILDING NATIVE TARGET patchfiles OF PROJECT darwinbuild WITH THE DEFAULT CONFIGURATION (Public) ===
+
+Checking Dependencies...
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/patchfiles.build/Objects-normal/ppc/patchfiles.so normal ppc
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/patchfiles.build/Objects-normal/ppc/patchfiles.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/patchfiles.build/Objects-normal/ppc/patchfiles.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/patchfiles.build/Objects-normal/ppc64/patchfiles.so normal ppc64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/patchfiles.build/Objects-normal/ppc64/patchfiles.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/patchfiles.build/Objects-normal/ppc64/patchfiles.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/patchfiles.build/Objects-normal/x86_64/patchfiles.so normal x86_64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch x86_64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/patchfiles.build/Objects-normal/x86_64/patchfiles.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/patchfiles.build/Objects-normal/x86_64/patchfiles.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/patchfiles.build/Objects-normal/i386/patchfiles.so normal i386
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch i386 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/patchfiles.build/Objects-normal/i386/patchfiles.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/patchfiles.build/Objects-normal/i386/patchfiles.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+
+=== BUILDING NATIVE TARGET plist_sites OF PROJECT darwinbuild WITH THE DEFAULT CONFIGURATION (Public) ===
+
+Checking Dependencies...
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/plist_sites.build/Objects-normal/ppc/plist_sites.so normal ppc
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/plist_sites.build/Objects-normal/ppc/plist_sites.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/plist_sites.build/Objects-normal/ppc/plist_sites.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/plist_sites.build/Objects-normal/ppc64/plist_sites.so normal ppc64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/plist_sites.build/Objects-normal/ppc64/plist_sites.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/plist_sites.build/Objects-normal/ppc64/plist_sites.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/plist_sites.build/Objects-normal/x86_64/plist_sites.so normal x86_64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch x86_64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/plist_sites.build/Objects-normal/x86_64/plist_sites.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/plist_sites.build/Objects-normal/x86_64/plist_sites.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/plist_sites.build/Objects-normal/i386/plist_sites.so normal i386
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch i386 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/plist_sites.build/Objects-normal/i386/plist_sites.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/plist_sites.build/Objects-normal/i386/plist_sites.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+
+=== BUILDING NATIVE TARGET register OF PROJECT darwinbuild WITH THE DEFAULT CONFIGURATION (Public) ===
+
+Checking Dependencies...
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/register.build/Objects-normal/ppc/register.so normal ppc
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/register.build/Objects-normal/ppc/register.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/register.build/Objects-normal/ppc/register.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/register.build/Objects-normal/ppc64/register.so normal ppc64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/register.build/Objects-normal/ppc64/register.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/register.build/Objects-normal/ppc64/register.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/register.build/Objects-normal/x86_64/register.so normal x86_64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch x86_64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/register.build/Objects-normal/x86_64/register.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/register.build/Objects-normal/x86_64/register.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/register.build/Objects-normal/i386/register.so normal i386
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch i386 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/register.build/Objects-normal/i386/register.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/register.build/Objects-normal/i386/register.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+
+=== BUILDING NATIVE TARGET resolveDeps OF PROJECT darwinbuild WITH THE DEFAULT CONFIGURATION (Public) ===
+
+Checking Dependencies...
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/resolveDeps.build/Objects-normal/ppc/resolveDeps.so normal ppc
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/resolveDeps.build/Objects-normal/ppc/resolveDeps.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/resolveDeps.build/Objects-normal/ppc/resolveDeps.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/resolveDeps.build/Objects-normal/ppc64/resolveDeps.so normal ppc64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/resolveDeps.build/Objects-normal/ppc64/resolveDeps.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/resolveDeps.build/Objects-normal/ppc64/resolveDeps.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/resolveDeps.build/Objects-normal/x86_64/resolveDeps.so normal x86_64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch x86_64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/resolveDeps.build/Objects-normal/x86_64/resolveDeps.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/resolveDeps.build/Objects-normal/x86_64/resolveDeps.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/resolveDeps.build/Objects-normal/i386/resolveDeps.so normal i386
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch i386 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/resolveDeps.build/Objects-normal/i386/resolveDeps.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/resolveDeps.build/Objects-normal/i386/resolveDeps.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+
+=== BUILDING NATIVE TARGET source_sites OF PROJECT darwinbuild WITH THE DEFAULT CONFIGURATION (Public) ===
+
+Checking Dependencies...
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/source_sites.build/Objects-normal/ppc/source_sites.so normal ppc
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/source_sites.build/Objects-normal/ppc/source_sites.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/source_sites.build/Objects-normal/ppc/source_sites.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/source_sites.build/Objects-normal/ppc64/source_sites.so normal ppc64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/source_sites.build/Objects-normal/ppc64/source_sites.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/source_sites.build/Objects-normal/ppc64/source_sites.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/source_sites.build/Objects-normal/x86_64/source_sites.so normal x86_64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch x86_64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/source_sites.build/Objects-normal/x86_64/source_sites.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/source_sites.build/Objects-normal/x86_64/source_sites.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/source_sites.build/Objects-normal/i386/source_sites.so normal i386
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch i386 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/source_sites.build/Objects-normal/i386/source_sites.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/source_sites.build/Objects-normal/i386/source_sites.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+
+=== BUILDING NATIVE TARGET target OF PROJECT darwinbuild WITH THE DEFAULT CONFIGURATION (Public) ===
+
+Checking Dependencies...
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/target.build/Objects-normal/ppc/target.so normal ppc
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/target.build/Objects-normal/ppc/target.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/target.build/Objects-normal/ppc/target.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/target.build/Objects-normal/ppc64/target.so normal ppc64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/target.build/Objects-normal/ppc64/target.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/target.build/Objects-normal/ppc64/target.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/target.build/Objects-normal/x86_64/target.so normal x86_64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch x86_64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/target.build/Objects-normal/x86_64/target.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/target.build/Objects-normal/x86_64/target.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/target.build/Objects-normal/i386/target.so normal i386
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch i386 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/target.build/Objects-normal/i386/target.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/target.build/Objects-normal/i386/target.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+
+=== BUILDING NATIVE TARGET version OF PROJECT darwinbuild WITH THE DEFAULT CONFIGURATION (Public) ===
+
+Checking Dependencies...
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/version.build/Objects-normal/ppc/version.so normal ppc
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/version.build/Objects-normal/ppc/version.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/version.build/Objects-normal/ppc/version.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/version.build/Objects-normal/ppc64/version.so normal ppc64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch ppc64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/version.build/Objects-normal/ppc64/version.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/version.build/Objects-normal/ppc64/version.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/version.build/Objects-normal/x86_64/version.so normal x86_64
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch x86_64 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/version.build/Objects-normal/x86_64/version.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/version.build/Objects-normal/x86_64/version.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/version.build/Objects-normal/i386/version.so normal i386
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /Developer/usr/bin/gcc-4.0 -arch i386 -bundle -L/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -F/Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public -filelist /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/version.build/Objects-normal/i386/version.LinkFileList -bundle_loader /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref -framework CoreFoundation -ltcl -lcrypto -lsqlite3 -o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/version.build/Objects-normal/i386/version.so
+ld: file not found: /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public//usr/local/bin/darwinxref
+collect2: ld returned 1 exit status
+
+
+=== BUILDING AGGREGATE TARGET darwinxref_plugins OF PROJECT darwinbuild WITH THE DEFAULT CONFIGURATION (Public) ===
+
+Checking Dependencies...
+
+
+=== BUILDING NATIVE TARGET darwinbuild OF PROJECT darwinbuild WITH THE DEFAULT CONFIGURATION (Public) ===
+
+Checking Dependencies...
+
+SymLink /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/darwinbuild /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/usr/local/bin/darwinbuild
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /bin/ln -sf /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/usr/local/bin/darwinbuild /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/darwinbuild
+
+
+=== BUILDING NATIVE TARGET manifest OF PROJECT darwinbuild WITH THE DEFAULT CONFIGURATION (Public) ===
+
+Checking Dependencies...
+
+
+=== BUILDING NATIVE TARGET darwinmaster OF PROJECT darwinbuild WITH THE DEFAULT CONFIGURATION (Public) ===
+
+Checking Dependencies...
+
+SymLink /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/darwinmaster /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/usr/local/bin/darwinmaster
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /bin/ln -sf /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/usr/local/bin/darwinmaster /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/darwinmaster
+
+
+=== BUILDING NATIVE TARGET packageRoots OF PROJECT darwinbuild WITH THE DEFAULT CONFIGURATION (Public) ===
+
+Checking Dependencies...
+
+SymLink /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/packageRoots /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/usr/local/share/darwinbuild/packageRoots
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /bin/ln -sf /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/usr/local/share/darwinbuild/packageRoots /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/packageRoots
+
+
+=== BUILDING NATIVE TARGET thinPackages OF PROJECT darwinbuild WITH THE DEFAULT CONFIGURATION (Public) ===
+
+Checking Dependencies...
+
+SymLink /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/thinPackages /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/usr/local/share/darwinbuild/thinPackages
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /bin/ln -sf /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/usr/local/share/darwinbuild/thinPackages /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/thinPackages
+
+
+=== BUILDING NATIVE TARGET installXcode OF PROJECT darwinbuild WITH THE DEFAULT CONFIGURATION (Public) ===
+
+Checking Dependencies...
+
+SymLink /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/installXcode /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/usr/local/share/darwinbuild/installXcode
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /bin/ln -sf /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/usr/local/share/darwinbuild/installXcode /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/installXcode
+
+
+=== BUILDING NATIVE TARGET installXcode32 OF PROJECT darwinbuild WITH THE DEFAULT CONFIGURATION (Public) ===
+
+Checking Dependencies...
+
+SymLink /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/installXcode32 /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/usr/local/share/darwinbuild/installXcode32
+    cd /Volumes/DarwinBuild/darwinbuild/darwinbuild-613
+    /bin/ln -sf /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/usr/local/share/darwinbuild/installXcode32 /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/Public/installXcode32
+
+
+=== BUILDING AGGREGATE TARGET darwinbuild_scripts OF PROJECT darwinbuild WITH THE DEFAULT CONFIGURATION (Public) ===
+
+Checking Dependencies...
+
+
+=== BUILDING AGGREGATE TARGET world OF PROJECT darwinbuild WITH THE DEFAULT CONFIGURATION (Public) ===
+
+Checking Dependencies...
+** BUILD FAILED **
+
+The following build commands failed:
+darwinup:
+	CompileC build/darwinbuild.build/Public/darwinup.build/Objects-normal/ppc/Archive.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Archive.cpp normal ppc c++ com.apple.compilers.gcc.4_0
+	CompileC build/darwinbuild.build/Public/darwinup.build/Objects-normal/ppc/Depot.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Depot.cpp normal ppc c++ com.apple.compilers.gcc.4_0
+	CompileC build/darwinbuild.build/Public/darwinup.build/Objects-normal/ppc/Digest.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.cpp normal ppc c++ com.apple.compilers.gcc.4_0
+	CompileC build/darwinbuild.build/Public/darwinup.build/Objects-normal/ppc/File.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/File.cpp normal ppc c++ com.apple.compilers.gcc.4_0
+	CompileC build/darwinbuild.build/Public/darwinup.build/Objects-normal/ppc64/Archive.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Archive.cpp normal ppc64 c++ com.apple.compilers.gcc.4_0
+	CompileC build/darwinbuild.build/Public/darwinup.build/Objects-normal/ppc64/Depot.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Depot.cpp normal ppc64 c++ com.apple.compilers.gcc.4_0
+	CompileC build/darwinbuild.build/Public/darwinup.build/Objects-normal/ppc64/Digest.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.cpp normal ppc64 c++ com.apple.compilers.gcc.4_0
+	CompileC build/darwinbuild.build/Public/darwinup.build/Objects-normal/ppc64/File.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/File.cpp normal ppc64 c++ com.apple.compilers.gcc.4_0
+	CompileC build/darwinbuild.build/Public/darwinup.build/Objects-normal/x86_64/Archive.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Archive.cpp normal x86_64 c++ com.apple.compilers.gcc.4_0
+	CompileC build/darwinbuild.build/Public/darwinup.build/Objects-normal/x86_64/Depot.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Depot.cpp normal x86_64 c++ com.apple.compilers.gcc.4_0
+	CompileC build/darwinbuild.build/Public/darwinup.build/Objects-normal/x86_64/Digest.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.cpp normal x86_64 c++ com.apple.compilers.gcc.4_0
+	CompileC build/darwinbuild.build/Public/darwinup.build/Objects-normal/x86_64/File.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/File.cpp normal x86_64 c++ com.apple.compilers.gcc.4_0
+	CompileC build/darwinbuild.build/Public/darwinup.build/Objects-normal/i386/Archive.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Archive.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+	CompileC build/darwinbuild.build/Public/darwinup.build/Objects-normal/i386/Depot.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Depot.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+	CompileC build/darwinbuild.build/Public/darwinup.build/Objects-normal/i386/Digest.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/Digest.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+	CompileC build/darwinbuild.build/Public/darwinup.build/Objects-normal/i386/File.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinup/File.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+darwinxref:
+	CompileC build/darwinbuild.build/Public/darwinxref.build/Objects-normal/ppc/main.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c normal ppc c com.apple.compilers.gcc.4_0
+	CompileC build/darwinbuild.build/Public/darwinxref.build/Objects-normal/ppc64/main.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c normal ppc64 c com.apple.compilers.gcc.4_0
+	CompileC build/darwinbuild.build/Public/darwinxref.build/Objects-normal/x86_64/main.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c normal x86_64 c com.apple.compilers.gcc.4_0
+	CompileC build/darwinbuild.build/Public/darwinxref.build/Objects-normal/i386/main.o /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/darwinxref/main.c normal i386 c com.apple.compilers.gcc.4_0
+configuration:
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/configuration.build/Objects-normal/ppc/configuration.so normal ppc
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/configuration.build/Objects-normal/ppc64/configuration.so normal ppc64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/configuration.build/Objects-normal/x86_64/configuration.so normal x86_64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/configuration.build/Objects-normal/i386/configuration.so normal i386
+dependencies:
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/dependencies.build/Objects-normal/ppc/dependencies.so normal ppc
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/dependencies.build/Objects-normal/ppc64/dependencies.so normal ppc64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/dependencies.build/Objects-normal/x86_64/dependencies.so normal x86_64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/dependencies.build/Objects-normal/i386/dependencies.so normal i386
+diff:
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/diff.build/Objects-normal/ppc/diff.so normal ppc
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/diff.build/Objects-normal/ppc64/diff.so normal ppc64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/diff.build/Objects-normal/x86_64/diff.so normal x86_64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/diff.build/Objects-normal/i386/diff.so normal i386
+dot:
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/dot.build/Objects-normal/ppc/dot.so normal ppc
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/dot.build/Objects-normal/ppc64/dot.so normal ppc64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/dot.build/Objects-normal/x86_64/dot.so normal x86_64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/dot.build/Objects-normal/i386/dot.so normal i386
+edit:
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/edit.build/Objects-normal/ppc/edit.so normal ppc
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/edit.build/Objects-normal/ppc64/edit.so normal ppc64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/edit.build/Objects-normal/x86_64/edit.so normal x86_64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/edit.build/Objects-normal/i386/edit.so normal i386
+environment:
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/environment.build/Objects-normal/ppc/environment.so normal ppc
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/environment.build/Objects-normal/ppc64/environment.so normal ppc64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/environment.build/Objects-normal/x86_64/environment.so normal x86_64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/environment.build/Objects-normal/i386/environment.so normal i386
+exportFiles:
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportFiles.build/Objects-normal/ppc/exportFiles.so normal ppc
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportFiles.build/Objects-normal/ppc64/exportFiles.so normal ppc64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportFiles.build/Objects-normal/x86_64/exportFiles.so normal x86_64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportFiles.build/Objects-normal/i386/exportFiles.so normal i386
+exportIndex:
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportIndex.build/Objects-normal/ppc/exportIndex.so normal ppc
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportIndex.build/Objects-normal/ppc64/exportIndex.so normal ppc64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportIndex.build/Objects-normal/x86_64/exportIndex.so normal x86_64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportIndex.build/Objects-normal/i386/exportIndex.so normal i386
+exportProject:
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportProject.build/Objects-normal/ppc/exportProject.so normal ppc
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportProject.build/Objects-normal/ppc64/exportProject.so normal ppc64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportProject.build/Objects-normal/x86_64/exportProject.so normal x86_64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/exportProject.build/Objects-normal/i386/exportProject.so normal i386
+findFile:
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/findFile.build/Objects-normal/ppc/findFile.so normal ppc
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/findFile.build/Objects-normal/ppc64/findFile.so normal ppc64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/findFile.build/Objects-normal/x86_64/findFile.so normal x86_64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/findFile.build/Objects-normal/i386/findFile.so normal i386
+inherits:
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/inherits.build/Objects-normal/ppc/inherits.so normal ppc
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/inherits.build/Objects-normal/ppc64/inherits.so normal ppc64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/inherits.build/Objects-normal/x86_64/inherits.so normal x86_64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/inherits.build/Objects-normal/i386/inherits.so normal i386
+loadDeps:
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadDeps.build/Objects-normal/ppc/loadDeps.so normal ppc
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadDeps.build/Objects-normal/ppc64/loadDeps.so normal ppc64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadDeps.build/Objects-normal/x86_64/loadDeps.so normal x86_64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadDeps.build/Objects-normal/i386/loadDeps.so normal i386
+loadFiles:
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadFiles.build/Objects-normal/ppc/loadFiles.so normal ppc
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadFiles.build/Objects-normal/ppc64/loadFiles.so normal ppc64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadFiles.build/Objects-normal/x86_64/loadFiles.so normal x86_64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadFiles.build/Objects-normal/i386/loadFiles.so normal i386
+loadIndex:
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadIndex.build/Objects-normal/ppc/loadIndex.so normal ppc
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadIndex.build/Objects-normal/ppc64/loadIndex.so normal ppc64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadIndex.build/Objects-normal/x86_64/loadIndex.so normal x86_64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/loadIndex.build/Objects-normal/i386/loadIndex.so normal i386
+mergeBuild:
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/mergeBuild.build/Objects-normal/ppc/mergeBuild.so normal ppc
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/mergeBuild.build/Objects-normal/ppc64/mergeBuild.so normal ppc64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/mergeBuild.build/Objects-normal/x86_64/mergeBuild.so normal x86_64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/mergeBuild.build/Objects-normal/i386/mergeBuild.so normal i386
+original:
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/original.build/Objects-normal/ppc/original.so normal ppc
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/original.build/Objects-normal/ppc64/original.so normal ppc64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/original.build/Objects-normal/x86_64/original.so normal x86_64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/original.build/Objects-normal/i386/original.so normal i386
+patchfiles:
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/patchfiles.build/Objects-normal/ppc/patchfiles.so normal ppc
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/patchfiles.build/Objects-normal/ppc64/patchfiles.so normal ppc64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/patchfiles.build/Objects-normal/x86_64/patchfiles.so normal x86_64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/patchfiles.build/Objects-normal/i386/patchfiles.so normal i386
+plist_sites:
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/plist_sites.build/Objects-normal/ppc/plist_sites.so normal ppc
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/plist_sites.build/Objects-normal/ppc64/plist_sites.so normal ppc64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/plist_sites.build/Objects-normal/x86_64/plist_sites.so normal x86_64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/plist_sites.build/Objects-normal/i386/plist_sites.so normal i386
+register:
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/register.build/Objects-normal/ppc/register.so normal ppc
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/register.build/Objects-normal/ppc64/register.so normal ppc64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/register.build/Objects-normal/x86_64/register.so normal x86_64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/register.build/Objects-normal/i386/register.so normal i386
+resolveDeps:
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/resolveDeps.build/Objects-normal/ppc/resolveDeps.so normal ppc
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/resolveDeps.build/Objects-normal/ppc64/resolveDeps.so normal ppc64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/resolveDeps.build/Objects-normal/x86_64/resolveDeps.so normal x86_64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/resolveDeps.build/Objects-normal/i386/resolveDeps.so normal i386
+source_sites:
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/source_sites.build/Objects-normal/ppc/source_sites.so normal ppc
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/source_sites.build/Objects-normal/ppc64/source_sites.so normal ppc64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/source_sites.build/Objects-normal/x86_64/source_sites.so normal x86_64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/source_sites.build/Objects-normal/i386/source_sites.so normal i386
+target:
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/target.build/Objects-normal/ppc/target.so normal ppc
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/target.build/Objects-normal/ppc64/target.so normal ppc64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/target.build/Objects-normal/x86_64/target.so normal x86_64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/target.build/Objects-normal/i386/target.so normal i386
+version:
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/version.build/Objects-normal/ppc/version.so normal ppc
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/version.build/Objects-normal/ppc64/version.so normal ppc64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/version.build/Objects-normal/x86_64/version.so normal x86_64
+	Ld /Volumes/DarwinBuild/darwinbuild/darwinbuild-613/build/darwinbuild.build/Public/version.build/Objects-normal/i386/version.so normal i386
+(112 failures)
+
