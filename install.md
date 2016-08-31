@@ -1,8 +1,8 @@
 ---
-title: Install DarwinBuild
+title: Install Darwinbuild
 ---
 
-## Installing DarwinBuild from Source
+## Installing Darwinbuild from Source
 
 ### Darwin 10 and 11 (Snow Leopard/Lion)
 
@@ -29,7 +29,7 @@ title: Install DarwinBuild
 
 ## Installing via MacPorts
 
-If you already use [MacPorts](https://www.macports.org/) for other software, you might find it easier to install DarwinBuild from there.
+If you already use [MacPorts](https://www.macports.org/) for other software, you might find it easier to install Darwinbuild from there.
 
 ### Darwin 10 (Snow Leopard)
 
