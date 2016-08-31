@@ -1,3 +1,4 @@
+baseurl: "/darwinbuild"
 defaults:
   -
     scope:
@@ -5,3 +6,5 @@ defaults:
     values:
       layout: "default"
 permalink: pretty
+title: "Darwinbuild"
+url: "https://macosforge.github.io"

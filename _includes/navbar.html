@@ -7,12 +7,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="{{ '/' | prepend: relative_root_url }}">DarwinBuild</a>
+      <a class="navbar-brand" href="{{ '/' | prepend: site.baseurl }}">{{ site.title | escape }}</a>
     </div>
     <div class="collapse navbar-collapse" id="main-navbar">
       <ul class="nav navbar-nav">
-        <li{% if page_url_parts[1] == 'install' %} class="active"{% endif %}><a href="{{ '/install/' | prepend: relative_root_url }}">Install</a></li>
-        <li{% if page_url_parts[1] == 'post' %} class="active"{% endif %}><a href="{{ '/post/' | prepend: relative_root_url }}">News</a></li>
+        <li{% if page_url_parts[1] == 'install' %} class="active"{% endif %}><a href="{{ '/install/' | prepend: site.baseurl }}">Install</a></li>
+        <li{% if page_url_parts[1] == 'post' %} class="active"{% endif %}><a href="{{ '/post/' | prepend: site.baseurl }}">News</a></li>
         <li><a href="{{ site.github.repository_url }}">Development</a></li>
         <li><a href="https://lists.macosforge.org/mailman/listinfo/darwinbuild-dev">Mailing List</a></li>
       </ul>
