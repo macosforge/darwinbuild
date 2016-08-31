@@ -22,4 +22,4 @@ The latest sources can be downloaded via git:
 
 ## HOWTOs
 
-* [Fetching all source for a release](fetching-all-source)
+* [Fetching all source for a release](fetching-all-source/)
