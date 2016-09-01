@@ -3,6 +3,7 @@ title: News
 ---
 
 {% for post in site.posts %}
-<h2><a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a> <small>{{ post.date | date: "%B %-d, %Y" }}</small></h2>
-{{ post.content }}
+## [{{ post.title }}]({{ post.url | prepend: site.baseurl }}) <small>{{ post.date | date: "%B %-d, %Y" }}</small>
+
+{{ post.excerpt | remove: "<p>" | remove: "</p>" | rstrip }}{% if post.excerpt != post.content %} <a class="btn btn-default btn-xs" href="{{ post.url | prepend: site.baseurl }}">More <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>{% endif %}
 {% endfor %}
