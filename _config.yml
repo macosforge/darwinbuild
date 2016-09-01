@@ -10,6 +10,8 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - README.md
+gems:
+  - jekyll-redirect-from
 permalink: pretty
 title: "Darwinbuild"
 url: "https://macosforge.github.io"

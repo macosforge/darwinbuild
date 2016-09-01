@@ -1,5 +1,6 @@
 ---
 title: News
+redirect_from: /post/
 ---
 
 {% for post in site.posts %}
