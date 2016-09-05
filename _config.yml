@@ -5,6 +5,7 @@ defaults:
       path: ""
     values:
       layout: "default"
+excerpt_separator: <!--more-->
 exclude:
   - .gitignore
   - Gemfile
