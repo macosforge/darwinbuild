@@ -16,6 +16,7 @@ exclude:
   - Gemfile.lock
   - README.md
 gems:
+  - jekyll-feed
   - jekyll-redirect-from
 permalink: pretty
 title: "Darwinbuild"
