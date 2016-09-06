@@ -1,7 +1,6 @@
 ---
 title: New -init Options
 slug: new-init-options
-permalink: /post/new-init-options
 date: 2009-07-31 23:55:28.536554-07
 ---
 

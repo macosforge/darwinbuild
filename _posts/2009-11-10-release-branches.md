@@ -1,7 +1,6 @@
 ---
 title: Release Branches
 slug: release-branches
-permalink: /post/release-branches
 date: 2009-11-10 08:02:42.363389-08
 ---
 

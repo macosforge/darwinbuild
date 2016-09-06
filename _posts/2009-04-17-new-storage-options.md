@@ -1,7 +1,6 @@
 ---
 title: New Storage Options
 slug: new-storage-options
-permalink: /post/new-storage-options
 date: 2009-04-17 18:54:52.540124-07
 ---
 

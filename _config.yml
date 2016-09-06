@@ -1,10 +1,14 @@
 baseurl: "/darwinbuild"
 defaults:
-  -
-    scope:
+  - scope:
       path: ""
     values:
       layout: "default"
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      permalink: "/post/:title/"
 excerpt_separator: <!--more-->
 exclude:
   - .gitignore

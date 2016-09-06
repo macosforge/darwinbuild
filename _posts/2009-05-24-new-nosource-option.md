@@ -1,7 +1,6 @@
 ---
 title: New -nosource Option
 slug: new-nosource-option
-permalink: /post/new-nosource-option
 date: 2009-05-24 18:04:08.121527-07
 ---
 

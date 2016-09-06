@@ -1,7 +1,6 @@
 ---
 title: Xcode 3.1 Support
 slug: xcode-31-support
-permalink: /post/xcode-31-support
 date: 2008-09-16 19:22:21.914117-07
 ---
 

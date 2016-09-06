@@ -1,7 +1,6 @@
 ---
 title: Subversion Support
 slug: subversion-support
-permalink: /post/subversion-support
 date: 2009-08-09 13:54:55.86564-07
 ---
 
