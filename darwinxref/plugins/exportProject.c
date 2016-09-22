@@ -83,7 +83,11 @@ static int run(CFArrayRef argv) {
 
 	CFPropertyListRef plist = preplist;
 	if (xml) {
-		CFDataRef data = CFPropertyListCreateXMLData(NULL, plist);
+    // TODO: Currently, this doesn't handle errors. The last parameter should be a CFErrorRef
+    // object, and we should pring error status if the data object is NULL. I'm not currently
+    // making this change as I'm only fixing the perviously deprecated method call by
+    // replacing with CFPropertyListCreateData(.).
+    CFDataRef data = CFPropertyListCreateData(NULL, plist, kCFPropertyListXMLFormat_v1_0, 0, NULL);
 		res = write(STDOUT_FILENO, CFDataGetBytePtr(data), (ssize_t)CFDataGetLength(data));
 	} else {
 		res = writePlist(stdout, plist, 0);

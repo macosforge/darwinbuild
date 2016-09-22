@@ -87,12 +87,14 @@ CFPropertyListRef read_plist(char* path) {
                         if (buffer != (void*)-1) {
                                 CFDataRef data = CFDataCreateWithBytesNoCopy(NULL, buffer, size, kCFAllocatorNull);
                                 if (data) {
-                                        CFStringRef str = NULL;
-                                        result = CFPropertyListCreateFromXMLData(NULL, data, kCFPropertyListMutableContainers, &str);
+                                        CFErrorRef err;
+                                        result = CFPropertyListCreateWithData(NULL, data, kCFPropertyListMutableContainers, kCFPropertyListXMLFormat_v1_0, &err);
                                         CFRelease(data);
                                         if (result == NULL) {
+                                                CFStringRef str = CFErrorCopyDescription(err);
                                                 perror_cfstr(str);
                                         }
+                                        CFRelease(err);
                                 }
                                 munmap(buffer, size);
                         } else {
