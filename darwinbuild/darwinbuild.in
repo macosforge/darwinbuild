@@ -454,7 +454,13 @@ if [ "$nosource" != "YES" ]; then
 		filename="$project.tar.gz"
 	fi
 
-	Download "$SourceCache" "$filename" "$($DARWINXREF source_sites $projnam)"	    
+	# prepare for the opensource.apple.com/tarballs case as it's no more redirected
+	if echo "$($DARWINXREF source_sites $projnam)" | grep "opensource.apple.com/tarballs" > /dev/null 2> /dev/null ; then
+		targetfilename=$(echo $(basename "$filename" .tar.gz) | sed -e 's,-[0-9.]*$,,') 
+		Download "$SourceCache" "$filename" "$($DARWINXREF source_sites $projnam)/$targetfilename"
+	else
+		Download "$SourceCache" "$filename" "$($DARWINXREF source_sites $projnam)"
+	fi
 
 	patchfilenames=$($DARWINXREF patchfiles $projnam)
 	for p in $patchfilenames; do
