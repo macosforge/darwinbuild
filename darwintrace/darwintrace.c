@@ -142,7 +142,7 @@ static inline void darwintrace_free_path(char* path, const char* test) {
   if (path != test) free(path);
 }
 
-static void _darwintrace_setup(void) {
+static void darwintrace_setup(void) {
   char* path = getenv("DARWINTRACE_LOG");
   if (path != NULL) {
     int olderrno = errno;
@@ -221,10 +221,10 @@ static void _darwintrace_setup(void) {
   }
 }
 
-static inline void darwintrace_setup(void) {
+/* static inline void _darwintrace_setup(void) {
 	static pthread_once_t once = PTHREAD_ONCE_INIT;
-	pthread_once(&once, &_darwintrace_setup);
-}
+	pthread_once(&once, &darwintrace_setup);
+} */
 
 /* darwintrace_setup must have been called already */
 static inline void darwintrace_logpath(int fd, const char *procname, char *tag, const char *path) {

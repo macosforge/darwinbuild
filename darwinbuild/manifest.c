@@ -110,7 +110,7 @@ static size_t ent_filename(FTSENT* ent, char* filename, size_t bufsiz) {
 	}
 	strncat(filename, "/", bufsiz);
 	bufsiz -= 1;
-	if (ent->fts_name) {
+	if (ent->fts_namelen) {
 		strncat(filename, ent->fts_name, bufsiz);
 		bufsiz -= strlen(ent->fts_name);
 	}

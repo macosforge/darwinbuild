@@ -87,26 +87,26 @@ CFPropertyListRef read_plist(char* path) {
                          if (buffer != (void*)-1) {
                                  CFDataRef data = CFDataCreateWithBytesNoCopy(NULL, buffer, size, kCFAllocatorNull);
                                  if (data) {
-#if __MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_6
-										CFErrorRef str = 0;
-										result = CFPropertyListCreateWithData(NULL, data, kCFPropertyListMutableContainers, 0, &str);
-                                        CFRelease(data);
-                                        if (result == NULL) {
-											CFStringRef errorDesc = CFErrorCopyDescription(str);
-											perror_cfstr(errorDesc);
-											CFRelease(errorDesc);
-										}
-#else
-                                        CFStringRef str = NULL;
-                                        result = CFPropertyListCreateFromXMLData(NULL, data, kCFPropertyListMutableContainers, &str);
-                                        CFRelease(data);
-                                        if (result == NULL) {
-                                                perror_cfstr(str);
-                                        }
-#endif
-										if (str) {
-											    CFRelease(str);
-										}	
+//#if 0 //__MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_6
+										//CFErrorRef str = 0;
+									//	result = CFPropertyListCreateWithData(NULL, data, kCFPropertyListMutableContainers, 0, &str);
+                                    //    CFRelease(data);
+                                   //     if (result == NULL) {
+									//		CFStringRef errorDesc = CFErrorCopyDescription(str);
+									//		perror_cfstr(errorDesc);
+									//		CFRelease(errorDesc);
+								//		}
+//#else
+                                        //CFStringRef str = NULL;
+                                        //result = CFPropertyListCreateWithData(<#CFAllocatorRef allocator#>, <#CFDataRef data#>, <#CFOptionFlags options#>, kCFPropertyListMutableContainers);
+                                        //CFRelease(data);
+                                        //if (result == NULL) {
+                                        //        perror_cfstr(str);
+                                        //}
+//#endif
+							//			if (str) {
+						//					    CFRelease(str);
+						//				}
                                 }
                                 munmap(buffer, size);
                         } else {
