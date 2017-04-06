@@ -47,6 +47,9 @@
 #include <CommonCrypto/CommonDigest.h>
 #include "sqlite3.h"
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Waddress"
+
 extern char** environ;
 
 int register_files(char* build, char* project, char* path);
@@ -122,7 +125,7 @@ static size_t ent_filename(FTSENT* ent, char* filename, size_t bufsiz) {
 	}
 	strncat(filename, "/", bufsiz);
 	bufsiz -= 1;
-	if (ent->fts_namelen) {
+	if (ent->fts_name) {
 		strncat(filename, ent->fts_name, bufsiz);
 		bufsiz -= strlen(ent->fts_name);
 	}

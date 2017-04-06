@@ -32,6 +32,9 @@
 
 #include "Utils.h"
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Waddress"
+
 extern char** environ;
 
 int fts_compare(const FTSENT **a, const FTSENT **b) {
@@ -45,7 +48,7 @@ size_t ftsent_filename(FTSENT* ent, char* filename, size_t bufsiz) {
 	}
 	strlcat(filename, "/", bufsiz);
 	bufsiz -= 1;
-	if (ent->fts_namelen) {
+	if (ent->fts_name) {
 		strlcat(filename, ent->fts_name, bufsiz);
 		bufsiz -= strlen(ent->fts_name);
 	}

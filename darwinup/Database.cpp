@@ -210,9 +210,9 @@ int Database::post_connect() {
 								 &m_commit_transaction, NULL);	
 
 	// debug settings
-	extern uint32_t verbosity;
-	//if 0 //(verbosity & VERBOSE_SQL) {
-	//	sqlite3_trace_v2(sql, m_db, dbtrace, NULL);
+	//extern uint32_t verbosity;
+	//if (verbosity & VERBOSE_SQL) {
+     //   sqlite3_trace_v2 (m_db, dbtrace, NULL);
 	//}
 		
 	return res;

@@ -43,6 +43,8 @@
 #include <stdlib.h>
 #include <CommonCrypto/CommonDigest.h>
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Waddress"
 
 static char* format_digest(const unsigned char* m) {
         char* result = NULL;
@@ -110,7 +112,7 @@ static size_t ent_filename(FTSENT* ent, char* filename, size_t bufsiz) {
 	}
 	strncat(filename, "/", bufsiz);
 	bufsiz -= 1;
-	if (ent->fts_namelen) {
+	if (ent->fts_name) {
 		strncat(filename, ent->fts_name, bufsiz);
 		bufsiz -= strlen(ent->fts_name);
 	}

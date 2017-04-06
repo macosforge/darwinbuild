@@ -25,6 +25,7 @@
 				7227AD1B109A053900BE33D7 /* CopyFiles */,
 			);
 			dependencies = (
+				391ABCA51E64183A002B338C /* PBXTargetDependency */,
 				720BE2F6120C90E500B3C4A5 /* PBXTargetDependency */,
 				7227AC421098DC6A00BE33D7 /* PBXTargetDependency */,
 				7227AC401098DC6A00BE33D7 /* PBXTargetDependency */,
@@ -161,6 +162,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		391ABCA41E64183A002B338C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 391ABC9C1E64171C002B338C;
+			remoteInfo = installXcode821;
+		};
 		720BE2F5120C90E500B3C4A5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
@@ -648,6 +656,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		391ABCA31E64171C002B338C /* installXcode821 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = installXcode821; sourceTree = BUILT_PRODUCTS_DIR; };
 		720BE2E9120C909E00B3C4A5 /* digest.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = digest.c; path = darwinbuild/digest.c; sourceTree = "<group>"; };
 		720BE2F2120C90A700B3C4A5 /* digest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = digest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7227AB6D10989A9900BE33D7 /* manifest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = manifest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1190,6 +1199,7 @@
 				7227AC2E1098DBDF00BE33D7 /* installXcode32 */,
 				72D05CB711D267C400B33EDD /* query.so */,
 				720BE2F2120C90A700B3C4A5 /* digest */,
+				391ABCA31E64171C002B338C /* installXcode821 */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1270,6 +1280,22 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		391ABC9C1E64171C002B338C /* installXcode821 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 391ABC9F1E64171C002B338C /* Build configuration list for PBXNativeTarget "installXcode821" */;
+			buildPhases = (
+				391ABC9D1E64171C002B338C /* ShellScript */,
+				391ABC9E1E64171C002B338C /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = installXcode821;
+			productName = darwinbuild;
+			productReference = 391ABCA31E64171C002B338C /* installXcode821 */;
+			productType = "com.apple.product-type.tool";
+		};
 		720BE2EA120C90A700B3C4A5 /* digest */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 720BE2EE120C90A700B3C4A5 /* Build configuration list for PBXNativeTarget "digest" */;
@@ -1921,11 +1947,42 @@
 				7227AC1E1098DB9200BE33D7 /* installXcode */,
 				7227AC271098DBDF00BE33D7 /* installXcode32 */,
 				720BE2EA120C90A700B3C4A5 /* digest */,
+				391ABC9C1E64171C002B338C /* installXcode821 */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		391ABC9D1E64171C002B338C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/darwinbuild/installXcode821.in",
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/installXcode821",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/bin/sed -e \"s,%%PREFIX%%,$PREFIX,\" $SRCROOT/darwinbuild/installXcode821.in > $DERIVED_FILE_DIR/installXcode821\n\n/bin/chmod 755 $DERIVED_FILE_DIR/installXcode821\n\n";
+		};
+		391ABC9E1E64171C002B338C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(DERIVED_FILE_DIR)/installXcode821",
+			);
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/installXcode821",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/bin/cp $DERIVED_FILE_DIR/installXcode821 $BUILT_PRODUCTS_DIR/installXcode821";
+		};
 		7227AB8F1098A89700BE33D7 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2358,6 +2415,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		391ABCA51E64183A002B338C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 391ABC9C1E64171C002B338C /* installXcode821 */;
+			targetProxy = 391ABCA41E64183A002B338C /* PBXContainerItemProxy */;
+		};
 		720BE2F6120C90E500B3C4A5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 720BE2EA120C90A700B3C4A5 /* digest */;
@@ -2671,6 +2733,33 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		391ABCA01E64171C002B338C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
+			buildSettings = {
+				INSTALL_PATH = "$(DATDIR)/darwinbuild";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		391ABCA11E64171C002B338C /* Public */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
+			buildSettings = {
+				INSTALL_PATH = "$(DATDIR)/darwinbuild";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Public;
+		};
+		391ABCA21E64171C002B338C /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
+			buildSettings = {
+				INSTALL_PATH = "$(DATDIR)/darwinbuild";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		720BE2EF120C90A700B3C4A5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
@@ -3437,6 +3526,7 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LD_OPENMP_FLAGS = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				STRIP_INSTALLED_PRODUCT = NO;
 				STRIP_STYLE = "non-global";
 				WARNING_CFLAGS = "-Wall";
@@ -3598,6 +3688,7 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LD_OPENMP_FLAGS = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				ONLY_ACTIVE_ARCH = YES;
 				STRIP_INSTALLED_PRODUCT = NO;
 				STRIP_STYLE = "non-global";
@@ -3648,6 +3739,7 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LD_OPENMP_FLAGS = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				STRIP_INSTALLED_PRODUCT = NO;
 				STRIP_STYLE = "non-global";
 				WARNING_CFLAGS = "-Wall";
@@ -3759,6 +3851,16 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		391ABC9F1E64171C002B338C /* Build configuration list for PBXNativeTarget "installXcode821" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				391ABCA01E64171C002B338C /* Debug */,
+				391ABCA11E64171C002B338C /* Public */,
+				391ABCA21E64171C002B338C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Public;
+		};
 		720BE2EE120C90A700B3C4A5 /* Build configuration list for PBXNativeTarget "digest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
