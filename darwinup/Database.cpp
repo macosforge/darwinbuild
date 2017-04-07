@@ -33,10 +33,14 @@
 #include "Database.h"
 
 /**
- * sqlite3_trace callback for debugging
+ * sqlite3_trace_v2 callback for debugging
  */
-void dbtrace(void* context, const char* sql) {
-	fprintf(stderr, "[SQL] %s\n", sql);
+static int dbtrace(unsigned, void*, void *p, void*) {
+    sqlite3_stmt *stmt = (sqlite3_stmt*)p;
+    char *sql = sqlite3_expanded_sql(stmt);
+    fprintf(stderr, "[SQL] %s\n", sql);
+    sqlite3_free(sql);
+    return 0;
 }
 
 Database::Database() {
@@ -212,7 +216,7 @@ int Database::post_connect() {
 	// debug settings
 	extern uint32_t verbosity;
 	if (verbosity & VERBOSE_SQL) {
-		sqlite3_trace(m_db, dbtrace, NULL);
+		sqlite3_trace_v2(m_db, SQLITE_TRACE_STMT, dbtrace, NULL);
 	}
 		
 	return res;
