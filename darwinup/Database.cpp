@@ -31,12 +31,15 @@
  */
 
 #include "Database.h"
-
-/**
- * sqlite3_trace callback for debugging
- */
-void dbtrace(void* context, const char* sql) {
+/*
+* sqlite3_trace_v2 callback for debugging
+*/
+ static int dbtrace(unsigned, void*, void *p, void*) {
+    sqlite3_stmt *stmt = (sqlite3_stmt*)p;
+   char *sql = sqlite3_expanded_sql(stmt);
 	fprintf(stderr, "[SQL] %s\n", sql);
+    sqlite3_free(sql);
+     return 0;
 }
 
 Database::Database() {
@@ -209,11 +212,11 @@ int Database::post_connect() {
 		res = sqlite3_prepare_v2(m_db, "COMMIT TRANSACTION", 19,
 								 &m_commit_transaction, NULL);	
 
-	// debug settings
-	//extern uint32_t verbosity;
-	//if (verbosity & VERBOSE_SQL) {
-     //   sqlite3_trace_v2 (m_db, dbtrace, NULL);
-	//}
+	 debug settings
+	extern uint32_t verbosity;
+	if (verbosity & VERBOSE_SQL) {
+        sqlite3_trace_v2(m_db, SQLITE_TRACE_STMT, dbtrace, NULL);
+	}
 		
 	return res;
 }
