@@ -90,7 +90,7 @@ static int run(CFArrayRef argv) {
 							  0,
 							  NULL);
 #else
-		CFDataRef data = CFPropertyListCreateXMLData(NULL, plist);
+		CFDataRef data = CFPropertyListCreateData(NULL, plist, kCFPropertyListOpenStepFormat, 0, NULL);
 #endif
 		res = write(STDOUT_FILENO, CFDataGetBytePtr(data), (ssize_t)CFDataGetLength(data));
 	} else {
