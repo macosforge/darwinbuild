@@ -1,0 +1,22 @@
+diff -u ../bash-103.50.1.orig/bash-3.2/shell.c bash-3.2/shell.c
+--- ../bash-103.50.1.orig/bash-3.2/shell.c	2017-04-07 21:09:28.000000000 -0700
++++ bash-3.2/shell.c	2017-04-07 21:24:35.000000000 -0700
+@@ -45,7 +45,6 @@
+ 
+ #if defined(__APPLE__)
+ #include <get_compat.h>
+-#include <rootless.h>
+ #endif /* __APPLE__ */
+ 
+ #include "bashintl.h"
+@@ -489,10 +488,6 @@
+     if (-1 == setreuid(ruid, euid))
+       internal_error( _("setreuid(%u,%u) failed: %s"), ruid, euid, strerror(errno));   
+   }
+-  int rootless = rootless_restricted_environment();
+-  if (-1 == rootless)
+-    internal_error( _("Unable to determine rootless status: %s"), strerror(errno));
+-  running_setuid |= rootless;
+ #else  /* !__APPLE__ */
+   if (running_setuid && privileged_mode == 0)
+     disable_priv_mode ();
