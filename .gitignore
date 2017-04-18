@@ -1,0 +1,4 @@
+build/
+.DS_Store
+darwinbuild.xcodeproj/project.xcworkspace/
+darwinbuild.xcodeproj/xcuserdata/
