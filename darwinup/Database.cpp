@@ -212,7 +212,7 @@ int Database::post_connect() {
 		res = sqlite3_prepare_v2(m_db, "COMMIT TRANSACTION", 19,
 								 &m_commit_transaction, NULL);	
 
-	 debug settings
+	// debug settings
 	extern uint32_t verbosity;
 	if (verbosity & VERBOSE_SQL) {
         sqlite3_trace_v2(m_db, SQLITE_TRACE_STMT, dbtrace, NULL);
