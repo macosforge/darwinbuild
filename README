@@ -1,8 +1,8 @@
 Darwinbuild
 Updated 2009-02-17
 
-Kevin Van Vechten <kvv@apple.com>
-William Siegrist <wsiegrist@apple.com>
+Kevin Van Vechten <kvv@apple.com> No longer @ @ppl3
+William Siegrist <wsiegrist@apple.com> No longer @ @ppl3
 
 1. Overview
   1.1 Availability, Bug Reports, Contributions, and Discussion
@@ -27,7 +27,7 @@ A. darwinxref
 
 Darwinbuild is a collection of tools that assist compilation of
 the many projects contained in Darwin[1], the open source base of Apple's
-Mac OS X operating system[2].  Apple publishes the sources of these projects
+macOS operating system[2].  Apple publishes the sources of these projects
 in an archive format (.tar.gz).  An archive is published for each project
 version on Apple's site[3].
 
@@ -206,7 +206,7 @@ passed since cpp-precomp is not available.  During the build, the RC_ARCHS and
 RC_NONARCH_CFLAGS variables will be combined to create the RC_ARCHS environment
 variable; a -arch flag will be appended for each architecture listed in RC_ARCHS.
 
-The MACOSX_DEPLOYMENT_TARGET variable should match the major Mac OS X release
+The MACOSX_DEPLOYMENT_TARGET variable should match the major macOS release
 that is being targeted, such as 10.2 or 10.3.
 
 
@@ -232,7 +232,7 @@ list contains a "target" attribute, that string will be passed instead.
 
 5.1 Private Headers
 
-Many open source header files are not present in a standard Mac OS X install.
+Many open source header files are not present in a standard macOS install.
 These "private headers" are not needed by application developers, and are not
 part of any SDK officially supported by Apple.  However, Darwin projects are
 part of the operating system itself and these headers are required.  The
@@ -294,9 +294,9 @@ A. darwinxref
 =============
 
 The darwinxref tool allows you to query which source version of a Darwin
-project is present in a particular Mac OS X build.  It also stores information
+project is present in a particular macOS build.  It also stores information
 about what dependencies a particular project has, and what files the project
-produces.  As each Mac OS X release is made available, Apple publishes a
+produces.  As each macOS release is made available, Apple publishes a
 property list file containing the project names and versions in that release.
 These property lists are read by the darwinxref tool to seed its internal
 database.  Property lists are available via Subversion[1].
