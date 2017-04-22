@@ -32,9 +32,6 @@
 
 #include "Utils.h"
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Waddress"
-
 extern char** environ;
 
 int fts_compare(const FTSENT **a, const FTSENT **b) {

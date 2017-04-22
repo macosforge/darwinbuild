@@ -47,9 +47,6 @@
 #include <CommonCrypto/CommonDigest.h>
 #include "sqlite3.h"
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Waddress"
-
 extern char** environ;
 
 int register_files(char* build, char* project, char* path);

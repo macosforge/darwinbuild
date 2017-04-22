@@ -464,7 +464,7 @@ if [ "$nosource" != "YES" ]; then
 
 	patchfilenames=$($DARWINXREF patchfiles $projnam)
 	for p in $patchfilenames; do
-		Download "$SourceCache" "$p" "$($DARWINXREF source_sites $projnam)"    
+		Download "$SourceCache" "$p" "$($DARWINXREF patch_sites $projnam)"    
 	done
 
 	### If we are doing a -fetch, stop here.
@@ -564,10 +564,10 @@ for patchfile in $patchfilenames; do
 	    esac
 	    case $patchfile in
 		*.p1.patch*)
-		    $catprog "$SourceCache/$patchfile" | patch -l -f -p1
+		    $catprog "$SourceCache/$patchfile" | patch -p1 -r .
 		    ;;
 		*.patch*)
-		    $catprog "$SourceCache/$patchfile" | patch -l -f -p0
+		    $catprog "$SourceCache/$patchfile" | patch -p0 -r .
 		    ;;
 		*.add*)
 		    newfile=`echo $patchfile | sed -e 's/^.*-\([^-]*\)\.add.*/\1/' -e 's,_,/,g'`

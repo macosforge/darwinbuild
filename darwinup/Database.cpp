@@ -31,6 +31,7 @@
  */
 
 #include "Database.h"
+
 /*
 * sqlite3_trace_v2 callback for debugging
 */
@@ -215,7 +216,7 @@ int Database::post_connect() {
 	// debug settings
 	extern uint32_t verbosity;
 	if (verbosity & VERBOSE_SQL) {
-        sqlite3_trace_v2(m_db, SQLITE_TRACE_STMT, dbtrace, NULL);
+		sqlite3_trace_v2(m_db, SQLITE_TRACE_STMT, dbtrace, NULL);
 	}
 		
 	return res;

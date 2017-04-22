@@ -43,8 +43,6 @@
 #include <stdlib.h>
 #include <CommonCrypto/CommonDigest.h>
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Waddress"
 
 static char* format_digest(const unsigned char* m) {
         char* result = NULL;

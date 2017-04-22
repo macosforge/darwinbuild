@@ -44,7 +44,7 @@ static int run(CFArrayRef argv) {
 	CFDictionaryRef project = NULL;
 	CFStringRef projname;
 	CFArrayRef builds;
-	const void *ssites, *bsites;
+	const void *ssites, *bsites, *psites;
 	CFStringRef build = DBGetCurrentBuild();
 
 	if (count == 2) {
@@ -64,6 +64,7 @@ static int run(CFArrayRef argv) {
 	preplist = (CFMutableDictionaryRef)DBCopyProjectPlist(build, NULL);
 	ssites = CFDictionaryGetValue(preplist, CFSTR("source_sites"));
 	bsites = CFDictionaryGetValue(preplist, CFSTR("binary_sites"));
+	psites = CFDictionaryGetValue(preplist, CFSTR("patch_sites"));
 
 	preplist = CFDictionaryCreateMutable(NULL, 0, &kCFTypeDictionaryKeyCallBacks,&kCFTypeDictionaryValueCallBacks);
 	for( i = 0; i < CFArrayGetCount(builds); i++ ) {
@@ -80,6 +81,7 @@ static int run(CFArrayRef argv) {
 	CFDictionarySetValue(preplist, CFSTR("projects"), dict);
 	if(ssites) CFDictionarySetValue(preplist, CFSTR("source_sites"), ssites);
 	if(bsites) CFDictionarySetValue(preplist, CFSTR("binary_sites"), bsites);
+	if(psites) CFDictionarySetValue(preplist, CFSTR("patch_sites"), psites);
 
 	CFPropertyListRef plist = preplist;
 	if (xml) {
@@ -90,7 +92,7 @@ static int run(CFArrayRef argv) {
 							  0,
 							  NULL);
 #else
-		CFDataRef data = CFPropertyListCreateData(NULL, plist, kCFPropertyListOpenStepFormat, 0, NULL);
+		CFDataRef data = CFPropertyListCreateXMLData(NULL, plist);
 #endif
 		res = write(STDOUT_FILENO, CFDataGetBytePtr(data), (ssize_t)CFDataGetLength(data));
 	} else {

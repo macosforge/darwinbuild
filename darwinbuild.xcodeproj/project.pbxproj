@@ -25,7 +25,6 @@
 				7227AD1B109A053900BE33D7 /* CopyFiles */,
 			);
 			dependencies = (
-				391ABCA51E64183A002B338C /* PBXTargetDependency */,
 				720BE2F6120C90E500B3C4A5 /* PBXTargetDependency */,
 				7227AC421098DC6A00BE33D7 /* PBXTargetDependency */,
 				7227AC401098DC6A00BE33D7 /* PBXTargetDependency */,
@@ -91,6 +90,9 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		3963011A1EAB4D60006081C7 /* source_sites.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86C0E10965EEA00C66E90 /* source_sites.c */; };
+		396301211EAB4E01006081C7 /* patch_sites.c in Sources */ = {isa = PBXBuildFile; fileRef = 396301191EAB42B6006081C7 /* patch_sites.c */; };
+		396301291EAB5DBC006081C7 /* patch_sites.tcl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 396301281EAB5DB5006081C7 /* patch_sites.tcl */; };
 		61E0A6BD10A8DCC700DA7EBC /* exportIndex.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86BFF10965EEA00C66E90 /* exportIndex.c */; };
 		720BE2F4120C90C500B3C4A5 /* digest.c in Sources */ = {isa = PBXBuildFile; fileRef = 720BE2E9120C909E00B3C4A5 /* digest.c */; };
 		7227AB41109897D500BE33D7 /* binary_sites.tcl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 72C86BF310965EEA00C66E90 /* binary_sites.tcl */; };
@@ -132,7 +134,6 @@
 		725740901097AFFB008AD4D7 /* plist_sites.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86C0B10965EEA00C66E90 /* plist_sites.c */; };
 		725740911097B004008AD4D7 /* register.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86C0C10965EEA00C66E90 /* register.c */; };
 		725740921097B00C008AD4D7 /* resolveDeps.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86C0D10965EEA00C66E90 /* resolveDeps.c */; };
-		725740931097B012008AD4D7 /* source_sites.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86C0E10965EEA00C66E90 /* source_sites.c */; };
 		725740941097B018008AD4D7 /* target.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86C0F10965EEA00C66E90 /* target.c */; };
 		725740951097B01E008AD4D7 /* version.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86C1010965EEA00C66E90 /* version.c */; };
 		725749AD10976A6300B13BC3 /* cfutils.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86BE810965E7500C66E90 /* cfutils.c */; };
@@ -162,12 +163,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		391ABCA41E64183A002B338C /* PBXContainerItemProxy */ = {
+		3963011E1EAB4E01006081C7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 391ABC9C1E64171C002B338C;
-			remoteInfo = installXcode821;
+			remoteGlobalIDString = 7257499F1097697300B13BC3;
+			remoteInfo = darwinxref;
 		};
 		720BE2F5120C90E500B3C4A5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -615,6 +616,7 @@
 				7227AB41109897D500BE33D7 /* binary_sites.tcl in CopyFiles */,
 				7227AB42109897D500BE33D7 /* branch.tcl in CopyFiles */,
 				7227AB43109897D500BE33D7 /* currentBuild.tcl in CopyFiles */,
+				396301291EAB5DBC006081C7 /* patch_sites.tcl in CopyFiles */,
 				7227AB44109897D500BE33D7 /* darwin.tcl in CopyFiles */,
 				7227AB45109897D500BE33D7 /* group.tcl in CopyFiles */,
 				7227AB46109897D500BE33D7 /* macosx.tcl in CopyFiles */,
@@ -656,7 +658,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		391ABCA31E64171C002B338C /* installXcode821 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = installXcode821; sourceTree = BUILT_PRODUCTS_DIR; };
+		396301191EAB42B6006081C7 /* patch_sites.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = patch_sites.c; sourceTree = "<group>"; };
+		396301271EAB4E01006081C7 /* patch_sites.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = patch_sites.so; sourceTree = BUILT_PRODUCTS_DIR; };
+		396301281EAB5DB5006081C7 /* patch_sites.tcl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = patch_sites.tcl; sourceTree = "<group>"; };
 		720BE2E9120C909E00B3C4A5 /* digest.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = digest.c; path = darwinbuild/digest.c; sourceTree = "<group>"; };
 		720BE2F2120C90A700B3C4A5 /* digest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = digest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7227AB6D10989A9900BE33D7 /* manifest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = manifest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -814,6 +818,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		396301221EAB4E01006081C7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		720BE2ED120C90A700B3C4A5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1124,6 +1135,7 @@
 		72C86BF210965EEA00C66E90 /* plugins */ = {
 			isa = PBXGroup;
 			children = (
+				396301281EAB5DB5006081C7 /* patch_sites.tcl */,
 				72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */,
 				72C86BF310965EEA00C66E90 /* binary_sites.tcl */,
 				72C86BF410965EEA00C66E90 /* branch.tcl */,
@@ -1152,6 +1164,7 @@
 				72C86C0B10965EEA00C66E90 /* plist_sites.c */,
 				72D05CA911D2678F00B33EDD /* query.c */,
 				72C86C0C10965EEA00C66E90 /* register.c */,
+				396301191EAB42B6006081C7 /* patch_sites.c */,
 				72C86C0D10965EEA00C66E90 /* resolveDeps.c */,
 				72C86C0E10965EEA00C66E90 /* source_sites.c */,
 				72C86C0F10965EEA00C66E90 /* target.c */,
@@ -1199,7 +1212,7 @@
 				7227AC2E1098DBDF00BE33D7 /* installXcode32 */,
 				72D05CB711D267C400B33EDD /* query.so */,
 				720BE2F2120C90A700B3C4A5 /* digest */,
-				391ABCA31E64171C002B338C /* installXcode821 */,
+				396301271EAB4E01006081C7 /* patch_sites.so */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1280,21 +1293,22 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		391ABC9C1E64171C002B338C /* installXcode821 */ = {
+		3963011C1EAB4E01006081C7 /* patch_sites */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 391ABC9F1E64171C002B338C /* Build configuration list for PBXNativeTarget "installXcode821" */;
+			buildConfigurationList = 396301231EAB4E01006081C7 /* Build configuration list for PBXNativeTarget "patch_sites" */;
 			buildPhases = (
-				391ABC9D1E64171C002B338C /* ShellScript */,
-				391ABC9E1E64171C002B338C /* ShellScript */,
+				3963011F1EAB4E01006081C7 /* Sources */,
+				396301221EAB4E01006081C7 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				3963011D1EAB4E01006081C7 /* PBXTargetDependency */,
 			);
-			name = installXcode821;
-			productName = darwinbuild;
-			productReference = 391ABCA31E64171C002B338C /* installXcode821 */;
-			productType = "com.apple.product-type.tool";
+			name = patch_sites;
+			productName = configuration;
+			productReference = 396301271EAB4E01006081C7 /* patch_sites.so */;
+			productType = "com.apple.product-type.objfile";
 		};
 		720BE2EA120C90A700B3C4A5 /* digest */ = {
 			isa = PBXNativeTarget;
@@ -1890,7 +1904,6 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "The DarwinBuild Project";
 			};
 			buildConfigurationList = 726DD14C10965C5700D5AEAB /* Build configuration list for PBXProject "darwinbuild" */;
@@ -1947,42 +1960,12 @@
 				7227AC1E1098DB9200BE33D7 /* installXcode */,
 				7227AC271098DBDF00BE33D7 /* installXcode32 */,
 				720BE2EA120C90A700B3C4A5 /* digest */,
-				391ABC9C1E64171C002B338C /* installXcode821 */,
+				3963011C1EAB4E01006081C7 /* patch_sites */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		391ABC9D1E64171C002B338C /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/darwinbuild/installXcode821.in",
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/installXcode821",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/bin/sed -e \"s,%%PREFIX%%,$PREFIX,\" $SRCROOT/darwinbuild/installXcode821.in > $DERIVED_FILE_DIR/installXcode821\n\n/bin/chmod 755 $DERIVED_FILE_DIR/installXcode821\n\n";
-		};
-		391ABC9E1E64171C002B338C /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(DERIVED_FILE_DIR)/installXcode821",
-			);
-			outputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/installXcode821",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/bin/cp $DERIVED_FILE_DIR/installXcode821 $BUILT_PRODUCTS_DIR/installXcode821";
-		};
 		7227AB8F1098A89700BE33D7 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2166,6 +2149,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		3963011F1EAB4E01006081C7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				396301211EAB4E01006081C7 /* patch_sites.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		720BE2EB120C90A700B3C4A5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2338,7 +2329,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				725740931097B012008AD4D7 /* source_sites.c in Sources */,
+				3963011A1EAB4D60006081C7 /* source_sites.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2415,10 +2406,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		391ABCA51E64183A002B338C /* PBXTargetDependency */ = {
+		3963011D1EAB4E01006081C7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 391ABC9C1E64171C002B338C /* installXcode821 */;
-			targetProxy = 391ABCA41E64183A002B338C /* PBXContainerItemProxy */;
+			target = 7257499F1097697300B13BC3 /* darwinxref */;
+			targetProxy = 3963011E1EAB4E01006081C7 /* PBXContainerItemProxy */;
 		};
 		720BE2F6120C90E500B3C4A5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2733,29 +2724,26 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		391ABCA01E64171C002B338C /* Debug */ = {
+		396301241EAB4E01006081C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
+			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
-				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
-		391ABCA11E64171C002B338C /* Public */ = {
+		396301251EAB4E01006081C7 /* Public */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
+			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
-				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Public;
 		};
-		391ABCA21E64171C002B338C /* Release */ = {
+		396301261EAB4E01006081C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
+			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
-				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -3487,23 +3475,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_PASCAL_STRINGS = NO;
 				GCC_MODEL_TUNING = "";
-				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -3519,14 +3495,12 @@
 				GCC_WARN_SIGN_COMPARE = NO;
 				GCC_WARN_STRICT_SELECTOR_MATCH = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LD_OPENMP_FLAGS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				STRIP_INSTALLED_PRODUCT = NO;
 				STRIP_STYLE = "non-global";
 				WARNING_CFLAGS = "-Wall";
@@ -3648,24 +3622,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_PASCAL_STRINGS = NO;
 				GCC_MODEL_TUNING = "";
-				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -3681,15 +3642,12 @@
 				GCC_WARN_SIGN_COMPARE = NO;
 				GCC_WARN_STRICT_SELECTOR_MATCH = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LD_OPENMP_FLAGS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				ONLY_ACTIVE_ARCH = YES;
 				STRIP_INSTALLED_PRODUCT = NO;
 				STRIP_STYLE = "non-global";
 				WARNING_CFLAGS = "-Wall";
@@ -3700,23 +3658,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_PASCAL_STRINGS = NO;
 				GCC_MODEL_TUNING = "";
-				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -3732,14 +3678,12 @@
 				GCC_WARN_SIGN_COMPARE = NO;
 				GCC_WARN_STRICT_SELECTOR_MATCH = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LD_OPENMP_FLAGS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				STRIP_INSTALLED_PRODUCT = NO;
 				STRIP_STYLE = "non-global";
 				WARNING_CFLAGS = "-Wall";
@@ -3851,12 +3795,12 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		391ABC9F1E64171C002B338C /* Build configuration list for PBXNativeTarget "installXcode821" */ = {
+		396301231EAB4E01006081C7 /* Build configuration list for PBXNativeTarget "patch_sites" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				391ABCA01E64171C002B338C /* Debug */,
-				391ABCA11E64171C002B338C /* Public */,
-				391ABCA21E64171C002B338C /* Release */,
+				396301241EAB4E01006081C7 /* Debug */,
+				396301251EAB4E01006081C7 /* Public */,
+				396301261EAB4E01006081C7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Public;
