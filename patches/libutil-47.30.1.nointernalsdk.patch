@@ -1,0 +1,211 @@
+diff -ur ../libutil-47.30.1.orig/libutil.xcodeproj/project.pbxproj ./libutil.xcodeproj/project.pbxproj
+--- ../libutil-47.30.1.orig/libutil.xcodeproj/project.pbxproj	2016-10-26 16:16:34.000000000 -0700
++++ ./libutil.xcodeproj/project.pbxproj	2017-04-22 11:44:55.000000000 -0700
+@@ -38,7 +38,6 @@
+ 			dependencies = (
+ 				FDBC27021741B1B500CA4B2B /* PBXTargetDependency */,
+ 				FDA49914199D69C100A32E83 /* PBXTargetDependency */,
+-				FDBC27041741B1B700CA4B2B /* PBXTargetDependency */,
+ 			);
+ 			name = ios;
+ 			productName = ios;
+@@ -70,8 +69,6 @@
+ 		BA79F9EA13BB77FF006A292D /* libutil.txt in CopyFiles */ = {isa = PBXBuildFile; fileRef = BA79F9AC13BB70FF006A292D /* libutil.txt */; };
+ 		FDA4991B199D6A0400A32E83 /* humanize_number_test.c in Sources */ = {isa = PBXBuildFile; fileRef = FDA4991A199D6A0400A32E83 /* humanize_number_test.c */; };
+ 		FDA4991C199D6B9300A32E83 /* libutil.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BA79F9C513BB718B006A292D /* libutil.dylib */; };
+-		FDBC27051741B1C300CA4B2B /* com.apple.tzlinkd.plist in CopyFiles */ = {isa = PBXBuildFile; fileRef = FDBC26FA1741B19000CA4B2B /* com.apple.tzlinkd.plist */; };
+-		FDBC27061741B1CF00CA4B2B /* tzlinkd.c in Sources */ = {isa = PBXBuildFile; fileRef = FDBC26FE1741B19000CA4B2B /* tzlinkd.c */; };
+ 		FDBC27071741B1D600CA4B2B /* tzlink.c in Sources */ = {isa = PBXBuildFile; fileRef = FDBC26F91741B18500CA4B2B /* tzlink.c */; };
+ 		FDBC270B1741B55400CA4B2B /* tzlink.h in Headers */ = {isa = PBXBuildFile; fileRef = FDBC27091741B47200CA4B2B /* tzlink.h */; settings = {ATTRIBUTES = (Private, ); }; };
+ /* End PBXBuildFile section */
+@@ -112,13 +109,6 @@
+ 			remoteGlobalIDString = BA79F9C413BB718B006A292D;
+ 			remoteInfo = util;
+ 		};
+-		FDBC27031741B1B700CA4B2B /* PBXContainerItemProxy */ = {
+-			isa = PBXContainerItemProxy;
+-			containerPortal = BA79F99713BB70D7006A292D /* Project object */;
+-			proxyType = 1;
+-			remoteGlobalIDString = FDBC26EF1741B13400CA4B2B;
+-			remoteInfo = tzlinkd;
+-		};
+ /* End PBXContainerItemProxy section */
+ 
+ /* Begin PBXCopyFilesBuildPhase section */
+@@ -159,16 +149,6 @@
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 1;
+ 		};
+-		FDBC26EE1741B13400CA4B2B /* CopyFiles */ = {
+-			isa = PBXCopyFilesBuildPhase;
+-			buildActionMask = 2147483647;
+-			dstPath = /System/Library/LaunchDaemons;
+-			dstSubfolderSpec = 0;
+-			files = (
+-				FDBC27051741B1C300CA4B2B /* com.apple.tzlinkd.plist in CopyFiles */,
+-			);
+-			runOnlyForDeploymentPostprocessing = 1;
+-		};
+ /* End PBXCopyFilesBuildPhase section */
+ 
+ /* Begin PBXFileReference section */
+@@ -200,7 +180,6 @@
+ 		FDA49903199D69B000A32E83 /* humanize_number_test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = humanize_number_test; sourceTree = BUILT_PRODUCTS_DIR; };
+ 		FDA4991A199D6A0400A32E83 /* humanize_number_test.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = humanize_number_test.c; sourceTree = "<group>"; };
+ 		FDA4991D199D6CB800A32E83 /* test.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = test.xcconfig; sourceTree = "<group>"; };
+-		FDBC26F01741B13400CA4B2B /* tzlinkd */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = tzlinkd; sourceTree = BUILT_PRODUCTS_DIR; };
+ 		FDBC26F91741B18500CA4B2B /* tzlink.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = tzlink.c; sourceTree = "<group>"; };
+ 		FDBC26FA1741B19000CA4B2B /* com.apple.tzlinkd.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = com.apple.tzlinkd.plist; sourceTree = "<group>"; };
+ 		FDBC26FB1741B19000CA4B2B /* com.apple.tzlinkd.sb */ = {isa = PBXFileReference; lastKnownFileType = text; path = com.apple.tzlinkd.sb; sourceTree = "<group>"; };
+@@ -226,13 +205,6 @@
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 		};
+-		FDBC26ED1741B13400CA4B2B /* Frameworks */ = {
+-			isa = PBXFrameworksBuildPhase;
+-			buildActionMask = 2147483647;
+-			files = (
+-			);
+-			runOnlyForDeploymentPostprocessing = 0;
+-		};
+ /* End PBXFrameworksBuildPhase section */
+ 
+ /* Begin PBXGroup section */
+@@ -285,7 +257,6 @@
+ 			isa = PBXGroup;
+ 			children = (
+ 				BA79F9C513BB718B006A292D /* libutil.dylib */,
+-				FDBC26F01741B13400CA4B2B /* tzlinkd */,
+ 				FDA49903199D69B000A32E83 /* humanize_number_test */,
+ 			);
+ 			name = Products;
+@@ -374,23 +345,6 @@
+ 			productReference = FDA49903199D69B000A32E83 /* humanize_number_test */;
+ 			productType = "com.apple.product-type.tool";
+ 		};
+-		FDBC26EF1741B13400CA4B2B /* tzlinkd */ = {
+-			isa = PBXNativeTarget;
+-			buildConfigurationList = FDBC26F81741B13400CA4B2B /* Build configuration list for PBXNativeTarget "tzlinkd" */;
+-			buildPhases = (
+-				FDBC26EC1741B13400CA4B2B /* Sources */,
+-				FDBC26ED1741B13400CA4B2B /* Frameworks */,
+-				FDBC26EE1741B13400CA4B2B /* CopyFiles */,
+-			);
+-			buildRules = (
+-			);
+-			dependencies = (
+-			);
+-			name = tzlinkd;
+-			productName = tzlinkd;
+-			productReference = FDBC26F01741B13400CA4B2B /* tzlinkd */;
+-			productType = "com.apple.product-type.tool";
+-		};
+ /* End PBXNativeTarget section */
+ 
+ /* Begin PBXProject section */
+@@ -414,7 +368,6 @@
+ 				FDBC26E81741B09D00CA4B2B /* ios */,
+ 				FDBC26E41741B09300CA4B2B /* osx */,
+ 				BA79F9C413BB718B006A292D /* util */,
+-				FDBC26EF1741B13400CA4B2B /* tzlinkd */,
+ 				FDA4990F199D69B800A32E83 /* tests */,
+ 				FDA49902199D69B000A32E83 /* humanize_number_test */,
+ 			);
+@@ -477,14 +430,6 @@
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 		};
+-		FDBC26EC1741B13400CA4B2B /* Sources */ = {
+-			isa = PBXSourcesBuildPhase;
+-			buildActionMask = 2147483647;
+-			files = (
+-				FDBC27061741B1CF00CA4B2B /* tzlinkd.c in Sources */,
+-			);
+-			runOnlyForDeploymentPostprocessing = 0;
+-		};
+ /* End PBXSourcesBuildPhase section */
+ 
+ /* Begin PBXTargetDependency section */
+@@ -513,11 +458,6 @@
+ 			target = BA79F9C413BB718B006A292D /* util */;
+ 			targetProxy = FDBC27011741B1B500CA4B2B /* PBXContainerItemProxy */;
+ 		};
+-		FDBC27041741B1B700CA4B2B /* PBXTargetDependency */ = {
+-			isa = PBXTargetDependency;
+-			target = FDBC26EF1741B13400CA4B2B /* tzlinkd */;
+-			targetProxy = FDBC27031741B1B700CA4B2B /* PBXContainerItemProxy */;
+-		};
+ /* End PBXTargetDependency section */
+ 
+ /* Begin XCBuildConfiguration section */
+@@ -528,6 +468,7 @@
+ 				APPLY_RULES_IN_COPY_FILES = YES;
+ 				"PLIST_FILE_OUTPUT_FORMAT[sdk=iphoneos*]" = binary;
+ 				"PLIST_FILE_OUTPUT_FORMAT[sdk=macosx*]" = XML;
++				SDKROOT = macosx;
+ 				USE_HEADERMAP = NO;
+ 			};
+ 			name = Debug;
+@@ -539,6 +480,7 @@
+ 				APPLY_RULES_IN_COPY_FILES = YES;
+ 				"PLIST_FILE_OUTPUT_FORMAT[sdk=iphoneos*]" = binary;
+ 				"PLIST_FILE_OUTPUT_FORMAT[sdk=macosx*]" = XML;
++				SDKROOT = macosx;
+ 				USE_HEADERMAP = NO;
+ 			};
+ 			name = Release;
+@@ -590,6 +532,7 @@
+ 			isa = XCBuildConfiguration;
+ 			baseConfigurationReference = FDA4991D199D6CB800A32E83 /* test.xcconfig */;
+ 			buildSettings = {
++				HEADER_SEARCH_PATHS = /usr/local/include;
+ 				PRODUCT_NAME = "$(TARGET_NAME)";
+ 			};
+ 			name = Debug;
+@@ -598,6 +541,7 @@
+ 			isa = XCBuildConfiguration;
+ 			baseConfigurationReference = FDA4991D199D6CB800A32E83 /* test.xcconfig */;
+ 			buildSettings = {
++				HEADER_SEARCH_PATHS = /usr/local/include;
+ 				PRODUCT_NAME = "$(TARGET_NAME)";
+ 			};
+ 			name = Release;
+@@ -644,22 +588,6 @@
+ 			};
+ 			name = Release;
+ 		};
+-		FDBC26F61741B13400CA4B2B /* Debug */ = {
+-			isa = XCBuildConfiguration;
+-			baseConfigurationReference = FDBC270D1741B66500CA4B2B /* tzlinkd.xcconfig */;
+-			buildSettings = {
+-				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+-			};
+-			name = Debug;
+-		};
+-		FDBC26F71741B13400CA4B2B /* Release */ = {
+-			isa = XCBuildConfiguration;
+-			baseConfigurationReference = FDBC270D1741B66500CA4B2B /* tzlinkd.xcconfig */;
+-			buildSettings = {
+-				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+-			};
+-			name = Release;
+-		};
+ /* End XCBuildConfiguration section */
+ 
+ /* Begin XCConfigurationList section */
+@@ -717,15 +645,6 @@
+ 			defaultConfigurationIsVisible = 0;
+ 			defaultConfigurationName = Release;
+ 		};
+-		FDBC26F81741B13400CA4B2B /* Build configuration list for PBXNativeTarget "tzlinkd" */ = {
+-			isa = XCConfigurationList;
+-			buildConfigurations = (
+-				FDBC26F61741B13400CA4B2B /* Debug */,
+-				FDBC26F71741B13400CA4B2B /* Release */,
+-			);
+-			defaultConfigurationIsVisible = 0;
+-			defaultConfigurationName = Release;
+-		};
+ /* End XCConfigurationList section */
+ 	};
+ 	rootObject = BA79F99713BB70D7006A292D /* Project object */;
