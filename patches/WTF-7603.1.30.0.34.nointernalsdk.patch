@@ -1,0 +1,21 @@
+diff -ur ../WTF-7603.1.30.0.34.orig/Configurations/Base.xcconfig ./Configurations/Base.xcconfig
+--- ../WTF-7603.1.30.0.34.orig/Configurations/Base.xcconfig	2016-11-29 13:36:51.000000000 -0800
++++ ./Configurations/Base.xcconfig	2017-04-27 14:37:37.000000000 -0700
+@@ -112,7 +112,7 @@
+ DEAD_CODE_STRIPPING_normal = YES;
+ DEAD_CODE_STRIPPING = $(DEAD_CODE_STRIPPING_$(CURRENT_VARIANT));
+ 
+-SDKROOT = macosx.internal;
++SDKROOT = macosx;
+ 
+ OTHER_CFLAGS = $(ASAN_OTHER_CFLAGS);
+ OTHER_CPLUSPLUSFLAGS = $(ASAN_OTHER_CPLUSPLUSFLAGS);
+diff -ur ../WTF-7603.1.30.0.34.orig/Configurations/DebugRelease.xcconfig ./Configurations/DebugRelease.xcconfig
+--- ../WTF-7603.1.30.0.34.orig/Configurations/DebugRelease.xcconfig	2016-12-06 16:34:49.000000000 -0800
++++ ./Configurations/DebugRelease.xcconfig	2017-04-27 14:37:47.000000000 -0700
+@@ -39,4 +39,4 @@
+ 
+ SDKROOT = $(SDKROOT_$(USE_INTERNAL_SDK));
+ SDKROOT_ = macosx;
+-SDKROOT_YES = macosx.internal;
++SDKROOT_YES = macosx;

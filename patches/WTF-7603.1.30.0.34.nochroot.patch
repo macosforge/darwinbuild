@@ -1,0 +1,48 @@
+diff -ur ../WTF-7603.1.30.0.34.orig/WTF.xcodeproj/project.pbxproj ./WTF.xcodeproj/project.pbxproj
+--- ../WTF-7603.1.30.0.34.orig/WTF.xcodeproj/project.pbxproj	2017-02-21 11:27:02.000000000 -0800
++++ ./WTF.xcodeproj/project.pbxproj	2017-04-27 15:07:35.000000000 -0700
+@@ -1801,6 +1801,14 @@
+ 				DEAD_CODE_STRIPPING = "$(DEAD_CODE_STRIPPING_debug)";
+ 				DEBUG_DEFINES = "$(DEBUG_DEFINES_debug)";
+ 				GCC_OPTIMIZATION_LEVEL = "$(GCC_OPTIMIZATION_LEVEL_debug)";
++				HEADER_SEARCH_PATHS = (
++					"$(BUILT_PRODUCTS_DIR)/usr/local/include",
++					"$(DSTROOT)/usr/local/include",
++					icu,
++					"$(HEADER_SEARCH_PATHS)",
++					/usr/local/include,
++				);
++				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+ 				STRIP_INSTALLED_PRODUCT = "$(STRIP_INSTALLED_PRODUCT_debug)";
+ 			};
+ 			name = Debug;
+@@ -1809,6 +1817,14 @@
+ 			isa = XCBuildConfiguration;
+ 			baseConfigurationReference = 5D247B7014689C4700E78B76 /* DebugRelease.xcconfig */;
+ 			buildSettings = {
++				HEADER_SEARCH_PATHS = (
++					"$(BUILT_PRODUCTS_DIR)/usr/local/include",
++					"$(DSTROOT)/usr/local/include",
++					icu,
++					"$(HEADER_SEARCH_PATHS)",
++					/usr/local/include,
++				);
++				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+ 			};
+ 			name = Release;
+ 		};
+@@ -1830,6 +1846,14 @@
+ 			isa = XCBuildConfiguration;
+ 			baseConfigurationReference = 5D247B6E14689C4700E78B76 /* Base.xcconfig */;
+ 			buildSettings = {
++				HEADER_SEARCH_PATHS = (
++					"$(BUILT_PRODUCTS_DIR)/usr/local/include",
++					"$(DSTROOT)/usr/local/include",
++					icu,
++					"$(HEADER_SEARCH_PATHS)",
++					/usr/local/include,
++				);
++				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+ 			};
+ 			name = Production;
+ 		};
