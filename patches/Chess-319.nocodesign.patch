@@ -1,0 +1,39 @@
+diff -ur ../Chess-319.orig/MBChess.xcodeproj/project.pbxproj ./MBChess.xcodeproj/project.pbxproj
+--- ../Chess-319.orig/MBChess.xcodeproj/project.pbxproj	2016-03-28 11:07:42.000000000 -0700
++++ ./MBChess.xcodeproj/project.pbxproj	2017-04-27 08:29:39.000000000 -0700
+@@ -1004,7 +1004,7 @@
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 			shellPath = /bin/sh;
+-			shellScript = "# Build all icons\n/usr/local/bin/iconcompiler -b \"$BUILT_PRODUCTS_DIR/$PRODUCT_NAME.app\" -r \"$PROJECT_DIR/Resources/Icons\" || exit 1\n# In textures, preserve only the highest resolution\nshopt -s nullglob\nfor tex in \"$BUILT_PRODUCTS_DIR/$PRODUCT_NAME.app\"/Contents/Resources/{,Styles/*/}*2x*\ndo \n    mv \"$tex\" \"${tex%@2x.png}.png\"\ndone";
++			shellScript = "# Build all icons\n#/usr/local/bin/iconcompiler -b \"$BUILT_PRODUCTS_DIR/$PRODUCT_NAME.app\" -r \"$PROJECT_DIR/Resources/Icons\" || exit 1\n# In textures, preserve only the highest resolution\nshopt -s nullglob\nfor tex in \"$BUILT_PRODUCTS_DIR/$PRODUCT_NAME.app\"/Contents/Resources/{,Styles/*/}*2x*\ndo \n    mv \"$tex\" \"${tex%@2x.png}.png\"\ndone";
+ 		};
+ /* End PBXShellScriptBuildPhase section */
+ 
+@@ -1191,7 +1191,7 @@
+ 			buildSettings = {
+ 				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
+ 				CODE_SIGN_ENTITLEMENTS = Chess.entitlements;
+-				CODE_SIGN_IDENTITY = "-";
++				CODE_SIGN_IDENTITY = "";
+ 				COPY_PHASE_STRIP = NO;
+ 				DEBUG_INFORMATION_FORMAT = dwarf;
+ 				FRAMEWORK_SEARCH_PATHS = (
+@@ -1228,7 +1228,7 @@
+ 			buildSettings = {
+ 				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
+ 				CODE_SIGN_ENTITLEMENTS = Chess.entitlements;
+-				CODE_SIGN_IDENTITY = "-";
++				CODE_SIGN_IDENTITY = "";
+ 				COPY_PHASE_STRIP = YES;
+ 				DEBUG_INFORMATION_FORMAT = dwarf;
+ 				FRAMEWORK_SEARCH_PATHS = (
+@@ -1262,7 +1262,7 @@
+ 			buildSettings = {
+ 				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
+ 				CODE_SIGN_ENTITLEMENTS = Chess.entitlements;
+-				CODE_SIGN_IDENTITY = "-";
++				CODE_SIGN_IDENTITY = "";
+ 				DEBUG_INFORMATION_FORMAT = dwarf;
+ 				FRAMEWORK_SEARCH_PATHS = (
+ 					"$(inherited)",
