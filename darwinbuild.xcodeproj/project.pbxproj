@@ -33,6 +33,7 @@
 				7227AC3A1098DC6A00BE33D7 /* PBXTargetDependency */,
 				7227AC381098DC6A00BE33D7 /* PBXTargetDependency */,
 				7227AC361098DC6A00BE33D7 /* PBXTargetDependency */,
+				B535BF2F1EA59DDE009830B2 /* PBXTargetDependency */,
 			);
 			name = darwinbuild_scripts;
 			productName = darwinbuild_scripts;
@@ -153,6 +154,7 @@
 		72C86C9F109745BC00C66E90 /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 72C86BE610965E4F00C66E90 /* Utils.cpp */; };
 		72C86CE410974CC800C66E90 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 72C86CE310974CC800C66E90 /* libsqlite3.dylib */; };
 		72D05CB811D2680500B33EDD /* query.c in Sources */ = {isa = PBXBuildFile; fileRef = 72D05CA911D2678F00B33EDD /* query.c */; };
+		B535BF321EA59EAF009830B2 /* SDKSettings831.plist in CopyFiles */ = {isa = PBXBuildFile; fileRef = B535BF251EA59BC6009830B2 /* SDKSettings831.plist */; };
 		DF12E2821119E2B0007587C1 /* DB.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DF12E2811119E2B0007587C1 /* DB.cpp */; };
 		DFC9772D11138F9400CAE084 /* Column.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DFC9772711138F9400CAE084 /* Column.cpp */; };
 		DFC9772E11138F9400CAE084 /* Database.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DFC9772911138F9400CAE084 /* Database.cpp */; };
@@ -595,6 +597,13 @@
 			remoteGlobalIDString = 72D05CAD11D267C400B33EDD;
 			remoteInfo = query;
 		};
+		B535BF2E1EA59DDE009830B2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B535BF261EA59D4D009830B2;
+			remoteInfo = installXcode831;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -619,6 +628,7 @@
 			dstPath = "$(DATDIR)/darwinbuild";
 			dstSubfolderSpec = 0;
 			files = (
+				B535BF321EA59EAF009830B2 /* SDKSettings831.plist in CopyFiles */,
 				7227AD1C109A05FA00BE33D7 /* buildlist in CopyFiles */,
 				7227AD1D109A05FA00BE33D7 /* buildorder in CopyFiles */,
 				7227AD1E109A05FA00BE33D7 /* ditto in CopyFiles */,
@@ -762,6 +772,9 @@
 		72C86CE310974CC800C66E90 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = /usr/lib/libsqlite3.dylib; sourceTree = "<absolute>"; };
 		72D05CA911D2678F00B33EDD /* query.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = query.c; sourceTree = "<group>"; };
 		72D05CB711D267C400B33EDD /* query.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = query.so; sourceTree = BUILT_PRODUCTS_DIR; };
+		B535BF241EA59BC6009830B2 /* installXcode831.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = installXcode831.in; path = darwinbuild/installXcode831.in; sourceTree = "<group>"; };
+		B535BF251EA59BC6009830B2 /* SDKSettings831.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = SDKSettings831.plist; path = darwinbuild/SDKSettings831.plist; sourceTree = "<group>"; };
+		B535BF2D1EA59D4D009830B2 /* installXcode831 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = installXcode831; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF12E2801119E2B0007587C1 /* DB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DB.h; path = darwinup/DB.h; sourceTree = "<group>"; };
 		DF12E2811119E2B0007587C1 /* DB.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DB.cpp; path = darwinup/DB.cpp; sourceTree = "<group>"; };
 		DF6BE300132C5EBD00793781 /* close-test */ = {isa = PBXFileReference; lastKnownFileType = text; path = "close-test"; sourceTree = "<group>"; };
@@ -1052,8 +1065,10 @@
 				72C86C2A1096600B00C66E90 /* installXcode3 */,
 				72C86C2B1096600B00C66E90 /* installXcode31 */,
 				72C86C2C1096600B00C66E90 /* installXcode32.in */,
+				B535BF241EA59BC6009830B2 /* installXcode831.in */,
 				72C86C2E1096600B00C66E90 /* manifest.c */,
 				72C86C311096600B00C66E90 /* SDKSettings.plist */,
+				B535BF251EA59BC6009830B2 /* SDKSettings831.plist */,
 			);
 			name = darwinbuild;
 			sourceTree = "<group>";
@@ -1190,6 +1205,7 @@
 				7227AC2E1098DBDF00BE33D7 /* installXcode32 */,
 				72D05CB711D267C400B33EDD /* query.so */,
 				720BE2F2120C90A700B3C4A5 /* digest */,
+				B535BF2D1EA59D4D009830B2 /* installXcode831 */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1857,6 +1873,22 @@
 			productReference = 72D05CB711D267C400B33EDD /* query.so */;
 			productType = "com.apple.product-type.objfile";
 		};
+		B535BF261EA59D4D009830B2 /* installXcode831 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B535BF291EA59D4D009830B2 /* Build configuration list for PBXNativeTarget "installXcode831" */;
+			buildPhases = (
+				B535BF271EA59D4D009830B2 /* ShellScript */,
+				B535BF281EA59D4D009830B2 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = installXcode831;
+			productName = darwinbuild;
+			productReference = B535BF2D1EA59D4D009830B2 /* installXcode831 */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1919,6 +1951,7 @@
 				7227AC151098D8DB00BE33D7 /* thinPackages */,
 				7227AC1E1098DB9200BE33D7 /* installXcode */,
 				7227AC271098DBDF00BE33D7 /* installXcode32 */,
+				B535BF261EA59D4D009830B2 /* installXcode831 */,
 				720BE2EA120C90A700B3C4A5 /* digest */,
 			);
 		};
@@ -2104,6 +2137,36 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/bin/cp $DERIVED_FILE_DIR/installXcode32 $BUILT_PRODUCTS_DIR/installXcode32";
+		};
+		B535BF271EA59D4D009830B2 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/darwinbuild/installXcode831.in",
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/installXcode831",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/bin/sed -e \"s,%%PREFIX%%,$PREFIX,\" $SRCROOT/darwinbuild/installXcode831.in > $DERIVED_FILE_DIR/installXcode831\n\n/bin/chmod 755 $DERIVED_FILE_DIR/installXcode831\n\n";
+		};
+		B535BF281EA59D4D009830B2 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(DERIVED_FILE_DIR)/installXcode831",
+			);
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/installXcode831",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/bin/cp $DERIVED_FILE_DIR/installXcode831 $BUILT_PRODUCTS_DIR/installXcode831";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2666,6 +2729,11 @@
 			isa = PBXTargetDependency;
 			target = 72D05CAD11D267C400B33EDD /* query */;
 			targetProxy = 72D05CB911D2688D00B33EDD /* PBXContainerItemProxy */;
+		};
+		B535BF2F1EA59DDE009830B2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B535BF261EA59D4D009830B2 /* installXcode831 */;
+			targetProxy = B535BF2E1EA59DDE009830B2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -3714,6 +3782,33 @@
 			};
 			name = Release;
 		};
+		B535BF2A1EA59D4D009830B2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
+			buildSettings = {
+				INSTALL_PATH = "$(DATDIR)/darwinbuild";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		B535BF2B1EA59D4D009830B2 /* Public */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
+			buildSettings = {
+				INSTALL_PATH = "$(DATDIR)/darwinbuild";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Public;
+		};
+		B535BF2C1EA59D4D009830B2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
+			buildSettings = {
+				INSTALL_PATH = "$(DATDIR)/darwinbuild";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -4113,6 +4208,16 @@
 				72D05CB411D267C400B33EDD /* Debug */,
 				72D05CB511D267C400B33EDD /* Public */,
 				72D05CB611D267C400B33EDD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Public;
+		};
+		B535BF291EA59D4D009830B2 /* Build configuration list for PBXNativeTarget "installXcode831" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B535BF2A1EA59D4D009830B2 /* Debug */,
+				B535BF2B1EA59D4D009830B2 /* Public */,
+				B535BF2C1EA59D4D009830B2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Public;

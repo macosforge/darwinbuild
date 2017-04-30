@@ -83,7 +83,7 @@ static int run(CFArrayRef argv) {
 
 	CFPropertyListRef plist = preplist;
 	if (xml) {
-		CFDataRef data = CFPropertyListCreateXMLData(NULL, plist);
+                CFDataRef data = CFPropertyListCreateData(NULL, plist, kCFPropertyListOpenStepFormat, 0, NULL);
 		res = write(STDOUT_FILENO, CFDataGetBytePtr(data), (ssize_t)CFDataGetLength(data));
 	} else {
 		res = writePlist(stdout, plist, 0);

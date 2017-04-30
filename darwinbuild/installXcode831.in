@@ -1,0 +1,29 @@
+#!/bin/sh
+
+FORCE="YES"
+XCODEBUILD=/Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild
+BUILDROOT="$1"
+DBROOT=$(dirname $BUILDROOT)
+PLATFORMDIR="${DBROOT}/Platform"
+STAMP=$(date +%Y%m%d%H%M%S)
+BUILD=$(cat $DBROOT/.build/build)
+PLATFORM="darwin$(darwinxref -f $DBROOT/.build/xref.db darwin | awk '{print $2}')"
+SDKPLIST=%%PREFIX%%/share/darwinbuild/SDKSettings831.plist
+MACOSX=$(darwinxref -f $DBROOT/.build/xref.db macosx | awk '{print $2}')
+
+echo $PLATFORM > "${DBROOT}/.build/platform"
+echo "Installing Platform/SDK $PLATFORM for Xcode 8.3.1" 
+
+sed -e "s,%%PLATFORM%%,${PLATFORM}," -e "s,10\.6,${MACOSX},g" $SDKPLIST > "${BUILDROOT}/SDKSettings.plist"
+
+pushd "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs" > /dev/null
+ln -s "$BUILDROOT" "${PLATFORM}.sdk"
+popd > /dev/null
+
+mkdir -p "${DBROOT}/BuildRoot/Developer/"
+pushd "${DBROOT}/BuildRoot/Developer/" > /dev/null
+ln -s ../usr usr
+popd > /dev/null
+
+echo "Completed Platform/SDK install"
+

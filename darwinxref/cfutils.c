@@ -87,10 +87,12 @@ CFPropertyListRef read_plist(char* path) {
                         if (buffer != (void*)-1) {
                                 CFDataRef data = CFDataCreateWithBytesNoCopy(NULL, buffer, size, kCFAllocatorNull);
                                 if (data) {
+                                        CFErrorRef err = NULL;
                                         CFStringRef str = NULL;
-                                        result = CFPropertyListCreateFromXMLData(NULL, data, kCFPropertyListMutableContainers, &str);
+                                        result = CFPropertyListCreateWithData(NULL, data, kCFPropertyListMutableContainers, NULL, &err);
                                         CFRelease(data);
                                         if (result == NULL) {
+                                                str = CFErrorCopyFailureReason(err);
                                                 perror_cfstr(str);
                                         }
                                 }

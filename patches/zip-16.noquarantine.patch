@@ -1,0 +1,25 @@
+diff -ur ../zip-16.orig/unzip/Makefile ./unzip/Makefile
+--- ../zip-16.orig/unzip/Makefile	2015-07-27 14:20:26.000000000 -0700
++++ ./unzip/Makefile	2017-04-17 21:02:13.000000000 -0700
+@@ -11,8 +11,7 @@
+                   include-unistd-for-kfreebsd \
+                   handle-pkware-verification-bit \
+                   initialize-the-symlink-flag \
+-                  increase-size-of-cfactorstr \
+-                  patch-quarantine 
++                  increase-size-of-cfactorstr 
+ 
+ SRCROOT		?= $(shell pwd)
+ OBJROOT		?= $(SRCROOT)/obj
+Only in .: zip-16.noquarantine.patch
+diff -ur ../zip-16.orig/zip.plist ./zip.plist
+--- ../zip-16.orig/zip.plist	2015-07-27 14:20:26.000000000 -0700
++++ ./zip.plist	2017-04-17 21:01:47.000000000 -0700
+@@ -43,7 +43,6 @@
+ 			<string>initialize-the-symlink-flag from Debian</string>
+ 			<string>increase-size-of-cfactorstr from Debian</string>
+                         <string>Apple-patch</string>
+-                        <string>patch-quarantine</string>
+ 		</array>
+ 		<key>OpenSourceProject</key>
+ 		<string>unzip</string>
