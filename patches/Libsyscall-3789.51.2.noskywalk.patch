@@ -1,0 +1,61 @@
+diff -ur ../Libsyscall-3789.51.2.orig/libsyscall/Libsyscall.xcodeproj/project.pbxproj ./libsyscall/Libsyscall.xcodeproj/project.pbxproj
+--- ../Libsyscall-3789.51.2.orig/libsyscall/Libsyscall.xcodeproj/project.pbxproj	2017-03-29 13:09:26.000000000 -0700
++++ ./libsyscall/Libsyscall.xcodeproj/project.pbxproj	2017-04-30 11:46:42.000000000 -0700
+@@ -109,8 +109,6 @@
+ 		2BA88DCC1810A3CE00EB63F6 /* coalition.c in Sources */ = {isa = PBXBuildFile; fileRef = 2BA88DCB1810A3CE00EB63F6 /* coalition.c */; };
+ 		374A36E314748F1300AAF39D /* varargs_wrappers.s in Sources */ = {isa = PBXBuildFile; fileRef = 374A36E214748EE400AAF39D /* varargs_wrappers.s */; };
+ 		3F538F891A659C5600B37EFD /* persona.c in Sources */ = {isa = PBXBuildFile; fileRef = 3F538F881A659C5600B37EFD /* persona.c */; };
+-		401BB71A1BCAE57B005080D3 /* os_channel.c in Sources */ = {isa = PBXBuildFile; fileRef = 401BB7161BCAE539005080D3 /* os_channel.c */; settings = {COMPILER_FLAGS = "-fno-builtin"; }; };
+-		401BB71C1BCAE57B005080D3 /* os_nexus.c in Sources */ = {isa = PBXBuildFile; fileRef = 401BB7181BCAE539005080D3 /* os_nexus.c */; settings = {COMPILER_FLAGS = "-fno-builtin"; }; };
+ 		435F3CAA1B06B7BA005ED9EF /* work_interval.c in Sources */ = {isa = PBXBuildFile; fileRef = 435F3CA91B06B7BA005ED9EF /* work_interval.c */; };
+ 		467DAFD4157E8AF200CE68F0 /* guarded_open_np.c in Sources */ = {isa = PBXBuildFile; fileRef = 467DAFD3157E8AF200CE68F0 /* guarded_open_np.c */; };
+ 		4BDD5F1D1891AB2F004BF300 /* mach_approximate_time.c in Sources */ = {isa = PBXBuildFile; fileRef = 4BDD5F1B1891AB2F004BF300 /* mach_approximate_time.c */; };
+@@ -482,8 +480,6 @@
+ 		374A36E214748EE400AAF39D /* varargs_wrappers.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = varargs_wrappers.s; sourceTree = "<group>"; };
+ 		37DDFB7614748713009D3355 /* syscall.map */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = syscall.map; sourceTree = "<group>"; };
+ 		3F538F881A659C5600B37EFD /* persona.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = persona.c; sourceTree = "<group>"; };
+-		401BB7161BCAE539005080D3 /* os_channel.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = os_channel.c; path = skywalk/os_channel.c; sourceTree = "<group>"; };
+-		401BB7181BCAE539005080D3 /* os_nexus.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = os_nexus.c; path = skywalk/os_nexus.c; sourceTree = "<group>"; };
+ 		435F3CA91B06B7BA005ED9EF /* work_interval.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = work_interval.c; sourceTree = "<group>"; };
+ 		467DAFD3157E8AF200CE68F0 /* guarded_open_np.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = guarded_open_np.c; sourceTree = "<group>"; };
+ 		4BDD5F1B1891AB2F004BF300 /* mach_approximate_time.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mach_approximate_time.c; sourceTree = "<group>"; };
+@@ -802,7 +798,6 @@
+ 				248BA04A121C8EE4008C073F /* cancelable */,
+ 				24A7C6951200AF8A007669EB /* legacy */,
+ 				E4D45C2916F868ED0002AF25 /* libproc */,
+-				401BB7141BCAE523005080D3 /* skywalk */,
+ 				E4D45C3B16FB20970002AF25 /* spawn */,
+ 				E4D7E55216F8776300F92D8D /* string */,
+ 				2419382912135FE1003CDE41 /* unix03 */,
+@@ -940,15 +935,6 @@
+ 			path = arm64;
+ 			sourceTree = "<group>";
+ 		};
+-		401BB7141BCAE523005080D3 /* skywalk */ = {
+-			isa = PBXGroup;
+-			children = (
+-				401BB7161BCAE539005080D3 /* os_channel.c */,
+-				401BB7181BCAE539005080D3 /* os_nexus.c */,
+-			);
+-			name = skywalk;
+-			sourceTree = "<group>";
+-		};
+ 		BA4414B118336D6A00AAE813 /* Generated MIG headers */ = {
+ 			isa = PBXGroup;
+ 			children = (
+@@ -1369,7 +1355,6 @@
+ 				248BA069121D9E27008C073F /* getrlimit.c in Sources */,
+ 				C6460B7C182025DF00F73CCA /* sfi.c in Sources */,
+ 				248BA080121DA36B008C073F /* ioctl.c in Sources */,
+-				401BB71A1BCAE57B005080D3 /* os_channel.c in Sources */,
+ 				C6BEE9181806840200D25AAB /* posix_sem_obsolete.c in Sources */,
+ 				248BA082121DA4F3008C073F /* kill.c in Sources */,
+ 				248BA085121DA5E4008C073F /* kill.c in Sources */,
+@@ -1390,7 +1375,6 @@
+ 				248BA0BE121DE902008C073F /* select.c in Sources */,
+ 				248BA0CD121DEBEF008C073F /* setrlimit.c in Sources */,
+ 				24B223B0121DFD36007DAEDE /* sigsuspend.c in Sources */,
+-				401BB71C1BCAE57B005080D3 /* os_nexus.c in Sources */,
+ 				24B223B2121DFE6D007DAEDE /* sigsuspend-cancel.c in Sources */,
+ 				E4216C311822D404006F2632 /* mach_voucher.defs in Sources */,
+ 				24B223B5121DFF29007DAEDE /* sigsuspend.c in Sources */,
