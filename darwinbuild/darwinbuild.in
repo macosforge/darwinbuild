@@ -592,19 +592,13 @@ fi
 numfiles=$(echo *.pbxproj *.pbproj *.xcode *.xcodeproj 2> /dev/null )
 if [ -n "$numfiles" ]; then
     	buildtool="xcodebuild"
-	# we use a platform/sdk instead of chrooting for Xcode projects
-	# but allow -nochroot to disable Xcode integration
-	if [ $USE_CHROOT == "YES" ]; then
-	    export USE_CHROOT="NO"
-	    export INSTALL_XCODE="YES"
-	fi
+    	export INSTALL_XCODE="YES"
 else
 	buildtool="make"
 
 	# test for hybrid make-xcode project
 	uses_xcrun=$(grep -Elir 'xcodebuild|xcrun|Commands.make|BSDCommon.make|Standard.make|Common.make' .)
 	if [ -n "$uses_xcrun" -a $USE_CHROOT == "YES" ]; then
-		export USE_CHROOT="NO"
 		export INSTALL_XCODE="YES"
 	fi
 fi
