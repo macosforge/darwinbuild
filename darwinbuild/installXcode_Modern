@@ -10,19 +10,16 @@ do_ditto () {
 BUILDROOT="$1"
 mkdir -p "$BUILDROOT"
 
-mkdir -p $BUILDROOT/Applications/Xcode.app/Contents
 do_ditto /Applications/Xcode.app/Contents/Frameworks
 do_ditto /Applications/Xcode.app/Contents/SharedFrameworks
 do_ditto /Applications/Xcode.app/Contents/OtherFrameworks
 do_ditto /Applications/Xcode.app/Contents/Plugins
 do_ditto /Applications/Xcode.app/Contents/XPCServices
 
-mkdir -p $BUILDROOT/Applications/Xcode.app/Contents/Developer
 do_ditto /Applications/Xcode.app/Contents/Developer/Library
 do_ditto /Applications/Xcode.app/Contents/Developer/Makefiles
 do_ditto /Applications/Xcode.app/Contents/Developer/Toolchains
 do_ditto /Applications/Xcode.app/Contents/Developer/Tools
 do_ditto /Applications/Xcode.app/Contents/Developer/usr
 
-mkdir -p $BUILDROOT/Applications/Xcode.app/Contents/Developer/Platforms
 do_ditto /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform
