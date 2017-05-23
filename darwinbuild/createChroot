@@ -110,6 +110,7 @@ done
 mkdir -p $BUILDROOT/usr/local/darwinbuild/receipts
 touch $BUILDROOT/usr/local/darwinbuild/receipts/files
 touch $BUILDROOT/usr/local/darwinbuild/receipts/bash
+touch $BUILDROOT/usr/local/darwinbuild/receipts/perl
 
 popd > /dev/null
 
