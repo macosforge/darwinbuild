@@ -1,6 +1,26 @@
 #!/bin/sh
 
+do_ditto () {
+    echo ditto $1
+    ditto "$1" "$2" || exit 1
+}
+
 BUILDROOT="$1"
 mkdir -p "$BUILDROOT"
-mkdir -p $BUILDROOT/Applications
-ditto /Applications/Xcode.app $BUILDROOT/Applications/Xcode.app
+
+mkdir -p $BUILDROOT/Applications/Xcode.app/Contents
+do_ditto /Applications/Xcode.app/Contents/Frameworks $BUILDROOT/Applications/Xcode.app/Contents
+do_ditto /Applications/Xcode.app/Contents/SharedFrameworks $BUILDROOT/Applications/Xcode.app/Contents
+do_ditto /Applications/Xcode.app/Contents/OtherFrameworks $BUILDROOT/Applications/Xcode.app/Contents
+do_ditto /Applications/Xcode.app/Contents/Plugins $BUILDROOT/Applications/Xcode.app/Contents
+do_ditto /Applications/Xcode.app/Contents/XPCServices $BUILDROOT/Applications/Xcode.app/Contents
+
+mkdir -p $BUILDROOT/Applications/Xcode.app/Contents/Developer
+do_ditto /Applications/Xcode.app/Contents/Developer/Library $BUILDROOT/Applications/Xcode.app/Contents/Developer
+do_ditto /Applications/Xcode.app/Contents/Developer/Makefiles $BUILDROOT/Applications/Xcode.app/Contents/Developer
+do_ditto /Applications/Xcode.app/Contents/Developer/Toolchains $BUILDROOT/Applications/Xcode.app/Contents/Developer
+do_ditto /Applications/Xcode.app/Contents/Developer/Tools $BUILDROOT/Applications/Xcode.app/Contents/Developer
+do_ditto /Applications/Xcode.app/Contents/Developer/usr $BUILDROOT/Applications/Xcode.app/Contents/Developer
+
+mkdir -p $BUILDROOT/Applications/Xcode.app/Contents/Developer/Platforms
+do_ditto /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform $BUILDROOT/Applications/Xcode.app/Contents/Developer/Platforms
