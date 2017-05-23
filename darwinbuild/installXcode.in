@@ -7,7 +7,6 @@ BROOT=$1
 VER=$(/usr/bin/xcodebuild -version | grep version | cut -d "-" -f 2 | cut -d ";" -f 1 | cut -d "." -f 1)
 
 if [ -e /Applications/Xcode.app ]; then
-	"$BINDIR/createChroot" "$BROOT"
 	"$BINDIR/installXcode_Modern" "$BROOT"
 	exit 0
 fi

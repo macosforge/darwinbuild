@@ -638,33 +638,17 @@ if [ $USE_CHROOT == "NO" -a $INSTALL_XCODE == "NO" ]; then
 fi
 
 if [ "$NEED_ROOTS" == "YES" -a "$noload" != "YES" ]; then
+	if [ ! -f "$BuildRoot/usr/local/darwinbuild/receipts/.host-system-chroot" ]; then
+		echo "*** Creating chroot environment from host system, this may take a while ..."
+		$DATADIR/createChroot "$BuildRoot"
+	fi
+
 	echo "*** Installing Roots ..."
-	bash_deps=$($DARWINXREF dependencies -run "bash")
 	deps=$($DARWINXREF dependencies -build "$projnam")
 
-	for X in files bash $bash_deps $deps ; do
+	for X in $deps ; do
 		InstallRoot "$BuildRoot" "$X" "$depsbuild"
 	done
-
-	### so many things require ditto, we have hacked around it
-	if [ ! -x "$BuildRoot/usr/bin/ditto" ]; then
-		cp "$DITTO" "$BuildRoot/usr/bin/ditto"
-	fi
-
-	### need dsymutil
-	if [ ! -x "$BuildRoot/usr/bin/dsymutil" ]; then
-		cp "/usr/bin/dsymutil" "$BuildRoot/usr/bin/dsymutil"
-	fi
-
-	### CoreOSMakefiles
-	if [ ! -d "$BuildRoot/Developer/Makefiles/CoreOS" ]; then
-	    InstallRoot "$BuildRoot" "CoreOSMakefiles" "$depsbuild"
-	fi
-
-	### Perl
-	if [ ! -x "$BuildRoot/usr/bin/perl" ]; then
-	    InstallRoot "$BuildRoot" "perl" "$depsbuild"
-	fi
 
 	echo "*** Installing Headers ..."
 	deps=$($DARWINXREF dependencies -header "$projnam")
