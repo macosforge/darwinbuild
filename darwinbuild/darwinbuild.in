@@ -612,7 +612,7 @@ mkdir -p "$receipts"
 if [ $INSTALL_XCODE == "YES" ]; then
 	if [ ! -f "$receipts/xcodebuild" ]; then
 		echo "*** Installing Xcode Tools ..."
-		"$DATADIR/installXcode" "$BuildRoot"
+		"$DATADIR/installXcode" "$BuildRoot" "$PWDP"
 		touch "$receipts/xcodebuild"
 	fi
 fi
