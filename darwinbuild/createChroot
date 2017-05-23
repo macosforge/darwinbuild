@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 FORCE="YES"
 
@@ -14,7 +14,6 @@ EXTRADIR=( \
     /private/var/tmp )
 
 EXTRACOPY=( \
-    /Developer/Makefiles \
     /Library/Application\ Support \
     /System/Library/Frameworks \
     /System/Library/PrivateFrameworks \
@@ -23,12 +22,10 @@ EXTRACOPY=( \
     /System/Library/Keyboard\ Layouts \
     /System/Library/Perl \
     /System/Library/Tcl \
-    /System/Library/CoreServices/CharacterSets \
     /bin \
     /private/etc \
     /sbin \
     /usr/bin \
-    /usr/include \
     /usr/lib \
     /usr/libexec \
     /usr/sbin \
@@ -62,7 +59,7 @@ AppendExtraFiles() {
 
 GenerateFileNames() {
     cat /tmp/installXcode.libs.$$ | sort -u | while read X; do
-	# echo adding children for "$X"
+	echo adding children for "$X"
 
 	# first mkdir parent directories
 	PARENT=$(dirname "$X")
@@ -78,7 +75,7 @@ GenerateFileNames() {
 CopyFiles() {
 #    VERBOSECPIO="v"
     VERBOSECPIO=""
-    echo -n "Copying system ..."
+    echo -n "Copying system... "
     cpio -o -c < /tmp/installXcode.files.$$ | \
     (cd "$BUILDROOT"; cpio -ium${VERBOSECPIO}d )
 
@@ -96,7 +93,7 @@ pushd / > /dev/null
 
 RemoveTemps
 touch /tmp/installXcode.seen.$$
-echo Analyzing files to copy into chroot  ...
+echo Analyzing files to copy into chroot...
 AppendExtraFiles
 GenerateFileNames
 CopyFiles
@@ -111,9 +108,8 @@ done
 
 # We provide this functionality, at least
 mkdir -p $BUILDROOT/usr/local/darwinbuild/receipts
-for i in "files" "bash"; do
-    touch $BUILDROOT/usr/local/darwinbuild/receipts/$i
-done
+touch $BUILDROOT/usr/local/darwinbuild/receipts/files
+touch $BUILDROOT/usr/local/darwinbuild/receipts/bash
 
 popd > /dev/null
 
