@@ -51,3 +51,4 @@ do_ditto /Applications/Xcode.app/Contents/Developer/Tools
 do_ditto /Applications/Xcode.app/Contents/Developer/usr
 
 do_ditto /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform
+ditto /Applications/Xcode.app/Contents/Info.plist /Applications/Xcode.app/Contents
