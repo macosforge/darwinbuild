@@ -52,3 +52,6 @@ do_ditto /Applications/Xcode.app/Contents/Developer/usr
 
 do_ditto /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform
 ditto /Applications/Xcode.app/Contents/Info.plist $BUILDROOT/Applications/Xcode.app/Contents
+
+mkdir -p $BUILDROOT/System/Library/CoreServices
+ditto /System/Library/CoreServices/SystemVersion.plist $BUILDROOT/System/Library/CoreServices
