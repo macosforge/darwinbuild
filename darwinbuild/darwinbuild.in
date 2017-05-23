@@ -564,10 +564,10 @@ for patchfile in $patchfilenames; do
 	    esac
 	    case $patchfile in
 		*.p1.patch*)
-		    $catprog "$SourceCache/$patchfile" | patch -p1 -r .
+		    $catprog "$SourceCache/$patchfile" | patch -p1 -N -r /dev/null
 		    ;;
 		*.patch*)
-		    $catprog "$SourceCache/$patchfile" | patch -p0 -r .
+		    $catprog "$SourceCache/$patchfile" | patch -p0 -N -r /dev/null
 		    ;;
 		*.add*)
 		    newfile=`echo $patchfile | sed -e 's/^.*-\([^-]*\)\.add.*/\1/' -e 's,_,/,g'`
