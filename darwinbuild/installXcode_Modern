@@ -1,0 +1,6 @@
+#!/bin/sh
+
+BUILDROOT="$1"
+mkdir -p "$BUILDROOT"
+mkdir -p $BUILDROOT/Applications
+ditto /Applications/Xcode.app $BUILDROOT/Applications
