@@ -1,19 +1,19 @@
 #!/bin/sh
 #
 # Copyright (c) 2004-2010, Apple Computer, Inc. All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
 # are met:
 # 1.  Redistributions of source code must retain the above copyright
-#     notice, this list of conditions and the following disclaimer. 
+#     notice, this list of conditions and the following disclaimer.
 # 2.  Redistributions in binary form must reproduce the above copyright
 #     notice, this list of conditions and the following disclaimer in the
-#     documentation and/or other materials provided with the distribution. 
+#     documentation and/or other materials provided with the distribution.
 # 3.  Neither the name of Apple Computer, Inc. ("Apple") nor the names of
 #     its contributors may be used to endorse or promote products derived
-#     from this software without specific prior written permission. 
-# 
+#     from this software without specific prior written permission.
+#
 # THIS SOFTWARE IS PROVIDED BY APPLE AND ITS CONTRIBUTORS "AS IS" AND
 # ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -59,20 +59,20 @@
 ### The script checks its source cache (BuildRoot/Sources) for a .tar.gz archive
 ### of the given project-version.  If one exists, it is used.  If it does not
 ### exist, then this script will attempt to use curl(1) to fetch the sources
-### from the source sites specified in the plist. 
+### from the source sites specified in the plist.
 ###
 ### If the -chroot option is specified, the script will use the darwinxref tool
 ### to populate the build root with the "Roots" necessary to build the project
 ### (Roots are pre-compiled projects ready for installation).  This script
 ### will look for an existing root in the root cache (BuildRoot/Roots).  If a
-### root is missing, then this script will attempt to use curl(1) to fetch the 
-### roots from the binary sites specified in the build plist. 
+### root is missing, then this script will attempt to use curl(1) to fetch the
+### roots from the binary sites specified in the build plist.
 ###
 ### If the specified project requires Xcode to build (i.e. it does not use
 ### a makefile, but instead has a .pbproj or .xcodeproj file), then an SDK
-### will be synthesized and chroot will not be used. 
+### will be synthesized and chroot will not be used.
 ###
-### 
+###
 
 PREFIX=%%PREFIX%%
 PWDP=$(pwd -P)
@@ -160,7 +160,7 @@ if [ "$1" == "-init" ]; then
 	fi
 	build=$(echo "$filename" | sed 's/.plist$//')
 
-	echo "$build" > .build/build 
+	echo "$build" > .build/build
 
 	###
 	### Create the build root
@@ -176,7 +176,7 @@ if [ "$1" == "-init" ]; then
 			echo "# Added by darwinbuild on ${stamp}" >> /etc/exports
 			echo $exportline >> /etc/exports
 		fi
-		nfsd update	    
+		nfsd update
 		echo "Checking exports file ..."
 		nfsd checkexports
 	elif [ "$3" == "-nodmg" ]; then
@@ -208,11 +208,11 @@ fi
 function PrintUsage() {
 	cat <<-EOF 1>&2
 	usage: $(basename $0) [action] [options] <project> [<version>]
-	actions: [-headers] [-fetch] [-source] [-load] [-loadonly] 
+	actions: [-headers] [-fetch] [-source] [-load] [-loadonly]
 	options: [-build=X] [-target=X] [-configuration=X]
 	         [-logdeps] [-nochroot] [-nopatch] [-noload]
 	         [-depsbuild=X [-depsbuild=Y]] [-nosource]
-	             
+
 EOF
 	exit 1
 }
@@ -233,7 +233,7 @@ if [ ! -d "$BuildRoot/var" -a -d $NFSDIR ]; then
     if [ $? -ne 0 ]; then
 	echo "Error: Unable to mount build root";
 	exit 72
-    fi        
+    fi
 elif [ -d $DMGFILE ]; then
     stat -L $BuildRoot >> /dev/null 2>&1
     if [ $? -eq 1 ]; then
@@ -242,7 +242,7 @@ elif [ -d $DMGFILE ]; then
 	if [ $? -ne 0 ]; then
 	    echo "Error: Unable to attach sparse disk image";
 	    exit 70
-	fi    
+	fi
     fi
 fi
 
@@ -281,8 +281,8 @@ fi
 ###              don't build.
 ###
 ###  Options:
-###   -nosource Do not fetch or stage source. This assumes that the 
-###              source is already in place in the BuildRoot. 
+###   -nosource Do not fetch or stage source. This assumes that the
+###              source is already in place in the BuildRoot.
 ###   -logdeps  Do magic to log the build-time dependencies
 ###   -nopatch  Don't patch sources before building.
 ###   -noload   Don't load dependencies into the chroot.
@@ -291,7 +291,7 @@ fi
 ###   -target=X The makefile or xcode target to build
 ###   -configuration=X Specify the build configuration to use
 ###   -build=X  Specify the darwin build number to buld, e.g. 8B15
-###   -depsbuild=X Specify the darwin build number to populate the BuildRoot 
+###   -depsbuild=X Specify the darwin build number to populate the BuildRoot
 ###
 ###  Parameters:
 ###   <project> The name of the project to build
@@ -456,7 +456,7 @@ if [ "$nosource" != "YES" ]; then
 
 	# prepare for the opensource.apple.com/tarballs case as it's no more redirected
 	if echo "$($DARWINXREF source_sites $projnam)" | grep "opensource.apple.com/tarballs" > /dev/null 2> /dev/null ; then
-		targetfilename=$(echo $(basename "$filename" .tar.gz) | sed -e 's,-[0-9.]*$,,') 
+		targetfilename=$(echo $(basename "$filename" .tar.gz) | sed -e 's,-[0-9.]*$,,')
 		Download "$SourceCache" "$filename" "$($DARWINXREF source_sites $projnam)/$targetfilename"
 	else
 		Download "$SourceCache" "$filename" "$($DARWINXREF source_sites $projnam)"
@@ -464,7 +464,7 @@ if [ "$nosource" != "YES" ]; then
 
 	patchfilenames=$($DARWINXREF patchfiles $projnam)
 	for p in $patchfilenames; do
-		Download "$SourceCache" "$p" "$($DARWINXREF patch_sites $projnam)"    
+		Download "$SourceCache" "$p" "$($DARWINXREF patch_sites $projnam)"
 	done
 
 	### If we are doing a -fetch, stop here.
@@ -506,14 +506,14 @@ if [ "$nosource" != "YES" ]; then
 	rm -Rf "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT"
 	mkdir -p "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT"
 	chown root:wheel "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT"
-	
+
 	###
 	### Install the sources and patches into the BuildRoot
 	###
 	cd "$REAL_SRCROOT/.."
 	echo "*** Copying Sources ..."
 	if [ -d "$SourceCache/$project" ]; then
-		tar c -C "$SourceCache" "$project" | tar xf - 
+		tar c -C "$SourceCache" "$project" | tar xf -
 	elif [ "$alias" != "" -a -d "$SourceCache/$alias-$version" ]; then
 		tar c -C "$SourceCache" "$alias-$version" | tar xf -
 		rmdir "$REAL_SRCROOT"
@@ -624,7 +624,7 @@ if [ $INSTALL_XCODE == "YES" ]; then
 fi
 
 ###
-### If we are going to build in a chroot, 
+### If we are going to build in a chroot,
 ### install the roots into the BuildRoot.
 ### Make sure we have at least a minimally functioning root
 ### by installing bash and its dependencies.
@@ -651,20 +651,20 @@ if [ "$NEED_ROOTS" == "YES" -a "$noload" != "YES" ]; then
 		cp "$DITTO" "$BuildRoot/usr/bin/ditto"
 	fi
 
-	### need dsymutil 
+	### need dsymutil
 	if [ ! -x "$BuildRoot/usr/bin/dsymutil" ]; then
 		cp "/usr/bin/dsymutil" "$BuildRoot/usr/bin/dsymutil"
 	fi
 
-	### CoreOSMakefiles 
+	### CoreOSMakefiles
 	if [ ! -d "$BuildRoot/Developer/Makefiles/CoreOS" ]; then
 	    InstallRoot "$BuildRoot" "CoreOSMakefiles" "$depsbuild"
-	fi	
+	fi
 
 	### Perl
 	if [ ! -x "$BuildRoot/usr/bin/perl" ]; then
 	    InstallRoot "$BuildRoot" "perl" "$depsbuild"
-	fi	
+	fi
 
 	echo "*** Installing Headers ..."
 	deps=$($DARWINXREF dependencies -header "$projnam")
@@ -896,7 +896,7 @@ cat <<-EOF >> $SCRIPT
 	if [ -x /bin/date ]; then
 		START_DATE=\$(date "+%s")
 	fi
-	$buildtool $action $build_string < /dev/null 
+	$buildtool $action $build_string < /dev/null
 	EXIT_STATUS="\$?"
 	if [ -x /bin/date ]; then
 		END_DATE=\$(date "+%s")
