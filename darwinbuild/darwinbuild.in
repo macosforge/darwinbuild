@@ -756,32 +756,27 @@ cat <<-EOF > $SCRIPT
 EOF
 if [ "$logdeps" == "YES" ]; then
 	if [ "$USE_CHROOT" == "YES" ]; then
-		if [ "$DARWINTRACE" -nt "$BuildRoot/usr/lib/darwintrace.dylib" ]; then
-			mkdir -p "$BuildRoot/usr/lib"
-			cp "$DARWINTRACE" \
-		   	"$BuildRoot/usr/lib/darwintrace.dylib"
-		fi
+		mkdir -p "$BuildRoot/usr/lib"
+		cp "$DARWINTRACE" \
+		"$BuildRoot/usr/lib/darwintrace.dylib"
+
 		echo "export DARWINTRACE_LOG=\"${TRACELOG/$BuildRoot/}\"" >> $SCRIPT
 		echo "export DYLD_INSERT_LIBRARIES=/usr/lib/darwintrace.dylib" >> $SCRIPT
 	else
 		echo "export DARWINTRACE_LOG=\"${TRACELOG}\"" >> $SCRIPT
 		echo "export DYLD_INSERT_LIBRARIES=$DARWINTRACE" >> $SCRIPT
 	fi
-
-	echo "export DYLD_FORCE_FLAT_NAMESPACE=1" >> $SCRIPT
 fi
 
-if [ "$INSTALL_XCODE" == "YES" ]; then
+if [ "$INSTALL_XCODE" == "YES" -a "$USE_CHROOT" == "NO" ]; then
 	echo "*** Redirecting ..."
 	echo "DARWINTRACE_REDIRECT=\"${BuildRoot}\""
 	echo "DARWINTRACE_LOG=\"${TRACELOG}\""
 	echo "DYLD_INSERT_LIBRARIES=$DARWINTRACE"
-	echo "DYLD_FORCE_FLAT_NAMESPACE=1"
 	echo ""
 	echo "export DARWINTRACE_REDIRECT=\"${BuildRoot}\"" >> $SCRIPT
 	echo "export DARWINTRACE_LOG=\"${TRACELOG}\"" >> $SCRIPT
 	echo "export DYLD_INSERT_LIBRARIES=$DARWINTRACE" >> $SCRIPT
-	echo "export DYLD_FORCE_FLAT_NAMESPACE=1" >> $SCRIPT
 fi
 
 if [ "$buildtool" == "xcodebuild" ]; then
