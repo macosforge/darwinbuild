@@ -41,7 +41,7 @@ mkdir -p "$BUILDROOT"
 do_ditto /Applications/Xcode.app/Contents/Frameworks
 do_ditto /Applications/Xcode.app/Contents/SharedFrameworks
 do_ditto /Applications/Xcode.app/Contents/OtherFrameworks
-do_ditto /Applications/Xcode.app/Contents/Plugins
+do_ditto /Applications/Xcode.app/Contents/PlugIns
 do_ditto /Applications/Xcode.app/Contents/XPCServices
 
 do_ditto /Applications/Xcode.app/Contents/Developer/Library
