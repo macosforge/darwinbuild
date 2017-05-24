@@ -60,4 +60,6 @@ ditto /System/Library/CoreServices/SystemVersion.plist $BUILDROOT/System/Library
 # Create extra directories required by the Xcode tools.
 # While not strictly part of Xcode, without them the tools will crash.
 mkdir -p $BUILDROOT/Users/$(whoami)
-mkdir -p $BUILDROOT/$TMPDIR
+mkdir -p $BUILDROOT/$(getconf DARWIN_USER_DIR)
+mkdir -p $BUILDOROT/$(getconf DARWIN_USER_TEMP_DIR)
+mkdir -p $BUILDROOT/$(getconf DARWIN_USER_CACHE_DIR)
