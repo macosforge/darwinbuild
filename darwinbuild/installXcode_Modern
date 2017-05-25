@@ -63,3 +63,7 @@ mkdir -p $BUILDROOT/Users/$(whoami)
 mkdir -p $BUILDROOT/$(getconf DARWIN_USER_DIR)
 mkdir -p $BUILDOROT/$(getconf DARWIN_USER_TEMP_DIR)
 mkdir -p $BUILDROOT/$(getconf DARWIN_USER_CACHE_DIR)
+
+# Now I must remove a symbolic link, or darwinbuild will fail later.
+rm $BUILDROOT/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk
+mv $BUILDROOT/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk $BUILDROOT/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk
