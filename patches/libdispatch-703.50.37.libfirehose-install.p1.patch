@@ -1,0 +1,24 @@
+diff --git a/libdispatch.xcodeproj/project.pbxproj b/libdispatch.xcodeproj/project.pbxproj
+index 5fa010b..ef132a5 100644
+--- a/libdispatch.xcodeproj/project.pbxproj
++++ b/libdispatch.xcodeproj/project.pbxproj
+@@ -2253,6 +2253,9 @@
+ 			isa = XCBuildConfiguration;
+ 			baseConfigurationReference = 6E040C721C499C3600411A2E /* libfirehose_kernel.xcconfig */;
+ 			buildSettings = {
++				INSTALL_PATH = "$(SDKROOT)/usr/local/lib/kernel/";
++				PRIVATE_HEADERS_FOLDER_PATH = "$(SDKROOT)/usr/local/include/kernel/os";
++				PUBLIC_HEADERS_FOLDER_PATH = "$(SDKROOT)/usr/include/os";
+ 			};
+ 			name = Release;
+ 		};
+@@ -2260,6 +2263,9 @@
+ 			isa = XCBuildConfiguration;
+ 			baseConfigurationReference = 6E040C721C499C3600411A2E /* libfirehose_kernel.xcconfig */;
+ 			buildSettings = {
++				INSTALL_PATH = "$(SDKROOT)/usr/local/lib/kernel/";
++				PRIVATE_HEADERS_FOLDER_PATH = "$(SDKROOT)/usr/local/include/kernel/os";
++				PUBLIC_HEADERS_FOLDER_PATH = "$(SDKROOT)/usr/include/os";
+ 			};
+ 			name = Debug;
+ 		};
