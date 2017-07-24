@@ -607,16 +607,6 @@ fi
 receipts="$BuildRoot/usr/local/darwinbuild/receipts"
 mkdir -p "$receipts"
 
-### xcodebuild is a special case because it is not open source
-### we try to integrate the host copy of Xcode if required
-if [ $INSTALL_XCODE == "YES" ]; then
-	if [ ! -f "$receipts/xcodebuild" ]; then
-		echo "*** Installing Xcode Tools ..."
-		"$DATADIR/installXcode" "$BuildRoot" "$PWDP"
-		touch "$receipts/xcodebuild"
-	fi
-fi
-
 ###
 ### If we are going to build in a chroot,
 ### install the roots into the BuildRoot.
@@ -654,6 +644,16 @@ if [ "$NEED_ROOTS" == "YES" -a "$noload" != "YES" ]; then
 	    exit
 	fi
 
+fi
+
+### xcodebuild is a special case because it is not open source
+### we try to integrate the host copy of Xcode if required
+if [ $INSTALL_XCODE == "YES" ]; then
+	if [ ! -f "$receipts/xcodebuild" ]; then
+		echo "*** Installing Xcode Tools ..."
+		"$DATADIR/installXcode" "$BuildRoot" "$PWDP"
+		touch "$receipts/xcodebuild"
+	fi
 fi
 
 ###
