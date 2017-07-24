@@ -85,7 +85,11 @@ if [ "$HOST_DARWIN_VERSION" == "10.13" ]; then
 EOF
 
     codesign -s - -f --entitlements $BUILDROOT/private/tmp/empty.entitlements $BUILDROOT/Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild
+
+    echo macosx10.13 > $2/.build/platform
 elif [ "$HOST_DARWIN_VERSION" == "10.12" ]; then
     rm $BUILDROOT/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk
     mv $BUILDROOT/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk $BUILDROOT/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk
+
+    echo macosx10.12 > $2/.build/platform
 fi

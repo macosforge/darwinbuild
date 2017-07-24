@@ -7,8 +7,7 @@ BROOT=$1
 VER=$(/usr/bin/xcodebuild -version | grep version | cut -d "-" -f 2 | cut -d ";" -f 1 | cut -d "." -f 1)
 
 if [ -e /Applications/Xcode.app ]; then
-	"$BINDIR/installXcode_Modern" "$BROOT"
-	echo macosx10.12 > $2/.build/platform
+	"$BINDIR/installXcode_Modern" "$BROOT" "$2"
 	exit 0
 fi
 
