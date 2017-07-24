@@ -62,7 +62,7 @@ ditto /System/Library/CoreServices/SystemVersion.plist $BUILDROOT/System/Library
 # While not strictly part of Xcode, without them the tools will crash.
 mkdir -p $BUILDROOT/Users/$(whoami)
 mkdir -p $BUILDROOT/$(getconf DARWIN_USER_DIR)
-mkdir -p $BUILDOROT/$(getconf DARWIN_USER_TEMP_DIR)
+mkdir -p $BUILDROOT/$(getconf DARWIN_USER_TEMP_DIR)
 mkdir -p $BUILDROOT/$(getconf DARWIN_USER_CACHE_DIR)
 
 # Now I must remove a symbolic link, or darwinbuild will fail later.
