@@ -71,6 +71,20 @@ if [ "$HOST_DARWIN_VERSION" == "10.13" ]; then
 
     mkdir -p $BUILDROOT/private/var/db
     ln -s /Applications/Xcode.app/Contents/Developer $BUILDROOT/private/var/db/xcode_select_link
+
+    # High Sierra does not allow processes with entitlements to run inside a chroot.
+    # Therefore, I must strip the entitlements and re-sign xcodebuild.
+    # Hopefully, this won't break anything.
+    cat <<EOF > $BUILDROOT/private/tmp/empty.entitlements
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+</dict>
+</plist>
+EOF
+
+    codesign -s - -f --entitlements $BUILDROOT/private/tmp/empty.entitlements $BUILDROOT/Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild
 elif [ "$HOST_DARWIN_VERSION" == "10.12" ]; then
     rm $BUILDROOT/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk
     mv $BUILDROOT/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk $BUILDROOT/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk
