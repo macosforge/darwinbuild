@@ -595,12 +595,6 @@ if [ -n "$numfiles" ]; then
     	export INSTALL_XCODE="YES"
 else
 	buildtool="make"
-
-	# test for hybrid make-xcode project
-	uses_xcrun=$(grep -Elir 'xcodebuild|xcrun|Commands.make|BSDCommon.make|Standard.make|Common.make' .)
-	if [ -n "$uses_xcrun" -a $USE_CHROOT == "YES" ]; then
-		export INSTALL_XCODE="YES"
-	fi
 fi
 
 
@@ -646,14 +640,10 @@ if [ "$NEED_ROOTS" == "YES" -a "$noload" != "YES" ]; then
 
 fi
 
-### xcodebuild is a special case because it is not open source
-### we try to integrate the host copy of Xcode if required
-if [ $INSTALL_XCODE == "YES" ]; then
-	if [ ! -f "$receipts/xcodebuild" ]; then
-		echo "*** Installing Xcode Tools ..."
-		"$DATADIR/installXcode" "$BuildRoot" "$PWDP"
-		touch "$receipts/xcodebuild"
-	fi
+if [ ! -f "$receipts/xcodebuild" ]; then
+	echo "*** Installing Xcode Tools ..."
+	"$DATADIR/installXcode" "$BuildRoot" "$PWDP"
+	touch "$receipts/xcodebuild"
 fi
 
 ###
