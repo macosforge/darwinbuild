@@ -14,7 +14,9 @@ import sys
 filename = sys.argv[1]
 project = sys.argv[2]
 pl = plistlib.readPlist(filename)
-print(pl['projects'][project]['github'])
+
+if 'github' in pl['projects'][project]:
+    print(pl['projects'][project]['github'])
 EOF
 
 # Check to see if the Python script fails.
@@ -26,6 +28,8 @@ python $EXTRACT_SCRIPT_FILENAME $DARWINBUILD_PLIST $PROJECT_NAME 1> /dev/null ||
 }
 
 GITHUB_PROJECT=$(python $EXTRACT_SCRIPT_FILENAME $DARWINBUILD_PLIST $PROJECT_NAME)
+[ "$GITHUB_PROJECT" = "" ] && exit
+
 GITHUB_URL=https://github.com/${GITHUB_PROJECT}/archive/${PROJECT_VERSION}.tar.gz
 
 echo -n "Attempting download from $GITHUB_URL "
