@@ -32,7 +32,7 @@ GITHUB_PROJECT=$(python $EXTRACT_SCRIPT_FILENAME $DARWINBUILD_PLIST $PROJECT_NAM
 
 GITHUB_URL=https://github.com/${GITHUB_PROJECT}/archive/${PROJECT_VERSION}.tar.gz
 
-echo -n "Attempting download from $GITHUB_URL "
+echo -n "Downloading $GITHUB_URL "
 curl -Ls -o "${SOURCES_DIR}/${PROJECT_NAME}-${PROJECT_VERSION}.tar.gz" "${GITHUB_URL}"
 CURL_STATUS=$?
 
