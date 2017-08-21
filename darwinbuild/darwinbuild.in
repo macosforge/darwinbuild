@@ -462,6 +462,13 @@ if [ "$nosource" != "YES" ]; then
 		Download "$SourceCache" "$filename" "$($DARWINXREF source_sites $projnam)"
 	fi
 
+	if [ ! -f "$SourceCache/$filename" ]; then
+		github_projname=$(echo $filename | sed -e 's,-.*$,,')
+		github_projversion=$(echo $filename | sed -e 's,\.tar\.gz$,,' | sed -e 's,^.*-,,')
+		github_dxref_plist=.build/$($DARWINXREF currentBuild).plist
+		$DATADIR/fetch-from-github "$github_dxref_plist" $github_projname $github_projversion "$SourceCache"
+	fi
+
 	patchfilenames=$($DARWINXREF patchfiles $projnam)
 	for p in $patchfilenames; do
 		Download "$SourceCache" "$p" "$($DARWINXREF patch_sites $projnam)"
