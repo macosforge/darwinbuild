@@ -1,0 +1,42 @@
+#!/bin/bash
+
+DARWINBUILD_PLIST=$1
+PROJECT_NAME=$2
+PROJECT_VERSION=$3
+SOURCES_DIR=$4
+
+EXTRACT_SCRIPT_FILENAME=$(mktemp /tmp/darwinbuild-fetch-from-github.XXXXXXXXXX)
+cat > $EXTRACT_SCRIPT_FILENAME <<EOF
+from __future__ import print_function
+import plistlib
+import sys
+
+filename = sys.argv[1]
+project = sys.argv[2]
+pl = plistlib.readPlist(filename)
+print(pl['projects'][project]['github'])
+EOF
+
+# Check to see if the Python script fails.
+# If it does, diagnostics will have been printed to stderr.
+python $EXTRACT_SCRIPT_FILENAME $DARWINBUILD_PLIST $PROJECT_NAME 1> /dev/null || {
+    echo Python extraction script failed 1>&2
+    rm $EXTRACT_SCRIPT_FILENAME
+    exit 1
+}
+
+GITHUB_PROJECT=$(python $EXTRACT_SCRIPT_FILENAME $DARWINBUILD_PLIST $PROJECT_NAME)
+GITHUB_URL=https://github.com/${GITHUB_PROJECT}/archive/${PROJECT_VERSION}.tar.gz
+
+echo -n "Attempting download from $GITHUB_URL "
+curl -Ls -o "${SOURCES_DIR}/${PROJECT_NAME}-${PROJECT_VERSION}.tar.gz" "${GITHUB_URL}"
+CURL_STATUS=$?
+
+rm -f $EXTRACT_SCRIPT_FILENAME
+if [ $CURL_STATUS = 0 ]; then
+    echo "- OK"
+    exit 0
+else
+    echo "- not found"
+    exit 1
+fi
