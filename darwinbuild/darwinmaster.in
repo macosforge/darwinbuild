@@ -87,12 +87,17 @@ DMG="/tmp/$VOLNAME.dmg"
 CDR="/tmp/$VOLNAME.cdr"
 ISO="/tmp/$VOLNAME.iso"
 PKGDIR="$DARWIN_BUILDROOT/Packages"
-MKISOFS="/opt/local/bin/mkisofs"
 SIZE="650m"
 if [ ! -z "$ARCH" ]; then
 	ARCHSFX="_$ARCH"
 else
 	ARCHSFX=""
+fi
+
+MKISOFS=$(which mkisofs)
+if [ -z "$MKISOFS" ]; then
+	echo "Error: mkisofs not found, this tool is required." 1>&2
+	exit 1
 fi
 
 export DARWINXREF_DB_FILE="$DARWIN_BUILDROOT/$XREFDB"
