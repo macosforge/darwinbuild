@@ -284,6 +284,7 @@ elif [ "$ARCH" == "i386" -o -z "$ARCH" ]; then
 	mount -t hfs -o perm "${DEV}s${SLICE}" /mnt
 	ditto -rsrc "$DESTDIR" /mnt
 	umount /mnt
+	rmdir /mnt
 	hdiutil eject "$DEV"
 	mv "$ISO.dmg" "$ISO"
 fi
