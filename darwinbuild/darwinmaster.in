@@ -94,7 +94,10 @@ else
 	ARCHSFX=""
 fi
 
-MKISOFS=$(which mkisofs)
+if [ -z "$MKISOFS" ]; then
+    MKISOFS=$(which mkisofs)
+fi
+
 if [ -z "$MKISOFS" ]; then
 	echo "Error: mkisofs not found, this tool is required." 1>&2
 	exit 1
