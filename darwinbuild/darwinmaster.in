@@ -179,20 +179,6 @@ for Project in $("$DARWINXREF" group boot) ; do
 done
 
 ###
-### Generate the mkext cache
-###
-echo "Generating MKext ..."
-
-export TMPDIR="$DESTDIR/private/tmp"
-if [ -z "$ARCH" ]; then
-	KEXTARCH="-a ppc -a i386"
-else
-	KEXTARCH="-a $ARCH"
-fi
-kextcache $KEXTARCH -k -K "$DESTDIR/mach_kernel" -m "$DESTDIR/System/Library/Extensions.mkext" "$DESTDIR/System/Library/Extensions"
-export -n TMPDIR
-
-###
 ### Remove extraneous files
 ###
 echo "Pruning ..."
