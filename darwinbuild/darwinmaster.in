@@ -283,9 +283,6 @@ elif [ "$ARCH" == "i386" -o -z "$ARCH" ]; then
 	mkdir -p /mnt
 	mount -t hfs -o perm "${DEV}s${SLICE}" /mnt
 	ditto -rsrc "$DESTDIR" /mnt
-	bless -folder /mnt/System/Library/CoreServices \
-	      -bootinfo /mnt/usr/standalone/ppc/bootx.bootinfo \
-	      -label "$VOLNAME"
 	umount /mnt
 	hdiutil eject "$DEV"
 	mv "$ISO.dmg" "$ISO"
