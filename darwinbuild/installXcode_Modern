@@ -35,6 +35,7 @@ do_ditto () {
     ditto "$path" "$BUILDROOT/$path" || exit 1
 }
 
+HOST_DARWIN_VERSION=$(sw_vers -productVersion)
 BUILDROOT="$1"
 mkdir -p "$BUILDROOT"
 
@@ -61,9 +62,34 @@ ditto /System/Library/CoreServices/SystemVersion.plist $BUILDROOT/System/Library
 # While not strictly part of Xcode, without them the tools will crash.
 mkdir -p $BUILDROOT/Users/$(whoami)
 mkdir -p $BUILDROOT/$(getconf DARWIN_USER_DIR)
-mkdir -p $BUILDOROT/$(getconf DARWIN_USER_TEMP_DIR)
+mkdir -p $BUILDROOT/$(getconf DARWIN_USER_TEMP_DIR)
 mkdir -p $BUILDROOT/$(getconf DARWIN_USER_CACHE_DIR)
 
-# Now I must remove a symbolic link, or darwinbuild will fail later.
-rm $BUILDROOT/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk
-mv $BUILDROOT/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk $BUILDROOT/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk
+if [ "$HOST_DARWIN_VERSION" == "10.13" ]; then
+    rm $BUILDROOT/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk
+    mv $BUILDROOT/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk $BUILDROOT/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk
+
+    mkdir -p $BUILDROOT/private/var/db
+    ln -s /Applications/Xcode.app/Contents/Developer $BUILDROOT/private/var/db/xcode_select_link
+
+    # High Sierra does not allow processes with entitlements to run inside a chroot.
+    # Therefore, I must strip the entitlements and re-sign xcodebuild.
+    # Hopefully, this won't break anything.
+    cat <<EOF > $BUILDROOT/private/tmp/empty.entitlements
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+</dict>
+</plist>
+EOF
+
+    codesign -s - -f --entitlements $BUILDROOT/private/tmp/empty.entitlements $BUILDROOT/Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild
+
+    echo macosx10.13 > $2/.build/platform
+elif [ "$HOST_DARWIN_VERSION" == "10.12" ]; then
+    rm $BUILDROOT/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk
+    mv $BUILDROOT/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk $BUILDROOT/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk
+
+    echo macosx10.12 > $2/.build/platform
+fi
