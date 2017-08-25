@@ -201,7 +201,7 @@ rmdir "$DESTDIR/Applications" 2> /dev/null
 ### Modify the root password to blank
 ###
 echo "Modifying Root Password ..."
-nicl -raw "$DESTDIR/var/db/netinfo/local.nidb" -create /users/root passwd ''
+echo "(Not implemented, making no changes)"
 
 ###
 ### Copy installation packages
