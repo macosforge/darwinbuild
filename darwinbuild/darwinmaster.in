@@ -189,11 +189,13 @@ export -n TMPDIR
 ###
 echo "Pruning ..."
 find "$DESTDIR" -type f \( -name '*.[ch]' -or -name '*.cp' -or -name '*.cpp' \) -print -exec rm -f {} ';'
+rm -Rf "$DESTDIR/Applications/Xcode.app"
 rm -Rf "$DESTDIR/AppleInternal"
 rm -Rf "$DESTDIR/Developer"
 rm -Rf "$DESTDIR/usr/local"
 rm -Rf "$DESTDIR/usr/share/doc"
 rm -Rf "$DESTDIR"/usr/share/man/man3/*
+rmdir "$DESTDIR/Applications" 2> /dev/null
 
 ###
 ### Modify the root password to blank
