@@ -182,7 +182,7 @@ done
 ### Remove extraneous files
 ###
 echo "Pruning ..."
-find "$DESTDIR" -type f \( -name '*.[ch]' -or -name '*.cp' -or -name '*.cpp' \) -print -exec rm -f {} ';'
+find "$DESTDIR" -type f \( -name '*.[ch]' -or -name '*.cp' -or -name '*.cpp' \) -exec rm -f {} ';'
 rm -Rf "$DESTDIR/Applications/Xcode.app"
 rm -Rf "$DESTDIR/AppleInternal"
 rm -Rf "$DESTDIR/Developer"
