@@ -557,8 +557,8 @@ int DBSetProp(CFStringRef build, CFStringRef project, CFStringRef property, CFTy
 	int res = 0;
 	CFTypeID type = DBCopyPropType(property);
 	if (type == -1) {
-		cfprintf(stderr, "Error: unknown property in project \"%@\": %@\n", project, property);
-		return -1;
+		// Silently ignore unknown properties.
+		return 0;
 	}
 	if (type != CFGetTypeID(value)) {
 		CFStringRef expected = CFCopyTypeIDDescription(type);
