@@ -169,7 +169,7 @@ DESTDIR=$(hdiutil attach "$DMG" \
 ###
 ### Copy roots necessary for booting / installation onto disk image
 ###
-cd "$DESTDIR" || exit
+pushd "$DESTDIR" > /dev/null || exit
 chown root:admin "$DESTDIR"
 chmod 1775 "$DESTDIR"
 
@@ -288,3 +288,6 @@ elif [ "$ARCH" == "i386" -o -z "$ARCH" ]; then
 	hdiutil eject "$DEV"
 	mv "$ISO.dmg" "$ISO"
 fi
+
+popd > /dev/null
+hdiutil eject "$DESTDIR"
