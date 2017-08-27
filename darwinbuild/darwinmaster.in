@@ -198,11 +198,11 @@ mkdir -p "$DESTDIR"/System/Installation/Packages
 for X in $DARWIN_BUILDROOT/Packages/*-*.tar.bz2 ; do
 	f=$(basename $X)
 	if [ "${f/-*/}" != "DarwinInstaller" ]; then
-	Y="$DESTDIR"/System/Installation/Packages/$(basename $X)
-	if [ $X -nt $Y ]; then
-		echo $f
-		cp $X $Y
-	fi
+		Y="$DESTDIR"/System/Installation/Packages/$(basename $X)
+		if [ $X -nt $Y ]; then
+			echo $f
+			cp $X $Y
+		fi
 	fi
 done
 
