@@ -647,7 +647,7 @@ if [ "$NEED_ROOTS" == "YES" -a "$noload" != "YES" ]; then
 
 fi
 
-if [ ! -f "$receipts/xcodebuild" ]; then
+if [ ! -f "$receipts/xcodebuild" -a "$USE_CHROOT" = "YES" ]; then
 	echo "*** Installing Xcode Tools ..."
 	"$DATADIR/installXcode" "$BuildRoot" "$PWDP"
 	touch "$receipts/xcodebuild"
