@@ -133,6 +133,14 @@ static inline char* darwintrace_redirect_path(const char* path) {
 		dprintf("darwintrace: redirect %s -> %s\n", path, redirpath);
 	}
 
+	if (path[0] == '/' && darwintrace_except(path)) {
+		asprintf(&redirpath, "%s%s%s", darwintrace_redirect, (*path == '/' ? "" : "/"), path);
+		if (access(redirpath, F_OK) != 0) {
+			free(redirpath);
+			redirpath = (char *)path;
+		}
+	}
+
 	return redirpath;
 }
 
