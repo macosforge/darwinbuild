@@ -617,17 +617,12 @@ mkdir -p "$receipts"
 ### Also install CoreOSMakefiles and Perl for make based projects
 ###
 
-NEED_ROOTS="YES"
-if [ $USE_CHROOT == "NO" -a $INSTALL_XCODE == "NO" ]; then
-	NEED_ROOTS="NO"
+if [ "$USE_CHROOT" = "YES" -a ! -f "$BuildRoot/usr/local/darwinbuild/receipts/.host-system-chroot" ]; then
+	echo "*** Creating chroot environment from host system, this may take a while ..."
+	$DATADIR/createChroot "$BuildRoot"
 fi
 
-if [ "$NEED_ROOTS" == "YES" -a "$noload" != "YES" ]; then
-	if [ ! -f "$BuildRoot/usr/local/darwinbuild/receipts/.host-system-chroot" ]; then
-		echo "*** Creating chroot environment from host system, this may take a while ..."
-		$DATADIR/createChroot "$BuildRoot"
-	fi
-
+if [ "$noload" != "YES" ]; then
 	echo "*** Installing Roots ..."
 	deps=$($DARWINXREF dependencies -build "$projnam")
 
@@ -765,7 +760,7 @@ if [ "$logdeps" == "YES" ]; then
 	fi
 fi
 
-if [ "$INSTALL_XCODE" == "YES" -a "$USE_CHROOT" == "NO" ]; then
+if [ "$USE_CHROOT" == "NO" ]; then
 	echo "*** Redirecting ..."
 	echo "DARWINTRACE_REDIRECT=\"${BuildRoot}\""
 	echo "DARWINTRACE_LOG=\"${TRACELOG}\""
