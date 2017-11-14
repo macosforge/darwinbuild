@@ -41,6 +41,6 @@ int    SQL_CALLBACK(sqlite3_callback callback, void* context, const char* fmt, .
 void   SQL_NOERR(char* sql);
 char*  SQL_STRING(const char* fmt, ...);
 
-void* _DBPluginGetDataStorePtr();
+void* _DBPluginGetDataStorePtr(void);
 
 #endif
