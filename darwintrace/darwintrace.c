@@ -80,9 +80,11 @@ static char *darwintrace_redirect = NULL;
 static char *darwintrace_buildroot = NULL;
 static const char *darwintrace_exceptions[] = {
 	"/Applications/Xcode.app/Contents/Developer",
+	"/System/Library",
 	"/Volumes/BuildRoot_",
 	"/usr/bin/xcrun",
 	"/usr/bin/xcode",
+	"/usr/lib",
 	"/usr/local/share/darwin",
 	"/usr/share/xcode",
 	"/var/folders/",
