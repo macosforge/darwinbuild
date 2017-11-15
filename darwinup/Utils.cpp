@@ -45,7 +45,7 @@ size_t ftsent_filename(FTSENT* ent, char* filename, size_t bufsiz) {
 	}
 	strlcat(filename, "/", bufsiz);
 	bufsiz -= 1;
-	if (ent->fts_name) {
+	if (ent->fts_namelen != 0) {
 		strlcat(filename, ent->fts_name, bufsiz);
 		bufsiz -= strlen(ent->fts_name);
 	}

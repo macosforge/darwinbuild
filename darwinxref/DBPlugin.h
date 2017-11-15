@@ -63,7 +63,7 @@ typedef int (*DBPluginRunFunc)(CFArrayRef argv);
 	any callbacks from the plugin.
 	@result The command line usage string.
 */
-typedef CFStringRef (*DBPluginUsageFunc)();
+typedef CFStringRef (*DBPluginUsageFunc)(void);
 
 
 /*!
@@ -132,13 +132,13 @@ void DBPluginSetSubDictDataType(CFTypeID type);
 
 // default handlers
 int DBPluginPropertyDefaultRun(CFArrayRef argv);
-CFStringRef DBPluginPropertyDefaultUsage();
+CFStringRef DBPluginPropertyDefaultUsage(void);
 
 // generally available routines
 
-CFStringRef DBGetCurrentBuild();
+CFStringRef DBGetCurrentBuild(void);
 int DBHasBuild(CFStringRef build);
-CFArrayRef DBCopyBuilds();
+CFArrayRef DBCopyBuilds(void);
 
 CFArrayRef DBCopyBuildInheritance(CFStringRef build);
 
@@ -188,9 +188,9 @@ CFArrayRef DBCopyGroupNames(CFStringRef build);
 CFArrayRef DBCopyGroupMembers(CFStringRef build, CFStringRef group);
 int DBSetGroupMembers(CFStringRef build, CFStringRef group, CFArrayRef members);
 
-int DBBeginTransaction();
-int DBCommitTransaction();
-int DBRollbackTransaction();
+int DBBeginTransaction(void);
+int DBCommitTransaction(void);
+int DBRollbackTransaction(void);
 
 #include "cfutils.h"
 
