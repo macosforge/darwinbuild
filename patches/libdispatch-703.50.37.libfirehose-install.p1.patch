@@ -6,9 +6,9 @@ index 5fa010b..ef132a5 100644
  			isa = XCBuildConfiguration;
  			baseConfigurationReference = 6E040C721C499C3600411A2E /* libfirehose_kernel.xcconfig */;
  			buildSettings = {
-+				INSTALL_PATH = "$(SDKROOT)/usr/local/lib/kernel/";
-+				PRIVATE_HEADERS_FOLDER_PATH = "$(SDKROOT)/usr/local/include/kernel/os";
-+				PUBLIC_HEADERS_FOLDER_PATH = "$(SDKROOT)/usr/include/os";
++				INSTALL_PATH = "/usr/local/lib/kernel/";
++				PRIVATE_HEADERS_FOLDER_PATH = "/usr/local/include/kernel/os";
++				PUBLIC_HEADERS_FOLDER_PATH = "/usr/include/os";
  			};
  			name = Release;
  		};
@@ -16,9 +16,9 @@ index 5fa010b..ef132a5 100644
  			isa = XCBuildConfiguration;
  			baseConfigurationReference = 6E040C721C499C3600411A2E /* libfirehose_kernel.xcconfig */;
  			buildSettings = {
-+				INSTALL_PATH = "$(SDKROOT)/usr/local/lib/kernel/";
-+				PRIVATE_HEADERS_FOLDER_PATH = "$(SDKROOT)/usr/local/include/kernel/os";
-+				PUBLIC_HEADERS_FOLDER_PATH = "$(SDKROOT)/usr/include/os";
++				INSTALL_PATH = "/usr/local/lib/kernel/";
++				PRIVATE_HEADERS_FOLDER_PATH = "/usr/local/include/kernel/os";
++				PUBLIC_HEADERS_FOLDER_PATH = "/usr/include/os";
  			};
  			name = Debug;
  		};
