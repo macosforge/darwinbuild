@@ -648,6 +648,11 @@ if [ ! -f "$receipts/xcodebuild" -a "$USE_CHROOT" = "YES" ]; then
 	touch "$receipts/xcodebuild"
 fi
 
+"$DATADIR/setXcodePlatform" "$PWDP" || {
+    echo Could not set Xcode platform, build cannot continue 1>&2
+    exit 1
+}
+
 ###
 ### Read in the environment
 ###
