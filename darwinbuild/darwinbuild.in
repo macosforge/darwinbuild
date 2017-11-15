@@ -813,6 +813,11 @@ for X in \
 done
 IFS="$OLDIFS"
 
+if [ "$USE_CHROOT" = "NO" ]; then
+	export RC_BuildRoot=$BuildRoot
+	build_string="$build_string \"RC_BuildRoot=$BuildRoot\""
+fi
+
 cat <<-EOF >> $SCRIPT
 	echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
 	echo 'Environment variables:'
