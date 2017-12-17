@@ -33,8 +33,7 @@
 ### This script sets up the proper environment to build Darwin projects
 ###
 ### Building takes place in the BuildRoot, which by default is backed by
-### a sparse disk image, but can also be mounted over NFS loopback (see
-### -init options). The BuildRoot location can by specified by
+### a sparse disk image. The BuildRoot location can by specified by
 ### the DARWIN_BUILDROOT environment variable.  If not set, it will default
 ### to the current working directory.  However, if the current working directory
 ### does not contain a Sources, Roots, Logs, and other necessary directories
@@ -78,7 +77,6 @@ PREFIX=%%PREFIX%%
 PWDP=$(pwd -P)
 XREFDB=.build/xref.db
 DMGFILE=.build/buildroot.sparsebundle
-NFSDIR=.build/buildroot.nfs
 DARWINXREF=$PREFIX/bin/darwinxref
 DATADIR=$PREFIX/share/darwinbuild
 DIGEST=$DATADIR/digest
@@ -112,28 +110,19 @@ INSTALL_XCODE="NO"
 shopt -s nullglob
 
 ###
-### DarwinBuild must be run as root.  Enforce this.
-###
-if [ "$EUID" != "0" ]; then
-	echo "Error: DarwinBuild must be run as root." 1>&2
-	exit 1
-fi
-
-###
 ### The "-init" command sets up the build environment
 ### in the current working directory.
 ### EXITs
 ###
 if [ "$1" == "-init" ]; then
 	if [ "$2" == "" ]; then
-		echo "usage: $(basename $0) -init <build> [-nodmg | -nfs]" 1>&2
+		echo "usage: $(basename $0) -init <build> [-nodmg ]" 1>&2
 		echo "" 1>&2
 		echo "\t<build>\t can be a standard build number or a path to a plist." 1>&2
 		echo "\t\t supported paths: /dir/file.plist, " 1>&2
 		echo "\t\t\t\t  http://host/dir/file.plist, " 1>&2
 		echo "\t\t\t\t  user@host:/dir/file.plist" 1>&2
 		echo "\t-nodmg \t do not use a sparse image for build root (use a regular directory)" 1>&2
-		echo "\t-nfs   \t use NFS over loopback to mount the build root (implies -nodmg)" 1>&2
 		exit 1
 	fi
 	build="$2"
@@ -166,25 +155,12 @@ if [ "$1" == "-init" ]; then
 	### Create the build root
 	###
 	stamp=$(date +'%Y%m%d%H%M%S')
-	if [ "$3" == "-nfs" ]; then
-		mkdir -p $NFSDIR
-		mkdir -p BuildRoot
-		exportline="${PWDP}/${NFSDIR} -maproot=0:10"
-		grep "$exportline" /etc/exports >> /dev/null 2>&1
-		if [ ! $? -eq 0 ]; then
-			echo "Adding build root to NFS exports file ..."
-			echo "# Added by darwinbuild on ${stamp}" >> /etc/exports
-			echo $exportline >> /etc/exports
-		fi
-		nfsd update
-		echo "Checking exports file ..."
-		nfsd checkexports
-	elif [ "$3" == "-nodmg" ]; then
+	if [ "$3" == "-nodmg" ]; then
 		mkdir -p BuildRoot
 	else
 		echo "Creating build root disk image ..."
 		DMGVOLUME="BuildRoot_${build}_${stamp}"
-		hdiutil create -size 1t -fs HFSX -quiet -uid 0 -gid 0 \
+		hdiutil create -size 1t -fs HFSX -quiet -uid $(id -u) -gid $(id -g) \
 			-volname $DMGVOLUME \
 			$DMGFILE
 		ln -s "/Volumes/${DMGVOLUME}" BuildRoot
@@ -226,16 +202,9 @@ BuildRoot=$(realpath "$BuildRoot")
 export DARWINXREF_DB_FILE="$DARWIN_BUILDROOT/$XREFDB"
 
 ###
-### See if we need to attach a disk image or mount an NFS share
+### See if we need to attach a disk image
 ###
-if [ ! -d "$BuildRoot/var" -a -d $NFSDIR ]; then
-    echo "*** Mounting build root over NFS loopback ..."
-    mount -t nfs localhost:${PWDP}/${NFSDIR} BuildRoot
-    if [ $? -ne 0 ]; then
-	echo "Error: Unable to mount build root";
-	exit 72
-    fi
-elif [ -d $DMGFILE ]; then
+if [ -d $DMGFILE ]; then
     stat -L $BuildRoot >> /dev/null 2>&1
     if [ $? -eq 1 ]; then
 	echo "*** Attaching build root disk image ..."
@@ -506,13 +475,10 @@ REAL_DSTROOT="$BuildRoot/$vartmp/$projnam/$project.root"
 if [ "$nosource" != "YES" ]; then
 	###
 	### Remove any pre-existing directories that might be in the way
-	### and create new directories in their place.  Make sure the
-	### directories have root:wheel ownership, otherwise things may
-	### not build correctly.
+	### and create new directories in their place.
 	###
 	rm -Rf "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT"
 	mkdir -p "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT"
-	chown root:wheel "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT"
 
 	###
 	### Install the sources and patches into the BuildRoot
@@ -616,6 +582,11 @@ mkdir -p "$receipts"
 ###
 ### Also install CoreOSMakefiles and Perl for make based projects
 ###
+
+if [ "$USE_CHROOT" = "YES" -a "$EUID" != "0" ]; then
+	echo "darwinbuild must be run as root if building in the chroot" 1>&2
+	exit 1
+fi
 
 if [ "$USE_CHROOT" = "YES" -a ! -f "$BuildRoot/usr/local/darwinbuild/receipts/.host-system-chroot" ]; then
 	echo "*** Creating chroot environment from host system, this may take a while ..."
