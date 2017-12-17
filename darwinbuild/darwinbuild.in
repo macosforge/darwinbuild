@@ -222,6 +222,7 @@ EOF
 ###
 CheckDarwinBuildRoot
 BuildRoot="$DARWIN_BUILDROOT/BuildRoot"
+BuildRoot=$(realpath "$BuildRoot")
 export DARWINXREF_DB_FILE="$DARWIN_BUILDROOT/$XREFDB"
 
 ###
@@ -746,9 +747,9 @@ cat <<-EOF > $SCRIPT
 	echo '    Build action:         $action'
 	echo "    Build number:         $build"
 	echo "    Host kernel version:  \$(uname -v 2>/dev/null)"
-	echo "    cc version:           \$(gcc -v 2>&1 | tail -n 1 2>/dev/null)"
+	echo "    cc version:           \$(gcc -v 2>&1 | grep version 2>/dev/null)"
 	# Panther cctools unlinks -o target, so don't use /dev/null
-	echo "    cctools version:      \$(as -v -o /.devnull < /dev/null 2>&1 | cut -c 22- 2>/dev/null)"
+	echo "    cctools version:      \$(as -v -o /.devnull < /dev/null 2>&1 | grep version | grep -v dwarf-version 2>/dev/null)"
 EOF
 if [ "$logdeps" == "YES" ]; then
 	if [ "$USE_CHROOT" == "YES" ]; then
@@ -777,7 +778,7 @@ fi
 
 if [ "$buildtool" == "xcodebuild" ]; then
 cat <<-EOF >> $SCRIPT
-	echo "    xcode version:        \$(sh -c \\\"$buildtool -version\\\")"
+	echo "    xcode version:        \$(sh -c \\\"$buildtool -version\\\" | head -1 2> /dev/null)"
 EOF
 else
 cat <<-EOF >> $SCRIPT
