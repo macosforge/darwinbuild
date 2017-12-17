@@ -209,7 +209,7 @@ done
 # Now chown to root:wheel, if possible. (Build invocations run as a
 # non-privileged user will propagate that user's uid/gid to the build
 # outputs it generates.)
-if [ $InstallSelfBuiltRoots -eq 1 -a $EUID -eq 0 ]; then
+if [ $EUID -eq 0 ]; then
 	echo "Setting file ownership to root/wheel ..."
 	chown -R root:wheel "$DESTDIR"
 fi
