@@ -222,7 +222,7 @@ EOF
 ###
 CheckDarwinBuildRoot
 BuildRoot="$DARWIN_BUILDROOT/BuildRoot"
-BuildRoot=$(realpath $BuildRoot)
+BuildRoot=$(realpath "$BuildRoot")
 export DARWINXREF_DB_FILE="$DARWIN_BUILDROOT/$XREFDB"
 
 ###
