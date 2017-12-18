@@ -206,6 +206,14 @@ for X in $DARWIN_BUILDROOT/Packages/*-*.tar.bz2 ; do
 	fi
 done
 
+# Now chown to root:wheel, if possible. (Build invocations run as a
+# non-privileged user will propagate that user's uid/gid to the build
+# outputs it generates.)
+if [ $EUID -eq 0 ]; then
+	echo "Setting file ownership to root/wheel ..."
+	chown -R root:wheel "$DESTDIR"
+fi
+
 ###
 ### Create a bootable ISO filesystem
 ###
