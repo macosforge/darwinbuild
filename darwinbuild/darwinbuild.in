@@ -198,7 +198,6 @@ EOF
 ###
 CheckDarwinBuildRoot
 BuildRoot="$DARWIN_BUILDROOT/BuildRoot"
-BuildRoot=$(realpath "$BuildRoot")
 export DARWINXREF_DB_FILE="$DARWIN_BUILDROOT/$XREFDB"
 
 ###
@@ -214,6 +213,8 @@ if [ -d $DMGFILE ]; then
 	    exit 70
 	fi
     fi
+
+    BuildRoot=$(cd "$BuildRoot" && pwd -P)
 fi
 
 ###
