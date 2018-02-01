@@ -163,7 +163,7 @@ if [ "$1" == "-init" ]; then
 			DMGVOLUME="BuildRoot_${build}_${stamp}"
 		fi
 
-		if [ ! -f "$DMGFILE" ]; then
+		if [ ! -e "$DMGFILE" ]; then
 			echo "Creating build root disk image ..."
 			hdiutil create -size 1t -fs HFSX -quiet -uid $(id -u) -gid $(id -g) \
 				-volname $DMGVOLUME \
