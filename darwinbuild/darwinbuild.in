@@ -154,11 +154,14 @@ if [ "$1" == "-init" ]; then
 	###
 	### Create the build root
 	###
-	stamp=$(date +'%Y%m%d%H%M%S')
 	if [ "$3" == "-nodmg" ]; then
 		mkdir -p BuildRoot
 	else
-		DMGVOLUME="BuildRoot_${build}_${stamp}"
+		DMGVOLUME="BuildRoot_${build}"
+		if [ -d "$DMGVOLUME" ]; then
+			stamp=$(date +'%Y%m%d%H%M%S')
+			DMGVOLUME="BuildRoot_${build}_${stamp}"
+		fi
 
 		if [ ! -f "$DMGFILE" ]; then
 			echo "Creating build root disk image ..."
