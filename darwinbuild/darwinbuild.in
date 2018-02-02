@@ -154,16 +154,22 @@ if [ "$1" == "-init" ]; then
 	###
 	### Create the build root
 	###
-	stamp=$(date +'%Y%m%d%H%M%S')
 	if [ "$3" == "-nodmg" ]; then
 		mkdir -p BuildRoot
 	else
-		echo "Creating build root disk image ..."
-		DMGVOLUME="BuildRoot_${build}_${stamp}"
-		hdiutil create -size 1t -fs HFSX -quiet -uid $(id -u) -gid $(id -g) \
-			-volname $DMGVOLUME \
-			$DMGFILE
-		ln -s "/Volumes/${DMGVOLUME}" BuildRoot
+		DMGVOLUME="BuildRoot_${build}"
+		if [ -d "/Volumes/$DMGVOLUME" ]; then
+			stamp=$(date +'%Y%m%d%H%M%S')
+			DMGVOLUME="BuildRoot_${build}_${stamp}"
+		fi
+
+		if [ ! -e "$DMGFILE" ]; then
+			echo "Creating build root disk image ..."
+			hdiutil create -size 1t -fs HFSX -quiet -uid $(id -u) -gid $(id -g) \
+				-volname $DMGVOLUME \
+				$DMGFILE
+			ln -s "/Volumes/${DMGVOLUME}" BuildRoot
+		fi
 	fi
 
 	###
