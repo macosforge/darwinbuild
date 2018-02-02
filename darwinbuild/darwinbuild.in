@@ -390,7 +390,7 @@ alias=$($DARWINXREF original "$projnam")
 #
 # Look for an alternate target in the database
 #
-if [ "$target" == "" -a "$action" == "install" ]; then
+if [ "$target" == "" ]; then
 	target=$($DARWINXREF target "$projnam")
 fi
 
