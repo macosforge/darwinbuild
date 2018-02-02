@@ -690,6 +690,7 @@ fi
 build_string=""
 if [ "$buildtool" == "xcodebuild" -a $INSTALL_XCODE == "YES" ]; then
 	build_string="-sdk $platform"
+	build_string="$build_string ADDITIONAL_SDKS=\"$BuildRoot\""
 fi
 if [ "$buildtool" == "xcodebuild" -a "$target" != "" ]; then
 	build_string="$build_string -target \"$target\""
