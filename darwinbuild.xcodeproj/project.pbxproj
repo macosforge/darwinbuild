@@ -22,7 +22,7 @@
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 7227AC451098DC9900BE33D7 /* Build configuration list for PBXAggregateTarget "darwinbuild_scripts" */;
 			buildPhases = (
-				7227AD1B109A053900BE33D7 /* CopyFiles */,
+				7227AD1B109A053900BE33D7 /* Copy Files */,
 			);
 			dependencies = (
 				720BE2F6120C90E500B3C4A5 /* PBXTargetDependency */,
@@ -90,9 +90,9 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		1F514C441F4A5CDA008D9341 /* fetch-from-github in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1F514C431F4A5CC0008D9341 /* fetch-from-github */; };
-		1FC854011ED462EE00EA2AF5 /* installXcode_Modern in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1FC854001ED462DF00EA2AF5 /* installXcode_Modern */; };
-		1FECB5DF1FBBBD41002EA059 /* setXcodePlatform in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1FECB5DE1FBBBC09002EA059 /* setXcodePlatform */; };
+		1F514C441F4A5CDA008D9341 /* fetch-from-github in Copy Files */ = {isa = PBXBuildFile; fileRef = 1F514C431F4A5CC0008D9341 /* fetch-from-github */; };
+		1FC854011ED462EE00EA2AF5 /* installXcode_Modern in Copy Files */ = {isa = PBXBuildFile; fileRef = 1FC854001ED462DF00EA2AF5 /* installXcode_Modern */; };
+		1FECB5DF1FBBBD41002EA059 /* setXcodePlatform in Copy Files */ = {isa = PBXBuildFile; fileRef = 1FECB5DE1FBBBC09002EA059 /* setXcodePlatform */; };
 		3963011A1EAB4D60006081C7 /* source_sites.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86C0E10965EEA00C66E90 /* source_sites.c */; };
 		396301211EAB4E01006081C7 /* patch_sites.c in Sources */ = {isa = PBXBuildFile; fileRef = 396301191EAB42B6006081C7 /* patch_sites.c */; };
 		396301291EAB5DBC006081C7 /* patch_sites.tcl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 396301281EAB5DB5006081C7 /* patch_sites.tcl */; };
@@ -107,18 +107,18 @@
 		7227AB67109899A600BE33D7 /* cfutils.h in Headers */ = {isa = PBXBuildFile; fileRef = 72C86BE910965E7500C66E90 /* cfutils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7227AB68109899A600BE33D7 /* DBPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 72C86BED10965E7500C66E90 /* DBPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7227AB7510989F8D00BE33D7 /* manifest.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86C2E1096600B00C66E90 /* manifest.c */; };
-		7227AD1C109A05FA00BE33D7 /* buildlist in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7227AB871098A7BF00BE33D7 /* buildlist */; };
-		7227AD1D109A05FA00BE33D7 /* buildorder in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7227AB881098A7BF00BE33D7 /* buildorder */; };
-		7227AD1E109A05FA00BE33D7 /* ditto in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7227AB891098A7BF00BE33D7 /* ditto */; };
-		7227AD1F109A05FA00BE33D7 /* synthfat in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7227AB8B1098A7BF00BE33D7 /* synthfat */; };
-		7227AD20109A05FA00BE33D7 /* thinFile in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7227AB8C1098A7BF00BE33D7 /* thinFile */; };
-		7227AD21109A05FA00BE33D7 /* createChroot in CopyFiles */ = {isa = PBXBuildFile; fileRef = 72C86C221096600B00C66E90 /* createChroot */; };
-		7227AD22109A05FA00BE33D7 /* darwinbuild.common in CopyFiles */ = {isa = PBXBuildFile; fileRef = 72C86C231096600B00C66E90 /* darwinbuild.common */; };
-		7227AD23109A05FA00BE33D7 /* Info.plist in CopyFiles */ = {isa = PBXBuildFile; fileRef = 72C86C271096600B00C66E90 /* Info.plist */; };
-		7227AD24109A05FA00BE33D7 /* installXcode2 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 72C86C291096600B00C66E90 /* installXcode2 */; };
-		7227AD25109A05FA00BE33D7 /* installXcode3 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 72C86C2A1096600B00C66E90 /* installXcode3 */; };
-		7227AD26109A05FA00BE33D7 /* installXcode31 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 72C86C2B1096600B00C66E90 /* installXcode31 */; };
-		7227AD27109A05FA00BE33D7 /* SDKSettings.plist in CopyFiles */ = {isa = PBXBuildFile; fileRef = 72C86C311096600B00C66E90 /* SDKSettings.plist */; };
+		7227AD1C109A05FA00BE33D7 /* buildlist in Copy Files */ = {isa = PBXBuildFile; fileRef = 7227AB871098A7BF00BE33D7 /* buildlist */; };
+		7227AD1D109A05FA00BE33D7 /* buildorder in Copy Files */ = {isa = PBXBuildFile; fileRef = 7227AB881098A7BF00BE33D7 /* buildorder */; };
+		7227AD1E109A05FA00BE33D7 /* ditto in Copy Files */ = {isa = PBXBuildFile; fileRef = 7227AB891098A7BF00BE33D7 /* ditto */; };
+		7227AD1F109A05FA00BE33D7 /* synthfat in Copy Files */ = {isa = PBXBuildFile; fileRef = 7227AB8B1098A7BF00BE33D7 /* synthfat */; };
+		7227AD20109A05FA00BE33D7 /* thinFile in Copy Files */ = {isa = PBXBuildFile; fileRef = 7227AB8C1098A7BF00BE33D7 /* thinFile */; };
+		7227AD21109A05FA00BE33D7 /* createChroot in Copy Files */ = {isa = PBXBuildFile; fileRef = 72C86C221096600B00C66E90 /* createChroot */; };
+		7227AD22109A05FA00BE33D7 /* darwinbuild.common in Copy Files */ = {isa = PBXBuildFile; fileRef = 72C86C231096600B00C66E90 /* darwinbuild.common */; };
+		7227AD23109A05FA00BE33D7 /* Info.plist in Copy Files */ = {isa = PBXBuildFile; fileRef = 72C86C271096600B00C66E90 /* Info.plist */; };
+		7227AD24109A05FA00BE33D7 /* installXcode2 in Copy Files */ = {isa = PBXBuildFile; fileRef = 72C86C291096600B00C66E90 /* installXcode2 */; };
+		7227AD25109A05FA00BE33D7 /* installXcode3 in Copy Files */ = {isa = PBXBuildFile; fileRef = 72C86C2A1096600B00C66E90 /* installXcode3 */; };
+		7227AD26109A05FA00BE33D7 /* installXcode31 in Copy Files */ = {isa = PBXBuildFile; fileRef = 72C86C2B1096600B00C66E90 /* installXcode31 */; };
+		7227AD27109A05FA00BE33D7 /* SDKSettings.plist in Copy Files */ = {isa = PBXBuildFile; fileRef = 72C86C311096600B00C66E90 /* SDKSettings.plist */; };
 		72573FF71097A601008AD4D7 /* dependencies.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86BF810965EEA00C66E90 /* dependencies.c */; };
 		72573FF81097A60C008AD4D7 /* diff.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86BFA10965EEA00C66E90 /* diff.c */; };
 		72573FF91097A64C008AD4D7 /* dot.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86BFB10965EEA00C66E90 /* dot.c */; };
@@ -626,28 +626,29 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
-		7227AD1B109A053900BE33D7 /* CopyFiles */ = {
+		7227AD1B109A053900BE33D7 /* Copy Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 8;
 			dstPath = "$(DATDIR)/darwinbuild";
 			dstSubfolderSpec = 0;
 			files = (
-				1F514C441F4A5CDA008D9341 /* fetch-from-github in CopyFiles */,
-				1FC854011ED462EE00EA2AF5 /* installXcode_Modern in CopyFiles */,
-				1FECB5DF1FBBBD41002EA059 /* setXcodePlatform in CopyFiles */,
-				7227AD1C109A05FA00BE33D7 /* buildlist in CopyFiles */,
-				7227AD1D109A05FA00BE33D7 /* buildorder in CopyFiles */,
-				7227AD1E109A05FA00BE33D7 /* ditto in CopyFiles */,
-				7227AD1F109A05FA00BE33D7 /* synthfat in CopyFiles */,
-				7227AD20109A05FA00BE33D7 /* thinFile in CopyFiles */,
-				7227AD21109A05FA00BE33D7 /* createChroot in CopyFiles */,
-				7227AD22109A05FA00BE33D7 /* darwinbuild.common in CopyFiles */,
-				7227AD23109A05FA00BE33D7 /* Info.plist in CopyFiles */,
-				7227AD24109A05FA00BE33D7 /* installXcode2 in CopyFiles */,
-				7227AD25109A05FA00BE33D7 /* installXcode3 in CopyFiles */,
-				7227AD26109A05FA00BE33D7 /* installXcode31 in CopyFiles */,
-				7227AD27109A05FA00BE33D7 /* SDKSettings.plist in CopyFiles */,
+				1F514C441F4A5CDA008D9341 /* fetch-from-github in Copy Files */,
+				1FC854011ED462EE00EA2AF5 /* installXcode_Modern in Copy Files */,
+				1FECB5DF1FBBBD41002EA059 /* setXcodePlatform in Copy Files */,
+				7227AD1C109A05FA00BE33D7 /* buildlist in Copy Files */,
+				7227AD1D109A05FA00BE33D7 /* buildorder in Copy Files */,
+				7227AD1E109A05FA00BE33D7 /* ditto in Copy Files */,
+				7227AD1F109A05FA00BE33D7 /* synthfat in Copy Files */,
+				7227AD20109A05FA00BE33D7 /* thinFile in Copy Files */,
+				7227AD21109A05FA00BE33D7 /* createChroot in Copy Files */,
+				7227AD22109A05FA00BE33D7 /* darwinbuild.common in Copy Files */,
+				7227AD23109A05FA00BE33D7 /* Info.plist in Copy Files */,
+				7227AD24109A05FA00BE33D7 /* installXcode2 in Copy Files */,
+				7227AD25109A05FA00BE33D7 /* installXcode3 in Copy Files */,
+				7227AD26109A05FA00BE33D7 /* installXcode31 in Copy Files */,
+				7227AD27109A05FA00BE33D7 /* SDKSettings.plist in Copy Files */,
 			);
+			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 1;
 		};
 		DFCAA3C51178E10E008DCF37 /* Install Manpage */ = {
@@ -1846,8 +1847,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 72C86C3D1096607A00C66E90 /* Build configuration list for PBXNativeTarget "darwinbuild" */;
 			buildPhases = (
-				7227AB8F1098A89700BE33D7 /* ShellScript */,
-				7227ABE61098D5E400BE33D7 /* ShellScript */,
+				7227AB8F1098A89700BE33D7 /* Run Script */,
+				7227ABE61098D5E400BE33D7 /* Run Script */,
+				1F06C5B52023EB1D003EBE6C /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1979,7 +1981,23 @@
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		7227AB8F1098A89700BE33D7 /* ShellScript */ = {
+		1F06C5B52023EB1D003EBE6C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputPaths = (
+				"$(BUILT_PRODUCT_SDIR)/darwinbuild",
+			);
+			outputPaths = (
+				"$(DSTROOT)/usr/local/bin/darwinbuild",
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "/bin/cp $BUILT_PRODUCTS_DIR/darwinbuild $DSTROOT/usr/local/bin";
+			showEnvVarsInLog = 0;
+		};
+		7227AB8F1098A89700BE33D7 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1987,6 +2005,7 @@
 			inputPaths = (
 				"$(SRCROOT)/darwinbuild/darwinbuild.in",
 			);
+			name = "Run Script";
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/darwinbuild",
 			);
@@ -1994,7 +2013,7 @@
 			shellPath = /bin/sh;
 			shellScript = "/usr/bin/sed -e \"s,%%PREFIX%%,$PREFIX,\" $SRCROOT/darwinbuild/darwinbuild.in > $DERIVED_FILE_DIR/darwinbuild\n\n/bin/chmod 755 $DERIVED_FILE_DIR/darwinbuild\n\n";
 		};
-		7227ABE61098D5E400BE33D7 /* ShellScript */ = {
+		7227ABE61098D5E400BE33D7 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2002,6 +2021,7 @@
 			inputPaths = (
 				"$(DERIVED_FILE_DIR)/darwinbuild",
 			);
+			name = "Run Script";
 			outputPaths = (
 				"$(BUILT_PRODUCTS_DIR)/darwinbuild",
 			);
