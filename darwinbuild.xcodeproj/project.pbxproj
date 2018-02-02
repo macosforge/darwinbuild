@@ -1916,7 +1916,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 0910;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "The DarwinBuild Project";
 			};
 			buildConfigurationList = 726DD14C10965C5700D5AEAB /* Build configuration list for PBXProject "darwinbuild" */;
@@ -2741,6 +2741,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -2749,6 +2750,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Public;
@@ -2757,6 +2759,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -2765,6 +2768,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = digest;
 			};
@@ -2774,6 +2778,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = digest;
 			};
@@ -2783,6 +2788,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = digest;
 			};
@@ -2792,6 +2798,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				PRODUCT_NAME = tcl_plugins;
 			};
 			name = Debug;
@@ -2800,6 +2807,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				PRODUCT_NAME = tcl_plugins;
 			};
 			name = Public;
@@ -2808,6 +2816,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				PRODUCT_NAME = tcl_plugins;
 			};
 			name = Release;
@@ -2816,6 +2825,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = manifest;
 			};
@@ -2825,6 +2835,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = manifest;
 			};
@@ -2834,6 +2845,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = manifest;
 			};
@@ -2843,6 +2855,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				INSTALL_PATH = "$(BINDIR)";
 				PRODUCT_NAME = darwinmaster;
 			};
@@ -2852,6 +2865,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				INSTALL_PATH = "$(BINDIR)";
 				PRODUCT_NAME = darwinmaster;
 			};
@@ -2861,6 +2875,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				INSTALL_PATH = "$(BINDIR)";
 				PRODUCT_NAME = darwinmaster;
 			};
@@ -2870,6 +2885,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = packageRoots;
 			};
@@ -2879,6 +2895,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = packageRoots;
 			};
@@ -2888,6 +2905,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = packageRoots;
 			};
@@ -2897,6 +2915,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = thinPackages;
 			};
@@ -2906,6 +2925,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = thinPackages;
 			};
@@ -2915,6 +2935,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = thinPackages;
 			};
@@ -2924,6 +2945,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = installXcode;
 			};
@@ -2933,6 +2955,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = installXcode;
 			};
@@ -2942,6 +2965,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = installXcode;
 			};
@@ -2951,6 +2975,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = installXcode32;
 			};
@@ -2960,6 +2985,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = installXcode32;
 			};
@@ -2969,6 +2995,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = installXcode32;
 			};
@@ -2978,6 +3005,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				PRODUCT_NAME = darwinbuild_scripts;
 			};
 			name = Debug;
@@ -2986,6 +3014,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				PRODUCT_NAME = darwinbuild_scripts;
 			};
 			name = Public;
@@ -2994,6 +3023,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				PRODUCT_NAME = darwinbuild_scripts;
 			};
 			name = Release;
@@ -3002,6 +3032,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Debug;
 		};
@@ -3009,6 +3040,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Public;
 		};
@@ -3016,6 +3048,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Release;
 		};
@@ -3023,6 +3056,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Debug;
 		};
@@ -3030,6 +3064,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Public;
 		};
@@ -3037,6 +3072,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Release;
 		};
@@ -3044,6 +3080,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Debug;
 		};
@@ -3051,6 +3088,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Public;
 		};
@@ -3058,6 +3096,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Release;
 		};
@@ -3065,6 +3104,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Debug;
 		};
@@ -3072,6 +3112,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Public;
 		};
@@ -3079,6 +3120,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Release;
 		};
@@ -3086,6 +3128,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Debug;
 		};
@@ -3093,6 +3136,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Public;
 		};
@@ -3100,6 +3144,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Release;
 		};
@@ -3107,6 +3152,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Debug;
 		};
@@ -3114,6 +3160,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Public;
 		};
@@ -3121,6 +3168,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Release;
 		};
@@ -3128,6 +3176,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Debug;
 		};
@@ -3135,6 +3184,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Public;
 		};
@@ -3142,6 +3192,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Release;
 		};
@@ -3149,6 +3200,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Debug;
 		};
@@ -3156,6 +3208,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Public;
 		};
@@ -3163,6 +3216,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Release;
 		};
@@ -3170,6 +3224,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Debug;
 		};
@@ -3177,6 +3232,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Public;
 		};
@@ -3184,6 +3240,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Release;
 		};
@@ -3191,6 +3248,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Debug;
 		};
@@ -3198,6 +3256,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Public;
 		};
@@ -3205,6 +3264,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Release;
 		};
@@ -3212,6 +3272,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Debug;
 		};
@@ -3219,6 +3280,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Public;
 		};
@@ -3226,6 +3288,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Release;
 		};
@@ -3233,6 +3296,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Debug;
 		};
@@ -3240,6 +3304,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Public;
 		};
@@ -3247,6 +3312,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Release;
 		};
@@ -3254,6 +3320,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Debug;
 		};
@@ -3261,6 +3328,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Public;
 		};
@@ -3268,6 +3336,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Release;
 		};
@@ -3275,6 +3344,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Debug;
 		};
@@ -3282,6 +3352,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Public;
 		};
@@ -3289,6 +3360,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Release;
 		};
@@ -3296,6 +3368,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Debug;
 		};
@@ -3303,6 +3376,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Public;
 		};
@@ -3310,6 +3384,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Release;
 		};
@@ -3317,6 +3392,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Debug;
 		};
@@ -3324,6 +3400,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Public;
 		};
@@ -3331,6 +3408,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Release;
 		};
@@ -3338,6 +3416,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Debug;
 		};
@@ -3345,6 +3424,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Public;
 		};
@@ -3352,6 +3432,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Release;
 		};
@@ -3359,6 +3440,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Debug;
 		};
@@ -3366,6 +3448,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Public;
 		};
@@ -3373,6 +3456,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Release;
 		};
@@ -3380,6 +3464,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Debug;
 		};
@@ -3387,6 +3472,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Public;
 		};
@@ -3394,6 +3480,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Release;
 		};
@@ -3401,6 +3488,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Debug;
 		};
@@ -3408,6 +3496,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Public;
 		};
@@ -3415,6 +3504,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Release;
 		};
@@ -3422,6 +3512,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Debug;
 		};
@@ -3429,6 +3520,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Public;
 		};
@@ -3436,6 +3528,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Release;
 		};
@@ -3443,6 +3536,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Debug;
 		};
@@ -3450,6 +3544,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Public;
 		};
@@ -3457,6 +3552,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Release;
 		};
@@ -3464,6 +3560,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				PRODUCT_NAME = darwinxref_plugins;
 			};
 			name = Debug;
@@ -3472,6 +3569,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				PRODUCT_NAME = darwinxref_plugins;
 			};
 			name = Public;
@@ -3480,6 +3578,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				PRODUCT_NAME = darwinxref_plugins;
 			};
 			name = Release;
@@ -3493,11 +3592,13 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
@@ -3543,6 +3644,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				PRODUCT_NAME = world;
 			};
 			name = Public;
@@ -3551,6 +3653,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				INSTALL_PATH = "$(BINDIR)";
 				PRODUCT_NAME = darwinbuild;
 			};
@@ -3560,6 +3663,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COPY_PHASE_STRIP = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -3574,6 +3678,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				"INSTALL_PATH[sdk=iphonesimulator*]" = "$(SDKROOT)$(DATDIR)/darwinbuild";
 				LD_DYLIB_INSTALL_NAME = "$(DATDIR)/darwinbuild/darwintrace.dylib";
@@ -3585,6 +3690,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INSTALL_PATH = "$(BINDIR)";
 				OTHER_CFLAGS = (
@@ -3601,6 +3707,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INSTALL_PATH = "$(BINDIR)";
 				OTHER_CFLAGS = (
@@ -3617,6 +3724,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INSTALL_PATH = "$(BINDIR)";
 				OTHER_CFLAGS = (
@@ -3633,6 +3741,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Debug;
 		};
@@ -3640,6 +3749,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Public;
 		};
@@ -3647,6 +3757,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Release;
 		};
@@ -3659,11 +3770,13 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
@@ -3716,11 +3829,13 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
@@ -3766,6 +3881,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				INSTALL_PATH = "$(BINDIR)";
 				PRODUCT_NAME = darwinbuild;
 			};
@@ -3775,6 +3891,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				INSTALL_PATH = "$(BINDIR)";
 				PRODUCT_NAME = darwinbuild;
 			};
@@ -3784,6 +3901,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				INSTALL_PATH = "$(BINDIR)";
 				PRODUCT_NAME = darwinup;
@@ -3794,6 +3912,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COPY_PHASE_STRIP = YES;
 				DEPLOYMENT_POSTPROCESSING = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -3808,6 +3927,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				"INSTALL_PATH[sdk=iphonesimulator*]" = "$(SDKROOT)$(DATDIR)/darwinbuild";
 				LD_DYLIB_INSTALL_NAME = "$(DATDIR)/darwinbuild/darwintrace.dylib";
@@ -3819,6 +3939,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				"INSTALL_PATH[sdk=iphonesimulator*]" = "$(SDKROOT)$(DATDIR)/darwinbuild";
 				LD_DYLIB_INSTALL_NAME = "$(DATDIR)/darwinbuild/darwintrace.dylib";
@@ -3830,6 +3951,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				PRODUCT_NAME = world;
 			};
 			name = Debug;
@@ -3838,6 +3960,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				PRODUCT_NAME = world;
 			};
 			name = Release;
@@ -3846,6 +3969,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Debug;
 		};
@@ -3853,6 +3977,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Public;
 		};
@@ -3860,6 +3985,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Release;
 		};
