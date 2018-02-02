@@ -57,7 +57,7 @@
 #define dprintf(...)
 #endif
 
-#define LION_OR_LATER (defined(__MAC_OS_X_VERSION_MIN_REQUIRED) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1070)
+#define LION_OR_LATER (__MAC_OS_X_VERSION_MIN_REQUIRED >= 1070)
 
 #define DARWINTRACE_INTERPOSE(_replacement,_replacee) \
 	__attribute__((used)) static struct { \
