@@ -1992,7 +1992,7 @@
 			files = (
 			);
 			inputPaths = (
-				"$(BUILT_PRODUCT_SDIR)/darwinbuild",
+				"$(BUILT_PRODUCTS_DIR)/darwinbuild",
 			);
 			outputPaths = (
 				"$(DSTROOT)/usr/local/bin/darwinbuild",
