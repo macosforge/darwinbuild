@@ -1361,6 +1361,7 @@
 			buildPhases = (
 				7227AC001098D78C00BE33D7 /* ShellScript */,
 				7227AC011098D78C00BE33D7 /* ShellScript */,
+				1F71A4FE2030F7A700020E2F /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1377,6 +1378,7 @@
 			buildPhases = (
 				7227AC0D1098D84600BE33D7 /* ShellScript */,
 				7227AC0E1098D84600BE33D7 /* ShellScript */,
+				1F71A4FF2030F81C00020E2F /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1393,6 +1395,7 @@
 			buildPhases = (
 				7227AC161098D8DB00BE33D7 /* ShellScript */,
 				7227AC171098D8DB00BE33D7 /* ShellScript */,
+				1F71A5002030F83D00020E2F /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1409,6 +1412,7 @@
 			buildPhases = (
 				7227AC1F1098DB9200BE33D7 /* ShellScript */,
 				7227AC201098DB9200BE33D7 /* ShellScript */,
+				1F71A5012030F86400020E2F /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1425,6 +1429,7 @@
 			buildPhases = (
 				7227AC281098DBDF00BE33D7 /* ShellScript */,
 				7227AC291098DBDF00BE33D7 /* ShellScript */,
+				1F71A5022030F88300020E2F /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1987,14 +1992,94 @@
 			files = (
 			);
 			inputPaths = (
-				"$(BUILT_PRODUCT_SDIR)/darwinbuild",
+				"$(BUILT_PRODUCTS_DIR)/darwinbuild",
 			);
 			outputPaths = (
 				"$(DSTROOT)/usr/local/bin/darwinbuild",
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "/bin/cp $BUILT_PRODUCTS_DIR/darwinbuild $DSTROOT/usr/local/bin";
+			shellScript = "mkdir -p $DSTROOT/usr/local/bin\n/bin/cp $BUILT_PRODUCTS_DIR/darwinbuild $DSTROOT/usr/local/bin";
+			showEnvVarsInLog = 0;
+		};
+		1F71A4FE2030F7A700020E2F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/darwinmaster",
+			);
+			outputPaths = (
+				"$(DSTROOT)/usr/local/bin/darwinmaster",
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "mkdir -p $DSTROOT/usr/local/bin\n/bin/cp $BUILT_PRODUCTS_DIR/darwinmaster $DSTROOT/usr/local/bin/darwinmaster";
+			showEnvVarsInLog = 0;
+		};
+		1F71A4FF2030F81C00020E2F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/packageRoots",
+			);
+			outputPaths = (
+				"$(DSTROOT)/$(DATDIR)/darwinbuild/packageRoots",
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "mkdir -p $DSTROOT/$DATDIR/darwinbuild\n/bin/cp $BUILT_PRODUCTS_DIR/packageRoots $DSTROOT/$DATDIR/darwinbuild/packageRoots";
+			showEnvVarsInLog = 0;
+		};
+		1F71A5002030F83D00020E2F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/thinPackages",
+			);
+			outputPaths = (
+				"$(DSTROOT)/$(DATDIR)/darwinbuild/thinPackages",
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "mkdir -p $DSTROOT/$DATDIR/darwinbuild\n/bin/cp $BUILT_PRODUCTS_DIR/thinPackages $DSTROOT/$DATDIR/darwinbuild/thinPackages";
+			showEnvVarsInLog = 0;
+		};
+		1F71A5012030F86400020E2F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/installXcode",
+			);
+			outputPaths = (
+				"$(DSTROOT)/$(DATDIR)/darwinbuild/installXcode",
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "mkdir -p $DSTROOT/$DATDIR/darwinbuild\n/bin/cp $BUILT_PRODUCTS_DIR/installXcode $DSTROOT/$DATDIR/darwinbuild/installXcode";
+			showEnvVarsInLog = 0;
+		};
+		1F71A5022030F88300020E2F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/installXcode32",
+			);
+			outputPaths = (
+				"$(DSTROOT)/$(DATDIR)/installXcode32",
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "mkdir -p $DSTROOT/$DATDIR/darwinbuild\n/bin/cp $BUILT_PRODUCTS_DIR/installXcode32 $DSTROOT/$DATDIR/darwinbuild/installXcode32";
 			showEnvVarsInLog = 0;
 		};
 		7227AB8F1098A89700BE33D7 /* Run Script */ = {
