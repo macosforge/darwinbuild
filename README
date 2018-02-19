@@ -49,19 +49,26 @@ always be stable enough for building projects.
 ===============
 
 You can install by checking out the source and building darwinbuild yourself.
-The included Xcode project will compile the tools and install them into the
-location specified by the PREFIX environment parameter.  If the PREFIX parameter
-is not specified, the files will be installed into /usr/local.
-
-By default, darwinbuild will build for x86_64 and i386. You can override this with
-the ARCHS environment variable. However, building trunk for ppc is not supported
-since trunk is targeted for Darwin 10. The release branches for Darwin 8 and 9 do
-support building for ppc.
-
-To build and install darwinbuild to the boot partition:
+You would want to run the following two commands:
 
   % cd <path to top of source>
   % sudo xcodebuild install DSTROOT=/
+
+This will install darwinbuild and its supporting tools into /usr/local/bin.
+
+If you want to manage darwinbuild with Homebrew, you can try this technique.
+First, open Xcode and perform an archive. There is no good way of doing this
+from the command line, unfortunately. Then export the generated archive bundle
+(it should appear with the name "world", after the scheme that created it) to a
+location such as the Desktop. (Really, anywhere would do.) Then run the following
+commands:
+
+  % mkdir -p /usr/local/Cellar/darwinbuild/HEAD
+  % cp -R <path to archive folder>/Products/usr/local/{bin,share} /usr/local/Cellar/darwinbuild/HEAD
+  % brew link darwinbuild
+
+You don't need to copy the include directory, and the rest of the exported archive
+can be deleted afterwards.
 
 2.1 Creating the Build Directory
 
