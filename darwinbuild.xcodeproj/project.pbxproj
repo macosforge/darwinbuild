@@ -2137,7 +2137,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "cp -f \"${SRCROOT}/xcbuild/build/xcbuild\" $DSTROOT/$DATDIR/darwinbuild/xcbuild\n";
+			shellScript = "cp -f \"${SRCROOT}/xcbuild/build/xcbuild\" $DSTROOT/$DATDIR/darwinbuild/xcbuild.disabled\n";
 			showEnvVarsInLog = 0;
 		};
 		7227AB8F1098A89700BE33D7 /* Run Script */ = {
