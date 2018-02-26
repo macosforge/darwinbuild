@@ -2122,7 +2122,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "which -s cmake || {\n    echo CMake is required. Try \\`brew install cmake\\` 1>&2\n    exit 1\n}\n\nwhich -s ninja || {\n    echo ninja is required. Try \\`brew install ninja\\` 1>&2\n    exit 1\n}\n\nset -e\ncd \"${SRCROOT}/xcbuild\"\nmkdir -p $DERIVED_FILE_DIR\nmake all &> $DERIVED_FILE_DIR/xcbuild.log";
+			shellScript = "which -s cmake || {\n    echo CMake is required. Try \\`brew install cmake\\` 1>&2\n    exit 1\n}\n\nwhich -s ninja || {\n    echo ninja is required. Try \\`brew install ninja\\` 1>&2\n    exit 1\n}\n\nif [ ! -f \"${SRCROOT}/xcbuild/Makefile\" ]; then\n    echo xcbuild submodule not checked out, not building\n    exit 0\nfi\n\nif [ ! -f \"${SRCROOT}/xcbuild/ThirdParty/googletest/CMakeLists.txt\" -o ! -f \"${SRCROOT}/xcbuild/ThirdParty/linenoise/Makefile\" ]; then\n    echo Submodules of xcbuild submodule not checked out, build will not succeed 1>&2\n    echo Try \\`git submodule update --init --recursive\\` 1>&2\n    exit 1\nfi\n\nset -e\ncd \"${SRCROOT}/xcbuild\"\nmkdir -p $DERIVED_FILE_DIR\nmake all &> $DERIVED_FILE_DIR/xcbuild.log";
 			showEnvVarsInLog = 0;
 		};
 		1FAB24D92043A66800329636 /* Install */ = {
