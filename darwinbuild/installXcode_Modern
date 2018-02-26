@@ -64,7 +64,7 @@ mkdir -p $BUILDROOT/$(getconf DARWIN_USER_DIR)
 mkdir -p $BUILDROOT/$(getconf DARWIN_USER_TEMP_DIR)
 mkdir -p $BUILDROOT/$(getconf DARWIN_USER_CACHE_DIR)
 
-if [ "$HOST_DARWIN_VERSION" == "10.13" ]; then
+if [[ "$HOST_DARWIN_VERSION" =~ ^10.13 ]]; then
     rm $BUILDROOT/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk
     mv $BUILDROOT/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk $BUILDROOT/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk
 
@@ -84,7 +84,7 @@ if [ "$HOST_DARWIN_VERSION" == "10.13" ]; then
 EOF
 
     codesign -s - -f --entitlements $BUILDROOT/private/tmp/empty.entitlements $BUILDROOT/Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild
-elif [ "$HOST_DARWIN_VERSION" == "10.12" ]; then
+elif [[ "$HOST_DARWIN_VERSION" =~ ^10.12 ]]; then
     rm $BUILDROOT/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk
     mv $BUILDROOT/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk $BUILDROOT/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk
 fi
