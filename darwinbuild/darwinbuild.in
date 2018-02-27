@@ -98,7 +98,7 @@ target=""
 configuration=""
 version=""
 
-USE_CHROOT="NO"
+USE_CHROOT="YES"
 INSTALL_XCODE="NO"
 
 ###
@@ -192,7 +192,7 @@ function PrintUsage() {
 	usage: $(basename $0) [action] [options] <project> [<version>]
 	actions: [-headers] [-fetch] [-source] [-load] [-loadonly]
 	options: [-build=X] [-target=X] [-configuration=X]
-	         [-logdeps] [-chroot] [-nopatch] [-noload]
+	         [-logdeps] [-nochroot] [-nopatch] [-noload]
 	         [-depsbuild=X [-depsbuild=Y]] [-nosource]
 
 EOF
@@ -263,8 +263,8 @@ fi
 ###   -logdeps  Do magic to log the build-time dependencies
 ###   -nopatch  Don't patch sources before building.
 ###   -noload   Don't load dependencies into the chroot.
-###		 Has no effect unless -chroot is specified.
-###   -chroot   chroot into the BuildRoot when building
+###		 Has no effect if -nochroot is specified.
+###   -nochroot Do not chroot into the BuildRoot when building
 ###   -target=X The makefile or xcode target to build
 ###   -configuration=X Specify the build configuration to use
 ###   -build=X  Specify the darwin build number to buld, e.g. 8B15
@@ -300,8 +300,9 @@ for ARG in "$@"; do
 			build="${ARG/*=/}"
 		elif [ "${ARG/=*/}" == "-depsbuild" ]; then
 			depsbuild="${depsbuild} ${ARG/*=/}"
-		elif [ "$ARG" == "-chroot" ]; then
-			export USE_CHROOT="YES"
+		elif [ "$ARG" == "-nochroot" ]; then
+			export INSTALL_XCODE="NO"
+			export USE_CHROOT="NO"
 		elif [ "$ARG" == "-nopatch" ]; then
 			nopatch="YES"
 		elif [ "$ARG" == "-load" ]; then
