@@ -315,6 +315,7 @@ for ARG in "$@"; do
 			noload="YES"
 		elif [ "$ARG" == "-loadonly" ]; then
 			loadonly="YES"
+			export USE_CHROOT="NO"
 		elif [ "$ARG" == "-logdeps" ]; then
 			logdeps="YES"
 		elif [ "$ARG" == "-nosource" ]; then
