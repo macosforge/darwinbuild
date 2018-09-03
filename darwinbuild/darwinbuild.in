@@ -645,8 +645,16 @@ if [ "$noload" != "YES" ]; then
 DEPROOT = $REAL_DEPROOT
 
 ADDITIONAL_SDKS = \$(DEPROOT)
-SYSTEM_HEADER_SEARCH_PATHS = \$(DEPROOT)/usr/include \$(DEPROOT)/usr/local/include \$(inherited)
-FRAMEWORK_SEARCH_PATHS = \$(DEPROOT)/System/Library/Frameworks \$(DEPROOT)/System/Library/PrivateFrameworks \$(inherited)
+SYSTEM_HEADER_SEARCH_PATHS_USER = \$(DEPROOT)/usr/include \$(DEPROOT)/usr/local/include
+SYSTEM_HEADER_SEARCH_PATHS_KERNEL = \$(DEPROOT)/System/Library/Frameworks/Kernel.framework/PrivateHeaders \$(DEPROOT)/System/Library/Frameworks/Kernel.framework/Headers
+FRAMEWORK_SEARCH_PATHS_USER = \$(DEPROOT)/System/Library/Frameworks \$(DEPROOT)/System/Library/PrivateFrameworks
+
+// Default to user-mode unless \$(DARWINBUILD_SDK_MODE) is set to "KERNEL".
+SYSTEM_HEADER_SEARCH_PATHS_ = \$(SYSTEM_HEADER_SEARCH_PATHS_USER)
+FRAMEWORK_SEARCH_PATHS_ = \$(FRAMEWORK_SEARCH_PATHS_USER)
+
+SYSTEM_HEADER_SEARCH_PATHS = \$(SYSTEM_HEADER_SEARCH_PATHS_\$(DARWINBUILD_SDK_MODE)) \$(inherited)
+FRAMEWORK_SEARCH_PATHS = \$(FRAMEWORK_SEARCH_PATHS_\$(DARWINBUILD_SDK_MODE)) \$(inherited)
 EOF
 
 		echo
@@ -754,8 +762,16 @@ cat <<EOF > $REAL_SRCROOT/darwinbuild.xcconfig
 DEPROOT = $REAL_DEPROOT
 
 ADDITIONAL_SDKS = \$(DEPROOT)
-SYSTEM_HEADER_SEARCH_PATHS = \$(DEPROOT)/usr/include \$(DEPROOT)/usr/local/include \$(inherited)
-FRAMEWORK_SEARCH_PATHS = \$(DEPROOT)/System/Library/Frameworks \$(DEPROOT)/System/Library/PrivateFrameworks \$(inherited)
+SYSTEM_HEADER_SEARCH_PATHS_USER = \$(DEPROOT)/usr/include \$(DEPROOT)/usr/local/include
+SYSTEM_HEADER_SEARCH_PATHS_KERNEL = \$(DEPROOT)/System/Library/Frameworks/Kernel.framework/PrivateHeaders \$(DEPROOT)/System/Library/Frameworks/Kernel.framework/Headers
+FRAMEWORK_SEARCH_PATHS_USER = \$(DEPROOT)/System/Library/Frameworks \$(DEPROOT)/System/Library/PrivateFrameworks
+
+// Default to user-mode unless \$(DARWINBUILD_SDK_MODE) is set to "KERNEL".
+SYSTEM_HEADER_SEARCH_PATHS_ = \$(SYSTEM_HEADER_SEARCH_PATHS_USER)
+FRAMEWORK_SEARCH_PATHS_ = \$(FRAMEWORK_SEARCH_PATHS_USER)
+
+SYSTEM_HEADER_SEARCH_PATHS = \$(SYSTEM_HEADER_SEARCH_PATHS_\$(DARWINBUILD_SDK_MODE)) \$(inherited)
+FRAMEWORK_SEARCH_PATHS = \$(FRAMEWORK_SEARCH_PATHS_\$(DARWINBUILD_SDK_MODE)) \$(inherited)
 EOF
 
 ###
