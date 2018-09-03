@@ -642,7 +642,7 @@ if [ "$noload" != "YES" ]; then
 
 	if [ "$loadonly" = "YES" ]; then
 		cat <<EOF > $REAL_SRCROOT/darwinbuild.xcconfig
-DEPROOT = $REAL_DEPROOT
+DEPROOT = $DEPROOT
 
 ADDITIONAL_SDKS = \$(DEPROOT)
 SYSTEM_HEADER_SEARCH_PATHS_USER = \$(DEPROOT)/usr/include \$(DEPROOT)/usr/local/include
@@ -738,7 +738,7 @@ fi
 build_string=""
 if [ "$buildtool" == "xcodebuild" -a $INSTALL_XCODE == "YES" ]; then
 	build_string="-sdk $platform"
-	build_string="$build_string ADDITIONAL_SDKS=\"$BuildRoot\""
+	build_string="$build_string ADDITIONAL_SDKS=\"$DEPROOT\""
 fi
 if [ "$buildtool" == "xcodebuild" -a "$target" != "" ]; then
 	build_string="$build_string -target \"$target\""
@@ -759,7 +759,7 @@ fi
 ###
 
 cat <<EOF > $REAL_SRCROOT/darwinbuild.xcconfig
-DEPROOT = $REAL_DEPROOT
+DEPROOT = $DEPROOT
 
 ADDITIONAL_SDKS = \$(DEPROOT)
 SYSTEM_HEADER_SEARCH_PATHS_USER = \$(DEPROOT)/usr/include \$(DEPROOT)/usr/local/include
