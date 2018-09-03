@@ -597,6 +597,12 @@ if [ "$USE_CHROOT" = "YES" -a "$EUID" != "0" ]; then
 fi
 
 if [ "$USE_CHROOT" = "YES" -a ! -f "$BuildRoot/usr/local/darwinbuild/receipts/.host-system-chroot" ]; then
+	if [ ! -x $DATADIR/createChroot ]; then
+		# This can sometimes happen when darwinbuild was installed via an Xcode
+		# archive. Don't let it silently fail and then break things later.
+		chmod +x $DATADIR/createChroot
+	fi
+
 	echo "*** Creating chroot environment from host system, this may take a while ..."
 	$DATADIR/createChroot "$BuildRoot"
 fi
