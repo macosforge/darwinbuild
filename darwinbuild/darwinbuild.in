@@ -570,10 +570,10 @@ fi
 ###
 ### Look for the build tool: make, xcodebuild
 ###
-numfiles=$(echo *.pbxproj *.pbproj *.xcode *.xcodeproj 2> /dev/null )
+numfiles=$(echo *.xcodeproj 2> /dev/null )
 if [ -n "$numfiles" ]; then
-    	buildtool="xcodebuild"
-    	export INSTALL_XCODE="YES"
+	buildtool="xcodebuild"
+	export INSTALL_XCODE="YES"
 else
 	buildtool="make"
 fi
