@@ -816,9 +816,12 @@ for X in \
 done
 IFS="$OLDIFS"
 
-if [ "$USE_CHROOT" = "NO" ]; then
-	export RC_BuildRoot=$BuildRoot
-	build_string="$build_string \"RC_BuildRoot=$BuildRoot\""
+if [ "$USE_CHROOT" = "YES" ]; then
+	export RC_BuildRoot=$DEPROOT
+	build_string="$build_string \"RC_BuildRoot=$DEPROOT\""
+else
+	export RC_BuildRoot=$REAL_DEPROOT
+	build_string="$build_string \"RC_BuildRoot=$REAL_DEPROOT\""
 fi
 
 cat <<-EOF >> $SCRIPT
