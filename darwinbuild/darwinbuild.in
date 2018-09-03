@@ -642,8 +642,9 @@ if [ "$noload" != "YES" ]; then
 
 	if [ "$loadonly" = "YES" ]; then
 		cat <<EOF > $REAL_SRCROOT/darwinbuild.xcconfig
-DEPROOT=$REAL_DEPROOT
+DEPROOT = $REAL_DEPROOT
 
+ADDITIONAL_SDKS = \$(DEPROOT)
 SYSTEM_HEADER_SEARCH_PATHS = \$(DEPROOT)/usr/include \$(DEPROOT)/usr/local/include \$(inherited)
 FRAMEWORK_SEARCH_PATHS = \$(DEPROOT)/System/Library/Frameworks \$(DEPROOT)/System/Library/PrivateFrameworks \$(inherited)
 EOF
@@ -750,8 +751,9 @@ fi
 ###
 
 cat <<EOF > $REAL_SRCROOT/darwinbuild.xcconfig
-DEPROOT=$DEPROOT
+DEPROOT = $REAL_DEPROOT
 
+ADDITIONAL_SDKS = \$(DEPROOT)
 SYSTEM_HEADER_SEARCH_PATHS = \$(DEPROOT)/usr/include \$(DEPROOT)/usr/local/include \$(inherited)
 FRAMEWORK_SEARCH_PATHS = \$(DEPROOT)/System/Library/Frameworks \$(DEPROOT)/System/Library/PrivateFrameworks \$(inherited)
 EOF
