@@ -247,6 +247,17 @@ if [ ! -e $SourceCache ]; then
 fi
 
 ###
+### Set the default value for USE_CHROOT.
+### If the .build/no_chroot_default file is present, do not enter
+### the the chroot unless the -chroot flag was specified.
+###
+if [ -f .build/no_chroot_default ]; then
+	export USE_CHROOT="NO"
+else
+	export USE_CHROOT="YES"
+fi
+
+###
 ### Interpret our arguments:
 ###
 ###  Actions:
