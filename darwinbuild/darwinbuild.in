@@ -625,7 +625,19 @@ if [ "$noload" != "YES" ]; then
 	done
 
 	if [ "$loadonly" = "YES" ]; then
-	    exit
+		cat <<EOF > $REAL_SRCROOT/darwinbuild.xcconfig
+DEPROOT=$REAL_DEPROOT
+
+SYSTEM_HEADER_SEARCH_PATHS = \$(DEPROOT)/usr/include \$(DEPROOT)/usr/local/include \$(inherited)
+FRAMEWORK_SEARCH_PATHS = \$(DEPROOT)/System/Library/Frameworks \$(DEPROOT)/System/Library/PrivateFrameworks \$(inherited)
+EOF
+
+		echo
+		echo "xcconfig file containing paths to staged dependencies is here:"
+		echo "    $REAL_SRCROOT/darwinbuild.xcconfig"
+		echo
+
+		exit
 	fi
 
 fi
