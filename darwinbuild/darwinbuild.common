@@ -184,6 +184,10 @@ function InstallRoot() {
 	local BuildRoot="$1"
 	local Project="$2"
 	local dbuild="$3"
+	local DepRoot="$4"
+	if [ -z "$DepRoot" ]; then
+		DepRoot=$BuildRoot
+	fi
 
 	local SelfBuiltRoot=""
 	local InstallSelfBuiltRoot=0
@@ -224,7 +228,7 @@ function InstallRoot() {
 	# install a self-built root, or a prebuilt root, or nothing
 	if [ $InstallSelfBuiltRoot -eq 1 ]; then
 		echo "Copying $Project from $SelfBuiltRoot ..."
-		ditto "$SelfBuiltRoot" "$BuildRoot"
+		ditto "$SelfBuiltRoot" "$DepRoot"
 		"$DARWINXREF" register "$Project" "$SelfBuiltRoot"  > /dev/null
 		TouchReceipt "$BuildRoot" "$Project" "root"
 		return 0
@@ -276,6 +280,10 @@ function InstallHeader() {
 	local BuildRoot="$1"
 	local Project="$2"
 	local dbuild="$3"
+	local DepRoot="$4"
+	if [ -z "$DepRoot" ]; then
+		DepRoot=$BuildRoot
+	fi
 
 	local SelfBuiltRoot=""
 	local SelfBuiltHeader=""
@@ -347,13 +355,13 @@ function InstallHeader() {
 	# install a self-built root, or a prebuilt root, or nothing
 	if [ $InstallSelfBuiltHeader -eq 1 ]; then
 		echo "Copying $Project from $SelfBuiltHeader ..."
-		ditto "$SelfBuiltHeader" "$BuildRoot"
+		ditto "$SelfBuiltHeader" "$DepRoot"
 		"$DARWINXREF" register "$Project" "$SelfBuiltHeader"  > /dev/null
 		TouchReceipt "$BuildRoot" "$Project" "hdrs"
 		return 0
 	elif [ $InstallSelfBuiltRoot -eq 1 ]; then
 		echo "Copying $Project from $SelfBuiltRoot ..."
-		ditto "$SelfBuiltRoot" "$BuildRoot"
+		ditto "$SelfBuiltRoot" "$DepRoot"
 		"$DARWINXREF" register "$Project" "$SelfBuiltRoot"  > /dev/null
 		TouchReceipt "$BuildRoot" "$Project" "root"
 		return 0

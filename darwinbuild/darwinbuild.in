@@ -479,14 +479,15 @@ REAL_SRCROOT="$BuildRoot/SourceCache/$projnam/$project"
 REAL_OBJROOT="$BuildRoot/$vartmp/$projnam/$project.obj"
 REAL_SYMROOT="$BuildRoot/$vartmp/$projnam/$project.sym"
 REAL_DSTROOT="$BuildRoot/$vartmp/$projnam/$project.root"
+REAL_DEPROOT="$BuildRoot/BinaryCache/$projnam"
 
 if [ "$nosource" != "YES" ]; then
 	###
 	### Remove any pre-existing directories that might be in the way
 	### and create new directories in their place.
 	###
-	rm -Rf "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT"
-	mkdir -p "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT"
+	rm -Rf "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT" "$REAL_DEPROOT"
+	mkdir -p "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT" "$REAL_DEPROOT"
 
 	###
 	### Install the sources and patches into the BuildRoot
@@ -509,7 +510,7 @@ if [ "$nosource" != "YES" ]; then
 fi
 
 if [ "$branch" != "" ]; then
-	mkdir -p "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT"
+	mkdir -p "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT" "$REAL_DEPROOT"
 	CheckoutOrUpdate "$REAL_SRCROOT" "$branch" "$($DARWINXREF source_sites $projnam)"
 fi
 
@@ -612,13 +613,15 @@ if [ "$noload" != "YES" ]; then
 	deps=$($DARWINXREF dependencies -build "$projnam")
 
 	for X in $deps ; do
-		InstallRoot "$BuildRoot" "$X" "$depsbuild"
+		if [ "$action" != "installhdrs" ]; then
+			InstallRoot "$BuildRoot" "$X" "$depsbuild" "$REAL_DEPROOT"
+		fi
 	done
 
 	echo "*** Installing Headers ..."
 	deps=$($DARWINXREF dependencies -header "$projnam")
 	for X in $deps ; do
-		InstallHeader "$BuildRoot" "$X" "$depsbuild"
+		InstallHeader "$BuildRoot" "$X" "$depsbuild" "$REAL_DEPROOT"
 	done
 
 	if [ "$loadonly" = "YES" ]; then
@@ -658,11 +661,12 @@ export SRCROOT="${REAL_SRCROOT/$prefix/}"
 export OBJROOT="${REAL_OBJROOT/$prefix/}"
 export SYMROOT="${REAL_SYMROOT/$prefix/}"
 export DSTROOT="${REAL_DSTROOT/$prefix/}"
+export DEPROOT="${REAL_DEPROOT/$prefix/}"
 
 
 
 # Hide this variable from the unset
-export -n SRCROOT OBJROOT SYMROOT DSTROOT
+export -n SRCROOT OBJROOT SYMROOT DSTROOT DEPROOT
 export -n DARWIN_BUILDROOT DARWINBUILD_BUILD DARWINXREF_DB_FILE
 export -n USE_CHROOT INSTALL_XCODE
 
@@ -676,7 +680,7 @@ for X in $(printenv) ; do
 done
 IFS="$OLDIFS"
 
-export SRCROOT OBJROOT SYMROOT DSTROOT
+export SRCROOT OBJROOT SYMROOT DSTROOT DEPROOT
 export DARWIN_BUILDROOT DARWINBUILD_BUILD DARWINXREF_DB_FILE
 export USE_CHROOT INSTALL_XCODE
 
@@ -712,6 +716,17 @@ fi
 if [ "$buildtool" == "xcodebuild" -a "$configuration" != "" ]; then
 	build_string="$build_string -configuration \"$configuration\""
 fi
+
+###
+### Write out the xcconfig file to be used with the DEPROOT
+###
+
+cat <<EOF > $REAL_SRCROOT/darwinbuild.xcconfig
+DEPROOT=$DEPROOT
+
+SYSTEM_HEADER_SEARCH_PATHS = \$(DEPROOT)/usr/include \$(DEPROOT)/usr/local/include \$(inherited)
+FRAMEWORK_SEARCH_PATHS = \$(DEPROOT)/System/Library/Frameworks \$(DEPROOT)/System/Library/PrivateFrameworks \$(inherited)
+EOF
 
 ###
 ### Write out the build script that will be used.
@@ -779,11 +794,12 @@ cat <<-EOF >> $SCRIPT
 	echo OBJROOT: '$OBJROOT'
 	echo SYMROOT: '$SYMROOT'
 	echo DSTROOT: '$DSTROOT'
+	echo DEPROOT: '$DEPROOT'
 EOF
 ###
 ### Add in the build environment variables from darwinxref
 ###
-build_string="$build_string \"SRCROOT=$SRCROOT\" \"OBJROOT=$OBJROOT\" \"SYMROOT=$SYMROOT\" \"DSTROOT=$DSTROOT\""
+build_string="$build_string \"SRCROOT=$SRCROOT\" \"OBJROOT=$OBJROOT\" \"SYMROOT=$SYMROOT\" \"DSTROOT=$DSTROOT\" \"DEPROOT=$DEPROOT\""
 
 XREF_ENV=$($DARWINXREF environment $projnam)
 OLDIFS="$IFS"
