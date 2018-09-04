@@ -79,11 +79,6 @@ counter = 0
 for filename in all_files:
     if filename == '': continue
 
-    # Don't try to add empty directories to the tarball.
-    # This would only occur when the directory in question
-    # is a submodule; Git otherwise tracks files only.
-    if os.path.isdir(str(filename)): continue
-
     counter += 1
     if (counter % 1000) == 0:
         print('Processed', counter, 'files...')
