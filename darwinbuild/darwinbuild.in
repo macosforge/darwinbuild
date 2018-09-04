@@ -642,7 +642,7 @@ if [ "$noload" != "YES" ]; then
 
 	if [ "$loadonly" = "YES" ]; then
 		cat <<EOF > $REAL_SRCROOT/darwinbuild.xcconfig
-DEPROOT = $DEPROOT
+DEPROOT = $REAL_DEPROOT
 
 ADDITIONAL_SDKS = \$(DEPROOT)
 SYSTEM_HEADER_SEARCH_PATHS_USER = \$(DEPROOT)/usr/include \$(DEPROOT)/usr/local/include
