@@ -19,6 +19,7 @@ EXTRACOPY=( \
     /System/Library/PrivateFrameworks \
     /System/Library/DTDs \
     /System/Library/Fonts \
+    /System/Library/Kernels \
     /System/Library/Keyboard\ Layouts \
     /System/Library/Perl \
     /System/Library/Tcl \
