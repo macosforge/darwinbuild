@@ -645,7 +645,7 @@ if [ "$noload" != "YES" ]; then
 DEPROOT = $REAL_DEPROOT
 
 ADDITIONAL_SDKS = \$(DEPROOT)
-SYSTEM_HEADER_SEARCH_PATHS_USER = \$(DEPROOT)/usr/include \$(DEPROOT)/usr/local/include
+SYSTEM_HEADER_SEARCH_PATHS_USER = \$(DEPROOT)/System/Library/Frameworks/System.framework/PrivateHeaders \$(DEPROOT)/usr/include \$(DEPROOT)/usr/local/include
 SYSTEM_HEADER_SEARCH_PATHS_KERNEL = \$(DEPROOT)/System/Library/Frameworks/Kernel.framework/PrivateHeaders \$(DEPROOT)/System/Library/Frameworks/Kernel.framework/Headers
 FRAMEWORK_SEARCH_PATHS_USER = \$(DEPROOT)/System/Library/Frameworks \$(DEPROOT)/System/Library/PrivateFrameworks
 
@@ -762,7 +762,7 @@ cat <<EOF > $REAL_SRCROOT/darwinbuild.xcconfig
 DEPROOT = $DEPROOT
 
 ADDITIONAL_SDKS = \$(DEPROOT)
-SYSTEM_HEADER_SEARCH_PATHS_USER = \$(DEPROOT)/usr/include \$(DEPROOT)/usr/local/include
+SYSTEM_HEADER_SEARCH_PATHS_USER = \$(DEPROOT)/System/Library/Frameworks/System.framework/PrivateHeaders \$(DEPROOT)/usr/include \$(DEPROOT)/usr/local/include
 SYSTEM_HEADER_SEARCH_PATHS_KERNEL = \$(DEPROOT)/System/Library/Frameworks/Kernel.framework/PrivateHeaders \$(DEPROOT)/System/Library/Frameworks/Kernel.framework/Headers
 FRAMEWORK_SEARCH_PATHS_USER = \$(DEPROOT)/System/Library/Frameworks \$(DEPROOT)/System/Library/PrivateFrameworks
 
