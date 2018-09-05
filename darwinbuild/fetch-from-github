@@ -42,7 +42,7 @@ if 'github' in project_data:
     download_path = os.path.join(sources_dir, tarball_filename)
     print('Downloading', url, '...')
     curl_exitcode = subprocess.call(['/usr/bin/curl', '-fLs', '-o', download_path, url])
-    if curl_exitcode == 22:
+    if curl_exitcode != 0:
         # This occurs if the server returned a 404 or other error.
         exit(1)
 
