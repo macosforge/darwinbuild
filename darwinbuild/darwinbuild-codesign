@@ -143,7 +143,7 @@ for (filename, value) in codesign_plist['files'].items():
         print('Error in darwinbuild-codesign.plist: Values in "files" dictionary must be booleans or dictionaries only')
         exit(1)
 
-    if identifier is None and os.isdir(filename):
+    if identifier is None and os.path.isdir(filename):
         identifier = get_bundle_identifier(filename)
 
     codesign_argv = ['/usr/bin/codesign', '-s', certificate, '-f']
