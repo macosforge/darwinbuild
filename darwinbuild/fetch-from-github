@@ -1,64 +1,54 @@
-#!/bin/bash
-#
-# Copyright (c) 2017 William Kent. All rights reserved.
-#
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions
-# are met:
-# 1.  Redistributions of source code must retain the above copyright
-#     notice, this list of conditions and the following disclaimer.
-# 2.  Redistributions in binary form must reproduce the above copyright
-#     notice, this list of conditions and the following disclaimer in the
-#     documentation and/or other materials provided with the distribution.
-# 3.  Neither the name of Apple Computer, Inc. ("Apple") nor the names of
-#     its contributors may be used to endorse or promote products derived
-#     from this software without specific prior written permission.
-#
-# THIS SOFTWARE IS PROVIDED BY ITS CONTRIBUTORS "AS IS" AND
-# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-# ARE DISCLAIMED. IN NO EVENT SHALL APPLE OR ITS CONTRIBUTORS BE LIABLE FOR
-# ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
-# OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-# HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
-# STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
-# IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-# POSSIBILITY OF SUCH DAMAGE.
-#
+#!/usr/bin/python
 
-DARWINBUILD_PLIST=$1
-PROJECT_NAME=$2
-PROJECT_VERSION=$3
-SOURCES_DIR=$4
-
-EXTRACT_SCRIPT_FILENAME=$(mktemp /tmp/darwinbuild-fetch-from-github.XXXXXXXXXX)
-cat > $EXTRACT_SCRIPT_FILENAME <<EOF
 from __future__ import print_function
+import sys, os
 import plistlib
-import sys
+import subprocess
+import tarfile
+import tempfile
+import shutil
 
-filename = sys.argv[1]
-project = sys.argv[2]
-pl = plistlib.readPlist(filename)
+def popen_exec(argv, cwd=None):
+    return subprocess.check_output(argv, universal_newlines=True, cwd=cwd).decode('utf-8')
 
-if 'github' in pl['projects'][project]:
-    print(pl['projects'][project]['github'])
-EOF
+if len(sys.argv) < 4:
+    print('Internal tool used by darwinbuild, please do not invoke directly', file=sys.stderr)
+    exit(1)
 
-# Check to see if the Python script fails.
-# If it does, diagnostics will have been printed to stderr.
-python $EXTRACT_SCRIPT_FILENAME $DARWINBUILD_PLIST $PROJECT_NAME 1> /dev/null || {
-    echo Python extraction script failed 1>&2
-    rm $EXTRACT_SCRIPT_FILENAME
-    exit 1
-}
+plist_filename = sys.argv[1]
+project_name = sys.argv[2]
+project_version = sys.argv[3]
+sources_dir = sys.argv[4]
+print(sys.argv)
+darwinbuild_plist = plistlib.readPlist(plist_filename)
 
-GITHUB_PROJECT=$(python $EXTRACT_SCRIPT_FILENAME $DARWINBUILD_PLIST $PROJECT_NAME)
-[ "$GITHUB_PROJECT" = "" ] && exit
+project_data = darwinbuild_plist['projects'][project_name]
+if 'github' in project_data:
+    url = None
+    repo_basename = None
+    exact_filename = True
 
-GITHUB_URL=https://github.com/${GITHUB_PROJECT}/archive/${PROJECT_VERSION}.tar.gz
+    github_data = project_data['github']
+    if isinstance(github_data, str):
+        repo_basename = project_name + '-' + project_version
+        url = 'https://github.com/{}/archive/{}-{}.tar.gz'.format(github_data, project_name, project_version)
+    elif isinstance(github_data, dict):
+        repo_parts = github_data['repo'].split('/')
+        repo_basename = repo_parts[1] + '-' + github_data['archive']
+        url = 'https://github.com/{}/archive/{}.tar.gz'.format(github_data['repo'], github_data['archive'])
+        exact_filename = False
+    else:
+        raise Exception('github data not string or dictionary')
 
-rm -f $EXTRACT_SCRIPT_FILENAME
-echo "Downloading $GITHUB_URL ..."
-exec curl -fLs -o "${SOURCES_DIR}/${PROJECT_NAME}-${PROJECT_VERSION}.tar.gz" "${GITHUB_URL}"
+    tarball_filename = project_name + '-' + project_version + '.tar.gz'
+    download_path = os.path.join(sources_dir, tarball_filename if exact_filename else tarball_filename + '.orig')
+    print('Downloading', url, '...')
+    popen_exec(['/usr/bin/curl', '-fLs', '-o', download_path, url])
+
+    if not exact_filename:
+        temp_dir = tempfile.mkdtemp(prefix='darwinbuild-fetch-from-github')
+        popen_exec(['/usr/bin/tar', 'xf', os.path.join(sources_dir, tarball_filename + '.orig')], cwd=temp_dir)
+        shutil.move(os.path.join(temp_dir, repo_basename), os.path.join(temp_dir, project_name + '-' + project_version))
+        popen_exec(['/usr/bin/tar', 'czf', os.path.join(sources_dir, tarball_filename), project_name + '-' + project_version], cwd=temp_dir)
+        shutil.rmtree(temp_dir, ignore_errors=True)
+        os.remove(os.path.join(sources_dir, tarball_filename + '.orig'))
