@@ -8,9 +8,6 @@ import tarfile
 import tempfile
 import shutil
 
-def popen_exec(argv, cwd=None):
-    return subprocess.check_output(argv, universal_newlines=True, cwd=cwd).decode('utf-8')
-
 if len(sys.argv) < 4:
     print('Internal tool used by darwinbuild, please do not invoke directly', file=sys.stderr)
     exit(1)
@@ -24,30 +21,34 @@ darwinbuild_plist = plistlib.readPlist(plist_filename)
 project_data = darwinbuild_plist['projects'][project_name]
 if 'github' in project_data:
     url = None
+    tag = project_version
     repo_basename = None
-    exact_filename = True
 
     github_data = project_data['github']
+
     if isinstance(github_data, str):
-        repo_basename = project_name + '-' + project_version
-        url = 'https://github.com/{}/archive/{}-{}.tar.gz'.format(github_data, project_name, project_version)
+        repo_parts = github_data.split('/')
+        repo_basename = repo_parts[1]
+        url = 'https://github.com/{}/archive/{}.tar.gz'.format(github_data, project_version)
     elif isinstance(github_data, dict):
         repo_parts = github_data['repo'].split('/')
-        repo_basename = repo_parts[1] + '-' + github_data['tag']
+        repo_basename = repo_parts[1]
         url = 'https://github.com/{}/archive/{}.tar.gz'.format(github_data['repo'], github_data['tag'])
-        exact_filename = False
+        tag = github_data['tag']
     else:
         raise Exception('github data not string or dictionary')
 
     tarball_filename = project_name + '-' + project_version + '.tar.gz'
-    download_path = os.path.join(sources_dir, tarball_filename if exact_filename else tarball_filename + '.orig')
+    download_path = os.path.join(sources_dir, tarball_filename)
     print('Downloading', url, '...')
-    popen_exec(['/usr/bin/curl', '-fLs', '-o', download_path, url])
+    curl_exitcode = subprocess.call(['/usr/bin/curl', '-fLs', '-o', download_path, url])
+    if curl_exitcode == 22:
+        # This occurs if the server returned a 404 or other error.
+        exit(1)
 
-    if not exact_filename:
+    if repo_basename != project_name or (tag is not None and tag != project_version):
         temp_dir = tempfile.mkdtemp(prefix='darwinbuild-fetch-from-github')
-        popen_exec(['/usr/bin/tar', 'xf', os.path.join(sources_dir, tarball_filename + '.orig')], cwd=temp_dir)
-        shutil.move(os.path.join(temp_dir, repo_basename), os.path.join(temp_dir, project_name + '-' + project_version))
-        popen_exec(['/usr/bin/tar', 'czf', os.path.join(sources_dir, tarball_filename), project_name + '-' + project_version], cwd=temp_dir)
+        subprocess.check_output(['/usr/bin/tar', 'xf', os.path.join(sources_dir, tarball_filename)], cwd=temp_dir)
+        shutil.move(os.path.join(temp_dir, repo_basename + '-' + tag), os.path.join(temp_dir, project_name + '-' + project_version))
+        subprocess.check_output(['/usr/bin/tar', 'czf', os.path.join(sources_dir, tarball_filename), project_name + '-' + project_version], cwd=temp_dir)
         shutil.rmtree(temp_dir, ignore_errors=True)
-        os.remove(os.path.join(sources_dir, tarball_filename + '.orig'))
