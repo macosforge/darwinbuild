@@ -192,7 +192,7 @@ function PrintUsage() {
 	usage: $(basename $0) [action] [options] <project> [<version>]
 	actions: [-headers] [-fetch] [-source] [-load] [-loadonly]
 	options: [-build=X] [-target=X] [-configuration=X]
-	         [-logdeps] [-nochroot] [-nopatch] [-noload]
+	         [-logdeps] [-nochroot] [-chroot] [-nopatch] [-noload]
 	         [-depsbuild=X [-depsbuild=Y]] [-nosource]
 
 EOF
@@ -247,6 +247,17 @@ if [ ! -e $SourceCache ]; then
 fi
 
 ###
+### Set the default value for USE_CHROOT.
+### If the .build/no_chroot_default file is present, do not enter
+### the the chroot unless the -chroot flag was specified.
+###
+if [ -f .build/no_chroot_default ]; then
+	export USE_CHROOT="NO"
+else
+	export USE_CHROOT="YES"
+fi
+
+###
 ### Interpret our arguments:
 ###
 ###  Actions:
@@ -265,6 +276,7 @@ fi
 ###   -noload   Don't load dependencies into the chroot.
 ###		 Has no effect if -nochroot is specified.
 ###   -nochroot Do not chroot into the BuildRoot when building
+###   -chroot   Always chroot into the BuildRoot when building
 ###   -target=X The makefile or xcode target to build
 ###   -configuration=X Specify the build configuration to use
 ###   -build=X  Specify the darwin build number to buld, e.g. 8B15
@@ -303,6 +315,9 @@ for ARG in "$@"; do
 		elif [ "$ARG" == "-nochroot" ]; then
 			export INSTALL_XCODE="NO"
 			export USE_CHROOT="NO"
+		elif [ "$ARG" == "-chroot" ]; then
+			unset INSTALL_XCODE
+			export USE_CHROOT="YES"
 		elif [ "$ARG" == "-nopatch" ]; then
 			nopatch="YES"
 		elif [ "$ARG" == "-load" ]; then
@@ -315,6 +330,7 @@ for ARG in "$@"; do
 			noload="YES"
 		elif [ "$ARG" == "-loadonly" ]; then
 			loadonly="YES"
+			export USE_CHROOT="NO"
 		elif [ "$ARG" == "-logdeps" ]; then
 			logdeps="YES"
 		elif [ "$ARG" == "-nosource" ]; then
@@ -479,14 +495,15 @@ REAL_SRCROOT="$BuildRoot/SourceCache/$projnam/$project"
 REAL_OBJROOT="$BuildRoot/$vartmp/$projnam/$project.obj"
 REAL_SYMROOT="$BuildRoot/$vartmp/$projnam/$project.sym"
 REAL_DSTROOT="$BuildRoot/$vartmp/$projnam/$project.root"
+REAL_DEPROOT="$BuildRoot/BinaryCache/$projnam"
 
 if [ "$nosource" != "YES" ]; then
 	###
 	### Remove any pre-existing directories that might be in the way
 	### and create new directories in their place.
 	###
-	rm -Rf "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT"
-	mkdir -p "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT"
+	rm -Rf "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT" "$REAL_DEPROOT"
+	mkdir -p "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT" "$REAL_DEPROOT"
 
 	###
 	### Install the sources and patches into the BuildRoot
@@ -509,7 +526,7 @@ if [ "$nosource" != "YES" ]; then
 fi
 
 if [ "$branch" != "" ]; then
-	mkdir -p "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT"
+	mkdir -p "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT" "$REAL_DEPROOT"
 	CheckoutOrUpdate "$REAL_SRCROOT" "$branch" "$($DARWINXREF source_sites $projnam)"
 fi
 
@@ -570,10 +587,10 @@ fi
 ###
 ### Look for the build tool: make, xcodebuild
 ###
-numfiles=$(echo *.pbxproj *.pbproj *.xcode *.xcodeproj 2> /dev/null )
+numfiles=$(echo *.xcodeproj 2> /dev/null )
 if [ -n "$numfiles" ]; then
-    	buildtool="xcodebuild"
-    	export INSTALL_XCODE="YES"
+	buildtool="xcodebuild"
+	export INSTALL_XCODE="YES"
 else
 	buildtool="make"
 fi
@@ -597,6 +614,12 @@ if [ "$USE_CHROOT" = "YES" -a "$EUID" != "0" ]; then
 fi
 
 if [ "$USE_CHROOT" = "YES" -a ! -f "$BuildRoot/usr/local/darwinbuild/receipts/.host-system-chroot" ]; then
+	if [ ! -x $DATADIR/createChroot ]; then
+		# This can sometimes happen when darwinbuild was installed via an Xcode
+		# archive. Don't let it silently fail and then break things later.
+		chmod +x $DATADIR/createChroot
+	fi
+
 	echo "*** Creating chroot environment from host system, this may take a while ..."
 	$DATADIR/createChroot "$BuildRoot"
 fi
@@ -606,17 +629,40 @@ if [ "$noload" != "YES" ]; then
 	deps=$($DARWINXREF dependencies -build "$projnam")
 
 	for X in $deps ; do
-		InstallRoot "$BuildRoot" "$X" "$depsbuild"
+		if [ "$action" != "installhdrs" ]; then
+			InstallRoot "$BuildRoot" "$X" "$depsbuild" "$REAL_DEPROOT"
+		fi
 	done
 
 	echo "*** Installing Headers ..."
 	deps=$($DARWINXREF dependencies -header "$projnam")
 	for X in $deps ; do
-		InstallHeader "$BuildRoot" "$X" "$depsbuild"
+		InstallHeader "$BuildRoot" "$X" "$depsbuild" "$REAL_DEPROOT"
 	done
 
 	if [ "$loadonly" = "YES" ]; then
-	    exit
+		cat <<EOF > $REAL_SRCROOT/darwinbuild.xcconfig
+DEPROOT = $REAL_DEPROOT
+
+ADDITIONAL_SDKS = \$(DEPROOT)
+SYSTEM_HEADER_SEARCH_PATHS_USER = \$(DEPROOT)/System/Library/Frameworks/System.framework/PrivateHeaders \$(DEPROOT)/usr/include \$(DEPROOT)/usr/local/include
+SYSTEM_HEADER_SEARCH_PATHS_KERNEL = \$(DEPROOT)/System/Library/Frameworks/Kernel.framework/PrivateHeaders \$(DEPROOT)/System/Library/Frameworks/Kernel.framework/Headers
+FRAMEWORK_SEARCH_PATHS_USER = \$(DEPROOT)/System/Library/Frameworks \$(DEPROOT)/System/Library/PrivateFrameworks
+
+// Default to user-mode unless \$(DARWINBUILD_SDK_MODE) is set to "KERNEL".
+SYSTEM_HEADER_SEARCH_PATHS_ = \$(SYSTEM_HEADER_SEARCH_PATHS_USER)
+FRAMEWORK_SEARCH_PATHS_ = \$(FRAMEWORK_SEARCH_PATHS_USER)
+
+SYSTEM_HEADER_SEARCH_PATHS = \$(SYSTEM_HEADER_SEARCH_PATHS_\$(DARWINBUILD_SDK_MODE)) \$(inherited)
+FRAMEWORK_SEARCH_PATHS = \$(FRAMEWORK_SEARCH_PATHS_\$(DARWINBUILD_SDK_MODE)) \$(inherited)
+EOF
+
+		echo
+		echo "xcconfig file containing paths to staged dependencies is here:"
+		echo "    $REAL_SRCROOT/darwinbuild.xcconfig"
+		echo
+
+		exit
 	fi
 
 fi
@@ -652,11 +698,12 @@ export SRCROOT="${REAL_SRCROOT/$prefix/}"
 export OBJROOT="${REAL_OBJROOT/$prefix/}"
 export SYMROOT="${REAL_SYMROOT/$prefix/}"
 export DSTROOT="${REAL_DSTROOT/$prefix/}"
+export DEPROOT="${REAL_DEPROOT/$prefix/}"
 
 
 
 # Hide this variable from the unset
-export -n SRCROOT OBJROOT SYMROOT DSTROOT
+export -n SRCROOT OBJROOT SYMROOT DSTROOT DEPROOT
 export -n DARWIN_BUILDROOT DARWINBUILD_BUILD DARWINXREF_DB_FILE
 export -n USE_CHROOT INSTALL_XCODE
 
@@ -670,7 +717,7 @@ for X in $(printenv) ; do
 done
 IFS="$OLDIFS"
 
-export SRCROOT OBJROOT SYMROOT DSTROOT
+export SRCROOT OBJROOT SYMROOT DSTROOT DEPROOT
 export DARWIN_BUILDROOT DARWINBUILD_BUILD DARWINXREF_DB_FILE
 export USE_CHROOT INSTALL_XCODE
 
@@ -691,7 +738,7 @@ fi
 build_string=""
 if [ "$buildtool" == "xcodebuild" -a $INSTALL_XCODE == "YES" ]; then
 	build_string="-sdk $platform"
-	build_string="$build_string ADDITIONAL_SDKS=\"$BuildRoot\""
+	build_string="$build_string ADDITIONAL_SDKS=\"$DEPROOT\""
 fi
 if [ "$buildtool" == "xcodebuild" -a "$target" != "" ]; then
 	build_string="$build_string -target \"$target\""
@@ -706,6 +753,26 @@ fi
 if [ "$buildtool" == "xcodebuild" -a "$configuration" != "" ]; then
 	build_string="$build_string -configuration \"$configuration\""
 fi
+
+###
+### Write out the xcconfig file to be used with the DEPROOT
+###
+
+cat <<EOF > $REAL_SRCROOT/darwinbuild.xcconfig
+DEPROOT = $DEPROOT
+
+ADDITIONAL_SDKS = \$(DEPROOT)
+SYSTEM_HEADER_SEARCH_PATHS_USER = \$(DEPROOT)/System/Library/Frameworks/System.framework/PrivateHeaders \$(DEPROOT)/usr/include \$(DEPROOT)/usr/local/include
+SYSTEM_HEADER_SEARCH_PATHS_KERNEL = \$(DEPROOT)/System/Library/Frameworks/Kernel.framework/PrivateHeaders \$(DEPROOT)/System/Library/Frameworks/Kernel.framework/Headers
+FRAMEWORK_SEARCH_PATHS_USER = \$(DEPROOT)/System/Library/Frameworks \$(DEPROOT)/System/Library/PrivateFrameworks
+
+// Default to user-mode unless \$(DARWINBUILD_SDK_MODE) is set to "KERNEL".
+SYSTEM_HEADER_SEARCH_PATHS_ = \$(SYSTEM_HEADER_SEARCH_PATHS_USER)
+FRAMEWORK_SEARCH_PATHS_ = \$(FRAMEWORK_SEARCH_PATHS_USER)
+
+SYSTEM_HEADER_SEARCH_PATHS = \$(SYSTEM_HEADER_SEARCH_PATHS_\$(DARWINBUILD_SDK_MODE)) \$(inherited)
+FRAMEWORK_SEARCH_PATHS = \$(FRAMEWORK_SEARCH_PATHS_\$(DARWINBUILD_SDK_MODE)) \$(inherited)
+EOF
 
 ###
 ### Write out the build script that will be used.
@@ -773,11 +840,12 @@ cat <<-EOF >> $SCRIPT
 	echo OBJROOT: '$OBJROOT'
 	echo SYMROOT: '$SYMROOT'
 	echo DSTROOT: '$DSTROOT'
+	echo DEPROOT: '$DEPROOT'
 EOF
 ###
 ### Add in the build environment variables from darwinxref
 ###
-build_string="$build_string \"SRCROOT=$SRCROOT\" \"OBJROOT=$OBJROOT\" \"SYMROOT=$SYMROOT\" \"DSTROOT=$DSTROOT\""
+build_string="$build_string \"SRCROOT=$SRCROOT\" \"OBJROOT=$OBJROOT\" \"SYMROOT=$SYMROOT\" \"DSTROOT=$DSTROOT\" \"DEPROOT=$DEPROOT\""
 
 XREF_ENV=$($DARWINXREF environment $projnam)
 OLDIFS="$IFS"
@@ -794,9 +862,12 @@ for X in \
 done
 IFS="$OLDIFS"
 
-if [ "$USE_CHROOT" = "NO" ]; then
-	export RC_BuildRoot=$BuildRoot
-	build_string="$build_string \"RC_BuildRoot=$BuildRoot\""
+if [ "$USE_CHROOT" = "YES" ]; then
+	export RC_BuildRoot=$DEPROOT
+	build_string="$build_string \"RC_BuildRoot=$DEPROOT\""
+else
+	export RC_BuildRoot=$REAL_DEPROOT
+	build_string="$build_string \"RC_BuildRoot=$REAL_DEPROOT\""
 fi
 
 cat <<-EOF >> $SCRIPT
