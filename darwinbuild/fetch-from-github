@@ -59,15 +59,6 @@ GITHUB_PROJECT=$(python $EXTRACT_SCRIPT_FILENAME $DARWINBUILD_PLIST $PROJECT_NAM
 
 GITHUB_URL=https://github.com/${GITHUB_PROJECT}/archive/${PROJECT_VERSION}.tar.gz
 
-echo -n "Downloading $GITHUB_URL "
-curl -Ls -o "${SOURCES_DIR}/${PROJECT_NAME}-${PROJECT_VERSION}.tar.gz" "${GITHUB_URL}"
-CURL_STATUS=$?
-
 rm -f $EXTRACT_SCRIPT_FILENAME
-if [ $CURL_STATUS = 0 ]; then
-    echo "- OK"
-    exit 0
-else
-    echo "- not found"
-    exit 1
-fi
+echo "Downloading $GITHUB_URL ..."
+exec curl -fLs -o "${SOURCES_DIR}/${PROJECT_NAME}-${PROJECT_VERSION}.tar.gz" "${GITHUB_URL}"
