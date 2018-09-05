@@ -19,7 +19,6 @@ plist_filename = sys.argv[1]
 project_name = sys.argv[2]
 project_version = sys.argv[3]
 sources_dir = sys.argv[4]
-print(sys.argv)
 darwinbuild_plist = plistlib.readPlist(plist_filename)
 
 project_data = darwinbuild_plist['projects'][project_name]
