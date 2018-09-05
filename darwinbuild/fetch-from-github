@@ -34,8 +34,8 @@ if 'github' in project_data:
         url = 'https://github.com/{}/archive/{}-{}.tar.gz'.format(github_data, project_name, project_version)
     elif isinstance(github_data, dict):
         repo_parts = github_data['repo'].split('/')
-        repo_basename = repo_parts[1] + '-' + github_data['archive']
-        url = 'https://github.com/{}/archive/{}.tar.gz'.format(github_data['repo'], github_data['archive'])
+        repo_basename = repo_parts[1] + '-' + github_data['tag']
+        url = 'https://github.com/{}/archive/{}.tar.gz'.format(github_data['repo'], github_data['tag'])
         exact_filename = False
     else:
         raise Exception('github data not string or dictionary')
