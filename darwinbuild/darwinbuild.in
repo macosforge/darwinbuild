@@ -462,6 +462,11 @@ if [ "$nosource" != "YES" ]; then
 		$DATADIR/fetch-from-github "$github_dxref_plist" $github_projname $github_projversion "$SourceCache"
 	fi
 
+	if [ ! -f "$SourceCache/$filename" ]; then
+		echo "ERROR: Source tarball could not be found: $projnam" 1>&2
+		exit 1
+	fi
+
 	patchfilenames=$($DARWINXREF patchfiles $projnam)
 	for p in $patchfilenames; do
 		Download "$SourceCache" "$p" "$($DARWINXREF patch_sites $projnam)"
