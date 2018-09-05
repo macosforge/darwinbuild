@@ -46,7 +46,7 @@ if 'github' in project_data:
         # This occurs if the server returned a 404 or other error.
         exit(1)
 
-    if repo_basename != project_name or (tag is not None and tag != project_version):
+    if repo_basename != project_name or tag != project_version:
         temp_dir = tempfile.mkdtemp(prefix='darwinbuild-fetch-from-github')
         subprocess.check_output(['/usr/bin/tar', 'xf', os.path.join(sources_dir, tarball_filename)], cwd=temp_dir)
         shutil.move(os.path.join(temp_dir, repo_basename + '-' + tag), os.path.join(temp_dir, project_name + '-' + project_version))
