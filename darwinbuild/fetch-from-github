@@ -8,7 +8,7 @@ import tarfile
 import tempfile
 import shutil
 
-if len(sys.argv) < 4:
+if len(sys.argv) < 5:
     print('Internal tool used by darwinbuild, please do not invoke directly', file=sys.stderr)
     exit(1)
 
