@@ -34,9 +34,9 @@ import plistlib
 import argparse
 
 parser = argparse.ArgumentParser(description='Code-signs a darwinbuild root or Xcode DSTROOT')
-parser.add_argument('-d', '--dstroot', help='Code-sign the files in this directory')
-parser.add_argument('-s', '--srcroot', help='Path to the sources corresponding to the dstroot')
-parser.add_argument('-p', '--project', help='Code-sign this darwinbuild output root')
+parser.add_argument('-d', '--dstroot', metavar='<path/to/dstroot>', help='Code-sign the files in this directory')
+parser.add_argument('-s', '--srcroot', metavar='<path/to/srcroot>', help='Path to the sources corresponding to the dstroot')
+parser.add_argument('-p', '--project', metavar='<project>-<version>', help='Code-sign this darwinbuild output root')
 
 args = parser.parse_args()
 project_root = args.dstroot
