@@ -38,21 +38,27 @@ HOST_DARWIN_VERSION=$(sw_vers -productVersion)
 BUILDROOT="$1"
 mkdir -p "$BUILDROOT"
 
-do_ditto /Applications/Xcode.app/Contents/Frameworks
-do_ditto /Applications/Xcode.app/Contents/SharedFrameworks
-do_ditto /Applications/Xcode.app/Contents/OtherFrameworks
-do_ditto /Applications/Xcode.app/Contents/PlugIns
-do_ditto /Applications/Xcode.app/Contents/XPCServices
+XCODE_PATH=$(xcode-select --print-path)
+if [[ "$XCODE_PATH" =~ Contents/Developer$ ]]; then
+    # Get the path to the root of the Xcode.app bundle.
+    XCODE_PATH=$(dirname $(dirname $XCODE_PATH))
+fi
 
-do_ditto /Applications/Xcode.app/Contents/Developer/Library
-do_ditto /Applications/Xcode.app/Contents/Developer/Makefiles
-do_ditto /Applications/Xcode.app/Contents/Developer/Toolchains
-do_ditto /Applications/Xcode.app/Contents/Developer/Tools
-do_ditto /Applications/Xcode.app/Contents/Developer/usr
+do_ditto $XCODE_PATH/Contents/Frameworks
+do_ditto $XCODE_PATH/Contents/SharedFrameworks
+do_ditto $XCODE_PATH/Contents/OtherFrameworks
+do_ditto $XCODE_PATH/Contents/PlugIns
+do_ditto $XCODE_PATH/Contents/XPCServices
 
-do_ditto /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform
-ditto /Applications/Xcode.app/Contents/Info.plist $BUILDROOT/Applications/Xcode.app/Contents
-ditto /Applications/Xcode.app/Contents/version.plist $BUILDROOT/Applications/Xcode.app/Contents
+do_ditto $XCODE_PATH/Contents/Developer/Library
+do_ditto $XCODE_PATH/Contents/Developer/Makefiles
+do_ditto $XCODE_PATH/Contents/Developer/Toolchains
+do_ditto $XCODE_PATH/Contents/Developer/Tools
+do_ditto $XCODE_PATH/Contents/Developer/usr
+
+do_ditto $XCODE_PATH/Contents/Developer/Platforms/MacOSX.platform
+ditto $XCODE_PATH/Contents/Info.plist $BUILDROOT$XCODE_PATH/Contents
+ditto $XCODE_PATH/Contents/version.plist $BUILDROOT$XCODE_PATH/Contents
 
 mkdir -p $BUILDROOT/System/Library/CoreServices
 ditto /System/Library/CoreServices/SystemVersion.plist $BUILDROOT/System/Library/CoreServices
@@ -66,7 +72,7 @@ mkdir -p $BUILDROOT/$(getconf DARWIN_USER_CACHE_DIR)
 
 if [[ "$HOST_DARWIN_VERSION" =~ ^10.14 ]]; then
     mkdir -p $BUILDROOT/private/var/db
-    ln -s /Applications/Xcode.app/Contents/Developer $BUILDROOT/private/var/db/xcode_select_link
+    ln -s $XCODE_PATH/Contents/Developer $BUILDROOT/private/var/db/xcode_select_link
 
     # macOS versions >= 10.13 do not allow processes with entitlements
     # to run inside a chroot. Therefore, I must strip the entitlements
@@ -80,18 +86,18 @@ if [[ "$HOST_DARWIN_VERSION" =~ ^10.14 ]]; then
 </plist>
 EOF
 
-    codesign -s - -f --entitlements $BUILDROOT/private/tmp/empty.entitlements $BUILDROOT/Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild
+    codesign -s - -f --entitlements $BUILDROOT/private/tmp/empty.entitlements $BUILDROOT$XCODE_PATH/Contents/Developer/usr/bin/xcodebuild
 elif [[ "$HOST_DARWIN_VERSION" =~ ^10.13 ]]; then
-    rm $BUILDROOT/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk
-    mv $BUILDROOT/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk $BUILDROOT/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk
+    rm $BUILDROOT$XCODE_PATH/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk
+    mv $BUILDROOT$XCODE_PATH/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk $BUILDROOT$XCODE_PATH/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk
 
     mkdir -p $BUILDROOT/private/var/db
-    ln -s /Applications/Xcode.app/Contents/Developer $BUILDROOT/private/var/db/xcode_select_link
+    ln -s $XCODE_PATH/Contents/Developer $BUILDROOT/private/var/db/xcode_select_link
 
     if [ -x /usr/local/share/darwinbuild/xcbuild ]; then
         # If it is available, overwrite Apple's xcodebuild with xcbuild.
         # This helps avoid the issue described in the 'else' block below.
-        cp -f /usr/local/share/darwinbuild/xcbuild $BUILDROOT/Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild
+        cp -f /usr/local/share/darwinbuild/xcbuild $BUILDROOT$XCODE_PATH/Contents/Developer/usr/bin/xcodebuild
     else
         # High Sierra does not allow processes with entitlements to run inside a chroot.
         # Therefore, I must strip the entitlements and re-sign xcodebuild.
@@ -105,9 +111,9 @@ elif [[ "$HOST_DARWIN_VERSION" =~ ^10.13 ]]; then
 </plist>
 EOF
 
-        codesign -s - -f --entitlements $BUILDROOT/private/tmp/empty.entitlements $BUILDROOT/Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild
+        codesign -s - -f --entitlements $BUILDROOT/private/tmp/empty.entitlements $BUILDROOT$XCODE_PATH/Contents/Developer/usr/bin/xcodebuild
     fi
 elif [[ "$HOST_DARWIN_VERSION" =~ ^10.12 ]]; then
-    rm $BUILDROOT/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk
-    mv $BUILDROOT/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk $BUILDROOT/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk
+    rm $BUILDROOT$XCODE_PATH/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk
+    mv $BUILDROOT$XCODE_PATH/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk $BUILDROOT$XCODE_PATH/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk
 fi
