@@ -760,7 +760,7 @@ if [ "$buildtool" == "xcodebuild" -a "$configuration" != "" ]; then
 fi
 
 if [ "$buildtool" == "xcodebuild" ]; then
-	build_string="$build_string CODE_SIGN_IDENTITY=\"\""
+	build_string="$build_string CODE_SIGN_IDENTITY=-"
 fi
 
 ###
