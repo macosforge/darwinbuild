@@ -126,6 +126,7 @@ if default_certificate is None:
 
 default_hardened_runtime = safe_get(codesign_plist, 'hardened_runtime', default=False)
 
+signing_map = {}
 for (filename, value) in codesign_plist['files'].items():
     if filename[0] == '/':
         filename = filename[1:]
@@ -136,6 +137,7 @@ for (filename, value) in codesign_plist['files'].items():
     entitlements = None
     hardened_runtime = default_hardened_runtime
     dr = None
+    order = 0xFFFF
 
     if isinstance(value, bool):
         pass # all default values
@@ -147,6 +149,13 @@ for (filename, value) in codesign_plist['files'].items():
             entitlements = os.path.join(srcroot, entitlements)
         hardened_runtime = bool(safe_get(value, 'hardened_runtime', default=default_hardened_runtime))
         dr = safe_get(value, 'dr')
+        order = safe_get(value, 'order', default=order)
+
+        if isinstance(order, str):
+            order = int(order)
+        elif not isinstance(order, int):
+            print('Error in darwinbuild-codesign.plist: "order" key must have integer value (or string convertible to integer)')
+            exit(1)
     else:
         print('Error in darwinbuild-codesign.plist: Values in "files" dictionary must be booleans or dictionaries only')
         exit(1)
@@ -169,5 +178,14 @@ for (filename, value) in codesign_plist['files'].items():
         codesign_argv.append('runtime')
     codesign_argv.append(filename)
 
-    print(' '.join(codesign_argv))
-    subprocess.check_call(codesign_argv)
+    if order not in signing_map:
+        signing_map[order] = []
+    signing_map[order].append(codesign_argv)
+
+key_vector = signing_map.keys()
+key_vector.sort(cmp=lambda a, b: cmp(a, b))
+
+for order_index in key_vector:
+    for argv in signing_map[order_index]:
+        print(' '.join(argv))
+        subprocess.check_call(argv)
