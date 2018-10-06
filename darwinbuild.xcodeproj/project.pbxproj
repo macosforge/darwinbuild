@@ -1774,7 +1774,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 0930;
+				LastUpgradeCheck = 1000;
 				ORGANIZATIONNAME = "The DarwinBuild Project";
 				TargetAttributes = {
 					1FAB24D32043A61B00329636 = {
@@ -2715,6 +2715,7 @@
 		1FAB24D42043A61B00329636 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3P242C9ES5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2724,6 +2725,7 @@
 		1FAB24D52043A61B00329636 /* Public */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3P242C9ES5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2733,6 +2735,7 @@
 		1FAB24D62043A61B00329636 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3P242C9ES5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
