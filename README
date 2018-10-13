@@ -42,7 +42,7 @@ Due to the constant development of darwinbuild, the only version you should
 be working with is the master branch of the Git repository[1]. This should
 always be stable enough for building projects.
 
-[1] <https://github.com/csekel/darwinbuild>
+[1] <https://github.com/PureDarwin/darwinbuild>
 
 ===============
 2. Installation
