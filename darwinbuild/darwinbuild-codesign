@@ -1,0 +1,191 @@
+#!/usr/bin/env python
+#
+# Copyright (c) 2017 William Kent. All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1.  Redistributions of source code must retain the above copyright
+#     notice, this list of conditions and the following disclaimer.
+# 2.  Redistributions in binary form must reproduce the above copyright
+#     notice, this list of conditions and the following disclaimer in the
+#     documentation and/or other materials provided with the distribution.
+# 3.  Neither the name of Apple Computer, Inc. ("Apple") nor the names of
+#     its contributors may be used to endorse or promote products derived
+#     from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY ITS CONTRIBUTORS "AS IS" AND
+# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+# ARE DISCLAIMED. IN NO EVENT SHALL APPLE OR ITS CONTRIBUTORS BE LIABLE FOR
+# ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+# OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+# HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+# STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+# IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+#
+
+from __future__ import print_function
+import sys, os, re
+import subprocess
+import plistlib
+import argparse
+
+parser = argparse.ArgumentParser(description='Code-signs a darwinbuild root or Xcode DSTROOT')
+parser.add_argument('-d', '--dstroot', metavar='<path/to/dstroot>', help='Code-sign the files in this directory')
+parser.add_argument('-s', '--srcroot', metavar='<path/to/srcroot>', help='Path to the sources corresponding to the dstroot')
+parser.add_argument('-p', '--project', metavar='<project>-<version>', help='Code-sign this darwinbuild output root')
+
+args = parser.parse_args()
+project_root = args.dstroot
+srcroot = args.srcroot
+
+if args.project is not None:
+    darwin_buildroot = os.getcwd()
+    if os.getenv('DARWIN_BUILDROOT') is not None:
+        darwin_buildroot = os.getenv('DARWIN_BUILDROOT')
+
+    if not (os.path.isdir(os.path.join(darwin_buildroot, 'Roots')) and \
+      os.path.isdir(os.path.join(darwin_buildroot, 'Sources')) and \
+      os.path.isdir(os.path.join(darwin_buildroot, 'Symbols')) and \
+      os.path.isdir(os.path.join(darwin_buildroot, 'Headers')) and \
+      os.path.isdir(os.path.join(darwin_buildroot, 'Logs'))):
+        print('ERROR: Could not find darwinbuild root, this is required when using --project', file=sys.stderr)
+        print('Please change your working directory to one initialized by:', file=sys.stderr)
+        print('darwinbuild -init <plist>', file=sys.stderr)
+        print('Alternatively, you may set the DARWIN_BUILDROOT environment variable to the', file=sys.stderr)
+        print('absolute path of that directory.', file=sys.stderr)
+        exit(1)
+
+    if not os.path.isdir(os.readlink(os.path.join(darwin_buildroot, 'BuildRoot'))):
+        try:
+            print('Attaching build root disk image...')
+            subprocess.check_call(['hdiutil', 'attach', '.build/buildroot.sparsebundle', '-readwrite', '-owners', 'on'], cwd=darwin_buildroot, stdout=None)
+        except Exception, e:
+            print('Could not attach buildroot.sparsebundle:', e, file=sys.stderr)
+            exit(1)
+
+    project_name_and_version = args.project
+    project_build = None
+    if len(project_name_and_version.split('~')) == 2:
+        parts = project_name_and_version.split('~')
+        project_name_and_version = parts[0]
+        project_build = parts[1]
+
+    project_name = project_name_and_version.split('-')[0]
+    roots_dir = os.path.join(darwin_buildroot, 'Roots', project_name)
+
+    if project_build is None:
+        possible_builds = next(os.walk(roots_dir))[1]
+
+        largest_build_num = 0
+        for dirname in possible_builds:
+            if dirname.startswith(project_name_and_version + '.root'):
+                this_build_num = int(dirname.split('~')[1])
+                if this_build_num > largest_build_num:
+                    largest_build_num = this_build_num
+                    project_build = str(this_build_num)
+
+    print('Using', project_name_and_version + '~' + project_build, '...')
+    project_root = os.path.join(roots_dir, project_name_and_version + '.root~' + project_build)
+    srcroot = os.path.join(darwin_buildroot, 'BuildRoot', 'SourceCache', project_name, project_name_and_version)
+
+if project_root is None or srcroot is None:
+    print('ERROR: Either -p, or both -d and -s must be specified', file=sys.stderr)
+    exit(1)
+
+codesign_plist = None
+try:
+    codesign_plist = plistlib.readPlist(os.path.join(srcroot, 'darwinbuild-codesign.plist'))
+except Exception, e:
+    print('Could not read darwinbuild-codesign.plist:', e, file=sys.stderr)
+    exit(1)
+
+################################################################################
+
+def safe_get(dict, key, default=None):
+    if key in dict:
+        return dict[key]
+    else:
+        return default
+
+def get_bundle_identifier(bundle_path):
+    info_plist_path = os.path.join(bundle_path, 'Contents', 'Info.plist')
+    if os.path.exists(info_plist_path):
+        info_plist = plistlib.readPlist(info_plist_path)
+        return safe_get(info_plist, 'CFBundleIdentifier')
+
+    return None
+
+default_certificate = safe_get(codesign_plist, 'certificate')
+if default_certificate is None:
+    print('Default certificate must be provided (use "certificate" key in top-level of plist)', file=sys.stderr)
+    exit(1)
+
+default_hardened_runtime = safe_get(codesign_plist, 'hardened_runtime', default=False)
+
+signing_map = {}
+for (filename, value) in codesign_plist['files'].items():
+    if filename[0] == '/':
+        filename = filename[1:]
+    filename = os.path.join(project_root, filename)
+
+    certificate = default_certificate
+    identifier = None
+    entitlements = None
+    hardened_runtime = default_hardened_runtime
+    dr = None
+    order = 0xFFFF
+
+    if isinstance(value, bool):
+        pass # all default values
+    elif isinstance(value, dict):
+        certificate = safe_get(value, 'certificate', default=default_certificate)
+        identifier = safe_get(value, 'identifier')
+        entitlements = safe_get(value, 'entitlements')
+        if entitlements is not None:
+            entitlements = os.path.join(srcroot, entitlements)
+        hardened_runtime = bool(safe_get(value, 'hardened_runtime', default=default_hardened_runtime))
+        dr = safe_get(value, 'dr')
+        order = safe_get(value, 'order', default=order)
+
+        if isinstance(order, str):
+            order = int(order)
+        elif not isinstance(order, int):
+            print('Error in darwinbuild-codesign.plist: "order" key must have integer value (or string convertible to integer)')
+            exit(1)
+    else:
+        print('Error in darwinbuild-codesign.plist: Values in "files" dictionary must be booleans or dictionaries only')
+        exit(1)
+
+    if identifier is None and os.path.isdir(filename):
+        identifier = get_bundle_identifier(filename)
+
+    codesign_argv = ['/usr/bin/codesign', '-s', certificate, '-f']
+    if identifier is not None:
+        codesign_argv.append('-i')
+        codesign_argv.append(identifier)
+    if dr is not None:
+        codesign_argv.append('-r')
+        codesign_argv.append(dr)
+    if entitlements is not None:
+        codesign_argv.append('--entitlements')
+        codesign_argv.append(entitlements)
+    if hardened_runtime:
+        codesign_argv.append('-o')
+        codesign_argv.append('runtime')
+    codesign_argv.append(filename)
+
+    if order not in signing_map:
+        signing_map[order] = []
+    signing_map[order].append(codesign_argv)
+
+key_vector = signing_map.keys()
+key_vector.sort(cmp=lambda a, b: cmp(a, b))
+
+for order_index in key_vector:
+    for argv in signing_map[order_index]:
+        print(' '.join(argv))
+        subprocess.check_call(argv)
