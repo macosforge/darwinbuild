@@ -1,7 +1,7 @@
 # Creating Build Definition Property Lists
 
 To use darwinbuild, you will need to create an XML-format property list that
-cntains the build definitions. A barebones example looks like this:
+contains the build definitions. A barebones example looks like this:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
