@@ -500,7 +500,7 @@ REAL_SRCROOT="$BuildRoot/SourceCache/$projnam/$project"
 REAL_OBJROOT="$BuildRoot/$vartmp/$projnam/$project.obj"
 REAL_SYMROOT="$BuildRoot/$vartmp/$projnam/$project.sym"
 REAL_DSTROOT="$BuildRoot/$vartmp/$projnam/$project.root"
-REAL_DEPROOT="$BuildRoot/BinaryCache/$projnam"
+REAL_DEPROOT="$BuildRoot/InstalledRoots"
 
 if [ "$nosource" != "YES" ]; then
 	###
