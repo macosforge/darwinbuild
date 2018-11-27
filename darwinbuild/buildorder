@@ -46,8 +46,8 @@ print "Generating dependency graph...";
 foreach my $proj (@UnbuiltProjects) {
     my @deps = ();
     my @xrefdeps = CommandAsList(
-        "darwinxref dependencies -lib $proj; " .
-        "darwinxref dependencies -staticlib $proj"
+        "darwinxref dependencies -build $proj; " .
+        "darwinxref dependencies -header $proj"
     );
     foreach my $xdep (@xrefdeps) {
         # don't depend on ourself, compilers, or projects
