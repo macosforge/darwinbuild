@@ -55,7 +55,7 @@ foreach my $proj (@UnbuiltProjects) {
         next if ($xdep eq $proj
             || $CompilersHash{$xdep}
             || !defined($UnbuiltProjectsHash{$xdep})
-            || ( defined($DepExceptions{$proj}) && $DepExceptions{$proj}->{$xdep}))
+            || ( defined($DepExceptions{$proj}) && $DepExceptions{$proj}->{$xdep}));
 
         push @deps, ($xdep);
         if(defined($InvertedDependencies{$xdep})) {
