@@ -136,7 +136,10 @@ function Download() {
 				proj=$(echo "$filename" | sed -e 's,.tar.gz$,,' | sed -e 's,.root$,,')
 				projnam=$(echo "$proj" | sed -e 's,-[0-9.]*$,,')
 				srcdir=$(echo "$master_site/$projnam" | sed -e 's,^file://,,')
-				if [ -d "$srcdir/$proj" ]; then
+				if [ -f "$srcdir/$filename" ]; then
+					echo "Copying $srcdir/$filename ..."
+					cp "$srcdir/$filename" "$destination/.tmp.${filename}"
+				elif [ -d "$srcdir/$proj" ]; then
 					echo "Copying $srcdir/$proj ..."
 					tar czf \
 						"$destination/.tmp.${filename}" \
