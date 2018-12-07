@@ -653,8 +653,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1F4A793721B9F123000FE4B5 /* conclusion.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = conclusion.html; path = installer/conclusion.html; sourceTree = "<group>"; };
+		1F4A793821B9F123000FE4B5 /* license.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = license.html; path = installer/license.html; sourceTree = "<group>"; };
+		1F4A793921B9F123000FE4B5 /* welcome.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = welcome.html; path = installer/welcome.html; sourceTree = "<group>"; };
 		1F514C431F4A5CC0008D9341 /* fetch-from-github */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = "fetch-from-github"; path = "darwinbuild/fetch-from-github"; sourceTree = "<group>"; };
 		1FC854001ED462DF00EA2AF5 /* installXcode_Modern */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = installXcode_Modern; path = darwinbuild/installXcode_Modern; sourceTree = "<group>"; };
+		1FD9F0CD21B9E90700FB866A /* build.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = build.sh; path = installer/build.sh; sourceTree = "<group>"; };
+		1FD9F0CF21B9EAA300FB866A /* distribution.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = distribution.xml; path = installer/distribution.xml; sourceTree = "<group>"; };
 		1FECB5DE1FBBBC09002EA059 /* setXcodePlatform */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = setXcodePlatform; path = darwinbuild/setXcodePlatform; sourceTree = "<group>"; };
 		396301191EAB42B6006081C7 /* patch_sites.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = patch_sites.c; sourceTree = "<group>"; };
 		396301271EAB4E01006081C7 /* patch_sites.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = patch_sites.so; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -977,6 +982,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1FD9F0CE21B9E90C00FB866A /* installer */ = {
+			isa = PBXGroup;
+			children = (
+				1F4A793721B9F123000FE4B5 /* conclusion.html */,
+				1F4A793821B9F123000FE4B5 /* license.html */,
+				1F4A793921B9F123000FE4B5 /* welcome.html */,
+				1FD9F0CD21B9E90700FB866A /* build.sh */,
+				1FD9F0CF21B9EAA300FB866A /* distribution.xml */,
+			);
+			name = installer;
+			sourceTree = "<group>";
+		};
 		726DD14710965C5700D5AEAB = {
 			isa = PBXGroup;
 			children = (
@@ -984,6 +1001,7 @@
 				72C86BD810965DDF00C66E90 /* darwintrace */,
 				72C86BD610965DD000C66E90 /* darwinxref */,
 				72C86BD510965DC900C66E90 /* darwinbuild */,
+				1FD9F0CE21B9E90C00FB866A /* installer */,
 				72C86C391096607900C66E90 /* Products */,
 				72C86CE310974CC800C66E90 /* libsqlite3.dylib */,
 				72574A0F10977F7A00B13BC3 /* CoreFoundation.framework */,
