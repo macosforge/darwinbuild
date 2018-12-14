@@ -106,7 +106,6 @@
 		7227AB7510989F8D00BE33D7 /* manifest.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86C2E1096600B00C66E90 /* manifest.c */; };
 		7227AD1C109A05FA00BE33D7 /* buildlist in Copy Files */ = {isa = PBXBuildFile; fileRef = 7227AB871098A7BF00BE33D7 /* buildlist */; };
 		7227AD1D109A05FA00BE33D7 /* buildorder in Copy Files */ = {isa = PBXBuildFile; fileRef = 7227AB881098A7BF00BE33D7 /* buildorder */; };
-		7227AD1E109A05FA00BE33D7 /* ditto in Copy Files */ = {isa = PBXBuildFile; fileRef = 7227AB891098A7BF00BE33D7 /* ditto */; };
 		7227AD1F109A05FA00BE33D7 /* synthfat in Copy Files */ = {isa = PBXBuildFile; fileRef = 7227AB8B1098A7BF00BE33D7 /* synthfat */; };
 		7227AD20109A05FA00BE33D7 /* thinFile in Copy Files */ = {isa = PBXBuildFile; fileRef = 7227AB8C1098A7BF00BE33D7 /* thinFile */; };
 		7227AD21109A05FA00BE33D7 /* createChroot in Copy Files */ = {isa = PBXBuildFile; fileRef = 72C86C221096600B00C66E90 /* createChroot */; };
@@ -595,7 +594,6 @@
 				1FECB5DF1FBBBD41002EA059 /* setXcodePlatform in Copy Files */,
 				7227AD1C109A05FA00BE33D7 /* buildlist in Copy Files */,
 				7227AD1D109A05FA00BE33D7 /* buildorder in Copy Files */,
-				7227AD1E109A05FA00BE33D7 /* ditto in Copy Files */,
 				7227AD1F109A05FA00BE33D7 /* synthfat in Copy Files */,
 				7227AD20109A05FA00BE33D7 /* thinFile in Copy Files */,
 				7227AD21109A05FA00BE33D7 /* createChroot in Copy Files */,
@@ -623,7 +621,6 @@
 		7227AB6D10989A9900BE33D7 /* manifest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = manifest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7227AB871098A7BF00BE33D7 /* buildlist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = buildlist; path = darwinbuild/buildlist; sourceTree = "<group>"; };
 		7227AB881098A7BF00BE33D7 /* buildorder */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; name = buildorder; path = darwinbuild/buildorder; sourceTree = "<group>"; };
-		7227AB891098A7BF00BE33D7 /* ditto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = ditto; path = darwinbuild/ditto; sourceTree = "<group>"; };
 		7227AB8A1098A7BF00BE33D7 /* packageRoots.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = packageRoots.in; path = darwinbuild/packageRoots.in; sourceTree = "<group>"; };
 		7227AB8B1098A7BF00BE33D7 /* synthfat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = synthfat; path = darwinbuild/synthfat; sourceTree = "<group>"; };
 		7227AB8C1098A7BF00BE33D7 /* thinFile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = thinFile; path = darwinbuild/thinFile; sourceTree = "<group>"; };
@@ -962,7 +959,6 @@
 				720BE2E9120C909E00B3C4A5 /* digest.c */,
 				7227AB871098A7BF00BE33D7 /* buildlist */,
 				7227AB881098A7BF00BE33D7 /* buildorder */,
-				7227AB891098A7BF00BE33D7 /* ditto */,
 				7227AB8A1098A7BF00BE33D7 /* packageRoots.in */,
 				7227AB8B1098A7BF00BE33D7 /* synthfat */,
 				7227AB8C1098A7BF00BE33D7 /* thinFile */,
