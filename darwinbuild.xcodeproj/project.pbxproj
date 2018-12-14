@@ -111,8 +111,6 @@
 		7227AD20109A05FA00BE33D7 /* thinFile in Copy Files */ = {isa = PBXBuildFile; fileRef = 7227AB8C1098A7BF00BE33D7 /* thinFile */; };
 		7227AD21109A05FA00BE33D7 /* createChroot in Copy Files */ = {isa = PBXBuildFile; fileRef = 72C86C221096600B00C66E90 /* createChroot */; };
 		7227AD22109A05FA00BE33D7 /* darwinbuild.common in Copy Files */ = {isa = PBXBuildFile; fileRef = 72C86C231096600B00C66E90 /* darwinbuild.common */; };
-		7227AD23109A05FA00BE33D7 /* Info.plist in Copy Files */ = {isa = PBXBuildFile; fileRef = 72C86C271096600B00C66E90 /* Info.plist */; };
-		7227AD27109A05FA00BE33D7 /* SDKSettings.plist in Copy Files */ = {isa = PBXBuildFile; fileRef = 72C86C311096600B00C66E90 /* SDKSettings.plist */; };
 		72573FF71097A601008AD4D7 /* dependencies.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86BF810965EEA00C66E90 /* dependencies.c */; };
 		72573FF81097A60C008AD4D7 /* diff.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86BFA10965EEA00C66E90 /* diff.c */; };
 		72573FF91097A64C008AD4D7 /* dot.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86BFB10965EEA00C66E90 /* dot.c */; };
@@ -602,8 +600,6 @@
 				7227AD20109A05FA00BE33D7 /* thinFile in Copy Files */,
 				7227AD21109A05FA00BE33D7 /* createChroot in Copy Files */,
 				7227AD22109A05FA00BE33D7 /* darwinbuild.common in Copy Files */,
-				7227AD23109A05FA00BE33D7 /* Info.plist in Copy Files */,
-				7227AD27109A05FA00BE33D7 /* SDKSettings.plist in Copy Files */,
 			);
 			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 1;
@@ -707,9 +703,7 @@
 		72C86C221096600B00C66E90 /* createChroot */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = createChroot; path = darwinbuild/createChroot; sourceTree = "<group>"; };
 		72C86C231096600B00C66E90 /* darwinbuild.common */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = darwinbuild.common; path = darwinbuild/darwinbuild.common; sourceTree = "<group>"; };
 		72C86C241096600B00C66E90 /* darwinbuild.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = darwinbuild.in; path = darwinbuild/darwinbuild.in; sourceTree = "<group>"; };
-		72C86C271096600B00C66E90 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = darwinbuild/Info.plist; sourceTree = "<group>"; };
 		72C86C2E1096600B00C66E90 /* manifest.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = manifest.c; path = darwinbuild/manifest.c; sourceTree = "<group>"; };
-		72C86C311096600B00C66E90 /* SDKSettings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = SDKSettings.plist; path = darwinbuild/SDKSettings.plist; sourceTree = "<group>"; };
 		72C86C381096607900C66E90 /* darwinbuild */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = darwinbuild; sourceTree = BUILT_PRODUCTS_DIR; };
 		72C86C52109660CA00C66E90 /* darwintrace.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = darwintrace.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		72C86CE310974CC800C66E90 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = /usr/lib/libsqlite3.dylib; sourceTree = "<absolute>"; };
@@ -977,11 +971,9 @@
 				72C86C231096600B00C66E90 /* darwinbuild.common */,
 				7227AC0A1098D7CE00BE33D7 /* darwinmaster.in */,
 				72C86C241096600B00C66E90 /* darwinbuild.in */,
-				72C86C271096600B00C66E90 /* Info.plist */,
 				1FC854001ED462DF00EA2AF5 /* installXcode */,
 				1FECB5DE1FBBBC09002EA059 /* setXcodePlatform */,
 				72C86C2E1096600B00C66E90 /* manifest.c */,
-				72C86C311096600B00C66E90 /* SDKSettings.plist */,
 			);
 			name = darwinbuild;
 			sourceTree = "<group>";
