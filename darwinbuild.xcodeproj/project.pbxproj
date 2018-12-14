@@ -7,18 +7,6 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		1FAB24D32043A61B00329636 /* xcbuild */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 1FAB24D72043A61B00329636 /* Build configuration list for PBXAggregateTarget "xcbuild" */;
-			buildPhases = (
-				1FAB24D82043A61F00329636 /* Build */,
-				1FAB24D92043A66800329636 /* Install */,
-			);
-			dependencies = (
-			);
-			name = xcbuild;
-			productName = xcbuild;
-		};
 		7227AB3D1098977C00BE33D7 /* tcl_plugins */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 7227AB4A109897E500BE33D7 /* Build configuration list for PBXAggregateTarget "tcl_plugins" */;
@@ -90,7 +78,6 @@
 			buildPhases = (
 			);
 			dependencies = (
-				1FAB24DB2043A6A900329636 /* PBXTargetDependency */,
 				72C86C611096617500C66E90 /* PBXTargetDependency */,
 				725740971097B03D008AD4D7 /* PBXTargetDependency */,
 				7227AB101097BBA900BE33D7 /* PBXTargetDependency */,
@@ -165,13 +152,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		1FAB24DA2043A6A900329636 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 1FAB24D32043A61B00329636;
-			remoteInfo = xcbuild;
-		};
 		3963011E1EAB4E01006081C7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
@@ -1794,13 +1774,6 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1000;
 				ORGANIZATIONNAME = "The DarwinBuild Project";
-				TargetAttributes = {
-					1FAB24D32043A61B00329636 = {
-						CreatedOnToolsVersion = 9.3;
-						DevelopmentTeam = 3P242C9ES5;
-						ProvisioningStyle = Automatic;
-					};
-				};
 			};
 			buildConfigurationList = 726DD14C10965C5700D5AEAB /* Build configuration list for PBXProject "darwinbuild" */;
 			compatibilityVersion = "Xcode 10.0";
@@ -1856,7 +1829,6 @@
 				7227AC271098DBDF00BE33D7 /* installXcode32 */,
 				720BE2EA120C90A700B3C4A5 /* digest */,
 				3963011C1EAB4E01006081C7 /* patch_sites */,
-				1FAB24D32043A61B00329636 /* xcbuild */,
 			);
 		};
 /* End PBXProject section */
@@ -1956,36 +1928,6 @@
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "mkdir -p $DSTROOT/$DATDIR/darwinbuild\n/bin/cp $BUILT_PRODUCTS_DIR/installXcode32 $DSTROOT/$DATDIR/darwinbuild/installXcode32";
-			showEnvVarsInLog = 0;
-		};
-		1FAB24D82043A61F00329636 /* Build */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = Build;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "which -s cmake || {\n    echo CMake is required. Try \\`brew install cmake\\` 1>&2\n    exit 1\n}\n\nwhich -s ninja || {\n    echo ninja is required. Try \\`brew install ninja\\` 1>&2\n    exit 1\n}\n\nif [ ! -f \"${SRCROOT}/xcbuild/Makefile\" ]; then\n    echo xcbuild submodule not checked out, not building\n    exit 0\nfi\n\nif [ ! -f \"${SRCROOT}/xcbuild/ThirdParty/googletest/CMakeLists.txt\" -o ! -f \"${SRCROOT}/xcbuild/ThirdParty/linenoise/Makefile\" ]; then\n    echo Submodules of xcbuild submodule not checked out, build will not succeed 1>&2\n    echo Try \\`git submodule update --init --recursive\\` 1>&2\n    exit 1\nfi\n\nset -e\ncd \"${SRCROOT}/xcbuild\"\nmkdir -p $DERIVED_FILE_DIR\nmake all &> $DERIVED_FILE_DIR/xcbuild.log";
-			showEnvVarsInLog = 0;
-		};
-		1FAB24D92043A66800329636 /* Install */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = Install;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-			shellPath = /bin/sh;
-			shellScript = "if [ -f \"${SRCROOT}/xcbuild/build/xcbuild\" ]; then\n    cp -f \"${SRCROOT}/xcbuild/build/xcbuild\" $DSTROOT/$DATDIR/darwinbuild/xcbuild.disabled\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		7227AB8F1098A89700BE33D7 /* Run Script */ = {
@@ -2412,11 +2354,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		1FAB24DB2043A6A900329636 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 1FAB24D32043A61B00329636 /* xcbuild */;
-			targetProxy = 1FAB24DA2043A6A900329636 /* PBXContainerItemProxy */;
-		};
 		3963011D1EAB4E01006081C7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 7257499F1097697300B13BC3 /* darwinxref */;
@@ -2730,36 +2667,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		1FAB24D42043A61B00329636 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3P242C9ES5;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		1FAB24D52043A61B00329636 /* Public */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3P242C9ES5;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Public;
-		};
-		1FAB24D62043A61B00329636 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3P242C9ES5;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 		396301241EAB4E01006081C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
@@ -4001,16 +3908,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1FAB24D72043A61B00329636 /* Build configuration list for PBXAggregateTarget "xcbuild" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				1FAB24D42043A61B00329636 /* Debug */,
-				1FAB24D52043A61B00329636 /* Public */,
-				1FAB24D62043A61B00329636 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
-		};
 		396301231EAB4E01006081C7 /* Build configuration list for PBXNativeTarget "patch_sites" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
