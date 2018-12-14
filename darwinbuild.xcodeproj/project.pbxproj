@@ -31,8 +31,6 @@
 				7227AC3E1098DC6A00BE33D7 /* PBXTargetDependency */,
 				7227AC3C1098DC6A00BE33D7 /* PBXTargetDependency */,
 				7227AC3A1098DC6A00BE33D7 /* PBXTargetDependency */,
-				7227AC381098DC6A00BE33D7 /* PBXTargetDependency */,
-				7227AC361098DC6A00BE33D7 /* PBXTargetDependency */,
 			);
 			name = darwinbuild_scripts;
 			productName = darwinbuild_scripts;
@@ -90,7 +88,7 @@
 
 /* Begin PBXBuildFile section */
 		1F514C441F4A5CDA008D9341 /* fetch-from-github in Copy Files */ = {isa = PBXBuildFile; fileRef = 1F514C431F4A5CC0008D9341 /* fetch-from-github */; };
-		1FC854011ED462EE00EA2AF5 /* installXcode_Modern in Copy Files */ = {isa = PBXBuildFile; fileRef = 1FC854001ED462DF00EA2AF5 /* installXcode_Modern */; };
+		1FC854011ED462EE00EA2AF5 /* installXcode in Copy Files */ = {isa = PBXBuildFile; fileRef = 1FC854001ED462DF00EA2AF5 /* installXcode */; };
 		1FECB5DF1FBBBD41002EA059 /* setXcodePlatform in Copy Files */ = {isa = PBXBuildFile; fileRef = 1FECB5DE1FBBBC09002EA059 /* setXcodePlatform */; };
 		3963011A1EAB4D60006081C7 /* source_sites.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86C0E10965EEA00C66E90 /* source_sites.c */; };
 		396301211EAB4E01006081C7 /* patch_sites.c in Sources */ = {isa = PBXBuildFile; fileRef = 396301191EAB42B6006081C7 /* patch_sites.c */; };
@@ -114,9 +112,6 @@
 		7227AD21109A05FA00BE33D7 /* createChroot in Copy Files */ = {isa = PBXBuildFile; fileRef = 72C86C221096600B00C66E90 /* createChroot */; };
 		7227AD22109A05FA00BE33D7 /* darwinbuild.common in Copy Files */ = {isa = PBXBuildFile; fileRef = 72C86C231096600B00C66E90 /* darwinbuild.common */; };
 		7227AD23109A05FA00BE33D7 /* Info.plist in Copy Files */ = {isa = PBXBuildFile; fileRef = 72C86C271096600B00C66E90 /* Info.plist */; };
-		7227AD24109A05FA00BE33D7 /* installXcode2 in Copy Files */ = {isa = PBXBuildFile; fileRef = 72C86C291096600B00C66E90 /* installXcode2 */; };
-		7227AD25109A05FA00BE33D7 /* installXcode3 in Copy Files */ = {isa = PBXBuildFile; fileRef = 72C86C2A1096600B00C66E90 /* installXcode3 */; };
-		7227AD26109A05FA00BE33D7 /* installXcode31 in Copy Files */ = {isa = PBXBuildFile; fileRef = 72C86C2B1096600B00C66E90 /* installXcode31 */; };
 		7227AD27109A05FA00BE33D7 /* SDKSettings.plist in Copy Files */ = {isa = PBXBuildFile; fileRef = 72C86C311096600B00C66E90 /* SDKSettings.plist */; };
 		72573FF71097A601008AD4D7 /* dependencies.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86BF810965EEA00C66E90 /* dependencies.c */; };
 		72573FF81097A60C008AD4D7 /* diff.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86BFA10965EEA00C66E90 /* diff.c */; };
@@ -179,20 +174,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 7227AB3D1098977C00BE33D7;
 			remoteInfo = tcl_plugins;
-		};
-		7227AC351098DC6A00BE33D7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 7227AC271098DBDF00BE33D7;
-			remoteInfo = installXcode32;
-		};
-		7227AC371098DC6A00BE33D7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 7227AC1E1098DB9200BE33D7;
-			remoteInfo = installXcode;
 		};
 		7227AC391098DC6A00BE33D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -612,7 +593,7 @@
 			dstSubfolderSpec = 0;
 			files = (
 				1F514C441F4A5CDA008D9341 /* fetch-from-github in Copy Files */,
-				1FC854011ED462EE00EA2AF5 /* installXcode_Modern in Copy Files */,
+				1FC854011ED462EE00EA2AF5 /* installXcode in Copy Files */,
 				1FECB5DF1FBBBD41002EA059 /* setXcodePlatform in Copy Files */,
 				7227AD1C109A05FA00BE33D7 /* buildlist in Copy Files */,
 				7227AD1D109A05FA00BE33D7 /* buildorder in Copy Files */,
@@ -622,9 +603,6 @@
 				7227AD21109A05FA00BE33D7 /* createChroot in Copy Files */,
 				7227AD22109A05FA00BE33D7 /* darwinbuild.common in Copy Files */,
 				7227AD23109A05FA00BE33D7 /* Info.plist in Copy Files */,
-				7227AD24109A05FA00BE33D7 /* installXcode2 in Copy Files */,
-				7227AD25109A05FA00BE33D7 /* installXcode3 in Copy Files */,
-				7227AD26109A05FA00BE33D7 /* installXcode31 in Copy Files */,
 				7227AD27109A05FA00BE33D7 /* SDKSettings.plist in Copy Files */,
 			);
 			name = "Copy Files";
@@ -637,7 +615,7 @@
 		1F4A793821B9F123000FE4B5 /* license.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = license.html; path = installer/license.html; sourceTree = "<group>"; };
 		1F4A793921B9F123000FE4B5 /* welcome.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = welcome.html; path = installer/welcome.html; sourceTree = "<group>"; };
 		1F514C431F4A5CC0008D9341 /* fetch-from-github */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = "fetch-from-github"; path = "darwinbuild/fetch-from-github"; sourceTree = "<group>"; };
-		1FC854001ED462DF00EA2AF5 /* installXcode_Modern */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = installXcode_Modern; path = darwinbuild/installXcode_Modern; sourceTree = "<group>"; };
+		1FC854001ED462DF00EA2AF5 /* installXcode */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = installXcode; path = darwinbuild/installXcode; sourceTree = "<group>"; };
 		1FD9F0CD21B9E90700FB866A /* build.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = build.sh; path = installer/build.sh; sourceTree = "<group>"; };
 		1FD9F0CF21B9EAA300FB866A /* distribution.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = distribution.xml; path = installer/distribution.xml; sourceTree = "<group>"; };
 		1FECB5DE1FBBBC09002EA059 /* setXcodePlatform */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = setXcodePlatform; path = darwinbuild/setXcodePlatform; sourceTree = "<group>"; };
@@ -659,8 +637,6 @@
 		7227AC0A1098D7CE00BE33D7 /* darwinmaster.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = darwinmaster.in; path = darwinbuild/darwinmaster.in; sourceTree = "<group>"; };
 		7227AC131098D84600BE33D7 /* packageRoots */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = packageRoots; sourceTree = BUILT_PRODUCTS_DIR; };
 		7227AC1C1098D8DB00BE33D7 /* thinPackages */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = thinPackages; sourceTree = BUILT_PRODUCTS_DIR; };
-		7227AC251098DB9200BE33D7 /* installXcode */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = installXcode; sourceTree = BUILT_PRODUCTS_DIR; };
-		7227AC2E1098DBDF00BE33D7 /* installXcode32 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = installXcode32; sourceTree = BUILT_PRODUCTS_DIR; };
 		72573F7F1097A488008AD4D7 /* dependencies.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = dependencies.so; sourceTree = BUILT_PRODUCTS_DIR; };
 		72573FD21097A4B7008AD4D7 /* dot.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = dot.so; sourceTree = BUILT_PRODUCTS_DIR; };
 		72573FDB1097A538008AD4D7 /* diff.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = diff.so; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -732,11 +708,6 @@
 		72C86C231096600B00C66E90 /* darwinbuild.common */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = darwinbuild.common; path = darwinbuild/darwinbuild.common; sourceTree = "<group>"; };
 		72C86C241096600B00C66E90 /* darwinbuild.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = darwinbuild.in; path = darwinbuild/darwinbuild.in; sourceTree = "<group>"; };
 		72C86C271096600B00C66E90 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = darwinbuild/Info.plist; sourceTree = "<group>"; };
-		72C86C281096600B00C66E90 /* installXcode.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = installXcode.in; path = darwinbuild/installXcode.in; sourceTree = "<group>"; };
-		72C86C291096600B00C66E90 /* installXcode2 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = installXcode2; path = darwinbuild/installXcode2; sourceTree = "<group>"; };
-		72C86C2A1096600B00C66E90 /* installXcode3 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = installXcode3; path = darwinbuild/installXcode3; sourceTree = "<group>"; };
-		72C86C2B1096600B00C66E90 /* installXcode31 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = installXcode31; path = darwinbuild/installXcode31; sourceTree = "<group>"; };
-		72C86C2C1096600B00C66E90 /* installXcode32.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = installXcode32.in; path = darwinbuild/installXcode32.in; sourceTree = "<group>"; };
 		72C86C2E1096600B00C66E90 /* manifest.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = manifest.c; path = darwinbuild/manifest.c; sourceTree = "<group>"; };
 		72C86C311096600B00C66E90 /* SDKSettings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = SDKSettings.plist; path = darwinbuild/SDKSettings.plist; sourceTree = "<group>"; };
 		72C86C381096607900C66E90 /* darwinbuild */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = darwinbuild; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1007,12 +978,7 @@
 				7227AC0A1098D7CE00BE33D7 /* darwinmaster.in */,
 				72C86C241096600B00C66E90 /* darwinbuild.in */,
 				72C86C271096600B00C66E90 /* Info.plist */,
-				72C86C281096600B00C66E90 /* installXcode.in */,
-				72C86C291096600B00C66E90 /* installXcode2 */,
-				72C86C2A1096600B00C66E90 /* installXcode3 */,
-				72C86C2B1096600B00C66E90 /* installXcode31 */,
-				72C86C2C1096600B00C66E90 /* installXcode32.in */,
-				1FC854001ED462DF00EA2AF5 /* installXcode_Modern */,
+				1FC854001ED462DF00EA2AF5 /* installXcode */,
 				1FECB5DE1FBBBC09002EA059 /* setXcodePlatform */,
 				72C86C2E1096600B00C66E90 /* manifest.c */,
 				72C86C311096600B00C66E90 /* SDKSettings.plist */,
@@ -1120,8 +1086,6 @@
 				7227AC061098D78C00BE33D7 /* darwinmaster */,
 				7227AC131098D84600BE33D7 /* packageRoots */,
 				7227AC1C1098D8DB00BE33D7 /* thinPackages */,
-				7227AC251098DB9200BE33D7 /* installXcode */,
-				7227AC2E1098DBDF00BE33D7 /* installXcode32 */,
 				72D05CB711D267C400B33EDD /* query.so */,
 				720BE2F2120C90A700B3C4A5 /* digest */,
 				396301271EAB4E01006081C7 /* patch_sites.so */,
@@ -1270,40 +1234,6 @@
 			name = thinPackages;
 			productName = darwinbuild;
 			productReference = 7227AC1C1098D8DB00BE33D7 /* thinPackages */;
-			productType = "com.apple.product-type.tool";
-		};
-		7227AC1E1098DB9200BE33D7 /* installXcode */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 7227AC211098DB9200BE33D7 /* Build configuration list for PBXNativeTarget "installXcode" */;
-			buildPhases = (
-				7227AC1F1098DB9200BE33D7 /* ShellScript */,
-				7227AC201098DB9200BE33D7 /* ShellScript */,
-				1F71A5012030F86400020E2F /* ShellScript */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = installXcode;
-			productName = darwinbuild;
-			productReference = 7227AC251098DB9200BE33D7 /* installXcode */;
-			productType = "com.apple.product-type.tool";
-		};
-		7227AC271098DBDF00BE33D7 /* installXcode32 */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 7227AC2A1098DBDF00BE33D7 /* Build configuration list for PBXNativeTarget "installXcode32" */;
-			buildPhases = (
-				7227AC281098DBDF00BE33D7 /* ShellScript */,
-				7227AC291098DBDF00BE33D7 /* ShellScript */,
-				1F71A5022030F88300020E2F /* ShellScript */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = installXcode32;
-			productName = darwinbuild;
-			productReference = 7227AC2E1098DBDF00BE33D7 /* installXcode32 */;
 			productType = "com.apple.product-type.tool";
 		};
 		72573F771097A488008AD4D7 /* dependencies */ = {
@@ -1825,8 +1755,6 @@
 				7227ABFF1098D78C00BE33D7 /* darwinmaster */,
 				7227AC0C1098D84600BE33D7 /* packageRoots */,
 				7227AC151098D8DB00BE33D7 /* thinPackages */,
-				7227AC1E1098DB9200BE33D7 /* installXcode */,
-				7227AC271098DBDF00BE33D7 /* installXcode32 */,
 				720BE2EA120C90A700B3C4A5 /* digest */,
 				3963011C1EAB4E01006081C7 /* patch_sites */,
 			);
@@ -1896,38 +1824,6 @@
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "mkdir -p $DSTROOT/$DATDIR/darwinbuild\n/bin/cp $BUILT_PRODUCTS_DIR/thinPackages $DSTROOT/$DATDIR/darwinbuild/thinPackages";
-			showEnvVarsInLog = 0;
-		};
-		1F71A5012030F86400020E2F /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
-			files = (
-			);
-			inputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/installXcode",
-			);
-			outputPaths = (
-				"$(DSTROOT)/$(DATDIR)/darwinbuild/installXcode",
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-			shellPath = /bin/sh;
-			shellScript = "mkdir -p $DSTROOT/$DATDIR/darwinbuild\n/bin/cp $BUILT_PRODUCTS_DIR/installXcode $DSTROOT/$DATDIR/darwinbuild/installXcode";
-			showEnvVarsInLog = 0;
-		};
-		1F71A5022030F88300020E2F /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
-			files = (
-			);
-			inputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/installXcode32",
-			);
-			outputPaths = (
-				"$(DSTROOT)/$(DATDIR)/installXcode32",
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-			shellPath = /bin/sh;
-			shellScript = "mkdir -p $DSTROOT/$DATDIR/darwinbuild\n/bin/cp $BUILT_PRODUCTS_DIR/installXcode32 $DSTROOT/$DATDIR/darwinbuild/installXcode32";
 			showEnvVarsInLog = 0;
 		};
 		7227AB8F1098A89700BE33D7 /* Run Script */ = {
@@ -2051,66 +1947,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/bin/cp $DERIVED_FILE_DIR/thinPackages $BUILT_PRODUCTS_DIR/thinPackages";
-		};
-		7227AC1F1098DB9200BE33D7 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/darwinbuild/installXcode.in",
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/installXcode",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/bin/sed -e \"s,%%PREFIX%%,$PREFIX,\" $SRCROOT/darwinbuild/installXcode.in > $DERIVED_FILE_DIR/installXcode\n\n/bin/chmod 755 $DERIVED_FILE_DIR/installXcode\n\n";
-		};
-		7227AC201098DB9200BE33D7 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(DERIVED_FILE_DIR)/installXcode",
-			);
-			outputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/installXcode",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/bin/cp $DERIVED_FILE_DIR/installXcode $BUILT_PRODUCTS_DIR/installXcode";
-		};
-		7227AC281098DBDF00BE33D7 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/darwinbuild/installXcode32.in",
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/installXcode32",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/bin/sed -e \"s,%%PREFIX%%,$PREFIX,\" $SRCROOT/darwinbuild/installXcode32.in > $DERIVED_FILE_DIR/installXcode32\n\n/bin/chmod 755 $DERIVED_FILE_DIR/installXcode32\n\n";
-		};
-		7227AC291098DBDF00BE33D7 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(DERIVED_FILE_DIR)/installXcode32",
-			);
-			outputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/installXcode32",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/bin/cp $DERIVED_FILE_DIR/installXcode32 $BUILT_PRODUCTS_DIR/installXcode32";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2373,16 +2209,6 @@
 			isa = PBXTargetDependency;
 			target = 7227AB3D1098977C00BE33D7 /* tcl_plugins */;
 			targetProxy = 7227AB47109897E000BE33D7 /* PBXContainerItemProxy */;
-		};
-		7227AC361098DC6A00BE33D7 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 7227AC271098DBDF00BE33D7 /* installXcode32 */;
-			targetProxy = 7227AC351098DC6A00BE33D7 /* PBXContainerItemProxy */;
-		};
-		7227AC381098DC6A00BE33D7 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 7227AC1E1098DB9200BE33D7 /* installXcode */;
-			targetProxy = 7227AC371098DC6A00BE33D7 /* PBXContainerItemProxy */;
 		};
 		7227AC3A1098DC6A00BE33D7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2868,66 +2694,6 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = thinPackages;
-			};
-			name = Release;
-		};
-		7227AC221098DB9200BE33D7 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				INSTALL_PATH = "$(DATDIR)/darwinbuild";
-				PRODUCT_NAME = installXcode;
-			};
-			name = Debug;
-		};
-		7227AC231098DB9200BE33D7 /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				INSTALL_PATH = "$(DATDIR)/darwinbuild";
-				PRODUCT_NAME = installXcode;
-			};
-			name = Public;
-		};
-		7227AC241098DB9200BE33D7 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				INSTALL_PATH = "$(DATDIR)/darwinbuild";
-				PRODUCT_NAME = installXcode;
-			};
-			name = Release;
-		};
-		7227AC2B1098DBDF00BE33D7 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				INSTALL_PATH = "$(DATDIR)/darwinbuild";
-				PRODUCT_NAME = installXcode32;
-			};
-			name = Debug;
-		};
-		7227AC2C1098DBDF00BE33D7 /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				INSTALL_PATH = "$(DATDIR)/darwinbuild";
-				PRODUCT_NAME = installXcode32;
-			};
-			name = Public;
-		};
-		7227AC2D1098DBDF00BE33D7 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				INSTALL_PATH = "$(DATDIR)/darwinbuild";
-				PRODUCT_NAME = installXcode32;
 			};
 			name = Release;
 		};
@@ -3974,26 +3740,6 @@
 				7227AC191098D8DB00BE33D7 /* Debug */,
 				7227AC1A1098D8DB00BE33D7 /* Public */,
 				7227AC1B1098D8DB00BE33D7 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
-		};
-		7227AC211098DB9200BE33D7 /* Build configuration list for PBXNativeTarget "installXcode" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				7227AC221098DB9200BE33D7 /* Debug */,
-				7227AC231098DB9200BE33D7 /* Public */,
-				7227AC241098DB9200BE33D7 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
-		};
-		7227AC2A1098DBDF00BE33D7 /* Build configuration list for PBXNativeTarget "installXcode32" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				7227AC2B1098DBDF00BE33D7 /* Debug */,
-				7227AC2C1098DBDF00BE33D7 /* Public */,
-				7227AC2D1098DBDF00BE33D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Public;
