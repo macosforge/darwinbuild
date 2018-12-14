@@ -70,14 +70,13 @@ mkdir -p $BUILDROOT/$(getconf DARWIN_USER_DIR)
 mkdir -p $BUILDROOT/$(getconf DARWIN_USER_TEMP_DIR)
 mkdir -p $BUILDROOT/$(getconf DARWIN_USER_CACHE_DIR)
 
-if [[ "$HOST_DARWIN_VERSION" =~ ^10.14 ]]; then
-    mkdir -p $BUILDROOT/private/var/db
-    ln -s $XCODE_PATH/Contents/Developer $BUILDROOT/private/var/db/xcode_select_link
+mkdir -p $BUILDROOT/private/var/db
+ln -s $XCODE_PATH/Contents/Developer $BUILDROOT/private/var/db/xcode_select_link
 
-    # macOS versions >= 10.13 do not allow processes with entitlements
-    # to run inside a chroot. Therefore, I must strip the entitlements
-    # and re-sign xcodebuild. Hopefully, this won't break anything.
-    cat <<EOF > $BUILDROOT/private/tmp/empty.entitlements
+# macOS versions >= 10.13 do not allow processes with entitlements
+# to run inside a chroot. Therefore, I must strip the entitlements
+# and re-sign xcodebuild. Hopefully, this won't break anything.
+cat <<EOF > $BUILDROOT/private/tmp/empty.entitlements
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -86,34 +85,4 @@ if [[ "$HOST_DARWIN_VERSION" =~ ^10.14 ]]; then
 </plist>
 EOF
 
-    codesign -s - -f --entitlements $BUILDROOT/private/tmp/empty.entitlements $BUILDROOT$XCODE_PATH/Contents/Developer/usr/bin/xcodebuild
-elif [[ "$HOST_DARWIN_VERSION" =~ ^10.13 ]]; then
-    rm $BUILDROOT$XCODE_PATH/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk
-    mv $BUILDROOT$XCODE_PATH/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk $BUILDROOT$XCODE_PATH/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk
-
-    mkdir -p $BUILDROOT/private/var/db
-    ln -s $XCODE_PATH/Contents/Developer $BUILDROOT/private/var/db/xcode_select_link
-
-    if [ -x /usr/local/share/darwinbuild/xcbuild ]; then
-        # If it is available, overwrite Apple's xcodebuild with xcbuild.
-        # This helps avoid the issue described in the 'else' block below.
-        cp -f /usr/local/share/darwinbuild/xcbuild $BUILDROOT$XCODE_PATH/Contents/Developer/usr/bin/xcodebuild
-    else
-        # High Sierra does not allow processes with entitlements to run inside a chroot.
-        # Therefore, I must strip the entitlements and re-sign xcodebuild.
-        # Hopefully, this won't break anything.
-        cat <<EOF > $BUILDROOT/private/tmp/empty.entitlements
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-</dict>
-</plist>
-EOF
-
-        codesign -s - -f --entitlements $BUILDROOT/private/tmp/empty.entitlements $BUILDROOT$XCODE_PATH/Contents/Developer/usr/bin/xcodebuild
-    fi
-elif [[ "$HOST_DARWIN_VERSION" =~ ^10.12 ]]; then
-    rm $BUILDROOT$XCODE_PATH/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk
-    mv $BUILDROOT$XCODE_PATH/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk $BUILDROOT$XCODE_PATH/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk
-fi
+codesign -s - -f --entitlements $BUILDROOT/private/tmp/empty.entitlements $BUILDROOT$XCODE_PATH/Contents/Developer/usr/bin/xcodebuild
