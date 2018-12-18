@@ -87,6 +87,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		1F12836121C89D2C00E3A732 /* darwinbuild-recursive in Copy Files */ = {isa = PBXBuildFile; fileRef = 1F12836021C89D2C00E3A732 /* darwinbuild-recursive */; };
 		1F514C441F4A5CDA008D9341 /* fetch-from-github in Copy Files */ = {isa = PBXBuildFile; fileRef = 1F514C431F4A5CC0008D9341 /* fetch-from-github */; };
 		1FC854011ED462EE00EA2AF5 /* installXcode in Copy Files */ = {isa = PBXBuildFile; fileRef = 1FC854001ED462DF00EA2AF5 /* installXcode */; };
 		1FECB5DF1FBBBD41002EA059 /* setXcodePlatform in Copy Files */ = {isa = PBXBuildFile; fileRef = 1FECB5DE1FBBBC09002EA059 /* setXcodePlatform */; };
@@ -596,6 +597,7 @@
 				7227AD1D109A05FA00BE33D7 /* buildorder in Copy Files */,
 				7227AD1F109A05FA00BE33D7 /* synthfat in Copy Files */,
 				7227AD20109A05FA00BE33D7 /* thinFile in Copy Files */,
+				1F12836121C89D2C00E3A732 /* darwinbuild-recursive in Copy Files */,
 				7227AD21109A05FA00BE33D7 /* createChroot in Copy Files */,
 				7227AD22109A05FA00BE33D7 /* darwinbuild.common in Copy Files */,
 			);
@@ -605,6 +607,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1F12836021C89D2C00E3A732 /* darwinbuild-recursive */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = "darwinbuild-recursive"; path = "darwinbuild/darwinbuild-recursive"; sourceTree = "<group>"; };
 		1F4A793721B9F123000FE4B5 /* conclusion.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = conclusion.html; path = installer/conclusion.html; sourceTree = "<group>"; };
 		1F4A793821B9F123000FE4B5 /* license.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = license.html; path = installer/license.html; sourceTree = "<group>"; };
 		1F4A793921B9F123000FE4B5 /* welcome.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = welcome.html; path = installer/welcome.html; sourceTree = "<group>"; };
@@ -955,6 +958,7 @@
 		72C86BD510965DC900C66E90 /* darwinbuild */ = {
 			isa = PBXGroup;
 			children = (
+				1F12836021C89D2C00E3A732 /* darwinbuild-recursive */,
 				1F514C431F4A5CC0008D9341 /* fetch-from-github */,
 				720BE2E9120C909E00B3C4A5 /* digest.c */,
 				7227AB871098A7BF00BE33D7 /* buildlist */,
