@@ -82,7 +82,7 @@ DATADIR=$PREFIX/share/darwinbuild
 DIGEST=$DATADIR/digest
 COMMONFILE=$DATADIR/darwinbuild.common
 DARWINTRACE=$DATADIR/darwintrace.dylib
-DITTO=$DATADIR/ditto
+DITTO=ditto
 DEFAULTPLISTSITE=http://svn.macosforge.org/repository/darwinbuild/trunk/plists/
 
 build=""
