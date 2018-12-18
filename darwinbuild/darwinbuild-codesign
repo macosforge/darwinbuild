@@ -88,7 +88,6 @@ if args.project is not None:
                     largest_build_num = this_build_num
                     project_build = str(this_build_num)
 
-    print('Using', project_name_and_version + '~' + project_build, '...')
     project_root = os.path.join(roots_dir, project_name_and_version + '.root~' + project_build)
     srcroot = os.path.join(darwin_buildroot, 'BuildRoot', 'SourceCache', project_name, project_name_and_version)
 
