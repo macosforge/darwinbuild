@@ -190,7 +190,7 @@ fi
 function PrintUsage() {
 	cat <<-EOF 1>&2
 	usage: $(basename $0) [action] [options] <project> [<version>]
-	actions: [-headers] [-fetch] [-source] [-load] [-loadonly]
+	actions: [-headers] [-fetch] [-source] [-load] [-loadonly] [-recursive] [-group]
 	options: [-build=X] [-target=X] [-configuration=X]
 	         [-logdeps] [-nochroot] [-chroot] [-nopatch] [-noload]
 	         [-depsbuild=X [-depsbuild=Y]] [-nosource]
@@ -261,12 +261,14 @@ fi
 ### Interpret our arguments:
 ###
 ###  Actions:
-###   -headers  Do the installhdrs phase, instead of install
-###   -fetch    Only download necessary source and patch files
-###   -source   Extract, patch, and stage source
-###   -load     Populate the BuildRoot with one project
-###   -loadonly Only load dependencies into the chroot, but
-###              don't build.
+###   -headers   Do the installhdrs phase, instead of install
+###   -fetch     Only download necessary source and patch files
+###   -source    Extract, patch, and stage source
+###   -load      Populate the BuildRoot with one project
+###   -loadonly  Only load dependencies into the chroot, but don't build.
+###   -recursive Build given project and all required dependencies
+###   -group     Build all projects in the given darwinxref group,
+###              as with darwinbuild -recursive
 ###
 ###  Options:
 ###   -nosource Do not fetch or stage source. This assumes that the
@@ -304,6 +306,10 @@ for ARG in "$@"; do
 			action="fetch"
 		elif [ "$ARG" == "-source" ]; then
 			action="source"
+		elif [ "$ARG" = "-recursive" ]; then
+			action="recursive"
+		elif [ "$ARG" = "-group" ]; then
+			action="group"
 		elif [ "${ARG/=*/}" == "-target" ]; then
 			target="${ARG/*=/}"
 		elif [ "${ARG/=*/}" == "-configuration" ]; then
@@ -380,6 +386,7 @@ fi
 
 ###
 ### If we are doing a -load, install the root and exit.
+### Also handle -recursive and -group here.
 ###
 if [ "$action" == "load" ]; then
 	InstallRoot "$BuildRoot" "$projnam" "$depsbuild"
@@ -387,6 +394,10 @@ if [ "$action" == "load" ]; then
 elif [ "$action" == "loadhdrs" ]; then
 	InstallHeader "$BuildRoot" "$projnam" "$depsbuild"
 	exit 0
+elif [ "$action" == "recursive" ]; then
+	exec $DATADIR/darwinbuild-recursive -p "$projnam"
+elif [ "$action" == "group" ]; then
+	exec $DATADIR/darwinbuild-recursive -g "$projnam"
 fi
 
 #
