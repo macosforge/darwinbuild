@@ -125,6 +125,7 @@ if default_certificate is None:
     exit(1)
 
 default_hardened_runtime = safe_get(codesign_plist, 'hardened_runtime', default=False)
+default_prefix = safe_get(codesign_plist, 'prefix')
 
 signing_map = {}
 for (filename, value) in codesign_plist['files'].items():
@@ -134,6 +135,7 @@ for (filename, value) in codesign_plist['files'].items():
 
     certificate = default_certificate
     identifier = None
+    prefix = None
     entitlements = None
     hardened_runtime = default_hardened_runtime
     dr = None
@@ -144,6 +146,7 @@ for (filename, value) in codesign_plist['files'].items():
     elif isinstance(value, dict):
         certificate = safe_get(value, 'certificate', default=default_certificate)
         identifier = safe_get(value, 'identifier')
+        prefix = safe_get(value, 'prefix', default=default_prefix)
         entitlements = safe_get(value, 'entitlements')
         if entitlements is not None:
             entitlements = os.path.join(srcroot, entitlements)
@@ -164,7 +167,10 @@ for (filename, value) in codesign_plist['files'].items():
         identifier = get_bundle_identifier(filename)
 
     codesign_argv = ['/usr/bin/codesign', '-s', certificate, '-f']
-    if identifier is not None:
+    if prefix is not None:
+        codesign_argv.append('--prefix')
+        codesign_argv.append(prefix)
+    elif identifier is not None:
         codesign_argv.append('-i')
         codesign_argv.append(identifier)
     if dr is not None:
