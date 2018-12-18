@@ -189,7 +189,7 @@ for (filename, value) in codesign_plist['files'].items():
     signing_map[order].append(codesign_argv)
 
 key_vector = signing_map.keys()
-key_vector.sort(cmp=lambda a, b: cmp(a, b))
+key_vector.sort(cmp=cmp)
 
 for order_index in key_vector:
     for argv in signing_map[order_index]:
