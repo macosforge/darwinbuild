@@ -111,14 +111,6 @@ def safe_get(dict, key, default=None):
     else:
         return default
 
-def get_bundle_identifier(bundle_path):
-    info_plist_path = os.path.join(bundle_path, 'Contents', 'Info.plist')
-    if os.path.exists(info_plist_path):
-        info_plist = plistlib.readPlist(info_plist_path)
-        return safe_get(info_plist, 'CFBundleIdentifier')
-
-    return None
-
 default_certificate = safe_get(codesign_plist, 'certificate')
 if default_certificate is None:
     print('Default certificate must be provided (use "certificate" key in top-level of plist)', file=sys.stderr)
@@ -162,9 +154,6 @@ for (filename, value) in codesign_plist['files'].items():
     else:
         print('Error in darwinbuild-codesign.plist: Values in "files" dictionary must be booleans or dictionaries only')
         exit(1)
-
-    if identifier is None and os.path.isdir(filename):
-        identifier = get_bundle_identifier(filename)
 
     codesign_argv = ['/usr/bin/codesign', '-s', certificate, '-f']
     if prefix is not None:
