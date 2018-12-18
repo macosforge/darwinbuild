@@ -66,7 +66,11 @@ def recursive_build(project, is_header=False):
         darwinbuild_argv.append('-headers')
     darwinbuild_argv.append(project)
 
-    subprocess.check_call(darwinbuild_argv, stdout=sys.stdout, stderr=sys.stderr)
+    try:
+        subprocess.check_call(darwinbuild_argv, stdout=sys.stdout, stderr=sys.stderr)
+    except subprocess.CalledProcessError, e:
+        print(' '.join(darwinbuild_argv), 'failed with code', e.returncode, file=sys.stderr)
+        exit(1)
 
 if group_mode:
     group_output = subprocess.check_output(['darwinxref', 'group', input_name])
