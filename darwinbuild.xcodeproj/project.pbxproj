@@ -23,6 +23,7 @@
 			buildConfigurationList = 7227AC451098DC9900BE33D7 /* Build configuration list for PBXAggregateTarget "darwinbuild_scripts" */;
 			buildPhases = (
 				7227AD1B109A053900BE33D7 /* Copy Files */,
+				1F12836421C89FB900E3A732 /* CopyFiles */,
 			);
 			dependencies = (
 				720BE2F6120C90E500B3C4A5 /* PBXTargetDependency */,
@@ -88,6 +89,7 @@
 
 /* Begin PBXBuildFile section */
 		1F12836121C89D2C00E3A732 /* darwinbuild-recursive in Copy Files */ = {isa = PBXBuildFile; fileRef = 1F12836021C89D2C00E3A732 /* darwinbuild-recursive */; };
+		1F12836621C89FD000E3A732 /* darwinbuild-codesign in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1F12836521C89FC800E3A732 /* darwinbuild-codesign */; };
 		1F514C441F4A5CDA008D9341 /* fetch-from-github in Copy Files */ = {isa = PBXBuildFile; fileRef = 1F514C431F4A5CC0008D9341 /* fetch-from-github */; };
 		1FC854011ED462EE00EA2AF5 /* installXcode in Copy Files */ = {isa = PBXBuildFile; fileRef = 1FC854001ED462DF00EA2AF5 /* installXcode */; };
 		1FECB5DF1FBBBD41002EA059 /* setXcodePlatform in Copy Files */ = {isa = PBXBuildFile; fileRef = 1FECB5DE1FBBBC09002EA059 /* setXcodePlatform */; };
@@ -568,6 +570,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		1F12836421C89FB900E3A732 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 8;
+			dstPath = "$(BINDIR)";
+			dstSubfolderSpec = 0;
+			files = (
+				1F12836621C89FD000E3A732 /* darwinbuild-codesign in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		7227AB3C1098977C00BE33D7 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 8;
@@ -608,6 +620,7 @@
 
 /* Begin PBXFileReference section */
 		1F12836021C89D2C00E3A732 /* darwinbuild-recursive */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = "darwinbuild-recursive"; path = "darwinbuild/darwinbuild-recursive"; sourceTree = "<group>"; };
+		1F12836521C89FC800E3A732 /* darwinbuild-codesign */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "darwinbuild-codesign"; path = "darwinbuild/darwinbuild-codesign"; sourceTree = "<group>"; };
 		1F4A793721B9F123000FE4B5 /* conclusion.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = conclusion.html; path = installer/conclusion.html; sourceTree = "<group>"; };
 		1F4A793821B9F123000FE4B5 /* license.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = license.html; path = installer/license.html; sourceTree = "<group>"; };
 		1F4A793921B9F123000FE4B5 /* welcome.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = welcome.html; path = installer/welcome.html; sourceTree = "<group>"; };
@@ -958,6 +971,7 @@
 		72C86BD510965DC900C66E90 /* darwinbuild */ = {
 			isa = PBXGroup;
 			children = (
+				1F12836521C89FC800E3A732 /* darwinbuild-codesign */,
 				1F12836021C89D2C00E3A732 /* darwinbuild-recursive */,
 				1F514C431F4A5CC0008D9341 /* fetch-from-github */,
 				720BE2E9120C909E00B3C4A5 /* digest.c */,
