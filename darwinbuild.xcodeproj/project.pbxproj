@@ -1713,13 +1713,14 @@
 			};
 			buildConfigurationList = 726DD14C10965C5700D5AEAB /* Build configuration list for PBXProject "darwinbuild" */;
 			compatibilityVersion = "Xcode 10.0";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
-				Japanese,
-				French,
-				German,
+				en,
+				ja,
+				fr,
+				de,
+				Base,
 			);
 			mainGroup = 726DD14710965C5700D5AEAB;
 			productRefGroup = 72C86C391096607900C66E90 /* Products */;
