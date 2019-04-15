@@ -7,7 +7,7 @@ cd $MY_DIR
 
 xcodebuild install \
 	-project $MY_DIR/../darwinbuild.xcodeproj \
-	-target world \
+	-target world -configuration Release \
 	DSTROOT=$MY_DIR/payload
 
 pkgbuild \
