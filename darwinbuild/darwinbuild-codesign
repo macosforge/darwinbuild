@@ -117,6 +117,7 @@ if default_certificate is None:
 
 default_hardened_runtime = safe_get(codesign_plist, 'hardened_runtime', default=False)
 default_prefix = safe_get(codesign_plist, 'prefix')
+default_timestamp = safe_get(codesign_plist, 'timestamp', default=True)
 
 signing_map = {}
 for (filename, value) in codesign_plist['files'].items():
@@ -131,6 +132,7 @@ for (filename, value) in codesign_plist['files'].items():
     hardened_runtime = default_hardened_runtime
     dr = None
     order = 0xFFFF
+    timestamp = True
 
     if isinstance(value, bool):
         pass # all default values
@@ -144,6 +146,7 @@ for (filename, value) in codesign_plist['files'].items():
         hardened_runtime = bool(safe_get(value, 'hardened_runtime', default=default_hardened_runtime))
         dr = safe_get(value, 'dr')
         order = safe_get(value, 'order', default=order)
+        timestamp = safe_get(value, 'timestamp', default=default_timestamp)
 
         if isinstance(order, str):
             order = int(order)
@@ -170,6 +173,16 @@ for (filename, value) in codesign_plist['files'].items():
     if hardened_runtime:
         codesign_argv.append('-o')
         codesign_argv.append('runtime')
+    if isinstance(timestamp, str):
+        codesign_argv.append('--timestamp=' + timestamp)
+    elif isinstance(timestamp, bool):
+        if timestamp:
+            codesign_argv.append('--timestamp')
+        else:
+            codesign_argv.append('--timestamp=none')
+    else:
+        print('Error in darwinbuild-codesign.plist: "timestamp" key must be either boolean or string', file=sys.stderr)
+        exit(1)
     codesign_argv.append(filename)
 
     if order not in signing_map:
