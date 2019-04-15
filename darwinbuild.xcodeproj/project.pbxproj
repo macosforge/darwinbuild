@@ -2532,8 +2532,12 @@
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3P242C9ES5;
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = digest;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -2542,8 +2546,12 @@
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3P242C9ES5;
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = digest;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Public;
 		};
@@ -2552,8 +2560,12 @@
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3P242C9ES5;
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = digest;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
@@ -2589,8 +2601,12 @@
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3P242C9ES5;
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = manifest;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -2599,8 +2615,12 @@
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3P242C9ES5;
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = manifest;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Public;
 		};
@@ -2609,8 +2629,12 @@
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3P242C9ES5;
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = manifest;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
