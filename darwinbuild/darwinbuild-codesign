@@ -151,10 +151,10 @@ for (filename, value) in codesign_plist['files'].items():
         if isinstance(order, str):
             order = int(order)
         elif not isinstance(order, int):
-            print('Error in darwinbuild-codesign.plist: "order" key must have integer value (or string convertible to integer)')
+            print('Error in darwinbuild-codesign.plist: "order" key must have integer value (or string convertible to integer)', file=sys.stderr)
             exit(1)
     else:
-        print('Error in darwinbuild-codesign.plist: Values in "files" dictionary must be booleans or dictionaries only')
+        print('Error in darwinbuild-codesign.plist: Values in "files" dictionary must be booleans or dictionaries only', file=sys.stderr)
         exit(1)
 
     codesign_argv = ['/usr/bin/codesign', '-s', certificate, '-f']
