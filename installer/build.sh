@@ -13,7 +13,7 @@ xcodebuild install \
 pkgbuild \
 	--ownership recommended \
 	--identifier org.puredarwin.darwinbuild.component \
-	--version 1.1.1 \
+	--version 1.2 \
 	--root $MY_DIR/payload \
 	--install-location / \
 	$MY_DIR/darwinbuild-component.pkg
@@ -21,7 +21,7 @@ pkgbuild \
 productbuild \
 	--distribution $MY_DIR/distribution.xml \
 	--identifier org.puredarwin.darwinbuild.release \
-	--version 1.1.1 \
+	--version 1.2 \
 	--sign 'Developer ID Installer' --timestamp \
 	--package-path $MY_DIR \
 	--resources $MY_DIR \
