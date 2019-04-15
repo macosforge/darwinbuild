@@ -127,7 +127,7 @@ for (filename, value) in codesign_plist['files'].items():
 
     certificate = default_certificate
     identifier = None
-    prefix = None
+    prefix = default_prefix
     entitlements = None
     hardened_runtime = default_hardened_runtime
     dr = None
