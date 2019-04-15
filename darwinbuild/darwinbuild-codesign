@@ -78,7 +78,13 @@ if args.project is not None:
     roots_dir = os.path.join(darwin_buildroot, 'Roots', project_name)
 
     if project_build is None:
-        possible_builds = next(os.walk(roots_dir))[1]
+        possible_builds = None
+        try:
+            possible_builds = next(os.walk(roots_dir))[1]
+        except StopIteration:
+            # This is raised if the project name given doesn't exist.
+            print('Project', project_name_and_version, 'not found in Roots directory', file=sys.stderr)
+            exit(1)
 
         largest_build_num = 0
         for dirname in possible_builds:
@@ -87,6 +93,12 @@ if args.project is not None:
                 if this_build_num > largest_build_num:
                     largest_build_num = this_build_num
                     project_build = str(this_build_num)
+
+    if project_build is None:
+        print('Could not determine latest build for', project_name_and_version, file=sys.stderr)
+        if len(project_name_and_version.split('-')) != 2:
+            print('(Did you forget the version in the project name', project_name_and_version + '?)', file=sys.stderr)
+        exit(1)
 
     project_root = os.path.join(roots_dir, project_name_and_version + '.root~' + project_build)
     srcroot = os.path.join(darwin_buildroot, 'BuildRoot', 'SourceCache', project_name, project_name_and_version)
