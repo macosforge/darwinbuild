@@ -12,7 +12,7 @@ if [ "$1" == "-upload" ]; then
 	fi
 
 	exec xcrun altool --notarize-app --primary-bundle-id org.puredarwin.darwinbuild.release \
-		--username "ADC Notarization" --password "@keychain:ADC Notarization" \
+		--username "wjk011@gmail.com" --password "@keychain:ADC Notarization" \
 		--file $MY_DIR/darwinbuild-installer.pkg
 elif [ "$1" == "-staple" ]; then
 	if [ ! -f $MY_DIR/darwinbuild-installer.pkg ]; then
@@ -22,7 +22,7 @@ elif [ "$1" == "-staple" ]; then
 
 	exec xcrun stapler staple $MY_DIR/darwinbuild-installer.pkg
 elif [ "$1" == "-status" ]; then
-	exec xcrun altool --notarization-history 0 -u "ADC Notarization" -p "@keychain:ADC Notarization"
+	exec xcrun altool --notarization-history 0 -u "wjk011@gmail.com" -p "@keychain:ADC Notarization"
 else
 	echo "usage: $0 { -upload | -staple | -status }" 1>&2
 	echo "Wraps altool to ease notarization of the darwinbuild installer package" 1>&2
