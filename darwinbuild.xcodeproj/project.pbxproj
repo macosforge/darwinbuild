@@ -628,6 +628,7 @@
 		1FC854001ED462DF00EA2AF5 /* installXcode */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = installXcode; path = darwinbuild/installXcode; sourceTree = "<group>"; };
 		1FD9F0CD21B9E90700FB866A /* build.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = build.sh; path = installer/build.sh; sourceTree = "<group>"; };
 		1FD9F0CF21B9EAA300FB866A /* distribution.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = distribution.xml; path = installer/distribution.xml; sourceTree = "<group>"; };
+		1FEA10392264FBCF008B675D /* notarize.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = notarize.sh; path = installer/notarize.sh; sourceTree = "<group>"; };
 		1FECB5DE1FBBBC09002EA059 /* setXcodePlatform */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = setXcodePlatform; path = darwinbuild/setXcodePlatform; sourceTree = "<group>"; };
 		396301191EAB42B6006081C7 /* patch_sites.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = patch_sites.c; sourceTree = "<group>"; };
 		396301271EAB4E01006081C7 /* patch_sites.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = patch_sites.so; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -947,6 +948,7 @@
 				1F4A793821B9F123000FE4B5 /* license.html */,
 				1F4A793921B9F123000FE4B5 /* welcome.html */,
 				1FD9F0CD21B9E90700FB866A /* build.sh */,
+				1FEA10392264FBCF008B675D /* notarize.sh */,
 				1FD9F0CF21B9EAA300FB866A /* distribution.xml */,
 			);
 			name = installer;
