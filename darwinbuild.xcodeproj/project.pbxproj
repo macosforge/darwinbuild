@@ -625,6 +625,7 @@
 		1F4A793821B9F123000FE4B5 /* license.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = license.html; path = installer/license.html; sourceTree = "<group>"; };
 		1F4A793921B9F123000FE4B5 /* welcome.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = welcome.html; path = installer/welcome.html; sourceTree = "<group>"; };
 		1F514C431F4A5CC0008D9341 /* fetch-from-github */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = "fetch-from-github"; path = "darwinbuild/fetch-from-github"; sourceTree = "<group>"; };
+		1F9D9647226516AA0024E830 /* darwinxref.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = darwinxref.entitlements; path = darwinxref/darwinxref.entitlements; sourceTree = "<group>"; };
 		1FC854001ED462DF00EA2AF5 /* installXcode */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = installXcode; path = darwinbuild/installXcode; sourceTree = "<group>"; };
 		1FD9F0CD21B9E90700FB866A /* build.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = build.sh; path = installer/build.sh; sourceTree = "<group>"; };
 		1FD9F0CF21B9EAA300FB866A /* distribution.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = distribution.xml; path = installer/distribution.xml; sourceTree = "<group>"; };
@@ -1007,6 +1008,7 @@
 				72C86BEE10965E7500C66E90 /* DBPluginPriv.h */,
 				72C86BEF10965E7500C66E90 /* DBTclPlugin.c */,
 				72C86BF010965E7500C66E90 /* main.c */,
+				1F9D9647226516AA0024E830 /* darwinxref.entitlements */,
 			);
 			name = darwinxref;
 			sourceTree = "<group>";
@@ -3400,6 +3402,7 @@
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = darwinxref/darwinxref.entitlements;
 				CODE_SIGN_STYLE = Manual;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INSTALL_PATH = "$(BINDIR)";
@@ -3419,6 +3422,7 @@
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = darwinxref/darwinxref.entitlements;
 				CODE_SIGN_STYLE = Manual;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INSTALL_PATH = "$(BINDIR)";
@@ -3438,6 +3442,7 @@
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = darwinxref/darwinxref.entitlements;
 				CODE_SIGN_STYLE = Manual;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INSTALL_PATH = "$(BINDIR)";
