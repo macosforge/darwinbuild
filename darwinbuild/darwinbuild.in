@@ -518,7 +518,7 @@ if [ "$nosource" != "YES" ]; then
 	### Remove any pre-existing directories that might be in the way
 	### and create new directories in their place.
 	###
-	rm -Rf "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT" "$REAL_DEPROOT"
+	rm -Rf "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT"
 	mkdir -p "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT" "$REAL_DEPROOT"
 
 	###
