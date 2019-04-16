@@ -44,14 +44,13 @@ def recursive_build(project, is_header=False):
     if is_header:
         if project in header_deps_done:
             return
+        else:
+            header_deps_done[project] = True
     else:
         if project in build_deps_done:
             return
-
-    if is_header:
-        header_deps_done[project] = True
-    else:
-        build_deps_done[project] = True
+        else:
+            build_deps_done[project] = True
 
     build_deps = subprocess.check_output(['darwinxref', 'dependencies', '-build', project]).split('\n')
     header_deps = subprocess.check_output(['darwinxref', 'dependencies', '-header', project]).split('\n')
