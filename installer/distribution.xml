@@ -11,7 +11,7 @@
 	<choice id="org.puredarwin.darwinbuild.component" visible="false">
 		<pkg-ref id="org.puredarwin.darwinbuild.component"/>
 	</choice>
-	<pkg-ref id="org.puredarwin.darwinbuild.component" version="1.2" onConclusion="none">darwinbuild-component.pkg</pkg-ref>
+	<pkg-ref id="org.puredarwin.darwinbuild.component" version="1.3" onConclusion="none">darwinbuild-component.pkg</pkg-ref>
 
 	<title>PureDarwin Build System</title>
 	<welcome file="welcome.html" uti="public.html"/>
