@@ -60,15 +60,15 @@ AppendExtraFiles() {
 
 GenerateFileNames() {
     cat /tmp/installXcode.libs.$$ | sort -u | while read X; do
-	echo adding children for "$X"
+        echo adding children for "$X"
 
-	# first mkdir parent directories
-	PARENT=$(dirname "$X")
-	while [ "$PARENT" != "/" -a "$PARENT" != "." ]; do
-	    echo ".$PARENT" >> /tmp/installXcode.tmpfiles.$$
-	    PARENT=$(dirname "$PARENT")
-	done
-	find -x ".$X" \! \( -name \*_debug\* -o -name \*_profile\* -o -path \*.lproj\* -o -path \*.dict\* \) >> /tmp/installXcode.tmpfiles.$$
+        # first mkdir parent directories
+        PARENT=$(dirname "$X")
+        while [ "$PARENT" != "/" -a "$PARENT" != "." ]; do
+            echo ".$PARENT" >> /tmp/installXcode.tmpfiles.$$
+            PARENT=$(dirname "$PARENT")
+        done
+        find -x ".$X" \! \( -name \*_debug\* -o -name \*_profile\* -o -path \*.lproj\* -o -path \*.dict\* \) >> /tmp/installXcode.tmpfiles.$$
     done
     sort -u /tmp/installXcode.tmpfiles.$$ > /tmp/installXcode.files.$$
 }
