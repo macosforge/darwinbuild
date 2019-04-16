@@ -640,6 +640,12 @@ if [ "$USE_CHROOT" = "YES" -a ! -f "$BuildRoot/usr/local/darwinbuild/.host-syste
 	$DATADIR/createChroot "$BuildRoot"
 fi
 
+if [ ! -f "$BuildRoot/usr/local/darwinbuild/.xcode-copied" -a "$USE_CHROOT" = "YES" ]; then
+	echo "*** Installing Xcode Tools ..."
+	"$DATADIR/installXcode" "$BuildRoot" "$PWDP"
+	touch "$BuildRoot/usr/local/darwinbuild/.xcode-copied"
+fi
+
 if [ "$noload" != "YES" ]; then
 	echo "*** Installing Roots ..."
 	deps=$($DARWINXREF dependencies -build "$projnam")
@@ -672,12 +678,6 @@ EOF
 		exit
 	fi
 
-fi
-
-if [ ! -f "$receipts/xcodebuild" -a "$USE_CHROOT" = "YES" ]; then
-	echo "*** Installing Xcode Tools ..."
-	"$DATADIR/installXcode" "$BuildRoot" "$PWDP"
-	touch "$receipts/xcodebuild"
 fi
 
 "$DATADIR/setXcodePlatform" "$PWDP" || {
