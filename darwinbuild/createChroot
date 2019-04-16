@@ -105,12 +105,8 @@ for X in "${EXTRALINKS[@]}"; do
     ln -sf $X $BUILDROOT/
 done
 
-# We provide this functionality, at least
-mkdir -p $BUILDROOT/usr/local/darwinbuild/receipts
-touch $BUILDROOT/usr/local/darwinbuild/receipts/files
-touch $BUILDROOT/usr/local/darwinbuild/receipts/bash
-touch $BUILDROOT/usr/local/darwinbuild/receipts/perl
-touch $BUILDROOT/usr/local/darwinbuild/receipts/.host-system-chroot
+mkdir -p $BUILDROOT/usr/local/darwinbuild
+touch $BUILDROOT/usr/local/darwinbuild/.host-system-chroot-created
 
 popd > /dev/null
 
