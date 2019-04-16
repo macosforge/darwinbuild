@@ -74,11 +74,9 @@ GenerateFileNames() {
 CopyFiles() {
 #    VERBOSECPIO="v"
     VERBOSECPIO=""
-    echo -n "Copying system... "
+    echo "Copying system..."
     cpio -o -c < /tmp/installXcode.files.$$ | \
     (cd "$BUILDROOT"; cpio -ium${VERBOSECPIO}d )
-
-    echo "done"
 }
 
 
