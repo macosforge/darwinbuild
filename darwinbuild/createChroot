@@ -1,7 +1,5 @@
 #!/bin/bash
 
-FORCE="YES"
-
 XCODEBUILD=/usr/bin/xcodebuild
 BUILDROOT="$1"
 
