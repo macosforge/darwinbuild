@@ -395,9 +395,17 @@ elif [ "$action" == "loadhdrs" ]; then
 	InstallHeader "$BuildRoot" "$projnam" "$depsbuild"
 	exit 0
 elif [ "$action" == "recursive" ]; then
-	exec $DATADIR/darwinbuild-recursive -p "$projnam"
+	if [ "$USE_CHROOT" == "NO" ]; then
+		exec $DATADIR/darwinbuild-recursive -p "$projnam" -nochroot
+	else
+		exec $DATADIR/darwinbuild-recursive -p "$projnam"
+	fi
 elif [ "$action" == "group" ]; then
-	exec $DATADIR/darwinbuild-recursive -g "$projnam"
+	if [ "$USE_CHROOT" == "NO" ]; then
+		exec $DATADIR/darwinbuild-recursive -g "$projnam" -nochroot
+	else
+		exec $DATADIR/darwinbuild-recursive -g "$projnam"
+	fi
 fi
 
 #

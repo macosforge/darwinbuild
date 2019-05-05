@@ -5,9 +5,11 @@ import sys, os
 import plistlib
 import subprocess
 
-if len(sys.argv) != 3:
+if len(sys.argv) < 3:
     print('Internal tool used by darwinbuild, please do not invoke directly', file=sys.stderr)
     exit(1)
+
+extra_args = sys.argv[3:]
 
 darwin_buildroot = os.getcwd()
 if os.getenv('DARWIN_BUILDROOT') is not None:
@@ -61,6 +63,7 @@ def recursive_build(project, is_header=False):
         recursive_build(dep, is_header=False)
 
     darwinbuild_argv = ['darwinbuild']
+    darwinbuild_argv += extra_args
     if is_header:
         darwinbuild_argv.append('-headers')
     darwinbuild_argv.append(project)
