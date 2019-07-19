@@ -550,7 +550,7 @@ function WriteDarwinbuildXcodeConfig() {
 	local BuildRoot="$1"
 	local SRCROOT="$2"
 
-	cat <<EOF > $SRCROOT/darwinbuild.xcconfig
+	cat <<-EOF > $SRCROOT/darwinbuild.xcconfig
 	PD_BUILD_ROOT = "$BuildRoot"
 
 	OTHER_LDFLAGS = \$(OTHER_LDFLAGS) -isysroot "$PD_BUILD_ROOT"
