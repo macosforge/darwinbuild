@@ -156,13 +156,6 @@ if [ "$1" == "-init" ]; then
 				-volname $DMGVOLUME \
 				$DMGFILE
 			ln -s "/Volumes/${DMGVOLUME}" BuildRoot
-
-			echo "Copying Xcode SDK into build root disk image..."
-			XC_SDKROOT=$(xcrun --show-sdk-path)
-			mkdir -p BuildRoot/System/Library BuildRoot/usr
-			cp -R $XC_SDKROOT/System/Library/Frameworks BuildRoot/System/Library
-			cp -R $XC_SDKROOT/usr/include BuildRoot/usr
-			cp -R $XC_SDKROOT/usr/lib BuildRoot/usr
 		fi
 	fi
 
@@ -471,6 +464,25 @@ fi
 vartmp="private/var/tmp"
 mkdir -p "$BuildRoot/$vartmp"
 chmod 1777 "$BuildRoot/$vartmp"
+
+###
+### Install the Xcode SDK, if required.
+###
+mkdir -p $BuildRoot/usr/local/darwinbuild
+if [ ! -f $BuildRoot/usr/local/darwinbuild/.xcode-sdk-installed ]; then
+	echo "*** Copying Xcode SDK into build root disk image ..."
+
+	XC_SDKROOT=$(xcrun --show-sdk-path)
+	mkdir -p BuildRoot/System/Library BuildRoot/usr
+	cp -aLR $XC_SDKROOT/System/Library/Frameworks BuildRoot/System/Library
+	cp -aLR $XC_SDKROOT/usr/include BuildRoot/usr
+	cp -aR $XC_SDKROOT/usr/lib BuildRoot/usr
+
+	echo "*** Removing cached roots, as they may be inconsistent ..."
+	rm -f $BuildRoot/${RECEIPTDIR}/*
+
+	touch BuildRoot/usr/local/darwinbuild/.xcode-sdk-installed
+fi
 
 ###
 ### Define the SRCROOT, OBJROOT, SYMROOT, and DSTROOT.
