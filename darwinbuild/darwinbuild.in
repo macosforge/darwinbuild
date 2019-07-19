@@ -487,23 +487,23 @@ if [ "$nosource" != "YES" ]; then
 	### Remove any pre-existing directories that might be in the way
 	### and create new directories in their place.
 	###
-	rm -Rf "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT"
-	mkdir -p "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT"
+	rm -Rf "$SRCROOT" "$OBJROOT" "$SYMROOT" "$DSTROOT"
+	mkdir -p "$SRCROOT" "$OBJROOT" "$SYMROOT" "$DSTROOT"
 
 	###
 	### Install the sources and patches into the BuildRoot
 	###
-	cd "$REAL_SRCROOT/.."
+	cd "$SRCROOT/.."
 	echo "*** Copying Sources ..."
 	if [ -d "$SourceCache/$project" ]; then
 		tar c -C "$SourceCache" "$project" | tar xf -
 	elif [ "$alias" != "" -a -d "$SourceCache/$alias-$version" ]; then
 		tar c -C "$SourceCache" "$alias-$version" | tar xf -
-		rmdir "$REAL_SRCROOT"
+		rmdir "$SRCROOT"
 		ln -fhs "$alias-$version" "$project"
 	elif [ "$alias" != "" ]; then
 		tar xzf "$SourceCache/$alias-$version.tar.gz"
-		rmdir "$REAL_SRCROOT"
+		rmdir "$SRCROOT"
 		ln -fhs "$alias-$version" "$project"
 	else
 		tar xzf "$SourceCache/$filename"
@@ -511,8 +511,8 @@ if [ "$nosource" != "YES" ]; then
 fi
 
 if [ "$branch" != "" ]; then
-	mkdir -p "$REAL_SRCROOT" "$REAL_OBJROOT" "$REAL_SYMROOT" "$REAL_DSTROOT"
-	CheckoutOrUpdate "$REAL_SRCROOT" "$branch" "$($DARWINXREF source_sites $projnam)"
+	mkdir -p "$SRCROOT" "$OBJROOT" "$SYMROOT" "$DSTROOT"
+	CheckoutOrUpdate "$SRCROOT" "$branch" "$($DARWINXREF source_sites $projnam)"
 fi
 
 # you can avoid registering patches in the DB by using "xnu-792--patches.tar.gz"
@@ -524,11 +524,11 @@ fi
 ### Apply the patches
 ### Current working directory should be the SRCROOT
 ###
-cd "$REAL_SRCROOT"
+cd "$SRCROOT"
 if [ "$nopatch" != "YES" ]; then
-if [ -d "$REAL_SRCROOT/../$project-patches" ]; then
+if [ -d "$SRCROOT/../$project-patches" ]; then
 	echo "*** Applying Patches ..."
-	cat $REAL_SRCROOT/../$project-patches/* | patch -p0
+	cat $SRCROOT/../$project-patches/* | patch -p0
 fi
 for patchfile in $patchfilenames; do
 	echo "*** Applying Patch $patchfile ..."
@@ -601,7 +601,7 @@ if [ "$noload" != "YES" ]; then
 	done
 
 	if [ "$loadonly" = "YES" ]; then
-		WriteDarwinbuildXcodeConfig "$BuildRoot" "$REAL_SRCROOT"
+		WriteDarwinbuildXcodeConfig "$BuildRoot" "$SRCROOT"
 		exit
 	fi
 
@@ -680,7 +680,7 @@ fi
 ### Write out the xcconfig file to override the Xcode SDK.
 ###
 
-WriteDarwinbuildXcodeConfig "$BuildRoot" "$REAL_SRCROOT"
+WriteDarwinbuildXcodeConfig "$BuildRoot" "$SRCROOT"
 
 ###
 ### Write out the build script that will be used.
@@ -818,9 +818,9 @@ $BuildRoot/$vartmp/$projnam/build-$project~$build_version.sh 2>&1 | tee -a "$LOG
 EXIT_STATUS="${PIPESTATUS[0]}"
 
 if [ $EXIT_STATUS -eq 0 ]; then
-    IsDirectoryEmpty "$REAL_DSTROOT"
+    IsDirectoryEmpty "$DSTROOT"
     if [ $? -eq 0 ]; then
-	echo "$REAL_DSTROOT is empty. Build verification failed." 1>&2
+	echo "$DSTROOT is empty. Build verification failed." 1>&2
 	EXIT_STATUS=3
     fi
 fi
@@ -835,31 +835,31 @@ if [ "$EXIT_STATUS" == "0" ]; then
 	if [ "$action" == "installhdrs" ]; then
 	    	### Output the manifest
 		MANIFEST="/tmp/$projnam.$$"
-		"$DARWINXREF" register "$projnam" "$REAL_DSTROOT" | tee "$MANIFEST"
+		"$DARWINXREF" register "$projnam" "$DSTROOT" | tee "$MANIFEST"
 		SHA1=$(cat "$MANIFEST" | $DIGEST)
-		mkdir -p "$REAL_DSTROOT/usr/local/darwinbuild/receipts"
-		cp "$MANIFEST" "$REAL_DSTROOT/usr/local/darwinbuild/receipts/$SHA1"
-		ln -s "$SHA1" "$REAL_DSTROOT/usr/local/darwinbuild/receipts/$projnam.hdrs"
+		mkdir -p "$DSTROOT/usr/local/darwinbuild/receipts"
+		cp "$MANIFEST" "$DSTROOT/usr/local/darwinbuild/receipts/$SHA1"
+		ln -s "$SHA1" "$DSTROOT/usr/local/darwinbuild/receipts/$projnam.hdrs"
 		rm -f "$MANIFEST"
 
 		mkdir -p "$DARWIN_BUILDROOT/Headers/$projnam/$project.hdrs~$build_version"
-		ditto "$REAL_DSTROOT" "$DARWIN_BUILDROOT/Headers/$projnam/$project.hdrs~$build_version"
+		ditto "$DSTROOT" "$DARWIN_BUILDROOT/Headers/$projnam/$project.hdrs~$build_version"
 	else
 		### Register the root with the darwinxref database.  This will output a manifest
 		### which can be used to uniquely identify the root.  Store the unique identifier
 		### in the receipts directory after registration.
 		MANIFEST="/tmp/$projnam.$$"
-		"$DARWINXREF" register "$projnam" "$REAL_DSTROOT" | tee "$MANIFEST"
+		"$DARWINXREF" register "$projnam" "$DSTROOT" | tee "$MANIFEST"
 		SHA1=$(cat "$MANIFEST" | $DIGEST)
-		mkdir -p "$REAL_DSTROOT/usr/local/darwinbuild/receipts"
-		cp "$MANIFEST" "$REAL_DSTROOT/usr/local/darwinbuild/receipts/$SHA1"
-		ln -s "$SHA1" "$REAL_DSTROOT/usr/local/darwinbuild/receipts/$projnam"
+		mkdir -p "$DSTROOT/usr/local/darwinbuild/receipts"
+		cp "$MANIFEST" "$DSTROOT/usr/local/darwinbuild/receipts/$SHA1"
+		ln -s "$SHA1" "$DSTROOT/usr/local/darwinbuild/receipts/$projnam"
 		rm -f "$MANIFEST"
 
 		mkdir -p "$DARWIN_BUILDROOT/Symbols/$projnam/$project.sym~$build_version"
 		mkdir -p "$DARWIN_BUILDROOT/Roots/$projnam/$project.root~$build_version"
-		ditto "$REAL_SYMROOT" "$DARWIN_BUILDROOT/Symbols/$projnam/$project.sym~$build_version"
-		ditto "$REAL_DSTROOT" "$DARWIN_BUILDROOT/Roots/$projnam/$project.root~$build_version"
+		ditto "$SYMROOT" "$DARWIN_BUILDROOT/Symbols/$projnam/$project.sym~$build_version"
+		ditto "$DSTROOT" "$DARWIN_BUILDROOT/Roots/$projnam/$project.root~$build_version"
 
 		if [ "$logdeps" == "YES" ]; then
 			### Log dependencies, but filter out duplicates, relative paths, and temporary files
