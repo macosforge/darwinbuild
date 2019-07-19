@@ -719,7 +719,7 @@ EOF
 ###
 ### Add in the build environment variables from darwinxref
 ###
-build_string="$build_string \"SRCROOT=$SRCROOT\" \"OBJROOT=$OBJROOT\" \"SYMROOT=$SYMROOT\" \"DSTROOT=$DSTROOT\"
+build_string="$build_string \"SRCROOT=$SRCROOT\" \"OBJROOT=$OBJROOT\" \"SYMROOT=$SYMROOT\" \"DSTROOT=$DSTROOT\""
 
 XREF_ENV=$($DARWINXREF environment $projnam)
 OLDIFS="$IFS"
