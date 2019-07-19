@@ -91,7 +91,6 @@
 		1F12836121C89D2C00E3A732 /* darwinbuild-recursive in Copy Files */ = {isa = PBXBuildFile; fileRef = 1F12836021C89D2C00E3A732 /* darwinbuild-recursive */; };
 		1F12836621C89FD000E3A732 /* darwinbuild-codesign in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1F12836521C89FC800E3A732 /* darwinbuild-codesign */; };
 		1F514C441F4A5CDA008D9341 /* fetch-from-github in Copy Files */ = {isa = PBXBuildFile; fileRef = 1F514C431F4A5CC0008D9341 /* fetch-from-github */; };
-		1FC854011ED462EE00EA2AF5 /* installXcode in Copy Files */ = {isa = PBXBuildFile; fileRef = 1FC854001ED462DF00EA2AF5 /* installXcode */; };
 		1FECB5DF1FBBBD41002EA059 /* setXcodePlatform in Copy Files */ = {isa = PBXBuildFile; fileRef = 1FECB5DE1FBBBC09002EA059 /* setXcodePlatform */; };
 		3963011A1EAB4D60006081C7 /* source_sites.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86C0E10965EEA00C66E90 /* source_sites.c */; };
 		396301211EAB4E01006081C7 /* patch_sites.c in Sources */ = {isa = PBXBuildFile; fileRef = 396301191EAB42B6006081C7 /* patch_sites.c */; };
@@ -602,7 +601,6 @@
 			dstSubfolderSpec = 0;
 			files = (
 				1F514C441F4A5CDA008D9341 /* fetch-from-github in Copy Files */,
-				1FC854011ED462EE00EA2AF5 /* installXcode in Copy Files */,
 				1FECB5DF1FBBBD41002EA059 /* setXcodePlatform in Copy Files */,
 				7227AD1C109A05FA00BE33D7 /* buildlist in Copy Files */,
 				7227AD1D109A05FA00BE33D7 /* buildorder in Copy Files */,
@@ -624,7 +622,6 @@
 		1F4A793921B9F123000FE4B5 /* welcome.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = welcome.html; path = installer/welcome.html; sourceTree = "<group>"; };
 		1F514C431F4A5CC0008D9341 /* fetch-from-github */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = "fetch-from-github"; path = "darwinbuild/fetch-from-github"; sourceTree = "<group>"; };
 		1F9D9647226516AA0024E830 /* darwinxref.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = darwinxref.entitlements; path = darwinxref/darwinxref.entitlements; sourceTree = "<group>"; };
-		1FC854001ED462DF00EA2AF5 /* installXcode */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = installXcode; path = darwinbuild/installXcode; sourceTree = "<group>"; };
 		1FD9F0CD21B9E90700FB866A /* build.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = build.sh; path = installer/build.sh; sourceTree = "<group>"; };
 		1FD9F0CF21B9EAA300FB866A /* distribution.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = distribution.xml; path = installer/distribution.xml; sourceTree = "<group>"; };
 		1FEA10392264FBCF008B675D /* notarize.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = notarize.sh; path = installer/notarize.sh; sourceTree = "<group>"; };
@@ -984,7 +981,6 @@
 				72C86C231096600B00C66E90 /* darwinbuild.common */,
 				7227AC0A1098D7CE00BE33D7 /* darwinmaster.in */,
 				72C86C241096600B00C66E90 /* darwinbuild.in */,
-				1FC854001ED462DF00EA2AF5 /* installXcode */,
 				1FECB5DE1FBBBC09002EA059 /* setXcodePlatform */,
 				72C86C2E1096600B00C66E90 /* manifest.c */,
 			);
