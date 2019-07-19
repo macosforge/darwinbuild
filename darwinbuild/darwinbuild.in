@@ -474,13 +474,11 @@ chmod 1777 "$BuildRoot/$vartmp"
 
 ###
 ### Define the SRCROOT, OBJROOT, SYMROOT, and DSTROOT.
-### This script refers to the absolute paths of the build
-### directory, and should use REAL_SRCROOT, etc.
 ###
-REAL_SRCROOT="$BuildRoot/SourceCache/$projnam/$project"
-REAL_OBJROOT="$BuildRoot/$vartmp/$projnam/$project.obj"
-REAL_SYMROOT="$BuildRoot/$vartmp/$projnam/$project.sym"
-REAL_DSTROOT="$BuildRoot/$vartmp/$projnam/$project.root"
+SRCROOT="$BuildRoot/SourceCache/$projnam/$project"
+OBJROOT="$BuildRoot/$vartmp/$projnam/$project.obj"
+SYMROOT="$BuildRoot/$vartmp/$projnam/$project.sym"
+DSTROOT="$BuildRoot/$vartmp/$projnam/$project.root"
 
 if [ "$nosource" != "YES" ]; then
 	###
