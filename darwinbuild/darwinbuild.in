@@ -645,6 +645,10 @@ elif [ "$target" != "" ]; then
 	action="$target"
 fi
 
+if [ "$buildtool" == "make" ]; then
+	build_string="$build_string DEPROOT=$BuildRoot"
+fi
+
 #
 # append build configuration to $action, if any
 # this is only applicable to xcodebuild
