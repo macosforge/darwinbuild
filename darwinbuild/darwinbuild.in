@@ -657,17 +657,7 @@ export LOGNAME="root"
 export USER="root"
 export GROUP="wheel"
 
-# read the platform data installed by installXcode
-if [ $INSTALL_XCODE == "YES" ]; then
-	platform=$(cat "${DARWIN_BUILDROOT}/.build/platform")
-	# set SDKROOT for Makefiles that use xcrun
-	export SDKROOT="$BuildRoot"
-fi
-
 build_string=""
-if [ "$buildtool" == "xcodebuild" -a $INSTALL_XCODE == "YES" ]; then
-	build_string="-sdk $platform"
-fi
 if [ "$buildtool" == "xcodebuild" -a "$target" != "" ]; then
 	build_string="$build_string -target \"$target\""
 elif [ "$target" != "" ]; then
