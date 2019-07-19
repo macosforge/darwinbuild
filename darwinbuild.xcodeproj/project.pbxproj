@@ -1712,7 +1712,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1000;
+				LastUpgradeCheck = 1100;
 				ORGANIZATIONNAME = "The DarwinBuild Project";
 			};
 			buildConfigurationList = 726DD14C10965C5700D5AEAB /* Build configuration list for PBXProject "darwinbuild" */;
@@ -2536,6 +2536,7 @@
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = digest;
@@ -2548,6 +2549,7 @@
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = digest;
@@ -2560,6 +2562,7 @@
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = digest;
@@ -2599,6 +2602,7 @@
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = manifest;
@@ -2611,6 +2615,7 @@
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = manifest;
@@ -2623,6 +2628,7 @@
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = manifest;
@@ -2635,6 +2641,7 @@
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "-";
 				INSTALL_PATH = "$(BINDIR)";
 				PRODUCT_NAME = darwinmaster;
 			};
@@ -2645,6 +2652,7 @@
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "-";
 				INSTALL_PATH = "$(BINDIR)";
 				PRODUCT_NAME = darwinmaster;
 			};
@@ -2655,6 +2663,7 @@
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "-";
 				INSTALL_PATH = "$(BINDIR)";
 				PRODUCT_NAME = darwinmaster;
 			};
@@ -2665,6 +2674,7 @@
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "-";
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = packageRoots;
 			};
@@ -2675,6 +2685,7 @@
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "-";
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = packageRoots;
 			};
@@ -2685,6 +2696,7 @@
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "-";
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = packageRoots;
 			};
@@ -2695,6 +2707,7 @@
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "-";
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = thinPackages;
 			};
@@ -2705,6 +2718,7 @@
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "-";
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = thinPackages;
 			};
@@ -2715,6 +2729,7 @@
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "-";
 				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				PRODUCT_NAME = thinPackages;
 			};
@@ -3378,6 +3393,7 @@
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "-";
 				INSTALL_PATH = "$(BINDIR)";
 				PRODUCT_NAME = darwinbuild;
 			};
@@ -3403,6 +3419,7 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = darwinxref/darwinxref.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INSTALL_PATH = "$(BINDIR)";
@@ -3423,6 +3440,7 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = darwinxref/darwinxref.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INSTALL_PATH = "$(BINDIR)";
@@ -3443,6 +3461,7 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = darwinxref/darwinxref.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INSTALL_PATH = "$(BINDIR)";
@@ -3504,7 +3523,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -3612,6 +3631,7 @@
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "-";
 				INSTALL_PATH = "$(BINDIR)";
 				PRODUCT_NAME = darwinbuild;
 			};
@@ -3622,6 +3642,7 @@
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "-";
 				INSTALL_PATH = "$(BINDIR)";
 				PRODUCT_NAME = darwinbuild;
 			};
