@@ -60,18 +60,6 @@
 ### exist, then this script will attempt to use curl(1) to fetch the sources
 ### from the source sites specified in the plist.
 ###
-### If the -chroot option is specified, the script will use the darwinxref tool
-### to populate the build root with the "Roots" necessary to build the project
-### (Roots are pre-compiled projects ready for installation).  This script
-### will look for an existing root in the root cache (BuildRoot/Roots).  If a
-### root is missing, then this script will attempt to use curl(1) to fetch the
-### roots from the binary sites specified in the build plist.
-###
-### If the specified project requires Xcode to build (i.e. it does not use
-### a makefile, but instead has a .pbproj or .xcodeproj file), then an SDK
-### will be synthesized and chroot will not be used.
-###
-###
 
 PREFIX=%%PREFIX%%
 PWDP=$(pwd -P)
@@ -98,7 +86,6 @@ target=""
 configuration=""
 version=""
 
-USE_CHROOT="YES"
 INSTALL_XCODE="NO"
 
 ###
@@ -192,7 +179,7 @@ function PrintUsage() {
 	usage: $(basename $0) [action] [options] <project> [<version>]
 	actions: [-headers] [-fetch] [-source] [-load] [-loadonly] [-recursive] [-group]
 	options: [-build=X] [-target=X] [-configuration=X]
-	         [-logdeps] [-nochroot] [-chroot] [-nopatch] [-noload]
+	         [-logdeps] [-nopatch] [-noload]
 	         [-depsbuild=X [-depsbuild=Y]] [-nosource]
 
 EOF
@@ -247,17 +234,6 @@ if [ ! -e $SourceCache ]; then
 fi
 
 ###
-### Set the default value for USE_CHROOT.
-### If the .build/no_chroot_default file is present, do not enter
-### the the chroot unless the -chroot flag was specified.
-###
-if [ -f .build/no_chroot_default ]; then
-	export USE_CHROOT="NO"
-else
-	export USE_CHROOT="YES"
-fi
-
-###
 ### Interpret our arguments:
 ###
 ###  Actions:
@@ -265,7 +241,7 @@ fi
 ###   -fetch     Only download necessary source and patch files
 ###   -source    Extract, patch, and stage source
 ###   -load      Populate the BuildRoot with one project
-###   -loadonly  Only load dependencies into the chroot, but don't build.
+###   -loadonly  Only load dependencies into the build root, but don't build.
 ###   -recursive Build given project and all required dependencies
 ###   -group     Build all projects in the given darwinxref group,
 ###              as with darwinbuild -recursive
@@ -275,10 +251,7 @@ fi
 ###              source is already in place in the BuildRoot.
 ###   -logdeps  Do magic to log the build-time dependencies
 ###   -nopatch  Don't patch sources before building.
-###   -noload   Don't load dependencies into the chroot.
-###		 Has no effect if -nochroot is specified.
-###   -nochroot Do not chroot into the BuildRoot when building
-###   -chroot   Always chroot into the BuildRoot when building
+###   -noload   Don't load dependencies into the build root.
 ###   -target=X The makefile or xcode target to build
 ###   -configuration=X Specify the build configuration to use
 ###   -build=X  Specify the darwin build number to buld, e.g. 8B15
@@ -318,12 +291,6 @@ for ARG in "$@"; do
 			build="${ARG/*=/}"
 		elif [ "${ARG/=*/}" == "-depsbuild" ]; then
 			depsbuild="${depsbuild} ${ARG/*=/}"
-		elif [ "$ARG" == "-nochroot" ]; then
-			export INSTALL_XCODE="NO"
-			export USE_CHROOT="NO"
-		elif [ "$ARG" == "-chroot" ]; then
-			unset INSTALL_XCODE
-			export USE_CHROOT="YES"
 		elif [ "$ARG" == "-nopatch" ]; then
 			nopatch="YES"
 		elif [ "$ARG" == "-load" ]; then
@@ -336,7 +303,6 @@ for ARG in "$@"; do
 			noload="YES"
 		elif [ "$ARG" == "-loadonly" ]; then
 			loadonly="YES"
-			export USE_CHROOT="NO"
 		elif [ "$ARG" == "-logdeps" ]; then
 			logdeps="YES"
 		elif [ "$ARG" == "-nosource" ]; then
@@ -395,17 +361,9 @@ elif [ "$action" == "loadhdrs" ]; then
 	InstallHeader "$BuildRoot" "$projnam" "$depsbuild"
 	exit 0
 elif [ "$action" == "recursive" ]; then
-	if [ "$USE_CHROOT" == "NO" ]; then
-		exec $DATADIR/darwinbuild-recursive -p "$projnam" -nochroot
-	else
-		exec $DATADIR/darwinbuild-recursive -p "$projnam"
-	fi
+	exec $DATADIR/darwinbuild-recursive -p "$projnam"
 elif [ "$action" == "group" ]; then
-	if [ "$USE_CHROOT" == "NO" ]; then
-		exec $DATADIR/darwinbuild-recursive -g "$projnam" -nochroot
-	else
-		exec $DATADIR/darwinbuild-recursive -g "$projnam"
-	fi
+	exec $DATADIR/darwinbuild-recursive -g "$projnam"
 fi
 
 #
@@ -511,9 +469,6 @@ chmod 1777 "$BuildRoot/$vartmp"
 ### Define the SRCROOT, OBJROOT, SYMROOT, and DSTROOT.
 ### This script refers to the absolute paths of the build
 ### directory, and should use REAL_SRCROOT, etc.
-### If USE_CHROOT, then the environment variables will have
-### the BuildRoot prefix omitted because the chroot
-### will make all paths relative to that point.
 ###
 REAL_SRCROOT="$BuildRoot/SourceCache/$projnam/$project"
 REAL_OBJROOT="$BuildRoot/$vartmp/$projnam/$project.obj"
@@ -623,37 +578,6 @@ fi
 receipts="$BuildRoot/usr/local/darwinbuild/receipts"
 mkdir -p "$receipts"
 
-###
-### If we are going to build in a chroot,
-### install the roots into the BuildRoot.
-### Make sure we have at least a minimally functioning root
-### by installing bash and its dependencies.
-###
-### Also install CoreOSMakefiles and Perl for make based projects
-###
-
-if [ "$USE_CHROOT" = "YES" -a "$EUID" != "0" ]; then
-	echo "darwinbuild must be run as root if building in the chroot" 1>&2
-	exit 1
-fi
-
-if [ "$USE_CHROOT" = "YES" -a ! -f "$BuildRoot/usr/local/darwinbuild/.host-system-chroot-created" ]; then
-	if [ ! -x $DATADIR/createChroot ]; then
-		# This can sometimes happen when darwinbuild was installed via an Xcode
-		# archive. Don't let it silently fail and then break things later.
-		chmod +x $DATADIR/createChroot
-	fi
-
-	echo "*** Creating chroot environment from host system, this may take a while ..."
-	$DATADIR/createChroot "$BuildRoot"
-fi
-
-if [ ! -f "$BuildRoot/usr/local/darwinbuild/.xcode-copied" -a "$USE_CHROOT" = "YES" ]; then
-	echo "*** Installing Xcode Tools ..."
-	"$DATADIR/installXcode" "$BuildRoot" "$PWDP"
-	touch "$BuildRoot/usr/local/darwinbuild/.xcode-copied"
-fi
-
 if [ "$noload" != "YES" ]; then
 	echo "*** Installing Roots ..."
 	deps=$($DARWINXREF dependencies -build "$projnam")
@@ -705,23 +629,9 @@ LOG="$DARWIN_BUILDROOT/Logs/$projnam/$project.log~$build_version"
 TRACELOG="$BuildRoot/private/var/tmp/$projnam/$project.trace~$build_version"
 mkdir -p "$DARWIN_BUILDROOT/Logs/$projnam"
 
-if [ "$USE_CHROOT" == "YES" ]; then
-	prefix="$BuildRoot"
-else
-	prefix=""
-fi
-export SRCROOT="${REAL_SRCROOT/$prefix/}"
-export OBJROOT="${REAL_OBJROOT/$prefix/}"
-export SYMROOT="${REAL_SYMROOT/$prefix/}"
-export DSTROOT="${REAL_DSTROOT/$prefix/}"
-export DEPROOT="${REAL_DEPROOT/$prefix/}"
-
-
-
 # Hide this variable from the unset
 export -n SRCROOT OBJROOT SYMROOT DSTROOT DEPROOT
 export -n DARWIN_BUILDROOT DARWINBUILD_BUILD DARWINXREF_DB_FILE
-export -n USE_CHROOT INSTALL_XCODE
 
 # Screen sets this to a multi-line value which causes trouble
 unset TERMCAP
@@ -735,7 +645,6 @@ IFS="$OLDIFS"
 
 export SRCROOT OBJROOT SYMROOT DSTROOT DEPROOT
 export DARWIN_BUILDROOT DARWINBUILD_BUILD DARWINXREF_DB_FILE
-export USE_CHROOT INSTALL_XCODE
 
 export PATH=/bin:/sbin:/usr/bin:/usr/sbin/:/usr/local/bin:/usr/local/sbin
 export SHELL="/bin/sh"
@@ -787,9 +696,6 @@ EOF
 
 ###
 ### Write out the build script that will be used.
-### This may or may not be executed in a chroot.
-### We want things like the gcc version to be picked
-### up from the chroot.
 ###
 
 SCRIPT="$BuildRoot/$vartmp/$projnam/build-$project~$build_version.sh"
@@ -809,30 +715,6 @@ cat <<-EOF > $SCRIPT
 	# Panther cctools unlinks -o target, so don't use /dev/null
 	echo "    cctools version:      \$(as -v -o /.devnull < /dev/null 2>&1 | grep version | grep -v dwarf-version 2>/dev/null)"
 EOF
-if [ "$logdeps" == "YES" ]; then
-	if [ "$USE_CHROOT" == "YES" ]; then
-		mkdir -p "$BuildRoot/usr/lib"
-		cp "$DARWINTRACE" \
-		"$BuildRoot/usr/lib/darwintrace.dylib"
-
-		echo "export DARWINTRACE_LOG=\"${TRACELOG/$BuildRoot/}\"" >> $SCRIPT
-		echo "export DYLD_INSERT_LIBRARIES=/usr/lib/darwintrace.dylib" >> $SCRIPT
-	else
-		echo "export DARWINTRACE_LOG=\"${TRACELOG}\"" >> $SCRIPT
-		echo "export DYLD_INSERT_LIBRARIES=$DARWINTRACE" >> $SCRIPT
-	fi
-fi
-
-if [ "$USE_CHROOT" == "NO" ]; then
-	echo "*** Redirecting ..."
-	echo "DARWINTRACE_REDIRECT=\"${BuildRoot}\""
-	echo "DARWINTRACE_LOG=\"${TRACELOG}\""
-	echo "DYLD_INSERT_LIBRARIES=$DARWINTRACE"
-	echo ""
-	echo "export DARWINTRACE_REDIRECT=\"${BuildRoot}\"" >> $SCRIPT
-	echo "export DARWINTRACE_LOG=\"${TRACELOG}\"" >> $SCRIPT
-	echo "export DYLD_INSERT_LIBRARIES=$DARWINTRACE" >> $SCRIPT
-fi
 
 if [ "$buildtool" == "xcodebuild" ]; then
 cat <<-EOF >> $SCRIPT
@@ -873,13 +755,8 @@ for X in \
 done
 IFS="$OLDIFS"
 
-if [ "$USE_CHROOT" = "YES" ]; then
-	export RC_BuildRoot=$DEPROOT
-	build_string="$build_string \"RC_BuildRoot=$DEPROOT\""
-else
-	export RC_BuildRoot=$REAL_DEPROOT
-	build_string="$build_string \"RC_BuildRoot=$REAL_DEPROOT\""
-fi
+export RC_BuildRoot=$REAL_DEPROOT
+build_string="$build_string \"RC_BuildRoot=$REAL_DEPROOT\""
 
 cat <<-EOF >> $SCRIPT
 	echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
@@ -898,10 +775,6 @@ cat <<-EOF >> $SCRIPT
 	echo 'Installed Roots:'
 EOF
 # I didn't really want to use perl(1) here, but ls(1) doesn't support this.
-# For now, execute this outside the chroot so we don't require perl to be
-# installed in there.  This should probably be re-written as a C tool
-# that can be installed into the chroot.
-# Uses tail +3 to avoid getting . and ..
 RECEIPTS=$DARWIN_BUILDROOT/BuildRoot/usr/local/darwinbuild/receipts
 perl -e "opendir(DIR,\"$RECEIPTS\");
 	@files = sort(readdir(DIR));
@@ -950,73 +823,12 @@ EOF
 chmod ugo+x $SCRIPT
 
 
-ExitHandler() {
-	### Once for fdsec
-	[ -z "$(echo $BuildRoot/dev/*)" ] || umount "$BuildRoot/dev"
-	### Twice for devfs
-	[ -z "$(echo $BuildRoot/dev/*)" ] || umount "$BuildRoot/dev"
-	### Thrice for volfs
-	[ -z "$(echo $BuildRoot/.vol/*)" ] || chroot "$BuildRoot" umount /.vol
-}
 
-
-if [ "$USE_CHROOT" == "YES" ] ; then
-	###
-	### Mount devfs in the chroot
-	### We'll make /dev/null our de-facto test for the existence of devfs
-	###
-	### Warning:
-	### This must be done *BEFORE* the call to chroot, otherwise there is
-	### no way to unmount the filesystem except rebooting.
-	###
-	echo "*** Mounting special filesystems ..."
-	trap ExitHandler EXIT
-
-	if [ ! -c "$BuildRoot/dev/null" ]; then
-		echo "Mounting devfs ..."
-		mkdir -p "$BuildRoot/dev"
-		mount -t devfs stdin "$BuildRoot/dev"
-		mount -t fdesc -o union stdin "$BuildRoot/dev"
-	else
-		echo "devfs appears to exist ..."
-	fi
-
-	if [ -x /sbin/mount_volfs ]; then
-		# volfs is no longer present (nor needed) on Leopard.
-		if [ -z "$(echo $BuildRoot/.vol/*)" ]; then
- 			echo "Mounting volfs ..."
- 			[ -d "$BuildRoot/sbin" ] || mkdir -p "$BuildRoot/sbin"
- 			[ -x "$BuildRoot/sbin/mount_volfs" ] || \
-				cp /sbin/mount_volfs "$BuildRoot/sbin/"
- 			[ -x "$BuildRoot/sbin/umount" ] || \
-				cp /sbin/umount "$BuildRoot/sbin/"
- 			[ -d "$BuildRoot/.vol" ] || mkdir -p "$BuildRoot/.vol"
- 			## If the directory is empty, assume volfs not mounted
- 			chroot "$BuildRoot" /sbin/mount_volfs "/.vol"
-		else
-	    		echo "volfs appears to be mounted ..."
-		fi
-	fi
-
-	###
-	### Actually invoke the build tool here
-	###
-	chroot -u root -g wheel $BuildRoot $vartmp/$projnam/build-$project~$build_version.sh 2>&1 | tee -a "$LOG";
-	EXIT_STATUS="${PIPESTATUS[0]}"
-else
-	###
-	### Actually invoke the build tool here
-	###
-	$BuildRoot/$vartmp/$projnam/build-$project~$build_version.sh 2>&1 | tee -a "$LOG"
-	EXIT_STATUS="${PIPESTATUS[0]}"
-
-	###
-	### Clean up the logging
-	###
-	if [ "$logdeps" == "YES" ]; then
-		export -n DYLD_INSERT_LIBRARIES DYLD_FORCE_FLAT_NAMESPACE DARWINTRACE_LOG
-	fi
-fi
+###
+### Actually invoke the build tool here
+###
+$BuildRoot/$vartmp/$projnam/build-$project~$build_version.sh 2>&1 | tee -a "$LOG"
+EXIT_STATUS="${PIPESTATUS[0]}"
 
 if [ $EXIT_STATUS -eq 0 ]; then
     IsDirectoryEmpty "$REAL_DSTROOT"
