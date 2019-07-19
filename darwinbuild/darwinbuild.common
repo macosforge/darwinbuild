@@ -187,10 +187,6 @@ function InstallRoot() {
 	local BuildRoot="$1"
 	local Project="$2"
 	local dbuild="$3"
-	local DepRoot="$4"
-	if [ -z "$DepRoot" ]; then
-		DepRoot=$BuildRoot
-	fi
 
 	local SelfBuiltRoot=""
 	local InstallSelfBuiltRoot=0
@@ -231,14 +227,7 @@ function InstallRoot() {
 	# install a self-built root, or a prebuilt root, or nothing
 	if [ $InstallSelfBuiltRoot -eq 1 ]; then
 		echo "Copying $Project from $SelfBuiltRoot ..."
-		ditto "$SelfBuiltRoot" "$DepRoot"
-
-		if [ "$DepRoot" != "$BuildRoot" ]; then
-			# If the DepRoot is different from the BuildRoot, then the
-			# receipts will not be present in the correct location.
-			# We must copy them there ourselves.
-			ditto "$SelfBuiltRoot/usr/local/darwinbuild/receipts" "$BuildRoot/usr/local/darwinbuild/receipts"
-		fi
+		ditto "$SelfBuiltRoot" "$BuildRoot"
 
 		"$DARWINXREF" register "$Project" "$SelfBuiltRoot"  > /dev/null
 		TouchReceipt "$BuildRoot" "$Project" "root"
@@ -291,10 +280,6 @@ function InstallHeader() {
 	local BuildRoot="$1"
 	local Project="$2"
 	local dbuild="$3"
-	local DepRoot="$4"
-	if [ -z "$DepRoot" ]; then
-		DepRoot=$BuildRoot
-	fi
 
 	local SelfBuiltRoot=""
 	local SelfBuiltHeader=""
@@ -366,29 +351,13 @@ function InstallHeader() {
 	# install a self-built root, or a prebuilt root, or nothing
 	if [ $InstallSelfBuiltHeader -eq 1 ]; then
 		echo "Copying $Project from $SelfBuiltHeader ..."
-		ditto "$SelfBuiltHeader" "$DepRoot"
-
-		if [ "$DepRoot" != "$BuildRoot" ]; then
-			# If the DepRoot is different from the BuildRoot, then the
-			# receipts will not be present in the correct location.
-			# We must copy them there ourselves.
-			ditto "$SelfBuiltHeader/usr/local/darwinbuild/receipts" "$BuildRoot/usr/local/darwinbuild/receipts"
-		fi
-
+		ditto "$SelfBuiltHeader" "$BuildRoot"
 		"$DARWINXREF" register "$Project" "$SelfBuiltHeader"  > /dev/null
 		TouchReceipt "$BuildRoot" "$Project" "hdrs"
 		return 0
 	elif [ $InstallSelfBuiltRoot -eq 1 ]; then
 		echo "Copying $Project from $SelfBuiltRoot ..."
-		ditto "$SelfBuiltRoot" "$DepRoot"
-
-		if [ "$DepRoot" != "$BuildRoot" ]; then
-			# If the DepRoot is different from the BuildRoot, then the
-			# receipts will not be present in the correct location.
-			# We must copy them there ourselves.
-			ditto "$SelfBuiltRoot/usr/local/darwinbuild/receipts" "$BuildRoot/usr/local/darwinbuild/receipts"
-		fi
-
+		ditto "$SelfBuiltRoot" "$BuildRoot"
 		"$DARWINXREF" register "$Project" "$SelfBuiltRoot"  > /dev/null
 		TouchReceipt "$BuildRoot" "$Project" "root"
 		return 0
@@ -575,4 +544,16 @@ function IsDirectoryEmpty() {
 	else
 		return 0
 	fi
+}
+
+function WriteDarwinbuildXcodeConfig() {
+	local BuildRoot="$1"
+	local SRCROOT="$2"
+
+	cat <<EOF > $SRCROOT/darwinbuild.xcconfig
+	PD_BUILD_ROOT = "$BuildRoot"
+
+	OTHER_LDFLAGS = \$(OTHER_LDFLAGS) -isysroot "$PD_BUILD_ROOT"
+	OTHER_CFLAGS = \$(OTHER_CFLAGS) -isysroot "$PD_BUILD_ROOT"
+EOF
 }
