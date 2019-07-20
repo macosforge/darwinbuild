@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 import sys, os
 import plistlib
@@ -15,7 +15,10 @@ plist_filename = sys.argv[1]
 project_name = sys.argv[2]
 project_version = sys.argv[3]
 sources_dir = sys.argv[4]
-darwinbuild_plist = plistlib.readPlist(plist_filename)
+darwinbuild_plist = None
+
+with open(plist_filename, 'rb') as file:
+    darwinbuild_plist = plistlib.load(file)
 
 project_data = darwinbuild_plist['projects'][project_name]
 if 'github' in project_data:

@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 import sys, os
 import plistlib
@@ -51,8 +51,8 @@ def recursive_build(project, is_header=False):
         else:
             build_deps_done[project] = True
 
-    build_deps = subprocess.check_output(['darwinxref', 'dependencies', '-build', project]).split('\n')
-    header_deps = subprocess.check_output(['darwinxref', 'dependencies', '-header', project]).split('\n')
+    build_deps = subprocess.check_output(['darwinxref', 'dependencies', '-build', project], universal_newlines=True).split('\n')
+    header_deps = subprocess.check_output(['darwinxref', 'dependencies', '-header', project], universal_newlines=True).split('\n')
 
     for dep in header_deps:
         recursive_build(dep, is_header=True)
@@ -66,12 +66,12 @@ def recursive_build(project, is_header=False):
 
     try:
         subprocess.check_call(darwinbuild_argv, stdout=sys.stdout, stderr=sys.stderr)
-    except subprocess.CalledProcessError, e:
+    except subprocess.CalledProcessError as e:
         print(' '.join(darwinbuild_argv), 'failed with code', e.returncode, file=sys.stderr)
         exit(1)
 
 if group_mode:
-    group_output = subprocess.check_output(['darwinxref', 'group', input_name])
+    group_output = subprocess.check_output(['darwinxref', 'group', input_name], universal_newlines=True)
     group_output = group_output.split('\n')
     for line in group_output:
         for project in line.split(' '):

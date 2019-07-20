@@ -62,7 +62,7 @@ if args.project is not None:
         try:
             print('Attaching build root disk image...')
             subprocess.check_call(['hdiutil', 'attach', '.build/buildroot.sparsebundle', '-readwrite', '-owners', 'on'], cwd=darwin_buildroot, stdout=None)
-        except Exception, e:
+        except Exception as e:
             print('Could not attach buildroot.sparsebundle:', e, file=sys.stderr)
             exit(1)
 
@@ -108,8 +108,10 @@ if project_root is None or srcroot is None:
 
 codesign_plist = None
 try:
-    codesign_plist = plistlib.readPlist(os.path.join(srcroot, 'darwinbuild-codesign.plist'))
-except Exception, e:
+    filename = os.path.join(srcroot, 'darwinbuild-codesign.plist')
+    with open(filename, 'rb') as file:
+        codesign_plist = plistlib.load(file)
+except Exception as e:
     print('Could not read darwinbuild-codesign.plist:', e, file=sys.stderr)
     exit(1)
 
@@ -200,8 +202,8 @@ for (filename, value) in codesign_plist['files'].items():
         signing_map[order] = []
     signing_map[order].append(codesign_argv)
 
-key_vector = signing_map.keys()
-key_vector.sort(cmp=cmp)
+key_vector = list(signing_map.keys())
+key_vector.sort()
 
 for order_index in key_vector:
     for argv in signing_map[order_index]:

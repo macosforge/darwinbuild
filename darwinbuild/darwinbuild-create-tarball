@@ -32,16 +32,12 @@ import os
 import subprocess
 import tarfile
 
-def popen_exec(args, cwd=None):
-    output = subprocess.check_output(args, universal_newlines=True, cwd=cwd)
-    return output.decode('utf-8')
-
 if len(sys.argv) < 3:
     print('usage:', sys.argv[0], '/path/to/output project-version', file=sys.stderr)
     exit(1)
 
 def process_submodule(base_path):
-    module_files = popen_exec(['git', 'ls-files'], cwd=base_path).split('\n')
+    module_files = subprocess.check_output(['git', 'ls-files'], universal_newlines=True, cwd=base_path).split('\n')
 
     gitmodules_path = os.path.join(base_path, '.gitmodules') if base_path is not None else '.gitmodules'
     if not os.path.isfile(gitmodules_path):
@@ -68,7 +64,7 @@ project_and_version = sys.argv[2]
 all_files = []
 try:
     all_files = process_submodule(None)
-except subprocess.CalledProcessError, e:
+except subprocess.CalledProcessError as e:
     print(e.cmd, 'exited with code', e.returncode, file=sys.stderr)
     exit(1)
 
