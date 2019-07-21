@@ -291,7 +291,7 @@ for ARG in "$@"; do
 			build="${ARG/*=/}"
 		elif [ "${ARG/=*/}" == "-depsbuild" ]; then
 			depsbuild="${depsbuild} ${ARG/*=/}"
-		elif [ "$ARG" == "-nochroot" ]; then
+		elif [ "$ARG" == "-nochroot" ]; then :
 			# Ignore this flag.
 		elif [ "$ARG" == "-chroot" ]; then
 			echo "WARNING: Building in the chroot is no longer supported." 1>&2
