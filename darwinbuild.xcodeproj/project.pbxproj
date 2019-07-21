@@ -91,6 +91,7 @@
 		1F12836121C89D2C00E3A732 /* darwinbuild-recursive in Copy Files */ = {isa = PBXBuildFile; fileRef = 1F12836021C89D2C00E3A732 /* darwinbuild-recursive */; };
 		1F12836621C89FD000E3A732 /* darwinbuild-codesign in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1F12836521C89FC800E3A732 /* darwinbuild-codesign */; };
 		1F514C441F4A5CDA008D9341 /* fetch-from-github in Copy Files */ = {isa = PBXBuildFile; fileRef = 1F514C431F4A5CC0008D9341 /* fetch-from-github */; };
+		1F7D730D22E52DFD003F8A67 /* SwiftCLI in Frameworks */ = {isa = PBXBuildFile; productRef = 1F7D730C22E52DFD003F8A67 /* SwiftCLI */; };
 		1FB1351722E522B5005E9A88 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB1351622E522B5005E9A88 /* main.swift */; };
 		1FECB5DF1FBBBD41002EA059 /* setXcodePlatform in Copy Files */ = {isa = PBXBuildFile; fileRef = 1FECB5DE1FBBBC09002EA059 /* setXcodePlatform */; };
 		1FF4AFCC22E5237B002F09C6 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF4AFCB22E5237B002F09C6 /* Utilities.swift */; };
@@ -736,6 +737,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F7D730D22E52DFD003F8A67 /* SwiftCLI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1181,6 +1183,9 @@
 			dependencies = (
 			);
 			name = "darwinbuild-codesign";
+			packageProductDependencies = (
+				1F7D730C22E52DFD003F8A67 /* SwiftCLI */,
+			);
 			productName = "darwinbuild-codesign";
 			productReference = 1FB1351422E522B5005E9A88 /* darwinbuild-codesign */;
 			productType = "com.apple.product-type.tool";
@@ -1772,6 +1777,9 @@
 				Base,
 			);
 			mainGroup = 726DD14710965C5700D5AEAB;
+			packageReferences = (
+				1F7D730B22E52DFD003F8A67 /* XCRemoteSwiftPackageReference "SwiftCLI" */,
+			);
 			productRefGroup = 72C86C391096607900C66E90 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -4269,6 +4277,25 @@
 			defaultConfigurationName = Public;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1F7D730B22E52DFD003F8A67 /* XCRemoteSwiftPackageReference "SwiftCLI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jakeheis/SwiftCLI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.3.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1F7D730C22E52DFD003F8A67 /* SwiftCLI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1F7D730B22E52DFD003F8A67 /* XCRemoteSwiftPackageReference "SwiftCLI" */;
+			productName = SwiftCLI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 726DD14910965C5700D5AEAB /* Project object */;
 }
