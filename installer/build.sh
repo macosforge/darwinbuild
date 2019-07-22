@@ -5,9 +5,15 @@ set -e
 MY_DIR=$(cd `dirname $0` && pwd)
 cd $MY_DIR
 
+mkdir -p $MY_DIR/../build/DependencyPackages
+xcodebuild -resolvePackageDependencies \
+	-project $MY_DIR/../darwinbuild.xcodeproj \
+	-clonedSourcePackagesDirPath $MY_DIR/../build/DependencyPackages
+
 xcodebuild install \
 	-project $MY_DIR/../darwinbuild.xcodeproj \
-	-target world -configuration Release \
+	-scheme world -configuration Release \
+	-clonedSourcePackagesDirPath $MY_DIR/../build/DependencyPackages \
 	DSTROOT=$MY_DIR/payload
 
 pkgbuild \
