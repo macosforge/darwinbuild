@@ -31,7 +31,7 @@ import SwiftCLI
 
 fileprivate func readProcessOutput(commandName: String, arguments: [String]) -> String {
 	let outputPipe = Pipe()
-	let task = Task(executable: commandName, arguments: arguments, stdout: WriteStream.for(fileHandle: outputPipe.fileHandleForWriting))
+	let task = Task(executable: commandName, arguments: arguments, stdout: WriteStream.for(fileHandle: outputPipe.fileHandleForWriting), stderr: WriteStream.stderr)
 
 	let exitCode = task.runSync()
 	if exitCode != 0 {
@@ -75,8 +75,8 @@ fileprivate struct RecursiveBuildContext {
 			}
 		}
 
-		let buildDependencies = splitLines(readProcessOutput(commandName: "darwinxref", arguments: ["dependencies", "-build", projectName]))
-		let headerDependencies = splitLines(readProcessOutput(commandName: "darwinxref", arguments: ["dependencies", "-header", projectName]))
+		let buildDependencies = splitLines(readProcessOutput(commandName: "/usr/local/bin/darwinxref", arguments: ["dependencies", "-build", projectName]))
+		let headerDependencies = splitLines(readProcessOutput(commandName: "/usr/local/bin/darwinxref", arguments: ["dependencies", "-header", projectName]))
 
 		for dep in headerDependencies {
 			buildProject(projectName: dep, isHeaderDependency: true)
@@ -115,6 +115,7 @@ func main() {
 
 		exit(1)
 	}
+	CommandLine.workingDirectory = buildroot
 
 	var context = RecursiveBuildContext()
 	if CommandLine.arguments[1] == "-g" {
