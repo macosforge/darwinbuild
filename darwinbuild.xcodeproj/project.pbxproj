@@ -77,6 +77,7 @@
 			buildPhases = (
 			);
 			dependencies = (
+				1FA9FAFD22E61D9D0096A78D /* PBXTargetDependency */,
 				72C86C611096617500C66E90 /* PBXTargetDependency */,
 				725740971097B03D008AD4D7 /* PBXTargetDependency */,
 				7227AB101097BBA900BE33D7 /* PBXTargetDependency */,
@@ -89,7 +90,6 @@
 
 /* Begin PBXBuildFile section */
 		1F12836121C89D2C00E3A732 /* darwinbuild-recursive in Copy Files */ = {isa = PBXBuildFile; fileRef = 1F12836021C89D2C00E3A732 /* darwinbuild-recursive */; };
-		1F12836621C89FD000E3A732 /* darwinbuild-codesign in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1F12836521C89FC800E3A732 /* darwinbuild-codesign */; };
 		1F514C441F4A5CDA008D9341 /* fetch-from-github in Copy Files */ = {isa = PBXBuildFile; fileRef = 1F514C431F4A5CC0008D9341 /* fetch-from-github */; };
 		1F7D730D22E52DFD003F8A67 /* SwiftCLI in Frameworks */ = {isa = PBXBuildFile; productRef = 1F7D730C22E52DFD003F8A67 /* SwiftCLI */; };
 		1FB1351722E522B5005E9A88 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB1351622E522B5005E9A88 /* main.swift */; };
@@ -148,6 +148,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		1FA9FAFC22E61D9D0096A78D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1FB1351322E522B5005E9A88;
+			remoteInfo = "darwinbuild-codesign";
+		};
 		3963011E1EAB4E01006081C7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
@@ -577,7 +584,6 @@
 			dstPath = "$(BINDIR)";
 			dstSubfolderSpec = 0;
 			files = (
-				1F12836621C89FD000E3A732 /* darwinbuild-codesign in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
@@ -619,7 +625,6 @@
 
 /* Begin PBXFileReference section */
 		1F12836021C89D2C00E3A732 /* darwinbuild-recursive */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; name = "darwinbuild-recursive"; path = "darwinbuild/darwinbuild-recursive"; sourceTree = "<group>"; };
-		1F12836521C89FC800E3A732 /* darwinbuild-codesign */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "darwinbuild-codesign"; path = "darwinbuild/darwinbuild-codesign"; sourceTree = "<group>"; };
 		1F4A793721B9F123000FE4B5 /* conclusion.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = conclusion.html; path = installer/conclusion.html; sourceTree = "<group>"; };
 		1F4A793821B9F123000FE4B5 /* license.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = license.html; path = installer/license.html; sourceTree = "<group>"; };
 		1F4A793921B9F123000FE4B5 /* welcome.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = welcome.html; path = installer/welcome.html; sourceTree = "<group>"; };
@@ -1000,7 +1005,6 @@
 		72C86BD510965DC900C66E90 /* darwinbuild */ = {
 			isa = PBXGroup;
 			children = (
-				1F12836521C89FC800E3A732 /* darwinbuild-codesign */,
 				1F12836021C89D2C00E3A732 /* darwinbuild-recursive */,
 				1F514C431F4A5CC0008D9341 /* fetch-from-github */,
 				720BE2E9120C909E00B3C4A5 /* digest.c */,
@@ -2264,6 +2268,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		1FA9FAFD22E61D9D0096A78D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1FB1351322E522B5005E9A88 /* darwinbuild-codesign */;
+			targetProxy = 1FA9FAFC22E61D9D0096A78D /* PBXContainerItemProxy */;
+		};
 		3963011D1EAB4E01006081C7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 7257499F1097697300B13BC3 /* darwinxref */;
