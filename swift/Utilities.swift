@@ -34,4 +34,38 @@ internal extension CommandLine {
 			}
 		}
 	}
+
+	enum Environment {
+		internal static subscript(name: String) -> String? {
+			get {
+				let buffer = name.withCString {
+					nameBuffer in
+					getenv(nameBuffer)
+				}
+
+				if let buffer = buffer {
+					return String(cString: buffer)
+				} else {
+					return nil
+				}
+			}
+
+			set {
+				if let newValue = newValue {
+					_ = name.withCString {
+						nameBuffer in
+						newValue.withCString {
+							valueBuffer in
+							setenv(nameBuffer, valueBuffer, 1)
+						}
+					}
+				} else {
+					_ = name.withCString {
+						nameBuffer in
+						unsetenv(nameBuffer)
+					}
+				}
+			}
+		}
+	}
 }
