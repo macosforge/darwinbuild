@@ -107,7 +107,7 @@ func main() {
 		fm.directoryExists(atPath: joinPath(buildroot, "Symbols")) &&
 		fm.directoryExists(atPath: joinPath(buildroot, "Headers")) &&
 		fm.directoryExists(atPath: joinPath(buildroot, "Logs"))) {
-		print("ERROR: Could not find darwinbuild root, this is required when using --project", to: &standardError)
+		print("ERROR: Could not find darwinbuild root, this is required", to: &standardError)
 		print("Please change your working directory to one initialized by:", to: &standardError)
 		print("\t$ darwinbuild -init <plist>", to: &standardError)
 		print("Alternatively, you may set the DARWIN_BUILDROOT environment variable to the", to: &standardError)
