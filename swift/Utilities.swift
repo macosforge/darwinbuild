@@ -83,3 +83,11 @@ internal extension FileManager {
 		return exists && !isDir.boolValue
 	}
 }
+
+internal func joinPath(_ paths: String...) -> String {
+	var accumulator = URL(fileURLWithPath: paths[0])
+	for element in paths[1...] {
+		accumulator = accumulator.appendingPathComponent(element)
+	}
+	return accumulator.path
+}
