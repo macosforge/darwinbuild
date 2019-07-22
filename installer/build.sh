@@ -33,4 +33,4 @@ productbuild \
 	--resources $MY_DIR \
 	$MY_DIR/darwinbuild-installer.pkg
 
-echo "Complete! Your installer is located at: $MY_DIR/build/darwinbuild-installer.pkg"
+echo "Complete! Your installer is located at: $MY_DIR/darwinbuild-installer.pkg"
