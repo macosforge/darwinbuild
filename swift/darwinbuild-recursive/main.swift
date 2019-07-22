@@ -84,10 +84,10 @@ fileprivate struct RecursiveBuildContext {
 			buildProject(projectName: dep, isHeaderDependency: false)
 		}
 
-		let task = Task(executable: "/usr/local/bin/darwinbuild", arguments: isHeaderDependency ? ["-header", projectName] : [projectName], stdout: WriteStream.stdout, stderr: WriteStream.stderr)
+		let task = Task(executable: "/usr/local/bin/darwinbuild", arguments: isHeaderDependency ? ["-headers", projectName] : [projectName], stdout: WriteStream.stdout, stderr: WriteStream.stderr)
 		let exitCode = task.runSync()
 		if exitCode != 0 {
-			print("darwinbuild \(isHeaderDependency ? "-header " : "")\(projectName) failed with code \(exitCode)", to: &standardError)
+			print("darwinbuild \(isHeaderDependency ? "-headers " : "")\(projectName) failed with code \(exitCode)", to: &standardError)
 			exit(1)
 		}
 	}
