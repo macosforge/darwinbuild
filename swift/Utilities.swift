@@ -14,3 +14,24 @@ internal struct StandardErrorWriter: TextOutputStream {
 	}
 }
 internal var standardError = StandardErrorWriter()
+
+internal extension CommandLine {
+	static var workingDirectory: String {
+		get {
+			let buffer = UnsafeMutablePointer<Int8>.allocate(capacity: Int(MAXPATHLEN) * MemoryLayout<Int8>.stride)
+			defer {
+				buffer.deallocate()
+			}
+
+			getcwd(buffer, Int(MAXPATHLEN))
+			return String(cString: UnsafePointer<UInt8>(OpaquePointer(buffer)))
+		}
+
+		set {
+			_ = newValue.withCString {
+				buffer in
+				chdir(buffer)
+			}
+		}
+	}
+}
