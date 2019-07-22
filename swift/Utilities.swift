@@ -69,3 +69,17 @@ internal extension CommandLine {
 		}
 	}
 }
+
+internal extension FileManager {
+	func directoryExists(atPath path: String) -> Bool {
+		var isDir = ObjCBool(false)
+		let exists = self.fileExists(atPath: path, isDirectory: &isDir)
+		return exists && isDir.boolValue
+	}
+
+	func fileExists(atPath path: String) -> Bool {
+		var isDir = ObjCBool(false)
+		let exists = self.fileExists(atPath: path, isDirectory: &isDir)
+		return exists && !isDir.boolValue
+	}
+}
