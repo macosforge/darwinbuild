@@ -108,16 +108,19 @@ class CodesignCommand: Command {
 				}
 			}
 
+			let projectName: String
 			let projectNameAndVersion: String
 			let projectBuild: String
 			if projectNameArgument.range(of: "~") != nil {
 				let parts = projectNameArgument.components(separatedBy: "~")
 				projectNameAndVersion = parts[0]
 				projectBuild = parts[1]
+				projectName = projectNameAndVersion.components(separatedBy: "-")[0]
 			} else {
 				projectNameAndVersion = projectNameArgument
+				projectName = projectNameAndVersion.components(separatedBy: "-")[0]
 				var largestBuildNumber = -1
-				for subdir in try fm.contentsOfDirectory(atPath: joinPath(buildroot, "Roots", projectNameAndVersion)) {
+				for subdir in try fm.contentsOfDirectory(atPath: joinPath(buildroot, "Roots", projectName)) {
 					if subdir.hasPrefix(projectNameAndVersion + ".root") {
 						let parts = subdir.components(separatedBy: "~")
 						if let buildNumber = Int(parts[1], radix: 10) {
@@ -139,8 +142,8 @@ class CodesignCommand: Command {
 				projectBuild = String(largestBuildNumber, radix: 10)
 			}
 
-			dstroot = joinPath(buildroot, "Roots", projectNameAndVersion + ".root~" + projectBuild)
-			srcroot = joinPath(buildroot, "BuildRoot", "SourceCache", projectNameAndVersion.components(separatedBy: "-")[0], projectNameAndVersion)
+			dstroot = joinPath(buildroot, "Roots", projectName, projectNameAndVersion + ".root~" + projectBuild)
+			srcroot = joinPath(buildroot, "BuildRoot", "SourceCache", projectName, projectNameAndVersion)
 		}
 
 		if let dstroot = dstroot, let srcroot = srcroot {
