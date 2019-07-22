@@ -92,6 +92,9 @@
 		1F12836121C89D2C00E3A732 /* darwinbuild-recursive in Copy Files */ = {isa = PBXBuildFile; fileRef = 1F12836021C89D2C00E3A732 /* darwinbuild-recursive */; };
 		1F514C441F4A5CDA008D9341 /* fetch-from-github in Copy Files */ = {isa = PBXBuildFile; fileRef = 1F514C431F4A5CC0008D9341 /* fetch-from-github */; };
 		1F7D730D22E52DFD003F8A67 /* SwiftCLI in Frameworks */ = {isa = PBXBuildFile; productRef = 1F7D730C22E52DFD003F8A67 /* SwiftCLI */; };
+		1FA2A9EA22E62BF600F53888 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA2A9E922E62BF600F53888 /* main.swift */; };
+		1FA2A9EF22E62BFE00F53888 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF4AFCB22E5237B002F09C6 /* Utilities.swift */; };
+		1FA2A9F222E62C1900F53888 /* SwiftCLI in Frameworks */ = {isa = PBXBuildFile; productRef = 1FA2A9F122E62C1900F53888 /* SwiftCLI */; };
 		1FB1351722E522B5005E9A88 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB1351622E522B5005E9A88 /* main.swift */; };
 		1FECB5DF1FBBBD41002EA059 /* setXcodePlatform in Copy Files */ = {isa = PBXBuildFile; fileRef = 1FECB5DE1FBBBC09002EA059 /* setXcodePlatform */; };
 		1FF4AFCC22E5237B002F09C6 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF4AFCB22E5237B002F09C6 /* Utilities.swift */; };
@@ -587,6 +590,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
+		1FA2A9E522E62BF600F53888 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		7227AB3C1098977C00BE33D7 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 8;
@@ -630,6 +642,8 @@
 		1F4A793921B9F123000FE4B5 /* welcome.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = welcome.html; path = installer/welcome.html; sourceTree = "<group>"; };
 		1F514C431F4A5CC0008D9341 /* fetch-from-github */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = "fetch-from-github"; path = "darwinbuild/fetch-from-github"; sourceTree = "<group>"; };
 		1F9D9647226516AA0024E830 /* darwinxref.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = darwinxref.entitlements; path = darwinxref/darwinxref.entitlements; sourceTree = "<group>"; };
+		1FA2A9E722E62BF600F53888 /* darwinbuild-recursive */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "darwinbuild-recursive"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1FA2A9E922E62BF600F53888 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		1FB1351422E522B5005E9A88 /* darwinbuild-codesign */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "darwinbuild-codesign"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FB1351622E522B5005E9A88 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		1FD9F0CD21B9E90700FB866A /* build.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = build.sh; path = installer/build.sh; sourceTree = "<group>"; };
@@ -738,6 +752,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		1FA2A9E422E62BF600F53888 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1FA2A9F222E62C1900F53888 /* SwiftCLI in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1FB1351122E522B5005E9A88 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -955,9 +977,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1FA2A9E822E62BF600F53888 /* darwinbuild-recursive */ = {
+			isa = PBXGroup;
+			children = (
+				1FA2A9E922E62BF600F53888 /* main.swift */,
+			);
+			path = "darwinbuild-recursive";
+			sourceTree = "<group>";
+		};
 		1FB1351522E522B5005E9A88 /* swift */ = {
 			isa = PBXGroup;
 			children = (
+				1FA2A9E822E62BF600F53888 /* darwinbuild-recursive */,
 				1FB1351C22E522EA005E9A88 /* darwinbuild-codesign */,
 				1FF4AFCB22E5237B002F09C6 /* Utilities.swift */,
 			);
@@ -1128,6 +1159,7 @@
 				720BE2F2120C90A700B3C4A5 /* digest */,
 				396301271EAB4E01006081C7 /* patch_sites.so */,
 				1FB1351422E522B5005E9A88 /* darwinbuild-codesign */,
+				1FA2A9E722E62BF600F53888 /* darwinbuild-recursive */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1175,6 +1207,26 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		1FA2A9E622E62BF600F53888 /* darwinbuild-recursive */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1FA2A9EE22E62BF600F53888 /* Build configuration list for PBXNativeTarget "darwinbuild-recursive" */;
+			buildPhases = (
+				1FA2A9E322E62BF600F53888 /* Sources */,
+				1FA2A9E422E62BF600F53888 /* Frameworks */,
+				1FA2A9E522E62BF600F53888 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "darwinbuild-recursive";
+			packageProductDependencies = (
+				1FA2A9F122E62C1900F53888 /* SwiftCLI */,
+			);
+			productName = "darwinbuild-recursive";
+			productReference = 1FA2A9E722E62BF600F53888 /* darwinbuild-recursive */;
+			productType = "com.apple.product-type.tool";
+		};
 		1FB1351322E522B5005E9A88 /* darwinbuild-codesign */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1FB1351B22E522B5005E9A88 /* Build configuration list for PBXNativeTarget "darwinbuild-codesign" */;
@@ -1764,6 +1816,9 @@
 				LastUpgradeCheck = 1100;
 				ORGANIZATIONNAME = "The DarwinBuild Project";
 				TargetAttributes = {
+					1FA2A9E622E62BF600F53888 = {
+						CreatedOnToolsVersion = 11.0;
+					};
 					1FB1351322E522B5005E9A88 = {
 						CreatedOnToolsVersion = 11.0;
 					};
@@ -1826,6 +1881,7 @@
 				720BE2EA120C90A700B3C4A5 /* digest */,
 				3963011C1EAB4E01006081C7 /* patch_sites */,
 				1FB1351322E522B5005E9A88 /* darwinbuild-codesign */,
+				1FA2A9E622E62BF600F53888 /* darwinbuild-recursive */,
 			);
 		};
 /* End PBXProject section */
@@ -2020,6 +2076,15 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		1FA2A9E322E62BF600F53888 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1FA2A9EF22E62BFE00F53888 /* Utilities.swift in Sources */,
+				1FA2A9EA22E62BF600F53888 /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1FB1351022E522B5005E9A88 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2576,6 +2641,108 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		1FA2A9EB22E62BF600F53888 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 3P242C9ES5;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		1FA2A9EC22E62BF600F53888 /* Public */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3P242C9ES5;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Public;
+		};
+		1FA2A9ED22E62BF600F53888 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3P242C9ES5;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		1FB1351822E522B5005E9A88 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3889,6 +4056,16 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		1FA2A9EE22E62BF600F53888 /* Build configuration list for PBXNativeTarget "darwinbuild-recursive" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1FA2A9EB22E62BF600F53888 /* Debug */,
+				1FA2A9EC22E62BF600F53888 /* Public */,
+				1FA2A9ED22E62BF600F53888 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Public;
+		};
 		1FB1351B22E522B5005E9A88 /* Build configuration list for PBXNativeTarget "darwinbuild-codesign" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -4294,6 +4471,11 @@
 
 /* Begin XCSwiftPackageProductDependency section */
 		1F7D730C22E52DFD003F8A67 /* SwiftCLI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1F7D730B22E52DFD003F8A67 /* XCRemoteSwiftPackageReference "SwiftCLI" */;
+			productName = SwiftCLI;
+		};
+		1FA2A9F122E62C1900F53888 /* SwiftCLI */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 1F7D730B22E52DFD003F8A67 /* XCRemoteSwiftPackageReference "SwiftCLI" */;
 			productName = SwiftCLI;
