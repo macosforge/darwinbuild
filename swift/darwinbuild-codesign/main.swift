@@ -29,6 +29,16 @@
 import Foundation
 import SwiftCLI
 
+internal extension Dictionary {
+	func get<Type>(_ key: Key) -> Type? {
+		if let value = self[key] {
+			return value as? Type
+		} else {
+			return nil
+		}
+	}
+}
+
 class CodesignCommand: Command {
 	let name = "darwinbuild-codesign"
 
@@ -39,11 +49,11 @@ class CodesignCommand: Command {
 	public func execute() throws {
 		var dstroot = self.dstroot.value
 		var srcroot = self.srcroot.value
+		let fm = FileManager()
 
-		if let projectName = projectName.value {
+		if let projectNameArgument = projectName.value {
 			let buildroot = CommandLine.Environment["DARWIN_BUILDROOT"] ?? CommandLine.workingDirectory
 
-			let fm = FileManager()
 			if !(fm.directoryExists(atPath: joinPath(buildroot, "Roots")) &&
 				fm.directoryExists(atPath: joinPath(buildroot, "Sources")) &&
 				fm.directoryExists(atPath: joinPath(buildroot, "Symbols")) &&
@@ -58,8 +68,80 @@ class CodesignCommand: Command {
 				exit(1)
 			}
 
-			print("Not implemented...", to: &standardError)
+			if let buildrootType = (try fm.attributesOfItem(atPath: joinPath(buildroot, "BuildRoot")))[.type] as? FileAttributeType?, buildrootType == FileAttributeType.typeSymbolicLink {
+				if !fm.directoryExists(atPath: try fm.destinationOfSymbolicLink(atPath: joinPath(buildroot, "BuildRoot"))) {
+					print("Attaching build root disk image...")
+
+					let task = Task(executable: "/usr/bin/hdiutil", arguments: [
+						"attach", ".build/buildroot.sparsebundle",
+						"-readwrite", "-owners", "on"
+					], directory: buildroot)
+					if task.runSync() != 0 {
+						print("Could not attach buildroot.sparsebundle", to: &standardError)
+						exit(1)
+					}
+				}
+			}
+
+			let projectNameAndVersion: String
+			let projectBuild: String
+			if projectNameArgument.range(of: "~") != nil {
+				let parts = projectNameArgument.components(separatedBy: "~")
+				projectNameAndVersion = parts[0]
+				projectBuild = parts[1]
+			} else {
+				projectNameAndVersion = projectNameArgument
+				var largestBuildNumber = -1
+				for subdir in try fm.contentsOfDirectory(atPath: joinPath(buildroot, "Roots", projectNameAndVersion)) {
+					if subdir.hasPrefix(projectNameAndVersion + ".root") {
+						let parts = subdir.components(separatedBy: "~")
+						if let buildNumber = Int(parts[1], radix: 10) {
+							if buildNumber > largestBuildNumber {
+								largestBuildNumber = buildNumber
+							}
+						}
+					}
+				}
+
+				if largestBuildNumber == -1 {
+					print("Could not determine latest build for \(projectNameAndVersion)", to: &standardError)
+					if projectNameAndVersion.range(of: "-") == nil {
+						print("(Did you forget the version in the project name?)", to: &standardError)
+					}
+					exit(1)
+				}
+
+				projectBuild = String(largestBuildNumber, radix: 10)
+			}
+
+			dstroot = joinPath(buildroot, "Roots", projectNameAndVersion + ".root~" + projectBuild)
+			srcroot = joinPath(buildroot, "BuildRoot", "SourceCache", projectNameAndVersion.components(separatedBy: "-")[0], projectNameAndVersion)
+		}
+
+		if let dstroot = dstroot, let srcroot = srcroot {
+			let data = try Data(contentsOf: URL(fileURLWithPath: joinPath(srcroot, "darwinbuild-codesign.plist")))
+			let codesignPlist = try PropertyListSerialization.propertyList(from: data, options: [], format: nil) as! [String: Any]
+
+			guard let certificate: String = codesignPlist.get("certificate") else {
+				print("ERROR: Default certificate must be provided (use \"certificate\" key in top-level of plist", to: &standardError)
+				exit(1)
+			}
+
+			let defaultHardenedRuntime = codesignPlist.get("hardened_runtime") ?? false
+			let defaultPrefix: String? = codesignPlist.get("prefix")
+			let defaultTimestampURL = codesignPlist.get("timestamp") ?? "<apple>"
+
+			let signingMap: [Int: [Task]]
+			guard let fileMap: [String: [String: Any]] = codesignPlist.get("files") else {
+				print("Warning: Nothing to sign")
+				return
+			}
+
+			print("ERROR: Not further implemented...", to: &standardError)
 			exit(-1)
+		} else {
+			print("ERROR: Either -p, or both -d and -s must be specified", to: &standardError)
+			exit(1)
 		}
 	}
 }
