@@ -27,8 +27,46 @@
 //
 
 import Foundation
+import SwiftCLI
+
+class CodesignCommand: Command {
+	let name = "darwinbuild-codesign"
+
+	private let dstroot = Key<String>("--dstroot", "-d", description: "Code-sign the files in this directory")
+	private let srcroot = Key<String>("--srcroot", "-s", description: "Path to the sources corresponding to the dstroot")
+	private let projectName = Key<String>("--project", "-p", description: "Code-sign this darwinbuild output root")
+
+	public func execute() throws {
+		var dstroot = self.dstroot.value
+		var srcroot = self.srcroot.value
+
+		if let projectName = projectName.value {
+			let buildroot = CommandLine.Environment["DARWIN_BUILDROOT"] ?? CommandLine.workingDirectory
+
+			let fm = FileManager()
+			if !(fm.directoryExists(atPath: joinPath(buildroot, "Roots")) &&
+				fm.directoryExists(atPath: joinPath(buildroot, "Sources")) &&
+				fm.directoryExists(atPath: joinPath(buildroot, "Symbols")) &&
+				fm.directoryExists(atPath: joinPath(buildroot, "Headers")) &&
+				fm.directoryExists(atPath: joinPath(buildroot, "Logs"))) {
+				print("ERROR: Could not find darwinbuild root, this is required when using --project", to: &standardError)
+				print("Please change your working directory to one initialized by:", to: &standardError)
+				print("darwinbuild -init <plist>", to: &standardError)
+				print("Alternatively, you may set the DARWIN_BUILDROOT environment variable to the", to: &standardError)
+				print("absolute path of that directory.", to: &standardError)
+
+				exit(1)
+			}
+
+			print("Not implemented...", to: &standardError)
+			exit(-1)
+		}
+	}
+}
 
 func main() {
+	let parser = CLI(singleCommand: CodesignCommand())
+	parser.goAndExit()
 }
 
 main()
