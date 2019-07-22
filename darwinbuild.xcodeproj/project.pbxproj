@@ -77,6 +77,7 @@
 			buildPhases = (
 			);
 			dependencies = (
+				1FF1E7E322E65BC9002B8CAA /* PBXTargetDependency */,
 				1FCA51AF22E6551E00D55269 /* PBXTargetDependency */,
 				1FA9FAFD22E61D9D0096A78D /* PBXTargetDependency */,
 				72C86C611096617500C66E90 /* PBXTargetDependency */,
@@ -90,7 +91,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		1F514C441F4A5CDA008D9341 /* fetch-from-github in Copy Files */ = {isa = PBXBuildFile; fileRef = 1F514C431F4A5CC0008D9341 /* fetch-from-github */; };
 		1F7D730D22E52DFD003F8A67 /* SwiftCLI in Frameworks */ = {isa = PBXBuildFile; productRef = 1F7D730C22E52DFD003F8A67 /* SwiftCLI */; };
 		1FA2A9EA22E62BF600F53888 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA2A9E922E62BF600F53888 /* main.swift */; };
 		1FA2A9EF22E62BFE00F53888 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF4AFCB22E5237B002F09C6 /* Utilities.swift */; };
@@ -167,6 +167,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 1FA2A9E622E62BF600F53888;
 			remoteInfo = "darwinbuild-recursive";
+		};
+		1FF1E7E222E65BC9002B8CAA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 726DD14910965C5700D5AEAB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1FCA51B322E6562800D55269;
+			remoteInfo = "fetch-from-github";
 		};
 		3963011E1EAB4E01006081C7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -640,7 +647,6 @@
 			dstPath = "$(DATDIR)/darwinbuild";
 			dstSubfolderSpec = 0;
 			files = (
-				1F514C441F4A5CDA008D9341 /* fetch-from-github in Copy Files */,
 				1FECB5DF1FBBBD41002EA059 /* setXcodePlatform in Copy Files */,
 				7227AD1C109A05FA00BE33D7 /* buildlist in Copy Files */,
 				7227AD1D109A05FA00BE33D7 /* buildorder in Copy Files */,
@@ -657,7 +663,6 @@
 		1F4A793721B9F123000FE4B5 /* conclusion.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = conclusion.html; path = installer/conclusion.html; sourceTree = "<group>"; };
 		1F4A793821B9F123000FE4B5 /* license.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = license.html; path = installer/license.html; sourceTree = "<group>"; };
 		1F4A793921B9F123000FE4B5 /* welcome.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = welcome.html; path = installer/welcome.html; sourceTree = "<group>"; };
-		1F514C431F4A5CC0008D9341 /* fetch-from-github */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = "fetch-from-github"; path = "darwinbuild/fetch-from-github"; sourceTree = "<group>"; };
 		1F9D9647226516AA0024E830 /* darwinxref.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = darwinxref.entitlements; path = darwinxref/darwinxref.entitlements; sourceTree = "<group>"; };
 		1FA2A9E722E62BF600F53888 /* darwinbuild-recursive */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "darwinbuild-recursive"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FA2A9E922E62BF600F53888 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -1072,7 +1077,6 @@
 		72C86BD510965DC900C66E90 /* darwinbuild */ = {
 			isa = PBXGroup;
 			children = (
-				1F514C431F4A5CC0008D9341 /* fetch-from-github */,
 				720BE2E9120C909E00B3C4A5 /* digest.c */,
 				7227AB871098A7BF00BE33D7 /* buildlist */,
 				7227AB881098A7BF00BE33D7 /* buildorder */,
@@ -2411,6 +2415,11 @@
 			isa = PBXTargetDependency;
 			target = 1FA2A9E622E62BF600F53888 /* darwinbuild-recursive */;
 			targetProxy = 1FCA51AE22E6551E00D55269 /* PBXContainerItemProxy */;
+		};
+		1FF1E7E322E65BC9002B8CAA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1FCA51B322E6562800D55269 /* fetch-from-github */;
+			targetProxy = 1FF1E7E222E65BC9002B8CAA /* PBXContainerItemProxy */;
 		};
 		3963011D1EAB4E01006081C7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
