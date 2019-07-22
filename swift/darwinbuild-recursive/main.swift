@@ -30,8 +30,8 @@ import Foundation
 import SwiftCLI
 
 fileprivate func readProcessOutput(commandName: String, arguments: [String]) -> String {
-	let outputPipe = Pipe()
-	let task = Task(executable: commandName, arguments: arguments, stdout: WriteStream.for(fileHandle: outputPipe.fileHandleForWriting), stderr: WriteStream.stderr)
+	let output = CaptureStream()
+	let task = Task(executable: commandName, arguments: arguments, stdout: output, stderr: WriteStream.stderr)
 
 	let exitCode = task.runSync()
 	if exitCode != 0 {
@@ -39,8 +39,7 @@ fileprivate func readProcessOutput(commandName: String, arguments: [String]) -> 
 		exit(1)
 	}
 
-	let data = outputPipe.fileHandleForReading.readDataToEndOfFile()
-	if let text = String(data: data, encoding: .utf8) {
+	if let text = String(data: output.readAllData(), encoding: .utf8) {
 		return text
 	} else {
 		fatalError("could not decode tool output into UTF-8 string")
