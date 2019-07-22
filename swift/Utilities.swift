@@ -8,9 +8,9 @@
 
 import Foundation
 
-internal class StandardErrorWriter: TextOutputStream {
-	func write(_ string: String) {
+internal struct StandardErrorWriter: TextOutputStream {
+	mutating func write(_ string: String) {
 		fputs(string, stderr)
 	}
 }
-internal let standardError = StandardErrorWriter()
+internal var standardError = StandardErrorWriter()
