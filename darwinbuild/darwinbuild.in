@@ -663,6 +663,10 @@ if [ "$buildtool" == "xcodebuild" -a "$configuration" != "" ]; then
 	build_string="$build_string -configuration \"$configuration\""
 fi
 
+if [ "$buildtool" == "xcodebuild" ]; then
+	build_string="$build_string CODE_SIGN_IDENTITY=-"
+fi
+
 ###
 ### Write out the xcconfig file to override the Xcode SDK.
 ###
