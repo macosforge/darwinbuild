@@ -48,13 +48,13 @@ if [[ $request_id =~ ^\{?[A-F0-9a-f]{8}-[A-F0-9a-f]{4}-[A-F0-9a-f]{4}-[A-F0-9a-f
 		fi
 	done
 
+	log_url=$(/usr/libexec/PlistBuddy -c "print :notarization-info:LogFileURL" $ALTOOL_LOG)
+	echo "Log file can be downloaded from: $log_url"
+
 	if [ "$notarization_status" != "success" ]; then
 		echo "altool reported notarization error" 1>&2
 		exit 1
 	fi
-
-	log_url=$(/usr/libexec/PlistBuddy -c "print :notarization-info:LogFileURL" $ALTOOL_LOG)
-	echo "Log file can be downloaded from: $log_url"
 
 	xcrun stapler staple $MY_DIR/darwinbuild-installer.pkg
 	xcrun stapler validate -v $MY_DIR/darwinbuild-installer.pkg
