@@ -48,7 +48,7 @@ if [[ $request_id =~ ^\{?[A-F0-9a-f]{8}-[A-F0-9a-f]{4}-[A-F0-9a-f]{4}-[A-F0-9a-f
 		fi
 	done
 
-	if [ "$status" != "success" ]; then
+	if [ "$notarization_status" != "success" ]; then
 		echo "altool reported notarization error" 1>&2
 		exit 1
 	fi
