@@ -58,7 +58,7 @@ if [[ $request_id =~ ^\{?[A-F0-9a-f]{8}-[A-F0-9a-f]{4}-[A-F0-9a-f]{4}-[A-F0-9a-f
 
 	xcrun stapler staple $MY_DIR/darwinbuild-installer.pkg
 	xcrun stapler validate -v $MY_DIR/darwinbuild-installer.pkg
-	if [ $@ -ne 0 ]; then
+	if [ $? -ne 0 ]; then
 		echo "validation of installer notarization failed" 1>&2
 		exit 1
 	fi
