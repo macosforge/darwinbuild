@@ -97,7 +97,7 @@ class FetchSourcesCommand: Command {
 			do {
 				try Task.run("/usr/bin/tar", arguments: ["xf", downloadPath], directory: tempDir)
 				try fm.moveItem(at: URL(fileURLWithPath: joinPath(tempDir, repoBasename + "-" + tag)), to: URL(fileURLWithPath: joinPath(tempDir, projectName.value + "-" + projectVersion.value)))
-				try Task.run("/usr/bin/tar", arguments: ["czf", tarballFilename, projectName.value + "-" + projectVersion.value], directory: tempDir)
+				try Task.run("/usr/bin/tar", arguments: ["czf", downloadPath, projectName.value + "-" + projectVersion.value], directory: tempDir)
 
 				try? fm.removeItem(atPath: tempDir)
 			} catch is RunError {
