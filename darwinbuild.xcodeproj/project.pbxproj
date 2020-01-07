@@ -1873,7 +1873,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1100;
-				LastUpgradeCheck = 1100;
+				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = "The DarwinBuild Project";
 				TargetAttributes = {
 					1FA2A9E622E62BF600F53888 = {
