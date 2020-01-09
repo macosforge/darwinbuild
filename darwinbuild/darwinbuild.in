@@ -242,7 +242,7 @@ fi
 ###   -source    Extract, patch, and stage source
 ###   -load      Populate the BuildRoot with one project
 ###   -loadonly  Only load dependencies into the build root, but don't build.
-###   -recursive Build given project and all required dependencies
+###   -recursive Build given project(s) and all required dependencies
 ###   -group     Build all projects in the given darwinxref group,
 ###              as with darwinbuild -recursive
 ###
@@ -267,6 +267,11 @@ if [ "$DARWINBUILD_BUILD" != "" ]; then
 	build="$DARWINBUILD_BUILD"
 fi
 
+if [ "$1" == "-recursive" ]; then
+	shift
+	exec $DATADIR/darwinbuild-recursive -p "$@"
+fi
+
 for ARG in "$@"; do
 	if [ "$projnam" == "" ]; then
 		if [ "$ARG" == "-headers" ]; then
@@ -280,7 +285,8 @@ for ARG in "$@"; do
 		elif [ "$ARG" == "-source" ]; then
 			action="source"
 		elif [ "$ARG" = "-recursive" ]; then
-			action="recursive"
+			echo "Error: -recursive only supported as first argument to darwinbuild" 1>&2
+			exit 1
 		elif [ "$ARG" = "-group" ]; then
 			action="group"
 		elif [ "${ARG/=*/}" == "-target" ]; then
@@ -358,7 +364,7 @@ fi
 
 ###
 ### If we are doing a -load, install the root and exit.
-### Also handle -recursive and -group here.
+### Also handle -group here.
 ###
 if [ "$action" == "load" ]; then
 	InstallRoot "$BuildRoot" "$projnam" "$depsbuild"
@@ -366,8 +372,6 @@ if [ "$action" == "load" ]; then
 elif [ "$action" == "loadhdrs" ]; then
 	InstallHeader "$BuildRoot" "$projnam" "$depsbuild"
 	exit 0
-elif [ "$action" == "recursive" ]; then
-	exec $DATADIR/darwinbuild-recursive -p "$projnam"
 elif [ "$action" == "group" ]; then
 	exec $DATADIR/darwinbuild-recursive -g "$projnam"
 fi

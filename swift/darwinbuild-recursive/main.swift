@@ -127,7 +127,9 @@ func main() {
 			}
 		}
 	} else if CommandLine.arguments[1] == "-p" {
-		context.buildProject(projectName: CommandLine.arguments[2])
+		for projectName in CommandLine.arguments[2...] {
+			context.buildProject(projectName: projectName)
+		}
 	} else {
 		print("ERROR: First argument must be either -g or -p", to: &standardError)
 		exit(1)
