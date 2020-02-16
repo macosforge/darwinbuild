@@ -607,24 +607,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
-		1FA2A9E522E62BF600F53888 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
-		1FCA51B222E6562800D55269 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
 		7227AB3C1098977C00BE33D7 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 8;
@@ -1253,7 +1235,6 @@
 			buildPhases = (
 				1FA2A9E322E62BF600F53888 /* Sources */,
 				1FA2A9E422E62BF600F53888 /* Frameworks */,
-				1FA2A9E522E62BF600F53888 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1292,7 +1273,6 @@
 			buildPhases = (
 				1FCA51B022E6562800D55269 /* Sources */,
 				1FCA51B122E6562800D55269 /* Frameworks */,
-				1FCA51B222E6562800D55269 /* CopyFiles */,
 			);
 			buildRules = (
 			);
