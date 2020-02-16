@@ -28,7 +28,6 @@ fi
 
 request_id=$(/usr/libexec/PlistBuddy -c "print :notarization-upload:RequestUUID" $ALTOOL_LOG)
 if [[ $request_id =~ ^\{?[A-F0-9a-f]{8}-[A-F0-9a-f]{4}-[A-F0-9a-f]{4}-[A-F0-9a-f]{4}-[A-F0-9a-f]{12}\}?$ ]]; then
-	attempts=5
 
 	while :; do
 		echo "Sleeping 20 seconds before checking notarization status..."
@@ -42,9 +41,6 @@ if [[ $request_id =~ ^\{?[A-F0-9a-f]{8}-[A-F0-9a-f]{4}-[A-F0-9a-f]{4}-[A-F0-9a-f
 
 		if [ ! -z "$notarization_status" ]; then
 			[ "$notarization_status" != "in progress" ] && break
-		else
-			(($attempts <= 0)) && break
-			((attempts--))
 		fi
 	done
 
