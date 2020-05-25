@@ -1,7 +1,5 @@
 #!/bin/sh
 
-set -e
-
 MY_DIR=$(cd `dirname $0` && pwd)
 cd $MY_DIR
 
