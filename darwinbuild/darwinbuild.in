@@ -726,6 +726,7 @@ XREF_ENV=$($DARWINXREF environment $projnam)
 OLDIFS="$IFS"
 IFS=$'\n'
 for X in \
+	"RC_ProjectName=$projnam" \
 	$XREF_ENV ; do
 	echo "echo '${X/=*/}: ${X/*=/}'" >> $SCRIPT
 	eval "export -- \"$X\""
