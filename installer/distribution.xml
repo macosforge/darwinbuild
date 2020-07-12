@@ -5,7 +5,7 @@
 		<line choice="org.puredarwin.darwinbuild.component"/>
 	</choices-outline>
 	<choice id="org.puredarwin.darwinbuild.component" visible="true" title="darwinbuild">
-	  <pkg-ref id="org.puredarwin.darwinbuild.component"/>
+		<pkg-ref id="org.puredarwin.darwinbuild.component"/>
 	</choice>
 	<pkg-ref id="org.puredarwin.darwinbuild.component" version="2.0" onConclusion="none">darwinbuild-component.pkg</pkg-ref>
 
