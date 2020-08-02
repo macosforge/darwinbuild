@@ -2740,36 +2740,6 @@
 			};
 			name = Debug;
 		};
-		1FA2A9EC22E62BF600F53888 /* Public */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_NS_ASSERTIONS = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INSTALL_PATH = /usr/local/share/darwinbuild;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Public;
-		};
 		1FA2A9ED22E62BF600F53888 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2834,35 +2804,6 @@
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
-		};
-		1FB1351922E522B5005E9A88 /* Public */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_NS_ASSERTIONS = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Public;
 		};
 		1FB1351A22E522B5005E9A88 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -2929,36 +2870,6 @@
 			};
 			name = Debug;
 		};
-		1FCA51BA22E6562800D55269 /* Public */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_NS_ASSERTIONS = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INSTALL_PATH = /usr/local/share/darwinbuild;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Public;
-		};
 		1FCA51BB22E6562800D55269 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2998,15 +2909,6 @@
 			};
 			name = Debug;
 		};
-		396301251EAB4E01006081C7 /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Public;
-		};
 		396301261EAB4E01006081C7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
@@ -3027,18 +2929,6 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
-		};
-		720BE2F0120C90A700B3C4A5 /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_STYLE = Manual;
-				INSTALL_PATH = "$(DATDIR)/darwinbuild";
-				PRODUCT_NAME = digest;
-				PROVISIONING_PROFILE_SPECIFIER = "";
-			};
-			name = Public;
 		};
 		720BE2F1120C90A700B3C4A5 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -3061,15 +2951,6 @@
 			};
 			name = Debug;
 		};
-		7227AB3F1098977D00BE33D7 /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				PRODUCT_NAME = tcl_plugins;
-			};
-			name = Public;
-		};
 		7227AB401098977D00BE33D7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
@@ -3090,18 +2971,6 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
-		};
-		7227AB7010989A9A00BE33D7 /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_STYLE = Manual;
-				INSTALL_PATH = "$(DATDIR)/darwinbuild";
-				PRODUCT_NAME = manifest;
-				PROVISIONING_PROFILE_SPECIFIER = "";
-			};
-			name = Public;
 		};
 		7227AB7110989A9A00BE33D7 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -3125,16 +2994,6 @@
 			};
 			name = Debug;
 		};
-		7227AC041098D78C00BE33D7 /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				INSTALL_PATH = "$(BINDIR)";
-				PRODUCT_NAME = darwinmaster;
-			};
-			name = Public;
-		};
 		7227AC051098D78C00BE33D7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
@@ -3154,16 +3013,6 @@
 				PRODUCT_NAME = packageRoots;
 			};
 			name = Debug;
-		};
-		7227AC111098D84600BE33D7 /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				INSTALL_PATH = "$(DATDIR)/darwinbuild";
-				PRODUCT_NAME = packageRoots;
-			};
-			name = Public;
 		};
 		7227AC121098D84600BE33D7 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -3185,16 +3034,6 @@
 			};
 			name = Debug;
 		};
-		7227AC1A1098D8DB00BE33D7 /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				INSTALL_PATH = "$(DATDIR)/darwinbuild";
-				PRODUCT_NAME = thinPackages;
-			};
-			name = Public;
-		};
 		7227AC1B1098D8DB00BE33D7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
@@ -3214,15 +3053,6 @@
 			};
 			name = Debug;
 		};
-		7227AC331098DC4F00BE33D7 /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				PRODUCT_NAME = darwinbuild_scripts;
-			};
-			name = Public;
-		};
 		7227AC341098DC4F00BE33D7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
@@ -3240,14 +3070,6 @@
 			};
 			name = Debug;
 		};
-		72573F7D1097A488008AD4D7 /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-			};
-			name = Public;
-		};
 		72573F7E1097A488008AD4D7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
@@ -3263,14 +3085,6 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Debug;
-		};
-		72573FD01097A4B7008AD4D7 /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-			};
-			name = Public;
 		};
 		72573FD11097A4B7008AD4D7 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -3288,14 +3102,6 @@
 			};
 			name = Debug;
 		};
-		72573FD91097A538008AD4D7 /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-			};
-			name = Public;
-		};
 		72573FDA1097A538008AD4D7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
@@ -3311,14 +3117,6 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Debug;
-		};
-		72573FE21097A5A2008AD4D7 /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-			};
-			name = Public;
 		};
 		72573FE31097A5A2008AD4D7 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -3336,14 +3134,6 @@
 			};
 			name = Debug;
 		};
-		72573FEB1097A5BA008AD4D7 /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-			};
-			name = Public;
-		};
 		72573FEC1097A5BA008AD4D7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
@@ -3359,14 +3149,6 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Debug;
-		};
-		72573FF41097A5D8008AD4D7 /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-			};
-			name = Public;
 		};
 		72573FF51097A5D8008AD4D7 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -3384,14 +3166,6 @@
 			};
 			name = Debug;
 		};
-		725740031097A6CC008AD4D7 /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-			};
-			name = Public;
-		};
 		725740041097A6CC008AD4D7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
@@ -3407,14 +3181,6 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Debug;
-		};
-		725740111097AA25008AD4D7 /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-			};
-			name = Public;
 		};
 		725740121097AA25008AD4D7 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -3432,14 +3198,6 @@
 			};
 			name = Debug;
 		};
-		7257401A1097AA5F008AD4D7 /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-			};
-			name = Public;
-		};
 		7257401B1097AA5F008AD4D7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
@@ -3455,14 +3213,6 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Debug;
-		};
-		725740221097AA6E008AD4D7 /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-			};
-			name = Public;
 		};
 		725740231097AA6E008AD4D7 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -3480,14 +3230,6 @@
 			};
 			name = Debug;
 		};
-		7257402A1097AA79008AD4D7 /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-			};
-			name = Public;
-		};
 		7257402B1097AA79008AD4D7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
@@ -3503,14 +3245,6 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Debug;
-		};
-		725740341097AA95008AD4D7 /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-			};
-			name = Public;
 		};
 		725740351097AA95008AD4D7 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -3528,14 +3262,6 @@
 			};
 			name = Debug;
 		};
-		7257403C1097AAA6008AD4D7 /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-			};
-			name = Public;
-		};
 		7257403D1097AAA6008AD4D7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
@@ -3551,14 +3277,6 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Debug;
-		};
-		725740441097AABA008AD4D7 /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-			};
-			name = Public;
 		};
 		725740451097AABA008AD4D7 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -3576,14 +3294,6 @@
 			};
 			name = Debug;
 		};
-		7257404C1097ABDC008AD4D7 /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-			};
-			name = Public;
-		};
 		7257404D1097ABDC008AD4D7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
@@ -3599,14 +3309,6 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Debug;
-		};
-		725740541097AEC1008AD4D7 /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-			};
-			name = Public;
 		};
 		725740551097AEC1008AD4D7 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -3624,14 +3326,6 @@
 			};
 			name = Debug;
 		};
-		7257405C1097AECC008AD4D7 /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-			};
-			name = Public;
-		};
 		7257405D1097AECC008AD4D7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
@@ -3647,14 +3341,6 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Debug;
-		};
-		725740641097AEDE008AD4D7 /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-			};
-			name = Public;
 		};
 		725740651097AEDE008AD4D7 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -3672,14 +3358,6 @@
 			};
 			name = Debug;
 		};
-		7257406C1097AEF0008AD4D7 /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-			};
-			name = Public;
-		};
 		7257406D1097AEF0008AD4D7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
@@ -3695,14 +3373,6 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Debug;
-		};
-		725740741097AEFE008AD4D7 /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-			};
-			name = Public;
 		};
 		725740751097AEFE008AD4D7 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -3720,14 +3390,6 @@
 			};
 			name = Debug;
 		};
-		7257407C1097AF0A008AD4D7 /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-			};
-			name = Public;
-		};
 		7257407D1097AF0A008AD4D7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
@@ -3743,14 +3405,6 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Debug;
-		};
-		725740841097AF30008AD4D7 /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-			};
-			name = Public;
 		};
 		725740851097AF30008AD4D7 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -3769,15 +3423,6 @@
 			};
 			name = Debug;
 		};
-		7257409A1097B051008AD4D7 /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				PRODUCT_NAME = darwinxref_plugins;
-			};
-			name = Public;
-		};
 		7257409B1097B051008AD4D7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
@@ -3786,102 +3431,6 @@
 				PRODUCT_NAME = darwinxref_plugins;
 			};
 			name = Release;
-		};
-		725749861097633500B13BC3 /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Manual;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 3P242C9ES5;
-				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_ENABLE_PASCAL_STRINGS = NO;
-				GCC_MODEL_TUNING = "";
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
-				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
-				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = YES;
-				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
-				GCC_WARN_MISSING_PARENTHESES = YES;
-				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = YES;
-				GCC_WARN_PROTOTYPE_CONVERSION = NO;
-				GCC_WARN_SIGN_COMPARE = NO;
-				GCC_WARN_STRICT_SELECTOR_MATCH = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNKNOWN_PRAGMAS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_LABEL = YES;
-				GCC_WARN_UNUSED_VALUE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				LD_OPENMP_FLAGS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				STRIP_INSTALLED_PRODUCT = NO;
-				STRIP_STYLE = "non-global";
-				WARNING_CFLAGS = "-Wall";
-			};
-			name = Public;
-		};
-		725749871097633500B13BC3 /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				PRODUCT_NAME = world;
-			};
-			name = Public;
-		};
-		725749881097633500B13BC3 /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				INSTALL_PATH = "$(BINDIR)";
-				PRODUCT_NAME = darwinbuild;
-			};
-			name = Public;
-		};
-		7257498B1097633500B13BC3 /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_STYLE = Manual;
-				INSTALL_PATH = "$(DATDIR)/darwinbuild";
-				"INSTALL_PATH[sdk=iphonesimulator*]" = "$(SDKROOT)$(DATDIR)/darwinbuild";
-				LD_DYLIB_INSTALL_NAME = "$(DATDIR)/darwinbuild/darwintrace.dylib";
-				PRODUCT_NAME = darwintrace;
-				PROVISIONING_PROFILE_SPECIFIER = "";
-			};
-			name = Public;
 		};
 		725749A21097697300B13BC3 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -3902,26 +3451,6 @@
 				PUBLIC_HEADERS_FOLDER_PATH = "$(INCDIR)/darwinbuild";
 			};
 			name = Debug;
-		};
-		725749A31097697300B13BC3 /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_ENTITLEMENTS = darwinxref/darwinxref.entitlements;
-				CODE_SIGN_STYLE = Manual;
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				INSTALL_PATH = "$(BINDIR)";
-				OTHER_CFLAGS = (
-					"-DHAVE_TCL_PLUGINS=1",
-					"-DDEFAULT_PLUGIN_PATH=\\\"$(DATDIR)/darwinxref/plugins\\\"",
-					"-DDEFAULT_DB_FILE=\\\".build/xref.db\\\"",
-				);
-				PRODUCT_NAME = darwinxref;
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				PUBLIC_HEADERS_FOLDER_PATH = "$(INCDIR)/darwinbuild";
-			};
-			name = Public;
 		};
 		725749A41097697300B13BC3 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -3950,14 +3479,6 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 			};
 			name = Debug;
-		};
-		72574B5B1097A36400B13BC3 /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-			};
-			name = Public;
 		};
 		72574B5C1097A36400B13BC3 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -4170,14 +3691,6 @@
 			};
 			name = Debug;
 		};
-		72D05CB511D267C400B33EDD /* Public */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-			};
-			name = Public;
-		};
 		72D05CB611D267C400B33EDD /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */;
@@ -4193,411 +3706,370 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1FA2A9EB22E62BF600F53888 /* Debug */,
-				1FA2A9EC22E62BF600F53888 /* Public */,
 				1FA2A9ED22E62BF600F53888 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		1FB1351B22E522B5005E9A88 /* Build configuration list for PBXNativeTarget "darwinbuild-codesign" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1FB1351822E522B5005E9A88 /* Debug */,
-				1FB1351922E522B5005E9A88 /* Public */,
 				1FB1351A22E522B5005E9A88 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		1FCA51B822E6562800D55269 /* Build configuration list for PBXNativeTarget "fetch-from-github" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1FCA51B922E6562800D55269 /* Debug */,
-				1FCA51BA22E6562800D55269 /* Public */,
 				1FCA51BB22E6562800D55269 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		396301231EAB4E01006081C7 /* Build configuration list for PBXNativeTarget "patch_sites" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				396301241EAB4E01006081C7 /* Debug */,
-				396301251EAB4E01006081C7 /* Public */,
 				396301261EAB4E01006081C7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		720BE2EE120C90A700B3C4A5 /* Build configuration list for PBXNativeTarget "digest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				720BE2EF120C90A700B3C4A5 /* Debug */,
-				720BE2F0120C90A700B3C4A5 /* Public */,
 				720BE2F1120C90A700B3C4A5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		7227AB4A109897E500BE33D7 /* Build configuration list for PBXAggregateTarget "tcl_plugins" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7227AB3E1098977D00BE33D7 /* Debug */,
-				7227AB3F1098977D00BE33D7 /* Public */,
 				7227AB401098977D00BE33D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		7227AB7310989ACD00BE33D7 /* Build configuration list for PBXNativeTarget "manifest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7227AB6F10989A9A00BE33D7 /* Debug */,
-				7227AB7010989A9A00BE33D7 /* Public */,
 				7227AB7110989A9A00BE33D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		7227AC021098D78C00BE33D7 /* Build configuration list for PBXNativeTarget "darwinmaster" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7227AC031098D78C00BE33D7 /* Debug */,
-				7227AC041098D78C00BE33D7 /* Public */,
 				7227AC051098D78C00BE33D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		7227AC0F1098D84600BE33D7 /* Build configuration list for PBXNativeTarget "packageRoots" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7227AC101098D84600BE33D7 /* Debug */,
-				7227AC111098D84600BE33D7 /* Public */,
 				7227AC121098D84600BE33D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		7227AC181098D8DB00BE33D7 /* Build configuration list for PBXNativeTarget "thinPackages" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7227AC191098D8DB00BE33D7 /* Debug */,
-				7227AC1A1098D8DB00BE33D7 /* Public */,
 				7227AC1B1098D8DB00BE33D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		7227AC451098DC9900BE33D7 /* Build configuration list for PBXAggregateTarget "darwinbuild_scripts" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7227AC321098DC4F00BE33D7 /* Debug */,
-				7227AC331098DC4F00BE33D7 /* Public */,
 				7227AC341098DC4F00BE33D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		72573F7B1097A488008AD4D7 /* Build configuration list for PBXNativeTarget "dependencies" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				72573F7C1097A488008AD4D7 /* Debug */,
-				72573F7D1097A488008AD4D7 /* Public */,
 				72573F7E1097A488008AD4D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		72573FCE1097A4B7008AD4D7 /* Build configuration list for PBXNativeTarget "dot" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				72573FCF1097A4B7008AD4D7 /* Debug */,
-				72573FD01097A4B7008AD4D7 /* Public */,
 				72573FD11097A4B7008AD4D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		72573FD71097A538008AD4D7 /* Build configuration list for PBXNativeTarget "diff" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				72573FD81097A538008AD4D7 /* Debug */,
-				72573FD91097A538008AD4D7 /* Public */,
 				72573FDA1097A538008AD4D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		72573FE01097A5A2008AD4D7 /* Build configuration list for PBXNativeTarget "edit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				72573FE11097A5A2008AD4D7 /* Debug */,
-				72573FE21097A5A2008AD4D7 /* Public */,
 				72573FE31097A5A2008AD4D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		72573FE91097A5BA008AD4D7 /* Build configuration list for PBXNativeTarget "environment" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				72573FEA1097A5BA008AD4D7 /* Debug */,
-				72573FEB1097A5BA008AD4D7 /* Public */,
 				72573FEC1097A5BA008AD4D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		72573FF21097A5D8008AD4D7 /* Build configuration list for PBXNativeTarget "exportFiles" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				72573FF31097A5D8008AD4D7 /* Debug */,
-				72573FF41097A5D8008AD4D7 /* Public */,
 				72573FF51097A5D8008AD4D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		725740011097A6CC008AD4D7 /* Build configuration list for PBXNativeTarget "exportIndex" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				725740021097A6CC008AD4D7 /* Debug */,
-				725740031097A6CC008AD4D7 /* Public */,
 				725740041097A6CC008AD4D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		7257400F1097AA25008AD4D7 /* Build configuration list for PBXNativeTarget "exportProject" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				725740101097AA25008AD4D7 /* Debug */,
-				725740111097AA25008AD4D7 /* Public */,
 				725740121097AA25008AD4D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		725740181097AA5F008AD4D7 /* Build configuration list for PBXNativeTarget "findFile" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				725740191097AA5F008AD4D7 /* Debug */,
-				7257401A1097AA5F008AD4D7 /* Public */,
 				7257401B1097AA5F008AD4D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		725740201097AA6E008AD4D7 /* Build configuration list for PBXNativeTarget "inherits" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				725740211097AA6E008AD4D7 /* Debug */,
-				725740221097AA6E008AD4D7 /* Public */,
 				725740231097AA6E008AD4D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		725740281097AA79008AD4D7 /* Build configuration list for PBXNativeTarget "loadDeps" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				725740291097AA79008AD4D7 /* Debug */,
-				7257402A1097AA79008AD4D7 /* Public */,
 				7257402B1097AA79008AD4D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		725740321097AA95008AD4D7 /* Build configuration list for PBXNativeTarget "loadFiles" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				725740331097AA95008AD4D7 /* Debug */,
-				725740341097AA95008AD4D7 /* Public */,
 				725740351097AA95008AD4D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		7257403A1097AAA6008AD4D7 /* Build configuration list for PBXNativeTarget "loadIndex" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7257403B1097AAA6008AD4D7 /* Debug */,
-				7257403C1097AAA6008AD4D7 /* Public */,
 				7257403D1097AAA6008AD4D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		725740421097AABA008AD4D7 /* Build configuration list for PBXNativeTarget "mergeBuild" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				725740431097AABA008AD4D7 /* Debug */,
-				725740441097AABA008AD4D7 /* Public */,
 				725740451097AABA008AD4D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		7257404A1097ABDC008AD4D7 /* Build configuration list for PBXNativeTarget "original" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7257404B1097ABDC008AD4D7 /* Debug */,
-				7257404C1097ABDC008AD4D7 /* Public */,
 				7257404D1097ABDC008AD4D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		725740521097AEC1008AD4D7 /* Build configuration list for PBXNativeTarget "patchfiles" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				725740531097AEC1008AD4D7 /* Debug */,
-				725740541097AEC1008AD4D7 /* Public */,
 				725740551097AEC1008AD4D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		7257405A1097AECC008AD4D7 /* Build configuration list for PBXNativeTarget "plist_sites" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7257405B1097AECC008AD4D7 /* Debug */,
-				7257405C1097AECC008AD4D7 /* Public */,
 				7257405D1097AECC008AD4D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		725740621097AEDE008AD4D7 /* Build configuration list for PBXNativeTarget "register" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				725740631097AEDE008AD4D7 /* Debug */,
-				725740641097AEDE008AD4D7 /* Public */,
 				725740651097AEDE008AD4D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		7257406A1097AEF0008AD4D7 /* Build configuration list for PBXNativeTarget "resolveDeps" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7257406B1097AEF0008AD4D7 /* Debug */,
-				7257406C1097AEF0008AD4D7 /* Public */,
 				7257406D1097AEF0008AD4D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		725740721097AEFE008AD4D7 /* Build configuration list for PBXNativeTarget "source_sites" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				725740731097AEFE008AD4D7 /* Debug */,
-				725740741097AEFE008AD4D7 /* Public */,
 				725740751097AEFE008AD4D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		7257407A1097AF0A008AD4D7 /* Build configuration list for PBXNativeTarget "target" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7257407B1097AF0A008AD4D7 /* Debug */,
-				7257407C1097AF0A008AD4D7 /* Public */,
 				7257407D1097AF0A008AD4D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		725740821097AF30008AD4D7 /* Build configuration list for PBXNativeTarget "version" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				725740831097AF30008AD4D7 /* Debug */,
-				725740841097AF30008AD4D7 /* Public */,
 				725740851097AF30008AD4D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		725740A01097B08A008AD4D7 /* Build configuration list for PBXAggregateTarget "darwinxref_plugins" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				725740991097B051008AD4D7 /* Debug */,
-				7257409A1097B051008AD4D7 /* Public */,
 				7257409B1097B051008AD4D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		725749A61097699B00B13BC3 /* Build configuration list for PBXNativeTarget "darwinxref" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				725749A21097697300B13BC3 /* Debug */,
-				725749A31097697300B13BC3 /* Public */,
 				725749A41097697300B13BC3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		72574B641097A38F00B13BC3 /* Build configuration list for PBXNativeTarget "configuration" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				72574B5A1097A36400B13BC3 /* Debug */,
-				72574B5B1097A36400B13BC3 /* Public */,
 				72574B5C1097A36400B13BC3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		726DD14C10965C5700D5AEAB /* Build configuration list for PBXProject "darwinbuild" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				726DD14A10965C5700D5AEAB /* Debug */,
-				725749861097633500B13BC3 /* Public */,
 				726DD14B10965C5700D5AEAB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		72C86C3D1096607A00C66E90 /* Build configuration list for PBXNativeTarget "darwinbuild" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				72C86C3B1096607A00C66E90 /* Debug */,
-				725749881097633500B13BC3 /* Public */,
 				72C86C3C1096607A00C66E90 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		72C86C55109660E900C66E90 /* Build configuration list for PBXNativeTarget "darwintrace" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				72C86C53109660CB00C66E90 /* Debug */,
-				7257498B1097633500B13BC3 /* Public */,
 				72C86C54109660CB00C66E90 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		72C86C591096616A00C66E90 /* Build configuration list for PBXAggregateTarget "world" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				72C86C571096614C00C66E90 /* Debug */,
-				725749871097633500B13BC3 /* Public */,
 				72C86C581096614C00C66E90 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 		72D05CB311D267C400B33EDD /* Build configuration list for PBXNativeTarget "query" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				72D05CB411D267C400B33EDD /* Debug */,
-				72D05CB511D267C400B33EDD /* Public */,
 				72D05CB611D267C400B33EDD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Public;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 
