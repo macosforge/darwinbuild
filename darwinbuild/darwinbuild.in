@@ -620,7 +620,7 @@ fi
 version="${project/$projnam-/}"
 build_version=$(($(GetBuildVersion $DARWIN_BUILDROOT/{Logs,Symbols,Headers,Roots}/$projnam/$project.*) + 1))
 
-LOG="$DARWIN_BUILDROOT/Logs/$projnam/$project.log~$build_version"
+LOG="$DARWIN_BUILDROOT/Logs/$projnam/$project~${build_version}.log"
 TRACELOG="$BuildRoot/private/var/tmp/$projnam/$project.trace~$build_version"
 mkdir -p "$DARWIN_BUILDROOT/Logs/$projnam"
 
@@ -872,7 +872,7 @@ if [ "$EXIT_STATUS" == "0" ]; then
 			sort -u | \
 			"$DARWINXREF" loadDeps "$projnam" "$prefix"
 			"$DARWINXREF" resolveDeps -commit "$projnam"
-			cp "$TRACELOG" $DARWIN_BUILDROOT/Logs/$projnam/$project.trace~$build_version
+			cp "$TRACELOG" $DARWIN_BUILDROOT/Logs/$projnam/$project~${build_version}.deps.log
 		fi
 	fi
 fi
