@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -91,6 +91,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		1F7298EB24D75A200006E19E /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F7298EA24D759FF0006E19E /* libsqlite3.tbd */; };
 		1F7D730D22E52DFD003F8A67 /* SwiftCLI in Frameworks */ = {isa = PBXBuildFile; productRef = 1F7D730C22E52DFD003F8A67 /* SwiftCLI */; };
 		1FA2A9EA22E62BF600F53888 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA2A9E922E62BF600F53888 /* main.swift */; };
 		1FA2A9EF22E62BFE00F53888 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF4AFCB22E5237B002F09C6 /* Utilities.swift */; };
@@ -145,9 +146,7 @@
 		725749AF10976A6300B13BC3 /* DBPlugin.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86BEC10965E7500C66E90 /* DBPlugin.c */; };
 		725749B010976A6300B13BC3 /* DBTclPlugin.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86BEF10965E7500C66E90 /* DBTclPlugin.c */; };
 		725749B110976A6300B13BC3 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86BF010965E7500C66E90 /* main.c */; };
-		725749B610976AFE00B13BC3 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 72C86CE310974CC800C66E90 /* libsqlite3.dylib */; };
 		72574A1010977F7A00B13BC3 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72574A0F10977F7A00B13BC3 /* CoreFoundation.framework */; };
-		72574A1510977FAD00B13BC3 /* libtcl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 72574A1410977FAD00B13BC3 /* libtcl.dylib */; };
 		72574B5D1097A37600B13BC3 /* configuration.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86BF510965EEA00C66E90 /* configuration.c */; };
 		72C86C68109663D300C66E90 /* darwintrace.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86BD910965E0A00C66E90 /* darwintrace.c */; };
 		72D05CB811D2680500B33EDD /* query.c in Sources */ = {isa = PBXBuildFile; fileRef = 72D05CA911D2678F00B33EDD /* query.c */; };
@@ -645,6 +644,7 @@
 		1F4A793721B9F123000FE4B5 /* conclusion.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = conclusion.html; path = installer/conclusion.html; sourceTree = "<group>"; };
 		1F4A793821B9F123000FE4B5 /* license.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = license.html; path = installer/license.html; sourceTree = "<group>"; };
 		1F4A793921B9F123000FE4B5 /* welcome.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = welcome.html; path = installer/welcome.html; sourceTree = "<group>"; };
+		1F7298EA24D759FF0006E19E /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		1F9D9647226516AA0024E830 /* darwinxref.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = darwinxref.entitlements; path = darwinxref/darwinxref.entitlements; sourceTree = "<group>"; };
 		1FA2A9E722E62BF600F53888 /* darwinbuild-recursive */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "darwinbuild-recursive"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FA2A9E922E62BF600F53888 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -654,6 +654,7 @@
 		1FCA51B622E6562800D55269 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		1FD9F0CD21B9E90700FB866A /* build.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = build.sh; path = installer/build.sh; sourceTree = "<group>"; };
 		1FD9F0CF21B9EAA300FB866A /* distribution.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = distribution.xml; path = installer/distribution.xml; sourceTree = "<group>"; };
+		1FDE256A24D75B4900CBC605 /* vendor-tcl.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = "vendor-tcl.sh"; path = "darwinxref/vendor-tcl.sh"; sourceTree = "<group>"; };
 		1FEA10392264FBCF008B675D /* notarize.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = notarize.sh; path = installer/notarize.sh; sourceTree = "<group>"; };
 		1FECB5DE1FBBBC09002EA059 /* setXcodePlatform */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = setXcodePlatform; path = darwinbuild/setXcodePlatform; sourceTree = "<group>"; };
 		1FF4AFCB22E5237B002F09C6 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
@@ -698,7 +699,6 @@
 		725740861097AF30008AD4D7 /* version.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = version.so; sourceTree = BUILT_PRODUCTS_DIR; };
 		725749A01097697300B13BC3 /* darwinxref */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = darwinxref; sourceTree = BUILT_PRODUCTS_DIR; };
 		72574A0F10977F7A00B13BC3 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
-		72574A1410977FAD00B13BC3 /* libtcl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libtcl.dylib; path = /usr/lib/libtcl.dylib; sourceTree = "<absolute>"; };
 		72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = c_plugins.xcconfig; sourceTree = "<group>"; };
 		72574B591097A36300B13BC3 /* configuration.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = configuration.so; sourceTree = BUILT_PRODUCTS_DIR; };
 		72C86BD910965E0A00C66E90 /* darwintrace.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = darwintrace.c; path = darwintrace/darwintrace.c; sourceTree = "<group>"; };
@@ -746,7 +746,6 @@
 		72C86C2E1096600B00C66E90 /* manifest.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = manifest.c; path = darwinbuild/manifest.c; sourceTree = "<group>"; };
 		72C86C381096607900C66E90 /* darwinbuild */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = darwinbuild; sourceTree = BUILT_PRODUCTS_DIR; };
 		72C86C52109660CA00C66E90 /* darwintrace.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = darwintrace.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
-		72C86CE310974CC800C66E90 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = /usr/lib/libsqlite3.dylib; sourceTree = "<absolute>"; };
 		72D05CA911D2678F00B33EDD /* query.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = query.c; sourceTree = "<group>"; };
 		72D05CB711D267C400B33EDD /* query.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = query.so; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF6BE300132C5EBD00793781 /* close-test */ = {isa = PBXFileReference; lastKnownFileType = text; path = "close-test"; sourceTree = "<group>"; };
@@ -961,9 +960,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				725749B610976AFE00B13BC3 /* libsqlite3.dylib in Frameworks */,
+				1F7298EB24D75A200006E19E /* libsqlite3.tbd in Frameworks */,
 				72574A1010977F7A00B13BC3 /* CoreFoundation.framework in Frameworks */,
-				72574A1510977FAD00B13BC3 /* libtcl.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -991,6 +989,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1F7298E924D759FF0006E19E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1F7298EA24D759FF0006E19E /* libsqlite3.tbd */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		1FA2A9E822E62BF600F53888 /* darwinbuild-recursive */ = {
 			isa = PBXGroup;
 			children = (
@@ -1048,10 +1054,9 @@
 				72C86BD510965DC900C66E90 /* darwinbuild */,
 				1FD9F0CE21B9E90C00FB866A /* installer */,
 				1FB1351522E522B5005E9A88 /* swift */,
+				1F7298E924D759FF0006E19E /* Frameworks */,
 				72C86C391096607900C66E90 /* Products */,
-				72C86CE310974CC800C66E90 /* libsqlite3.dylib */,
 				72574A0F10977F7A00B13BC3 /* CoreFoundation.framework */,
-				72574A1410977FAD00B13BC3 /* libtcl.dylib */,
 				7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */,
 			);
 			sourceTree = "<group>";
@@ -1088,6 +1093,7 @@
 				72C86BEE10965E7500C66E90 /* DBPluginPriv.h */,
 				72C86BEF10965E7500C66E90 /* DBTclPlugin.c */,
 				72C86BF010965E7500C66E90 /* main.c */,
+				1FDE256A24D75B4900CBC605 /* vendor-tcl.sh */,
 				1F9D9647226516AA0024E830 /* darwinxref.entitlements */,
 			);
 			name = darwinxref;
@@ -1764,6 +1770,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 725749A61097699B00B13BC3 /* Build configuration list for PBXNativeTarget "darwinxref" */;
 			buildPhases = (
+				1FDE256B24D75BFD00CBC605 /* Vendor Tcl */,
 				7257499D1097697300B13BC3 /* Sources */,
 				7257499E1097697300B13BC3 /* Frameworks */,
 				7227AB69109899DE00BE33D7 /* Headers */,
@@ -1993,6 +2000,25 @@
 			shellPath = /bin/sh;
 			shellScript = "mkdir -p $DSTROOT/$DATDIR/darwinbuild\n/bin/cp $BUILT_PRODUCTS_DIR/thinPackages $DSTROOT/$DATDIR/darwinbuild/thinPackages";
 			showEnvVarsInLog = 0;
+		};
+		1FDE256B24D75BFD00CBC605 /* Vendor Tcl */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 12;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Vendor Tcl";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "exec $SRCROOT/darwinxref/vendor-tcl.sh\n";
 		};
 		7227AB8F1098A89700BE33D7 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3458,14 +3484,17 @@
 				CODE_SIGN_STYLE = Manual;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INSTALL_PATH = "$(BINDIR)";
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				OTHER_CFLAGS = (
 					"-DHAVE_TCL_PLUGINS=1",
 					"-DDEFAULT_PLUGIN_PATH=\\\"$(DATDIR)/darwinxref/plugins\\\"",
 					"-DDEFAULT_DB_FILE=\\\".build/xref.db\\\"",
 				);
+				OTHER_LDFLAGS = "$(BUILT_PRODUCTS_DIR)/libtcl8.6.dylib";
 				PRODUCT_NAME = darwinxref;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				PUBLIC_HEADERS_FOLDER_PATH = "$(INCDIR)/darwinbuild";
+				SYSTEM_HEADER_SEARCH_PATHS = "/usr/local/opt/tcl-tk/include";
 			};
 			name = Debug;
 		};
@@ -3479,14 +3508,17 @@
 				CODE_SIGN_STYLE = Manual;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INSTALL_PATH = "$(BINDIR)";
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				OTHER_CFLAGS = (
 					"-DHAVE_TCL_PLUGINS=1",
 					"-DDEFAULT_PLUGIN_PATH=\\\"$(DATDIR)/darwinxref/plugins\\\"",
 					"-DDEFAULT_DB_FILE=\\\".build/xref.db\\\"",
 				);
+				OTHER_LDFLAGS = "$(BUILT_PRODUCTS_DIR)/libtcl8.6.dylib";
 				PRODUCT_NAME = darwinxref;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				PUBLIC_HEADERS_FOLDER_PATH = "$(INCDIR)/darwinbuild";
+				SYSTEM_HEADER_SEARCH_PATHS = "/usr/local/opt/tcl-tk/include";
 			};
 			name = Release;
 		};
@@ -3511,6 +3543,7 @@
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = x86_64;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -3577,6 +3610,7 @@
 			baseConfigurationReference = 7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = x86_64;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
