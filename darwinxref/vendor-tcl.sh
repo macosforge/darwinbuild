@@ -3,7 +3,7 @@
 if [ ! -f $BUILT_PRODUCTS_DIR/libtcl8.6.dylib ]; then
 	cp /usr/local/opt/tcl-tk/lib/libtcl8.6.dylib $BUILT_PRODUCTS_DIR
 	chmod u+w $BUILT_PRODUCTS_DIR/libtcl8.6.dylib
-	install_name_tool -id '@loader_path/../share/darwinxref/libtcl8.6.dylib' $BUILT_PRODUCTS_DIR/libtcl8.6.dylib
+	install_name_tool -id '@rpath/libtcl8.6.dylib' $BUILT_PRODUCTS_DIR/libtcl8.6.dylib
 fi
 
 if [ "$ACTION" = "install" ]; then
