@@ -3,6 +3,9 @@ build/
 darwinbuild.xcodeproj/project.xcworkspace/
 darwinbuild.xcodeproj/xcuserdata/
 
+# Build byproduct files
+darwinxref/libtcl8.6.dylib
+
 # Installer files
 *.pkg
 installer/payload
