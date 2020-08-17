@@ -85,6 +85,7 @@ action="install"
 target=""
 configuration=""
 version=""
+codesign="NO"
 
 INSTALL_XCODE="NO"
 
@@ -179,7 +180,7 @@ function PrintUsage() {
 	usage: $(basename $0) [action] [options] <project> [<version>]
 	actions: [-headers] [-fetch] [-source] [-load] [-loadonly] [-recursive] [-group]
 	options: [-build=X] [-target=X] [-configuration=X]
-	         [-logdeps] [-nopatch] [-noload]
+	         [-logdeps] [-nopatch] [-noload] [-codesign]
 	         [-depsbuild=X [-depsbuild=Y]] [-nosource]
 
 EOF
@@ -256,6 +257,7 @@ fi
 ###   -configuration=X Specify the build configuration to use
 ###   -build=X  Specify the darwin build number to buld, e.g. 8B15
 ###   -depsbuild=X Specify the darwin build number to populate the BuildRoot
+###   -codesign Sign the built root, using darwinbuild-codesign.plist file under DSTROOT
 ###
 ###  Parameters:
 ###   <project> The name of the project to build
@@ -320,6 +322,8 @@ for ARG in "$@"; do
 		elif [ "$ARG" == "-nosource" ]; then
 			nosource="YES"
 			nopatch="YES"
+		elif [ "$ARG" == "-codesign" ]; then
+			codesign="YES"
 		elif [ "${ARG:0:1}" != "-" ]; then
 			projnam="$ARG"
 		else
@@ -808,6 +812,23 @@ if [ $EXIT_STATUS -eq 0 ]; then
 	echo "$DSTROOT is empty. Build verification failed." 1>&2
 	EXIT_STATUS=3
     fi
+fi
+
+if [ "$EXIT_STATUS" == "0" -a "$action" != "installhdrs" -a "$codesign" == "YES" ]; then
+	if [ -f "$DSTROOT/usr/local/darwinbuild/darwinbuild-codesign.plist" ]; then
+		$DATADIR/darwinbuild-codesign "$DSTROOT"
+		EXIT_STATUS=$?
+
+		if [ "$EXIT_STATUS" == "0" ]; then
+			# Delete the darwinbuild-codesign.plist file after the signing
+			# process has completed, so it isn't copied into the Root cache.
+			rm $DSTROOT/usr/local/darwinbuild/darwinbuild-codesign.plist
+		fi
+	else
+		echo "ERROR: /usr/local/darwinbuild/darwinbuild-codesign.plist not found under \$DSTROOT." 1>&2
+		echo "Cannot sign build products." 1>&2
+		exit 1
+	fi
 fi
 
 
