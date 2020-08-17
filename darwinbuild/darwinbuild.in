@@ -450,6 +450,11 @@ if [ "$nosource" != "YES" ]; then
 	patchfilenames=$($DARWINXREF patchfiles $projnam)
 	for p in $patchfilenames; do
 		Download "$SourceCache" "$p" "$($DARWINXREF patch_sites $projnam)"
+
+		if [ ! -f "$SourceCache/$p" ]; then
+			echo "ERROR: Patch could not be found: $p" 1>&2
+			exit 1
+		fi
 	done
 
 	### If we are doing a -fetch, stop here.
