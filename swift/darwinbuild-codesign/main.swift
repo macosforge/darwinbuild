@@ -89,7 +89,7 @@ class CodesignCommand: Command {
 			defaultTimestamp = .apple
 		}
 
-		var signingMap: [Int: [Task]] = [:]
+		var signingMap: [Int: [(String, Task)]] = [:]
 		guard let fileMap: [String: Any] = codesignPlist.get("files") else {
 			print("Warning: Nothing to sign")
 			return
@@ -166,20 +166,22 @@ class CodesignCommand: Command {
 
 			let task = Task(executable: "/usr/bin/codesign", arguments: codesignArgv, stdout: WriteStream.stdout, stderr: WriteStream.stderr)
 			if var orderDict = signingMap[order] {
-				orderDict.append(task)
+				orderDict.append((key, task))
 				signingMap[order] = orderDict
 			} else {
-				signingMap[order] = [task]
+				signingMap[order] = [(key, task)]
 			}
 		}
 
 		let keyVector = signingMap.keys.sorted()
 		for index in keyVector {
 			if let tasks = signingMap[index] {
-				for task in tasks {
+				for (path, task) in tasks {
+					print("Signing", path)
+
 					let exitCode = task.runSync()
 					if exitCode != 0 {
-						print("Signing command failed with code \(exitCode)", to: &standardError)
+						print("Signing command failed with code", exitCode, to: &standardError)
 						exit(1)
 					}
 				}
