@@ -826,7 +826,7 @@ if [ "$EXIT_STATUS" == "0" -a "$action" != "installhdrs" -a "$codesign" == "YES"
 		fi
 	else
 		echo "ERROR: /usr/local/darwinbuild/darwinbuild-codesign.plist not found under \$DSTROOT." 1>&2
-		echo "Cannot sign build products." 1>&2
+		echo "Cannot sign build products if this file is missing." 1>&2
 		exit 1
 	fi
 fi
