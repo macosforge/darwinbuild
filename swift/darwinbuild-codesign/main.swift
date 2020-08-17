@@ -46,9 +46,7 @@ internal extension Dictionary {
 class CodesignCommand: Command {
 	let name = "darwinbuild-codesign"
 
-	private let dstroot = Key<String>("--dstroot", "-d", description: "Code-sign the files in this directory")
-	private let srcroot = Key<String>("--srcroot", "-s", description: "Path to the sources corresponding to the dstroot")
-	private let projectName = Key<String>("--project", "-p", description: "Code-sign this darwinbuild output root")
+	private let dstroot = SwiftCLI.Parameter()
 
 	private enum TimestampType
 	{
@@ -72,199 +70,115 @@ class CodesignCommand: Command {
 	}
 
 	public func execute() throws {
-		var dstroot = self.dstroot.value
-		var srcroot = self.srcroot.value
-		let fm = FileManager()
+		let dstroot = self.dstroot.value
+		let codesignPlistPath = joinPath(dstroot, "usr", "local", "darwinbuild", "darwinbuild-codesign.plist")
+		let data = try Data(contentsOf: URL(fileURLWithPath: codesignPlistPath))
+		let codesignPlist = try PropertyListSerialization.propertyList(from: data, options: [], format: nil) as! [String: Any]
 
-		if let projectNameArgument = projectName.value {
-			let buildroot = CommandLine.Environment["DARWIN_BUILDROOT"] ?? CommandLine.workingDirectory
+		guard let defaultCertificate: String = codesignPlist.get("certificate") else {
+			print("ERROR: Default certificate must be provided (use \"certificate\" key in top-level of plist", to: &standardError)
+			exit(1)
+		}
 
-			if !(fm.directoryExists(atPath: joinPath(buildroot, "Roots")) &&
-				fm.directoryExists(atPath: joinPath(buildroot, "Sources")) &&
-				fm.directoryExists(atPath: joinPath(buildroot, "Symbols")) &&
-				fm.directoryExists(atPath: joinPath(buildroot, "Headers")) &&
-				fm.directoryExists(atPath: joinPath(buildroot, "Logs"))) {
-				print("ERROR: Could not find darwinbuild root, this is required when using --project", to: &standardError)
-				print("Please change your working directory to one initialized by:", to: &standardError)
-				print("darwinbuild -init <plist>", to: &standardError)
-				print("Alternatively, you may set the DARWIN_BUILDROOT environment variable to the", to: &standardError)
-				print("absolute path of that directory.", to: &standardError)
+		let defaultHardenedRuntime = codesignPlist.get("hardened_runtime") ?? false
+		let defaultPrefix: String? = codesignPlist.get("prefix")
+		let defaultTimestamp: TimestampType
+		if let timestampValue: Any = codesignPlist.get("timestamp") {
+			defaultTimestamp = try parseTimestampType(timestampValue)
+		} else {
+			defaultTimestamp = .apple
+		}
 
-				exit(1)
+		var signingMap: [Int: [Task]] = [:]
+		guard let fileMap: [String: Any] = codesignPlist.get("files") else {
+			print("Warning: Nothing to sign")
+			return
+		}
+
+		for (key, data) in fileMap {
+			let certificate: String
+			let identifier: String?
+			let prefix: String?
+			let hardenedRuntime: Bool
+			let dr: String?
+			let order: Int
+			let timestamp: TimestampType
+
+			if let flag = data as? Bool {
+				if !flag {
+					print("Warning: false value interpreted as \"use all default values\"", to: &standardError)
+				}
+
+				certificate = defaultCertificate
+				identifier = nil
+				prefix = defaultPrefix
+				hardenedRuntime = defaultHardenedRuntime
+				dr = nil
+				order = 0xFFFF
+				timestamp = defaultTimestamp
+			} else if let data = data as? [String: Any] {
+				certificate = data.get("certificate") ?? defaultCertificate
+				identifier = data.get("identifier")
+				prefix = data.get("prefix") ?? defaultPrefix
+				hardenedRuntime = (data["hardened_runtime"] as? Bool) ?? defaultHardenedRuntime
+				dr = data.get("dr")
+				order = data.get("order") ?? 0xFFFF
+				if let timestampValue: Any = data.get("timestamp") {
+					timestamp = try parseTimestampType(timestampValue)
+				} else {
+					timestamp = defaultTimestamp
+				}
+			} else {
+				throw Exception.message("Values in \"files\" dictionary must be booleans or dictionaries only")
 			}
 
-			if let buildrootType = (try fm.attributesOfItem(atPath: joinPath(buildroot, "BuildRoot")))[.type] as? FileAttributeType?, buildrootType == FileAttributeType.typeSymbolicLink {
-				if !fm.directoryExists(atPath: try fm.destinationOfSymbolicLink(atPath: joinPath(buildroot, "BuildRoot"))) {
-					print("Attaching build root disk image...")
+			var codesignArgv = ["-s", certificate, "-f", "--preserve-metadata=entitlements"]
+			if let identifier = identifier {
+				codesignArgv.append("-i")
+				codesignArgv.append(identifier)
+			}
+			if let prefix = prefix {
+				codesignArgv.append("--prefix")
+				codesignArgv.append(prefix)
+			}
+			if let dr = dr {
+				codesignArgv.append("-r")
+				codesignArgv.append(dr)
+			}
+			if hardenedRuntime {
+				codesignArgv.append("-o")
+				codesignArgv.append("runtime")
+			}
+			switch timestamp {
+			case .apple:
+				codesignArgv.append("--timestamp")
+			case .disabled:
+				codesignArgv.append("--timestamp=none")
+			case .custom(let arg):
+				codesignArgv.append("--timestamp=\(arg)")
+			}
+			codesignArgv.append(joinPath(dstroot, key))
 
-					let task = Task(executable: "/usr/bin/hdiutil", arguments: [
-						"attach", ".build/buildroot.sparsebundle",
-						"-readwrite", "-owners", "on"
-					], directory: buildroot)
-					if task.runSync() != 0 {
-						print("Could not attach buildroot.sparsebundle", to: &standardError)
+			let task = Task(executable: "/usr/bin/codesign", arguments: codesignArgv, stdout: WriteStream.stdout, stderr: WriteStream.stderr)
+			if var orderDict = signingMap[order] {
+				orderDict.append(task)
+				signingMap[order] = orderDict
+			} else {
+				signingMap[order] = [task]
+			}
+		}
+
+		let keyVector = signingMap.keys.sorted()
+		for index in keyVector {
+			if let tasks = signingMap[index] {
+				for task in tasks {
+					let exitCode = task.runSync()
+					if exitCode != 0 {
+						print("Signing command failed with code \(exitCode)", to: &standardError)
 						exit(1)
 					}
 				}
 			}
-
-			let projectName: String
-			let projectNameAndVersion: String
-			let projectBuild: String
-			if projectNameArgument.range(of: "~") != nil {
-				let parts = projectNameArgument.components(separatedBy: "~")
-				projectNameAndVersion = parts[0]
-				projectBuild = parts[1]
-				projectName = projectNameAndVersion.components(separatedBy: "-")[0]
-			} else {
-				projectNameAndVersion = projectNameArgument
-				projectName = projectNameAndVersion.components(separatedBy: "-")[0]
-				var largestBuildNumber = -1
-				for subdir in try fm.contentsOfDirectory(atPath: joinPath(buildroot, "Roots", projectName)) {
-					if subdir.hasPrefix(projectNameAndVersion + ".root") {
-						let parts = subdir.components(separatedBy: "~")
-						if let buildNumber = Int(parts[1], radix: 10) {
-							if buildNumber > largestBuildNumber {
-								largestBuildNumber = buildNumber
-							}
-						}
-					}
-				}
-
-				if largestBuildNumber == -1 {
-					print("Could not determine latest build for \(projectNameAndVersion)", to: &standardError)
-					if projectNameAndVersion.range(of: "-") == nil {
-						print("(Did you forget the version in the project name?)", to: &standardError)
-					}
-					exit(1)
-				}
-
-				projectBuild = String(largestBuildNumber, radix: 10)
-			}
-
-			dstroot = joinPath(buildroot, "Roots", projectName, projectNameAndVersion + ".root~" + projectBuild)
-			srcroot = joinPath(buildroot, "BuildRoot", "SourceCache", projectName, projectNameAndVersion)
-		}
-
-		if let dstroot = dstroot, let srcroot = srcroot {
-			let data = try Data(contentsOf: URL(fileURLWithPath: joinPath(srcroot, "darwinbuild-codesign.plist")))
-			let codesignPlist = try PropertyListSerialization.propertyList(from: data, options: [], format: nil) as! [String: Any]
-
-			guard let defaultCertificate: String = codesignPlist.get("certificate") else {
-				print("ERROR: Default certificate must be provided (use \"certificate\" key in top-level of plist", to: &standardError)
-				exit(1)
-			}
-
-			let defaultHardenedRuntime = codesignPlist.get("hardened_runtime") ?? false
-			let defaultPrefix: String? = codesignPlist.get("prefix")
-			let defaultTimestamp: TimestampType
-			if let timestampValue: Any = codesignPlist.get("timestamp") {
-				defaultTimestamp = try parseTimestampType(timestampValue)
-			} else {
-				defaultTimestamp = .apple
-			}
-
-			var signingMap: [Int: [Task]] = [:]
-			guard let fileMap: [String: Any] = codesignPlist.get("files") else {
-				print("Warning: Nothing to sign")
-				return
-			}
-
-			for (key, data) in fileMap {
-				let certificate: String
-				let identifier: String?
-				let prefix: String?
-				let entitlements: String?
-				let hardenedRuntime: Bool
-				let dr: String?
-				let order: Int
-				let timestamp: TimestampType
-
-				if let flag = data as? Bool {
-					if !flag {
-						print("Warning: false value interpreted as \"use all default values\"", to: &standardError)
-					}
-
-					certificate = defaultCertificate
-					identifier = nil
-					prefix = defaultPrefix
-					entitlements = nil
-					hardenedRuntime = defaultHardenedRuntime
-					dr = nil
-					order = 0xFFFF
-					timestamp = defaultTimestamp
-				} else if let data = data as? [String: Any] {
-					certificate = data.get("certificate") ?? defaultCertificate
-					identifier = data.get("identifier")
-					prefix = data.get("prefix") ?? defaultPrefix
-					entitlements = data.get("entitlements")
-					hardenedRuntime = defaultHardenedRuntime
-					dr = data.get("dr")
-					order = data.get("order") ?? 0xFFFF
-					if let timestampValue: Any = data.get("timestamp") {
-						timestamp = try parseTimestampType(timestampValue)
-					} else {
-						timestamp = defaultTimestamp
-					}
-				} else {
-					throw Exception.message("Values in \"files\" dictionary must be booleans or dictionaries only")
-				}
-
-				var codesignArgv = ["-s", certificate, "-f"]
-				if let identifier = identifier {
-					codesignArgv.append("-i")
-					codesignArgv.append(identifier)
-				}
-				if let prefix = prefix {
-					codesignArgv.append("--prefix")
-					codesignArgv.append(prefix)
-				}
-				if let dr = dr {
-					codesignArgv.append("-r")
-					codesignArgv.append(dr)
-				}
-				if let entitlements = entitlements {
-					codesignArgv.append("--entitlements")
-					codesignArgv.append(joinPath(srcroot, entitlements))
-				}
-				if hardenedRuntime {
-					codesignArgv.append("-o")
-					codesignArgv.append("runtime")
-				}
-				switch timestamp {
-				case .apple:
-					codesignArgv.append("--timestamp")
-				case .disabled:
-					codesignArgv.append("--timestamp=none")
-				case .custom(let arg):
-					codesignArgv.append("--timestamp=\(arg)")
-				}
-				codesignArgv.append(joinPath(dstroot, key))
-
-				let task = Task(executable: "/usr/bin/codesign", arguments: codesignArgv, stdout: WriteStream.stdout, stderr: WriteStream.stderr)
-				if var orderDict = signingMap[order] {
-					orderDict.append(task)
-					signingMap[order] = orderDict
-				} else {
-					signingMap[order] = [task]
-				}
-			}
-
-			let keyVector = signingMap.keys.sorted()
-			for index in keyVector {
-				if let tasks = signingMap[index] {
-					for task in tasks {
-						let exitCode = task.runSync()
-						if exitCode != 0 {
-							print("Signing command failed with code \(exitCode)", to: &standardError)
-							exit(1)
-						}
-					}
-				}
-			}
-		} else {
-			print("ERROR: Either -p, or both -d and -s must be specified", to: &standardError)
-			exit(1)
 		}
 	}
 }
