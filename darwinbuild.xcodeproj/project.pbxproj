@@ -109,7 +109,6 @@
 		61E0A6BD10A8DCC700DA7EBC /* exportIndex.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86BFF10965EEA00C66E90 /* exportIndex.c */; };
 		720BE2F4120C90C500B3C4A5 /* digest.c in Sources */ = {isa = PBXBuildFile; fileRef = 720BE2E9120C909E00B3C4A5 /* digest.c */; };
 		7227AB41109897D500BE33D7 /* binary_sites.tcl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 72C86BF310965EEA00C66E90 /* binary_sites.tcl */; };
-		7227AB42109897D500BE33D7 /* branch.tcl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 72C86BF410965EEA00C66E90 /* branch.tcl */; };
 		7227AB43109897D500BE33D7 /* currentBuild.tcl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 72C86BF610965EEA00C66E90 /* currentBuild.tcl */; };
 		7227AB44109897D500BE33D7 /* darwin.tcl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 72C86BF710965EEA00C66E90 /* darwin.tcl */; };
 		7227AB45109897D500BE33D7 /* group.tcl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 72C86C0210965EEA00C66E90 /* group.tcl */; };
@@ -625,7 +624,6 @@
 			dstSubfolderSpec = 0;
 			files = (
 				7227AB41109897D500BE33D7 /* binary_sites.tcl in CopyFiles */,
-				7227AB42109897D500BE33D7 /* branch.tcl in CopyFiles */,
 				7227AB43109897D500BE33D7 /* currentBuild.tcl in CopyFiles */,
 				396301291EAB5DBC006081C7 /* patch_sites.tcl in CopyFiles */,
 				7227AB44109897D500BE33D7 /* darwin.tcl in CopyFiles */,
@@ -725,7 +723,6 @@
 		72C86BEF10965E7500C66E90 /* DBTclPlugin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = DBTclPlugin.c; path = darwinxref/DBTclPlugin.c; sourceTree = "<group>"; };
 		72C86BF010965E7500C66E90 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = main.c; path = darwinxref/main.c; sourceTree = "<group>"; };
 		72C86BF310965EEA00C66E90 /* binary_sites.tcl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = binary_sites.tcl; sourceTree = "<group>"; };
-		72C86BF410965EEA00C66E90 /* branch.tcl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = branch.tcl; sourceTree = "<group>"; };
 		72C86BF510965EEA00C66E90 /* configuration.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = configuration.c; sourceTree = "<group>"; };
 		72C86BF610965EEA00C66E90 /* currentBuild.tcl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = currentBuild.tcl; sourceTree = "<group>"; };
 		72C86BF710965EEA00C66E90 /* darwin.tcl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = darwin.tcl; sourceTree = "<group>"; };
@@ -1127,7 +1124,6 @@
 				396301281EAB5DB5006081C7 /* patch_sites.tcl */,
 				72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */,
 				72C86BF310965EEA00C66E90 /* binary_sites.tcl */,
-				72C86BF410965EEA00C66E90 /* branch.tcl */,
 				72C86BF510965EEA00C66E90 /* configuration.c */,
 				72C86BF610965EEA00C66E90 /* currentBuild.tcl */,
 				72C86BF710965EEA00C66E90 /* darwin.tcl */,
