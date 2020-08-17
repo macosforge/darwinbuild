@@ -139,7 +139,12 @@ class CodesignCommand: Command {
 			}
 			if let prefix = prefix {
 				codesignArgv.append("--prefix")
-				codesignArgv.append(prefix)
+
+				if prefix.hasSuffix(".")  {
+					codesignArgv.append(prefix)
+				} else {
+					codesignArgv.append(prefix + ".")
+				}
 			}
 			if let dr = dr {
 				codesignArgv.append("-r")
