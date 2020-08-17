@@ -102,6 +102,7 @@
 		1FCA51BF22E6563C00D55269 /* SwiftCLI in Frameworks */ = {isa = PBXBuildFile; productRef = 1FCA51BE22E6563C00D55269 /* SwiftCLI */; };
 		1FDE55C024DB9DE1009ED847 /* libtcl8.6.dylib in Copy libtcl8.6.dylib */ = {isa = PBXBuildFile; fileRef = 1FDE55BD24DB9DBD009ED847 /* libtcl8.6.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		1FECB5DF1FBBBD41002EA059 /* setXcodePlatform in Copy Files */ = {isa = PBXBuildFile; fileRef = 1FECB5DE1FBBBC09002EA059 /* setXcodePlatform */; };
+		1FF3C41A24EAF989002A5356 /* libtcl8.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FDE55BD24DB9DBD009ED847 /* libtcl8.6.dylib */; };
 		1FF4AFCC22E5237B002F09C6 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF4AFCB22E5237B002F09C6 /* Utilities.swift */; };
 		3963011A1EAB4D60006081C7 /* source_sites.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86C0E10965EEA00C66E90 /* source_sites.c */; };
 		396301211EAB4E01006081C7 /* patch_sites.c in Sources */ = {isa = PBXBuildFile; fileRef = 396301191EAB42B6006081C7 /* patch_sites.c */; };
@@ -972,6 +973,7 @@
 			files = (
 				1F7298EB24D75A200006E19E /* libsqlite3.tbd in Frameworks */,
 				72574A1010977F7A00B13BC3 /* CoreFoundation.framework in Frameworks */,
+				1FF3C41A24EAF989002A5356 /* libtcl8.6.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3488,13 +3490,16 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INSTALL_PATH = "$(BINDIR)";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../share/darwinxref";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/darwinxref",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				OTHER_CFLAGS = (
 					"-DHAVE_TCL_PLUGINS=1",
 					"-DDEFAULT_PLUGIN_PATH=\\\"$(DATDIR)/darwinxref/plugins\\\"",
 					"-DDEFAULT_DB_FILE=\\\".build/xref.db\\\"",
 				);
-				OTHER_LDFLAGS = "$(SRCROOT)/darwinxref/libtcl8.6.dylib";
 				PRODUCT_NAME = darwinxref;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				PUBLIC_HEADERS_FOLDER_PATH = "$(INCDIR)/darwinbuild";
@@ -3512,13 +3517,16 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INSTALL_PATH = "$(BINDIR)";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../share/darwinxref";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/darwinxref",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				OTHER_CFLAGS = (
 					"-DHAVE_TCL_PLUGINS=1",
 					"-DDEFAULT_PLUGIN_PATH=\\\"$(DATDIR)/darwinxref/plugins\\\"",
 					"-DDEFAULT_DB_FILE=\\\".build/xref.db\\\"",
 				);
-				OTHER_LDFLAGS = "$(SRCROOT)/darwinxref/libtcl8.6.dylib";
 				PRODUCT_NAME = darwinxref;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				PUBLIC_HEADERS_FOLDER_PATH = "$(INCDIR)/darwinbuild";
