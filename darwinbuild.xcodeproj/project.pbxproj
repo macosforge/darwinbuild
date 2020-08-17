@@ -669,6 +669,7 @@
 		1FDE55BD24DB9DBD009ED847 /* libtcl8.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libtcl8.6.dylib; path = darwinxref/libtcl8.6.dylib; sourceTree = "<group>"; };
 		1FEA10392264FBCF008B675D /* notarize.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = notarize.sh; path = installer/notarize.sh; sourceTree = "<group>"; };
 		1FECB5DE1FBBBC09002EA059 /* setXcodePlatform */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = setXcodePlatform; path = darwinbuild/setXcodePlatform; sourceTree = "<group>"; };
+		1FF3C41B24EAF9D2002A5356 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = ../../../../System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<group>"; };
 		1FF4AFCB22E5237B002F09C6 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		396301191EAB42B6006081C7 /* patch_sites.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = patch_sites.c; sourceTree = "<group>"; };
 		396301271EAB4E01006081C7 /* patch_sites.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = patch_sites.so; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1004,6 +1005,7 @@
 		1F7298E924D759FF0006E19E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1FF3C41B24EAF9D2002A5356 /* CoreFoundation.framework */,
 				1F7298EA24D759FF0006E19E /* libsqlite3.tbd */,
 			);
 			name = Frameworks;
