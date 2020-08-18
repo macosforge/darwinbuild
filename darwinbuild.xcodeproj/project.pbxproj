@@ -93,6 +93,7 @@
 /* Begin PBXBuildFile section */
 		1F7298EB24D75A200006E19E /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F7298EA24D759FF0006E19E /* libsqlite3.tbd */; };
 		1F7D730D22E52DFD003F8A67 /* SwiftCLI in Frameworks */ = {isa = PBXBuildFile; productRef = 1F7D730C22E52DFD003F8A67 /* SwiftCLI */; };
+		1F8B4BA824EB74DC00CC07E5 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F8B4BA724EB74DC00CC07E5 /* CoreFoundation.framework */; };
 		1FA2A9EA22E62BF600F53888 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA2A9E922E62BF600F53888 /* main.swift */; };
 		1FA2A9EF22E62BFE00F53888 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF4AFCB22E5237B002F09C6 /* Utilities.swift */; };
 		1FA2A9F222E62C1900F53888 /* SwiftCLI in Frameworks */ = {isa = PBXBuildFile; productRef = 1FA2A9F122E62C1900F53888 /* SwiftCLI */; };
@@ -147,7 +148,6 @@
 		725749AF10976A6300B13BC3 /* DBPlugin.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86BEC10965E7500C66E90 /* DBPlugin.c */; };
 		725749B010976A6300B13BC3 /* DBTclPlugin.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86BEF10965E7500C66E90 /* DBTclPlugin.c */; };
 		725749B110976A6300B13BC3 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86BF010965E7500C66E90 /* main.c */; };
-		72574A1010977F7A00B13BC3 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72574A0F10977F7A00B13BC3 /* CoreFoundation.framework */; };
 		72574B5D1097A37600B13BC3 /* configuration.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86BF510965EEA00C66E90 /* configuration.c */; };
 		72C86C68109663D300C66E90 /* darwintrace.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86BD910965E0A00C66E90 /* darwintrace.c */; };
 		72D05CB811D2680500B33EDD /* query.c in Sources */ = {isa = PBXBuildFile; fileRef = 72D05CA911D2678F00B33EDD /* query.c */; };
@@ -656,6 +656,7 @@
 		1F4A793821B9F123000FE4B5 /* license.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = license.html; path = installer/license.html; sourceTree = "<group>"; };
 		1F4A793921B9F123000FE4B5 /* welcome.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = welcome.html; path = installer/welcome.html; sourceTree = "<group>"; };
 		1F7298EA24D759FF0006E19E /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		1F8B4BA724EB74DC00CC07E5 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		1F9D9647226516AA0024E830 /* darwinxref.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = darwinxref.entitlements; path = darwinxref/darwinxref.entitlements; sourceTree = "<group>"; };
 		1FA2A9E722E62BF600F53888 /* darwinbuild-recursive */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "darwinbuild-recursive"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FA2A9E922E62BF600F53888 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -669,7 +670,6 @@
 		1FDE55BD24DB9DBD009ED847 /* libtcl8.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libtcl8.6.dylib; path = darwinxref/libtcl8.6.dylib; sourceTree = "<group>"; };
 		1FEA10392264FBCF008B675D /* notarize.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = notarize.sh; path = installer/notarize.sh; sourceTree = "<group>"; };
 		1FECB5DE1FBBBC09002EA059 /* setXcodePlatform */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = setXcodePlatform; path = darwinbuild/setXcodePlatform; sourceTree = "<group>"; };
-		1FF3C41B24EAF9D2002A5356 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = ../../../../System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<group>"; };
 		1FF4AFCB22E5237B002F09C6 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		396301191EAB42B6006081C7 /* patch_sites.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = patch_sites.c; sourceTree = "<group>"; };
 		396301271EAB4E01006081C7 /* patch_sites.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = patch_sites.so; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -711,7 +711,6 @@
 		7257407E1097AF0A008AD4D7 /* target.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = target.so; sourceTree = BUILT_PRODUCTS_DIR; };
 		725740861097AF30008AD4D7 /* version.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = version.so; sourceTree = BUILT_PRODUCTS_DIR; };
 		725749A01097697300B13BC3 /* darwinxref */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = darwinxref; sourceTree = BUILT_PRODUCTS_DIR; };
-		72574A0F10977F7A00B13BC3 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
 		72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = c_plugins.xcconfig; sourceTree = "<group>"; };
 		72574B591097A36300B13BC3 /* configuration.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = configuration.so; sourceTree = BUILT_PRODUCTS_DIR; };
 		72C86BD910965E0A00C66E90 /* darwintrace.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = darwintrace.c; path = darwintrace/darwintrace.c; sourceTree = "<group>"; };
@@ -972,8 +971,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F8B4BA824EB74DC00CC07E5 /* CoreFoundation.framework in Frameworks */,
 				1F7298EB24D75A200006E19E /* libsqlite3.tbd in Frameworks */,
-				72574A1010977F7A00B13BC3 /* CoreFoundation.framework in Frameworks */,
 				1FF3C41A24EAF989002A5356 /* libtcl8.6.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1005,7 +1004,7 @@
 		1F7298E924D759FF0006E19E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				1FF3C41B24EAF9D2002A5356 /* CoreFoundation.framework */,
+				1F8B4BA724EB74DC00CC07E5 /* CoreFoundation.framework */,
 				1F7298EA24D759FF0006E19E /* libsqlite3.tbd */,
 			);
 			name = Frameworks;
@@ -1070,7 +1069,6 @@
 				1FB1351522E522B5005E9A88 /* swift */,
 				1F7298E924D759FF0006E19E /* Frameworks */,
 				72C86C391096607900C66E90 /* Products */,
-				72574A0F10977F7A00B13BC3 /* CoreFoundation.framework */,
 				7227AB9C1098AAE100BE33D7 /* prefix.xcconfig */,
 			);
 			sourceTree = "<group>";
