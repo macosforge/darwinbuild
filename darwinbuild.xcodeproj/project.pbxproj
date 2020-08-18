@@ -102,6 +102,7 @@
 		1FCA51BF22E6563C00D55269 /* SwiftCLI in Frameworks */ = {isa = PBXBuildFile; productRef = 1FCA51BE22E6563C00D55269 /* SwiftCLI */; };
 		1FDE55C024DB9DE1009ED847 /* libtcl8.6.dylib in Copy libtcl8.6.dylib */ = {isa = PBXBuildFile; fileRef = 1FDE55BD24DB9DBD009ED847 /* libtcl8.6.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		1FECB5DF1FBBBD41002EA059 /* setXcodePlatform in Copy Files */ = {isa = PBXBuildFile; fileRef = 1FECB5DE1FBBBC09002EA059 /* setXcodePlatform */; };
+		1FF3C41A24EAF989002A5356 /* libtcl8.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FDE55BD24DB9DBD009ED847 /* libtcl8.6.dylib */; };
 		1FF4AFCC22E5237B002F09C6 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF4AFCB22E5237B002F09C6 /* Utilities.swift */; };
 		3963011A1EAB4D60006081C7 /* source_sites.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86C0E10965EEA00C66E90 /* source_sites.c */; };
 		396301211EAB4E01006081C7 /* patch_sites.c in Sources */ = {isa = PBXBuildFile; fileRef = 396301191EAB42B6006081C7 /* patch_sites.c */; };
@@ -109,7 +110,6 @@
 		61E0A6BD10A8DCC700DA7EBC /* exportIndex.c in Sources */ = {isa = PBXBuildFile; fileRef = 72C86BFF10965EEA00C66E90 /* exportIndex.c */; };
 		720BE2F4120C90C500B3C4A5 /* digest.c in Sources */ = {isa = PBXBuildFile; fileRef = 720BE2E9120C909E00B3C4A5 /* digest.c */; };
 		7227AB41109897D500BE33D7 /* binary_sites.tcl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 72C86BF310965EEA00C66E90 /* binary_sites.tcl */; };
-		7227AB42109897D500BE33D7 /* branch.tcl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 72C86BF410965EEA00C66E90 /* branch.tcl */; };
 		7227AB43109897D500BE33D7 /* currentBuild.tcl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 72C86BF610965EEA00C66E90 /* currentBuild.tcl */; };
 		7227AB44109897D500BE33D7 /* darwin.tcl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 72C86BF710965EEA00C66E90 /* darwin.tcl */; };
 		7227AB45109897D500BE33D7 /* group.tcl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 72C86C0210965EEA00C66E90 /* group.tcl */; };
@@ -625,7 +625,6 @@
 			dstSubfolderSpec = 0;
 			files = (
 				7227AB41109897D500BE33D7 /* binary_sites.tcl in CopyFiles */,
-				7227AB42109897D500BE33D7 /* branch.tcl in CopyFiles */,
 				7227AB43109897D500BE33D7 /* currentBuild.tcl in CopyFiles */,
 				396301291EAB5DBC006081C7 /* patch_sites.tcl in CopyFiles */,
 				7227AB44109897D500BE33D7 /* darwin.tcl in CopyFiles */,
@@ -670,6 +669,7 @@
 		1FDE55BD24DB9DBD009ED847 /* libtcl8.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libtcl8.6.dylib; path = darwinxref/libtcl8.6.dylib; sourceTree = "<group>"; };
 		1FEA10392264FBCF008B675D /* notarize.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = notarize.sh; path = installer/notarize.sh; sourceTree = "<group>"; };
 		1FECB5DE1FBBBC09002EA059 /* setXcodePlatform */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = setXcodePlatform; path = darwinbuild/setXcodePlatform; sourceTree = "<group>"; };
+		1FF3C41B24EAF9D2002A5356 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = ../../../../System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<group>"; };
 		1FF4AFCB22E5237B002F09C6 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		396301191EAB42B6006081C7 /* patch_sites.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = patch_sites.c; sourceTree = "<group>"; };
 		396301271EAB4E01006081C7 /* patch_sites.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.objfile"; includeInIndex = 0; path = patch_sites.so; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -725,7 +725,6 @@
 		72C86BEF10965E7500C66E90 /* DBTclPlugin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = DBTclPlugin.c; path = darwinxref/DBTclPlugin.c; sourceTree = "<group>"; };
 		72C86BF010965E7500C66E90 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = main.c; path = darwinxref/main.c; sourceTree = "<group>"; };
 		72C86BF310965EEA00C66E90 /* binary_sites.tcl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = binary_sites.tcl; sourceTree = "<group>"; };
-		72C86BF410965EEA00C66E90 /* branch.tcl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = branch.tcl; sourceTree = "<group>"; };
 		72C86BF510965EEA00C66E90 /* configuration.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = configuration.c; sourceTree = "<group>"; };
 		72C86BF610965EEA00C66E90 /* currentBuild.tcl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = currentBuild.tcl; sourceTree = "<group>"; };
 		72C86BF710965EEA00C66E90 /* darwin.tcl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = darwin.tcl; sourceTree = "<group>"; };
@@ -975,6 +974,7 @@
 			files = (
 				1F7298EB24D75A200006E19E /* libsqlite3.tbd in Frameworks */,
 				72574A1010977F7A00B13BC3 /* CoreFoundation.framework in Frameworks */,
+				1FF3C41A24EAF989002A5356 /* libtcl8.6.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1005,6 +1005,7 @@
 		1F7298E924D759FF0006E19E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1FF3C41B24EAF9D2002A5356 /* CoreFoundation.framework */,
 				1F7298EA24D759FF0006E19E /* libsqlite3.tbd */,
 			);
 			name = Frameworks;
@@ -1127,7 +1128,6 @@
 				396301281EAB5DB5006081C7 /* patch_sites.tcl */,
 				72574B3E10979D6000B13BC3 /* c_plugins.xcconfig */,
 				72C86BF310965EEA00C66E90 /* binary_sites.tcl */,
-				72C86BF410965EEA00C66E90 /* branch.tcl */,
 				72C86BF510965EEA00C66E90 /* configuration.c */,
 				72C86BF610965EEA00C66E90 /* currentBuild.tcl */,
 				72C86BF710965EEA00C66E90 /* darwin.tcl */,
@@ -3492,13 +3492,16 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INSTALL_PATH = "$(BINDIR)";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../share/darwinxref";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/darwinxref",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				OTHER_CFLAGS = (
 					"-DHAVE_TCL_PLUGINS=1",
 					"-DDEFAULT_PLUGIN_PATH=\\\"$(DATDIR)/darwinxref/plugins\\\"",
 					"-DDEFAULT_DB_FILE=\\\".build/xref.db\\\"",
 				);
-				OTHER_LDFLAGS = "$(SRCROOT)/darwinxref/libtcl8.6.dylib";
 				PRODUCT_NAME = darwinxref;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				PUBLIC_HEADERS_FOLDER_PATH = "$(INCDIR)/darwinbuild";
@@ -3516,13 +3519,16 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INSTALL_PATH = "$(BINDIR)";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../share/darwinxref";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/darwinxref",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				OTHER_CFLAGS = (
 					"-DHAVE_TCL_PLUGINS=1",
 					"-DDEFAULT_PLUGIN_PATH=\\\"$(DATDIR)/darwinxref/plugins\\\"",
 					"-DDEFAULT_DB_FILE=\\\".build/xref.db\\\"",
 				);
-				OTHER_LDFLAGS = "$(SRCROOT)/darwinxref/libtcl8.6.dylib";
 				PRODUCT_NAME = darwinxref;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				PUBLIC_HEADERS_FOLDER_PATH = "$(INCDIR)/darwinbuild";

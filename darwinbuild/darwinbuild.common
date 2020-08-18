@@ -90,27 +90,6 @@ function GetBuildVersion() {
 CURLARGS=${CURLARGS:-}
 
 ###
-### Checkout or update a project from subversion repository
-###
-function CheckoutOrUpdate() {
-	local destination="$1"
-	local branch="$2"
-	local master_sites="$3"
-
-	for master_site in $master_sites ;
-	do
-		if [ ! -d "$destination/.svn" ]; then
-			echo "Checking out working copy"
-			mkdir -p "$destination"
-			svn co "$master_site/$branch" "$destination" && break
-		else
-			echo "Updating working copy"
-			svn up "$destination" && break
-		fi
-	done
-}
-
-###
 ### Download a .tar.gz file
 ###
 function Download() {
