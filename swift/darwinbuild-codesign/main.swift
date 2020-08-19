@@ -46,6 +46,7 @@ internal extension Dictionary {
 class CodesignCommand: Command {
 	let name = "darwinbuild-codesign"
 
+	private let certificateName = Param.Required<String>()
 	private let dstroot = SwiftCLI.Parameter()
 
 	private enum TimestampType
@@ -74,11 +75,6 @@ class CodesignCommand: Command {
 		let codesignPlistPath = joinPath(dstroot, "usr", "local", "darwinbuild", "darwinbuild-codesign.plist")
 		let data = try Data(contentsOf: URL(fileURLWithPath: codesignPlistPath))
 		let codesignPlist = try PropertyListSerialization.propertyList(from: data, options: [], format: nil) as! [String: Any]
-
-		guard let defaultCertificate: String = codesignPlist.get("certificate") else {
-			print("ERROR: Default certificate must be provided (use \"certificate\" key in top-level of plist", to: &standardError)
-			exit(1)
-		}
 
 		let defaultHardenedRuntime = codesignPlist.get("hardened_runtime") ?? false
 		let defaultPrefix: String? = codesignPlist.get("prefix")
@@ -109,7 +105,7 @@ class CodesignCommand: Command {
 					print("Warning: false value interpreted as \"use all default values\"", to: &standardError)
 				}
 
-				certificate = defaultCertificate
+				certificate = self.certificateName.value
 				identifier = nil
 				prefix = defaultPrefix
 				hardenedRuntime = defaultHardenedRuntime
@@ -117,7 +113,7 @@ class CodesignCommand: Command {
 				order = 0xFFFF
 				timestamp = defaultTimestamp
 			} else if let data = data as? [String: Any] {
-				certificate = data.get("certificate") ?? defaultCertificate
+				certificate = data.get("certificate") ?? self.certificateName.value
 				identifier = data.get("identifier")
 				prefix = data.get("prefix") ?? defaultPrefix
 				hardenedRuntime = (data["hardened_runtime"] as? Bool) ?? defaultHardenedRuntime
