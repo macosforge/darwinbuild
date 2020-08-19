@@ -47,7 +47,7 @@ class CodesignCommand: Command {
 	let name = "darwinbuild-codesign"
 
 	private let certificateName = Param.Required<String>()
-	private let dstroot = SwiftCLI.Parameter()
+	private let dstroot = Param.Required<String>()
 
 	private enum TimestampType
 	{
