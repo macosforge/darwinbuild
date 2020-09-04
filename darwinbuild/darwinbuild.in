@@ -826,7 +826,7 @@ if [ $EXIT_STATUS -eq 0 ]; then
 fi
 
 if [ "$EXIT_STATUS" == "0" -a "$action" != "installhdrs" -a "$codesign" != "-" ]; then
-	if [ -f "$DSTROOT/usr/local/darwinbuild/darwinbuild-codesign.plist" ]; then
+	if [ "$codesign" != "-" -a -f "$DSTROOT/usr/local/darwinbuild/darwinbuild-codesign.plist" ]; then
 		$DATADIR/darwinbuild-codesign "$codesign" "$DSTROOT"
 		EXIT_STATUS=$?
 
