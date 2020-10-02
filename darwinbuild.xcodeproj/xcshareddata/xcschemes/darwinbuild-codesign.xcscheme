@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1FB1351322E522B5005E9A88"
-               BuildableName = "darwinbuild-codesign"
-               BlueprintName = "darwinbuild-codesign"
+               BuildableName = "sign-root"
+               BlueprintName = "sign-root"
                ReferencedContainer = "container:darwinbuild.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,8 +45,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1FB1351322E522B5005E9A88"
-            BuildableName = "darwinbuild-codesign"
-            BlueprintName = "darwinbuild-codesign"
+            BuildableName = "sign-root"
+            BlueprintName = "sign-root"
             ReferencedContainer = "container:darwinbuild.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -62,8 +62,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1FB1351322E522B5005E9A88"
-            BuildableName = "darwinbuild-codesign"
-            BlueprintName = "darwinbuild-codesign"
+            BuildableName = "sign-root"
+            BlueprintName = "sign-root"
             ReferencedContainer = "container:darwinbuild.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

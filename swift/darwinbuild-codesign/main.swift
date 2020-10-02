@@ -44,7 +44,7 @@ internal extension Dictionary {
 }
 
 class CodesignCommand: Command {
-	let name = "darwinbuild-codesign"
+	let name = "sign-root"
 
 	private let certificateName = Param.Required<String>()
 	private let dstroot = Param.Required<String>()
