@@ -1872,7 +1872,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1100;
-				LastUpgradeCheck = 1200;
+				LastUpgradeCheck = 1220;
 				ORGANIZATIONNAME = "The DarwinBuild Project";
 				TargetAttributes = {
 					1FA2A9E622E62BF600F53888 = {
