@@ -77,3 +77,19 @@ have an order index of 65535. If you override this setting with another value,
 you can control in which order the files are signed. This can be useful when
 signing bundles that contain other bundles that also need to be signed.
 Files with the lowest index values are signed first.
+
+## Keychain Preparation
+
+By default, darwinbuild does not have access to your user keychain, because it
+runs xcodebuild in a different user session than the sudo process provides. You
+must therefore add the keychain with your signing materials (referred to below
+as `$KEYCHAIN_PATH`);
+For this to work properly, you will need to follow these steps first (assuming that $KEYCHAIN_PATH has been set to the full path to a keychain file that contains the necessary certificates and keys).
+
+1. `sudo su`; enter password
+2. `security list-keychains -d user -s $KEYCHAIN_PATH /Library/Keychains/System.keychain`
+3. `security unlock-keychain $KEYCHAIN_PATH`; enter password
+4. `security list-keychains`; if `$KEYCHAIN_PATH` is listed in the output, you’re good to go.
+
+This should only need to be done once per Mac. Note that there is a possibility
+that macOS updates will undo this change.  If this ever happens, simply repeat the above steps.
