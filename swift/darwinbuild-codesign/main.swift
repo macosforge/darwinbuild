@@ -92,7 +92,6 @@ class CodesignCommand: Command {
 		}
 
 		for (key, data) in fileMap {
-			let certificate: String
 			let identifier: String?
 			let prefix: String?
 			let hardenedRuntime: Bool
@@ -105,7 +104,6 @@ class CodesignCommand: Command {
 					print("Warning: false value interpreted as \"use all default values\"", to: &standardError)
 				}
 
-				certificate = self.certificateName.value
 				identifier = nil
 				prefix = defaultPrefix
 				hardenedRuntime = defaultHardenedRuntime
@@ -113,7 +111,6 @@ class CodesignCommand: Command {
 				order = 0xFFFF
 				timestamp = defaultTimestamp
 			} else if let data = data as? [String: Any] {
-				certificate = data.get("certificate") ?? self.certificateName.value
 				identifier = data.get("identifier")
 				prefix = data.get("prefix") ?? defaultPrefix
 				hardenedRuntime = (data["hardened_runtime"] as? Bool) ?? defaultHardenedRuntime
@@ -128,7 +125,7 @@ class CodesignCommand: Command {
 				throw Exception.message("Values in \"files\" dictionary must be booleans or dictionaries only")
 			}
 
-			var codesignArgv = ["-s", certificate, "-f", "--preserve-metadata=entitlements"]
+			var codesignArgv = ["-s", self.certificateName.value, "-f", "--preserve-metadata=entitlements"]
 			if let identifier = identifier {
 				codesignArgv.append("-i")
 				codesignArgv.append(identifier)
