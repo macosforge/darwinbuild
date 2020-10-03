@@ -83,8 +83,7 @@ Files with the lowest index values are signed first.
 By default, darwinbuild does not have access to your user keychain, because it
 runs xcodebuild in a different user session than the sudo process provides. You
 must therefore add the keychain with your signing materials (referred to below
-as `$KEYCHAIN_PATH`);
-For this to work properly, you will need to follow these steps first (assuming that $KEYCHAIN_PATH has been set to the full path to a keychain file that contains the necessary certificates and keys).
+as `$KEYCHAIN_PATH`). Follow the below steps.
 
 1. `sudo su`; enter password
 2. `security list-keychains -d user -s $KEYCHAIN_PATH /Library/Keychains/System.keychain`
