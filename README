@@ -52,7 +52,7 @@ You can install by checking out the source and building darwinbuild yourself.
 You would want to run the following two commands:
 
   % cd <path to top of source>
-  % sudo xcodebuild install DSTROOT=/
+  % sudo xcodebuild install DSTROOT=/ -scheme World
 
 This will install darwinbuild and its supporting tools into /usr/local/bin.
 
