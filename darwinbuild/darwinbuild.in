@@ -85,6 +85,7 @@ action="install"
 target=""
 configuration=""
 version=""
+codesign="-"
 
 INSTALL_XCODE="NO"
 
@@ -179,7 +180,7 @@ function PrintUsage() {
 	usage: $(basename $0) [action] [options] <project> [<version>]
 	actions: [-headers] [-fetch] [-source] [-load] [-loadonly] [-recursive] [-group]
 	options: [-build=X] [-target=X] [-configuration=X]
-	         [-logdeps] [-nopatch] [-noload]
+	         [-logdeps] [-nopatch] [-noload] [-codesign=<identity>]
 	         [-depsbuild=X [-depsbuild=Y]] [-nosource]
 
 EOF
@@ -256,6 +257,7 @@ fi
 ###   -configuration=X Specify the build configuration to use
 ###   -build=X  Specify the darwin build number to buld, e.g. 8B15
 ###   -depsbuild=X Specify the darwin build number to populate the BuildRoot
+###   -codesign=<identity> Sign the built root, using the given CODE_SIGN_IDENTITY value
 ###
 ###  Parameters:
 ###   <project> The name of the project to build
@@ -320,6 +322,15 @@ for ARG in "$@"; do
 		elif [ "$ARG" == "-nosource" ]; then
 			nosource="YES"
 			nopatch="YES"
+		elif [ "${ARG/=*/}" == "-codesign" ]; then
+			codesign=${ARG/*=/}
+
+			# $codesign and $ARG will be equal if there is no '=' in $ARG.
+			if [ "$codesign" == "$ARG" -o "$codesign" == "" ]; then
+				echo "WARNING: Code signing identity not specified." 1>&2
+				echo "Using default ad-hoc signing." 1>&2
+				codesign=-
+			fi
 		elif [ "${ARG:0:1}" != "-" ]; then
 			projnam="$ARG"
 		else
@@ -661,7 +672,11 @@ if [ "$buildtool" == "xcodebuild" -a "$configuration" != "" ]; then
 fi
 
 if [ "$buildtool" == "xcodebuild" ]; then
-	build_string="$build_string CODE_SIGN_IDENTITY=-"
+	build_string="$build_string CODE_SIGN_IDENTITY=\"$codesign\""
+
+	if [ "$codesign" != "-" ]; then
+		build_string="$build_string CODE_SIGN_STYLE=Manual"
+	fi
 fi
 
 ###
@@ -808,6 +823,19 @@ if [ $EXIT_STATUS -eq 0 ]; then
 	echo "$DSTROOT is empty. Build verification failed." 1>&2
 	EXIT_STATUS=3
     fi
+fi
+
+if [ "$EXIT_STATUS" == "0" -a "$action" != "installhdrs" -a "$codesign" != "-" ]; then
+	if [ "$codesign" != "-" -a -f "$DSTROOT/usr/local/darwinbuild/darwinbuild-codesign.plist" ]; then
+		$DATADIR/sign-root "$codesign" "$DSTROOT"
+		EXIT_STATUS=$?
+
+		if [ "$EXIT_STATUS" == "0" ]; then
+			# Delete the darwinbuild-codesign.plist file after the signing
+			# process has completed, so it isn't copied into the Root cache.
+			rm $DSTROOT/usr/local/darwinbuild/darwinbuild-codesign.plist
+		fi
+	fi
 fi
 
 

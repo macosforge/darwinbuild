@@ -660,7 +660,7 @@
 		1F9D9647226516AA0024E830 /* darwinxref.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = darwinxref.entitlements; path = darwinxref/darwinxref.entitlements; sourceTree = "<group>"; };
 		1FA2A9E722E62BF600F53888 /* darwinbuild-recursive */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "darwinbuild-recursive"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FA2A9E922E62BF600F53888 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		1FB1351422E522B5005E9A88 /* darwinbuild-codesign */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "darwinbuild-codesign"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1FB1351422E522B5005E9A88 /* sign-root */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "sign-root"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FB1351622E522B5005E9A88 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		1FCA51B422E6562800D55269 /* fetch-from-github */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "fetch-from-github"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FCA51B622E6562800D55269 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -1197,7 +1197,7 @@
 				72D05CB711D267C400B33EDD /* query.so */,
 				720BE2F2120C90A700B3C4A5 /* digest */,
 				396301271EAB4E01006081C7 /* patch_sites.so */,
-				1FB1351422E522B5005E9A88 /* darwinbuild-codesign */,
+				1FB1351422E522B5005E9A88 /* sign-root */,
 				1FA2A9E722E62BF600F53888 /* darwinbuild-recursive */,
 				1FCA51B422E6562800D55269 /* fetch-from-github */,
 			);
@@ -1266,9 +1266,9 @@
 			productReference = 1FA2A9E722E62BF600F53888 /* darwinbuild-recursive */;
 			productType = "com.apple.product-type.tool";
 		};
-		1FB1351322E522B5005E9A88 /* darwinbuild-codesign */ = {
+		1FB1351322E522B5005E9A88 /* sign-root */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1FB1351B22E522B5005E9A88 /* Build configuration list for PBXNativeTarget "darwinbuild-codesign" */;
+			buildConfigurationList = 1FB1351B22E522B5005E9A88 /* Build configuration list for PBXNativeTarget "sign-root" */;
 			buildPhases = (
 				1FB1351022E522B5005E9A88 /* Sources */,
 				1FB1351122E522B5005E9A88 /* Frameworks */,
@@ -1277,12 +1277,12 @@
 			);
 			dependencies = (
 			);
-			name = "darwinbuild-codesign";
+			name = "sign-root";
 			packageProductDependencies = (
 				1F7D730C22E52DFD003F8A67 /* SwiftCLI */,
 			);
 			productName = "darwinbuild-codesign";
-			productReference = 1FB1351422E522B5005E9A88 /* darwinbuild-codesign */;
+			productReference = 1FB1351422E522B5005E9A88 /* sign-root */;
 			productType = "com.apple.product-type.tool";
 		};
 		1FCA51B322E6562800D55269 /* fetch-from-github */ = {
@@ -1942,7 +1942,7 @@
 				7227AC151098D8DB00BE33D7 /* thinPackages */,
 				720BE2EA120C90A700B3C4A5 /* digest */,
 				3963011C1EAB4E01006081C7 /* patch_sites */,
-				1FB1351322E522B5005E9A88 /* darwinbuild-codesign */,
+				1FB1351322E522B5005E9A88 /* sign-root */,
 				1FA2A9E622E62BF600F53888 /* darwinbuild-recursive */,
 				1FCA51B322E6562800D55269 /* fetch-from-github */,
 			);
@@ -2429,7 +2429,7 @@
 /* Begin PBXTargetDependency section */
 		1FA9FAFD22E61D9D0096A78D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 1FB1351322E522B5005E9A88 /* darwinbuild-codesign */;
+			target = 1FB1351322E522B5005E9A88 /* sign-root */;
 			targetProxy = 1FA9FAFC22E61D9D0096A78D /* PBXContainerItemProxy */;
 		};
 		1FCA51AF22E6551E00D55269 /* PBXTargetDependency */ = {
@@ -2837,6 +2837,7 @@
 				);
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2866,6 +2867,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INSTALL_PATH = "$(DATDIR)/darwinbuild";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3779,7 +3781,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		1FB1351B22E522B5005E9A88 /* Build configuration list for PBXNativeTarget "darwinbuild-codesign" */ = {
+		1FB1351B22E522B5005E9A88 /* Build configuration list for PBXNativeTarget "sign-root" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1FB1351822E522B5005E9A88 /* Debug */,
