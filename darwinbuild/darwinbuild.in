@@ -763,7 +763,7 @@ cat <<-EOF >> $SCRIPT
 EOF
 # Print symlinks to receipts without relying on perl
 RECEIPTS=$DARWIN_BUILDROOT/BuildRoot/usr/local/darwinbuild/receipts
-exec find $RECEIPTS -maxdepth 1 -type l -exec sh -c '
+find -H $RECEIPTS -maxdepth 1 -type l -exec sh -c '
 	for f do
 		printf "echo \"%-30s -> \t $(readlink $f)\" \n" $(basename -- "$f");
 	done' \
