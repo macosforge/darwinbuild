@@ -761,25 +761,13 @@ cat <<-EOF >> $SCRIPT
 	echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
 	echo 'Installed Roots:'
 EOF
-# I didn't really want to use perl(1) here, but ls(1) doesn't support this.
+# Print symlinks to receipts without relying on perl
 RECEIPTS=$DARWIN_BUILDROOT/BuildRoot/usr/local/darwinbuild/receipts
-perl -e "opendir(DIR,\"$RECEIPTS\");
-	@files = sort(readdir(DIR));
-	my %seen;
-	foreach my \$x (@files) {
-		if ( -l \"$RECEIPTS/\$x\" ) {
-			\$seen{readlink(\"$RECEIPTS/\$x\")} = 1;
-		}
-	}
-	foreach my \$x (@files) {
-		my \$str = undef;
-		if ( -l \"$RECEIPTS/\$x\" ) {
-			\$str = sprintf \"%-20s -> %s\", \"\$x\", readlink(\"$RECEIPTS/\$x\");
-		} elsif (!exists(\$seen{\$x})) {
-			\$str = sprintf \"%-24s%s\", \"\", \"\$x\";
-		}
-		print \"echo \\\"\$str\\\"\n\" if \$str;
-        } closedir(DIR);" | tail +3 >> $SCRIPT
+find -H $RECEIPTS -maxdepth 1 -type l -exec sh -c '
+	for f do
+		printf "echo \"%-30s -> \t $(readlink $f)\" \n" $(basename -- "$f");
+	done' \
+sh {} + >> $SCRIPT
 cat <<-EOF >> $SCRIPT
 	echo '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
 	echo $buildtool $action '$build_string' \< /dev/null
