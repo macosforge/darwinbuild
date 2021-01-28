@@ -122,7 +122,7 @@ static size_t ent_filename(FTSENT* ent, char* filename, size_t bufsiz) {
 	}
 	strncat(filename, "/", bufsiz);
 	bufsiz -= 1;
-	if (ent->fts_name) {
+	if (ent->fts_namelen != 0) {
 		strncat(filename, ent->fts_name, bufsiz);
 		bufsiz -= strlen(ent->fts_name);
 	}
@@ -152,62 +152,6 @@ static char* calculate_digest(int fd) {
 	
 	CC_SHA1_Final(md, &c);
 	return format_digest(md);
-}
-
-static char* calculate_unprebound_digest(const char* filename);
-
-static int have_undo_prebinding() {
-	static int result = -2;
-	if (result == -2) {
-		struct stat sb;
-		result = stat("/usr/bin/redo_prebinding", &sb);
-	}
-	
-	// Not all versions of redo_prebinding support -u
-	if (result == 0) {
-		char* digest = calculate_unprebound_digest("/bin/sh");
-		if (digest) {
-			if (strcmp(digest, "ERROR") == 0) {
-				result = -1;
-			}
-			free(digest);
-		}
-	}
-	return result;
-}
-
-static char* calculate_unprebound_digest(const char* filename) {
-	pid_t pid;
-	int status;
-	int fds[2];
-
-	assert(pipe(fds) != -1);
-	
-	pid = fork();
-	assert(pid != -1);
-	if (pid == 0) {
-		close(fds[0]);
-		assert(dup2(fds[1], STDOUT_FILENO) != -1);
-		const char* args[] = {
-			"/usr/bin/redo_prebinding",
-			"-z", "-u", "-i", "-s",
-			filename,
-			NULL
-		};
-		assert(execve(args[0], (char**)args, environ) != -1);
-		// NOT REACHED
-	}
-	close(fds[1]);
-	
-	char* checksum = calculate_digest(fds[0]);
-
-	close(fds[0]);
-	waitpid(pid, &status, 0);
-	if (status != 0) {
-		checksum = strdup("ERROR");
-	}
-	
-	return checksum;
 }
 
 // If the path points to a Mach-O file, records all dylib
@@ -649,11 +593,7 @@ int register_files(char* build, char* project, char* path) {
 			int isMachO;
 			res = register_libraries(fd, build, project, filename, &isMachO);
 			lseek(fd, (off_t)0, SEEK_SET);
-			if (isMachO && have_undo_prebinding() == 0) {
-				checksum = calculate_unprebound_digest(ent->fts_accpath);
-			} else {
-				checksum = calculate_digest(fd);
-			}
+			checksum = calculate_digest(fd);
 			close(fd);
 		}
 

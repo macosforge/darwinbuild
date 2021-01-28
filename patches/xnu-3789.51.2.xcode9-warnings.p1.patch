@@ -1,0 +1,37 @@
+diff --git a/makedefs/MakeInc.def b/makedefs/MakeInc.def
+index 9edf262..31825ce 100644
+--- a/makedefs/MakeInc.def
++++ b/makedefs/MakeInc.def
+@@ -99,13 +99,16 @@ CWARNFLAGS_STD = \
+ 	-Wno-bad-function-cast \
+ 	-Wno-c++98-compat \
+ 	-Wno-c++-compat \
++	-Wno-cast-align \
+ 	-Wno-conditional-uninitialized \
+ 	-Wno-conversion \
+ 	-Wno-covered-switch-default \
+ 	-Wno-disabled-macro-expansion \
+ 	-Wno-documentation-unknown-command \
++	-Wno-format-invalid-specifier \
+ 	-Wno-format-non-iso \
+ 	-Wno-format-nonliteral \
++	-Wno-ignored-attributes \
+ 	-Wno-reserved-id-macro \
+ 	-Wno-language-extension-token \
+ 	-Wno-missing-variable-declarations \
+@@ -114,6 +117,7 @@ CWARNFLAGS_STD = \
+ 	-Wno-partial-availability \
+ 	-Wno-pedantic \
+ 	-Wno-shift-sign-overflow \
++	-Wno-strict-prototypes \
+ 	-Wno-switch-enum \
+ 	-Wno-undef \
+ 	-Wno-unused-macros \
+@@ -148,6 +152,7 @@ CXXWARNFLAGS_STD = \
+ 	-Wno-format-non-iso \
+ 	-Wno-format-nonliteral \
+ 	-Wno-global-constructors \
++	-Wno-ignored-attributes \
+ 	-Wno-reserved-id-macro \
+ 	-Wno-language-extension-token \
+ 	-Wno-missing-variable-declarations \
