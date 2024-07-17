@@ -32,9 +32,11 @@ my %BuiltProjectsHash = (); # has project built?
 my %Dependencies = ();
 my %InvertedDependencies = ();
 
-my %DepExceptions = ( "passwordserver_sasl" => { "Kerberos" => 1},  
-		      "IOKitUser" => { "configd" => 1 },
-		      "configd" => { "configd_plugins" => 1});
+my %DepExceptions = (
+    "passwordserver_sasl" => { "Kerberos" => 1},
+    "IOKitUser" => { "configd" => 1 },
+    "configd" => { "configd_plugins" => 1}
+);
 
 print "Considering projects: @UnbuiltProjects\n";
 print "Compilers: @Compilers\n";
@@ -43,31 +45,31 @@ print "Generating dependency graph...";
 
 foreach my $proj (@UnbuiltProjects) {
     my @deps = ();
-    my @xrefdeps = CommandAsList("darwinxref dependencies -lib $proj; " .
-				 "darwinxref dependencies -staticlib $proj");
-#    print "$proj depends on @xrefdeps\n";
+    my @xrefdeps = CommandAsList(
+        "darwinxref dependencies -build $proj; " .
+        "darwinxref dependencies -header $proj"
+    );
     foreach my $xdep (@xrefdeps) {
-	# don't depend on ourself, compilers, or projects
-	# not being built currently
-	if ($xdep eq $proj
-	    || $CompilersHash{$xdep}
-	    || !defined($UnbuiltProjectsHash{$xdep})
-	    || ( defined($DepExceptions{$proj}) && $DepExceptions{$proj}->{$xdep})) {
-	    next;
-	}
-	push @deps, ($xdep);
-	if(defined($InvertedDependencies{$xdep})) {
-	    push @{$InvertedDependencies{$xdep}}, ( $proj );
-	} else {
-	    $InvertedDependencies{$xdep} = [ $proj ];
-	}
+        # don't depend on ourself, compilers, or projects
+        # not being built currently
+        next if ($xdep eq $proj
+            || $CompilersHash{$xdep}
+            || !defined($UnbuiltProjectsHash{$xdep})
+            || ( defined($DepExceptions{$proj}) && $DepExceptions{$proj}->{$xdep}));
+
+        push @deps, ($xdep);
+        if(defined($InvertedDependencies{$xdep})) {
+            push @{$InvertedDependencies{$xdep}}, ( $proj );
+        } else {
+            $InvertedDependencies{$xdep} = [ $proj ];
+        }
     }
     $Dependencies{$proj} = \@deps;
 
     # try to make sure there's even an empty list of
     # inverted deps (things that depend on me)
     if(!defined($InvertedDependencies{$proj})) {
-	$InvertedDependencies{$proj} = [];
+        $InvertedDependencies{$proj} = [];
     }
 }
 
@@ -88,27 +90,27 @@ while ($#UnbuiltProjects > 0) {
 
     # got back to he beginning. Make sure we're making forward progress
     if($proj eq "SENTINEL") {
-	print "SENTINEL reached\n" if $loopdebug;
-	if($builtone) {
-	    # great!
-	    $builtone = 0;
-	    goto Unmet;
-	} else {
-	    print STDERR "Aborting, unmet dependency loop\n";
-	    print STDERR "Remaining projects: @UnbuiltProjects\n";
-	    exit(1);
-	}
+        print "SENTINEL reached\n" if $loopdebug;
+        if($builtone) {
+            # great!
+            $builtone = 0;
+            goto Unmet;
+        } else {
+            print STDERR "Aborting, unmet dependency loop\n";
+            print STDERR "Remaining projects: @UnbuiltProjects\n";
+            exit(1);
+        }
     }
 
     # See if all dependencies have been built
     my @deps = @{$Dependencies{$proj}};
     print "$proj: " if $loopdebug;
     foreach my $dep (@deps) {
-	if(!defined($BuiltProjectsHash{$dep})) {
-	    # dep hasn't built yet
-	    print "$dep unbuilt\n" if $loopdebug;
-	    goto Unmet;
-	}
+        if(!defined($BuiltProjectsHash{$dep})) {
+            # dep hasn't built yet
+            print "$dep unbuilt\n" if $loopdebug;
+            goto Unmet;
+        }
     }
 
     print "all deps built\n" if $loopdebug;

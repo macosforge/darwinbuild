@@ -67,18 +67,18 @@ struct DBPlugin {
 //	DBPluginSetPropFunc setprop;
 };
 
-void* _DBPluginGetDataStorePtr();
-DBPlugin* _DBPluginGetCurrentPlugin();
+void* _DBPluginGetDataStorePtr(void);
+DBPlugin* _DBPluginGetCurrentPlugin(void);
 
 const DBPlugin* DBGetPluginWithName(CFStringRef name);
 
-int DBBeginTransaction();
-int DBRollbackTransaction();
-int DBCommitTransaction();
+int DBBeginTransaction(void);
+int DBRollbackTransaction(void);
+int DBCommitTransaction(void);
 
 #if HAVE_TCL_PLUGINS
 int load_tcl_plugin(DBPlugin* plugin, const char* filename);
-CFStringRef _DBPluginTclUsage();
+CFStringRef _DBPluginTclUsage(void);
 int _DBPluginTclRun(CFArrayRef args);
 #endif
 

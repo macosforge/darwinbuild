@@ -84,15 +84,29 @@ CFPropertyListRef read_plist(char* path) {
                 if (stat(path, &sb) != -1) {
                         size_t size = (size_t)sb.st_size;
                         void* buffer = mmap(NULL, size, PROT_READ, MAP_FILE | MAP_PRIVATE, fd, (off_t)0);
-                        if (buffer != (void*)-1) {
-                                CFDataRef data = CFDataCreateWithBytesNoCopy(NULL, buffer, size, kCFAllocatorNull);
-                                if (data) {
+                         if (buffer != (void*)-1) {
+                                 CFDataRef data = CFDataCreateWithBytesNoCopy(NULL, buffer, size, kCFAllocatorNull);
+                                 if (data) {
+#if __MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_6
+										CFErrorRef str = 0;
+										result = CFPropertyListCreateWithData(NULL, data, kCFPropertyListMutableContainers, 0, &str);
+                                        CFRelease(data);
+                                        if (result == NULL) {
+											CFStringRef errorDesc = CFErrorCopyDescription(str);
+											perror_cfstr(errorDesc);
+											CFRelease(errorDesc);
+										}
+#else
                                         CFStringRef str = NULL;
                                         result = CFPropertyListCreateFromXMLData(NULL, data, kCFPropertyListMutableContainers, &str);
                                         CFRelease(data);
                                         if (result == NULL) {
                                                 perror_cfstr(str);
                                         }
+#endif
+										if (str) {
+											    CFRelease(str);
+										}	
                                 }
                                 munmap(buffer, size);
                         } else {

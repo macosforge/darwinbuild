@@ -1,0 +1,48 @@
+diff --git a/bsd/sys/make_symbol_aliasing.sh b/bsd/sys/make_symbol_aliasing.sh
+index bfddb2d..a1e694a 100755
+--- a/bsd/sys/make_symbol_aliasing.sh
++++ b/bsd/sys/make_symbol_aliasing.sh
+@@ -34,8 +34,8 @@ fi
+ SDKROOT="$1"
+ OUTPUT="$2"
+ 
+-if [ ! -x "/usr/local/libexec/availability.pl" ] ; then
+-    echo "Unable to locate /usr/local/libexec/availability.pl (or not executable)" >&2
++if [ ! -x "${RC_BuildRoot}/usr/local/libexec/availability.pl" ] ; then
++    echo "Unable to locate ${RC_BuildRoot}/usr/local/libexec/availability.pl (or not executable)" >&2
+     exit 1
+ fi
+ 	    
+@@ -74,7 +74,7 @@ cat <<EOF
+ 
+ EOF
+ 
+-for ver in $(/usr/local/libexec/availability.pl --ios) ; do
++for ver in $(${RC_BuildRoot}/usr/local/libexec/availability.pl --ios) ; do
+     ver_major=${ver%.*}
+     ver_minor=${ver#*.}
+     value=$(printf "%d%02d00" ${ver_major} ${ver_minor})
+@@ -87,7 +87,7 @@ for ver in $(/usr/local/libexec/availability.pl --ios) ; do
+     echo ""
+ done
+ 
+-for ver in $(/usr/local/libexec/availability.pl --macosx) ; do
++for ver in $(${RC_BuildRoot}/usr/local/libexec/availability.pl --macosx) ; do
+     set -- $(echo "$ver" | tr '.' ' ')
+     ver_major=$1
+     ver_minor=$2
+diff --git a/makedefs/MakeInc.cmd b/makedefs/MakeInc.cmd
+index 0619a33..b43f856 100644
+--- a/makedefs/MakeInc.cmd
++++ b/makedefs/MakeInc.cmd
+@@ -103,8 +103,8 @@ ifeq ($(DSYMUTIL),)
+ 	export DSYMUTIL := $(shell $(XCRUN) -sdk $(SDKROOT) -find dsymutil)
+ endif
+ ifeq ($(CTFCONVERT),)
+-	export CTFCONVERT := $(shell $(XCRUN) -sdk $(SDKROOT) -find ctfconvert)
++	export CTFCONVERT := $(RC_BuildRoot)/usr/local/bin/ctfconvert
+ endif
+ ifeq ($(CTFMERGE),)
+-	export CTFMERGE :=  $(shell $(XCRUN) -sdk $(SDKROOT) -find ctfmerge)
++	export CTFMERGE := $(RC_BuildRoot)/usr/local/bin/ctfmerge
+ endif

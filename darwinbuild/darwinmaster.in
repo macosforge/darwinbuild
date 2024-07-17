@@ -39,18 +39,15 @@
 # Chuck Remes       <cremes@opendarwin.org>
 
 function PrintUsage() {
-	cat 1>&2 <<- EOB
-usage: $(basename "$0") [-arch=arch] <volname>
-       arch = {ppc, i386}
+	cat 1>&2 <<-EOB
+usage: $(basename "$0") <volname>
 EOB
 	exit 1
 }
 
 for ARG in "$@"; do
 	if [ "$VOLNAME" == "" ]; then
-		if [ "${ARG/=*/}" == "-arch" ]; then
-			ARCH="${ARCH/*=/}"
-		elif [ "${ARG:0:1}" != "-" ]; then
+		if [ "${ARG:0:1}" != "-" ]; then
 			VOLNAME="$ARG"
 		else
 			PrintUsage "$0"
@@ -60,8 +57,7 @@ for ARG in "$@"; do
 	fi
 done
 
-if [ "$ARCH" != "" -a "$ARCH" != "ppc" -a "$ARCH" != "i386" \
-	-o "$VOLNAME" == "" ]; then
+if [ "$VOLNAME" == "" ]; then
 	PrintUsage "$0"
 fi
 
@@ -87,12 +83,15 @@ DMG="/tmp/$VOLNAME.dmg"
 CDR="/tmp/$VOLNAME.cdr"
 ISO="/tmp/$VOLNAME.iso"
 PKGDIR="$DARWIN_BUILDROOT/Packages"
-MKISOFS="/opt/local/bin/mkisofs"
 SIZE="650m"
-if [ ! -z "$ARCH" ]; then
-	ARCHSFX="_$ARCH"
-else
-	ARCHSFX=""
+
+if [ -z "$MKISOFS" ]; then
+    MKISOFS=$(which mkisofs)
+fi
+
+if [ -z "$MKISOFS" ]; then
+	echo "Error: mkisofs not found, this tool is required." 1>&2
+	exit 1
 fi
 
 export DARWINXREF_DB_FILE="$DARWIN_BUILDROOT/$XREFDB"
@@ -136,13 +135,6 @@ export DARWINBUILD_BUILD="$build"
 ###
 "$DATADIR/packageRoots"
 
-###
-### Update thin packages
-###
-if [ ! -z "$ARCH" ]; then
-	"$DATADIR/thinPackages" "$ARCH"
-fi
-
 
 ###
 ### Mount a disk image, create if necessary
@@ -161,7 +153,7 @@ DESTDIR=$(hdiutil attach "$DMG" \
 ###
 ### Copy roots necessary for booting / installation onto disk image
 ###
-cd "$DESTDIR" || exit
+pushd "$DESTDIR" > /dev/null || exit
 chown root:admin "$DESTDIR"
 chmod 1775 "$DESTDIR"
 
@@ -171,126 +163,100 @@ for Project in $("$DARWINXREF" group boot) ; do
 done
 
 ###
-### Generate the mkext cache
-###
-echo "Generating MKext ..."
-
-export TMPDIR="$DESTDIR/private/tmp"
-if [ -z "$ARCH" ]; then
-	KEXTARCH="-a ppc -a i386"
-else
-	KEXTARCH="-a $ARCH"
-fi
-kextcache $KEXTARCH -k -K "$DESTDIR/mach_kernel" -m "$DESTDIR/System/Library/Extensions.mkext" "$DESTDIR/System/Library/Extensions"
-export -n TMPDIR
-
-###
 ### Remove extraneous files
 ###
 echo "Pruning ..."
-find "$DESTDIR" -type f \( -name '*.[ch]' -or -name '*.cp' -or -name '*.cpp' \) -print -exec rm -f {} ';'
+find "$DESTDIR" -type f \( -name '*.[ch]' -or -name '*.cp' -or -name '*.cpp' \) -print0 | xargs -0 rm -f
+rm -Rf "$DESTDIR/Applications/Xcode.app"
 rm -Rf "$DESTDIR/AppleInternal"
 rm -Rf "$DESTDIR/Developer"
 rm -Rf "$DESTDIR/usr/local"
 rm -Rf "$DESTDIR/usr/share/doc"
 rm -Rf "$DESTDIR"/usr/share/man/man3/*
+rmdir "$DESTDIR/Applications" 2> /dev/null
 
 ###
 ### Modify the root password to blank
 ###
 echo "Modifying Root Password ..."
-nicl -raw "$DESTDIR/var/db/netinfo/local.nidb" -create /users/root passwd ''
+echo "(Not implemented, making no changes)"
 
 ###
 ### Copy installation packages
 ###
-mkdir -p "$DESTDIR/System/Installation/BinaryDrivers${ARCHSFX}"
+mkdir -p "$DESTDIR/System/Installation/BinaryDrivers"
 echo "Copying binary drivers ..."
-for X in $DARWIN_BUILDROOT/BinaryDrivers${ARCHSFX}/*-*.tar.bz2 ; do
-	Y="$DESTDIR"/System/Installation/BinaryDrivers${ARCHSFX}/$(basename $X)
+for X in $DARWIN_BUILDROOT/BinaryDrivers/*-*.tar.bz2 ; do
+	Y="$DESTDIR"/System/Installation/BinaryDrivers/$(basename $X)
 	if [ $X -nt $Y ]; then
 		cp $X $Y
 	fi
 done
 
 echo "Copying packages ..."
-mkdir -p "$DESTDIR"/System/Installation/Packages${ARCHSFX}
-for X in $DARWIN_BUILDROOT/Packages${ARCHSFX}/*-*.tar.bz2 ; do
+mkdir -p "$DESTDIR"/System/Installation/Packages
+for X in $DARWIN_BUILDROOT/Packages/*-*.tar.bz2 ; do
 	f=$(basename $X)
 	if [ "${f/-*/}" != "DarwinInstaller" ]; then
-	Y="$DESTDIR"/System/Installation/Packages${ARCHSFX}/$(basename $X)
-	if [ $X -nt $Y ]; then
-		echo $f
-		cp $X $Y
-	fi
+		Y="$DESTDIR"/System/Installation/Packages/$(basename $X)
+		if [ $X -nt $Y ]; then
+			echo $f
+			cp $X $Y
+		fi
 	fi
 done
 
-###
-### Architecture-specific boot setup
-###
-if [ "$ARCH" == "ppc" ]; then
-	###
-	### Bless the volume for powerpc booting
-	###
-	echo "Blessing Volume ..."
-	bless   --verbose \
-		--label "$VOLNAME" \
-		--folder "$DESTDIR/System/Library/CoreServices" \
-		--bootinfo "$DESTDIR/usr/standalone/ppc/bootx.bootinfo"
-
-	### Generate CDR image
-	rm -f "$CDR"
-        hdiutil convert \
-		"$DMG" \
-		-format UDTO \
-                -o "$CDR"
-
-
-elif [ "$ARCH" == "i386" -o -z "$ARCH" ]; then
-	###
-	### Create a bootable ISO filesystem
-	###
-	ditto "$DESTDIR/usr/standalone/i386" /tmp/i386
-	rm -f "$ISO.boot"
-	$MKISOFS -R \
-		-V "$VOLNAME" \
-		-no-emul-boot \
-		-T \
-		-J \
-		-c boot.cat \
-		-b cdboot \
-		-hide-joliet-trans-tbl \
-		-quiet \
-		-o "$ISO.boot" \
-		/tmp/i386
-	SECTORS=$(du "$ISO.boot" | tail -1 | awk '{print $1}')
-
-	###
-	### Create a hybrid image
-	###
-	rm -f "$ISO.dmg"
-	hdiutil create "$ISO.dmg" -size "$SIZE" -layout NONE
-	DEV=$(hdid -nomount "$ISO.dmg" | tail -1 | awk '{print $1}')
-	RDEV=$(echo $DEV | sed s/disk/rdisk/)
-
-	pdisk "$RDEV" -initialize
-	BLOCKS=$(pdisk "$RDEV" -dump | grep 2: | awk -F" " '{print $4}')
-
-	pdisk "$RDEV" -createPartition "$VOLNAME" Apple_HFS $SECTORS $(($BLOCKS - $SECTORS))
-	SLICE=$(pdisk "$RDEV" -dump | grep "$VOLNAME" | awk -F: '{print $1}' | awk -F" " '{print $1}')
-
-	### Copy ISO boot data onto the disk image
-	dd if="$ISO.boot" of="$RDEV" skip=64 seek=64 bs=512
-
-	newfs_hfs -v "$VOLNAME" "${RDEV}s${SLICE}"
-	mkdir -p /mnt
-	mount -t hfs -o perm "${DEV}s${SLICE}" /mnt
-	ditto -rsrc "$DESTDIR" /mnt
-	bless -folder /mnt/System/Library/CoreServices \
-	      -bootinfo /mnt/usr/standalone/ppc/bootx.bootinfo \
-	      -label "$VOLNAME"
-	umount /mnt
-	hdiutil eject "$DEV"
-	mv "$ISO.dmg" "$ISO"
+# Now chown to root:wheel, if possible. (Build invocations run as a
+# non-privileged user will propagate that user's uid/gid to the build
+# outputs it generates.)
+if [ $EUID -eq 0 ]; then
+	echo "Setting file ownership to root/wheel ..."
+	chown -R root:wheel "$DESTDIR"
 fi
+
+###
+### Create a bootable ISO filesystem
+###
+ditto "$DESTDIR/usr/standalone/i386" /tmp/i386
+rm -f "$ISO.boot"
+$MKISOFS -R \
+	-V "$VOLNAME" \
+	-no-emul-boot \
+	-T \
+	-J \
+	-c boot.cat \
+	-b cdboot \
+	-hide-joliet-trans-tbl \
+	-quiet \
+	-o "$ISO.boot" \
+	/tmp/i386
+SECTORS=$(du "$ISO.boot" | tail -1 | awk '{print $1}')
+
+###
+### Create a hybrid image
+###
+rm -f "$ISO.dmg"
+hdiutil create "$ISO.dmg" -size "$SIZE" -layout NONE
+DEV=$(hdid -nomount "$ISO.dmg" | tail -1 | awk '{print $1}')
+RDEV=$(echo $DEV | sed s/disk/rdisk/)
+
+pdisk "$RDEV" -initialize
+BLOCKS=$(pdisk "$RDEV" -dump | grep 2: | awk -F" " '{print $4}')
+
+pdisk "$RDEV" -createPartition "$VOLNAME" Apple_HFS $SECTORS $(($BLOCKS - $SECTORS))
+SLICE=$(pdisk "$RDEV" -dump | grep "$VOLNAME" | awk -F: '{print $1}' | awk -F" " '{print $1}')
+
+### Copy ISO boot data onto the disk image
+dd if="$ISO.boot" of="$RDEV" skip=64 seek=64 bs=512
+
+newfs_hfs -v "$VOLNAME" "${RDEV}s${SLICE}"
+mkdir -p /mnt
+mount -t hfs -o perm "${DEV}s${SLICE}" /mnt
+ditto -rsrc "$DESTDIR" /mnt
+umount /mnt
+rmdir /mnt
+hdiutil eject "$DEV"
+mv "$ISO.dmg" "$ISO"
+
+popd > /dev/null
+hdiutil eject "$DESTDIR"

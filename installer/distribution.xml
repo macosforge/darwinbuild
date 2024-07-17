@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<installer-gui-script minSpecVersion="2">
+	<options customize="never" require-scripts="false"/>
+	<choices-outline>
+		<line choice="org.puredarwin.darwinbuild.component"/>
+	</choices-outline>
+	<choice id="org.puredarwin.darwinbuild.component" visible="true" title="darwinbuild">
+		<pkg-ref id="org.puredarwin.darwinbuild.component"/>
+	</choice>
+	<pkg-ref id="org.puredarwin.darwinbuild.component" version="2.0" onConclusion="none">darwinbuild-component.pkg</pkg-ref>
+
+	<title>PureDarwin Build System</title>
+	<welcome file="welcome.html" uti="public.html"/>
+	<license file="license.html" uti="public.html"/>
+	<conclusion file="conclusion.html" uti="public.html"/>
+	<domains enable_anywhere="false" enable_currentUserHome="false" enable_localSystem="true"/>
+</installer-gui-script>

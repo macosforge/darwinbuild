@@ -44,8 +44,8 @@
 // user environment global
 extern char** environ;
 
-char* readBuildFile();
-char* determineHostBuildVersion();
+char* readBuildFile(void);
+char* determineHostBuildVersion(void);
 
 int main(int argc, char* argv[]) {
 	char* progname = argv[0];
@@ -130,7 +130,7 @@ char* determineHostBuildVersion()
   // Notice the careful dance around these symbols as they may
   // someday disappear entirely, in which case this program
   // will need to be revved.
-  CFDictionaryRef (*fptr)() = dlsym(RTLD_DEFAULT, "_CFCopySystemVersionDictionary");
+  CFDictionaryRef (*fptr)(void) = dlsym(RTLD_DEFAULT, "_CFCopySystemVersionDictionary");
   if (fptr) {
     CFDictionaryRef dict = fptr();
     if (dict != NULL) {

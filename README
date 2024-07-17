@@ -1,8 +1,5 @@
 Darwinbuild
-Updated 2009-02-17
-
-Kevin Van Vechten <kvv@apple.com>
-William Siegrist <wsiegrist@apple.com>
+Updated 2017-12-19
 
 1. Overview
   1.1 Availability, Bug Reports, Contributions, and Discussion
@@ -27,7 +24,7 @@ A. darwinxref
 
 Darwinbuild is a collection of tools that assist compilation of
 the many projects contained in Darwin[1], the open source base of Apple's
-Mac OS X operating system[2].  Apple publishes the sources of these projects
+macOS operating system[2].  Apple publishes the sources of these projects
 in an archive format (.tar.gz).  An archive is published for each project
 version on Apple's site[3].
 
@@ -35,73 +32,66 @@ These tools will provide the proper build environment as well as help to
 resolve any necessary dependencies prior to building.
 
 [1] <http://developer.apple.com/darwin/>
-[2] <http://www.apple.com/macosx/>
+[2] <https://www.apple.com/macos/high-sierra/>
 [3] <http://www.opensource.apple.com/>
 
 
 1.1 Availability, Bug Reports, Contributions, and Discussion
 
-Due to the constant development of darwinbuild, the only version you should 
-be working with is trunk of the subversion repository[1]. Trunk should 
-always be stable enough for building projects. If you find a problem or have
-a enhancement in mind, file a ticket at the website[2].
+Due to the constant development of darwinbuild, the only version you should
+be working with is the master branch of the Git repository[1]. This should
+always be stable enough for building projects.
 
-Discussion about darwinbuild, or building Darwin projects in
-general, should take place on the darwinbuild-dev[3] mailing list.
-
-[1] <http://svn.macosforge.org/repository/darwinbuild/trunk>
-[2] <http://darwinbuild.macosforge.org/report/1>
-[3] <http://lists.macosforge.org/mailman/listinfo/darwinbuild-dev>
+[1] <https://github.com/PureDarwin/darwinbuild>
 
 ===============
 2. Installation
 ===============
 
-You can install the latest version of darwinbuild using MacPorts. 
-
-  % port install darwinbuild
-
-Or, you can also install by checking out the source and building 
-darwinbuild yourself. The included Xcode project will compile the tools and install 
-them into the location specified by the PREFIX environment parameter.  If the 
-PREFIX parameter is not specified, the files will be installed into /usr/local.
-
-By default, darwinbuild will build for x86_64 and i386. You can override this with
-the ARCHS environment variable. However, building trunk for ppc is not supported
-since trunk is targeted for Darwin 10. The release branches for Darwin 8 and 9 do
-support building for ppc. 
-
-To build and install darwinbuild to the boot partition:
+You can install by checking out the source and building darwinbuild yourself.
+You would want to run the following two commands:
 
   % cd <path to top of source>
-  % sudo xcodebuild install DSTROOT=/
+  % sudo xcodebuild install DSTROOT=/ -scheme World
+
+This will install darwinbuild and its supporting tools into /usr/local/bin.
+
+If you want to manage darwinbuild with Homebrew, you can try this technique.
+First, open Xcode and perform an archive. There is no good way of doing this
+from the command line, unfortunately. Then export the generated archive bundle
+(it should appear with the name "world", after the scheme that created it) to a
+location such as the Desktop. (Really, anywhere would do.) Then run the following
+commands:
+
+  % mkdir -p /usr/local/Cellar/darwinbuild/HEAD
+  % cp -R <path to archive folder>/Products/usr/local/{bin,share} /usr/local/Cellar/darwinbuild/HEAD
+  % brew link darwinbuild
+
+You don't need to copy the include directory, and the rest of the exported archive
+can be deleted afterwards.
 
 2.1 Creating the Build Directory
 
-After installation, you must initialize the build directory using darwinbuild. 
-Assuming you wanted to build projects from 9G55 in your home directory:
+After installation, you must initialize the build directory using darwinbuild.
+Assuming you wanted to build projects from the SUFuji16E195 plist[1] (which is
+what most current development is targeting):
 
-  # mkdir ~/9G55
-  # cd ~/9G55
-  # sudo -s
-  # darwinbuild -init 9G55
+  $ mkdir ~/SUFuji16E195
+  $ cd ~/SUFuji16E195
+  $ darwinbuild -init https://github.com/csekel/PureDarwin-System-Plist/raw/master/SUFuji16E195.plist
   Creating build root disk image ...
-  Attempting to download http://svn.macosforge.org/repository/darwinbuild/trunk/plists//9G55.plist ...
-  Download complete
-  Attempting to download http://svn.macosforge.org/repository/darwinbuild/trunk/plists//9F33.plist ...
-  Download complete
-  ...
-  Attempting to download http://svn.macosforge.org/repository/darwinbuild/trunk/plists//9A581.plist ...
+  Attempting to download https://github.com/csekel/PureDarwin-System-Plist/raw/master/SUFuji16E195.plist ...
   Download complete
   Initialization Complete
-  # ls
+  $ ls
   .build  Headers Logs    Roots   Sources Symbols
 
+[1] <https://github.com/csekel/PureDarwin-System-Plist/blob/master/SUFuji16E195.plist>
 
 After initialization, the build directory will contain the following:
 .build     contains private data for the darwinbuild system
 Headers    contains the resulting header files from previous builds
-Logs       contains logs of previous build attempts 
+Logs       contains logs of previous build attempts
 Roots      contains the finished products of previous successful builds
 Sources    contains sources downloaded from the web
 Symbols    contains debug symbol versions of previous build products
@@ -119,7 +109,7 @@ assume the current working directory is this build directory.
 
 To build a Darwin project, for example xnu, the darwinbuild script can be
 used in the following manner:
-  # darwinbuild xnu
+  $ darwinbuild xnu
 
 The darwinxref tool is consulted to find the version that corresponds to the
 build specified when the build directory was initialized.  It is necessary
@@ -127,22 +117,23 @@ to run the darwinbuild tool as root so that projects can set the proper
 ownership and permissions on the build results.
 
 darwinbuild first looks in the Sources directory for a directory containing
-the sources to be built (Sources/xnu-517.11.1), or a .tar.gz archive
-containing the sources (Sources/xnu-517.11.1.tar.gz).  If neither is found,
-darwinbuild will attempt to download the sources from the web.
+the sources to be built (Sources/xnu-3789.51.2), or a .tar.gz archive
+containing the sources (Sources/xnu-3789.51.2.tar.gz).  If neither is found,
+darwinbuild will attempt to download the sources from the web (including
+from GitHub Releases).
 
 If it does not already exist, a BuildRoot directory will be created.  This
-is where the build will actually take place.  During the build, darwinbuild
-will change the root directory to BuildRoot (see the chroot(8) man page for
-details).  Darwinbuild is capable of copying the required tools, libraries
-and headers from the Roots directory into the BuildRoot prior to building.
-If a necessary dependency is not found in the Roots directory, it will be
-downloaded from the web.
+is where the build will actually take place.  By default, darwinbuild does
+not change the root directory to BuildRoot any more (see the chroot(8) man
+page for details).  This is because of incompatibilities between a chroot
+environment and the current version of the Xcode build tools.  Darwinbuild
+can modify the tools to work correctly in a chroot, but *this is unsupported*
+and may break at any time.
 
 The build output will be written to the console, and additionally logged
 into a file in the Logs directory.  The above example produces the
 following file:
-  Logs/xnu/xnu-517.11.1.log~1
+  Logs/xnu/xnu-3789.51.2.log~1
 
 The ~1 indicates that this log file corresponds to the first attempt to
 build xnu version 517.11.1.  Each subsequent attempt will add one to this
@@ -150,7 +141,7 @@ build number.
 
 If the build succeeds, the finished product will be copied out of the
 BuildRoot directory and into the Roots directory:
-  Roots/xnu/xnu-517.11.1.root~1
+  Roots/xnu/xnu-3789.51.2.root~1
 After the copy, darwinbuild traverses the directory and records all files
 found in the darwinxref database.  This makes it possible to query which
 project a file is produced by.  When a Mach-O executable, library, or bundle
@@ -180,7 +171,7 @@ the same style as the Roots directory for a regular build.  For example:
 Passing the -logdeps flag to darwinbuild will build the specified project
 while recording the paths of all files openened and all executables invoked.
 These paths are written into the Logs directory, and if the build is
-successful, will be imported into the darwinxref database.  
+successful, will be imported into the darwinxref database.
 
 
 ==============================
@@ -206,13 +197,13 @@ passed since cpp-precomp is not available.  During the build, the RC_ARCHS and
 RC_NONARCH_CFLAGS variables will be combined to create the RC_ARCHS environment
 variable; a -arch flag will be appended for each architecture listed in RC_ARCHS.
 
-The MACOSX_DEPLOYMENT_TARGET variable should match the major Mac OS X release
+The MACOSX_DEPLOYMENT_TARGET variable should match the major macOS release
 that is being targeted, such as 10.2 or 10.3.
 
 
 4.1 Build Aliases and Alternate Targets
 
-Some projects may produce different results based on the contents of 
+Some projects may produce different results based on the contents of
 the RC_ProjectName variable.  When the same source archive is used
 to create more than one component of Darwin, it's referred to as a build
 alias.  Because of this, it is important to always provide accurrate
@@ -224,79 +215,14 @@ to the make tool (gnumake or xcodebuild).  However, some projects produce
 different results based on alternate targets.  If the project in the property
 list contains a "target" attribute, that string will be passed instead.
 
-
-======================
-5. Tips and Techniques
-======================
-
-
-5.1 Private Headers
-
-Many open source header files are not present in a standard Mac OS X install.
-These "private headers" are not needed by application developers, and are not
-part of any SDK officially supported by Apple.  However, Darwin projects are
-part of the operating system itself and these headers are required.  The
-darwinbuildheaders command uses the darwinxref tool and darwinbuild -headers
-commands to produce all header files for a given darwin release.
-  % bin/darwinbuildheaders
-
-The resulting header files from each project are placed into the Headers
-directory.  The headers can be subsequently installed into the BuildRoot
-directory using the installheaders command.
-  % bin/installheaders
-
-By modifying the build plist file, it is possible to include these headers
-instead of the default system headers, giving more accurate build results and
-avoiding failures.  Edit the RC_NONARCH_CFLAGS variable to provide the following
-include paths to gcc (substituting the actual installation directory).
-  -I/usr/local/darwinbuild/BuildRoot/usr/include
-  -I/usr/local/darwinbuild/BuildRoot/usr/local/include
-
-
-5.2 Build Tools
-
-In addition to private headers, there are numerous command line tools which
-are used exclusively to build Darwin projects.  These tools are placed in
-/usr/local/bin.  For example, building xnu requires kextsymboltool,
-relpath, and decomment.
-
-
-5.3 Static Libraries
-
-Several projects require static libraries from other projects.  These libraries
-are usually placed in /usr/local/lib/system.  The most notable examples are
-xnu's usage of libkld.a which is produced by cctools_ofiles, and Libsystem's
-use of many static libraries from Libc, Libinfo, and more.
-
-
-5.4 Alternate BuildRoot Storage
-
-By default, "darwinbuild -init" will setup your environment to use a HFSX
-sparsebundle to host your BuildRoot. A sparsebundle is used to work around
-problems with using xcodebuild inside of a chroot. There are two other
-storage methods to choose from: NFS Loopback and Legacy Directory. 
-
-  1. NFS Loopback      (ex: darwinbuild -init 9G55 -nfs)
-     The NFS loopback method places a directory under .build and adds that 
-     directory to /etc/exports. When you try to build a project, darwinbuild 
-     will mount the NFS export on localhost. The NFS mount also works around 
-     the xcodebuild problems. 
-
-  2. Legacy Directory  (ex: darwinbuild -init 9G55 -nodmg)
-     This is just the way darwinbuild worked before the sparsebundle and NFS
-     support was added. It just makes a directory for BuildRoot and builds 
-     on whatever filesystem you are on at the time. If you are on HFS or ZFS,
-     this storage will cause problems for Xcode-based projects. 
-  
-
 =============
 A. darwinxref
 =============
 
 The darwinxref tool allows you to query which source version of a Darwin
-project is present in a particular Mac OS X build.  It also stores information
+project is present in a particular macOS build.  It also stores information
 about what dependencies a particular project has, and what files the project
-produces.  As each Mac OS X release is made available, Apple publishes a
+produces.  As each macOS release is made available, Apple publishes a
 property list file containing the project names and versions in that release.
 These property lists are read by the darwinxref tool to seed its internal
 database.  Property lists are available via Subversion[1].
@@ -310,19 +236,19 @@ header file, sqlite3.h.
 [2] <http://www.sqlite.org/>
 
 An example of downloading, installing, and querying a property list:
-  % curl http://svn.macosforge.org/repository/darwinbuild/trunk/plists/7U16.plist > \
-      plists/7U16.plist
-  % bin/darwinxref loadIndex plists/7U16.plist
+  $ curl -L https://github.com/csekel/PureDarwin-System-Plist/raw/master/SUFuji16E195.plist > \
+      plists/SUFuji16E195.plist
+  $ darwinxref loadIndex plists/SUFuji16E195.plist
   268 of 268 projects loaded.
-  % bin/darwinxref -b 7U16 version xnu
-  xnu-517.11.1
+  $ darwinxref -b SUFuji16E195 version xnu
+  xnu-3789.51.2
 
 To list all projects in a build, use the special project name '*':
-  % bin/darwinxref -b 7U16 version '*'
+  $ darwinxref -b SUFuji16E195 version '*'
 
 To register the results of a previous build with the database use the
 register command.  Note this is done automatically by darwinbuild:
-  % bin/darwinxref register adv_cmds 63 Roots/adv_cmds/adv_cmds-63.root~1
+  $ darwinxref register adv_cmds 63 Roots/adv_cmds/adv_cmds-63.root~1
   /bin
   /bin/ps
   /bin/stty
@@ -330,8 +256,6 @@ register command.  Note this is done automatically by darwinbuild:
 
 To find which project produces the 'whois' command by searching the
 list of previously registered files:
-  % bin/darwinxref findFile whois
+  $ bin/darwinxref findFile whois
   adv_cmds-63:
           /usr/bin/whois
-
-
